@@ -26,6 +26,13 @@
 
 # [LIVE DEMO](https://signroom.dyne.org/)
 
+
+## TECH stack
+
+- [ ] sveltekit
+- [ ] DSS
+- [ ] Pocketbase
+
 <br>
 
 <div id="toc">
