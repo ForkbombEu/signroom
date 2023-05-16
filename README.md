@@ -148,9 +148,9 @@ Special thanks to Mr. W. White for his special contributions.
 ***
 ## 🌐 Links
 
-https://www.interfacer.eu/
-
-https://dyne.org/
+[Shared docs](https://cloud.dyne.org/s/iaQcPH7EFBgTm3m)
+[Starter template](https://github.com/dyne/starters)
+[Figma wireframes](https://www.figma.com/file/pdwfO3dMKtaCAQakht0JE6/SignRoom---Dyne.org?type=design&node-id=0%3A1&t=fkIuUXwh1D3gSznY-1)
 
 **[🔝 back to top](#toc)**
 
