@@ -22,7 +22,7 @@
 - [ ] Secure
 - [ ] As a service
 
-{screenshot}
+![cover](./images/cover.png)
 
 # [LIVE DEMO](https://signroom.dyne.org/)
 
