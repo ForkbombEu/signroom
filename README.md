@@ -1,6 +1,6 @@
 <div align="center">
 
-![./images/SignRoom_logo.png](Signroom)
+![Signroom](./images/SignRoom_logo.png)
 
 ### Advanced electronic signature service based on Zenroom
 
