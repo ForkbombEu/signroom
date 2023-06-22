@@ -189,6 +189,21 @@ Designed, written and maintained by Puria Nafisi Azizi.
 
 Special thanks to Mr. W. White for his special contributions.
 
+### Grants
+Software written with the contribution of [NGI Assure](https://nlnet.nl/project/Signroom/#ack) program run by [NLNet](https://nlnet.nl/project/Signroom/#ack):
+
+<a href="https://nlnet.nl/">
+  <br><img src="https://nlnet.nl/logo/banner.svg" width="222"><br><br><br>
+</a>
+
+
+<a href="https://nlnet.nl/">
+  <img src="https://nlnet.nl/image/logos/NGIAssure_tag.svg" width="222"><br><br><br>
+</a>
+
+
+
+
 **[🔝 back to top](#toc)**
 
 ***
