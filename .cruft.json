@@ -1,6 +1,6 @@
 {
-  "template": "https://github.com/puria/starters",
-  "commit": "e1d55ef6e024369d5c734d449b3e543bb10c5892",
+  "template": "https://github.com/dyne/starters",
+  "commit": "24cc36882fafb1ee030a6be7f266db1190662fe5",
   "checkout": null,
   "context": {
     "cookiecutter": {
@@ -13,7 +13,7 @@
       "_copy_without_render": [
         "*.svelte"
       ],
-      "_template": "https://github.com/puria/starters"
+      "_template": "https://github.com/dyne/starters"
     }
   },
   "directory": "saas"
