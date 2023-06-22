@@ -2,43 +2,69 @@
 
 ![Signroom](./images/SignRoom_logo.png)
 
-### Advanced electronic signature service based on Zenroom
+# Advanced electronic signature service based on [Zenroom](https://zenroom.org/)
 
 </div>
+
+<div align="center">
+
+![cover](./images/cover.png)
+<br><br><br><br>
+</div>
+
 
 <p align="center">
   <a href="https://dyne.org">
     <img src="https://files.dyne.org/software_by_dyne.png" width="170">
   </a>
+  <br><br><br><br>
 </p>
 
 
-## Signroom Features
 
-- [ ] Cades
+## Signroom Features and Tech Stack
+
+Signroom is generated using the [Starters](https://github.com/dyne/starters) templating framework see the updated feature list and the tech stack there.
+
+## Document signing
+
+- [x] Cades
 - [x] Xades
-- [ ] Pades
+- [x] Pades
 - [ ] Jades
-- [ ] Secure
-- [ ] As a service
+- [x] Secure
+- [x] As a service
 
-![cover](./images/cover.png)
+## Identity, Credential and cryptography
 
-# [LIVE DEMO](https://signroom.dyne.org/)
+- [x] W3C-DID identity, based on [Dyne.org W3C-DID method](https://github.com/dyne/w3c-did)
+- [x] W3C-VC: issueing and verification of credentials, via Web GUI and API
 
-# [DSS BACKEND](http://dss.forkbomb.eu:8080/services/)
+## Cryptography powered by [Zenroom](https://zenroom.org/): 
+- [x] Zero knowledge proof (Coconut, BBS)
+- [x] Homomorphic multisignature based on [Reflow](https://arxiv.org/abs/2105.14527)
+- [x] Cryptographic signatures (ECDSA, EDDSA, Schnorr, BBS, Ethereum signatures)  
+- [x] Quantum proof cryptography (Dilithium, Kyber, NTRUP)
+- 
+
+## Modularity
+- [x] Expandable via no-code/low-code Web GUI, via the Admin Control Panel
+- [x] Cryptography, computing and interoperability flows can be added using [Zenroom](https://zenroom.org/) and [Restroom-mw](https://dyne.org/restroom-mw/#/)
+- [x] Pluggable to an external service via [Zenswarm](https://github.com/dyne/zenswarm-oracle/) 
 
 
 
-## TECH stack
+## Alpha Deployment
 
-- [ ] sveltekit
-- [ ] DSS
-- [ ] Pocketbase
+### [Signroom](https://beta.signroom.io/) 
+- user: **test_account@test.org** pass: **test_account@test.org**
 
-<br>
+### [Signroom Admin Control Panel](https://admin.signroom.io/_) 
+- user: **test_admin@test.org** pass: **test_admin@test.org**
 
-<div id="toc">
+### [DSS backend](http://dss.forkbomb.eu:8080/services/)
+
+-------------------
 
 ### 🚩 Table of Contents
 
@@ -59,6 +85,16 @@
 ***
 ## 💾 Install
 
+### Admin control panel
+
+1. `cd admin && go build`
+
+### Frontend application
+
+1. `cd webapp && pnpm i`
+
+
+### DSS backend
 Download the DSS backend from [here](https://ec.europa.eu/digital-building-blocks/wikis/display/DIGITAL/Digital+Signature+Service+-++DSS)
 
 to run it in linux
@@ -77,9 +113,20 @@ point your browser to http://localhost:8080
 
 To start using Signroom run the following command in the root folder
 
-```bash
-docker compose up
+### Admin control panel
+
 ```
+cd admin
+./pb serve
+```
+
+### Frontend application
+
+```
+cd webapp
+pnpm dev
+```
+
 
 **[🔝 back to top](#toc)**
 
