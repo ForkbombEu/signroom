@@ -45,7 +45,6 @@ Signroom is generated using the [Starters](https://github.com/dyne/starters) tem
 - [x] Homomorphic multisignature based on [Reflow](https://arxiv.org/abs/2105.14527)
 - [x] Cryptographic signatures (ECDSA, EDDSA, Schnorr, BBS, Ethereum signatures)  
 - [x] Quantum proof cryptography (Dilithium, Kyber, NTRUP)
-- 
 
 ## Modularity
 - [x] Expandable via no-code/low-code Web GUI, via the Admin Control Panel
