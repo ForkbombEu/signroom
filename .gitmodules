@@ -1,0 +1,3 @@
+[submodule "admin/zencode/zenflows-crypto"]
+	path = admin/zencode/zenflows-crypto
+	url = https://github.com/interfacerproject/zenflows-crypto

@@ -1,0 +1,6 @@
+/pb
+/pb_data
+/tmp
+.DS_Store
+.env
+pb.env

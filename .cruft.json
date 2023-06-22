@@ -1,0 +1,20 @@
+{
+  "template": "https://github.com/puria/starters",
+  "commit": "e1d55ef6e024369d5c734d449b3e543bb10c5892",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "project_name": "signroom",
+      "project_description": "Advanced electronic signature service based on Zenroom",
+      "full_name": "Puria Nafisi Azizi",
+      "email": "puria@dyne.org",
+      "project_slug": "signroom",
+      "repo": "https://github.com/forkbombeu/signroom",
+      "_copy_without_render": [
+        "*.svelte"
+      ],
+      "_template": "https://github.com/puria/starters"
+    }
+  },
+  "directory": "saas"
+}
