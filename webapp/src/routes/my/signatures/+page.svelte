@@ -4,20 +4,29 @@
 
 	export let data;
 	import Chip from '$lib/components/table/cells/chip.svelte';
-	import File from '$lib/components/table/cells/file.svelte';
+	import dateTime from '$lib/components/table/cells/dateTime.svelte';
+	// import File from '$lib/components/table/cells/file.svelte';
+	import { Share } from 'svelte-heros-v2';
+
 </script>
 
 <div class="p-4">
 	<CrudTable
+		title="My Signatures"
+		description="Lorem ipsum dolor sit amet consectetur. Tortor phasellus a feugiat mattis massa sollicitudin bibendum."
+		createButtonLabel="Create Signature"
 		collection={Collections.Signatures}
-		fields={['type', 'title', 'file', 'folder', 'description']}
+		checkBoxes={false}
+		fields={['type', 'title', 'created']}
 		fieldsDisplay={{
 			type: Chip,
-			file: File
+			created: dateTime
+			// file: File
 		}}
 		actions={[
 			{
-				name: 'more',
+				name: 'share',
+				icon: Share,	
 				function: (r) => {
 					console.log(r);
 				}

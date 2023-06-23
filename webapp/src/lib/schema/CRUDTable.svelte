@@ -36,17 +36,21 @@
 	import CrudTableHead from './CRUDTableHead.svelte';
 	import { Trash, Pencil, Plus, XMark } from 'svelte-heros-v2';
 	import CrudTableRow from './CRUDTableRow.svelte';
-	import { record } from 'zod';
+	import TitleDescription from '$lib/components/titleDescription.svelte';
 
 	//
 
+	export let title: string | null = null;
+	export let description: string | null = null;
+	export let createButtonLabel: string = 'Add entry';
 	export let collection: Collections;
-	export let fields: string[] = ['id'];
+	export let fields: string[] = [];
 	export let fieldsDisplay: Record<string, TableCellComponent> = {};
 	export let showDelete = true;
 	export let showEdit = true;
 	export let actions: Array<TableAction> = [];
 	export let relationsDisplayFields: RelationsDisplayFields = {};
+	export let checkBoxes = true;
 
 	export let formHiddenFields: string[] = [];
 	export let formHiddenFieldsValues: Record<string, unknown> = {};
@@ -137,7 +141,12 @@
 
 <div>
 	<div class="flex justify-between items-center mb-4">
-		<Heading tag="h4">{collection}</Heading>
+		<div class="max-w-sm">
+			<TitleDescription title={title || collection} {description} />
+			{#if description}
+				<P>{description}</P>
+			{/if}
+		</div>
 		<div class="shrink-0 flex space-x-4 items-center">
 			{#if Boolean(selection.length)}
 				<P><span class="font-bold">{selection.length}</span> selected</P>
@@ -158,34 +167,38 @@
 				</div>
 			{:else}
 				<Button
-					color="alternative"
+					color="primary"
 					on:click={() => {
 						setAction(formMode.CREATE);
 					}}
 				>
 					<Plus size="20" />
-					<span class="ml-1"> Add entry </span>
+					<span class="ml-1"> {createButtonLabel} </span>
 				</Button>
 			{/if}
 		</div>
 	</div>
 	<Table>
 		<TableHead>
-			<TableHeadCell><Checkbox checked={allSelected} on:click={toggleAll} /></TableHeadCell>
+			{#if checkBoxes}
+				<TableHeadCell><Checkbox checked={allSelected} on:click={toggleAll} /></TableHeadCell>
+			{/if}
 			{#each fields as field}
 				<CrudTableHead bind:queryParams {field} />
 			{/each}
 			{#if showEdit || showDelete}
-				<TableHeadCell>Actions</TableHeadCell>
+				<TableHeadCell />
 			{/if}
 		</TableHead>
 		<TableBody>
 			{#if data}
 				{#each data as item (item.id)}
 					<CrudTableRow record={item} {collection}>
-						<TableBodyCell>
-							<Checkbox bind:group={selection} value={item.id} name="select" />
-						</TableBodyCell>
+						{#if checkBoxes}
+							<TableBodyCell>
+								<Checkbox bind:group={selection} value={item.id} name="select" />
+							</TableBodyCell>
+						{/if}
 						{#each fields as field}
 							<TableBodyCell>
 								{@const component = fieldsDisplay[field]}
@@ -197,39 +210,48 @@
 							</TableBodyCell>
 						{/each}
 						{#if showEdit || showDelete}
-							<TableBodyCell>
-								<div class="flex items-center space-x-2">
+							<TableBodyCell class="justify-end">
+								<div class="flex items-center justify-end space-x-2">
 									<Button
 										class="!p-2"
+										pill
+										outline
 										color="alternative"
 										on:click={() => {
 											setAction(formMode.EDIT, item);
 										}}
 									>
-										<Pencil size="20" />
+										<Pencil size="20" color="red" />
+										<span class="ml-1 text-red-500">Edit</span>
 									</Button>
 									<Button
 										class="!p-2"
+										pill
+										outline
 										color="alternative"
 										on:click={() => {
 											setAction('delete', item);
 										}}
 									>
-										<Trash size="20" />
+										<Trash size="20" color="red" />
+										<span class="ml-1 text-red-500">Delete</span>
 									</Button>
 									{#each actions as action}
 										<Button
-											class="!p-2 !px-3"
+											class="!p-2"
+											pill
+											outline
 											color="alternative"
 											on:click={() => {
 												action.function(item);
 											}}
 										>
 											{#if action.icon}
-												<svelte:component this={action.icon} />
-											{:else}
-												{action.name}
+												<svelte:component this={action.icon} color="red" />
 											{/if}
+											<span class="ml-1 text-red-500">
+												{action.name}
+											</span>
 										</Button>
 									{/each}
 								</div>
