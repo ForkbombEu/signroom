@@ -15,7 +15,7 @@
 		"predev": "pnpm run schema",
 		"dev": "vite dev",
 		"prebuild": "pnpm run schema",
-		"build": "vite build",
+		"build": "svelte-kit sync && vite build",
 		"preview": "vite preview",
 		"test": "playwright test",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -59,6 +59,7 @@
 	"dependencies": {
 		"@popperjs/core": "^2.11.7",
 		"classnames": "^2.3.2",
+		"dayjs": "^1.11.8",
 		"flowbite": "^1.6.5",
 		"flowbite-svelte": "^0.35.1",
 		"flowbite-svelte-blocks": "^0.3.6",
