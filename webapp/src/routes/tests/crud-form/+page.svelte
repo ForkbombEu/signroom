@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { currentUser } from '$lib/pocketbase';
 	import { Collections } from '$lib/pocketbase-types';
 	import CrudForm, { formMode } from '$lib/schema/CRUDForm.svelte';
 
@@ -10,12 +11,14 @@
 		mode={formMode.EDIT}
 		collection={Collections.CrudExample}
 		initialData={data.item}
-		relationsDisplayFields={{
-			relation: ['name'],
-			relation_single: ['name'],
-			owner: ['name', 'username', 'email']
+		formSettings={{
+			relationsDisplayFields: {
+				relation: ['name'],
+				relation_single: ['name'],
+				owner: ['name', 'username', 'email']
+			},
+			hiddenFields: ['owner'],
+			hiddenFieldsValues: { owner: $currentUser?.id }
 		}}
-		hiddenFields={['owner']}
-		hiddenFieldsValues={{ owner: data.user?.id }}
 	/>
 </div>

@@ -2,7 +2,7 @@
 	import { userQuestions, type UserAnswers } from '$lib/auth/userQuestions';
 	import { generateKeypair, getHMAC, saveKeyringToLocalStorage } from '$lib/auth/keypair';
 	import { getPublicKeysFromKeypair, updateUserPublicKeys } from '$lib/auth/updateUserPublicKeys';
-	import { pb } from '$lib/pocketbase';
+	import { currentUser, pb } from '$lib/pocketbase';
 
 	// Components
 	import { Alert, Button, Heading, Hr, P } from 'flowbite-svelte';
@@ -12,8 +12,6 @@
 	import { z } from 'zod';
 
 	//
-
-	export let data;
 
 	let seed = '';
 
@@ -33,7 +31,7 @@
 
 	const superform = createForm(schema, async ({ form }) => {
 		const { data: formData } = form;
-		const userEmail = data.user?.email as string;
+		const userEmail = $currentUser?.email as string;
 		const userAnswers: UserAnswers = {
 			question1: formData.question1!,
 			question2: formData.question2!,
@@ -49,7 +47,7 @@
 		seed = keypair.seed;
 
 		const publicKeys = getPublicKeysFromKeypair(keypair);
-		await updateUserPublicKeys(data.user?.id!, publicKeys);
+		await updateUserPublicKeys($currentUser?.id!, publicKeys);
 
 		await pb.send('/api/did', {});
 	});

@@ -2,13 +2,36 @@
 	import type { RelationDisplayFields } from '$lib/components/forms/relations.svelte';
 	import type { ValueOf } from '$lib/utils/types';
 
-	export type RelationsDisplayFields = Record<string, RelationDisplayFields>;
+	//
 
 	export const formMode = {
 		EDIT: 'edit',
 		CREATE: 'create'
 	} as const;
 	export type FormMode = ValueOf<typeof formMode>;
+
+	//
+
+	export type RelationsDisplayFields = Record<string, RelationDisplayFields>;
+	export type HiddenFieldsValues = Record<string, unknown>;
+
+	export type FormSettings = {
+		fieldsOrder: string[];
+		excludedFields: string[];
+		relationsDisplayFields: RelationsDisplayFields;
+		hiddenFields: string[];
+		hiddenFieldsValues: HiddenFieldsValues;
+	};
+
+	export function defaultFormSettings(): FormSettings {
+		return {
+			fieldsOrder: [],
+			excludedFields: [],
+			relationsDisplayFields: {},
+			hiddenFields: [],
+			hiddenFieldsValues: {}
+		};
+	}
 </script>
 
 <script lang="ts">
@@ -24,17 +47,16 @@
 
 	//
 
-	export let collection: Collections;
+	export let collection: Collections | string;
 	export let mode: FormMode;
-	export let initialData: any;
-	if (mode == formMode.CREATE) initialData = {};
+	export let initialData: any = {};
 
-	export let fieldsOrder: string[] = [];
-	export let excludedFields: string[] = [];
-	export let relationsDisplayFields: RelationsDisplayFields = {};
+	export let formSettings: Partial<FormSettings> = {};
 
-	export let hiddenFields: string[] = [];
-	export let hiddenFieldsValues: Record<string, unknown> = {};
+	let { fieldsOrder, excludedFields, relationsDisplayFields, hiddenFields, hiddenFieldsValues } = {
+		...defaultFormSettings(),
+		...formSettings
+	};
 
 	//
 
