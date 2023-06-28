@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"pb/config"
 	_ "embed"
-	zenroom "github.com/dyne/Zenroom/bindings/golang/zenroom"
+	zenroom "github.com/dyne/zenroom-go-wrapper"
 )
 
 //go:embed zenflows-crypto/src/keypairoomServer-6-7.zen

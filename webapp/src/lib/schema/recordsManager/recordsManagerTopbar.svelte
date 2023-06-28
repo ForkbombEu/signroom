@@ -3,6 +3,7 @@
 	import { getRecordsManagerContext } from './recordsManager.svelte';
 	import { Plus, Trash, XMark } from 'svelte-heros-v2';
 	import CrudForm, { formMode } from '../CRUDForm.svelte';
+	import CreateRecord from './recordActions/createRecord.svelte';
 
 	//
 
@@ -10,7 +11,6 @@
 	const { recordService, loadRecords } = dataManager;
 	const { selectedRecords, discardSelection } = selectionManager;
 
-	let showCreateModal = false;
 	let showDeleteModal = false;
 
 	async function deleteSelection() {
@@ -42,46 +42,26 @@
 				</Button>
 			</div>
 		{:else}
-			<Button
-				color="alternative"
-				on:click={() => {
-					showCreateModal = true;
-				}}
-			>
-				<Plus size="20" />
-				<span class="ml-1">Add entry</span>
-			</Button>
+			<CreateRecord />
 		{/if}
 	</div>
 </div>
 
-<Modal class="m-0" bind:open={showDeleteModal} title="Delete records" size="xs">
-	<div class="text-center space-y-6">
-		<P>
-			Are you sure you want to delete <span class="font-bold">{$selectedRecords.length}</span> records?
-		</P>
-		<div class="flex gap-2 justify-center">
-			<Button color="red" on:click={deleteSelection}>Delete</Button>
-			<Button
-				color="alternative"
-				on:click={() => {
-					showDeleteModal = false;
-				}}>Cancel</Button
-			>
+<div class="m-0">
+	<Modal bind:open={showDeleteModal} title="Delete records" size="xs">
+		<div class="text-center space-y-6">
+			<P>
+				Are you sure you want to delete <span class="font-bold">{$selectedRecords.length}</span> records?
+			</P>
+			<div class="flex gap-2 justify-center">
+				<Button color="red" on:click={deleteSelection}>Delete</Button>
+				<Button
+					color="alternative"
+					on:click={() => {
+						showDeleteModal = false;
+					}}>Cancel</Button
+				>
+			</div>
 		</div>
-	</div>
-</Modal>
-
-<Modal class="m-0" bind:open={showCreateModal} title="Create record" size="lg">
-	<div class="w-[500px]">
-		<CrudForm
-			mode={formMode.EDIT}
-			{collection}
-			{formSettings}
-			on:success={async () => {
-				await loadRecords();
-				showCreateModal = false;
-			}}
-		/>
-	</div>
-</Modal>
+	</Modal>
+</div>
