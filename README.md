@@ -67,8 +67,8 @@ Signroom is generated using the [Starters](https://github.com/dyne/starters) tem
 
 ### 🚩 Table of Contents
 
-- [💾 Install](#-install)
 - [🎮 Quick start](#-quick-start)
+- [💾 Install](#-install)
 - [🐋 Docker](#-docker)
 - [🐝 API](#-api)
 - [🔧 Configuration](#-configuration)
@@ -80,6 +80,17 @@ Signroom is generated using the [Starters](https://github.com/dyne/starters) tem
 - [💼 License](#-license)
 
 </div>
+
+***
+## 🎮 Quick start
+
+To start using Signroom run the following command in the root folder
+
+```bash
+docker compose up
+```
+
+**[🔝 back to top](#toc)**
 
 ***
 ## 💾 Install
@@ -107,27 +118,6 @@ point your browser to http://localhost:8080
 
 **[🔝 back to top](#toc)**
 
-***
-## 🎮 Quick start
-
-To start using Signroom run the following command in the root folder
-
-### Admin control panel
-
-```
-cd admin
-./pb serve
-```
-
-### Frontend application
-
-```
-cd webapp
-pnpm dev
-```
-
-
-**[🔝 back to top](#toc)**
 
 ***
 ## 🐋 Docker

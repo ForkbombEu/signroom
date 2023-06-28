@@ -34,6 +34,7 @@
 
 	export let showDelete = true;
 	export let showEdit = true;
+	export let showCheckboxes = true;
 
 	const { selectionManager } = getRecordsManagerContext();
 	const { allRecordsSelected, toggleSelectAllRecords, selectedRecords } = selectionManager;
@@ -44,9 +45,11 @@
 
 <Table>
 	<TableHead>
-		<TableHeadCell>
-			<Checkbox checked={selectAll} on:click={toggleSelectAllRecords} />
-		</TableHeadCell>
+		{#if showCheckboxes}
+			<TableHeadCell>
+				<Checkbox checked={selectAll} on:click={toggleSelectAllRecords} />
+			</TableHeadCell>
+		{/if}
 		{#each fields as field}
 			<RecordsTableHead {field} />
 		{/each}
@@ -57,9 +60,11 @@
 	<TableBody>
 		{#each records as record (record.id)}
 			<TableBodyRow>
-				<TableBodyCell>
-					<SelectionCheckbox {record} />
-				</TableBodyCell>
+				{#if showCheckboxes}
+					<TableBodyCell>
+						<SelectionCheckbox {record} />
+					</TableBodyCell>
+				{/if}
 				{#each fields as field}
 					<TableBodyCell>
 						{@const component = fieldsDisplay[field]}

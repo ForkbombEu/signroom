@@ -27,22 +27,24 @@
 	<Trash size="20" />
 </Button>
 
-<Modal class="m-0" bind:open title="Delete record" size="xs">
-	<div class="text-center space-y-6">
-		<P>Are you sure you want to delete this record?</P>
-		<div class="flex gap-2 justify-center">
-			<Button color="red" on:click={deleteRecord}>
-				<Trash size="20" /><span class="ml-1">Delete</span>
-			</Button>
-			<Button
-				color="alternative"
-				on:click={() => {
-					open = false;
-				}}
-			>
-				<XMark size="20" />
-				<span class="ml-1">Cancel</span>
-			</Button>
+<div class="m-0">
+	<Modal bind:open title="Delete record" size="xs">
+		<div class="text-center space-y-6">
+			<P>Are you sure you want to delete this record?</P>
+			<div class="flex gap-2 justify-center">
+				<Button color="red" on:click={deleteRecord}>
+					<Trash size="20" /><span class="ml-1">Delete</span>
+				</Button>
+				<Button
+					color="alternative"
+					on:click={() => {
+						open = false;
+					}}
+				>
+					<XMark size="20" />
+					<span class="ml-1">Cancel</span>
+				</Button>
+			</div>
 		</div>
-	</div>
-</Modal>
+	</Modal>
+</div>

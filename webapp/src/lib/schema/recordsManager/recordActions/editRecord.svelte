@@ -25,17 +25,19 @@
 	<Pencil size="20" />
 </Button>
 
-<Modal class="m-0" bind:open title="Edit record" size="lg">
-	<div class="w-[500px]">
-		<CrudForm
-			mode={formMode.EDIT}
-			collection={record.collectionId}
-			initialData={record}
-			{formSettings}
-			on:success={async () => {
-				await loadRecords();
-				open = false;
-			}}
-		/>
-	</div>
-</Modal>
+<div class="m-0">
+	<Modal bind:open title="Edit record" size="lg">
+		<div class="w-[500px]">
+			<CrudForm
+				mode={formMode.EDIT}
+				collection={record.collectionId}
+				initialData={record}
+				{formSettings}
+				on:success={async () => {
+					await loadRecords();
+					open = false;
+				}}
+			/>
+		</div>
+	</Modal>
+</div>
