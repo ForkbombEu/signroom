@@ -15,6 +15,9 @@ bg:
 
 fg:
 	@echo "🚀 Launching the Frontend" 
+	if [ ! -f ./webapp/.env ]; then \
+		cp ./webapp/.env.example ./webapp/.env; \
+	fi
 	cd webapp && pnpm i && pnpm dev
 
 clean: ## 🧹 Clean the containers

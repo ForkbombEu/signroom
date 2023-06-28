@@ -10,6 +10,10 @@
 	"pnpm": {
 		"allowedPrePostScripts": true
 	},
+  "engines": {
+    "node": ">=17",
+    "pnpm": ">=8"
+  },
 	"scripts": {
 		"schema": "node scripts/generate_schema.mjs",
 		"predev": "pnpm run schema",
