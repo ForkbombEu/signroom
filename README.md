@@ -105,20 +105,14 @@ Then point your browser to `http://localhost:4173` (currently it only works in l
 ***
 ## 💾 Build
 
-Currently for internal use only
+(Development only) builds and launches the `webapp` and `webapp`, requires **node >= 16** 
 
 1. `git clone https://github.com/ForkbombEu/signroom/`
 1. `cd signroom`
 1. `git submodule update --init --recursive`
+1. `make up`
 
-### Admin control panel
-
-1. `cd admin && go build`
-
-### Frontend application
-
-1. `cd webapp &&  pnpm i`
-
+**Note**: in order to get app working, database basic configuration is required (info coming soon).
 
 ### DSS backend
 Download the DSS backend from [here](https://ec.europa.eu/digital-building-blocks/wikis/display/DIGITAL/Digital+Signature+Service+-++DSS)
