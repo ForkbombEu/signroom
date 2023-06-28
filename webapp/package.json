@@ -24,11 +24,12 @@
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"types": "npx -y pocketbase-typegen --db ../admin/pb_data/data.db --out src/lib/pocketbase-types.ts",
-		"serve": "sleep 10 && pnpm types && pnpm schema && pnpm build && pnpm preview --host"
+		"serve": "sleep 2 && pnpm types && pnpm schema && pnpm build && pnpm preview --host"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.33.0",
 		"@sveltejs/adapter-auto": "^2.0.1",
+		"@sveltejs/adapter-node": "^1.2.4",
 		"@sveltejs/kit": "^1.16.3",
 		"@types/debug": "^4.1.7",
 		"@typescript-eslint/eslint-plugin": "^5.59.5",
@@ -58,6 +59,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@fontsource-variable/inter": "^5.0.3",
 		"@popperjs/core": "^2.11.7",
 		"classnames": "^2.3.2",
 		"flowbite": "^1.6.5",

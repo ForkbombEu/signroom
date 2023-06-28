@@ -1,15 +1,26 @@
 <script lang="ts">
-	import { Collections } from '$lib/pocketbase-types';
-	import CrudTable from '$lib/schema/CRUDTable.svelte';
+	import { currentUser } from '$lib/pocketbase';
+	import { Collections, type CrudExampleRecord } from '$lib/pocketbase-types';
+	import RecordsManager, {
+		createSlotTypeCaster
+	} from '$lib/schema/recordsManager/recordsManager.svelte';
+	import RecordsManagerTopbar from '$lib/schema/recordsManager/recordsManagerTopbar.svelte';
+	import RecordsTable from '$lib/schema/recordsManager/views/recordsTable.svelte';
 
-	export let data;
+	const slotTypeCaster = createSlotTypeCaster<CrudExampleRecord>();
 </script>
 
 <div class="p-4">
-	<CrudTable
+	<RecordsManager
 		collection={Collections.Folders}
-		fields={['name']}
-		formHiddenFields={['owner']}
-		formHiddenFieldsValues={{ owner: data.user?.id }}
-	/>
+		formSettings={{
+			hiddenFields: ['owner'],
+			hiddenFieldsValues: { owner: $currentUser?.id }
+		}}
+		{slotTypeCaster}
+		let:records
+	>
+		<RecordsManagerTopbar />
+		<RecordsTable {records} fields={['id', 'name']} />
+	</RecordsManager>
 </div>
