@@ -56,10 +56,10 @@ Signroom is generated using the [Starters](https://github.com/dyne/starters) tem
 ## Alpha Deployment
 
 ### [Signroom](https://beta.signroom.io/) 
-- user: **test_account@test.org** pass: **test_account@test.org**
+- user: **test2@test2.com** pass: **test2@test2.com**
 
 ### [Signroom Admin Control Panel](https://admin.signroom.io/_) 
-- user: **test_admin@test.org** pass: **test_admin@test.org**
+- (coming soon)
 
 ### [DSS backend](http://dss.forkbomb.eu:8080/services/)
 
@@ -68,7 +68,7 @@ Signroom is generated using the [Starters](https://github.com/dyne/starters) tem
 ### 🚩 Table of Contents
 
 - [🎮 Quick start](#-quick-start)
-- [💾 Install](#-install)
+- [💾 Build](#-build)
 - [🐋 Docker](#-docker)
 - [🐝 API](#-api)
 - [🔧 Configuration](#-configuration)
@@ -87,13 +87,29 @@ Signroom is generated using the [Starters](https://github.com/dyne/starters) tem
 To start using Signroom run the following command in the root folder
 
 ```bash
-docker compose up
+docker compose up --build
 ```
+
+After docker compose is done, in the bottom of the terminal you should read something like: 
+
+```bash
+signroom-fe-1  |   ➜  Local:   http://localhost:4173/
+signroom-fe-1  |   ➜  Network: http://192.168.0.233:4173/
+signroom-fe-1  |   ➜  Network: http://172.21.0.1:4173/
+```
+
+Then point your browser to `http://localhost:4173` (currently it only works in localhost)
 
 **[🔝 back to top](#toc)**
 
 ***
-## 💾 Install
+## 💾 Build
+
+Currently for internal use only
+
+1. `git clone https://github.com/ForkbombEu/signroom/`
+1. `cd signroom`
+1. `git submodule update --init --recursive`
 
 ### Admin control panel
 
@@ -101,7 +117,7 @@ docker compose up
 
 ### Frontend application
 
-1. `cd webapp && pnpm i`
+1. `cd webapp &&  pnpm i`
 
 
 ### DSS backend
@@ -122,7 +138,7 @@ point your browser to http://localhost:8080
 ***
 ## 🐋 Docker
 
-Please refer to [DOCKER PACKAGES](../../packages)
+Coming soon 
 
 
 **[🔝 back to top](#toc)**
@@ -130,8 +146,8 @@ Please refer to [DOCKER PACKAGES](../../packages)
 ***
 ## 🐝 API
 
-Available endpoints
-
+Coming soon 
+<!---
 ### POST /token
 
 Execute a transaction with some amount
@@ -147,6 +163,8 @@ Execute a transaction with some amount
 ### GET /token/${request.token}/${request.owner}
 
 Retrieves the actual value of the token type for the specified owner
+
+-->
 
 **[🔝 back to top](#toc)**
 
