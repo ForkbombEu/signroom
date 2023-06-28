@@ -56,7 +56,7 @@
 			>
 		</DropdownHeader>
 		<DropdownItem href="/profile">My profile</DropdownItem>
-		<DropdownItem href="/settings">Account settings</DropdownItem>
+		<DropdownItem href="/my/settings">Account settings</DropdownItem>
 		<DropdownDivider />
 		<DropdownItem href="/pro" class="flex items-center"
 			><Fire class="text-red-500 mr-2 w-5" /> Go Pro</DropdownItem
@@ -177,7 +177,7 @@
 		</SidebarWrapper>
 	</Sidebar>
 	<div class="p-8 bg-slate-100 grow bg-[url('/bg.png')] bg-cover">
-		<div class="rounded-lg p-4 bg-white max-w-3xl flex flex-col space gap-10">
+		<div class="rounded-lg p-4 bg-white max-w-6xl flex flex-col space gap-10">
 			<slot />
 		</div>
 	</div>
