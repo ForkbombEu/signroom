@@ -27,7 +27,7 @@ COPY ./admin/go.mod ./admin/go.sum ./
 RUN go mod download && go mod verify
 COPY ./admin/ .
 RUN git init
-RUN rmdir zencode/zenflows-crypto
+RUN rm -rf zencode/zenflows-crypto
 RUN git submodule add https://github.com/interfacerproject/zenflows-crypto zencode/zenflows-crypto
 
 RUN ENABLE_CGO=0 go build -o pb .
