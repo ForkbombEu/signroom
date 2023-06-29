@@ -2,6 +2,11 @@
 	import { Card, MenuButton, Dropdown, DropdownItem, Avatar, Button } from 'flowbite-svelte';
 	import { currentUser } from '$lib/pocketbase';
 	import List from '$lib/components/list.svelte';
+	const hasKeys =
+		$currentUser?.ethereum_address ||
+		$currentUser?.ecdh_public_key ||
+		$currentUser?.eddsa_public_key ||
+		$currentUser?.reflow_public_key;
 	const keys = [
 		{ title: 'Ethereum Address', value: $currentUser?.ethereum_address },
 		{ title: 'ecdh public key', value: $currentUser?.ecdh_public_key },
@@ -11,9 +16,13 @@
 </script>
 
 <Card padding="sm" class="!max-w-none w-full">
-	<List rows={keys} />
+	{#if hasKeys}<List rows={keys} />
+	{:else}
+		<p class="text-gray-500">You have no keys yet.</p>
+	{/if}
 	<div class="flex justify-end">
-		<Button color="primary" size="sm" class="mt-4">
-			Generate new keys
-		</Button>
-</Card>
+		<a href="/my/keypairoom/regenerate">
+			<Button color="primary" size="sm" class="mt-4">Generate new keys</Button>
+		</a>
+	</div></Card
+>

@@ -15,7 +15,7 @@
 	}
 </script>
 
-<Button on:click={copyText} color="alternative">
+<Button on:click={copyText} color="alternative" outline size="sm">
 	{#if !isCopied}
 		<div class="w-4 mr-2">
 			<svg id="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">

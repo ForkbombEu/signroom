@@ -34,6 +34,7 @@
 	} from 'svelte-heros-v2';
 	import '../../app.postcss';
 	import FeatureFlag from '$lib/components/featureFlag.svelte';
+	import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 
 	let spanClass = 'flex-1 ml-3 whitespace-nowrap';
 	$: activeUrl = $page.url.pathname;
@@ -47,7 +48,7 @@
 		>
 	</NavBrand>
 	<div class="flex items-center md:order-2 hover:cursor-pointer">
-		<Avatar id="avatar-menu" src={$currentUser?.avatar} />
+		<Avatar id="avatar-menu" src={`${PUBLIC_POCKETBASE_URL}api/files/_pb_users_auth_/${$currentUser?.id}/${$currentUser?.avatar}`} />
 		<NavHamburger on:click={toggle} class1="w-full md:flex md:w-auto md:order-1" />
 	</div>
 	<Dropdown placement="bottom" triggeredBy="#avatar-menu">
