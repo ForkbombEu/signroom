@@ -17,8 +17,9 @@ export const newkey = async () => {
 };
 
 export const digest = async (raw) => {
-	const { stdout: dgst } = await execa('openssl', 'dgst -sha256 -sign chiave -binary'.split(' '), {
+	const { stdout: dgst } = await execa('openssl', 'dgst -sha256 -sign chiave -hex'.split(' '), {
 		input: Buffer.from(raw, 'base64').toString()
 	});
-	return Buffer.from(dgst).toString('base64');
+	const hexOutput = dgst.replace("SHA2-256(stdin)= ", "");
+	return Buffer.from(hexOutput, 'hex').toString('base64');
 };
