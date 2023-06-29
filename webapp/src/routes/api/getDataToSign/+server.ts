@@ -1,15 +1,12 @@
-import { digest, newkey } from '$lib/xades';
 import { json } from '@sveltejs/kit';
 
-export const GET = async () => {
-	const sk = await newkey();
-	const baseurl = 'http://dss.forkbomb.eu:8080/services/rest/signature/one-document';
-	const ts = Date.now();
+export const POST = async (cert: RequestEvent) => {
+	const req = await cert.request.json();
 
 	const params = {
 		parameters: {
 			signingCertificate: {
-				encodedCertificate: sk.cert
+				encodedCertificate: req.cert_pem
 			},
 			certificateChain: [],
 			detachedContents: null,
@@ -47,7 +44,7 @@ export const GET = async () => {
 			signatureIdToCounterSign: null,
 			blevelParams: {
 				trustAnchorBPPolicy: true,
-				signingDate: ts,
+				signingDate: req.ts_now,
 				claimedSignerRoles: null,
 				policyId: null,
 				policyQualifier: null,
@@ -70,47 +67,21 @@ export const GET = async () => {
 			name: 'RemoteDocument'
 		}
 	};
-	const toSign = await fetch(`${baseurl}/getDataToSign`, {
+	const toSign = await fetch(`http://dss.forkbomb.eu:8080/services/rest/signature/one-document/getDataToSign`, {
 		method: 'POST',
 		body: JSON.stringify(params),
 		headers: {
 			'Content-Type': 'application/json',
 			Accept: 'application/json'
 		}
-	});
-
-	const dataToSign = await toSign.json();
-	const messageDigest = await digest(dataToSign.bytes);
-	params['signatureValue'] = {
-		algorithm: 'RSA_SHA256',
-		value: messageDigest
-	};
-	const signed = await fetch(`${baseurl}/signDocument`, {
-		method: 'POST',
-		body: JSON.stringify(params),
-		headers: {
-			'Content-Type': 'application/json',
-			Accept: 'application/json'
+	}).then(res => {
+		if(!res.ok) {
+			return res.text().then(text => { throw new Error(text) })
+		}
+		else {
+			return res.json();
 		}
 	});
-	const signedDocument = await signed.json();
-	const validateSignature = await fetch(
-		`http://dss.forkbomb.eu:8080/services/rest/validation/validateSignature`,
-		{
-			method: 'POST',
-			body: JSON.stringify({
-				signedDocument: signedDocument,
-				policy: null,
-				tokenExtractionStrategy: 'NONE',
-				signatureId: null
-			}),
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json'
-			}
-		}
-	);
-	const validation = await validateSignature.json();
 
-	return json({ signedDocument, validation });
+	return json(toSign);
 };
