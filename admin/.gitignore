@@ -1,6 +1,6 @@
 /pb
-/pb_data
 /tmp
+/pb_data
 .DS_Store
 .env
 pb.env

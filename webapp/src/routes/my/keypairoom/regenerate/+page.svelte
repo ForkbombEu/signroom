@@ -5,10 +5,9 @@
 	import Form, { createForm } from '$lib/components/forms/form.svelte';
 	import Textarea from '$lib/components/forms/textarea.svelte';
 	import { z } from 'zod';
+	import { currentUser } from '$lib/pocketbase.js';
 
 	//
-
-	export let data;
 
 	let success = false;
 
@@ -18,7 +17,7 @@
 
 	const superform = createForm(schema, async ({ form }) => {
 		const seed = form.data.seed;
-		const hmac = await getHMAC(data.user?.email);
+		const hmac = await getHMAC($currentUser?.email);
 		const keypair = await regenerateKeypair(seed, hmac);
 		saveKeyringToLocalStorage(keypair.keyring);
 		success = true;

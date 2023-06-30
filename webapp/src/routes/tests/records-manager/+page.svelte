@@ -12,7 +12,7 @@
 
 <div class="p-4">
 	<RecordsManager
-		collection={Collections.Folders}
+		collection={Collections.CrudExample}
 		formSettings={{
 			hiddenFields: ['owner'],
 			hiddenFieldsValues: { owner: $currentUser?.id }
@@ -21,6 +21,6 @@
 		let:records
 	>
 		<RecordsManagerTopbar />
-		<RecordsTable {records} fields={['id', 'name']} />
+		<RecordsTable {records} fields={['id', 'text', 'textarea']} />
 	</RecordsManager>
 </div>

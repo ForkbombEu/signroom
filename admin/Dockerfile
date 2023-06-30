@@ -19,17 +19,26 @@ ARG ALP_VER=3.18.0
 FROM golang:$GOVER-alpine AS builder
 ENV GONOPROXY=
 
+RUN apk add --no-cache git
+
 WORKDIR /app
 
-COPY go.mod go.sum ./
+COPY ./admin/go.mod ./admin/go.sum ./
 RUN go mod download && go mod verify
+COPY ./admin/ .
+RUN git init
+RUN rm -rf zencode/zenflows-crypto
+RUN git submodule add https://github.com/interfacerproject/zenflows-crypto zencode/zenflows-crypto
 
-COPY . .
 RUN ENABLE_CGO=0 go build -o pb .
 
 FROM alpine:$ALP_VER
 
 ARG USER=app
+
+RUN wget https://github.com/dyne/zenroom/releases/latest/download/zenroom -O zenroom \
+        && chmod a+x zenroom \
+        && cp zenroom /usr/local/bin/
 
 RUN addgroup --system "$USER" && adduser --system --ingroup "$USER" "$USER" && \
       install -d -m 0755 -o "$USER" -g "$USER" /log

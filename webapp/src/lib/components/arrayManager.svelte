@@ -1,6 +1,8 @@
-<script lang="ts" generics="T">
+<script lang="ts">
 	import { Button } from 'flowbite-svelte';
 	import { XMark } from 'svelte-heros-v2';
+
+	type T = $$Generic;
 
 	export let array: T[];
 
