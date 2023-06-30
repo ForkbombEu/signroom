@@ -1,11 +1,14 @@
 <script lang="ts" context="module">
+	import type { StringPath, StringPathLeaves } from 'sveltekit-superforms/dist/stringPath';
+
 	import { getContext } from 'svelte';
-	import { formatUnknownException } from '$lib/errorHandling';
+	import { normalizeError, type ClientResponseErrorData } from '$lib/errorHandling';
 	import type { AnyZodObject } from 'zod';
 	import type { UnwrapEffects } from 'sveltekit-superforms/index';
 	import {
 		superForm,
 		setMessage,
+		setError,
 		type FormOptions,
 		type SuperForm,
 		superValidateSync
@@ -16,7 +19,7 @@
 	export const FORM_KEY = Symbol('form');
 
 	export type FormContext<T extends AnyZodObject> = {
-		superform: SuperForm<T, unknown>;
+		superform: SuperForm<T, ClientResponseErrorData>;
 	};
 
 	export function getFormContext<T extends AnyZodObject>(): FormContext<T> {
@@ -35,7 +38,7 @@
 		initialData: any = undefined
 	) {
 		const form = superValidateSync(initialData, schema, { errors: false });
-		return superForm<T>(form, {
+		return superForm<T, ClientResponseErrorData>(form, {
 			SPA: true,
 			applyAction: false,
 			scrollToError: 'smooth',
@@ -44,16 +47,42 @@
 				try {
 					await submitFunction(input);
 				} catch (e) {
-					setMessage(input.form, formatUnknownException(e, 400).message);
+					let error = normalizeError(e);
+					for (const [key, value] of Object.entries(error.data)) {
+						if (Boolean(input.form.data[key])) {
+							setError(input.form, key as StringPathLeaves<T>, value.message);
+							delete error.data[key];
+						}
+					}
+					setMessage(input.form, error);
 				}
 			}
 		});
+	}
+
+	type SuperFormAllErrors = {
+		path: string;
+		messages: string[];
+	}[];
+
+	export function formHasErrors(allErrors: SuperFormAllErrors): boolean {
+		const checks: boolean[] = [];
+		if (allErrors.length === 0) return false;
+		else {
+			for (const error of allErrors) {
+				if (error.messages.length > 0) checks.push(true);
+				// if (typeof value === 'object') checks.push(formHasErrors(value));
+				// else if (Boolean(value)) checks.push(true);
+			}
+		}
+		return checks.some((check) => check);
 	}
 </script>
 
 <script lang="ts">
 	import { setContext } from 'svelte';
 	import { Button, Spinner, Alert, Modal } from 'flowbite-svelte';
+	import Error from './error.svelte';
 
 	type T = $$Generic<AnyZodObject>;
 
@@ -68,22 +97,20 @@
 
 	//
 
-	const { errors, enhance, delayed, message } = superform;
+	const { enhance, delayed, allErrors } = superform;
 	setContext<FormContext<T>>(FORM_KEY, { superform });
 
-	$: error = Boolean($message) ? $message : $errors._errors ? $errors._errors.join('\n') : '';
+	$: hasErrors = formHasErrors($allErrors);
 </script>
 
 <form class={className} method="post" use:enhance>
 	<slot />
 
-	{#if error}
-		<Alert color="red" accent={false} dismissable>{error}</Alert>
-	{/if}
+	<Error />
 
 	{#if useDefaultSubmitButton}
 		<div class="flex justify-end">
-			<Button type="submit" disabled={!$errors}>{defaultSubmitButtonText}</Button>
+			<Button type="submit" disabled={hasErrors}>{defaultSubmitButtonText}</Button>
 		</div>
 	{/if}
 

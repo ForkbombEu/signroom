@@ -22,6 +22,8 @@
 	let error: string;
 	$: if (Array.isArray($errors)) {
 		error = $errors.join('\n');
+	} else {
+		error = '';
 	}
 </script>
 
