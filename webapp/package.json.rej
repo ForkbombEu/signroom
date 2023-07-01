@@ -1,0 +1,10 @@
+diff a/webapp/package.json b/webapp/package.json	(rejected hunks)
+@@ -28,7 +28,7 @@
+ 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
+ 		"format": "prettier --plugin-search-dir . --write .",
+ 		"types": "npx -y pocketbase-typegen --db ../admin/pb_data/data.db --out src/lib/pocketbase-types.ts",
+-		"serve": "sleep 10 && pnpm types && pnpm schema && pnpm build && pnpm preview --host"
++		"serve": "sleep 2 && pnpm types && pnpm schema && pnpm build && pnpm preview --host"
+ 	},
+ 	"devDependencies": {
+ 		"@playwright/test": "^1.33.0",

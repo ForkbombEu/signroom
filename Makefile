@@ -18,7 +18,7 @@ fg:
 	if [ ! -f ./webapp/.env ]; then \
 		cp ./webapp/.env.example ./webapp/.env; \
 	fi
-	cd webapp && pnpm i && pnpm dev
+	cd webapp && pnpm i && pnpm serve
 
 clean: ## 🧹 Clean the containers
 	@echo "🧹 Cleaning the data"
