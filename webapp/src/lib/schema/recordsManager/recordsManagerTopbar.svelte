@@ -42,7 +42,10 @@
 				</Button>
 			</div>
 		{:else}
-			<CreateRecord />
+			<div class="flex space-x-2 items-center">
+			  <CreateRecord />
+			  <slot name="actions" />
+			</div>
 		{/if}
 	</div>
 </div>
