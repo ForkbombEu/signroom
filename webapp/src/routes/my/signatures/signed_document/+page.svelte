@@ -1,8 +1,11 @@
 <script lang="ts">
 	import { pb } from '$lib/pocketbase';
 	import { page } from '$app/stores';
+	import { Button } from 'flowbite-svelte';
 
 	let xml: string;
+	let file: any;
+	let result: any;
 	const url = $page.url;
 	const recordId = url.searchParams.get('id');
 
@@ -37,13 +40,38 @@
 		.then((record) => {
 			if (!record) throw new Error('No record');
 			if (!record?.signed_file) throw new Error('No signed file');
+			file = record?.signed_file;
 			xml = atob(record?.signed_file?.bytes);
 		});
+
+	const validate = async () => {
+		const validate = await fetch('/api/validateSignature', {
+			method: 'POST',
+			body: JSON.stringify({ signedDocument: file }),
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json'
+			}
+		});
+		const validateResult = await validate.json();
+
+		result = validateResult;
+	};
 </script>
 
 {#if xml}
-<div class="overflow-x-scroll w-full h-max">
-	<pre>{prettifyXml(xml)}</pre>
+	<div class="flex flex-col gap-8 justify-end">
+		<div class="overflow-x-scroll w-full h-max">
+			<pre>{prettifyXml(xml)}</pre>
+		</div>
+		{#if result}
+			<div class="overflow-x-scroll w-full h-max">
+				<pre>{JSON.stringify(result, null, 2)}</pre>
+			</div>
+		{/if}
+		<div class="flex flex-row gap-4">
+			<Button color="primary" on:click={validate}>Validate signature</Button>
+		</div>
 	</div>
 {:else}
 	<p>waiting...</p>
