@@ -1,9 +1,9 @@
 <script lang="ts">
 	import SignaturesTableHead from '$lib/components/signaturesTableHead.svelte';
-import Chip from '$lib/components/table/cells/chip.svelte';
-import Description from '$lib/components/table/cells/description.svelte';
+	import Description from '$lib/components/table/cells/description.svelte';
+	import Chip from '$lib/schema/recordsManager/views/fieldsComponents/cells/chip.svelte';
+	import File from '$lib/schema/recordsManager/views/fieldsComponents/cells/file.svelte';
 
-	import File from '$lib/components/table/cells/file.svelte';
 	import { currentUser } from '$lib/pocketbase';
 	import { Collections, type CrudExampleRecord } from '$lib/pocketbase-types';
 	import RecordsManager, {
@@ -23,15 +23,15 @@ import Description from '$lib/components/table/cells/description.svelte';
 		{slotTypeCaster}
 		let:records
 	>
-		<SignaturesTableHead/>
+		<SignaturesTableHead />
 		<RecordsTable
 			{records}
 			fields={['type', 'title', 'file', 'folder', 'description']}
 			showCheckboxes={false}
-			fieldsDisplay={{
+			fieldsComponents={{
 				type: Chip,
 				file: File,
-				description: Description,
+				description: Description
 			}}
 		/>
 	</RecordsManager>
