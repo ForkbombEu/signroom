@@ -1,14 +1,9 @@
-<script lang="ts" context="module">
-	import type { Record as PBRecord } from 'pocketbase';
-	import type { SvelteComponentTyped } from 'svelte';
-
-	export type TableCellComponent<RecordGeneric = unknown> = typeof SvelteComponentTyped<{
-		value: any;
-		record: RecordGeneric & PBRecord;
-	}>;
-</script>
-
 <script lang="ts">
+	import FieldComponent, { type FieldsComponents } from './fieldComponent.svelte';
+	import type { Record as PBRecord } from 'pocketbase';
+	import { getRecordsManagerContext } from '../recordsManager.svelte';
+
+	// Components
 	import {
 		Table,
 		TableBody,
@@ -19,7 +14,6 @@
 		Checkbox
 	} from 'flowbite-svelte';
 	import RecordsTableHead from './recordsTableHead.svelte';
-	import { getRecordsManagerContext } from '../recordsManager.svelte';
 	import SelectionCheckbox from '../recordActions/selectRecord.svelte';
 	import EditRecord from '../recordActions/editRecord.svelte';
 	import DeleteRecord from '../recordActions/deleteRecord.svelte';
@@ -30,7 +24,7 @@
 
 	export let records: (PBRecord & RecordGeneric)[] = [];
 	export let fields: string[] = ['id'];
-	export let fieldsDisplay: Record<string, TableCellComponent<RecordGeneric>> = {};
+	export let fieldsComponents: FieldsComponents<RecordGeneric> = {};
 
 	export let showDelete = true;
 	export let showEdit = true;
@@ -67,12 +61,8 @@
 				{/if}
 				{#each fields as field}
 					<TableBodyCell>
-						{@const component = fieldsDisplay[field]}
-						{#if component}
-							<svelte:component this={component} {record} value={record[field]} />
-						{:else}
-							{record[field]}
-						{/if}
+						{@const component = fieldsComponents[field]}
+						<FieldComponent {record} {field} {component} />
 					</TableBodyCell>
 				{/each}
 				{#if hasActions}

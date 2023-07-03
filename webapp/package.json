@@ -12,7 +12,7 @@
 	},
 	"engines": {
 		"node": ">=17",
-		"pnpm": ">=8"
+	  "pnpm": ">=8"
 	},
 	"scripts": {
 		"schema": "node scripts/generate_schema.mjs",
@@ -25,6 +25,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test:unit": "vitest",
+		"test:ui": "playwright test --ui",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"types": "npx -y pocketbase-typegen --db ../admin/pb_data/data.db --out src/lib/pocketbase-types.ts",

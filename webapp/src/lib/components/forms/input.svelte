@@ -8,6 +8,7 @@
 	export let field: string;
 	export let label = '';
 	export let type: InputType = 'text';
+	export let id = '';
 	export let placeholder = '';
 
 	const { superform } = getFormContext();
@@ -17,6 +18,7 @@
 <div class="space-y-2">
 	<Label color={$errors ? 'red' : 'gray'} for={field} class="mb-2">{label}</Label>
 	<Input
+		{id}
 		{type}
 		color={$errors ? 'red' : 'base'}
 		name={field}

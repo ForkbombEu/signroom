@@ -26,6 +26,18 @@
 
 <Form {superform} defaultSubmitButtonText="Log in">
 	<Heading tag="h4">Log in</Heading>
-	<Input type="email" label="Your email" field={keys.email} placeholder="name@company.com" />
-	<Input type="password" label="Your password" field={keys.password} placeholder="•••••" />
+	<Input
+		id="email"
+		type="email"
+		label="Your email"
+		field={keys.email}
+		placeholder="name@foundation.org"
+	/>
+	<Input
+		id="password"
+		type="password"
+		label="Your password"
+		field={keys.password}
+		placeholder="•••••"
+	/>
 </Form>

@@ -14,7 +14,7 @@
 		</div>
 		<Label class="space-y-2">
 			<span>Your email</span>
-			<Input type="email" name="email" id="email" placeholder="name@company.com" required />
+			<Input type="email" name="email" id="email" placeholder="name@foundation.org" required />
 		</Label>
 		<Button type="submit" class="w-full">Recover password</Button>
 	</form>

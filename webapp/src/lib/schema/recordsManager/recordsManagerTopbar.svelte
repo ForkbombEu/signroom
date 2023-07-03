@@ -1,17 +1,18 @@
 <script lang="ts">
 	import { Button, Heading, Modal, P } from 'flowbite-svelte';
 	import { getRecordsManagerContext } from './recordsManager.svelte';
-	import { Plus, Trash, XMark } from 'svelte-heros-v2';
-	import CrudForm, { formMode } from '../CRUDForm.svelte';
+	import { Trash, XMark } from 'svelte-heros-v2';
 	import CreateRecord from './recordActions/createRecord.svelte';
 
 	//
 
-	const { collection, selectionManager, dataManager, formSettings } = getRecordsManagerContext();
+	const { collection, selectionManager, dataManager } = getRecordsManagerContext();
 	const { recordService, loadRecords } = dataManager;
 	const { selectedRecords, discardSelection } = selectionManager;
 
 	let showDeleteModal = false;
+	let description: string | null = null;
+	let hideCreateButton: false;
 
 	async function deleteSelection() {
 		if (!$selectedRecords.length) return;
@@ -22,7 +23,14 @@
 </script>
 
 <div class="flex justify-between items-center mb-4">
-	<Heading tag="h4">{collection}</Heading>
+	{#if $$slots.title}
+		<slot name="title" />
+	{:else}
+		<Heading tag="h2">{collection}</Heading>
+	{/if}
+	{#if description}
+		<P class="text-slate-600 pt-6">{description}</P>
+	{/if}
 	<div class="shrink-0 flex space-x-4 items-center">
 		{#if $selectedRecords.length > 0}
 			<P><span class="font-bold">{$selectedRecords.length}</span> selected</P>
@@ -43,8 +51,10 @@
 			</div>
 		{:else}
 			<div class="flex space-x-2 items-center">
-			  <CreateRecord />
-			  <slot name="actions" />
+				{#if !hideCreateButton}
+					<CreateRecord />
+				{/if}
+				<slot name="actions" />
 			</div>
 		{/if}
 	</div>

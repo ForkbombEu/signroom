@@ -13,6 +13,10 @@ bg:
 	cd admin && ./setup
 	./admin/pb serve
 
+fgdev:
+	@echo "🚀 watch the frontend " 
+	cd webapp && pnpm dev
+
 fg:
 	@echo "🚀 Launching the Frontend" 
 	if [ ! -f ./webapp/.env ]; then \
@@ -26,3 +30,4 @@ clean: ## 🧹 Clean the containers
 	rm -f admin/pb
 
 up: bg fg ## 💄 Run all the components quickly
+dev: bg fgdev ## 👩‍💻Run all the components in dev mode

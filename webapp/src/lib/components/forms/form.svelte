@@ -43,6 +43,7 @@
 			applyAction: false,
 			scrollToError: 'smooth',
 			validators: schema,
+			dataType: 'json',
 			onUpdate: async (input) => {
 				try {
 					await submitFunction(input);
@@ -110,7 +111,7 @@
 
 	{#if useDefaultSubmitButton}
 		<div class="flex justify-end">
-			<Button type="submit" disabled={hasErrors}>{defaultSubmitButtonText}</Button>
+			<Button id="submit" type="submit" disabled={hasErrors}>{defaultSubmitButtonText}</Button>
 		</div>
 	{/if}
 

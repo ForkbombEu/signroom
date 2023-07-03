@@ -3,6 +3,7 @@ import { zencode_exec } from 'zenroom';
 import keypairoomClient from '../../../../admin/zencode/zenflows-crypto/src/keypairoomClient-8-9-10-11-12.zen?raw';
 import keypairoomClientRecreateKeys from '../../../../admin/zencode/zenflows-crypto/src/keypairoomClientRecreateKeys.zen?raw';
 import { pb } from '$lib/pocketbase';
+import { browser } from '$app/environment';
 
 //
 
@@ -78,6 +79,7 @@ export function saveKeyringToLocalStorage(keyring: Keyring) {
 }
 
 export function getKeyringFromLocalStorage(): Keyring | null {
+	if (!browser) throw new Error('getKeyringFromLocalStorage() must be called from the browser');
 	const keyring = localStorage.getItem(KEYRING_STORAGE_KEY);
 	if (keyring) {
 		return JSON.parse(keyring);

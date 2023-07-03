@@ -1,7 +1,9 @@
 <script lang="ts">
 	import clsx from 'clsx';
-	export let value:any
-	export let record:any
+	import type { Record } from 'pocketbase';
+
+	export let value: unknown;
+  export let record: Record;
 	let cl = clsx(
 		{
 			'bg-purple-100 text-purple-800': value === 'json',
