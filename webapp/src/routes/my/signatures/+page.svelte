@@ -1,14 +1,15 @@
 <script lang="ts">
-	import Chip from '$lib/components/table/cells/chip.svelte';
+	import SignaturesTableHead from '$lib/components/signaturesTableHead.svelte';
+import Chip from '$lib/components/table/cells/chip.svelte';
+import Description from '$lib/components/table/cells/description.svelte';
+
 	import File from '$lib/components/table/cells/file.svelte';
 	import { currentUser } from '$lib/pocketbase';
 	import { Collections, type CrudExampleRecord } from '$lib/pocketbase-types';
 	import RecordsManager, {
 		createSlotTypeCaster
 	} from '$lib/schema/recordsManager/recordsManager.svelte';
-	import RecordsManagerTopbar from '$lib/schema/recordsManager/recordsManagerTopbar.svelte';
 	import RecordsTable from '$lib/schema/recordsManager/views/recordsTable.svelte';
-
 	const slotTypeCaster = createSlotTypeCaster<CrudExampleRecord>();
 </script>
 
@@ -16,31 +17,21 @@
 	<RecordsManager
 		collection={Collections.Signatures}
 		formSettings={{
-			hiddenFields: ['owner'],
-			hiddenFieldsValues: { owner: $currentUser?.id }
+			hiddenFields: ['owner', 'type'],
+			hiddenFieldsValues: { owner: $currentUser?.id, type: '' }
 		}}
 		{slotTypeCaster}
 		let:records
 	>
-		<RecordsManagerTopbar />
+		<SignaturesTableHead/>
 		<RecordsTable
 			{records}
 			fields={['type', 'title', 'file', 'folder', 'description']}
+			showCheckboxes={false}
 			fieldsDisplay={{
 				type: Chip,
-				file: File
-			}}
-			actions={[
-				{
-					name: 'more',
-					function: (r) => {
-						console.log(r);
-					}
-				}
-			]}
-			relationsDisplayFields={{
-				folder: ['name'],
-				owner: ['email', 'username']
+				file: File,
+				description: Description,
 			}}
 		/>
 	</RecordsManager>

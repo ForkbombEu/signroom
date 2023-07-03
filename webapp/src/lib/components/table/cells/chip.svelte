@@ -1,7 +1,17 @@
 <script lang="ts">
-	export let value = '';
+	import clsx from 'clsx';
+	export let value:any
+	export let record:any
+	let cl = clsx(
+		{
+			'bg-purple-100 text-purple-800': value === 'json',
+			'bg-pink-100 text-pink-800': value === 'pdf',
+			'bg-green-100 text-grern-800': value === 'xml'
+		},
+		'px-3 w-fit  py-1 rounded uppercase'
+	);
 </script>
 
-<div class="bg-gray-200 w-fit py-1 px-2 rounded-full text-xs">
+<div class={cl}>
 	{value}
 </div>

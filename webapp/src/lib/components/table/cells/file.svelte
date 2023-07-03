@@ -10,7 +10,7 @@
 	export let record: RecordGeneric & Record;
 
 	let url = '';
-	if (record) pb.files.getUrl(record, value);
+	if (record) url = pb.files.getUrl(record, value);
 </script>
 
 {#if url}
