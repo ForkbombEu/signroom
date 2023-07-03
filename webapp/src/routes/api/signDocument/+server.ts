@@ -1,7 +1,7 @@
-import { json } from '@sveltejs/kit';
+import { json, type RequestEvent } from '@sveltejs/kit';
 
-export const POST = async (cert: RequestEvent) => {
-	const req = await cert.request.json();
+export const POST = async (evt: RequestEvent) => {
+	const req = await evt.request.json();
 
 	const params = {
 		parameters: {
@@ -62,7 +62,7 @@ export const POST = async (cert: RequestEvent) => {
 			}
 		},
 		toSignDocument: {
-			bytes: 'SGVsbG8=', // qui da mettere il file vero
+			bytes: req.doc.split(',')[1], // qui da mettere il file vero
 			digestAlgorithm: null,
 			name: 'RemoteDocument'
 		},
