@@ -10,6 +10,7 @@
 		createSlotTypeCaster
 	} from '$lib/schema/recordsManager/recordsManager.svelte';
 	import RecordsTable from '$lib/schema/recordsManager/views/recordsTable.svelte';
+	import SignDocumentButton from '$lib/components/signDocumentButton.svelte';
 	const slotTypeCaster = createSlotTypeCaster<CrudExampleRecord>();
 </script>
 
@@ -26,13 +27,16 @@
 		<SignaturesTableHead />
 		<RecordsTable
 			{records}
-			fields={['type', 'title', 'file', 'folder', 'description']}
+			fields={['type', 'title', 'file', 'description']}
 			showCheckboxes={false}
 			fieldsComponents={{
 				type: Chip,
 				file: File,
 				description: Description
 			}}
-		/>
+			let:record
+		>
+		<SignDocumentButton {record} />
+		</RecordsTable>
 	</RecordsManager>
 </div>

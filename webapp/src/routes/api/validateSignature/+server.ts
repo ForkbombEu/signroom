@@ -1,7 +1,7 @@
-import { json } from '@sveltejs/kit';
+import { json, type RequestEvent } from '@sveltejs/kit';
 
-export const POST = async (cert: RequestEvent) => {
-	const req = await cert.request.json();
+export const POST = async (evt: RequestEvent) => {
+	const req = await evt.request.json();
 
 	const validateSignature = await fetch(
 		`http://dss.forkbomb.eu:8080/services/rest/validation/validateSignature`,

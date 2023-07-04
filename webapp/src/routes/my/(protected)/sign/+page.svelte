@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { json } from '@sveltejs/kit';
 	import forge from 'node-forge';
 
 	const pki = forge.pki;
