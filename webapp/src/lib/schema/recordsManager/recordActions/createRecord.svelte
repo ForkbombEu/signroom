@@ -27,7 +27,7 @@
 	<Modal bind:open title="Create record" size="lg">
 		<div class="w-[500px]">
 			<CrudForm
-				mode={formMode.EDIT}
+				mode={formMode.CREATE}
 				{collection}
 				{formSettings}
 				{initialData}
