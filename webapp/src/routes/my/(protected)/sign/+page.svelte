@@ -4,7 +4,7 @@
 	const pki = forge.pki;
 	let result: any;
 
-	async function sign() {
+	async function sign(algo: String) {
 		// current timestamp
 		const ts_now = Date.now();
 		// yesterday timestamp to be used as notBefore
@@ -50,7 +50,7 @@
 		//2. get data to sign
 		const toSign = await fetch('/api/getDataToSign', {
 			method: 'POST',
-			body: JSON.stringify({cert_pem, ts_now}),
+			body: JSON.stringify({algo, doc, cert_pem, ts_now}),
 			headers: {
 				'Content-Type': 'application/json',
 				Accept: 'application/json'
@@ -66,7 +66,7 @@
 		//4. sign document (insert signature)
 		const signed = await fetch('/api/signDocument', {
 			method: 'POST',
-			body: JSON.stringify({cert_pem, ts_now, signedDigest}),
+			body: JSON.stringify({algo, doc, cert_pem, ts_now, signedDigest}),
 			headers: {
 				'Content-Type': 'application/json',
 				Accept: 'application/json'
@@ -89,7 +89,7 @@
 	}
 </script>
 
-<button on:click={sign}>gen the key</button>
+<button on:click={sign('xades')}>sign with xades</button>
 
 <pre>
     {JSON.stringify(result, null, 2)}
