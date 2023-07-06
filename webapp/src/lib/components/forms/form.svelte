@@ -20,6 +20,7 @@
 
 	export type FormContext<T extends AnyZodObject> = {
 		superform: SuperForm<T, ClientResponseErrorData>;
+		showRequiredIndicator: boolean;
 	};
 
 	export function getFormContext<T extends AnyZodObject>(): FormContext<T> {
@@ -91,15 +92,16 @@
 
 	export let superform: SuperForm<UnwrapEffects<T>, any>;
 
+	export let showRequiredIndicator = false;
 	export let useDefaultSubmitButton = true;
 	export let defaultSubmitButtonText = 'Submit';
 
-	export let className = 'space-y-6';
+	export let className = 'space-y-8';
 
 	//
 
 	const { enhance, delayed, allErrors } = superform;
-	setContext<FormContext<T>>(FORM_KEY, { superform });
+	setContext<FormContext<T>>(FORM_KEY, { superform, showRequiredIndicator });
 
 	$: hasErrors = formHasErrors($allErrors);
 </script>

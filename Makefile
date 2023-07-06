@@ -8,6 +8,11 @@ help: ## 🛟 Show this help message
 doc: ## 📚 Serve documentation on localhost
 	npx -p docsify-cli docsify serve ./docs
 
+setup: 
+	git init
+	cd admin && git submodule add https://github.com/interfacerproject/zenflows-crypto zencode/zenflows-crypto
+	cd weapp && git submodule add https://github.com/interfacerproject/zenflows-crypto zenflows-crypto
+
 bg:
 	@echo "🚀 Launching the Backend" 
 	cd admin && ./setup

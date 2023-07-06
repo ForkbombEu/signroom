@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { formFieldProxy } from 'sveltekit-superforms/client';
-
-	import { Helper, Input, Label } from 'flowbite-svelte';
 	import { getFormContext } from './form.svelte';
+	import { Input } from 'flowbite-svelte';
 	import type { InputType } from 'flowbite-svelte/dist/types';
+	import FieldWrapper from './fieldParts/fieldWrapper.svelte';
 
 	export let field: string;
 	export let label = '';
@@ -15,8 +15,7 @@
 	const { value, errors, constraints } = formFieldProxy(superform, field);
 </script>
 
-<div class="space-y-2">
-	<Label color={$errors ? 'red' : 'gray'} for={field} class="mb-2">{label}</Label>
+<FieldWrapper {field} {label}>
 	<Input
 		{id}
 		{type}
@@ -27,7 +26,4 @@
 		{...$constraints}
 		{placeholder}
 	/>
-	{#if $errors}
-		<Helper class="mt-2" color="red">{$errors}</Helper>
-	{/if}
-</div>
+</FieldWrapper>
