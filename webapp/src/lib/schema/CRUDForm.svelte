@@ -53,16 +53,16 @@
 
 	export let formSettings: Partial<FormSettings> = {};
 
+	//
+
 	let { fieldsOrder, excludedFields, relationsDisplayFields, hiddenFields, hiddenFieldsValues } = {
 		...defaultFormSettings(),
 		...formSettings
 	};
 
-	//
+	const dispatch = createEventDispatcher<{ success: {} }>();
 
-	for (const [key, value] of Object.entries(hiddenFieldsValues)) {
-		if (hiddenFields.includes(key)) initialData[key] = value;
-	}
+	/* Schema generation */
 
 	const collectionSchema = getCollectionSchema(collection)!;
 	const fieldsSchema = collectionSchema.schema
@@ -71,7 +71,22 @@
 		.filter(excludeMultiselect);
 	const zodSchema = fieldsSchemaToZod(fieldsSchema);
 
-	const dispatch = createEventDispatcher<{ success: {} }>();
+	/* InitialData handling */
+
+	for (const [key, value] of Object.entries(hiddenFieldsValues)) {
+		if (hiddenFields.includes(key)) initialData[key] = value;
+	}
+
+	// File field schema expects a file
+	// InitialData coming from PocketBase is a string
+	// TEMPORARY FIX: set initialData to empty array
+	for (const field of collectionSchema.schema) {
+		if (field.type == FieldType.FILE && field.name in initialData) {
+			initialData[field.name] = [];
+		}
+	}
+
+	/* Superform creation */
 
 	const superform = createForm(
 		zodSchema,
@@ -87,7 +102,29 @@
 		initialData
 	);
 
-	//
+	function createFormData(data: Record<string, unknown>) {
+		const formData = new FormData();
+		for (const [key, value] of Object.entries(data)) {
+			if (value === null || value === undefined) {
+				// Needed otherwise pb complains about "bad formatting", especially for null files
+				formData.append(key, '');
+			} else if (Array.isArray(value)) {
+				// Special case for empty arrays, cause they can't be represented in formData
+				if (value.length === 0) {
+					formData.append(key, '');
+				} else {
+					for (const item of value) {
+						formData.append(key, item);
+					}
+				}
+			} else {
+				formData.append(key, value as string | File);
+			}
+		}
+		return formData;
+	}
+
+	/* Schema filters */
 
 	function sortFieldsSchema(a: any, b: any) {
 		const aIndex = fieldsOrder.indexOf(a.name);
@@ -116,34 +153,12 @@
 		return true;
 	}
 
-	function createFormData(data: Record<string, unknown>) {
-		const formData = new FormData();
-		for (const [key, value] of Object.entries(data)) {
-			if (value === null || value === undefined) {
-				// Needed otherwise pb complains about "bad formatting", especially for null files
-				continue;
-			} else if (Array.isArray(value)) {
-				// Special case for empty arrays, cause they can't be represented in formData
-				if (value.length === 0) {
-					formData.append(key, '');
-				} else {
-					for (const item of value) {
-						formData.append(key, item);
-					}
-				}
-			} else {
-				formData.append(key, value as string | File);
-			}
-		}
-		return formData;
-	}
-
 	//
 
 	const defaultSubmitButtonText = mode == formMode.EDIT ? 'Edit record' : 'Create record';
 </script>
 
-<Form {superform} {defaultSubmitButtonText} on:success>
+<Form {superform} {defaultSubmitButtonText} on:success showRequiredIndicator>
 	{#each fieldsSchema as fieldSchema}
 		{@const hidden = hiddenFields.includes(fieldSchema.name)}
 		{@const relationDisplayFields = relationsDisplayFields[fieldSchema.name] || []}

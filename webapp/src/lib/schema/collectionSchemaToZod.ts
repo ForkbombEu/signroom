@@ -10,7 +10,7 @@ const FieldTypeToZod = {
 	[FieldType.TEXT]: z.string(),
 	[FieldType.EDITOR]: z.string(),
 	[FieldType.BOOL]: z.boolean(),
-	[FieldType.FILE]: z.custom<File>((f) => f instanceof File),
+	[FieldType.FILE]: z.instanceof(File),
 	[FieldType.SELECT]: z.string(),
 	[FieldType.RELATION]: z.string()
 };
@@ -36,11 +36,23 @@ const FieldTypeRefiners: FieldTypeRefiners = {
 		pattern: (s, o) => s.regex(new RegExp(`|${o.pattern}` as string)) // Add a "|" pipe to the regex to allow for empty string (Ciscoheat suggestion)
 	},
 	[FieldType.FILE]: {
-		maxSize: (s, o) => s.refine((file) => file.size < (o.maxSize as number)),
-		mimeTypes: (s, o) => s.refine((file) => (o.mimeTypes as string[]).includes(file.type))
+		maxSize: (s, o) => {
+			const maxSize = o.maxSize as number;
+			return s.refine((file) => file.size < maxSize, `File size bigger than ${maxSize} bytes`);
+		},
+		mimeTypes: (s, o) => {
+			const mimeTypes = o.mimeTypes as string[];
+			return s.refine(
+				(file) => mimeTypes.includes(file.type),
+				`File type not: ${mimeTypes.join(', ')}`
+			);
+		}
 	},
 	[FieldType.SELECT]: {
-		values: (s, o) => s.refine((value) => (o.values as string[]).includes(value))
+		values: (s, o) => {
+			const values = o.values as string[];
+			return s.refine((value) => values.includes(value), `Value not: ${values.join(', ')}`);
+		}
 	},
 	[FieldType.BOOL]: {},
 	[FieldType.EDITOR]: {},

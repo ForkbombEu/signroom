@@ -6,8 +6,8 @@
 	import RelationsManager from '$lib/components/relationsManager.svelte';
 	import { formFieldProxy } from 'sveltekit-superforms/client';
 	import { getFormContext } from './form.svelte';
-	import { Helper, Label } from 'flowbite-svelte';
 	import type { Collections } from '$lib/pocketbase-types';
+	import FieldWrapper from './fieldParts/fieldWrapper.svelte';
 
 	export let field: string;
 	export let label = '';
@@ -17,18 +17,10 @@
 	export let max: number | undefined = undefined;
 
 	const { superform } = getFormContext();
-	const { value, errors } = formFieldProxy(superform, field);
-
-	let error: string;
-	$: if (Array.isArray($errors)) {
-		error = $errors.join('\n');
-	} else {
-		error = '';
-	}
+	const { value } = formFieldProxy(superform, field);
 </script>
 
-<div class="space-y-2">
-	<Label for={field}>{label ? label : field}</Label>
+<FieldWrapper {field} {label}>
 	<RelationsManager
 		name={field}
 		bind:relation={$value}
@@ -37,7 +29,4 @@
 		{displayFields}
 		{max}
 	/>
-	{#if error}
-		<Helper color="red">{error}</Helper>
-	{/if}
-</div>
+</FieldWrapper>
