@@ -9,6 +9,8 @@
 	import { isFieldArray } from './collectionSchemaToZod';
 	import { type FieldSchema, FieldType } from './types';
 
+	//
+
 	export let fieldSchema: FieldSchema;
 	export let hidden = false;
 	export let relationDisplayFields: RelationDisplayFields = [];
@@ -25,19 +27,25 @@
 
 	/* File */
 
-	let fileConstraints = {};
+	let multipleFile: boolean;
+	let accept: string[];
+	let required: boolean;
 	if (fieldSchema.type == FieldType.FILE) {
-		fileConstraints = {
-			accept: (fieldSchema.options.mimeTypes as string[]).join(', '),
-			multiple: fieldSchema.options.maxSelect != 1,
-			required: fieldSchema.required
-		};
+		multipleFile = fieldSchema.options.maxSelect != 1;
+		accept = fieldSchema.options.mimeTypes as string[];
+		required = fieldSchema.required;
 	}
 
 	/* Relation */
-	const isArray = isFieldArray(fieldSchema);
-	const collectionId = fieldSchema.options.collectionId as string;
-	const max = fieldSchema.options.maxSelect as number;
+
+	let multipleRelation: boolean;
+	let collectionId: string;
+	let max: number;
+	if (fieldSchema.type == FieldType.RELATION) {
+		multipleRelation = isFieldArray(fieldSchema);
+		collectionId = fieldSchema.options.collectionId as string;
+		max = fieldSchema.options.maxSelect as number;
+	}
 </script>
 
 {#if hidden}
@@ -47,7 +55,7 @@
 {:else if fieldSchema.type == FieldType.BOOL}
 	<Checkbox {field}>{label}</Checkbox>
 {:else if fieldSchema.type == FieldType.FILE}
-	<File {field} {label} constraints={fileConstraints} />
+	<File {field} {label} multiple={multipleFile} {accept} {required} />
 {:else if fieldSchema.type == FieldType.SELECT}
 	<Select {field} {label} {options} />
 {:else if fieldSchema.type == FieldType.EDITOR}
@@ -56,7 +64,7 @@
 	<Relations
 		{field}
 		{label}
-		multiple={isArray}
+		multiple={multipleRelation}
 		collection={collectionId}
 		displayFields={relationDisplayFields}
 		{max}
