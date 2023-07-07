@@ -4,7 +4,7 @@
 	const pki = forge.pki;
 	let result: any;
 
-	async function sign(algo: String) {
+	async function sign(algo: String, doc: String) {
 		// current timestamp
 		const ts_now = Date.now();
 		// yesterday timestamp to be used as notBefore
@@ -87,9 +87,18 @@
 
 		result = {signedDocument, validateResult};
 	}
+
+	// second input should be the base64 encoding of the stuff to sign
+	function sign_xades(){ sign('xades', '') }
+	function sign_jades(){ sign('jades', '') }
+	function sign_pades(){ sign('pades', '') }
+	function sign_cades(){ sign('cades', '') }
 </script>
 
-<button on:click={sign('xades')}>sign with xades</button>
+<button on:click={sign_xades}>sign with xades</button>
+<button on:click={sign_jades}>sign with jades</button>
+<button on:click={sign_pades}>sign with pades</button>
+<button on:click={sign_cades}>sign with cades</button>
 
 <pre>
     {JSON.stringify(result, null, 2)}

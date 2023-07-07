@@ -69,6 +69,10 @@ export const POST = async (evt: RequestEvent) => {
 			params.parameters.signaturePackaging = 'ENVELOPING';
 			params.parameters.signatureLevel = 'JAdES_BASELINE_B';
 			break;
+		case 'cades':
+			params.parameters.signatureLevel = 'CAdES_BASELINE_B';
+			params.parameters.signaturePackaging = 'ENVELOPING';
+			break;
 	}
 
 	const toSign = await fetch(`http://dss.forkbomb.eu:8080/services/rest/signature/one-document/getDataToSign`, {
