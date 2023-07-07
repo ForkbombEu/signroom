@@ -79,6 +79,30 @@
 		}
 		return checks.some((check) => check);
 	}
+
+	// 
+
+	export function createFormData(data: Record<string, unknown>) {
+		const formData = new FormData();
+		for (const [key, value] of Object.entries(data)) {
+			if (value === null || value === undefined) {
+				// Needed otherwise pb complains about "bad formatting", especially for null files
+				formData.append(key, '');
+			} else if (Array.isArray(value)) {
+				// Special case for empty arrays, cause they can't be represented in formData
+				if (value.length === 0) {
+					formData.append(key, '');
+				} else {
+					for (const item of value) {
+						formData.append(key, item);
+					}
+				}
+			} else {
+				formData.append(key, value as string | File);
+			}
+		}
+		return formData;
+	}
 </script>
 
 <script lang="ts">

@@ -1,0 +1,10 @@
+diff a/webapp/src/routes/my/+layout.svelte b/webapp/src/routes/my/+layout.svelte	(rejected hunks)
+@@ -52,7 +52,7 @@
+ 							/></svg
+ 						>
+ 					</svelte:fragment>
+-					<SidebarDropdownItem label="Settings" href="/" />
++					<SidebarDropdownItem label="Profile" href="/my/profile" />
+ 					<SidebarDropdownItem label="Kanban" href="/" />
+ 					<SidebarDropdownItem label="Calendar" href="/" />
+ 				</SidebarDropdownWrapper>

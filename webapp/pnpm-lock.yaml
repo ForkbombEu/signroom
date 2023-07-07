@@ -41,6 +41,9 @@ dependencies:
   pocketbase:
     specifier: ^0.14.4
     version: 0.14.4
+  svelte-boring-avatars:
+    specifier: ^1.2.4
+    version: 1.2.4
   svelte-heros:
     specifier: ^3.3.1
     version: 3.3.1(svelte@3.59.1)
@@ -2514,6 +2517,10 @@ packages:
     dependencies:
       svelte-tiny-virtual-list: 2.0.5
     dev: true
+
+  /svelte-boring-avatars@1.2.4:
+    resolution: {integrity: sha512-090ndMpf+FV1dlx723rdDf+t25hSjN12Vx1aSnyrexRxsqGy3XqKLLZ7qGEnSFTbtRi9SeycofjjFRzNIqmb2g==}
+    dev: false
 
   /svelte-check@3.3.2(postcss-load-config@4.0.1)(postcss@8.4.23)(svelte@3.59.1):
     resolution: {integrity: sha512-67j3rI0LDc2DvL0ON/2pvCasVVD3nHDrTkZNr4eITNfo2oFXdw7SIyMOiFj4swu+pjmFQAigytBK1IWyik8dBw==}

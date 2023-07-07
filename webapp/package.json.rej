@@ -1,0 +1,9 @@
+diff a/webapp/package.json b/webapp/package.json	(rejected hunks)
+@@ -69,6 +69,7 @@
+ 		"flowbite-svelte": "^0.35.1",
+ 		"flowbite-svelte-blocks": "^0.3.6",
+ 		"pocketbase": "^0.14.4",
++		"svelte-boring-avatars": "^1.2.4",
+ 		"svelte-heros": "^3.3.1",
+ 		"zenroom": "^3.0.1"
+ 	}
