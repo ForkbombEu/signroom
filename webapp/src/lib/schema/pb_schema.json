@@ -483,7 +483,7 @@
     {
         "id": "xl2wr8ij9rnkug6",
         "created": "2023-06-22 03:01:20.312Z",
-        "updated": "2023-06-22 03:01:20.312Z",
+        "updated": "2023-07-04 09:14:23.952Z",
         "name": "signatures",
         "type": "base",
         "system": false,
@@ -564,6 +564,14 @@
                         "xml"
                     ]
                 }
+            },
+            {
+                "id": "bgvnnwy7",
+                "name": "signed_file",
+                "type": "json",
+                "system": false,
+                "required": false,
+                "options": {}
             }
         ],
         "indexes": [],
