@@ -12,7 +12,7 @@
 	},
 	"engines": {
 		"node": ">=17",
-	  "pnpm": ">=8"
+		"pnpm": ">=8"
 	},
 	"scripts": {
 		"schema": "node scripts/generate_schema.mjs",
@@ -76,6 +76,7 @@
 		"flowbite-svelte-blocks": "^0.3.6",
 		"node-forge": "^1.3.1",
 		"pocketbase": "^0.14.4",
+		"svelte-boring-avatars": "^1.2.4",
 		"svelte-heros": "^3.3.1",
 		"zenroom": "^3.0.1"
 	}

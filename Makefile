@@ -11,7 +11,7 @@ doc: ## 📚 Serve documentation on localhost
 setup: 
 	git init
 	cd admin && git submodule add https://github.com/interfacerproject/zenflows-crypto zencode/zenflows-crypto
-	cd weapp && git submodule add https://github.com/interfacerproject/zenflows-crypto zenflows-crypto
+	cd webapp && git submodule add https://github.com/interfacerproject/zenflows-crypto zenflows-crypto
 
 bg:
 	@echo "🚀 Launching the Backend" 

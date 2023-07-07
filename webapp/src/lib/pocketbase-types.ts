@@ -99,13 +99,14 @@ export enum SignaturesTypeOptions {
 	"pdf" = "pdf",
 	"xml" = "xml",
 }
-export type SignaturesRecord = {
+export type SignaturesRecord<Tsigned_file = unknown> = {
 	title?: string
 	description?: HTMLString
 	owner?: RecordIdString
 	folder?: RecordIdString
 	file?: string
 	type?: SignaturesTypeOptions
+	signed_file?: null | Tsigned_file
 }
 
 export type UsersRecord = {
@@ -123,7 +124,7 @@ export type CrudExampleResponse<Texpand = unknown> = Required<CrudExampleRecord>
 export type FeaturesResponse<TenvVariables = unknown, Texpand = unknown> = Required<FeaturesRecord<TenvVariables>> & BaseSystemFields<Texpand>
 export type FoldersResponse<Texpand = unknown> = Required<FoldersRecord> & BaseSystemFields<Texpand>
 export type HooksResponse<Texpand = unknown> = Required<HooksRecord> & BaseSystemFields<Texpand>
-export type SignaturesResponse<Texpand = unknown> = Required<SignaturesRecord> & BaseSystemFields<Texpand>
+export type SignaturesResponse<Tsigned_file = unknown, Texpand = unknown> = Required<SignaturesRecord<Tsigned_file>> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 
 // Types containing all Records and Responses, useful for creating typing helper functions

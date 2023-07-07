@@ -35,7 +35,7 @@
 </script>
 
 <script lang="ts">
-	import Form, { createForm } from '$lib/components/forms/form.svelte';
+	import Form, { createForm, createFormData } from '$lib/components/forms/form.svelte';
 	import { getCollectionSchema } from './getCollectionSchema';
 	import { fieldsSchemaToZod } from './collectionSchemaToZod';
 	import type { Collections } from '$lib/pocketbase-types';
@@ -101,28 +101,6 @@
 		},
 		initialData
 	);
-
-	function createFormData(data: Record<string, unknown>) {
-		const formData = new FormData();
-		for (const [key, value] of Object.entries(data)) {
-			if (value === null || value === undefined) {
-				// Needed otherwise pb complains about "bad formatting", especially for null files
-				formData.append(key, '');
-			} else if (Array.isArray(value)) {
-				// Special case for empty arrays, cause they can't be represented in formData
-				if (value.length === 0) {
-					formData.append(key, '');
-				} else {
-					for (const item of value) {
-						formData.append(key, item);
-					}
-				}
-			} else {
-				formData.append(key, value as string | File);
-			}
-		}
-		return formData;
-	}
 
 	/* Schema filters */
 

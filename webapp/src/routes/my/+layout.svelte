@@ -55,8 +55,8 @@
 			<span class="block truncate text-sm font-medium">{$currentUser?.email}</span
 			>
 		</DropdownHeader>
-		<DropdownItem href="/profile">My profile</DropdownItem>
-		<DropdownItem href="/settings">Account settings</DropdownItem>
+		<DropdownItem href="/my/profile">My profile</DropdownItem>
+		<DropdownItem href="/settings">Settings</DropdownItem>
 		<DropdownDivider />
 		<DropdownItem href="/pro" class="flex items-center"
 			><Fire class="text-red-500 mr-2 w-5" /> Go Pro</DropdownItem
@@ -163,9 +163,11 @@
 						<WrenchScrewdriver />
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem label="Account">
+				<SidebarItem label="Profile">
 					<svelte:fragment slot="icon">
-						<UserCircle />
+            <a href='/my/profile'>
+              <UserCircle />
+            </a>
 					</svelte:fragment>
 				</SidebarItem>
 				<SidebarItem label="Help">
