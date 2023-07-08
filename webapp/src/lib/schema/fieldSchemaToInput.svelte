@@ -6,7 +6,7 @@
 	import Relations, { type RelationDisplayFields } from '$lib/components/forms/relations.svelte';
 	import Select from '$lib/components/forms/select.svelte';
 	import Textarea from '$lib/components/forms/textarea.svelte';
-	import { isFieldArray } from './collectionSchemaToZod';
+	import { isArrayField } from './collectionSchemaToZod';
 	import { type FieldSchema, FieldType } from './types';
 
 	//
@@ -29,11 +29,9 @@
 
 	let multipleFile: boolean;
 	let accept: string[];
-	let required: boolean;
 	if (fieldSchema.type == FieldType.FILE) {
 		multipleFile = fieldSchema.options.maxSelect != 1;
 		accept = fieldSchema.options.mimeTypes as string[];
-		required = fieldSchema.required;
 	}
 
 	/* Relation */
@@ -42,7 +40,7 @@
 	let collectionId: string;
 	let max: number;
 	if (fieldSchema.type == FieldType.RELATION) {
-		multipleRelation = isFieldArray(fieldSchema);
+		multipleRelation = isArrayField(fieldSchema);
 		collectionId = fieldSchema.options.collectionId as string;
 		max = fieldSchema.options.maxSelect as number;
 	}
@@ -55,7 +53,7 @@
 {:else if fieldSchema.type == FieldType.BOOL}
 	<Checkbox {field}>{label}</Checkbox>
 {:else if fieldSchema.type == FieldType.FILE}
-	<File {field} {label} multiple={multipleFile} {accept} {required} />
+	<File {field} {label} multiple={multipleFile} {accept} />
 {:else if fieldSchema.type == FieldType.SELECT}
 	<Select {field} {label} {options} />
 {:else if fieldSchema.type == FieldType.EDITOR}

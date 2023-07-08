@@ -51,7 +51,7 @@ export enum CrudExampleMultiselectOptions {
 }
 export type CrudExampleRecord = {
 	text: string
-	file_only_pdf_json?: string[]
+	file_only_pdf_json: string[]
 	boolean?: boolean
 	select: CrudExampleSelectOptions
 	textarea?: HTMLString

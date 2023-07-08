@@ -1,10 +1,21 @@
+<script lang="ts" context="module">
+	export function isFileArray(value: unknown): value is File[] {
+		return Array.isArray(value) && value.every((item) => item instanceof File);
+	}
+
+	export function isFile(value: unknown): value is File {
+		return Boolean(value) && value instanceof File;
+	}
+</script>
+
 <script lang="ts">
 	import { formFieldProxy } from 'sveltekit-superforms/client';
 
-	import { Fileupload, Helper, Label, Listgroup, ListgroupItem } from 'flowbite-svelte';
+	import { Badge, Fileupload, Helper, Listgroup, ListgroupItem } from 'flowbite-svelte';
 	import { getFormContext } from './form.svelte';
 	import FieldError, { fieldHasErrors } from './fieldParts/fieldError.svelte';
 	import FieldLabel from './fieldParts/fieldLabel.svelte';
+	import ListgroupItemButton from '../listgroupItemButton.svelte';
 
 	//
 
@@ -12,25 +23,42 @@
 	export let label = '';
 	export let multiple = false;
 	export let accept: string[] = [];
-	export let required = false;
 
 	const { superform } = getFormContext();
 	const { validate } = superform;
 	const { value, errors } = formFieldProxy(superform, field);
 
-	let fileList: FileList | undefined;
-	let rejectedFiles: { file: File; errors: string[] }[] = [];
+	$: hasErrors = fieldHasErrors($errors);
+	const oldFiles = ([] as File[]).concat($value);
 
-	$: if (fileList) {
-		handleChange(fileList);
+	//
+
+	function removeFile() {
+		if (!isFile($value)) return;
+		$value = undefined;
+		validate(field);
 	}
 
-	async function handleChange(fileList: FileList) {
+	function removeFileFromArray(file: File) {
+		if (!isFileArray($value)) return;
+		$value = $value.filter((item) => item !== file);
+		validate(field);
+	}
+
+	//
+
+	let rejectedFiles: { file: File; errors: string[] }[] = [];
+
+	//
+
+	async function handleFileSelect(e: Event) {
+		const fileList = (e.target as HTMLInputElement)?.files;
+		if (!fileList) return;
+
+		let data = !multiple ? fileList[0] : [...($value as File[]), ...fileList];
 		rejectedFiles = [];
 
-		let data = multiple ? [...fileList] : fileList[0];
 		const errors = await validate(field, { value: data, update: false });
-
 		if (!errors) {
 			await validate(field, { value: data, taint: true });
 			return;
@@ -43,7 +71,6 @@
 		if (multiple && Array.isArray(data)) {
 			const errorsRecord = errors as unknown as Record<string, string[]>;
 			const rejectedFilesIndexes = Object.keys(errorsRecord).map((key) => Number(key));
-
 			for (const index of rejectedFilesIndexes) {
 				rejectedFiles = [
 					...rejectedFiles,
@@ -53,46 +80,57 @@
 					}
 				];
 			}
-
 			data = data.filter((_, index) => !rejectedFilesIndexes.includes(index));
 			await validate(field, { value: data, taint: true });
 		}
 	}
-
-	$: hasErrors = fieldHasErrors($errors);
 </script>
 
 <div class="space-y-3">
 	<FieldLabel {field} text={label} />
+
 	<Fileupload
 		id={field}
 		name={field}
-		bind:files={fileList}
 		{multiple}
-		{required}
 		accept={accept.join(', ')}
 		data-invalid={hasErrors}
+		on:change={handleFileSelect}
 	/>
 
-	{#if !multiple && $value && $value instanceof File}
-		<Listgroup>
-			<ListgroupItem>
-				{$value.name}
-			</ListgroupItem>
-		</Listgroup>
-	{/if}
-
-	{#if multiple && $value.length > 0}
-		<div class="space-y-1">
-			{#if rejectedFiles.length > 0}
-				<Helper>ACCEPTED FILES</Helper>
-			{/if}
+	{#if isFile($value) || (isFileArray($value) && $value.length > 0)}
+		<div>
+			<Helper>FILES</Helper>
 			<Listgroup>
-				{#each $value as file}
-					<ListgroupItem>
-						{file.name}
-					</ListgroupItem>
-				{/each}
+				{#if !multiple && isFile($value)}
+					{@const isNew = !oldFiles.includes($value)}
+					<ListgroupItemButton on:click={removeFile}>
+						<div>
+							{$value.name}
+							{#if isNew}
+								<Badge color="green">new</Badge>
+							{/if}
+						</div>
+					</ListgroupItemButton>
+				{/if}
+
+				{#if multiple && isFileArray($value)}
+					{#each $value as file}
+						{@const isNew = !oldFiles.includes(file)}
+						<ListgroupItemButton
+							on:click={() => {
+								removeFileFromArray(file);
+							}}
+						>
+							<div>
+								{file.name}
+								{#if isNew}
+									<Badge color="green">new</Badge>
+								{/if}
+							</div>
+						</ListgroupItemButton>
+					{/each}
+				{/if}
 			</Listgroup>
 		</div>
 	{/if}

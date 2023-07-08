@@ -61,18 +61,9 @@ const FieldTypeRefiners: FieldTypeRefiners = {
 
 //
 
-type IsFieldArrayRefiner = (options: FieldOptions) => boolean;
-
-const FieldTypeToArray: Record<string, IsFieldArrayRefiner> = {
-	[FieldType.FILE]: (o) => (o.maxSelect as number) > 1,
-	[FieldType.SELECT]: (o) => (o.maxSelect as number) > 1,
-	[FieldType.RELATION]: (o) => o.maxSelect != 1
-};
-
-export function isFieldArray(field: FieldSchema): boolean {
-	const refiner = FieldTypeToArray[field.type as FieldType];
-	if (!refiner) return false;
-	return refiner(field.options);
+export function isArrayField(fieldSchema: FieldSchema): boolean {
+	const maxSelect = fieldSchema.options.maxSelect;
+	return Boolean(maxSelect) && !isNaN(Number(maxSelect)) && Number(maxSelect) > 1;
 }
 
 type ZodArrayAny = z.ZodArray<z.ZodTypeAny>;
@@ -87,25 +78,32 @@ const arrayRefiners: Record<string, ArrayRefiner> = {
 
 function fieldSchemaToZod(fieldschema: FieldSchema) {
 	const type = fieldschema.type as FieldType;
+
 	let zodSchema: ZodTypeAny = FieldTypeToZod[type];
-	//
+
 	const refiners = FieldTypeRefiners[type];
 	for (const [key, refiner] of Object.entries(refiners)) {
 		if (fieldschema.options[key]) zodSchema = refiner(zodSchema, fieldschema.options);
 	}
-	//
-	if (isFieldArray(fieldschema)) {
-		zodSchema = z.array(zodSchema);
+
+	if (!fieldschema.required) zodSchema = zodSchema.nullish();
+
+	if (!isArrayField(fieldschema)) return zodSchema;
+	else {
+		let arraySchema = z.array(zodSchema);
 		for (const [key, refiner] of Object.entries(arrayRefiners)) {
 			if (fieldschema.options[key])
-				zodSchema = refiner(zodSchema as ZodArrayAny, fieldschema.options);
+				arraySchema = refiner(arraySchema as ZodArrayAny, fieldschema.options);
 		}
+		if (fieldschema.required) return arraySchema.nonempty();
+		else return arraySchema;
 	}
-	//
-	if (!fieldschema.required) zodSchema = zodSchema.optional().nullable().nullish();
-	//
-	return zodSchema;
 }
+/**
+ * Important note:
+ * For an array to be marked as optional by superforms constraints,
+ * all the items inside the array must be optional.
+ */
 
 export function fieldsSchemaToZod(fields: FieldSchema[]): z.AnyZodObject {
 	const zodSchema: Record<string, ZodTypeAny> = {};
