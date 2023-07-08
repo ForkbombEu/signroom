@@ -274,7 +274,7 @@
     {
         "id": "p9dhra382rts3bg",
         "created": "2023-06-07 10:44:19.476Z",
-        "updated": "2023-07-03 16:19:35.587Z",
+        "updated": "2023-07-08 13:59:35.724Z",
         "name": "CrudExample",
         "type": "base",
         "system": false,
@@ -296,7 +296,7 @@
                 "name": "file_only_pdf_json",
                 "type": "file",
                 "system": false,
-                "required": false,
+                "required": true,
                 "options": {
                     "maxSelect": 99,
                     "maxSize": 5242880,
