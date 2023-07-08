@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { invalidateAll } from '$app/navigation';
 	import { currentUser } from '$lib/pocketbase';
 	import { Collections } from '$lib/pocketbase-types';
 	import CrudForm, { formMode } from '$lib/schema/CRUDForm.svelte';
@@ -20,5 +21,6 @@
 			hiddenFields: ['owner'],
 			hiddenFieldsValues: { owner: $currentUser?.id }
 		}}
+		on:success={invalidateAll}
 	/>
 </div>

@@ -67,7 +67,7 @@ export const POST = async (evt: RequestEvent) => {
 			name: 'RemoteDocument'
 		}
 	};
-	const toSign = await fetch(`http://dss.forkbomb.eu:8080/services/rest/signature/one-document/getDataToSign`, {
+	const toSign = fetch(`http://dss.forkbomb.eu:8080/services/rest/signature/one-document/getDataToSign`, {
 		method: 'POST',
 		body: JSON.stringify(params),
 		headers: {
