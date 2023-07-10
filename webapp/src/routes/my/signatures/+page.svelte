@@ -10,7 +10,6 @@
 		createSlotTypeCaster
 	} from '$lib/schema/recordsManager/recordsManager.svelte';
 	import RecordsTable from '$lib/schema/recordsManager/views/recordsTable.svelte';
-	import SignDocumentButton from '$lib/components/signDocumentButton.svelte';
 	import { page } from '$app/stores';
 	import type { RecordFullListQueryParams } from 'pocketbase';
 	import SignaturesFoldersHead from '$lib/components/signaturesFoldersHead.svelte';
@@ -53,8 +52,6 @@
 				description: Description
 			}}
 			let:record
-		>
-			<SignDocumentButton {record} />
-		</RecordsTable>
+		/>
 	</RecordsManager>
 </div>

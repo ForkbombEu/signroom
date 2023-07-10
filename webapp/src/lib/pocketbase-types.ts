@@ -95,9 +95,10 @@ export type HooksRecord = {
 }
 
 export enum SignaturesTypeOptions {
-	"json" = "json",
-	"pdf" = "pdf",
-	"xml" = "xml",
+	"xades" = "xades",
+	"pades" = "pades",
+	"cades" = "cades",
+	"jades" = "jades",
 }
 export type SignaturesRecord<Tsigned_file = unknown> = {
 	title?: string
@@ -121,11 +122,11 @@ export type UsersRecord = {
 
 // Response types include system fields and match responses from the PocketBase API
 export type CrudExampleResponse<Texpand = unknown> = Required<CrudExampleRecord> & BaseSystemFields<Texpand>
-export type FeaturesResponse<TenvVariables = unknown> = Required<FeaturesRecord<TenvVariables>> & BaseSystemFields
+export type FeaturesResponse<TenvVariables = unknown, Texpand = unknown> = Required<FeaturesRecord<TenvVariables>> & BaseSystemFields<Texpand>
 export type FoldersResponse<Texpand = unknown> = Required<FoldersRecord> & BaseSystemFields<Texpand>
-export type HooksResponse = Required<HooksRecord> & BaseSystemFields
+export type HooksResponse<Texpand = unknown> = Required<HooksRecord> & BaseSystemFields<Texpand>
 export type SignaturesResponse<Tsigned_file = unknown, Texpand = unknown> = Required<SignaturesRecord<Tsigned_file>> & BaseSystemFields<Texpand>
-export type UsersResponse = Required<UsersRecord> & AuthSystemFields
+export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 
 // Types containing all Records and Responses, useful for creating typing helper functions
 
