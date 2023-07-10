@@ -3,11 +3,14 @@
 	import { Button, Modal } from 'flowbite-svelte';
 	import { Plus } from 'svelte-heros-v2';
 	import { getRecordsManagerContext } from '../recordsManager.svelte';
+	import { createEventDispatcher } from 'svelte';
 
 	export let initialData: Record<string, unknown> = {};
 
 	const { collection, dataManager, formSettings } = getRecordsManagerContext();
 	const { loadRecords } = dataManager;
+
+	const dispatch = createEventDispatcher<{ success: {} }>();
 
 	let open = false;
 
@@ -33,6 +36,7 @@
 				{initialData}
 				on:success={async () => {
 					await loadRecords();
+					dispatch('success');
 					open = false;
 				}}
 			/>

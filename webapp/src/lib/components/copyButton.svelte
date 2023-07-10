@@ -19,7 +19,9 @@
 <Button on:click={copyText} color="alternative">
 	{#if !isCopied}
 		<ClipboardDocument size="20" />
-		<slot />
+		<span class="ml-2">
+			<slot />
+		</span>
 	{:else}
 		<span class="whitespace-nowrap">✅ Copied!</span>
 	{/if}
