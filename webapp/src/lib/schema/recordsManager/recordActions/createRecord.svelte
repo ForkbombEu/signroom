@@ -10,7 +10,9 @@
 	const { collection, dataManager, formSettings } = getRecordsManagerContext();
 	const { loadRecords } = dataManager;
 
-	const dispatch = createEventDispatcher<{ success: {} }>();
+	const dispatch = createEventDispatcher<{ success: {
+		record: Record<string, unknown>;
+	} }>();
 
 	let open = false;
 
@@ -34,9 +36,9 @@
 				{collection}
 				{formSettings}
 				{initialData}
-				on:success={async () => {
+				on:success={async (e) => {
 					await loadRecords();
-					dispatch('success');
+					dispatch('success', {record:e.detail.record});
 					open = false;
 				}}
 			/>
