@@ -30,7 +30,7 @@
 	</Button>
 </slot>
 
-<div class="m-0">
+<div class="fixed z-50">
 	<Modal bind:open title="Create record" size="lg">
 		<div class="w-[500px]">
 			<CrudForm
