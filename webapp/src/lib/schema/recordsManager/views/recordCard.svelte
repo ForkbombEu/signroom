@@ -47,14 +47,16 @@
 		</div>
 	{/if}
 
-	<div class="space-y-2">
-		{#each fields as field}
-			{@const component = fieldsComponents[field]}
-			<div>
-				<FieldComponent {record} {field} {component} />
-			</div>
-		{/each}
-	</div>
+	{#if fields.length}
+		<div class="space-y-2">
+			{#each fields as field}
+				{@const component = fieldsComponents[field]}
+				<div>
+					<FieldComponent {record} {field} {component} />
+				</div>
+			{/each}
+		</div>
+	{/if}
 
 	<slot {record} />
 
