@@ -19,7 +19,10 @@
 		collection={Collections.Signatures}
 		formSettings={{
 			hiddenFields: ['owner', 'type'],
-			hiddenFieldsValues: { owner: $currentUser?.id, type: '' }
+			hiddenFieldsValues: { owner: $currentUser?.id, type: '' },
+			relationsDisplayFields: {
+				folder: ['name']
+			}
 		}}
 		{slotTypeCaster}
 		let:records
@@ -36,7 +39,7 @@
 			}}
 			let:record
 		>
-		<SignDocumentButton {record} />
+			<SignDocumentButton {record} />
 		</RecordsTable>
 	</RecordsManager>
 </div>
