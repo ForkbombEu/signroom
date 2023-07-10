@@ -24,7 +24,6 @@
 	>
 		<RecordsManagerTopbar />
 		<div class="space-y-4">
-			<Heading tag="h4">Cards</Heading>
 			<div class="gap-4 grid grid-cols-2">
 				{#each records as record}
 					<div class="grow">
