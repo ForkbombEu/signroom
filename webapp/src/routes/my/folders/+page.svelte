@@ -29,7 +29,7 @@
 			hiddenFieldsValues: { owner: $currentUser?.id }
 		}}
 		{slotTypeCaster}
-		expand={expandQuery}
+		initialQueryParams={{ expand: expandQuery }}
 		let:records
 	>
 		<RecordsManagerTopbar>
@@ -47,6 +47,18 @@
 								{expand.length}
 								{expand.length > 1 ? 'signatures' : 'signature'}
 							</P>
+							<svelte:fragment slot="actions">
+								{#if expand.length}
+									<Button
+										class="!py-2 !px-3"
+										color="alternative"
+										href={`/my/signatures?folder=${record.id}`}
+									>
+										<ListBullet size="20" />
+										<span class="ml-2"> View signatures </span>
+									</Button>
+								{/if}
+							</svelte:fragment>
 						</RecordCard>
 					</div>
 				{/each}
