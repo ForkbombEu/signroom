@@ -44,6 +44,8 @@
 			xml = atob(record?.signed_file?.bytes);
 		});
 
+	// console.log('xml', xml, file);
+
 	const validate = async () => {
 		const validate = await fetch('/api/validateSignature', {
 			method: 'POST',

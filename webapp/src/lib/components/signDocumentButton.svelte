@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { pb } from '$lib/pocketbase';
-	import { Button } from 'flowbite-svelte';
+	import { Button, Dropdown, DropdownItem } from 'flowbite-svelte';
 	import type { Record } from 'pocketbase';
 	import { goto } from '$app/navigation';
 	//@ts-ignore
@@ -9,12 +9,11 @@
 	const pki = forge.pki;
 
 	export let record: Record;
-	let result = null;
 
 	let url = '';
 	if (record) url = pb.files.getUrl(record, record.file);
 
-	async function sign() {
+	async function sign(algo: string) {
 		//get the file to sign
 		const res = await fetch(url);
 		const blob = await res.blob();
@@ -26,7 +25,8 @@
 			console.error('Error: ', error);
 		};
 		reader.onloadend = async () => {
-			fb64 = reader.result;
+			//@ts-ignore
+			fb64 = reader.result.split(',')[1];
 			// current timestamp
 			const ts_now = Date.now();
 			// yesterday timestamp to be used as notBefore
@@ -79,14 +79,13 @@
 			//2. get data to sign
 			const toSign = await fetch('/api/getDataToSign', {
 				method: 'POST',
-				body: JSON.stringify({ cert_pem, ts_now, doc: fb64 }),
+				body: JSON.stringify({ algo, doc: fb64, cert_pem, ts_now }),
 				headers: {
 					'Content-Type': 'application/json',
 					Accept: 'application/json'
 				}
 			});
 			const toBeSigned = await toSign.json();
-			console.log(toBeSigned);
 
 			//3. sign digest of data
 			var md = forge.md.sha256.create();
@@ -96,7 +95,7 @@
 			//4. sign document (insert signature)
 			const signed = await fetch('/api/signDocument', {
 				method: 'POST',
-				body: JSON.stringify({ cert_pem, ts_now, signedDigest, doc: fb64 }),
+				body: JSON.stringify({ cert_pem, ts_now, signedDigest, doc: fb64, algo }),
 				headers: {
 					'Content-Type': 'application/json',
 					Accept: 'application/json'
@@ -110,9 +109,23 @@
 			await pb.collection('signatures').update(record.id, formData);
 
 			//6. redirect to signed document
-			goto(`/my/signatures/signed_document?id=${record.id}`);
+			goto(`/my/signatures/${algo}?id=${record.id}`);
 		};
 	}
 </script>
 
-<Button color="primary" size="sm" on:click={() => sign()}>Sign</Button>
+<Button color="primary" size="sm" id="sign-button">Sign</Button>
+<Dropdown class="w-text-sm font-light" triggeredBy="#sign-button">
+	{#each ['xades', 'pades', 'sades'] as algo}
+		<DropdownItem>
+			<Button
+				outline
+				size="sm"
+				class="!px-4 !py-2 whitespace-nowrap gap-2 w-fit"
+				on:click={() => sign(algo)}
+			>
+				Sign as {algo}
+			</Button>
+		</DropdownItem>
+	{/each}
+</Dropdown>

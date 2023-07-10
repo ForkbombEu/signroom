@@ -48,10 +48,11 @@ export const POST = async (evt: RequestEvent) => {
 				signerLocationStateOrProvince: null,
 				signerLocationCountry: null,
 				signerLocationStreet: null
+				
 			}
 		},
 		toSignDocument: {
-			bytes: req.doc.split(',')[1],
+			bytes: req.doc,
 			digestAlgorithm: null,
 			name: 'RemoteDocument'
 		}
@@ -74,6 +75,7 @@ export const POST = async (evt: RequestEvent) => {
 			params.parameters.signaturePackaging = 'ENVELOPING';
 			break;
 	}
+
 
 	const toSign = await fetch(`http://dss.forkbomb.eu:8080/services/rest/signature/one-document/getDataToSign`, {
 		method: 'POST',

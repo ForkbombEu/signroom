@@ -8,7 +8,6 @@
 	const { formSettings } = getRecordsManagerContext();
 	const createRecord = (type: String, cb: () => void) => {
 		formSettings.hiddenFieldsValues!.type = type;
-		console.log(formSettings, 'formSettings');
 		cb();
 	};
 </script>
@@ -27,39 +26,19 @@
 				New signature
 			</Button>
 			<Dropdown class="w-text-sm font-light" title="Popover title" triggeredBy="#new-signature">
-				<DropdownItem>
-					<Button
-						outline
-						size="sm"
-						class="!px-4 !py-2 whitespace-nowrap gap-2 w-fit"
-						on:click={createRecord.bind(null, 'pdf', openModal)}
-					>
-						<ClipboardDocumentCheck />
-						Sign PDF file
-					</Button>
-				</DropdownItem>
-				<DropdownItem>
-					<Button
-						outline
-						size="sm"
-						class="!px-4 !py-2 whitespace-nowrap gap-2 w-fit"
-						on:click={createRecord.bind(null, 'json', openModal)}
-					>
-						<ClipboardDocumentCheck />
-						Sign JSON file
-					</Button>
-				</DropdownItem>
-				<DropdownItem>
-					<Button
-						outline
-						size="sm"
-						class="!px-4 !py-2 whitespace-nowrap gap-2 w-fit"
-						on:click={createRecord.bind(null, 'xml', openModal)}
-					>
-						<ClipboardDocumentCheck />
-						Sign XML file
-					</Button>
-				</DropdownItem>
+				{#each ['pdf', 'json', 'xml'] as fileType}
+					<DropdownItem>
+						<Button
+							outline
+							size="sm"
+							class="!px-4 !py-2 whitespace-nowrap gap-2 w-fit"
+							on:click={createRecord.bind(null, fileType, openModal)}
+						>
+							<ClipboardDocumentCheck />
+							Sign {fileType} file
+						</Button>
+					</DropdownItem>
+				{/each}
 			</Dropdown>
 		</CreateRecord>
 	</div>

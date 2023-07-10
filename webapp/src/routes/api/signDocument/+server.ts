@@ -51,7 +51,7 @@ export const POST = async (evt: RequestEvent) => {
 			}
 		},
 		toSignDocument: {
-			bytes: req.doc.split(',')[1], // qui da mettere il file vero
+			bytes: req.doc, 
 			digestAlgorithm: null,
 			name: 'RemoteDocument'
 		},
