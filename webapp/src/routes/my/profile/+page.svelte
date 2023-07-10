@@ -7,9 +7,9 @@
 
 <div class="max-w-xl mx-auto space-y-8 p-8">
 	<Card class="!max-w-none">
-		<UserData/>
+		<UserData />
 	</Card>
-	{#if isFeatureActive($features,featuresNames.KEYPAIROOM)}
+	{#if isFeatureActive($features, featuresNames.KEYPAIROOM)}
 		<Card class="!max-w-none">
 			<UserKeys />
 		</Card>

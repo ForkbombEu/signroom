@@ -6,15 +6,16 @@
 	import { createEventDispatcher } from 'svelte';
 	import type { Record } from 'pocketbase';
 
-
 	export let initialData: Record = {} as Record;
 
 	const { collection, dataManager, formSettings } = getRecordsManagerContext();
 	const { loadRecords } = dataManager;
 
-	const dispatch = createEventDispatcher<{ success: {
-		record: Record;
-	} }>();
+	const dispatch = createEventDispatcher<{
+		success: {
+			record: Record;
+		};
+	}>();
 
 	let open = false;
 

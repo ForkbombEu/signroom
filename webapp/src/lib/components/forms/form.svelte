@@ -80,7 +80,7 @@
 		return checks.some((check) => check);
 	}
 
-	// 
+	//
 
 	export function createFormData(data: Record<string, unknown>) {
 		const formData = new FormData();

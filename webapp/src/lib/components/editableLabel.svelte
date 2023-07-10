@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { Button } from "flowbite-svelte";
-	import { ArrowLeft, Pencil } from "svelte-heros-v2";
-    export let valueClass: string = "";
-    export let value: string;
-    export let handleChange: (value: string) => void;
+	import { Button } from 'flowbite-svelte';
+	import { ArrowLeft, Pencil } from 'svelte-heros-v2';
+	export let valueClass: string = '';
+	export let value: string;
+	export let handleChange: (value: string) => void;
 
-    let isInputNameOpen = false;
-    const handleSave = () => {
-        handleChange(value);
-        isInputNameOpen = false;
-    }
+	let isInputNameOpen = false;
+	const handleSave = () => {
+		handleChange(value);
+		isInputNameOpen = false;
+	};
 </script>
 
 <div class="flex flex-row items-center justify-between w-full">
@@ -25,7 +25,7 @@
 	{#if isInputNameOpen}
 		<input
 			type="text"
-			bind:value={value}
+			bind:value
 			class="border border-gray-300 dark:border-gray-700 rounded-md w-full px-3 py-2 mr-2 text-sm text-gray-900 dark:text-white"
 		/>
 		<div class="flex flex-row">

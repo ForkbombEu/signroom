@@ -48,7 +48,6 @@ export const POST = async (evt: RequestEvent) => {
 				signerLocationStateOrProvince: null,
 				signerLocationCountry: null,
 				signerLocationStreet: null
-				
 			}
 		},
 		toSignDocument: {
@@ -57,7 +56,7 @@ export const POST = async (evt: RequestEvent) => {
 			name: 'RemoteDocument'
 		}
 	};
-	switch(req.algo){
+	switch (req.algo) {
 		case 'xades':
 			params.parameters.signaturePackaging = 'ENVELOPING';
 			params.parameters.signatureLevel = 'XAdES_BASELINE_B';
@@ -75,19 +74,22 @@ export const POST = async (evt: RequestEvent) => {
 			break;
 	}
 
-
-	const toSign = await fetch(`http://dss.forkbomb.eu:8080/services/rest/signature/one-document/getDataToSign`, {
-		method: 'POST',
-		body: JSON.stringify(params),
-		headers: {
-			'Content-Type': 'application/json',
-			Accept: 'application/json'
+	const toSign = await fetch(
+		`http://dss.forkbomb.eu:8080/services/rest/signature/one-document/getDataToSign`,
+		{
+			method: 'POST',
+			body: JSON.stringify(params),
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json'
+			}
 		}
-	}).then(res => {
-		if(!res.ok) {
-			return res.text().then(text => { throw new Error(text) })
-		}
-		else {
+	).then((res) => {
+		if (!res.ok) {
+			return res.text().then((text) => {
+				throw new Error(text);
+			});
+		} else {
 			return res.json();
 		}
 	});

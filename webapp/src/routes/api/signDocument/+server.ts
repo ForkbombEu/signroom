@@ -51,7 +51,7 @@ export const POST = async (evt: RequestEvent) => {
 			}
 		},
 		toSignDocument: {
-			bytes: req.doc, 
+			bytes: req.doc,
 			digestAlgorithm: null,
 			name: 'RemoteDocument'
 		},
@@ -61,7 +61,7 @@ export const POST = async (evt: RequestEvent) => {
 		}
 	};
 
-	switch(req.algo){
+	switch (req.algo) {
 		case 'xades':
 			params.parameters.signaturePackaging = 'ENVELOPING';
 			params.parameters.signatureLevel = 'XAdES_BASELINE_B';
@@ -78,23 +78,26 @@ export const POST = async (evt: RequestEvent) => {
 			params.parameters.signaturePackaging = 'ENVELOPING';
 			break;
 	}
-	
 
-	const signedDocument = await fetch(`http://dss.forkbomb.eu:8080/services/rest/signature/one-document/signDocument`, {
-		method: 'POST',
-		body: JSON.stringify(params),
-		headers: {
-			'Content-Type': 'application/json',
-			Accept: 'application/json'
+	const signedDocument = await fetch(
+		`http://dss.forkbomb.eu:8080/services/rest/signature/one-document/signDocument`,
+		{
+			method: 'POST',
+			body: JSON.stringify(params),
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json'
+			}
 		}
-	}).then(res => {
-		if(!res.ok) {
-			return res.text().then(text => { throw new Error(text) })
-		}
-		else {
+	).then((res) => {
+		if (!res.ok) {
+			return res.text().then((text) => {
+				throw new Error(text);
+			});
+		} else {
 			return res.json();
 		}
 	});
 
-	return json(signedDocument)
-}
+	return json(signedDocument);
+};

@@ -18,7 +18,7 @@
 	<div class="flex flex-col gap-4">
 		{#each keys as key}
 			{@const value = $currentUser?.[key]}
-			{@const title = capitalizeFirstLetter(key.replaceAll("_", " "))}
+			{@const title = capitalizeFirstLetter(key.replaceAll('_', ' '))}
 			<div class="flex flex-row items-center justify-between w-full gap-4">
 				<div class="w-0 grow overflow-hidden">
 					<div class="text-md text-black font-semibold max-w-sm">{title}</div>

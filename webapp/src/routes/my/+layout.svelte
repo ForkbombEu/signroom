@@ -52,8 +52,7 @@
 	</div>
 	<Dropdown placement="bottom" triggeredBy="#avatar-menu">
 		<DropdownHeader>
-			<span class="block truncate text-sm font-medium">{$currentUser?.email}</span
-			>
+			<span class="block truncate text-sm font-medium">{$currentUser?.email}</span>
 		</DropdownHeader>
 		<DropdownItem href="/my/profile">My profile</DropdownItem>
 		<DropdownItem href="/settings">Settings</DropdownItem>
@@ -65,11 +64,7 @@
 		<DropdownItem href="/logout" class="text-primary-600">Sign out</DropdownItem>
 	</Dropdown>
 	<div>
-		<span
-			>Hello, <span class="font-semibold text-primary-600"
-				>{$currentUser?.email}</span
-			></span
-		>
+		<span>Hello, <span class="font-semibold text-primary-600">{$currentUser?.email}</span></span>
 		<FeatureFlag flag="DID">
 			<Button
 				href="https://explorer.did.dyne.org/details/did:dyne:sandbox.signroom:{$currentUser?.eddsa_public_key}"
@@ -94,18 +89,9 @@
 					<svelte:fragment slot="icon">
 						<ClipboardDocumentCheck />
 					</svelte:fragment>
-					<SidebarDropdownItem
-						label="My signatures"
-						href="/my/signatures"
-					/>
-					<SidebarDropdownItem
-						label="My folders"
-						href="/my/folders"
-					/>
-					<SidebarDropdownItem
-						label="Sign document"
-						href="/my/sign"
-					/>
+					<SidebarDropdownItem label="My signatures" href="/my/signatures" />
+					<SidebarDropdownItem label="My folders" href="/my/folders" />
+					<SidebarDropdownItem label="Sign document" href="/my/sign" />
 					<SidebarDropdownItem label="Validate signature" />
 					<SidebarDropdownItem label="Multisignature" />
 					<SidebarDropdownItem label="Zero Knowledge Proof" />
@@ -148,8 +134,8 @@
 						<CloseButton data-collapse-toggle="dropdown-cta" />
 					</svelte:fragment>
 					<p class="mb-3 text-sm text-blue-900 dark:text-blue-400">
-						Signroom is in beta! You can turn the new navigation
-						off for a limited time in your profile.
+						Signroom is in beta! You can turn the new navigation off for a limited time in your
+						profile.
 					</p>
 					<a
 						class="text-sm text-blue-900 underline hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
@@ -165,9 +151,9 @@
 				</SidebarItem>
 				<SidebarItem label="Profile">
 					<svelte:fragment slot="icon">
-            <a href='/my/profile'>
-              <UserCircle />
-            </a>
+						<a href="/my/profile">
+							<UserCircle />
+						</a>
 					</svelte:fragment>
 				</SidebarItem>
 				<SidebarItem label="Help">

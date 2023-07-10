@@ -114,12 +114,13 @@
 			h2Class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white"
 			pClass="text-gray-500 sm:text-xl dark:text-gray-400"
 		>
-		<svelte:fragment slot="h2">
-			We are working for you! Come back soon or write us at <a href="mailto:info@forkbomb.eu">info@forkbomb.eu</a>
-		</svelte:fragment>
+			<svelte:fragment slot="h2">
+				We are working for you! Come back soon or write us at <a href="mailto:info@forkbomb.eu"
+					>info@forkbomb.eu</a
+				>
+			</svelte:fragment>
 		</HeroHeader>
 	</Section>
-
 
 	<!-- svelte-ignore missing-declaration -->
 </div>
