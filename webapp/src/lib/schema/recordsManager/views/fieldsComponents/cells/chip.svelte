@@ -2,8 +2,12 @@
 	import clsx from 'clsx';
 	import type { Record } from 'pocketbase';
 
+	type RecordGeneric = $$Generic;
+
 	export let value: unknown;
-	export let record: Record;
+	export let record: Record & RecordGeneric;
+	record; // avoid 'unused' warning
+
 	let cl = clsx(
 		{
 			'bg-purple-100 text-purple-800': value === 'json',
