@@ -7,8 +7,8 @@
 	import RenderPades from './RenderPades.svelte';
 
 	let type: string;
-	let pades: any;
-	let file: any;
+	let file: string;
+	let fileObj: { bytes: string; name: string; digestAlgorithm: string };
 	let result: any;
 	const url = $page.url;
 	const recordId = url.searchParams.get('id');
@@ -19,14 +19,15 @@
 		.then(async (record) => {
 			if (!record) throw new Error('No record');
 			if (!record?.signed_file) throw new Error('No signed file');
-			file = record?.signed_file.bytes;
+			fileObj = record?.signed_file;
+			file = fileObj?.bytes;
 			type = record?.type;
 		});
 
 	const validate = async () => {
 		const validate = await fetch('/api/validateSignature', {
 			method: 'POST',
-			body: JSON.stringify({ signedDocument: file }),
+			body: JSON.stringify({ signedDocument: fileObj }),
 			headers: {
 				'Content-Type': 'application/json',
 				Accept: 'application/json'
