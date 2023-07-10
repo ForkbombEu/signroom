@@ -48,6 +48,7 @@
 
 	export let collection: Collections | string;
 	export let formSettings: Partial<FormSettings> = {};
+	export let expand: string = '';
 
 	/* Slot typing */
 
@@ -64,6 +65,7 @@
 		$autoCancel: false,
 		sort: '-created'
 	});
+	if (Boolean(expand)) $queryParams = { ...$queryParams, expand };
 
 	async function loadRecords() {
 		records = await recordService.getFullList($queryParams);
