@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { pb } from '$lib/pocketbase';
 	import { page } from '$app/stores';
-	import { Button } from 'flowbite-svelte';
+	import { Button, Heading } from 'flowbite-svelte';
 	import RenderXades from './RenderXades.svelte';
 	import RenderJades from './RenderJades.svelte';
 	import RenderPades from './RenderPades.svelte';
@@ -34,12 +34,12 @@
 			}
 		});
 		const validateResult = await validate.json();
-
 		result = validateResult;
 	};
 </script>
 
 <div class="flex flex-col gap-8 justify-end">
+	<Heading as="h4">Signature</Heading>
 	{#if type === 'xades'}<RenderXades {file} />
 	{/if}
 	{#if type === 'jades'}<RenderJades {file} />

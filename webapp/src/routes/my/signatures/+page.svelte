@@ -33,9 +33,6 @@
 				file: File,
 				description: Description
 			}}
-			let:record
-		>
-		<!-- <SignDocumentButton {record} /> -->
-		</RecordsTable>
+		/>
 	</RecordsManager>
 </div>

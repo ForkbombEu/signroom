@@ -74,9 +74,11 @@
 		...formSettings
 	};
 
-	const dispatch = createEventDispatcher<{ success: {
-		record: PBRecord;
-	} }>();
+	const dispatch = createEventDispatcher<{
+		success: {
+			record: PBRecord;
+		};
+	}>();
 
 	/* Schema generation */
 
@@ -107,7 +109,7 @@
 				} else {
 					rc = await pb.collection(collection).create(formData);
 				}
-				dispatch('success', {record:rc});
+				dispatch('success', { record: rc });
 			},
 			mockedData
 		);

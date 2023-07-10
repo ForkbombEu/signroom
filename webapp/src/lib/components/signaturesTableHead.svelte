@@ -16,7 +16,7 @@
 	};
 	const pki = forge.pki;
 	async function sign(record: any) {
-		const algo = record.type
+		const algo = record.type;
 		const url = pb.files.getUrl(record, record.file);
 		//get the file to sign
 		const res = await fetch(url);
@@ -120,7 +120,7 @@
 <div class="flex flex-row justify-between items-center mb-8">
 	<TitleDescription title="My signatures" description="Here you can see all your signatures" />
 	<div class="ml-4">
-		<CreateRecord let:openModal on:success={(e)=>sign(e.detail.record)}>
+		<CreateRecord let:openModal on:success={(e) => sign(e.detail.record)}>
 			<Button
 				id="new-signature"
 				color="primary"

@@ -10,6 +10,7 @@
 			null,
 			2
 		)}
+        <!-- The second element of the array is the file content in base64url -->
 		<!-- <Hr />{JSON.stringify(
 					JSON.parse(atob(jadesArray[1].replace(/_/g, '/').replace(/-/g, '+'))),
 					null,
