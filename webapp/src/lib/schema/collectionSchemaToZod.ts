@@ -42,6 +42,7 @@ const FieldTypeRefiners: FieldTypeRefiners = {
 		},
 		mimeTypes: (s, o) => {
 			const mimeTypes = o.mimeTypes as string[];
+			if (mimeTypes.length === 0) return s;
 			return s.refine(
 				(file) => mimeTypes.includes(file.type),
 				`File type not: ${mimeTypes.join(', ')}`
