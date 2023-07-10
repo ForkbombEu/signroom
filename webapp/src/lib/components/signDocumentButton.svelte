@@ -17,7 +17,6 @@
 		//get the file to sign
 		const res = await fetch(url);
 		const blob = await res.blob();
-		console.log('blob', blob);
 		const reader = new FileReader();
 		reader.readAsDataURL(blob);
 		let fb64 = null;
@@ -109,14 +108,14 @@
 			await pb.collection('signatures').update(record.id, formData);
 
 			//6. redirect to signed document
-			goto(`/my/signatures/${algo}?id=${record.id}`);
+			goto(`/my/signatures/signature?id=${record.id}`);
 		};
 	}
 </script>
 
-<Button color="primary" size="sm" id="sign-button">Sign</Button>
-<Dropdown class="w-text-sm font-light" triggeredBy="#sign-button">
-	{#each ['xades', 'pades', 'sades'] as algo}
+<Button color="primary" size="sm" id={`${record.id}-sign-button`}>Sign</Button>
+<Dropdown class="w-text-sm font-light" triggeredBy={`#${record.id}-sign-button`}>
+	{#each ['xades', 'pades', 'jades'] as algo}
 		<DropdownItem>
 			<Button
 				outline

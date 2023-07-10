@@ -78,6 +78,7 @@ export const POST = async (evt: RequestEvent) => {
 			params.parameters.signaturePackaging = 'ENVELOPING';
 			break;
 	}
+	
 
 	const signedDocument = await fetch(`http://dss.forkbomb.eu:8080/services/rest/signature/one-document/signDocument`, {
 		method: 'POST',
