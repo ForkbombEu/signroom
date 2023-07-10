@@ -4,7 +4,7 @@
 	const pki = forge.pki;
 	let result: any;
 
-	async function sign() {
+	async function sign(algo: String, doc: String) {
 		// current timestamp
 		const ts_now = Date.now();
 		// yesterday timestamp to be used as notBefore
@@ -50,7 +50,7 @@
 		//2. get data to sign
 		const toSign = await fetch('/api/getDataToSign', {
 			method: 'POST',
-			body: JSON.stringify({cert_pem, ts_now}),
+			body: JSON.stringify({algo, doc, cert_pem, ts_now}),
 			headers: {
 				'Content-Type': 'application/json',
 				Accept: 'application/json'
@@ -66,7 +66,7 @@
 		//4. sign document (insert signature)
 		const signed = await fetch('/api/signDocument', {
 			method: 'POST',
-			body: JSON.stringify({cert_pem, ts_now, signedDigest}),
+			body: JSON.stringify({algo, doc, cert_pem, ts_now, signedDigest}),
 			headers: {
 				'Content-Type': 'application/json',
 				Accept: 'application/json'
@@ -87,9 +87,18 @@
 
 		result = {signedDocument, validateResult};
 	}
+
+	// second input should be the base64 encoding of the stuff to sign
+	function sign_xades(){ sign('xades', '') }
+	function sign_jades(){ sign('jades', '') }
+	function sign_pades(){ sign('pades', '') }
+	function sign_cades(){ sign('cades', '') }
 </script>
 
-<button on:click={sign}>gen the key</button>
+<button on:click={sign_xades}>sign with xades</button>
+<button on:click={sign_jades}>sign with jades</button>
+<button on:click={sign_pades}>sign with pades</button>
+<button on:click={sign_cades}>sign with cades</button>
 
 <pre>
     {JSON.stringify(result, null, 2)}

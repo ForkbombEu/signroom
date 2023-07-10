@@ -7,7 +7,6 @@
 	import RecordsManagerTopbar from '$lib/schema/recordsManager/recordsManagerTopbar.svelte';
 	import RecordCard from '$lib/schema/recordsManager/views/recordCard.svelte';
 	import { Heading } from 'flowbite-svelte';
-	import Chip from '$lib/schema/recordsManager/views/fieldsComponents/cells/chip.svelte';
 
 	const slotTypeCaster = createSlotTypeCaster<CrudExampleRecord>();
 </script>
