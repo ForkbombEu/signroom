@@ -48,7 +48,7 @@
 
 	export let collection: Collections | string;
 	export let formSettings: Partial<FormSettings> = {};
-	export let expand: string = '';
+	export let initialQueryParams: RecordFullListQueryParams = {};
 
 	/* Slot typing */
 
@@ -63,9 +63,9 @@
 	let records: (RecordGeneric & PBRecord)[] = [];
 	const queryParams = writable<RecordFullListQueryParams>({
 		$autoCancel: false,
-		sort: '-created'
+		sort: '-created',
+		...initialQueryParams
 	});
-	if (Boolean(expand)) $queryParams = { ...$queryParams, expand };
 
 	async function loadRecords() {
 		records = await recordService.getFullList($queryParams);
