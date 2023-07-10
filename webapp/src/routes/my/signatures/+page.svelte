@@ -11,7 +11,18 @@
 	} from '$lib/schema/recordsManager/recordsManager.svelte';
 	import RecordsTable from '$lib/schema/recordsManager/views/recordsTable.svelte';
 	import SignDocumentButton from '$lib/components/signDocumentButton.svelte';
+	import { page } from '$app/stores';
+	import type { RecordFullListQueryParams } from 'pocketbase';
+	import SignaturesFoldersHead from '$lib/components/signaturesFoldersHead.svelte';
+
 	const slotTypeCaster = createSlotTypeCaster<CrudExampleRecord>();
+
+	const folderId = $page.url.searchParams.get('folder');
+
+	let initialQueryParams: RecordFullListQueryParams = {};
+	if (folderId) {
+		initialQueryParams = { filter: `folder.id="${folderId}"` };
+	}
 </script>
 
 <div class="p-4">
@@ -24,10 +35,15 @@
 				folder: ['name']
 			}
 		}}
+		{initialQueryParams}
 		{slotTypeCaster}
 		let:records
 	>
-		<SignaturesTableHead />
+		{#if !folderId}
+			<SignaturesTableHead />
+		{:else}
+			<SignaturesFoldersHead {folderId} />
+		{/if}
 		<RecordsTable
 			{records}
 			fields={['type', 'title', 'file', 'description']}
