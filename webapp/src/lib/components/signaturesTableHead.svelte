@@ -26,16 +26,16 @@
 				New signature
 			</Button>
 			<Dropdown class="w-text-sm font-light" title="Popover title" triggeredBy="#new-signature">
-				{#each ['pdf', 'json', 'xml'] as fileType}
+				{#each ['xades', 'pades', 'jades', 'cades'] as algo}
 					<DropdownItem>
 						<Button
 							outline
 							size="sm"
 							class="!px-4 !py-2 whitespace-nowrap gap-2 w-fit"
-							on:click={createRecord.bind(null, fileType, openModal)}
+							on:click={createRecord.bind(null, algo, openModal)}
 						>
 							<ClipboardDocumentCheck />
-							Sign {fileType} file
+							Sign with {algo}
 						</Button>
 					</DropdownItem>
 				{/each}
