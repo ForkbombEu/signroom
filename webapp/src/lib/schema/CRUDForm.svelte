@@ -1,6 +1,7 @@
 <script lang="ts" context="module">
 	import type { RelationDisplayFields } from '$lib/components/forms/relations.svelte';
 	import type { ValueOf } from '$lib/utils/types';
+	import type { Record as PBRecord } from 'pocketbase';
 
 	//
 
@@ -32,18 +33,31 @@
 			hiddenFieldsValues: {}
 		};
 	}
+
+	//
+
+	export type InitialData = Record<string, unknown>;
 </script>
 
 <script lang="ts">
 	import Form, { createForm, createFormData } from '$lib/components/forms/form.svelte';
 	import { getCollectionSchema } from './getCollectionSchema';
-	import { fieldsSchemaToZod } from './collectionSchemaToZod';
+	import { fieldsSchemaToZod, isArrayField } from './collectionSchemaToZod';
 	import type { Collections } from '$lib/pocketbase-types';
 	import FieldSchemaToInput from './fieldSchemaToInput.svelte';
 	import { FieldType, type FieldSchema } from './types';
 	import { pb } from '$lib/pocketbase';
 	import { log } from 'debug';
 	import { createEventDispatcher } from 'svelte';
+	import {
+		cleanFormDataFiles,
+		getFileFieldsInitialData,
+		mockFileFieldsInitialData,
+		seedInitialData
+	} from './CRUDFormSetup';
+	import type { SuperForm } from 'sveltekit-superforms/client';
+	import type { AnyZodObject } from 'zod';
+	import type { ClientResponseErrorData } from '$lib/errorHandling';
 
 	//
 
@@ -71,36 +85,30 @@
 		.filter(excludeMultiselect);
 	const zodSchema = fieldsSchemaToZod(fieldsSchema);
 
-	/* InitialData handling */
-
-	for (const [key, value] of Object.entries(hiddenFieldsValues)) {
-		if (hiddenFields.includes(key)) initialData[key] = value;
-	}
-
-	// File field schema expects a file
-	// InitialData coming from PocketBase is a string
-	// TEMPORARY FIX: set initialData to empty array
-	for (const field of collectionSchema.schema) {
-		if (field.type == FieldType.FILE && field.name in initialData) {
-			initialData[field.name] = [];
-		}
-	}
-
 	/* Superform creation */
 
-	const superform = createForm(
-		zodSchema,
-		async ({ form }) => {
-			const formData = createFormData(form.data);
-			if (mode == formMode.EDIT && initialData && initialData.id) {
-				await pb.collection(collection).update(initialData.id, formData);
-			} else {
-				await pb.collection(collection).create(formData);
-			}
-			dispatch('success', {});
-		},
-		initialData
-	);
+	let superform: SuperForm<AnyZodObject, ClientResponseErrorData>;
+
+	$: {
+		const seededData = seedInitialData(initialData, hiddenFieldsValues);
+		const mockedData = mockFileFieldsInitialData(collectionSchema, seededData);
+		const fileFieldsInitialData = getFileFieldsInitialData(collectionSchema, initialData);
+
+		superform = createForm(
+			zodSchema,
+			async ({ form }) => {
+				const data = cleanFormDataFiles(form.data, fileFieldsInitialData);
+				const formData = createFormData(data);
+				if (mode == formMode.EDIT && initialData && initialData.id) {
+					await pb.collection(collection).update(initialData.id, formData);
+				} else {
+					await pb.collection(collection).create(formData);
+				}
+				dispatch('success', {});
+			},
+			mockedData
+		);
+	}
 
 	/* Schema filters */
 

@@ -54,7 +54,9 @@
 		{#each Object.entries($errors) as [key, errors]}
 			{#if isBaseError(errors)}
 				<div class="space-y-1">
-					<Helper color="red"><span class="font-bold">{key}</span></Helper>
+					{#if key !== '_errors'}
+						<Helper color="red"><span class="font-bold">{key}</span></Helper>
+					{/if}
 					{#each errors as error}
 						<Helper color="red">{error}</Helper>
 					{/each}

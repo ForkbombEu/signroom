@@ -57,7 +57,6 @@ export const POST = async (evt: RequestEvent) => {
 			name: 'RemoteDocument'
 		}
 	};
-
 	switch(req.algo){
 		case 'xades':
 			params.parameters.signaturePackaging = 'ENVELOPING';

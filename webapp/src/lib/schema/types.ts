@@ -36,5 +36,7 @@ export interface FieldSchema {
 	type: string;
 	system: boolean;
 	required: boolean;
-	options: Record<string, unknown>;
+	options: FieldOptions;
 }
+
+export type FieldOptions = Record<string, unknown>;
