@@ -33,6 +33,7 @@ clean: ## 🧹 Clean the containers
 	@echo "🧹 Cleaning the data"
 	rm -fr admin/pb_data/*
 	rm -f admin/pb
+	rm -fr webapp/node_modules
 
 up: bg fg ## 💄 Run all the components quickly
 dev: bg fgdev ## 👩‍💻Run all the components in dev mode
