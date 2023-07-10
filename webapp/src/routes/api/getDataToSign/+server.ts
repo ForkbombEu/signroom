@@ -11,18 +11,9 @@ export const POST = async (evt: RequestEvent) => {
 			certificateChain: [],
 			detachedContents: null,
 			asicContainerType: null,
-			signatureLevel: 'XAdES_BASELINE_B',
-			signaturePackaging: 'ENVELOPING',
-			embedXML: false,
-			manifestSignature: false,
-			jwsSerializationType: null,
-			sigDMechanism: null,
 			signatureAlgorithm: 'RSA_SHA256',
 			digestAlgorithm: 'SHA256',
 			encryptionAlgorithm: 'RSA',
-			referenceDigestAlgorithm: null,
-			maskGenerationFunction: null,
-			contentTimestamps: null,
 			contentTimestampParameters: {
 				digestAlgorithm: 'SHA256',
 				canonicalizationMethod: 'http://www.w3.org/2001/10/xml-exc-c14n#',
@@ -40,8 +31,6 @@ export const POST = async (evt: RequestEvent) => {
 			},
 			signWithExpiredCertificate: false,
 			generateTBSWithoutCertificate: false,
-			imageParameters: null,
-			signatureIdToCounterSign: null,
 			blevelParams: {
 				trustAnchorBPPolicy: true,
 				signingDate: req.ts_now,
@@ -59,15 +48,35 @@ export const POST = async (evt: RequestEvent) => {
 				signerLocationStateOrProvince: null,
 				signerLocationCountry: null,
 				signerLocationStreet: null
+				
 			}
 		},
 		toSignDocument: {
-			bytes: req.doc.split(',')[1],
+			bytes: req.doc,
 			digestAlgorithm: null,
 			name: 'RemoteDocument'
 		}
 	};
-	const toSign = fetch(`http://dss.forkbomb.eu:8080/services/rest/signature/one-document/getDataToSign`, {
+	switch(req.algo){
+		case 'xades':
+			params.parameters.signaturePackaging = 'ENVELOPING';
+			params.parameters.signatureLevel = 'XAdES_BASELINE_B';
+			break;
+		case 'pades':
+			params.parameters.signatureLevel = 'PAdES_BASELINE_B';
+			break;
+		case 'jades':
+			params.parameters.signaturePackaging = 'ENVELOPING';
+			params.parameters.signatureLevel = 'JAdES_BASELINE_B';
+			break;
+		case 'cades':
+			params.parameters.signatureLevel = 'CAdES_BASELINE_B';
+			params.parameters.signaturePackaging = 'ENVELOPING';
+			break;
+	}
+
+
+	const toSign = await fetch(`http://dss.forkbomb.eu:8080/services/rest/signature/one-document/getDataToSign`, {
 		method: 'POST',
 		body: JSON.stringify(params),
 		headers: {

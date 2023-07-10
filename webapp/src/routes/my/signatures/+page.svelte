@@ -14,7 +14,6 @@
 	import { page } from '$app/stores';
 	import type { RecordFullListQueryParams } from 'pocketbase';
 	import SignaturesFoldersHead from '$lib/components/signaturesFoldersHead.svelte';
-
 	const slotTypeCaster = createSlotTypeCaster<CrudExampleRecord>();
 
 	const folderId = $page.url.searchParams.get('folder');

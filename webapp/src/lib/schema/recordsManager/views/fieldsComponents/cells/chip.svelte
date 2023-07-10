@@ -10,9 +10,10 @@
 
 	let cl = clsx(
 		{
-			'bg-purple-100 text-purple-800': value === 'json',
-			'bg-pink-100 text-pink-800': value === 'pdf',
-			'bg-green-100 text-grern-800': value === 'xml'
+			'bg-purple-100 text-purple-800': value === 'xades',
+			'bg-pink-100 text-pink-800': value === 'pades',
+			'bg-green-100 text-grern-800': value === 'jades',
+			'bg-blue-100 text-blue-800': value === 'cades'
 		},
 		'px-3 w-fit  py-1 rounded uppercase'
 	);
