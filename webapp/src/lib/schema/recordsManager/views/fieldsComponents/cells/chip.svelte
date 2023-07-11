@@ -15,7 +15,7 @@
 			'bg-green-100 text-grern-800': value === 'jades',
 			'bg-blue-100 text-blue-800': value === 'cades'
 		},
-		'px-3 w-fit  py-1 rounded uppercase'
+		'px-3 w-fit py-1 rounded uppercase'
 	);
 </script>
 
