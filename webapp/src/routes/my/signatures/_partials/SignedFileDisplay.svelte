@@ -18,24 +18,20 @@
 
 	let open = false;
 	const { type } = record;
-
-	const onDownload = ()=> {
-		const a = document.createElement('a');
-		const file = new Blob([JSON.stringify({ type: record.type, signedFile: value })], { type: 'text/plain' });
-		a.href = URL.createObjectURL(file);
-		a.download = `${record.title}.json`
-		a.click();
-	}
+	const file = new Blob([JSON.stringify({ type: record.type, signedFile: value })], {
+		type: 'text/plain'
+	});
 </script>
 
 <Button
 	target="_blank"
 	class="!p-2"
 	color="alternative"
-	on:click={onDownload}>
-	 <DocumentArrowDown size="20" />
-	</Button
+	href={URL.createObjectURL(file)}
+	download={`${record.title}.json`}
 >
+	<DocumentArrowDown size="20" />
+</Button>
 <Button target="_blank" class="!p-2" color="alternative" on:click={() => (open = !open)}>
 	<DocumentCheck size="20" />
 </Button>
