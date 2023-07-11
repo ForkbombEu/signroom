@@ -13,48 +13,50 @@
 	import { page } from '$app/stores';
 	import type { RecordFullListQueryParams } from 'pocketbase';
 	import SignaturesFoldersHead from '$lib/components/signaturesFoldersHead.svelte';
+
 	const slotTypeCaster = createSlotTypeCaster<CrudExampleRecord>();
 
-	$: folderId = $page.url.searchParams.get('folder');
-
 	let initialQueryParams: RecordFullListQueryParams;
-	$: if (folderId) {
-		initialQueryParams = { filter: `folder.id="${folderId}"` };
-	} else {
-		initialQueryParams = {};
+	let folderId: string | null = null;
+
+	$: {
+		folderId = $page.url.searchParams.get('folder');
+		if (folderId) {
+			initialQueryParams = { filter: `folder.id="${folderId}"` };
+		} else {
+			initialQueryParams = {};
+		}
 	}
 </script>
 
 <div class="p-4">
-	{#key initialQueryParams}
-		<RecordsManager
-			collection={Collections.Signatures}
-			formSettings={{
-				hiddenFields: ['owner', 'type'],
-				hiddenFieldsValues: { owner: $currentUser?.id, type: '' },
-				relationsDisplayFields: {
-					folder: ['name']
-				}
+	<RecordsManager
+		collection={Collections.Signatures}
+		formSettings={{
+			hiddenFields: ['owner', 'type'],
+			hiddenFieldsValues: { owner: $currentUser?.id, type: '' },
+			relationsDisplayFields: {
+				folder: ['name']
+			}
+		}}
+		{initialQueryParams}
+		{slotTypeCaster}
+		let:records
+	>
+		{#if !folderId}
+			<SignaturesTableHead />
+		{:else}
+			<SignaturesFoldersHead {folderId} />
+		{/if}
+		<RecordsTable
+			{records}
+			fields={['type', 'title', 'file', 'description']}
+			showCheckboxes={false}
+			fieldsComponents={{
+				type: Chip,
+				file: File,
+				description: Description
 			}}
-			{initialQueryParams}
-			{slotTypeCaster}
-			let:records
-		>
-			{#if !folderId}
-				<SignaturesTableHead />
-			{:else}
-				<SignaturesFoldersHead {folderId} />
-			{/if}
-			<RecordsTable
-				{records}
-				fields={['type', 'title', 'file', 'description']}
-				showCheckboxes={false}
-				fieldsComponents={{
-					type: Chip,
-					file: File,
-					description: Description
-				}}
-			/>
-		</RecordsManager>
-	{/key}
+		/>
+	</RecordsManager>
 </div>
