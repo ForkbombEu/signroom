@@ -8,7 +8,7 @@ import { FieldType, type FieldSchema, type CollectionSchema, type FieldOptions }
 export function seedInitialData(initialData: InitialData, hiddenFieldsValues: HiddenFieldsValues) {
 	const data = { ...initialData };
 	for (const [key, value] of Object.entries(hiddenFieldsValues)) {
-		if (key in initialData) initialData[key] = value;
+		data[key] = value;
 	}
 	return data;
 }

@@ -1,7 +1,7 @@
 import type { PlaywrightTestConfig } from '@playwright/test';
 export const storageState = 'playwright/.auth/user.json';
 
- const config: PlaywrightTestConfig = {
+const config: PlaywrightTestConfig = {
 	projects: [
 		{ name: 'setup', testMatch: /.*\.setup\.ts/ },
 		{

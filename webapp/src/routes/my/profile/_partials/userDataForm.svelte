@@ -26,12 +26,15 @@
 		emailVisibility: $currentUser!.emailVisibility
 	};
 
-	const superform = createForm(schema, async ({form})=>{
-        const formData = createFormData(form.data);
-        $currentUser = await pb.collection('users').update($currentUser!.id, formData);
-		dispatch('success');
-    }, initialData);
-
+	const superform = createForm(
+		schema,
+		async ({ form }) => {
+			const formData = createFormData(form.data);
+			$currentUser = await pb.collection('users').update($currentUser!.id, formData);
+			dispatch('success');
+		},
+		initialData
+	);
 </script>
 
 <Form {superform} defaultSubmitButtonText="Update profile">

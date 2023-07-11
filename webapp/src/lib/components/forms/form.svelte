@@ -80,7 +80,7 @@
 		return checks.some((check) => check);
 	}
 
-	// 
+	//
 
 	export function createFormData(data: Record<string, unknown>) {
 		const formData = new FormData();
@@ -142,7 +142,7 @@
 	{/if}
 
 	{#if $delayed}
-		<div class="m-0 p-0">
+		<div class="fixed m-0 p-0">
 			<Modal open={$delayed} permanent>
 				<Spinner />
 			</Modal>

@@ -7,10 +7,9 @@
 	import EditRecord from '../recordActions/editRecord.svelte';
 	import { getRecordsManagerContext } from '../recordsManager.svelte';
 
-	import type { FieldsComponents } from './types';
+	import type { FieldsComponents } from './fieldComponent.svelte';
 	import type { Record } from 'pocketbase';
 	import { Card, P } from 'flowbite-svelte';
-	import Checkbox from '$lib/components/forms/checkbox.svelte';
 
 	//
 
@@ -47,14 +46,16 @@
 		</div>
 	{/if}
 
-	<div class="space-y-2">
-		{#each fields as field}
-			{@const component = fieldsComponents[field]}
-			<div>
-				<FieldComponent {record} {field} {component} />
-			</div>
-		{/each}
-	</div>
+	{#if fields.length}
+		<div class="space-y-2">
+			{#each fields as field}
+				{@const component = fieldsComponents[field]}
+				<div>
+					<FieldComponent {record} {field} {component} />
+				</div>
+			{/each}
+		</div>
+	{/if}
 
 	<slot {record} />
 

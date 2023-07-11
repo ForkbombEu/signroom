@@ -3,11 +3,19 @@
 	import { Button, Modal } from 'flowbite-svelte';
 	import { Plus } from 'svelte-heros-v2';
 	import { getRecordsManagerContext } from '../recordsManager.svelte';
+	import { createEventDispatcher } from 'svelte';
+	import type { Record } from 'pocketbase';
 
-	export let initialData: Record<string, unknown> = {};
+	export let initialData: Record = {} as Record;
 
 	const { collection, dataManager, formSettings } = getRecordsManagerContext();
 	const { loadRecords } = dataManager;
+
+	const dispatch = createEventDispatcher<{
+		success: {
+			record: Record;
+		};
+	}>();
 
 	let open = false;
 
@@ -23,7 +31,7 @@
 	</Button>
 </slot>
 
-<div class="m-0">
+<div class="fixed z-50">
 	<Modal bind:open title="Create record" size="lg">
 		<div class="w-[500px]">
 			<CrudForm
@@ -31,8 +39,9 @@
 				{collection}
 				{formSettings}
 				{initialData}
-				on:success={async () => {
+				on:success={async (e) => {
 					await loadRecords();
+					dispatch('success', { record: e.detail.record });
 					open = false;
 				}}
 			/>

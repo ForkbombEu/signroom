@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Heading, P, Button,Hr } from 'flowbite-svelte';
+	import { Heading, P, Button, Hr } from 'flowbite-svelte';
 	import { currentUser, pb } from '$lib/pocketbase';
 	import UserDataForm from './userDataForm.svelte';
 	import { Pencil, XMark } from 'svelte-heros-v2';
@@ -16,7 +16,7 @@
 
 <div class="space-y-6">
 	<div class="flex flex-row gap-6 items-center">
-		<UserAvatar size="lg"/>
+		<UserAvatar size="lg" />
 		<div class="flex flex-col">
 			<Heading tag="h4">{$currentUser?.name}</Heading>
 			<P>
@@ -28,22 +28,22 @@
 		</div>
 	</div>
 
-	<div class='flex items-center gap-4 justify-end'>
+	<div class="flex items-center gap-4 justify-end">
 		{#if edit}
-		<Hr />
+			<Hr />
 		{/if}
-			<Button color="alternative" on:click={toggleEdit}>
-				{#if !edit}
-					<Pencil size="20" />
-					<span class="ml-2">Edit profile</span>
-				{:else}
-					<XMark size="20" />
-					<span class="ml-2">Cancel</span>
-				{/if}
-			</Button>
+		<Button color="alternative" on:click={toggleEdit}>
+			{#if !edit}
+				<Pencil size="20" />
+				<span class="ml-2">Edit profile</span>
+			{:else}
+				<XMark size="20" />
+				<span class="ml-2">Cancel</span>
+			{/if}
+		</Button>
 	</div>
 
 	{#if edit}
-		<UserDataForm on:success={toggleEdit}/>
+		<UserDataForm on:success={toggleEdit} />
 	{/if}
 </div>

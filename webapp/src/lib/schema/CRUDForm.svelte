@@ -74,7 +74,11 @@
 		...formSettings
 	};
 
-	const dispatch = createEventDispatcher<{ success: {} }>();
+	const dispatch = createEventDispatcher<{
+		success: {
+			record: PBRecord;
+		};
+	}>();
 
 	/* Schema generation */
 
@@ -99,12 +103,13 @@
 			async ({ form }) => {
 				const data = cleanFormDataFiles(form.data, fileFieldsInitialData);
 				const formData = createFormData(data);
+				let record: PBRecord;
 				if (mode == formMode.EDIT && initialData && initialData.id) {
-					await pb.collection(collection).update(initialData.id, formData);
+					record = await pb.collection(collection).update(initialData.id, formData);
 				} else {
-					await pb.collection(collection).create(formData);
+					record = await pb.collection(collection).create(formData);
 				}
-				dispatch('success', {});
+				dispatch('success', { record });
 			},
 			mockedData
 		);
