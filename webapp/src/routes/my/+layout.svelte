@@ -22,7 +22,7 @@
 		SidebarWrapper
 	} from 'flowbite-svelte';
 	import {
-		ChartPie,
+		RocketLaunch,
 		ClipboardDocumentCheck,
 		Fire,
 		Identification,
@@ -80,17 +80,17 @@
 	<Sidebar>
 		<SidebarWrapper class="min-h-screen flex flex-col justify-between">
 			<SidebarGroup>
-				<SidebarItem label="Overview" href="/my/dashboard">
+				<SidebarItem label="Start" href="/my">
 					<svelte:fragment slot="icon">
-						<ChartPie />
+						<RocketLaunch />
 					</svelte:fragment>
 				</SidebarItem>
 				<SidebarDropdownWrapper label="Signatures">
 					<svelte:fragment slot="icon">
 						<ClipboardDocumentCheck />
 					</svelte:fragment>
-					<SidebarDropdownItem label="My signatures" href="/my/signatures" />
 					<SidebarDropdownItem label="My folders" href="/my/folders" />
+					<SidebarDropdownItem label="My signatures" href="/my/signatures" />
 					<SidebarDropdownItem label="Sign document" href="/my/sign" />
 					<SidebarDropdownItem label="Validate signature" />
 					<SidebarDropdownItem label="Multisignature" />
@@ -165,7 +165,7 @@
 		</SidebarWrapper>
 	</Sidebar>
 	<div class="p-8 bg-slate-100 grow bg-[url('/bg.png')] bg-cover">
-		<div class="rounded-lg p-4 bg-white max-w-3xl flex flex-col space gap-10">
+		<div class="rounded-lg p-4 bg-white flex flex-col space gap-10 shadow-md">
 			<slot />
 		</div>
 	</div>

@@ -1,0 +1,106 @@
+<script lang="ts">
+	import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
+	import { pb } from '$lib/pocketbase';
+	import { appTitle } from '$lib/strings';
+	import {
+		Button,
+		Card,
+		NavBrand,
+		NavHamburger,
+		NavLi,
+		NavUl,
+		Navbar,
+		Span,
+		Timeline,
+		TimelineItem
+	} from 'flowbite-svelte';
+	import { BlogBodyWrapper, HeroHeader, Section } from 'flowbite-svelte-blocks';
+	import { ArrowRight, ArrowTopRightOnSquare } from 'svelte-heros-v2';
+	let navClass = 'bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800';
+	let navDivClass = 'flex flex-wrap justify-between items-center mx-auto max-w-screen-xl';
+	let news = pb.collection('posts').getFullList({ filter: 'published=true' });
+</script>
+
+<div class="flex flex-col gap-20">
+	<header>
+		<Navbar let:hidden let:toggle fluid={false} {navClass} {navDivClass}>
+			<NavBrand href="/">
+				<img src="/logo.svg" class="mr-3 h-6 sm:h-9" alt={`${appTitle} Logo`} />
+				<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+					{appTitle}
+				</span>
+			</NavBrand>
+			<div class="flex items-center lg:order-2">
+				<a href="/login">Log In</a>
+				<Button class="ml-4 inline-flex items-center justify-center mr-3" href="/register">
+					Register <ArrowRight size="18" class="ml-2 -mr-1" />
+				</Button>
+				<NavHamburger
+					on:click={toggle}
+					btnClass="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+				/>
+			</div>
+			<NavUl
+				{hidden}
+				divClass="justify-between items-center w-full lg:flex lg:w-auto lg:order-1"
+				ulClass="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0"
+				activeClass="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500"
+				nonActiveClass="text-gray-500 hover:text-primary-700 dark:text-gray-400 dark:hover:text-primary-300"
+			>
+				<NavLi href="/" active={true}>Signatures</NavLi>
+				<NavLi href="#contact">Contact</NavLi>
+			</NavUl>
+		</Navbar>
+	</header>
+
+	<Section>
+		<HeroHeader
+			h1Class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white"
+			pClass="max-w-2xl mb-6 font-light lg:mb-8 lg:text-3xl dark:text-gray-400"
+		>
+			<svelte:fragment slot="h1">
+				Sign and validate
+				<Span
+					gradient
+					gradientClass="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-purple-500"
+					class="text-primary-700">data and documents</Span
+				>, superfast.
+			</svelte:fragment>
+			<svelte:fragment slot="paragraph">Using technology trusted worldwide.</svelte:fragment>
+			<a href="/">
+				<Button class="inline-flex items-center justify-center mr-3" href="/register">
+					Register <ArrowRight size="18" class="ml-2 -mr-1" />
+				</Button>
+			</a>
+			<a href="/">
+				<Button color="light" class="inline-flex items-center justify-center">
+					Speak to Sales
+				</Button>
+			</a>
+		</HeroHeader>
+	</Section>
+
+	<Section>
+		<HeroHeader
+			class="max-w-screen-md mb-8 lg:mb-16"
+			h2Class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white"
+			pClass="text-gray-500 sm:text-xl dark:text-gray-400"
+		/>
+
+		{#await news}
+			<p>loading...</p>
+		{:then news}
+			<Timeline>
+				{#each news as n}
+					<TimelineItem title={n.title} date={n.created}>
+						<p class="text-base font-normal text-gray-500 dark:text-gray-400">
+							{@html n.body}
+						</p>
+					</TimelineItem>
+				{/each}
+			</Timeline>
+		{/await}
+
+		<!-- svelte-ignore missing-declaration -->
+	</Section>
+</div>
