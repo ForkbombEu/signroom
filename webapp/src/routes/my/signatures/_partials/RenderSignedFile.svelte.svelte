@@ -33,7 +33,7 @@
 		<Button color="primary" on:click={validate}>Validate signature</Button>
 	</div>
 	<Accordion>
-		<AccordionItem>
+		<AccordionItem open={!result}>
 			<span slot="header">Signed file</span>
 			{#if type === Types.xades}
 				<RenderXades {file} />
@@ -46,7 +46,7 @@
 			{/if}
 		</AccordionItem>
 		{#if result}
-		<AccordionItem>
+		<AccordionItem open={!!result}>
 				<span slot="header">Validation data</span>
 				<div class="overflow-x-scroll w-full h-max">
 					<pre>{JSON.stringify(result, null, 2)}</pre>
