@@ -92,7 +92,7 @@
 					<SidebarDropdownItem label="My signatures" href="/my/signatures" />
 					<SidebarDropdownItem label="My folders" href="/my/folders" />
 					<SidebarDropdownItem label="Sign document" href="/my/sign" />
-					<SidebarDropdownItem label="Validate signature" />
+					<SidebarDropdownItem label="Validate signature" href="/my/validate"/>
 					<SidebarDropdownItem label="Multisignature" />
 					<SidebarDropdownItem label="Zero Knowledge Proof" />
 				</SidebarDropdownWrapper>
