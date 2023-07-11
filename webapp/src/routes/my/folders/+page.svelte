@@ -43,12 +43,16 @@
 					{@const expand = record.expand[expandQuery]}
 					<div class="grow">
 						<RecordCard {record} titleField="name" showEdit showCheckbox showDelete>
-							{#if expand}
+							<div class="mb-3">
 								<P color="gray" size="sm">
-									{expand.length}
-									{expand.length > 1 ? 'signatures' : 'signature'}
+									{#if expand}
+										{expand.length}
+										{expand.length > 1 ? 'signatures' : 'signature'}
+									{:else}
+										No signatures
+									{/if}
 								</P>
-							{/if}
+							</div>
 							<svelte:fragment slot="actions">
 								<Button
 									class="!py-2 !px-3"
