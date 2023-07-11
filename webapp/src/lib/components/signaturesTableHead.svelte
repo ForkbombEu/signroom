@@ -110,9 +110,6 @@
 			const formData = new FormData();
 			formData.append('signed_file', JSON.stringify(signedDocument));
 			await pb.collection('signatures').update(record.id, formData);
-
-			//6. redirect to signed document
-			goto(`/my/signatures/signature?id=${record.id}`);
 		};
 	}
 </script>
