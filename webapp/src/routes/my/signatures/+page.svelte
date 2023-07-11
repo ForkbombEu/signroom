@@ -13,50 +13,48 @@
 	import { page } from '$app/stores';
 	import type { RecordFullListQueryParams } from 'pocketbase';
 	import SignaturesFoldersHead from '$lib/components/signaturesFoldersHead.svelte';
-
 	const slotTypeCaster = createSlotTypeCaster<CrudExampleRecord>();
 
-	let initialQueryParams: RecordFullListQueryParams;
-	let folderId: string | null = null;
+	$: folderId = $page.url.searchParams.get('folder');
 
-	$: {
-		folderId = $page.url.searchParams.get('folder');
-		if (folderId) {
-			initialQueryParams = { filter: `folder.id="${folderId}"` };
-		} else {
-			initialQueryParams = {};
-		}
+	let initialQueryParams: RecordFullListQueryParams;
+	$: if (folderId) {
+		initialQueryParams = { filter: `folder.id="${folderId}"` };
+	} else {
+		initialQueryParams = {};
 	}
 </script>
 
 <div class="p-4">
-	<RecordsManager
-		collection={Collections.Signatures}
-		formSettings={{
-			hiddenFields: ['owner', 'type'],
-			hiddenFieldsValues: { owner: $currentUser?.id, type: '' },
-			relationsDisplayFields: {
-				folder: ['name']
-			}
-		}}
-		{initialQueryParams}
-		{slotTypeCaster}
-		let:records
-	>
-		{#if !folderId}
-			<SignaturesTableHead />
-		{:else}
-			<SignaturesFoldersHead {folderId} />
-		{/if}
-		<RecordsTable
-			{records}
-			fields={['type', 'title', 'file', 'description']}
-			showCheckboxes={false}
-			fieldsComponents={{
-				type: Chip,
-				file: File,
-				description: Description
+	{#key initialQueryParams}
+		<RecordsManager
+			collection={Collections.Signatures}
+			formSettings={{
+				hiddenFields: ['owner', 'type'],
+				hiddenFieldsValues: { owner: $currentUser?.id, type: '' },
+				relationsDisplayFields: {
+					folder: ['name']
+				}
 			}}
-		/>
-	</RecordsManager>
+			{initialQueryParams}
+			{slotTypeCaster}
+			let:records
+		>
+			{#if !folderId}
+				<SignaturesTableHead />
+			{:else}
+				<SignaturesFoldersHead {folderId} />
+			{/if}
+			<RecordsTable
+				{records}
+				fields={['type', 'title', 'file', 'description']}
+				showCheckboxes={false}
+				fieldsComponents={{
+					type: Chip,
+					file: File,
+					description: Description
+				}}
+			/>
+		</RecordsManager>
+	{/key}
 </div>
