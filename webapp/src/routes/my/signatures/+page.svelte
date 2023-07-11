@@ -17,6 +17,7 @@
 	import { Button } from 'flowbite-svelte';
 	import { Share } from 'svelte-heros-v2';
 	import ShareSignature from './_partials/ShareSignature.svelte';
+	import OwnerDisplay from './_partials/OwnerDisplay.svelte';
 
 	const slotTypeCaster = createSlotTypeCaster<SignaturesRecord>();
 
@@ -35,6 +36,10 @@
 	function openShareModal(r: SignaturesRecord & Record) {
 		shareModal = true;
 		record = r;
+	}
+	function closeShareModal() {
+		shareModal = false;
+		record = undefined;
 	}
 </script>
 
@@ -60,26 +65,29 @@
 			{/if}
 			<RecordsTable
 				{records}
-				fields={['type', 'title', 'file', 'signed_file', 'description']}
+				fields={['type', 'owner', 'title', 'file', 'signed_file', 'description']}
 				showCheckboxes={false}
 				fieldsComponents={{
 					type: Chip,
 					file: File,
 					description: Description,
+					owner: OwnerDisplay,
 					//@ts-ignore
 					signed_file: SignedFileDisplay
 				}}
 				let:record
 			>
-				<Button
-					class="!p-2"
-					color="alternative"
-					on:click={() => {
-						openShareModal(record);
-					}}
-				>
-					<Share size="20" />
-				</Button>
+				{#if record.owner == $currentUser?.id}
+					<Button
+						class="!p-2"
+						color="alternative"
+						on:click={() => {
+							openShareModal(record);
+						}}
+					>
+						<Share size="20" />
+					</Button>
+				{/if}
 			</RecordsTable>
 		</RecordsManager>
 	{/key}
@@ -87,6 +95,6 @@
 
 {#key record}
 	{#if record}
-		<ShareSignature bind:open={shareModal} {record} />
+		<ShareSignature bind:open={shareModal} {record} on:success={closeShareModal} />
 	{/if}
 {/key}
