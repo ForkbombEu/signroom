@@ -63,8 +63,13 @@ const FieldTypeRefiners: FieldTypeRefiners = {
 //
 
 export function isArrayField(fieldSchema: FieldSchema): boolean {
-	const maxSelect = fieldSchema.options.maxSelect;
-	return Boolean(maxSelect) && !isNaN(Number(maxSelect)) && Number(maxSelect) > 1;
+	if (fieldSchema.type == FieldType.RELATION) {
+		const minSelect = fieldSchema.options.minSelect;
+		return !minSelect;
+	} else {
+		const maxSelect = fieldSchema.options.maxSelect;
+		return Boolean(maxSelect) && !isNaN(Number(maxSelect)) && Number(maxSelect) > 1;
+	}
 }
 
 type ZodArrayAny = z.ZodArray<z.ZodTypeAny>;
