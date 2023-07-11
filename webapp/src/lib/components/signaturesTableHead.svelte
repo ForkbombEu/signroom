@@ -8,6 +8,11 @@
 	//@ts-ignore
 	import forge from 'node-forge';
 	import { pb } from '$lib/pocketbase';
+	import RenderSignedFile from '../../routes/my/signatures/_partials/RenderSignedFile.svelte.svelte';
+
+	import type { Record } from 'pocketbase';
+	import type { SignaturesRecord, SignaturesTypeOptions } from '$lib/pocketbase-types';
+	import type { SignedFile } from '../../routes/my/signatures/_partials/SignedFileDisplay.svelte';
 
 	const { formSettings, dataManager } = getRecordsManagerContext();
 	const { loadRecords } = dataManager;
@@ -20,6 +25,8 @@
 
 	let loading = false;
 	let error = null;
+	let signedFile: SignedFile | null = null;
+	let type: SignaturesTypeOptions | null = null;
 
 	async function sign(record: any) {
 		loading = true;
@@ -128,9 +135,11 @@
 		//5. save signed document to db
 		const formData = new FormData();
 		formData.append('signed_file', JSON.stringify(signedDocument));
-		await pb.collection('signatures').update(record.id, formData);
+		const rc = await pb.collection('signatures').update(record.id, formData);
 		await loadRecords();
 		loading = false;
+		signedFile = rc.signed_file;
+		type = rc.type;
 	}
 </script>
 
@@ -168,9 +177,17 @@
 
 <div class="fixed m-0 p-0 z-50">
 	<Modal open={loading} permanent>
-		<div class="flex flex-col items-center">
+		<div class="flex flex-col items-center gap-2">
 			<Spinner />
 			<P>Signing document, please wait</P>
 		</div>
 	</Modal>
+
+	{#if type && signedFile}
+		<Modal open={Boolean(signedFile)} title="Signed" size="lg">
+			<div class="w-[600px]">
+				<RenderSignedFile {signedFile} {type} />
+			</div>
+		</Modal>
+	{/if}
 </div>
