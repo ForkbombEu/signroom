@@ -1,8 +1,8 @@
 [
     {
         "id": "_pb_users_auth_",
-        "created": "2023-07-10 14:51:01.795Z",
-        "updated": "2023-07-10 14:51:01.804Z",
+        "created": "2023-07-11 16:10:47.894Z",
+        "updated": "2023-07-11 16:10:47.898Z",
         "name": "users",
         "type": "auth",
         "system": false,
@@ -101,8 +101,7 @@
             }
         ],
         "indexes": [
-            "CREATE INDEX `__pb_users_auth__created_idx` ON `users` (`created`)",
-            "CREATE UNIQUE INDEX `idx_C7SFIV3` ON `users` (\n  `bitcoin_public_key`,\n  `ecdh_public_key`,\n  `reflow_public_key`,\n  `ethereum_address`,\n  `eddsa_public_key`\n)"
+            "CREATE INDEX `__pb_users_auth__created_idx` ON `users` (`created`)"
         ],
         "listRule": "id = @request.auth.id",
         "viewRule": "id = @request.auth.id",
@@ -123,7 +122,7 @@
     {
         "id": "3fhw2mfr9zrgodj",
         "created": "2022-10-03 21:50:44.238Z",
-        "updated": "2023-07-10 14:51:01.799Z",
+        "updated": "2023-07-11 16:10:47.898Z",
         "name": "hooks",
         "type": "base",
         "system": false,
@@ -227,7 +226,7 @@
     {
         "id": "z4cc0g76ciqx13v",
         "created": "2023-05-17 16:48:21.255Z",
-        "updated": "2023-07-10 14:51:01.804Z",
+        "updated": "2023-07-11 12:40:55.518Z",
         "name": "features",
         "type": "base",
         "system": false,
@@ -274,8 +273,8 @@
     {
         "id": "p9dhra382rts3bg",
         "created": "2023-06-07 10:44:19.476Z",
-        "updated": "2023-07-10 14:51:02.025Z",
-        "name": "CrudExample",
+        "updated": "2023-07-11 13:16:04.708Z",
+        "name": "crudExample",
         "type": "base",
         "system": false,
         "schema": [
@@ -438,6 +437,106 @@
         "options": {}
     },
     {
+        "id": "285guwyxvr46lsu",
+        "created": "2023-07-11 13:23:15.614Z",
+        "updated": "2023-07-11 15:42:24.490Z",
+        "name": "authorizations",
+        "type": "base",
+        "system": false,
+        "schema": [
+            {
+                "id": "5jd5bhu8",
+                "name": "owner",
+                "type": "relation",
+                "system": false,
+                "required": true,
+                "options": {
+                    "collectionId": "_pb_users_auth_",
+                    "cascadeDelete": false,
+                    "minSelect": null,
+                    "maxSelect": 1,
+                    "displayFields": []
+                }
+            },
+            {
+                "id": "w4xrqdgs",
+                "name": "users",
+                "type": "relation",
+                "system": false,
+                "required": true,
+                "options": {
+                    "collectionId": "_pb_users_auth_",
+                    "cascadeDelete": false,
+                    "minSelect": null,
+                    "maxSelect": null,
+                    "displayFields": []
+                }
+            },
+            {
+                "id": "g1t9kpqo",
+                "name": "collection_id",
+                "type": "text",
+                "system": false,
+                "required": true,
+                "options": {
+                    "min": null,
+                    "max": null,
+                    "pattern": ""
+                }
+            },
+            {
+                "id": "fqvzbaze",
+                "name": "record_id",
+                "type": "text",
+                "system": false,
+                "required": true,
+                "options": {
+                    "min": null,
+                    "max": null,
+                    "pattern": ""
+                }
+            }
+        ],
+        "indexes": [
+            "CREATE UNIQUE INDEX `idx_w4uoK0u` ON `authorizations` (\n  `owner`,\n  `collection_id`,\n  `record_id`\n)"
+        ],
+        "listRule": "@request.auth.id = owner.id || users.id ?= @request.auth.id",
+        "viewRule": "@request.auth.id = owner.id || users.id ?= @request.auth.id",
+        "createRule": "@request.auth.id != ''",
+        "updateRule": "@request.auth.id != owner.id",
+        "deleteRule": "@request.auth.id != owner.id",
+        "options": {}
+    },
+    {
+        "id": "sijd38964ht83q5",
+        "created": "2023-07-11 13:26:18.946Z",
+        "updated": "2023-07-11 13:28:21.425Z",
+        "name": "authorizationsExamples",
+        "type": "base",
+        "system": false,
+        "schema": [
+            {
+                "id": "s6z3yyrm",
+                "name": "name",
+                "type": "text",
+                "system": false,
+                "required": true,
+                "options": {
+                    "min": null,
+                    "max": null,
+                    "pattern": ""
+                }
+            }
+        ],
+        "indexes": [],
+        "listRule": "(@collection.authorizations.users.id ?= @request.auth.id || @collection.authorizations.owner.id = @request.auth.id) && @collection.authorizations.record_id = id",
+        "viewRule": "(@collection.authorizations.users.id ?= @request.auth.id || @collection.authorizations.owner.id = @request.auth.id) && @collection.authorizations.record_id = id",
+        "createRule": "@request.auth.id != ''",
+        "updateRule": "(@collection.authorizations.users.id ?= @request.auth.id || @collection.authorizations.owner.id = @request.auth.id) && @collection.authorizations.record_id = id",
+        "deleteRule": "(@collection.authorizations.users.id ?= @request.auth.id || @collection.authorizations.owner.id = @request.auth.id) && @collection.authorizations.record_id = id",
+        "options": {}
+    },
+    {
         "id": "yaf7gr7w4oiyxse",
         "created": "2023-06-22 02:35:04.900Z",
         "updated": "2023-06-22 02:35:04.900Z",
@@ -483,7 +582,7 @@
     {
         "id": "xl2wr8ij9rnkug6",
         "created": "2023-06-22 03:01:20.312Z",
-        "updated": "2023-07-10 14:51:02.025Z",
+        "updated": "2023-07-11 16:10:47.911Z",
         "name": "signatures",
         "type": "base",
         "system": false,
