@@ -1,8 +1,6 @@
-
 # Pocketbase backend
 
 Starter for a backend that includes pocketbase and [keypairoom](https://github.com/LedgerProject/keypairoom) key generation.
-
 
 ## Run Locally
 
@@ -10,7 +8,6 @@ Starter for a backend that includes pocketbase and [keypairoom](https://github.c
 docker-compose build
 docker-compose up
 ```
-
 
 ## Environment Variables
 
@@ -20,6 +17,13 @@ To run this project, you will need to add the following environment variables to
 
 `RESTROOM_URL` the URL of a [zenflows-crypto](https://github.com/interfacerproject/zenflows-crypto) instance
 
+## Recipes
+
+To protect a collection using the `authorizations` collection, paste this string in the API rules section:
+
+```
+(@collection.authorizations.users.id ?= @request.auth.id || @collection.authorizations.owner.id = @request.auth.id) && @collection.authorizations.record_id = id
+```
 
 ## API Reference
 
@@ -29,18 +33,18 @@ To run this project, you will need to add the following environment variables to
   GET /api/keypairoom-server
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `data` | `dictionary` | **Required**. Identifier of the user |
+| Parameter | Type         | Description                          |
+| :-------- | :----------- | :----------------------------------- |
+| `data`    | `dictionary` | **Required**. Identifier of the user |
 
 ## Authors
 
-- [@albertolerda](https://github.com/albertolerda)
-- [@bbtgnn](https://github.com/bbtgnn)
-- [@puria](https://github.com/puria)
-
+-   [@albertolerda](https://github.com/albertolerda)
+-   [@bbtgnn](https://github.com/bbtgnn)
+-   [@puria](https://github.com/puria)
 
 ## License
+
 ```
 Pocketbase starter - Zenflows economic model API's
 Copyleft (ɔ) 2023 Dyne.org foundation
@@ -59,5 +63,3 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ```
-
-
