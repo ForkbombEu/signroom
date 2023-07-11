@@ -3,9 +3,10 @@
 
 	export let title: string;
 	export let description: string | null = null;
+	export let containerClass: string = '';
 </script>
 
-<div class="flex w-full justify-between items-center">
+<div class={`flex w-full justify-between items-center ${containerClass}`}>
 	<div>
 		<Heading
 			tag="h2"
