@@ -13,6 +13,7 @@
 	import { page } from '$app/stores';
 	import type { RecordFullListQueryParams } from 'pocketbase';
 	import SignaturesFoldersHead from '$lib/components/signaturesFoldersHead.svelte';
+	import SignedFileDisplay from './_partials/SignedFileDisplay.svelte';
 	const slotTypeCaster = createSlotTypeCaster<CrudExampleRecord>();
 
 	$: folderId = $page.url.searchParams.get('folder');
@@ -45,16 +46,18 @@
 			{:else}
 				<SignaturesFoldersHead {folderId} />
 			{/if}
-			<RecordsTable
-				{records}
-				fields={['type', 'title', 'file', 'description']}
-				showCheckboxes={false}
-				fieldsComponents={{
-					type: Chip,
-					file: File,
-					description: Description
-				}}
-			/>
+      <RecordsTable
+        {records}
+        fields={['type', 'title', 'file', 'signed_file','description']}
+        showCheckboxes={false}
+        fieldsComponents={{
+          type: Chip,
+          file: File,
+          description: Description,
+          //@ts-ignore
+          signed_file:SignedFileDisplay
+        }}
+      />
 		</RecordsManager>
 	{/key}
 </div>
