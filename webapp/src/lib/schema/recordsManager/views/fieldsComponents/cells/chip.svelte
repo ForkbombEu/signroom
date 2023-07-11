@@ -10,7 +10,7 @@
 			'bg-pink-100 text-pink-800': value === 'pdf',
 			'bg-green-100 text-grern-800': value === 'xml'
 		},
-		'px-3 w-fit  py-1 rounded uppercase'
+		'px-3 w-fit py-1 rounded uppercase'
 	);
 </script>
 

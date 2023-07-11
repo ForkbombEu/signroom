@@ -95,9 +95,10 @@ export type HooksRecord = {
 }
 
 export enum SignaturesTypeOptions {
-	"json" = "json",
-	"pdf" = "pdf",
-	"xml" = "xml",
+	"xades" = "xades",
+	"pades" = "pades",
+	"cades" = "cades",
+	"jades" = "jades",
 }
 export type SignaturesRecord<Tsigned_file = unknown> = {
 	title?: string

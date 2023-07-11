@@ -1,8 +1,8 @@
 [
     {
         "id": "_pb_users_auth_",
-        "created": "2023-07-03 16:19:35.529Z",
-        "updated": "2023-07-03 16:19:35.540Z",
+        "created": "2023-07-10 14:51:01.795Z",
+        "updated": "2023-07-10 14:51:01.804Z",
         "name": "users",
         "type": "auth",
         "system": false,
@@ -123,7 +123,7 @@
     {
         "id": "3fhw2mfr9zrgodj",
         "created": "2022-10-03 21:50:44.238Z",
-        "updated": "2023-07-03 16:19:35.533Z",
+        "updated": "2023-07-10 14:51:01.799Z",
         "name": "hooks",
         "type": "base",
         "system": false,
@@ -227,7 +227,7 @@
     {
         "id": "z4cc0g76ciqx13v",
         "created": "2023-05-17 16:48:21.255Z",
-        "updated": "2023-07-03 16:19:35.539Z",
+        "updated": "2023-07-10 14:51:01.804Z",
         "name": "features",
         "type": "base",
         "system": false,
@@ -274,7 +274,7 @@
     {
         "id": "p9dhra382rts3bg",
         "created": "2023-06-07 10:44:19.476Z",
-        "updated": "2023-07-08 13:59:35.724Z",
+        "updated": "2023-07-10 14:51:02.025Z",
         "name": "CrudExample",
         "type": "base",
         "system": false,
@@ -483,7 +483,7 @@
     {
         "id": "xl2wr8ij9rnkug6",
         "created": "2023-06-22 03:01:20.312Z",
-        "updated": "2023-07-04 09:14:23.952Z",
+        "updated": "2023-07-10 14:51:02.025Z",
         "name": "signatures",
         "type": "base",
         "system": false,
@@ -559,9 +559,10 @@
                 "options": {
                     "maxSelect": 1,
                     "values": [
-                        "json",
-                        "pdf",
-                        "xml"
+                        "xades",
+                        "pades",
+                        "cades",
+                        "jades"
                     ]
                 }
             },
