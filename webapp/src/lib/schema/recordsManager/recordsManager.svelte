@@ -58,14 +58,19 @@
 
 	/* Data load */
 
+	const queryParams = writable<RecordFullListQueryParams>({
+		sort: '-created'
+	});
+
+	$: $queryParams = {
+		$autoCancel: false,
+		...$queryParams,
+		...initialQueryParams
+	};
+
 	const recordService = pb.collection(collection);
 
 	let records: (RecordGeneric & PBRecord)[] = [];
-	const queryParams = writable<RecordFullListQueryParams>({
-		$autoCancel: false,
-		sort: '-created',
-		...initialQueryParams
-	});
 
 	async function loadRecords() {
 		records = await recordService.getFullList($queryParams);
