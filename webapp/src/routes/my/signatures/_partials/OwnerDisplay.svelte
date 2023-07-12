@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { currentUser } from '$lib/pocketbase';
 	import type { SignaturesRecord } from '$lib/pocketbase-types';
+	import { Badge } from 'flowbite-svelte';
 	import type { Record } from 'pocketbase';
 
 	export let value: string;
@@ -11,5 +12,5 @@
 </script>
 
 {#if !isOwned}
-	<div class='px-3 w-fit py-1 rounded uppercase bg-blue-100 text-blue-800'>Shared</div>
+	<Badge color="blue">Shared</Badge>
 {/if}

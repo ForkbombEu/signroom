@@ -2,7 +2,6 @@
 	import type { Record } from 'pocketbase';
 	import type { SignaturesRecord } from '$lib/pocketbase-types';
 	import { Heading, P } from 'flowbite-svelte';
-	import Description from '$lib/components/table/cells/description.svelte';
 	import OwnerDisplay from './OwnerDisplay.svelte';
 	import Chip from '$lib/schema/recordsManager/views/fieldsComponents/cells/chip.svelte';
 	import FolderDisplay from './FolderDisplay.svelte';
@@ -12,7 +11,7 @@
 	export let record: Record & SignaturesRecord;
 	value;
 
-    const isOwned = $currentUser?.id === record?.owner;
+	const isOwned = $currentUser?.id === record?.owner;
 </script>
 
 <div class="flex flex-col gap-2 max-w-xl">
@@ -30,5 +29,7 @@
 			{record?.title}
 		</Heading>
 	</div>
-	<Description value={record?.description} {record} />
+	<div class="line-clamp-3 w-full whitespace-normal text-gray-600">
+		{record?.description}
+	</div>
 </div>
