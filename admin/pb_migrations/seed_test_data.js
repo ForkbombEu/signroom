@@ -15,14 +15,24 @@ const users = {
     },
 };
 
-function addUser(dao, email, password) {
+function createSampleUserData(letter) {
+    return {
+        email: `user${letter}@example.org`,
+        username: `user${letter}`,
+        password: `user${letter}user${letter}`,
+    };
+}
+
+function addSampleUser(dao, letter) {
+    const { email, username, password } = createSampleUserData(letter);
     const collection = dao.findCollectionByNameOrId(USERS_COLLECTION_NAME);
 
     const record = new Record(collection);
-    record.setUsername(email);
+    record.setUsername(username);
     record.setEmail(email);
     record.setPassword(password);
     record.setVerified(true);
+    record.set("emailVisibility", true);
 
     dao.saveRecord(record);
 
@@ -39,9 +49,9 @@ migrate(
         const dao = new Dao(db);
 
         /* Users */
-        const userA = addUser(dao, users.A.email, users.A.password);
-        const userB = addUser(dao, users.B.email, users.B.password);
-        const userC = addUser(dao, users.C.email, users.C.password);
+        const userA = addSampleUser(dao, "A");
+        const userB = addSampleUser(dao, "B");
+        const userC = addSampleUser(dao, "C");
 
         /* AuthorizationExample */
         const authorizationsExamples = dao.findCollectionByNameOrId(
@@ -49,6 +59,7 @@ migrate(
         );
         const authorizationExample = new Record(authorizationsExamples);
         authorizationExample.set("name", "authorizationExample");
+        authorizationExample.set("owner", userA.id);
         dao.saveRecord(authorizationExample);
 
         /* Authorization */
