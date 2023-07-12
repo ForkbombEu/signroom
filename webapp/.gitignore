@@ -9,3 +9,5 @@ node_modules
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 /playwright
+src/lib/pocketbase-types.ts
+src/lib/schema/pb_schema.json

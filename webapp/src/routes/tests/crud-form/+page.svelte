@@ -18,6 +18,11 @@
 				relation_single: ['name'],
 				owner: ['name', 'username', 'email']
 			},
+			relationsInputMode: {
+				relation: 'select',
+				relation_single: 'search',
+				owner: 'search'
+			},
 			hiddenFields: ['owner'],
 			hiddenFieldsValues: { owner: $currentUser?.id }
 		}}

@@ -62,7 +62,7 @@
 			><Fire class="text-red-500 mr-2 w-5" /> Go Pro</DropdownItem
 		>
 		<DropdownDivider />
-		<DropdownItem href="/logout" class="text-primary-600">Sign out</DropdownItem>
+		<DropdownItem href="/my/logout" class="text-primary-600">Sign out</DropdownItem>
 	</Dropdown>
 	<div>
 		<span>Hello, <span class="font-semibold text-primary-600">{$currentUser?.email}</span></span>
@@ -92,13 +92,22 @@
 					</svelte:fragment>
 					<SidebarDropdownItem label="My folders" href="/my/folders" />
 					<SidebarDropdownItem label="My signatures" href="/my/signatures" />
-					<SidebarDropdownItem label="Sign document" href="/my/sign" />
 					<SidebarDropdownItem label="Validate signature" href="/my/validate" />
-					<SidebarDropdownItem label="Multisignature" />
-					<SidebarDropdownItem label="Zero Knowledge Proof" />
+					<SidebarDropdownItem
+						class="opacity-20 hover:bg-transparent cursor-default"
+						label="Multisignature"
+					/>
+					<SidebarDropdownItem
+						class="opacity-20 hover:bg-transparent cursor-default"
+						label="Zero Knowledge Proof"
+					/>
 				</SidebarDropdownWrapper>
 
-				<SidebarItem label="Notifications" {spanClass}>
+				<SidebarItem
+					label="Notifications"
+					{spanClass}
+					class="opacity-30 hover:bg-transparent cursor-default"
+				>
 					<svelte:fragment slot="icon">
 						<InboxArrowDown />
 					</svelte:fragment>
@@ -120,9 +129,15 @@
 							target="_blank"
 						/>
 					</FeatureFlag>
-					<SidebarDropdownItem label="My Verifiable Credentials" />
+					<SidebarDropdownItem
+						label="My Verifiable Credentials"
+						class="opacity-20 hover:bg-transparent cursor-default"
+					/>
 				</SidebarDropdownWrapper>
-				<SidebarDropdownWrapper label="Organization">
+				<SidebarDropdownWrapper
+					label="Organization"
+					class="opacity-30 hover:bg-transparent cursor-default"
+				>
 					<svelte:fragment slot="icon">
 						<Wallet />
 					</svelte:fragment>

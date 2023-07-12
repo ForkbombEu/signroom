@@ -3,17 +3,24 @@
 	import ListgroupItemButton from './listgroupItemButton.svelte';
 
 	type T = $$Generic;
+	export let value: T | T[] | undefined;
 
-	export let array: T[];
+	let tempItems: T[] = [];
+	$: {
+		if (Array.isArray(value)) tempItems = value;
+		else if (value) tempItems = [value];
+		else tempItems = [];
+	}
 
 	function removeItem(item: T) {
-		array = array.filter((i) => i !== item);
+		if (Array.isArray(value)) value = value.filter((i) => i !== item);
+		else value = undefined;
 	}
 </script>
 
-{#if array.length > 0}
+{#if tempItems.length > 0}
 	<Listgroup>
-		{#each array as item (item)}
+		{#each tempItems as item (item)}
 			<ListgroupItemButton on:click={() => removeItem(item)}>
 				<slot {item} />
 			</ListgroupItemButton>

@@ -72,17 +72,16 @@
 				hiddenFieldsValues: { owner: $currentUser?.id, type: '' },
 				relationsDisplayFields: {
 					folder: ['name']
+				},
+				relationsInputMode: {
+					folder: 'select'
 				}
 			}}
 			{initialQueryParams}
 			{slotTypeCaster}
 			let:records
 		>
-			{#if !folderId}
-				<SignaturesTableHead />
-			{:else}
-				<SignaturesFoldersHead {folderId} />
-			{/if}
+			<SignaturesTableHead {folderId} />
 			<RecordsTable
 				{records}
 				fields={['info', 'files']}
