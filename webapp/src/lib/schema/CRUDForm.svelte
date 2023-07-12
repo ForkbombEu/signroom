@@ -2,6 +2,7 @@
 	import type { RelationDisplayFields } from '$lib/components/forms/relations.svelte';
 	import type { ValueOf } from '$lib/utils/types';
 	import type { Record as PBRecord } from 'pocketbase';
+	import type { InputMode as RelationInputMode } from '$lib/components/relationsManager.svelte';
 
 	//
 
@@ -20,6 +21,7 @@
 		fieldsOrder: string[];
 		excludedFields: string[];
 		relationsDisplayFields: RelationsDisplayFields;
+		relationsInputMode: Record<string, RelationInputMode>;
 		hiddenFields: string[];
 		hiddenFieldsValues: HiddenFieldsValues;
 	};
@@ -29,6 +31,7 @@
 			fieldsOrder: [],
 			excludedFields: [],
 			relationsDisplayFields: {},
+			relationsInputMode: {},
 			hiddenFields: [],
 			hiddenFieldsValues: {}
 		};
@@ -58,7 +61,6 @@
 	import type { SuperForm } from 'sveltekit-superforms/client';
 	import type { AnyZodObject } from 'zod';
 	import type { ClientResponseErrorData } from '$lib/errorHandling';
-
 	//
 
 	export let collection: Collections | string;
@@ -70,7 +72,14 @@
 
 	//
 
-	let { fieldsOrder, excludedFields, relationsDisplayFields, hiddenFields, hiddenFieldsValues } = {
+	let {
+		fieldsOrder,
+		excludedFields,
+		relationsDisplayFields,
+		hiddenFields,
+		hiddenFieldsValues,
+		relationsInputMode
+	} = {
 		...defaultFormSettings(),
 		...formSettings
 	};
@@ -158,6 +167,7 @@
 	{#each fieldsSchema as fieldSchema}
 		{@const hidden = hiddenFields.includes(fieldSchema.name)}
 		{@const relationDisplayFields = relationsDisplayFields[fieldSchema.name] || []}
-		<FieldSchemaToInput {fieldSchema} {hidden} {relationDisplayFields} />
+		{@const relationInputMode = relationsInputMode[fieldSchema.name] || 'search'}
+		<FieldSchemaToInput {fieldSchema} {hidden} {relationDisplayFields} {relationInputMode} />
 	{/each}
 </Form>

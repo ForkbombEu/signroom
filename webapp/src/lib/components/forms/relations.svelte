@@ -3,7 +3,9 @@
 </script>
 
 <script lang="ts">
-	import RelationsManager from '$lib/components/relationsManager.svelte';
+	import RelationsManager, {
+		type InputMode as RelationInputMode
+	} from '$lib/components/relationsManager.svelte';
 	import { formFieldProxy } from 'sveltekit-superforms/client';
 	import { getFormContext } from './form.svelte';
 	import type { Collections } from '$lib/pocketbase-types';
@@ -15,6 +17,7 @@
 	export let multiple: boolean;
 	export let displayFields: RelationDisplayFields;
 	export let max: number | undefined = undefined;
+	export let inputMode: RelationInputMode = 'search';
 
 	const { superform } = getFormContext();
 	const { value } = formFieldProxy(superform, field);
@@ -28,5 +31,6 @@
 		{multiple}
 		{displayFields}
 		{max}
+		mode={inputMode}
 	/>
 </FieldWrapper>
