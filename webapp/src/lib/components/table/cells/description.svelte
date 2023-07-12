@@ -5,6 +5,6 @@
 	log(record);
 </script>
 
-<div class="line-clamp-3 w-64 whitespace-normal">
+<div class="line-clamp-3 w-full whitespace-normal">
 	{value}
 </div>

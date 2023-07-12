@@ -14,8 +14,10 @@
 </script>
 
 {#if url}
-	<Button href={url} target="_blank" class="!p-2" color="alternative">
-		<ArrowDownTray size="20" />
-	</Button>
-	<Tooltip>Download: {value}</Tooltip>
+	<slot {url} {value}>
+		<Button href={url} target="_blank" class="!p-2" color="alternative">
+			<ArrowDownTray size="20" />
+		</Button>
+		<Tooltip>Download: {value}</Tooltip>
+	</slot>
 {/if}
