@@ -14,10 +14,11 @@
 	import type { Record, RecordFullListQueryParams } from 'pocketbase';
 	import SignaturesFoldersHead from '$lib/components/signaturesFoldersHead.svelte';
 	import SignedFileDisplay from './_partials/SignedFileDisplay.svelte';
-	import { Button } from 'flowbite-svelte';
+	import { Button, Toast } from 'flowbite-svelte';
 	import { Share } from 'svelte-heros-v2';
 	import ShareSignature from './_partials/ShareSignature.svelte';
 	import OwnerDisplay from './_partials/OwnerDisplay.svelte';
+	import { slide } from 'svelte/transition';
 
 	const slotTypeCaster = createSlotTypeCaster<SignaturesRecord>();
 
@@ -37,9 +38,31 @@
 		shareModal = true;
 		record = r;
 	}
-	function closeShareModal() {
-		shareModal = false;
+
+	function clearRecord() {
 		record = undefined;
+	}
+
+	/* Toasts */
+
+	const toasts = {
+		add: '✅ Signature shared successfully',
+		remove: '✅ Signature unshared successfully'
+	};
+
+	type Toast = keyof typeof toasts;
+
+	let show = false;
+	let content: string | undefined = undefined;
+	const duration = 2000;
+
+	function trigger(key: Toast) {
+		show = true;
+		content = toasts[key];
+		setTimeout(() => {
+			show = false;
+			content = undefined;
+		}, duration);
 	}
 </script>
 
@@ -95,6 +118,19 @@
 
 {#key record}
 	{#if record}
-		<ShareSignature bind:open={shareModal} {record} on:success={closeShareModal} />
+		<ShareSignature
+			bind:open={shareModal}
+			{record}
+			on:add={() => {
+				trigger('add');
+			}}
+			on:remove={() => {
+				trigger('remove');
+			}}
+		/>
 	{/if}
 {/key}
+
+<Toast simple position="bottom-right" color="dark" transition={slide} bind:open={show}>
+	{content}
+</Toast>
