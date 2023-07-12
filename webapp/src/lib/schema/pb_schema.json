@@ -2,7 +2,7 @@
     {
         "id": "_pb_users_auth_",
         "created": "2023-07-11 16:10:47.894Z",
-        "updated": "2023-07-11 16:10:47.898Z",
+        "updated": "2023-07-11 17:01:57.019Z",
         "name": "users",
         "type": "auth",
         "system": false,
@@ -103,8 +103,8 @@
         "indexes": [
             "CREATE INDEX `__pb_users_auth__created_idx` ON `users` (`created`)"
         ],
-        "listRule": "id = @request.auth.id",
-        "viewRule": "id = @request.auth.id",
+        "listRule": "@request.auth.id != ''",
+        "viewRule": "@request.auth.id != ''",
         "createRule": "",
         "updateRule": "id = @request.auth.id",
         "deleteRule": "id = @request.auth.id",
@@ -582,7 +582,7 @@
     {
         "id": "xl2wr8ij9rnkug6",
         "created": "2023-06-22 03:01:20.312Z",
-        "updated": "2023-07-11 16:10:47.911Z",
+        "updated": "2023-07-11 16:49:45.484Z",
         "name": "signatures",
         "type": "base",
         "system": false,
@@ -675,8 +675,8 @@
             }
         ],
         "indexes": [],
-        "listRule": "@request.auth.id = owner.id",
-        "viewRule": "@request.auth.id = owner.id",
+        "listRule": "@collection.authorizations.owner.id = @request.auth.id ||(@collection.authorizations.users.id ?= @request.auth.id && @collection.authorizations.record_id = id)",
+        "viewRule": "@collection.authorizations.owner.id = @request.auth.id ||(@collection.authorizations.users.id ?= @request.auth.id && @collection.authorizations.record_id = id)",
         "createRule": "@request.auth.id = owner.id",
         "updateRule": "@request.auth.id = owner.id",
         "deleteRule": "@request.auth.id = owner.id",
