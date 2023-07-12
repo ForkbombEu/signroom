@@ -102,7 +102,11 @@
 					/>
 				</SidebarDropdownWrapper>
 
-				<SidebarItem label="Notifications" {spanClass}>
+				<SidebarItem
+					label="Notifications"
+					{spanClass}
+					class="opacity-30 hover:bg-transparent cursor-default"
+				>
 					<svelte:fragment slot="icon">
 						<InboxArrowDown />
 					</svelte:fragment>
@@ -124,9 +128,15 @@
 							target="_blank"
 						/>
 					</FeatureFlag>
-					<SidebarDropdownItem label="My Verifiable Credentials" />
+					<SidebarDropdownItem
+						label="My Verifiable Credentials"
+						class="opacity-20 hover:bg-transparent cursor-default"
+					/>
 				</SidebarDropdownWrapper>
-				<SidebarDropdownWrapper label="Organization">
+				<SidebarDropdownWrapper
+					label="Organization"
+					class="opacity-30 hover:bg-transparent cursor-default"
+				>
 					<svelte:fragment slot="icon">
 						<Wallet />
 					</svelte:fragment>
