@@ -1,6 +1,6 @@
 {
   "template": "https://github.com/dyne/starters",
-  "commit": "4916d96d9713ae319fe9ee8c267b582a15d79b8e",
+  "commit": "33bcf688db3529118f9828d3842a878d07db07df",
   "checkout": null,
   "context": {
     "cookiecutter": {

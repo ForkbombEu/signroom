@@ -7,10 +7,10 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"net/mail"
 	"os"
 	"os/exec"
 	"strings"
-	"net/mail"
 
 	"github.com/labstack/echo/v5"
 	"github.com/pocketbase/dbx"
@@ -102,7 +102,7 @@ func executeEventActions(app *pocketbase.PocketBase, event string, table string,
 		})
 		switch action_type {
 		case "sendmail":
-			if err := doSendMail(app, action, action_type, record); err != nil {
+			if err := doSendMail(app, action, action_params, record); err != nil {
 				log.Println("ERROR", err)
 			}
 		default:
@@ -126,21 +126,61 @@ func executeEventAction(event, table, action_type, action, action_params string,
 }
 
 func doSendMail(app *pocketbase.PocketBase, action, action_params string, record *models.Record) error {
-	userTo, err := app.Dao().FindRecordById("users", record.GetString("owner"))
-	if err != nil {
-		return err
+	params := struct {
+		Subject    string `json:"subject"`
+		OwnerField string `json:"ownerField"`
+	}{
+		Subject:    "New message",
+		OwnerField: "owner",
 	}
-	message := &mailer.Message{
-		From: mail.Address{
-			Address: app.Settings().Meta.SenderAddress,
-			Name:    app.Settings().Meta.SenderName,
-		},
-		To:      []mail.Address{ {Address: userTo.Email()} },
-		Subject: action_params,
-		HTML:    action,
+	if action_params != "" {
+		err := json.Unmarshal([]byte(action_params), &params)
+		if err != nil {
+			return err
+		}
+	}
+	var emails []string
+	owner := record.Get(params.OwnerField)
+	if o, ok := owner.(string); ok {
+		userTo, err := app.Dao().FindRecordById("users", o)
+		if err != nil {
+			return err
+		}
+		emails = []string{userTo.Email()}
+	} else if os, ok := owner.([]string); ok {
+		records, err := app.Dao().FindRecordsByIds("users", os)
+		if err != nil {
+			return err
+		}
+		for _, x := range records {
+			emails = append(emails, x.Email())
+		}
+	} else {
+		return errors.New(fmt.Sprintf("Unknown record"))
+	}
+	// TODO: send mail in multiple go routines
+	var err error = nil
+	for _, email := range emails {
+		message := &mailer.Message{
+			From: mail.Address{
+				Address: app.Settings().Meta.SenderAddress,
+				Name:    app.Settings().Meta.SenderName,
+			},
+			To:      []mail.Address{ {Address: email} },
+			Subject: params.Subject,
+			HTML:    action,
+		}
+		e := app.NewMailClient().Send(message)
+		if e != nil {
+			if err == nil {
+				err = e
+			} else {
+				err = fmt.Errorf("%w; %w", err, e)
+			}
+		}
 	}
 
-	return app.NewMailClient().Send(message)
+	return err
 }
 
 func doCommand(action, action_params string, record *models.Record) error {
