@@ -25,7 +25,7 @@ To protect a collection using the `authorizations` collection:
 2. Paste this string in the API rules section, where needed
 
 ```
-owner.id = @request.auth.id || (@collection.authorizations.users.id ?= @request.auth.id && @collection.authorizations.record_id = id)
+owner.id = @request.auth.id || (@collection.authorizations.users.id ?= @request.auth.id && @collection.authorizations.record_id ?= id)
 ```
 
 ## API Reference
