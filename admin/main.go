@@ -100,6 +100,7 @@ func main() {
 		})
 		return nil
 	})
+
 	hooks.Register(app)
 	jsvm.MustRegisterMigrations(app, &jsvm.MigrationsOptions{})
 	migratecmd.MustRegister(app, app.RootCmd, &migratecmd.Options{
