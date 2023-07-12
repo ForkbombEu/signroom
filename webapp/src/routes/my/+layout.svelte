@@ -61,7 +61,7 @@
 			><Fire class="text-red-500 mr-2 w-5" /> Go Pro</DropdownItem
 		>
 		<DropdownDivider />
-		<DropdownItem href="/logout" class="text-primary-600">Sign out</DropdownItem>
+		<DropdownItem href="/my/logout" class="text-primary-600">Sign out</DropdownItem>
 	</Dropdown>
 	<div>
 		<span>Hello, <span class="font-semibold text-primary-600">{$currentUser?.email}</span></span>
