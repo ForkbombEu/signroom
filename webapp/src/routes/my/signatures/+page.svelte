@@ -81,11 +81,7 @@
 			{slotTypeCaster}
 			let:records
 		>
-			{#if !folderId}
-				<SignaturesTableHead />
-			{:else}
-				<SignaturesFoldersHead {folderId} />
-			{/if}
+			<SignaturesTableHead {folderId} />
 			<RecordsTable
 				{records}
 				fields={['type', 'owner', 'title', 'file', 'signed_file', 'description']}

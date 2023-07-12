@@ -10,9 +10,11 @@
 	import { pb } from '$lib/pocketbase';
 	import RenderSignedFile from '../../routes/my/signatures/_partials/RenderSignedFile.svelte';
 
-	import type { Record } from 'pocketbase';
-	import type { SignaturesRecord, SignaturesTypeOptions } from '$lib/pocketbase-types';
+	import type { SignaturesTypeOptions } from '$lib/pocketbase-types';
 	import type { SignedFile } from '../../routes/my/signatures/_partials/SignedFileDisplay.svelte';
+	import SignaturesFoldersHead from './signaturesFoldersHead.svelte';
+
+	export let folderId: string | null = null;
 
 	const { formSettings, dataManager } = getRecordsManagerContext();
 	const { loadRecords } = dataManager;
@@ -144,7 +146,11 @@
 </script>
 
 <div class="flex flex-row justify-between items-center mb-8">
-	<TitleDescription title="My signatures" description="Here you can see all your signatures" />
+	{#if !folderId}
+		<TitleDescription title="My signatures" description="Here you can see all your signatures" />
+	{:else}
+		<SignaturesFoldersHead {folderId} />
+	{/if}
 	<div class="ml-4">
 		<CreateRecord let:openModal on:success={(e) => sign(e.detail.record)}>
 			<Button
