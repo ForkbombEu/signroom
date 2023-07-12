@@ -46,6 +46,7 @@ export type AuthorizationsRecord = {
 
 export type AuthorizationsExamplesRecord = {
 	name: string
+	owner?: RecordIdString
 }
 
 export enum CrudExampleSelectOptions {

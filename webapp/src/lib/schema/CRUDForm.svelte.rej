@@ -1,0 +1,25 @@
+diff a/webapp/src/lib/schema/CRUDForm.svelte b/webapp/src/lib/schema/CRUDForm.svelte	(rejected hunks)
+@@ -74,9 +75,11 @@
+ 		...formSettings
+ 	};
+ 
+-	const dispatch = createEventDispatcher<{ success: {
+-		record: PBRecord;
+-	} }>();
++	const dispatch = createEventDispatcher<{
++		success: {
++			record: PBRecord;
++		};
++	}>();
+ 
+ 	/* Schema generation */
+ 
+@@ -107,7 +110,7 @@
+ 				} else {
+ 					record = await pb.collection(collection).create(formData);
+ 				}
+-				dispatch('success', {record});
++				dispatch('success', { record });
+ 			},
+ 			mockedData
+ 		);
