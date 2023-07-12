@@ -23,7 +23,7 @@
 	const { validate } = superform;
 	const { value } = formFieldProxy(superform, field);
 
-	$: validateField($value);
+	$: if (Array.isArray($value) && $value.length > 0) validateField($value as any);
 
 	async function validateField(value: string) {
 		await validate(field);
