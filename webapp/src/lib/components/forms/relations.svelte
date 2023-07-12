@@ -20,7 +20,14 @@
 	export let inputMode: RelationInputMode = 'search';
 
 	const { superform } = getFormContext();
+	const { validate } = superform;
 	const { value } = formFieldProxy(superform, field);
+
+	$: validateField($value);
+
+	async function validateField(value: string) {
+		await validate(field);
+	}
 </script>
 
 <FieldWrapper {field} {label}>
