@@ -37,6 +37,7 @@
 				if (!isSignatureFile(json)) throw new Error('Not a signature file');
 				file = json;
 				name = fileUp[0].name;
+				hasErrors = false;
 			} catch (error) {
 				hasErrors = true;
 			}
@@ -45,12 +46,15 @@
 	}
 </script>
 
-<div class="p-8 flex flex-col gap-8">
+<div class="p-8 flex flex-col gap-8 max-w-4xl">
 	<TitleDescription title="Validate" description="Upload a signature file and verify autenticity" />
 	<Fileupload multiple={false} accept=".json" on:change={handleFileSelect} />
 	{#if file}
-		<P>{name}</P>
-		<RenderSignedFile signedFile={file.signedFile} type={file.type} />
+		<div class="flex gap-8">
+			<P>{name}</P>
+			<Helper helperClass="text-green-500">FILE VALID</Helper>
+		</div>
+		<RenderSignedFile signedFile={file.signedFile} type={file.type} leftButton/>
 	{/if}
 	{#if hasErrors}
 		<div class="space-y-1">

@@ -18,10 +18,19 @@
 
 	let open = false;
 	const { type } = record;
-	const file = new Blob([JSON.stringify({ type: record.type, signedFile: value })], {
-		type: 'text/plain'
-	});
-	const downloadUrl = URL.createObjectURL(file);
+	let file: Blob;
+	let downloadUrl: string;
+
+	$: {
+		if (value) {
+			file = new Blob([JSON.stringify({ type: record.type, signedFile: value })], {
+				type: 'application/json'
+			});
+		}
+		if (file) {
+			downloadUrl = URL.createObjectURL(file);
+		}
+	}
 	const downloadName = `${record.title}.json`;
 	const handleOpen = () => (open = !open);
 </script>
