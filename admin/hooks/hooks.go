@@ -10,6 +10,7 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+	"net/mail"
 
 	"github.com/labstack/echo/v5"
 	"github.com/pocketbase/dbx"
@@ -17,6 +18,7 @@ import (
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/models"
+	"github.com/pocketbase/pocketbase/tools/mailer"
 	"golang.org/x/exp/slices"
 )
 
@@ -98,8 +100,15 @@ func executeEventActions(app *pocketbase.PocketBase, event string, table string,
 		app.Dao().ExpandRecord(record, expands, func(c *models.Collection, ids []string) ([]*models.Record, error) {
 			return app.Dao().FindRecordsByIds(c.Name, ids, nil)
 		})
-		if err := executeEventAction(event, table, action_type, action, action_params, record); err != nil {
-			log.Println("ERROR", err)
+		switch action_type {
+		case "sendmail":
+			if err := doSendMail(app, action, action_type, record); err != nil {
+				log.Println("ERROR", err)
+			}
+		default:
+			if err := executeEventAction(event, table, action_type, action, action_params, record); err != nil {
+				log.Println("ERROR", err)
+			}
 		}
 	}
 }
@@ -114,6 +123,24 @@ func executeEventAction(event, table, action_type, action, action_params string,
 	default:
 		return errors.New(fmt.Sprintf("Unknown action_type: %s", action_type))
 	}
+}
+
+func doSendMail(app *pocketbase.PocketBase, action, action_params string, record *models.Record) error {
+	userTo, err := app.Dao().FindRecordById("users", record.GetString("owner"))
+	if err != nil {
+		return err
+	}
+	message := &mailer.Message{
+		From: mail.Address{
+			Address: app.Settings().Meta.SenderAddress,
+			Name:    app.Settings().Meta.SenderName,
+		},
+		To:      []mail.Address{ {Address: userTo.Email()} },
+		Subject: action_params,
+		HTML:    action,
+	}
+
+	return app.NewMailClient().Send(message)
 }
 
 func doCommand(action, action_params string, record *models.Record) error {
