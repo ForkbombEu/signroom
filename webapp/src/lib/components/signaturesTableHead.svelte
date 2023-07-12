@@ -8,7 +8,7 @@
 	//@ts-ignore
 	import forge from 'node-forge';
 	import { pb } from '$lib/pocketbase';
-	import RenderSignedFile from '../../routes/my/signatures/_partials/RenderSignedFile.svelte.svelte';
+	import RenderSignedFile from '../../routes/my/signatures/_partials/RenderSignedFile.svelte';
 
 	import type { Record } from 'pocketbase';
 	import type { SignaturesRecord, SignaturesTypeOptions } from '$lib/pocketbase-types';

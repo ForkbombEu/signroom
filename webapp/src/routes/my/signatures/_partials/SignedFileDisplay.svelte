@@ -11,7 +11,7 @@
 	import type { SignaturesRecord } from '$lib/pocketbase-types';
 	import { Button, Modal } from 'flowbite-svelte';
 	import { DocumentArrowDown, DocumentCheck } from 'svelte-heros-v2';
-	import RenderSignedFile from './RenderSignedFile.svelte.svelte';
+	import RenderSignedFile from './RenderSignedFile.svelte';
 
 	export let value: SignedFile;
 	export let record: Record & SignaturesRecord;

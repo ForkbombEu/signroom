@@ -1,7 +1,7 @@
 <script lang="ts">
 	import TitleDescription from '$lib/components/titleDescription.svelte';
 	import { Fileupload, Helper, P } from 'flowbite-svelte';
-	import RenderSignedFile from '../signatures/_partials/RenderSignedFile.svelte.svelte';
+	import RenderSignedFile from '../signatures/_partials/RenderSignedFile.svelte';
 	import type { SignedFile } from '../signatures/_partials/SignedFileDisplay.svelte';
 	import { SignaturesTypeOptions } from '$lib/pocketbase-types';
 
