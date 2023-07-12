@@ -92,8 +92,14 @@
 					<SidebarDropdownItem label="My folders" href="/my/folders" />
 					<SidebarDropdownItem label="My signatures" href="/my/signatures" />
 					<SidebarDropdownItem label="Validate signature" href="/my/validate" />
-					<SidebarDropdownItem label="Multisignature" />
-					<SidebarDropdownItem label="Zero Knowledge Proof" />
+					<SidebarDropdownItem
+						class="opacity-20 hover:bg-transparent cursor-default"
+						label="Multisignature"
+					/>
+					<SidebarDropdownItem
+						class="opacity-20 hover:bg-transparent cursor-default"
+						label="Zero Knowledge Proof"
+					/>
 				</SidebarDropdownWrapper>
 
 				<SidebarItem label="Notifications" {spanClass}>
