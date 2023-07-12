@@ -19,10 +19,13 @@ To run this project, you will need to add the following environment variables to
 
 ## Recipes
 
-To protect a collection using the `authorizations` collection, paste this string in the API rules section:
+To protect a collection using the `authorizations` collection:
+
+1. Add an `owner` attribute to the model you want to protect
+2. Paste this string in the API rules section, where needed
 
 ```
-(@collection.authorizations.users.id ?= @request.auth.id || @collection.authorizations.owner.id = @request.auth.id) && @collection.authorizations.record_id = id
+owner.id = @request.auth.id || (@collection.authorizations.users.id ?= @request.auth.id && @collection.authorizations.record_id = id)
 ```
 
 ## API Reference

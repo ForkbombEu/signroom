@@ -66,6 +66,7 @@
 	export let initialData: any = {};
 
 	export let formSettings: Partial<FormSettings> = {};
+	export let submitButtonText = '';
 
 	//
 
@@ -146,7 +147,11 @@
 
 	//
 
-	const defaultSubmitButtonText = mode == formMode.EDIT ? 'Edit record' : 'Create record';
+	const defaultSubmitButtonText = Boolean(submitButtonText)
+		? submitButtonText
+		: mode == formMode.EDIT
+		? 'Edit record'
+		: 'Create record';
 </script>
 
 <Form {superform} {defaultSubmitButtonText} on:success showRequiredIndicator>
