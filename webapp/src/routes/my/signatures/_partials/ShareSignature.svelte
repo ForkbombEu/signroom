@@ -85,6 +85,9 @@
 							},
 							relationsDisplayFields: {
 								users: ['email']
+							},
+							relationsInputMode: {
+								users: 'search'
 							}
 						}}
 					/>
