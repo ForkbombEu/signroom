@@ -9,6 +9,7 @@
 	$: {
 		if (Array.isArray(value)) tempItems = value;
 		else if (value) tempItems = [value];
+		else tempItems = [];
 	}
 
 	function removeItem(item: T) {
