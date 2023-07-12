@@ -75,6 +75,9 @@
 				hiddenFieldsValues: { owner: $currentUser?.id, type: '' },
 				relationsDisplayFields: {
 					folder: ['name']
+				},
+				relationsInputMode: {
+					folder: 'select'
 				}
 			}}
 			{initialQueryParams}
