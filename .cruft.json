@@ -1,7 +1,5 @@
 {
   "template": "https://github.com/dyne/starters",
-  "commit": "7ee606d49b566014dc8aeecefd57b9b3dbec4357",
-  "checkout": "records-manager-subscription",
   "context": {
     "cookiecutter": {
       "project_name": "signroom",
@@ -10,9 +8,7 @@
       "email": "puria@dyne.org",
       "project_slug": "signroom",
       "repo": "https://github.com/forkbombeu/signroom",
-      "_copy_without_render": [
-        "*.svelte"
-      ],
+      "_copy_without_render": ["*.svelte"],
       "_template": "https://github.com/dyne/starters"
     }
   },
