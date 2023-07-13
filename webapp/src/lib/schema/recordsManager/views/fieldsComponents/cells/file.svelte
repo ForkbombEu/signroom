@@ -2,7 +2,7 @@
 	import { pb } from '$lib/pocketbase';
 	import { Button, Tooltip } from 'flowbite-svelte';
 	import type { Record } from 'pocketbase';
-	import { ArrowDownTray } from 'svelte-heros-v2';
+	import { DocumentArrowDown } from 'svelte-heros-v2';
 
 	type RecordGeneric = $$Generic;
 
@@ -16,7 +16,7 @@
 {#if url}
 	<slot {url} {value}>
 		<Button href={url} target="_blank" class="!p-2" color="alternative">
-			<ArrowDownTray size="20" />
+			<DocumentArrowDown size="20" />
 		</Button>
 		<Tooltip>Download: {value}</Tooltip>
 	</slot>

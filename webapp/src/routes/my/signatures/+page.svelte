@@ -88,7 +88,7 @@
 				showCheckboxes={false}
 				fieldsComponents={{
 					info: Info,
-					files: Files,
+					files: Files
 				}}
 				let:record
 			>

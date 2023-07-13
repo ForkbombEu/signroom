@@ -1,11 +1,6 @@
 <script lang="ts">
 	import { currentUser } from '$lib/pocketbase';
-	import {
-		Collections,
-		type CrudExampleRecord,
-		type FoldersRecord,
-		type SignaturesRecord
-	} from '$lib/pocketbase-types';
+	import { Collections, type FoldersRecord, type SignaturesRecord } from '$lib/pocketbase-types';
 	import RecordsManager, {
 		createSlotTypeCaster
 	} from '$lib/schema/recordsManager/recordsManager.svelte';
@@ -42,27 +37,17 @@
 				{#each records as record}
 					{@const expand = record.expand[expandQuery]}
 					<div class="grow">
-						<RecordCard {record} titleField="name" showEdit showCheckbox showDelete>
+						<RecordCard {record} titleField="name" showEdit showDelete>
 							<div class="mb-3">
-								<P color="gray" size="sm">
+								<a class="text-primary-500 underline" href={`/my/signatures?folder=${record.id}`}>
 									{#if expand}
 										{expand.length}
 										{expand.length > 1 ? 'signatures' : 'signature'}
 									{:else}
-										No signatures
+										add signature
 									{/if}
-								</P>
+								</a>
 							</div>
-							<svelte:fragment slot="actions">
-								<Button
-									class="!py-2 !px-3"
-									color="alternative"
-									href={`/my/signatures?folder=${record.id}`}
-								>
-									<ListBullet size="20" />
-									<span class="ml-2"> View signatures </span>
-								</Button>
-							</svelte:fragment>
 						</RecordCard>
 					</div>
 				{/each}
