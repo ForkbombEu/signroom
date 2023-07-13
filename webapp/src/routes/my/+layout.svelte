@@ -49,12 +49,12 @@
 		duration: 200,
 		easing: sineIn
 	};
-	let breakPoint: number = 1024;
+	let breakPoint: number = 768;
 	let width: number;
 	let backdrop: boolean = false;
 	let activateClickOutside = true;
 	let drawerHidden: boolean = false;
-	
+
 	$: if (width >= breakPoint) {
 		drawerHidden = false;
 		activateClickOutside = false;
@@ -87,177 +87,188 @@
 </script>
 
 <svelte:window bind:innerWidth={width} />
-<Navbar
-	let:hidden
-	let:toggle
-	fluid={true}
-	navClass="px-2 sm:px-4 py-2 fixed w-full z-20 top-0 left-0 border-b"
->
-	<NavHamburger on:click={toggleSide} class="!ml-0" />
-	<NavBrand href="/my" class="w-64 md:block hidden">
-		<img src="/logo.svg" class="mr-3 h-6 sm:h-9" alt="{appTitle} Logo" />
-		<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white"
-			>{appTitle}</span
+<div class="w-screen h-screen overflow-hidden flex flex-col">
+	<div class="shrink-0">
+		<Navbar
+			let:hidden
+			let:toggle
+			fluid={true}
+			navClass="px-2 sm:px-4 py-2 md:py-0 fixed w-full z-20 top-0 left-0 border-b"
 		>
-	</NavBrand>
-	<div>
-		<span>Hello, <span class="font-semibold text-primary-600">{$currentUser?.email}</span></span>
-		<FeatureFlag flag="DID">
-			<Button
-				href="https://explorer.did.dyne.org/details/did:dyne:sandbox.signroom:{$currentUser?.eddsa_public_key}"
-				target="_blank"
-				size="xs"
-				class="ml-3"
-				color="light">My DID</Button
-			>
-		</FeatureFlag>
-	</div>
-	<div class="flex items-center hover:cursor-pointer">
-		<button id="avatar-menu">
-			<UserAvatar />
-		</button>
-	</div>
-	<Dropdown
-		placement="bottom"
-		triggeredBy="#avatar-menu"
-		frameClass="w-full min-h-screen md:w-fit md:min-h-fit"
-	>
-		<DropdownHeader>
-			<span class="block truncate text-sm font-medium">{$currentUser?.email}</span>
-		</DropdownHeader>
-		<DropdownItem href="/my/profile">My profile</DropdownItem>
-		<DropdownDivider />
-		<DropdownItem href="/pro" class="flex items-center"
-			><Fire class="text-red-500 mr-2 w-5" /> Go Pro</DropdownItem
-		>
-		<DropdownDivider />
-		<DropdownItem on:click={() => goto('/my/logout')} class="text-primary-600"
-			>Sign out</DropdownItem
-		>
-	</Dropdown>
-</Navbar>
-<Drawer
-	transitionType="fly"
-	{backdrop}
-	{transitionParams}
-	bind:hidden={drawerHidden}
-	bind:activateClickOutside
-	width="w-fit"
-	class="h-fit pb-8"
-	id="sidebar"
->
-	<div class="flex items-center">
-		<NavBrand href="/my">
-			<img src="/logo.svg" class="mr-3 h-6 sm:h-9" alt="{appTitle} Logo" />
-			<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white"
-				>{appTitle}</span
-			>
-		</NavBrand>
-		<CloseButton on:click={() => (drawerHidden = true)} class="mb-4 dark:text-white lg:hidden" />
-	</div>
-	<Sidebar>
-		<SidebarWrapper class="min-h-screen flex flex-col justify-between">
-			<SidebarGroup>
-				<SidebarItem label="Start" href="/my">
-					<svelte:fragment slot="icon">
-						<RocketLaunch />
-					</svelte:fragment>
-				</SidebarItem>
-				<SidebarDropdownWrapper label="Signatures">
-					<svelte:fragment slot="icon">
-						<ClipboardDocumentCheck />
-					</svelte:fragment>
-					<SidebarDropdownItem label="My folders" href="/my/folders" />
-					<SidebarDropdownItem label="My signatures" href="/my/signatures" />
-					<SidebarDropdownItem label="Validate signature" href="/my/validate" />
-					<SidebarDropdownItem
-						class="opacity-20 hover:bg-transparent cursor-default"
-						label="Multisignature"
-					/>
-					<SidebarDropdownItem
-						class="opacity-20 hover:bg-transparent cursor-default"
-						label="Zero Knowledge Proof"
-					/>
-				</SidebarDropdownWrapper>
-
-				<SidebarItem
-					label="Notifications"
-					{spanClass}
-					class="opacity-30 hover:bg-transparent cursor-default"
+			<NavHamburger on:click={toggleSide} class="!ml-0" />
+			<NavBrand href="/my" class="w-64 md:block hidden">
+				<img src="/logo.svg" class="mr-3 h-6 sm:h-9" alt="{appTitle} Logo" />
+				<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white"
+					>{appTitle}</span
 				>
-					<svelte:fragment slot="icon">
-						<InboxArrowDown />
-					</svelte:fragment>
-					<svelte:fragment slot="subtext">
-						<span
-							class="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-blue-600 bg-blue-200 rounded-full dark:bg-blue-900 dark:text-blue-200"
-							>3</span
-						>
-					</svelte:fragment>
-				</SidebarItem>
-				<SidebarDropdownWrapper label="Identity">
-					<svelte:fragment slot="icon">
-						<Identification />
-					</svelte:fragment>
-					<FeatureFlag flag="DID">
-						<SidebarDropdownItem
-							label="My DID"
-							href="https://explorer.did.dyne.org/details/did:dyne:sandbox.signroom:{$currentUser?.eddsa_public_key}"
-							target="_blank"
-						/>
-					</FeatureFlag>
-					<SidebarDropdownItem
-						label="My Verifiable Credentials"
-						class="opacity-20 hover:bg-transparent cursor-default"
-					/>
-				</SidebarDropdownWrapper>
-				<SidebarDropdownWrapper
-					label="Organization"
-					class="opacity-30 hover:bg-transparent cursor-default"
+			</NavBrand>
+			<div>
+				<span>Hello, <span class="font-semibold text-primary-600">{$currentUser?.email}</span></span
 				>
-					<svelte:fragment slot="icon">
-						<Wallet />
-					</svelte:fragment>
-					<SidebarDropdownItem label="Credential issuer" />
-				</SidebarDropdownWrapper>
-			</SidebarGroup>
-			<SidebarGroup>
-				<SidebarCta label="Beta">
-					<svelte:fragment slot="icon">
-						<CloseButton data-collapse-toggle="dropdown-cta" />
-					</svelte:fragment>
-					<p class="mb-3 text-sm text-blue-900 dark:text-blue-400">
-						Signroom is in beta! You can turn the new navigation off for a limited time in your
-						profile.
-					</p>
-					<a
-						class="text-sm text-blue-900 underline hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-						href="/"
+				<FeatureFlag flag="DID">
+					<Button
+						href="https://explorer.did.dyne.org/details/did:dyne:sandbox.signroom:{$currentUser?.eddsa_public_key}"
+						target="_blank"
+						size="xs"
+						class="ml-3"
+						color="light">My DID</Button
 					>
-						Turn new navigation off
-					</a>
-				</SidebarCta>
-				<SidebarItem label="Settings" href="/my/profile">
-					<svelte:fragment slot="icon">
-						<WrenchScrewdriver />
-					</svelte:fragment>
-				</SidebarItem>
-				<SidebarItem label="Profile" href="/my/profile">
-					<svelte:fragment slot="icon">
-						<UserCircle />
-					</svelte:fragment>
-				</SidebarItem>
-				<SidebarItem label="Help">
-					<svelte:fragment slot="icon">
-						<Lifebuoy />
-					</svelte:fragment>
-				</SidebarItem>
-			</SidebarGroup>
-		</SidebarWrapper>
-	</Sidebar>
-</Drawer>
-<div class="p-1 md:p-8 pt-20 md:pt-32 bg-slate-100 grow bg-[url('/bg.png')] bg-cover lg:ml-72 min-h-screen">
-	<div class="rounded-lg p-2 md:p-4 bg-white flex flex-col space gap-10 shadow-md">
-		<slot />
+				</FeatureFlag>
+			</div>
+			<div class="flex items-center hover:cursor-pointer">
+				<button id="avatar-menu">
+					<UserAvatar />
+				</button>
+			</div>
+
+			<Dropdown
+				placement="bottom"
+				triggeredBy="#avatar-menu"
+				frameClass="w-full min-h-screen md:w-fit md:min-h-fit"
+			>
+				<DropdownHeader>
+					<span class="block truncate text-sm font-medium">{$currentUser?.email}</span>
+				</DropdownHeader>
+				<DropdownItem href="/my/profile">My profile</DropdownItem>
+				<DropdownDivider />
+				<DropdownItem href="/pro" class="flex items-center"
+					><Fire class="text-red-500 mr-2 w-5" /> Go Pro</DropdownItem
+				>
+				<DropdownDivider />
+				<DropdownItem on:click={() => goto('/my/logout')} class="text-primary-600"
+					>Sign out</DropdownItem
+				>
+			</Dropdown>
+		</Navbar>
+	</div>
+	<div class="h-0 grow flex">
+		<Drawer
+			transitionType="fly"
+			{backdrop}
+			{transitionParams}
+			bind:hidden={drawerHidden}
+			bind:activateClickOutside
+			width="w-fit"
+			class="h-fit pb-8"
+			id="sidebar"
+		>
+			<div class="flex items-center mb-4">
+				<NavBrand href="/my">
+					<img src="/logo.svg" class="mr-3 h-6 sm:h-9" alt="{appTitle} Logo" />
+					<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white"
+						>{appTitle}</span
+					>
+				</NavBrand>
+				<CloseButton on:click={() => (drawerHidden = true)} class=" dark:text-white md:hidden" />
+			</div>
+			<Sidebar>
+				<SidebarWrapper class="min-h-screen flex flex-col justify-between">
+					<SidebarGroup>
+						<SidebarItem label="Start" href="/my">
+							<svelte:fragment slot="icon">
+								<RocketLaunch />
+							</svelte:fragment>
+						</SidebarItem>
+						<SidebarDropdownWrapper label="Signatures">
+							<svelte:fragment slot="icon">
+								<ClipboardDocumentCheck />
+							</svelte:fragment>
+							<SidebarDropdownItem label="My folders" href="/my/folders" />
+							<SidebarDropdownItem label="My signatures" href="/my/signatures" />
+							<SidebarDropdownItem label="Validate signature" href="/my/validate" />
+							<SidebarDropdownItem
+								class="opacity-20 hover:bg-transparent cursor-default"
+								label="Multisignature"
+							/>
+							<SidebarDropdownItem
+								class="opacity-20 hover:bg-transparent cursor-default"
+								label="Zero Knowledge Proof"
+							/>
+						</SidebarDropdownWrapper>
+
+						<SidebarItem
+							label="Notifications"
+							{spanClass}
+							class="opacity-30 hover:bg-transparent cursor-default"
+						>
+							<svelte:fragment slot="icon">
+								<InboxArrowDown />
+							</svelte:fragment>
+							<svelte:fragment slot="subtext">
+								<span
+									class="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-blue-600 bg-blue-200 rounded-full dark:bg-blue-900 dark:text-blue-200"
+									>3</span
+								>
+							</svelte:fragment>
+						</SidebarItem>
+						<SidebarDropdownWrapper label="Identity">
+							<svelte:fragment slot="icon">
+								<Identification />
+							</svelte:fragment>
+							<FeatureFlag flag="DID">
+								<SidebarDropdownItem
+									label="My DID"
+									href="https://explorer.did.dyne.org/details/did:dyne:sandbox.signroom:{$currentUser?.eddsa_public_key}"
+									target="_blank"
+								/>
+							</FeatureFlag>
+							<SidebarDropdownItem
+								label="My Verifiable Credentials"
+								class="opacity-20 hover:bg-transparent cursor-default"
+							/>
+						</SidebarDropdownWrapper>
+						<SidebarDropdownWrapper
+							label="Organization"
+							class="opacity-30 hover:bg-transparent cursor-default"
+						>
+							<svelte:fragment slot="icon">
+								<Wallet />
+							</svelte:fragment>
+							<SidebarDropdownItem label="Credential issuer" />
+						</SidebarDropdownWrapper>
+					</SidebarGroup>
+					<SidebarGroup>
+						<SidebarCta label="Beta">
+							<svelte:fragment slot="icon">
+								<CloseButton data-collapse-toggle="dropdown-cta" />
+							</svelte:fragment>
+							<p class="mb-3 text-sm text-blue-900 dark:text-blue-400">
+								Signroom is in beta! You can turn the new navigation off for a limited time in your
+								profile.
+							</p>
+							<a
+								class="text-sm text-blue-900 underline hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+								href="/"
+							>
+								Turn new navigation off
+							</a>
+						</SidebarCta>
+						<SidebarItem label="Settings" href="/my/profile">
+							<svelte:fragment slot="icon">
+								<WrenchScrewdriver />
+							</svelte:fragment>
+						</SidebarItem>
+						<SidebarItem label="Profile" href="/my/profile">
+							<svelte:fragment slot="icon">
+								<UserCircle />
+							</svelte:fragment>
+						</SidebarItem>
+						<SidebarItem label="Help">
+							<svelte:fragment slot="icon">
+								<Lifebuoy />
+							</svelte:fragment>
+						</SidebarItem>
+					</SidebarGroup>
+				</SidebarWrapper>
+			</Sidebar>
+		</Drawer>
+
+		<div
+			class="p-1 md:p-8 pt-20 md:pt-32 bg-slate-100 grow bg-[url('/bg.png')] bg-cover md:ml-72 min-h-screen overflow-auto"
+		>
+			<div class="rounded-lg p-2 md:p-4 bg-white flex flex-col space gap-10 shadow-md">
+				<slot />
+			</div>
+		</div>
 	</div>
 </div>
