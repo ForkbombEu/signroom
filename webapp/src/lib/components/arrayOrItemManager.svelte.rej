@@ -1,0 +1,9 @@
+diff a/webapp/src/lib/components/arrayOrItemManager.svelte b/webapp/src/lib/components/arrayOrItemManager.svelte	(rejected hunks)
+@@ -9,6 +9,7 @@
+ 	$: {
+ 		if (Array.isArray(value)) tempItems = value;
+ 		else if (value) tempItems = [value];
++		else tempItems = [];
+ 	}
+ 
+ 	function removeItem(item: T) {

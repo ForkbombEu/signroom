@@ -1,0 +1,16 @@
+diff a/webapp/src/lib/components/forms/relations.svelte b/webapp/src/lib/components/forms/relations.svelte	(rejected hunks)
+@@ -20,7 +20,14 @@
+ 	export let inputMode: RelationInputMode = 'search';
+ 
+ 	const { superform } = getFormContext();
++	const { validate } = superform;
+ 	const { value } = formFieldProxy(superform, field);
++
++	$: if (Array.isArray($value) && $value.length > 0) validateField($value as any);
++
++	async function validateField(value: string) {
++		await validate(field);
++	}
+ </script>
+ 
+ <FieldWrapper {field} {label}>
