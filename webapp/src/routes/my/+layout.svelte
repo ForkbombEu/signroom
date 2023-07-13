@@ -37,6 +37,7 @@
 	import UserAvatar from '$lib/components/userAvatar.svelte';
 	import { sineIn } from 'svelte/easing';
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 
 	let spanClass = 'flex-1 ml-3 whitespace-nowrap';
 	$: activeUrl = $page.url.pathname;
@@ -126,7 +127,7 @@
 			><Fire class="text-red-500 mr-2 w-5" /> Go Pro</DropdownItem
 		>
 		<DropdownDivider />
-		<DropdownItem href="/my/logout" class="text-primary-600">Sign out</DropdownItem>
+		<DropdownItem on:click={()=>goto("/my/logout")} class="text-primary-600">Sign out</DropdownItem>
 	</Dropdown>
 </Navbar>
 <Drawer
@@ -251,7 +252,7 @@
 		</SidebarWrapper>
 	</Sidebar>
 </Drawer>
-<div class="p-8 pt-24 bg-slate-100 grow bg-[url('/bg.png')] bg-cover lg:ml-72">
+<div class="p-8 pt-24 bg-slate-100 grow bg-[url('/bg.png')] bg-cover lg:ml-72 min-h-screen">
 	<div class="rounded-lg p-4 bg-white flex flex-col space gap-10 shadow-md">
 		<slot />
 	</div>
