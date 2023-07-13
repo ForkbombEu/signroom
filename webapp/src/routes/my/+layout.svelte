@@ -5,6 +5,7 @@
 	import {
 		Button,
 		CloseButton,
+		Drawer,
 		Dropdown,
 		DropdownDivider,
 		DropdownHeader,
@@ -34,23 +35,86 @@
 	import '../../app.postcss';
 	import FeatureFlag from '$lib/components/featureFlag.svelte';
 	import UserAvatar from '$lib/components/userAvatar.svelte';
+	import { sineIn } from 'svelte/easing';
+	import { onMount } from 'svelte';
 
 	let spanClass = 'flex-1 ml-3 whitespace-nowrap';
 	$: activeUrl = $page.url.pathname;
+
+	let transitionParams = {
+		x: -320,
+		duration: 200,
+		easing: sineIn
+	};
+	let breakPoint: number = 1024;
+	let width: number;
+	let backdrop: boolean = false;
+	let activateClickOutside = true;
+	let drawerHidden: boolean = false;
+	$: if (width >= breakPoint) {
+		drawerHidden = false;
+		activateClickOutside = false;
+	} else {
+		drawerHidden = true;
+		activateClickOutside = true;
+	}
+	onMount(() => {
+		if (width >= breakPoint) {
+			drawerHidden = false;
+			activateClickOutside = false;
+		} else {
+			drawerHidden = true;
+			activateClickOutside = true;
+		}
+	});
+	const toggleSide = () => {
+		if (width < breakPoint) {
+			console.log('toggleSide', drawerHidden);
+			drawerHidden = !drawerHidden;
+		}
+	};
+	$: if (width >= breakPoint) {
+		drawerHidden = false;
+		activateClickOutside = false;
+	} else {
+		drawerHidden = true;
+		activateClickOutside = true;
+	}
+	const toggleDrawer = () => {
+		drawerHidden = false;
+	};
 </script>
 
-<Navbar let:hidden let:toggle fluid={true}>
-	<NavBrand href="/my" class="w-64">
+<svelte:window bind:innerWidth={width} />
+<Navbar
+	let:hidden
+	let:toggle
+	fluid={true}
+	navClass="px-2 sm:px-4 py-2 fixed w-full z-20 top-0 left-0 border-b"
+>
+	<NavHamburger on:click={toggleSide} class="!ml-0" />
+	<NavBrand href="/my" class="w-64 md:block hidden">
 		<img src="/logo.svg" class="mr-3 h-6 sm:h-9" alt="{appTitle} Logo" />
 		<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white"
 			>{appTitle}</span
 		>
 	</NavBrand>
-	<div class="flex items-center md:order-2 hover:cursor-pointer">
+	<div>
+		<span>Hello, <span class="font-semibold text-primary-600">{$currentUser?.email}</span></span>
+		<FeatureFlag flag="DID">
+			<Button
+				href="https://explorer.did.dyne.org/details/did:dyne:sandbox.signroom:{$currentUser?.eddsa_public_key}"
+				target="_blank"
+				size="xs"
+				class="ml-3"
+				color="light">My DID</Button
+			>
+		</FeatureFlag>
+	</div>
+	<div class="flex items-center hover:cursor-pointer">
 		<button id="avatar-menu">
 			<UserAvatar />
 		</button>
-		<NavHamburger on:click={toggle} class1="w-full md:flex md:w-auto md:order-1" />
 	</div>
 	<Dropdown placement="bottom" triggeredBy="#avatar-menu">
 		<DropdownHeader>
@@ -64,20 +128,26 @@
 		<DropdownDivider />
 		<DropdownItem href="/my/logout" class="text-primary-600">Sign out</DropdownItem>
 	</Dropdown>
-	<div>
-		<span>Hello, <span class="font-semibold text-primary-600">{$currentUser?.email}</span></span>
-		<FeatureFlag flag="DID">
-			<Button
-				href="https://explorer.did.dyne.org/details/did:dyne:sandbox.signroom:{$currentUser?.eddsa_public_key}"
-				target="_blank"
-				size="xs"
-				class="ml-3"
-				color="light">My DID</Button
-			>
-		</FeatureFlag>
-	</div>
 </Navbar>
-<div class="flex min-h-screen">
+<Drawer
+	transitionType="fly"
+	{backdrop}
+	{transitionParams}
+	bind:hidden={drawerHidden}
+	bind:activateClickOutside
+	width="w-fit"
+	class="h-fit pb-8"
+	id="sidebar"
+>
+	<div class="flex items-center">
+		<NavBrand href="/my">
+			<img src="/logo.svg" class="mr-3 h-6 sm:h-9" alt="{appTitle} Logo" />
+			<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white"
+				>{appTitle}</span
+			>
+		</NavBrand>
+		<CloseButton on:click={() => (drawerHidden = true)} class="mb-4 dark:text-white lg:hidden" />
+	</div>
 	<Sidebar>
 		<SidebarWrapper class="min-h-screen flex flex-col justify-between">
 			<SidebarGroup>
@@ -180,9 +250,9 @@
 			</SidebarGroup>
 		</SidebarWrapper>
 	</Sidebar>
-	<div class="p-8 bg-slate-100 grow bg-[url('/bg.png')] bg-cover">
-		<div class="rounded-lg p-4 bg-white flex flex-col space gap-10 shadow-md">
-			<slot />
-		</div>
+</Drawer>
+<div class="p-8 pt-24 bg-slate-100 grow bg-[url('/bg.png')] bg-cover lg:ml-72">
+	<div class="rounded-lg p-4 bg-white flex flex-col space gap-10 shadow-md">
+		<slot />
 	</div>
 </div>
