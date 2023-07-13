@@ -20,6 +20,9 @@
 			hiddenFields: ['owner'],
 			hiddenFieldsValues: { owner: $currentUser?.id }
 		}}
+		editFormSettings={{
+			excludedFields: ['select', 'text']
+		}}
 		{slotTypeCaster}
 		let:records
 	>

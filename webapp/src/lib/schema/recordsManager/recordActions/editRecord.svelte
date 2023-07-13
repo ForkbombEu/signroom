@@ -9,8 +9,13 @@
 
 	export let record: RecordGeneric & Record;
 
-	const { dataManager, formSettings } = getRecordsManagerContext();
+	const { dataManager, formSettings, editFormSettings } = getRecordsManagerContext();
 	const { loadRecords } = dataManager;
+
+	const settings = {
+		...formSettings,
+		...editFormSettings
+	};
 
 	let open = false;
 </script>
@@ -32,7 +37,7 @@
 				mode={formMode.EDIT}
 				collection={record.collectionId}
 				initialData={record}
-				{formSettings}
+				formSettings={settings}
 				on:success={async () => {
 					await loadRecords();
 					open = false;

@@ -77,7 +77,7 @@
 			collection={Collections.Signatures}
 			formSettings={{
 				hiddenFields: ['owner', 'type'],
-				hiddenFieldsValues: { owner: $currentUser?.id, type: '' },
+				hiddenFieldsValues: { owner: $currentUser?.id },
 				relationsDisplayFields: {
 					folder: ['name']
 				},
@@ -85,8 +85,12 @@
 					folder: 'select'
 				}
 			}}
+			editFormSettings={{
+				excludedFields: ['owner', 'type', 'file']
+			}}
 			{initialQueryParams}
 			{slotTypeCaster}
+			subscribe={[Collections.Authorizations, Collections.Folders]}
 			let:records
 		>
 			<SignaturesTableHead {folderId} {trigger}/>

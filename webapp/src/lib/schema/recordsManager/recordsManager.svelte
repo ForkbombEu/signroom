@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
 	import type { Record as PBRecord, RecordService } from 'pocketbase';
-	import { getContext, setContext } from 'svelte';
+	import { getContext, onMount, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import type { FormSettings } from '../CRUDForm.svelte';
 
@@ -22,6 +22,7 @@
 			discardSelection: () => void;
 		};
 		formSettings: Partial<FormSettings>;
+		editFormSettings: Partial<FormSettings>;
 	};
 
 	export function getRecordsManagerContext(): RecordsManagerContext {
@@ -48,7 +49,9 @@
 
 	export let collection: Collections | string;
 	export let formSettings: Partial<FormSettings> = {};
+	export let editFormSettings: Partial<FormSettings> = {};
 	export let initialQueryParams: RecordFullListQueryParams = {};
+	export let subscribe: string[] = [];
 
 	/* Slot typing */
 
@@ -80,6 +83,21 @@
 		$queryParams;
 		loadRecords();
 	}
+
+	onMount(() => {
+		const collections = [...subscribe, collection];
+		for (const c of collections) {
+			pb.collection(c).subscribe('*', () => {
+				loadRecords();
+			});
+		}
+
+		return () => {
+			for (const c of collections) {
+				pb.collection(c).unsubscribe();
+			}
+		};
+	});
 
 	/* Record selection */
 
@@ -117,7 +135,8 @@
 			toggleSelectAllRecords,
 			discardSelection
 		},
-		formSettings
+		formSettings,
+		editFormSettings
 	});
 </script>
 

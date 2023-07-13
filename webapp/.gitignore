@@ -11,3 +11,7 @@ vite.config.ts.timestamp-*
 /playwright
 src/lib/pocketbase-types.ts
 src/lib/schema/pb_schema.json
+
+# Sentry
+.sentryclirc
+sentry.properties

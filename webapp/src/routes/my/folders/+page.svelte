@@ -26,6 +26,7 @@
 		{slotTypeCaster}
 		initialQueryParams={{ expand: expandQuery }}
 		let:records
+		subscribe={[Collections.Signatures]}
 	>
 		<RecordsManagerTopbar>
 			<svelte:fragment slot="title">
