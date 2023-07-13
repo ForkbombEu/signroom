@@ -33,7 +33,7 @@
 			</svelte:fragment>
 		</RecordsManagerTopbar>
 		<div class="space-y-4">
-			<div class="gap-4 grid grid-cols-2">
+			<div class="gap-4 grid grid-cols-1 md:grid-cols-2">
 				{#each records as record}
 					{@const expand = record.expand[expandQuery]}
 					<div class="grow">

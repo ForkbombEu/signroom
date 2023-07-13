@@ -12,6 +12,8 @@
 		DropdownItem,
 		NavBrand,
 		NavHamburger,
+		NavLi,
+		NavUl,
 		Navbar,
 		Sidebar,
 		SidebarCta,
@@ -52,6 +54,7 @@
 	let backdrop: boolean = false;
 	let activateClickOutside = true;
 	let drawerHidden: boolean = false;
+	
 	$: if (width >= breakPoint) {
 		drawerHidden = false;
 		activateClickOutside = false;
@@ -81,9 +84,6 @@
 		drawerHidden = true;
 		activateClickOutside = true;
 	}
-	const toggleDrawer = () => {
-		drawerHidden = false;
-	};
 </script>
 
 <svelte:window bind:innerWidth={width} />
@@ -117,7 +117,11 @@
 			<UserAvatar />
 		</button>
 	</div>
-	<Dropdown placement="bottom" triggeredBy="#avatar-menu">
+	<Dropdown
+		placement="bottom"
+		triggeredBy="#avatar-menu"
+		frameClass="w-full min-h-screen md:w-fit md:min-h-fit"
+	>
 		<DropdownHeader>
 			<span class="block truncate text-sm font-medium">{$currentUser?.email}</span>
 		</DropdownHeader>
@@ -127,7 +131,9 @@
 			><Fire class="text-red-500 mr-2 w-5" /> Go Pro</DropdownItem
 		>
 		<DropdownDivider />
-		<DropdownItem on:click={()=>goto("/my/logout")} class="text-primary-600">Sign out</DropdownItem>
+		<DropdownItem on:click={() => goto('/my/logout')} class="text-primary-600"
+			>Sign out</DropdownItem
+		>
 	</Dropdown>
 </Navbar>
 <Drawer
@@ -231,16 +237,14 @@
 						Turn new navigation off
 					</a>
 				</SidebarCta>
-				<SidebarItem label="Settings">
+				<SidebarItem label="Settings" href="/my/profile">
 					<svelte:fragment slot="icon">
 						<WrenchScrewdriver />
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem label="Profile">
+				<SidebarItem label="Profile" href="/my/profile">
 					<svelte:fragment slot="icon">
-						<a href="/my/profile">
-							<UserCircle />
-						</a>
+						<UserCircle />
 					</svelte:fragment>
 				</SidebarItem>
 				<SidebarItem label="Help">
@@ -252,7 +256,7 @@
 		</SidebarWrapper>
 	</Sidebar>
 </Drawer>
-<div class="p-8 pt-24 bg-slate-100 grow bg-[url('/bg.png')] bg-cover lg:ml-72 min-h-screen">
+<div class="p-0 md:p-8 pt-24 bg-slate-100 grow bg-[url('/bg.png')] bg-cover lg:ml-72 min-h-screen">
 	<div class="rounded-lg p-4 bg-white flex flex-col space gap-10 shadow-md">
 		<slot />
 	</div>
