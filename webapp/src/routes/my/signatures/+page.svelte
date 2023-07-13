@@ -79,6 +79,7 @@
 			}}
 			{initialQueryParams}
 			{slotTypeCaster}
+			subscribe={[Collections.Authorizations, Collections.Folders]}
 			let:records
 		>
 			<SignaturesTableHead {folderId} />
