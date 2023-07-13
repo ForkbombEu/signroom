@@ -149,10 +149,9 @@
 			bind:hidden={drawerHidden}
 			bind:activateClickOutside
 			width="w-fit"
-			class="h-fit pb-8"
 			id="sidebar"
 		>
-			<div class="flex items-center mb-4">
+			<div class="flex items-center mb-2">
 				<NavBrand href="/my">
 					<img src="/logo.svg" class="mr-3 h-6 sm:h-9" alt="{appTitle} Logo" />
 					<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white"
@@ -162,7 +161,7 @@
 				<CloseButton on:click={() => (drawerHidden = true)} class=" dark:text-white md:hidden" />
 			</div>
 			<Sidebar>
-				<SidebarWrapper class="min-h-screen flex flex-col justify-between">
+				<SidebarWrapper class="min-h-screen pb-20 flex flex-col justify-between">
 					<SidebarGroup>
 						<SidebarItem label="Start" href="/my">
 							<svelte:fragment slot="icon">
