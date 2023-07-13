@@ -69,13 +69,16 @@
 			collection={Collections.Signatures}
 			formSettings={{
 				hiddenFields: ['owner', 'type'],
-				hiddenFieldsValues: { owner: $currentUser?.id, type: '' },
+				hiddenFieldsValues: { owner: $currentUser?.id },
 				relationsDisplayFields: {
 					folder: ['name']
 				},
 				relationsInputMode: {
 					folder: 'select'
 				}
+			}}
+			editFormSettings={{
+				excludedFields: ['owner', 'type', 'file']
 			}}
 			{initialQueryParams}
 			{slotTypeCaster}
