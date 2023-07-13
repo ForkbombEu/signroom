@@ -1,8 +1,5 @@
 <script lang="ts">
 	import SignaturesTableHead from '$lib/components/signaturesTableHead.svelte';
-	import Description from '$lib/components/table/cells/description.svelte';
-	import Chip from '$lib/schema/recordsManager/views/fieldsComponents/cells/chip.svelte';
-	import File from '$lib/schema/recordsManager/views/fieldsComponents/cells/file.svelte';
 
 	import { currentUser } from '$lib/pocketbase';
 	import { Collections, type SignaturesRecord } from '$lib/pocketbase-types';
@@ -13,12 +10,12 @@
 	import { page } from '$app/stores';
 	import type { Record, RecordFullListQueryParams } from 'pocketbase';
 	import SignaturesFoldersHead from '$lib/components/signaturesFoldersHead.svelte';
-	import SignedFileDisplay from './_partials/SignedFileDisplay.svelte';
 	import { Button, Toast } from 'flowbite-svelte';
 	import { Share } from 'svelte-heros-v2';
 	import ShareSignature from './_partials/ShareSignature.svelte';
-	import OwnerDisplay from './_partials/OwnerDisplay.svelte';
 	import { slide } from 'svelte/transition';
+	import Info from './_partials/Info.svelte';
+	import Files from './_partials/Files.svelte';
 
 	const slotTypeCaster = createSlotTypeCaster<SignaturesRecord>();
 
@@ -87,15 +84,11 @@
 			<SignaturesTableHead {folderId} />
 			<RecordsTable
 				{records}
-				fields={['type', 'owner', 'title', 'file', 'signed_file', 'description']}
+				fields={['info', 'files']}
 				showCheckboxes={false}
 				fieldsComponents={{
-					type: Chip,
-					file: File,
-					description: Description,
-					owner: OwnerDisplay,
-					//@ts-ignore
-					signed_file: SignedFileDisplay
+					info: Info,
+					files: Files
 				}}
 				let:record
 			>

@@ -5,8 +5,6 @@
 	import { Pencil, XMark } from 'svelte-heros-v2';
 	import UserAvatar from '$lib/components/userAvatar.svelte';
 
-	//@ts-ignore
-	const avatarUrl = pb.files.getUrl($currentUser, $currentUser?.avatar);
 
 	let edit = false;
 	const toggleEdit = () => {

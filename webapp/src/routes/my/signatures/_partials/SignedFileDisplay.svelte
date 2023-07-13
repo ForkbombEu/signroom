@@ -18,23 +18,39 @@
 
 	let open = false;
 	const { type } = record;
-	const file = new Blob([JSON.stringify({ type: record.type, signedFile: value })], {
-		type: 'text/plain'
-	});
+	let file: Blob;
+	let downloadUrl: string;
+
+	$: {
+		if (value) {
+			file = new Blob([JSON.stringify({ type: record.type, signedFile: value })], {
+				type: 'application/json'
+			});
+		}
+		if (file) {
+			downloadUrl = URL.createObjectURL(file);
+		}
+	}
+	const downloadName = `${record.title}.json`;
+	const handleOpen = () => (open = !open);
 </script>
 
-<Button
-	target="_blank"
-	class="!p-2"
-	color="alternative"
-	href={URL.createObjectURL(file)}
-	download={`${record.title}.json`}
->
-	<DocumentArrowDown size="20" />
-</Button>
-<Button target="_blank" class="!p-2" color="alternative" on:click={() => (open = !open)}>
-	<DocumentCheck size="20" />
-</Button>
+<slot name="downloadButton" {downloadUrl} {downloadName}>
+	<Button
+		target="_blank"
+		class="!p-2"
+		color="alternative"
+		href={downloadUrl}
+		download={downloadName}
+	>
+		<DocumentArrowDown size="20" />
+	</Button>
+</slot>
+<slot name="showButton" {handleOpen}>
+	<Button target="_blank" class="!p-2" color="alternative" on:click={handleOpen}>
+		<DocumentCheck size="20" />
+	</Button>
+</slot>
 <div class="fixed z-50">
 	<Modal bind:open title={`${record.title} – Signed`} size="lg">
 		<div class="w-[600px]">

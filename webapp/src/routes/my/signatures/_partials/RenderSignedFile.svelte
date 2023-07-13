@@ -8,6 +8,7 @@
 
 	export let type: SignaturesTypeOptions = SignaturesTypeOptions.xades;
 	export let signedFile: SignedFile;
+	export let leftButton = false;
 	const { bytes: file } = signedFile;
 
 	let result: any;
@@ -29,7 +30,7 @@
 </script>
 
 <div class="flex flex-col gap-8 justify-end">
-	<div class="flex justify-end">
+	<div class={`flex justify-${leftButton? 'start' : 'end'}`}>
 		<Button color="primary" on:click={validate}>Validate signature</Button>
 	</div>
 	<Accordion>

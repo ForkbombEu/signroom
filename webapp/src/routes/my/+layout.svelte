@@ -3,7 +3,6 @@
 	import { currentUser } from '$lib/pocketbase';
 	import { appTitle } from '$lib/strings';
 	import {
-		Avatar,
 		Button,
 		CloseButton,
 		Dropdown,
@@ -34,6 +33,7 @@
 	} from 'svelte-heros-v2';
 	import '../../app.postcss';
 	import FeatureFlag from '$lib/components/featureFlag.svelte';
+	import UserAvatar from '$lib/components/userAvatar.svelte';
 
 	let spanClass = 'flex-1 ml-3 whitespace-nowrap';
 	$: activeUrl = $page.url.pathname;
@@ -47,7 +47,9 @@
 		>
 	</NavBrand>
 	<div class="flex items-center md:order-2 hover:cursor-pointer">
-		<Avatar id="avatar-menu" src={$currentUser?.avatar} />
+		<button id="avatar-menu">
+			<UserAvatar />
+		</button>
 		<NavHamburger on:click={toggle} class1="w-full md:flex md:w-auto md:order-1" />
 	</div>
 	<Dropdown placement="bottom" triggeredBy="#avatar-menu">
@@ -55,7 +57,6 @@
 			<span class="block truncate text-sm font-medium">{$currentUser?.email}</span>
 		</DropdownHeader>
 		<DropdownItem href="/my/profile">My profile</DropdownItem>
-		<DropdownItem href="/settings">Settings</DropdownItem>
 		<DropdownDivider />
 		<DropdownItem href="/pro" class="flex items-center"
 			><Fire class="text-red-500 mr-2 w-5" /> Go Pro</DropdownItem

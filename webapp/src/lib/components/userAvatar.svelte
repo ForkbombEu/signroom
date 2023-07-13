@@ -10,8 +10,12 @@
 		lg: 80,
 		xl: 98 // to be defined
 	};
-	//@ts-ignore
-	const src = pb.files.getUrl($currentUser, $currentUser?.avatar);
+	let src: string;
+	$: {
+		if ($currentUser?.avatar) {
+			src = pb.files.getUrl($currentUser, $currentUser?.avatar);
+		}
+	}
 </script>
 
 {#if $currentUser?.avatar}
