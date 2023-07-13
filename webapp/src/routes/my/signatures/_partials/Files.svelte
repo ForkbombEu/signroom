@@ -19,40 +19,73 @@
 	value;
 </script>
 
-<div class="flex flex-col gap-4">
-	<ButtonGroup>
-		<File {record} value={record?.file || ''} let:url let:value>
+<div class="flex flex-col gap-1 md:hidden">
+	<File {record} value={record?.file || ''} let:url let:value>
+		<Button
+			class="inline-flex items-center gap-2 w-full"
+			color="alternative"
+			href={url}
+			download={value}
+		>
+			<DocumentArrowDown size="20" />file
+		</Button>
+		<Tooltip>{value}</Tooltip>
+	</File>
+	<SignedFileDisplay {record} value={record?.signed_file}>
+		<div slot="downloadButton" let:downloadUrl let:downloadName>
 			<Button
 				class="inline-flex items-center gap-2 w-full"
 				color="alternative"
-				href={url}
-				download={value}
+				href={downloadUrl}
+				download={downloadName}
 			>
-				<DocumentArrowDown size="20" />file
+				<LockClosed size="20" />signature
 			</Button>
-			<Tooltip>{value}</Tooltip>
-		</File>
-		<SignedFileDisplay {record} value={record?.signed_file}>
-			<div slot="downloadButton" let:downloadUrl let:downloadName>
-				<Button
-					class="inline-flex items-center gap-2 w-full"
-					color="alternative"
-					href={downloadUrl}
-					download={downloadName}
-				>
-					<LockClosed size="20" />signature
-				</Button>
-				<Tooltip>{downloadName}</Tooltip>
-			</div>
-			<div slot="showButton" let:handleOpen>
-				<Button
-					class="inline-flex items-center gap-2 w-full"
-					color="alternative"
-					on:click={handleOpen}
-				>
-					<Eye size="20" />view
-				</Button>
-			</div>
-		</SignedFileDisplay>
-	</ButtonGroup>
+			<Tooltip>{downloadName}</Tooltip>
+		</div>
+		<div slot="showButton" let:handleOpen>
+			<Button
+				class="inline-flex items-center gap-2 w-full"
+				color="alternative"
+				on:click={handleOpen}
+			>
+				<Eye size="20" />view
+			</Button>
+		</div>
+	</SignedFileDisplay>
 </div>
+<ButtonGroup class="hidden md:inline-flex">
+	<File {record} value={record?.file || ''} let:url let:value>
+		<Button
+			class="inline-flex items-center gap-2 w-full"
+			color="alternative"
+			href={url}
+			download={value}
+		>
+			<DocumentArrowDown size="20" />file
+		</Button>
+		<Tooltip>{value}</Tooltip>
+	</File>
+	<SignedFileDisplay {record} value={record?.signed_file}>
+		<div slot="downloadButton" let:downloadUrl let:downloadName>
+			<Button
+				class="inline-flex items-center gap-2 w-full"
+				color="alternative"
+				href={downloadUrl}
+				download={downloadName}
+			>
+				<LockClosed size="20" />signature
+			</Button>
+			<Tooltip>{downloadName}</Tooltip>
+		</div>
+		<div slot="showButton" let:handleOpen>
+			<Button
+				class="inline-flex items-center gap-2 w-full"
+				color="alternative"
+				on:click={handleOpen}
+			>
+				<Eye size="20" />view
+			</Button>
+		</div>
+	</SignedFileDisplay>
+</ButtonGroup>

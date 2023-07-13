@@ -145,13 +145,13 @@
 	}
 </script>
 
-<div class="flex flex-row justify-between items-center mb-8">
+<div class="flex flex-col md:flex-row justify-between gap-4 md:items-end items-start mb-8">
 	{#if !folderId}
 		<TitleDescription title="My signatures" description="Here you can see all your signatures" />
 	{:else}
 		<SignaturesFoldersHead {folderId} />
 	{/if}
-	<div class="ml-4">
+	<div class="md:ml-4">
 		<CreateRecord let:openModal on:success={(e) => sign(e.detail.record)}>
 			<Button
 				id="new-signature"
