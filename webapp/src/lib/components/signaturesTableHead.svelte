@@ -8,13 +8,11 @@
 	//@ts-ignore
 	import forge from 'node-forge';
 	import { pb } from '$lib/pocketbase';
-	import RenderSignedFile from '../../routes/my/signatures/_partials/RenderSignedFile.svelte';
-
-	import type { SignaturesTypeOptions } from '$lib/pocketbase-types';
-	import type { SignedFile } from '../../routes/my/signatures/_partials/SignedFileDisplay.svelte';
 	import SignaturesFoldersHead from './signaturesFoldersHead.svelte';
+	import type { ToastContent } from '../../routes/my/signatures/+page.svelte';
 
 	export let folderId: string | null = null;
+	export let trigger: (toast:ToastContent) => void;
 
 	const { formSettings, dataManager } = getRecordsManagerContext();
 	const { loadRecords } = dataManager;
@@ -27,8 +25,6 @@
 
 	let loading = false;
 	let error = null;
-	let signedFile: SignedFile | null = null;
-	let type: SignaturesTypeOptions | null = null;
 
 	async function sign(record: any) {
 		loading = true;
@@ -140,8 +136,7 @@
 		const rc = await pb.collection('signatures').update(record.id, formData);
 		await loadRecords();
 		loading = false;
-		signedFile = rc.signed_file;
-		type = rc.type;
+		trigger("signed")
 	}
 </script>
 
@@ -188,12 +183,4 @@
 			<P>Signing document, please wait</P>
 		</div>
 	</Modal>
-
-	{#if type && signedFile}
-		<Modal open={Boolean(signedFile)} title="Signed" size="lg">
-			<div class="md:w-[600px]">
-				<RenderSignedFile {signedFile} {type} />
-			</div>
-		</Modal>
-	{/if}
 </div>

@@ -63,7 +63,7 @@
 					<TableBodyCell tdClass="grid grid-cols-4 gap-2 md:table-cell">
 						{@const component = fieldsComponents[field]}
 						<div
-							class="col-span-1 bg-primary-600 text-white items-center flex p-2 rounded-l-lg md:hidden"
+							class="col-span-1 bg-primary-600 text-white font-semibold items-center flex p-2 rounded-l-lg md:hidden"
 						>
 							{field}
 						</div>
@@ -75,7 +75,7 @@
 				{#if hasActions}
 					<TableBodyCell tdClass="grid grid-cols-4 gap-2 md:table-cell">
 						<div
-							class="col-span-1 bg-primary-600 text-white items-center flex p-2 rounded-l-lg md:hidden"
+							class="col-span-1 bg-primary-600 text-white font-semibold items-center flex p-2 rounded-l-lg md:hidden"
 						>
 							Actions
 						</div>
