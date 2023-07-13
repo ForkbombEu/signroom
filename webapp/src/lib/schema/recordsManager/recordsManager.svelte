@@ -22,6 +22,7 @@
 			discardSelection: () => void;
 		};
 		formSettings: Partial<FormSettings>;
+		editFormSettings: Partial<FormSettings>;
 	};
 
 	export function getRecordsManagerContext(): RecordsManagerContext {
@@ -48,6 +49,7 @@
 
 	export let collection: Collections | string;
 	export let formSettings: Partial<FormSettings> = {};
+	export let editFormSettings: Partial<FormSettings> = {};
 	export let initialQueryParams: RecordFullListQueryParams = {};
 	export let subscribe: string[] = [];
 
@@ -133,7 +135,8 @@
 			toggleSelectAllRecords,
 			discardSelection
 		},
-		formSettings
+		formSettings,
+		editFormSettings
 	});
 </script>
 
