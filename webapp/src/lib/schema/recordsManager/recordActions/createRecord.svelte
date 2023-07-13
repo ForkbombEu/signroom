@@ -33,7 +33,7 @@
 
 <div class="fixed z-50">
 	<Modal bind:open title="Create record" size="lg">
-		<div class="w-[500px]">
+		<div class="md:w-[500px]">
 			<CrudForm
 				mode={formMode.CREATE}
 				{collection}

@@ -4,13 +4,9 @@
 	import type { SignaturesRecord } from '$lib/pocketbase-types';
 	import { Button, ButtonGroup, Tooltip } from 'flowbite-svelte';
 	import {
-		ArrowDownTray,
 		DocumentArrowDown,
-		DocumentCheck,
 		Eye,
-		EyeSlash,
 		LockClosed,
-		PlayPause
 	} from 'svelte-heros-v2';
 	import SignedFileDisplay from './SignedFileDisplay.svelte';
 

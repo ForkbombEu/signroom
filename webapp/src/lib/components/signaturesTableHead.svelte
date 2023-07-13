@@ -191,7 +191,7 @@
 
 	{#if type && signedFile}
 		<Modal open={Boolean(signedFile)} title="Signed" size="lg">
-			<div class="w-[600px]">
+			<div class="md:w-[600px]">
 				<RenderSignedFile {signedFile} {type} />
 			</div>
 		</Modal>
