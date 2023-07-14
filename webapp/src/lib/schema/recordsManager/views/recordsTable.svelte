@@ -81,15 +81,13 @@
 							Actions
 						</div>
 						<div class="flex items-center md:space-x-2 p-2 col-span-3 justify-between">
-							<ButtonGroup>
-								{#if showEdit}
-									<EditRecord {record} />
-								{/if}
-								{#if showDelete}
-									<DeleteRecord {record} />
-								{/if}
-								<slot {record} /></ButtonGroup
-							>
+							{#if showEdit}
+								<EditRecord {record} />
+							{/if}
+							{#if showDelete}
+								<DeleteRecord {record} />
+							{/if}
+							<slot {record} />
 						</div>
 					</TableBodyCell>
 				{/if}

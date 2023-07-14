@@ -19,12 +19,13 @@
 	import { page } from '$app/stores';
 	import type { Record, RecordFullListQueryParams } from 'pocketbase';
 	import SignaturesFoldersHead from '$lib/components/signaturesFoldersHead.svelte';
-	import { Button, Toast } from 'flowbite-svelte';
+	import { Button, ButtonGroup, Toast } from 'flowbite-svelte';
 	import { Share } from 'svelte-heros-v2';
 	import ShareSignature from './_partials/ShareSignature.svelte';
 	import { slide } from 'svelte/transition';
 	import Info from './_partials/Info.svelte';
 	import Files from './_partials/Files.svelte';
+	import EditRecord from '$lib/schema/recordsManager/recordActions/editRecord.svelte';
 
 	const slotTypeCaster = createSlotTypeCaster<SignaturesRecord>();
 
@@ -102,17 +103,25 @@
 					info: Info,
 					files: Files
 				}}
+				showDelete={false}
+				showEdit={false}
 				let:record
 			>
 				{#if record.owner == $currentUser?.id}
-					<Button
-						class="!p-2"
-						on:click={() => {
-							openShareModal(record);
-						}}
-					>
-						<Share size="20" />
-					</Button>
+					<ButtonGroup size="xs">
+						<Button
+							class="!p-2"
+							size="xs"
+							on:click={() => {
+								openShareModal(record);
+							}}
+						>
+							<Share size="12" class="mr-1" /> SHARE
+						</Button>
+						<EditRecord {record} label="EDIT" />
+					</ButtonGroup>
+				{:else}
+					<div />
 				{/if}
 			</RecordsTable>
 		</RecordsManager>

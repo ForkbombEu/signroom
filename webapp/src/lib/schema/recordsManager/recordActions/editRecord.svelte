@@ -18,17 +18,11 @@
 	};
 
 	let open = false;
+	export let label = '';
+	export let size = 'xs';
+	export let iconSize = '12';
+	export let iconClass = 'mr-1';
 </script>
-
-<Button
-	class="!p-2"
-	color="alternative"
-	on:click={() => {
-		open = true;
-	}}
->
-	<Pencil size="20" />
-</Button>
 
 <div class="m-0">
 	<Modal bind:open title="Edit record" size="lg">
@@ -46,3 +40,14 @@
 		</div>
 	</Modal>
 </div>
+
+<Button
+	class="!p-2"
+	color="alternative"
+	{size}
+	on:click={() => {
+		open = true;
+	}}
+>
+	<Pencil size={iconSize} class={iconClass} />{label}
+</Button>
