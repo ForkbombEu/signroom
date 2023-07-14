@@ -31,7 +31,7 @@ Signroom is generated using the [Starters](https://github.com/dyne/starters) tem
 - [x] Cades
 - [x] Xades
 - [x] Pades
-- [ ] Jades
+- [x] Jades
 - [x] Secure
 - [x] As a service
 
@@ -55,13 +55,9 @@ Signroom is generated using the [Starters](https://github.com/dyne/starters) tem
 
 ## Alpha Deployment
 
-### [Signroom](https://beta.signroom.io/) 
-- user: **test2@test2.com** pass: **test2@test2.com**
-
-### [Signroom Admin Control Panel](https://admin.signroom.io/_) 
-- (coming soon)
-
-### [DSS backend](http://dss.forkbomb.eu:8080/services/)
+### [Signroom Web Application](https://beta.signroom.io/) 
+### [Signroom Backoffice Control Panel](https://admin.signroom.io/_) 
+### [Digital Signature Service](http://dss.forkbomb.eu:8080/services/)
 
 -------------------
 
