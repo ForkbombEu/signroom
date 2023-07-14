@@ -86,9 +86,8 @@
 	{#if file}
 		<div class="flex gap-8">
 			<P>{name}</P>
-			<Helper helperClass="text-green-500">FILE VALID</Helper>
 		</div>
-		<RenderSignedFile signedFile={file.signedFile} type={file.type} leftButton />
+		<RenderSignedFile signedFile={file.signedFile} type={file.type} />
 	{/if}
 	{#if hasErrors}
 		<div class="space-y-1">

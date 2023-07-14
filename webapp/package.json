@@ -79,6 +79,7 @@
 		"pocketbase": "^0.14.4",
 		"svelte-boring-avatars": "^1.2.4",
 		"svelte-heros": "^3.3.1",
+		"svelte-json-tree": "^2.1.0",
 		"xml-formatter": "^3.4.1",
 		"zenroom": "^3.0.1"
 	}

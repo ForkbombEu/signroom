@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -50,6 +50,9 @@ dependencies:
   svelte-heros:
     specifier: ^3.3.1
     version: 3.3.1(svelte@3.59.1)
+  svelte-json-tree:
+    specifier: ^2.1.0
+    version: 2.1.0(svelte@3.59.1)
   xml-formatter:
     specifier: ^3.4.1
     version: 3.4.1
@@ -2978,6 +2981,14 @@ packages:
       svelte: '>=3.19.0'
     dependencies:
       svelte: 3.59.1
+
+  /svelte-json-tree@2.1.0(svelte@3.59.1):
+    resolution: {integrity: sha512-IAU//hE5bIA0SoM9AuP7xOoD9PUcMh4fio0oI52r0XJ7iNDytW7AnBdkIn1QSYLUyWzvQX3tp59JfLYfhd7lTw==}
+    peerDependencies:
+      svelte: ^4.0.0
+    dependencies:
+      svelte: 3.59.1
+    dev: false
 
   /svelte-preprocess@5.0.3(postcss-load-config@4.0.1)(postcss@8.4.23)(svelte@3.59.1)(typescript@5.0.4):
     resolution: {integrity: sha512-GrHF1rusdJVbOZOwgPWtpqmaexkydznKzy5qIC2FabgpFyKN57bjMUUUqPRfbBXK5igiEWn1uO/DXsa2vJ5VHA==}
