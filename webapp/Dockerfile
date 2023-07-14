@@ -7,7 +7,7 @@ RUN wget "https://github.com/pnpm/pnpm/releases/latest/download/pnpm-linuxstatic
 WORKDIR /build
 
 COPY ./webapp/ .
-RUN rm -rf zencode/zenflows-crypto
+RUN rm -rf zenflows-crypto
 RUN git init
 RUN git submodule add https://github.com/interfacerproject/zenflows-crypto zenflows-crypto
 
