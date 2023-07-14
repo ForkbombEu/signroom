@@ -68,7 +68,7 @@
 {:then { authorization, mode }}
 	<div class="fixed z-50">
 		<Modal bind:open size="xl" title="Share signature">
-			<div class="w-[500px] relative">
+			<div class="md:w-[500px] relative">
 				{#if !removeAccess}
 					<CrudForm
 						on:success={handleSuccess}
