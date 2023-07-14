@@ -6,6 +6,7 @@
 	};
 	export type ToastContent = keyof typeof toasts;
 </script>
+
 <script lang="ts">
 	import SignaturesTableHead from '$lib/components/signaturesTableHead.svelte';
 
@@ -56,7 +57,6 @@
 	// 	signed: '✅ Document signed successfully'
 	// };
 
-
 	let show = false;
 	let content: string | undefined = undefined;
 	const duration = 2000;
@@ -93,7 +93,7 @@
 			subscribe={[Collections.Authorizations, Collections.Folders]}
 			let:records
 		>
-			<SignaturesTableHead {folderId} {trigger}/>
+			<SignaturesTableHead {folderId} {trigger} />
 			<RecordsTable
 				{records}
 				fields={['info', 'files']}
@@ -107,7 +107,6 @@
 				{#if record.owner == $currentUser?.id}
 					<Button
 						class="!p-2"
-						color="alternative"
 						on:click={() => {
 							openShareModal(record);
 						}}

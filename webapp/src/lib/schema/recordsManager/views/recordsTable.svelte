@@ -11,7 +11,8 @@
 		TableBodyRow,
 		TableHead,
 		TableHeadCell,
-		Checkbox
+		Checkbox,
+		ButtonGroup
 	} from 'flowbite-svelte';
 	import RecordsTableHead from './recordsTableHead.svelte';
 	import SelectionCheckbox from '../recordActions/selectRecord.svelte';
@@ -37,7 +38,7 @@
 	$: hasActions = showEdit || showDelete || Boolean($$slots.default);
 </script>
 
-<Table>
+<Table striped={true} hoverable={true}>
 	<TableHead class="hidden md:table-header-group">
 		{#if showCheckboxes}
 			<TableHeadCell>
@@ -80,13 +81,15 @@
 							Actions
 						</div>
 						<div class="flex items-center md:space-x-2 p-2 col-span-3 justify-between">
-							{#if showEdit}
-								<EditRecord {record} />
-							{/if}
-							{#if showDelete}
-								<DeleteRecord {record} />
-							{/if}
-							<slot {record} />
+							<ButtonGroup>
+								{#if showEdit}
+									<EditRecord {record} />
+								{/if}
+								{#if showDelete}
+									<DeleteRecord {record} />
+								{/if}
+								<slot {record} /></ButtonGroup
+							>
 						</div>
 					</TableBodyCell>
 				{/if}

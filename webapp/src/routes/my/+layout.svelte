@@ -150,6 +150,7 @@
 			bind:activateClickOutside
 			width="w-fit"
 			id="sidebar"
+			divClass="overflow-hidden z-50 p-4 bg-white dark:bg-gray-800 w-fit fixed inset-y-0 left-0"
 		>
 			<div class="flex items-center mb-2">
 				<NavBrand href="/my">
@@ -228,21 +229,22 @@
 					</SidebarGroup>
 					<SidebarGroup>
 						<SidebarCta label="Beta">
-							<svelte:fragment slot="icon">
-								<CloseButton data-collapse-toggle="dropdown-cta" />
-							</svelte:fragment>
 							<p class="mb-3 text-sm text-blue-900 dark:text-blue-400">
-								Signroom is in beta! You can turn the new navigation off for a limited time in your
-								profile.
+								You are one of the lucky few to try Signroom and all of its feature offerings first
+								before anyone else.
 							</p>
 							<a
 								class="text-sm text-blue-900 underline hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-								href="/"
+								href="https://github.com/ForkbombEu/signroom"
 							>
-								Turn new navigation off
+								Please provide us feedbacks and suggestions for how to make it better.
 							</a>
 						</SidebarCta>
-						<SidebarItem label="Settings" href="/my/profile">
+						<SidebarItem
+							label="Settings"
+							href="/my/settings"
+							class="opacity-20 hover:bg-transparent cursor-default"
+						>
 							<svelte:fragment slot="icon">
 								<WrenchScrewdriver />
 							</svelte:fragment>
@@ -252,7 +254,7 @@
 								<UserCircle />
 							</svelte:fragment>
 						</SidebarItem>
-						<SidebarItem label="Help">
+						<SidebarItem label="Help" class="opacity-20 hover:bg-transparent cursor-default">
 							<svelte:fragment slot="icon">
 								<Lifebuoy />
 							</svelte:fragment>
@@ -271,3 +273,9 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	#sidebar {
+		overflow: hidden;
+	}
+</style>

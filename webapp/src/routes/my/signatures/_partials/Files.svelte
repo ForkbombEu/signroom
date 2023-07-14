@@ -18,27 +18,30 @@
 			<span>
 				<DocumentArrowDown size="20" />
 			</span>
-			<span class="truncate">{value}</span>
+			<span class="truncate">Original file</span>
 		</A>
 	</File>
 	<SignedFileDisplay {record} value={signed_file}>
-		<div slot="downloadButton" let:downloadUrl let:downloadName>
-			<A class="gap-1" href={downloadUrl} download={downloadName}>
+		<A
+			class="gap-1"
+			slot="downloadButton"
+			let:downloadUrl
+			let:downloadName
+			href={downloadUrl}
+			download={downloadName}
+		>
+			<span>
+				<LockClosed size="20" />
+			</span>
+			<span class="truncate">Signed file</span>
+		</A>
+		<A slot="showButton" let:handleOpen>
+			<button on:click={handleOpen} class="flex items-center">
 				<span>
-					<LockClosed size="20" />
+					<Eye size="20" class="mr-1" />
 				</span>
-				<span class="truncate">{downloadName}</span>
-			</A>
-		</div>
-		<div slot="showButton" let:handleOpen>
-			<A>
-				<button on:click={handleOpen} class="flex gap-1 items-center">
-					<span>
-						<Eye size="20" />
-					</span>
-					<span class="truncate">view</span>
-				</button>
-			</A>
-		</div>
+				<span class="truncate">Preview</span>
+			</button>
+		</A>
 	</SignedFileDisplay>
 </div>
