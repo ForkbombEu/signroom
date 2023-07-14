@@ -32,9 +32,9 @@
 
 	let initialQueryParams: RecordFullListQueryParams;
 	$: if (folderId) {
-		initialQueryParams = { filter: `folder.id="${folderId}"` };
+		initialQueryParams = { filter: `folder.id="${folderId}"`, expand: 'folder' };
 	} else {
-		initialQueryParams = {};
+		initialQueryParams = {expand: 'folder'};
 	}
 
 	let shareModal = false;
@@ -48,14 +48,6 @@
 	function clearRecord() {
 		record = undefined;
 	}
-
-	// /* Toasts */
-
-	// const toasts = {
-	// 	add: '✅ Signature shared successfully',
-	// 	remove: '✅ Signature unshared successfully',
-	// 	signed: '✅ Document signed successfully'
-	// };
 
 	let show = false;
 	let content: string | undefined = undefined;

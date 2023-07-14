@@ -273,9 +273,3 @@
 		</div>
 	</div>
 </div>
-
-<style>
-	#sidebar {
-		overflow: hidden;
-	}
-</style>

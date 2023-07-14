@@ -4,13 +4,14 @@
 	import { Heading, P } from 'flowbite-svelte';
 	import OwnerDisplay from './OwnerDisplay.svelte';
 	import Chip from '$lib/schema/recordsManager/views/fieldsComponents/cells/chip.svelte';
-	import FolderDisplay from './FolderDisplay.svelte';
-	import { currentUser } from '$lib/pocketbase';
+	import { currentUser, pb } from '$lib/pocketbase';
 
 	export let value: any;
 	export let record: Record & SignaturesRecord;
 	value;
 
+	//@ts-ignore
+	let folder = record.expand?.folder?.name;
 	const isOwned = $currentUser?.id === record?.owner;
 </script>
 
@@ -24,8 +25,8 @@
 			{/if}
 			<OwnerDisplay value={record?.owner || ''} {record} />
 		</Heading>
-		{#if record?.folder && isOwned}
-			<FolderDisplay folderId={record?.folder} />
+		{#if folder && isOwned}
+			<div class="text-gray-400 font-semibold">{folder}</div>
 		{/if}
 	</div>
 	<div class="line-clamp-3 w-full whitespace-normal text-gray-600">
