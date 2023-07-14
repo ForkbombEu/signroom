@@ -12,5 +12,5 @@
 </script>
 
 {#if !isOwned}
-	<Badge color="blue">Shared</Badge>
+	<Badge color="blue">shared</Badge>
 {/if}

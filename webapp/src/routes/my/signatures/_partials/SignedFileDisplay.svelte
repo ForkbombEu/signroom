@@ -53,7 +53,7 @@
 </slot>
 <div class="fixed z-50">
 	<Modal bind:open title={`${record.title} – Signed`} size="lg">
-		<div class="w-[600px]">
+		<div class="w-[300px] md:w-[600px]">
 			<RenderSignedFile {type} signedFile={value} />
 		</div>
 	</Modal>

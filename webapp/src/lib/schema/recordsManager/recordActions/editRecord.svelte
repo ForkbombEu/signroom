@@ -32,7 +32,7 @@
 
 <div class="m-0">
 	<Modal bind:open title="Edit record" size="lg">
-		<div class="w-[500px]">
+		<div class="md:w-[500px]">
 			<CrudForm
 				mode={formMode.EDIT}
 				collection={record.collectionId}
