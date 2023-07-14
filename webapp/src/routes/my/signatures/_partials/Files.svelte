@@ -2,86 +2,43 @@
 	import File from '$lib/schema/recordsManager/views/fieldsComponents/cells/file.svelte';
 	import type { Record } from 'pocketbase';
 	import type { SignaturesRecord } from '$lib/pocketbase-types';
-	import { Button, ButtonGroup, Tooltip } from 'flowbite-svelte';
-	import {
-		DocumentArrowDown,
-		Eye,
-		LockClosed,
-	} from 'svelte-heros-v2';
-	import SignedFileDisplay from './SignedFileDisplay.svelte';
+	import { A } from 'flowbite-svelte';
+	import { DocumentArrowDown, Eye, LockClosed } from 'svelte-heros-v2';
+	import SignedFileDisplay, { type SignedFile } from './SignedFileDisplay.svelte';
 
 	export let record: Record & SignaturesRecord;
 	export let value: any;
 	value;
+	const signed_file = record?.signed_file as SignedFile;
 </script>
 
-<div class="flex flex-col gap-1 md:hidden">
+<div class="flex flex-col gap-4 max-w-[400px]">
 	<File {record} value={record?.file || ''} let:url let:value>
-		<Button
-			class="inline-flex items-center gap-2 w-full"
-			color="alternative"
-			href={url}
-			download={value}
-		>
-			<DocumentArrowDown size="20" />file
-		</Button>
-		<Tooltip>{value}</Tooltip>
+		<A class="gap-1" href={url} download={value}>
+			<span>
+				<DocumentArrowDown size="20" />
+			</span>
+			<span class="truncate">{value}</span>
+		</A>
 	</File>
-	<SignedFileDisplay {record} value={record?.signed_file}>
+	<SignedFileDisplay {record} value={signed_file}>
 		<div slot="downloadButton" let:downloadUrl let:downloadName>
-			<Button
-				class="inline-flex items-center gap-2 w-full"
-				color="alternative"
-				href={downloadUrl}
-				download={downloadName}
-			>
-				<LockClosed size="20" />signature
-			</Button>
-			<Tooltip>{downloadName}</Tooltip>
+			<A class="gap-1" href={downloadUrl} download={downloadName}>
+				<span>
+					<LockClosed size="20" />
+				</span>
+				<span class="truncate">{downloadName}</span>
+			</A>
 		</div>
 		<div slot="showButton" let:handleOpen>
-			<Button
-				class="inline-flex items-center gap-2 w-full"
-				color="alternative"
-				on:click={handleOpen}
-			>
-				<Eye size="20" />view
-			</Button>
+			<A>
+				<button on:click={handleOpen} class="flex gap-1 items-center">
+					<span>
+						<Eye size="20" />
+					</span>
+					<span class="truncate">view</span>
+				</button>
+			</A>
 		</div>
 	</SignedFileDisplay>
 </div>
-<ButtonGroup class="hidden md:inline-flex">
-	<File {record} value={record?.file || ''} let:url let:value>
-		<Button
-			class="inline-flex items-center gap-2 w-full"
-			color="alternative"
-			href={url}
-			download={value}
-		>
-			<DocumentArrowDown size="20" />file
-		</Button>
-		<Tooltip>{value}</Tooltip>
-	</File>
-	<SignedFileDisplay {record} value={record?.signed_file}>
-		<div slot="downloadButton" let:downloadUrl let:downloadName>
-			<Button
-				class="inline-flex items-center gap-2 w-full"
-				color="alternative"
-				href={downloadUrl}
-				download={downloadName}
-			>
-				<LockClosed size="20" />signature
-			</Button>
-			<Tooltip>{downloadName}</Tooltip>
-		</div>
-		<div slot="showButton" let:handleOpen>
-			<Button
-				class="inline-flex items-center gap-2 w-full"
-				color="alternative"
-				on:click={handleOpen}
-			>
-				<Eye size="20" />view
-			</Button>
-		</div>
-	</SignedFileDisplay>
-</ButtonGroup>
