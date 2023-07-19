@@ -61,6 +61,8 @@
 	import type { SuperForm } from 'sveltekit-superforms/client';
 	import type { AnyZodObject } from 'zod';
 	import type { ClientResponseErrorData } from '$lib/errorHandling';
+	import FormError from '$lib/components/forms/formError.svelte';
+	import SubmitButton from '$lib/components/forms/submitButton.svelte';
 	//
 
 	export let collection: Collections | string;
@@ -156,18 +158,24 @@
 
 	//
 
-	const defaultSubmitButtonText = Boolean(submitButtonText)
+	submitButtonText = Boolean(submitButtonText)
 		? submitButtonText
 		: mode == formMode.EDIT
 		? 'Edit record'
 		: 'Create record';
 </script>
 
-<Form {superform} {defaultSubmitButtonText} on:success showRequiredIndicator>
+<Form {superform} on:success showRequiredIndicator>
 	{#each fieldsSchema as fieldSchema}
 		{@const hidden = hiddenFields.includes(fieldSchema.name)}
 		{@const relationDisplayFields = relationsDisplayFields[fieldSchema.name] || []}
 		{@const relationInputMode = relationsInputMode[fieldSchema.name] || 'search'}
 		<FieldSchemaToInput {fieldSchema} {hidden} {relationDisplayFields} {relationInputMode} />
 	{/each}
+
+	<FormError />
+
+	<div class="flex justify-end">
+		<SubmitButton>{submitButtonText}</SubmitButton>
+	</div>
 </Form>
