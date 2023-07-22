@@ -45,10 +45,10 @@
 <script lang="ts">
 	import Form, { createForm, createFormData } from '$lib/components/forms/form.svelte';
 	import { getCollectionSchema } from './getCollectionSchema';
-	import { fieldsSchemaToZod, isArrayField } from './collectionSchemaToZod';
+	import { fieldsSchemaToZod } from './collectionSchemaToZod';
 	import type { Collections } from '$lib/pocketbase-types';
 	import FieldSchemaToInput from './fieldSchemaToInput.svelte';
-	import { FieldType, type FieldSchema } from './types';
+	import type { FieldSchema } from './types';
 	import { pb } from '$lib/pocketbase';
 	import { log } from 'debug';
 	import { createEventDispatcher } from 'svelte';
@@ -61,6 +61,8 @@
 	import type { SuperForm } from 'sveltekit-superforms/client';
 	import type { AnyZodObject } from 'zod';
 	import type { ClientResponseErrorData } from '$lib/errorHandling';
+	import FormError from '$lib/components/forms/formError.svelte';
+	import SubmitButton from '$lib/components/forms/submitButton.svelte';
 	//
 
 	export let collection: Collections | string;
@@ -93,10 +95,7 @@
 	/* Schema generation */
 
 	const collectionSchema = getCollectionSchema(collection)!;
-	const fieldsSchema = collectionSchema.schema
-		.sort(sortFieldsSchema)
-		.filter(filterFieldsSchema)
-		.filter(excludeMultiselect);
+	const fieldsSchema = collectionSchema.schema.sort(sortFieldsSchema).filter(filterFieldsSchema);
 	const zodSchema = fieldsSchemaToZod(fieldsSchema);
 
 	/* Superform creation */
@@ -146,28 +145,26 @@
 		return !excludedFields.includes(schema.name);
 	}
 
-	function excludeMultiselect(schema: FieldSchema) {
-		if (schema.type == FieldType.SELECT && (schema.options.maxSelect as number) > 1) {
-			log('multiple select not supported yet');
-			return false;
-		}
-		return true;
-	}
-
 	//
 
-	const defaultSubmitButtonText = Boolean(submitButtonText)
+	submitButtonText = Boolean(submitButtonText)
 		? submitButtonText
 		: mode == formMode.EDIT
 		? 'Edit record'
 		: 'Create record';
 </script>
 
-<Form {superform} {defaultSubmitButtonText} on:success showRequiredIndicator>
+<Form {superform} on:success showRequiredIndicator>
 	{#each fieldsSchema as fieldSchema}
 		{@const hidden = hiddenFields.includes(fieldSchema.name)}
 		{@const relationDisplayFields = relationsDisplayFields[fieldSchema.name] || []}
 		{@const relationInputMode = relationsInputMode[fieldSchema.name] || 'search'}
 		<FieldSchemaToInput {fieldSchema} {hidden} {relationDisplayFields} {relationInputMode} />
 	{/each}
+
+	<FormError />
+
+	<div class="flex justify-end">
+		<SubmitButton>{submitButtonText}</SubmitButton>
+	</div>
 </Form>
