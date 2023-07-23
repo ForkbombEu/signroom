@@ -6,6 +6,8 @@
 	import Form, { createForm } from '$lib/components/forms/form.svelte';
 	import Input from '$lib/components/forms/input.svelte';
 	import { z } from 'zod';
+	import FormError from '$lib/components/forms/formError.svelte';
+	import SubmitButton from '$lib/components/forms/submitButton.svelte';
 
 	const schema = z.object({
 		email: z.string().email(),
@@ -24,7 +26,7 @@
 	export const snapshot = { capture, restore };
 </script>
 
-<Form {superform} defaultSubmitButtonText="Log in">
+<Form {superform}>
 	<Heading tag="h4">Log in</Heading>
 	<Input
 		id="email"
@@ -40,4 +42,8 @@
 		field={keys.password}
 		placeholder="•••••"
 	/>
+	<FormError />
+	<div class="flex justify-end">
+		<SubmitButton>Log in</SubmitButton>
+	</div>
 </Form>
