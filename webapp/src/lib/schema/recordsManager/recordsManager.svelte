@@ -3,6 +3,7 @@
 	import { getContext, onMount, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import type { FormSettings } from '../CRUDForm.svelte';
+	import { Pagination } from 'flowbite-svelte';
 
 	//
 
@@ -38,12 +39,16 @@
 </script>
 
 <script lang="ts">
+	import { goto } from '$app/navigation';
+
 	import { browser } from '$app/environment';
+	import { page } from '$app/stores';
 
 	import { pb } from '$lib/pocketbase';
 	import type { RecordFullListQueryParams } from 'pocketbase';
 	import type { Collections } from '$lib/pocketbase-types';
 	import { writable } from 'svelte/store';
+	import { PaginationItem } from 'flowbite-svelte';
 
 	//
 
@@ -60,9 +65,18 @@
 	slotTypeCaster; // avoid 'unused' warning
 
 	/* Data load */
+	$: pages = Array.from({ length: totalPages }, (_, i) => ({
+		name: `${i + 1}`,
+		href: `?page=${i + 1}`
+	}));
+	let currentPage = '';
+	let totalItems = 0;
+	$: currentPage = $page.url.searchParams.get('page') || '1';
+	export let perPage = 5;
 
 	const queryParams = writable<RecordFullListQueryParams>({
-		sort: '-created'
+		sort: '-created',
+		...initialQueryParams
 	});
 
 	$: $queryParams = {
@@ -73,14 +87,22 @@
 
 	const recordService = pb.collection(collection);
 
-	let records: (RecordGeneric & PBRecord)[] = [];
+	let records: PBRecord[] = [];
+	let totalPages: number = 0;
 
 	async function loadRecords() {
-		records = await recordService.getFullList($queryParams);
+		const res = await recordService.getList(Number(currentPage), perPage, { ...$queryParams });
+		records = res.items;
+		totalPages = res.totalPages;
+		totalItems = res.totalItems;
 	}
 
 	$: if (browser) {
 		$queryParams;
+		initialQueryParams;
+		currentPage;
+		totalPages;
+		totalItems;
 		loadRecords();
 	}
 
@@ -141,3 +163,40 @@
 </script>
 
 <slot {records} {loadRecords} />
+<slot name="pagination" {totalItems} {totalPages} {currentPage} {perPage}>
+	{#if totalPages > 0}
+		<div class="flex flex-col items-center justify-center gap-2 my-5">
+			<div class="text-sm text-gray-700 dark:text-gray-400">
+				Showing <span class="font-semibold text-gray-900 dark:text-white"
+					>{perPage * Number(currentPage) - perPage + 1}</span
+				>
+				to
+				<span class="font-semibold text-gray-900 dark:text-white"
+					>{Number(currentPage) == totalPages ? totalItems : perPage * Number(currentPage)}</span
+				>
+				of <span class="font-semibold text-gray-900 dark:text-white">{totalItems}</span> Entries
+			</div>
+
+			<div class="flex w-full justify-center">
+				<Pagination
+					{pages}
+					activeClass="bg-blue-500 text-white"
+					on:previous={(e) => {
+						e.preventDefault();
+						if (Number(currentPage) - 1 < 1) return;
+						goto(`?page=${Number(currentPage) - 1}`);
+					}}
+					on:next={(e) => {
+						e.preventDefault();
+						if (Number(currentPage) + 1 > totalPages) return;
+						goto(`?page=${Number(currentPage) + 1}`);
+					}}
+					on:click={(e) => {
+						e.preventDefault();
+						goto(e.target?.href);
+					}}
+				/>
+			</div>
+		</div>
+	{/if}
+</slot>
