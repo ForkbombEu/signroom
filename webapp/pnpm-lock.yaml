@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -1184,25 +1184,6 @@ packages:
       uri-js: 4.4.1
     dev: true
 
-  /algoliasearch@4.17.0:
-    resolution: {integrity: sha512-JMRh2Mw6sEnVMiz6+APsi7lx9a2jiDFF+WUtANaUVCv6uSU9UOLdo5h9K3pdP6frRRybaM2fX8b1u0nqICS9aA==}
-    dependencies:
-      '@algolia/cache-browser-local-storage': 4.17.0
-      '@algolia/cache-common': 4.17.0
-      '@algolia/cache-in-memory': 4.17.0
-      '@algolia/client-account': 4.17.0
-      '@algolia/client-analytics': 4.17.0
-      '@algolia/client-common': 4.17.0
-      '@algolia/client-personalization': 4.17.0
-      '@algolia/client-search': 4.17.0
-      '@algolia/logger-common': 4.17.0
-      '@algolia/logger-console': 4.17.0
-      '@algolia/requester-browser-xhr': 4.17.0
-      '@algolia/requester-common': 4.17.0
-      '@algolia/requester-node-http': 4.17.0
-      '@algolia/transporter': 4.17.0
-    dev: false
-
   /ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
     engines: {node: '>=8'}
@@ -1813,7 +1794,7 @@ packages:
     resolution: {integrity: sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==}
     dev: true
 
-  /flowbite-svelte-blocks@0.3.6(@popperjs/core@2.11.7)(classnames@2.3.2)(flowbite-svelte@0.35.1)(flowbite@1.6.5)(svelte-heros@3.3.1)(svelte@3.59.1):
+  /flowbite-svelte-blocks@0.3.6(@popperjs/core@2.11.7)(classnames@2.3.2)(flowbite-svelte@0.40.1)(flowbite@1.6.5)(svelte-heros@3.3.1)(svelte@3.59.1):
     resolution: {integrity: sha512-sydRqW++yqIVFRML6eVic7NV21PaASUJ8jk5+tREErK6PjbmrzmXYabz1hAsqvNO/Jsm143AFWl6q6pu8MkWcw==}
     engines: {node: '>=16.0.0', npm: '>=7.0.0'}
     peerDependencies:
@@ -1827,30 +1808,21 @@ packages:
       '@popperjs/core': 2.11.7
       classnames: 2.3.2
       flowbite: 1.6.5
-      flowbite-svelte: 0.35.1(@algolia/client-search@4.17.0)(@popperjs/core@2.11.7)(classnames@2.3.2)(flowbite@1.6.5)(svelte@3.59.1)
+      flowbite-svelte: 0.40.1(svelte@3.59.1)
       svelte: 3.59.1
       svelte-heros: 3.3.1(svelte@3.59.1)
     dev: false
 
-  /flowbite-svelte@0.35.1(@algolia/client-search@4.17.0)(@popperjs/core@2.11.7)(classnames@2.3.2)(flowbite@1.6.5)(svelte@3.59.1):
-    resolution: {integrity: sha512-163TSS0xa3Wa0+neLojkIxyvTG096MWq/1q9BiV1PzbT4UMIcrq14OkZqGxg3JtQExfUa1iIvUC0JculKKIOYQ==}
+  /flowbite-svelte@0.40.1(svelte@3.59.1):
+    resolution: {integrity: sha512-NtAfgMKfh/UyrE7hM4uVqai4xAn8gjmLvK5ekv4GHHhgOgypsLlYiPmqz+zLHRIwNbBw9SJwzK6BclCie1Apfw==}
     engines: {node: '>=16.0.0', npm: '>=7.0.0'}
     peerDependencies:
-      '@popperjs/core': ^2.11.6
-      classnames: ^2.3.2
-      flowbite: ^1.6.3
-      svelte: ^3.55.1
+      svelte: ^3.55.1 || ^4.0.0
     dependencies:
-      '@docsearch/js': 3.3.4(@algolia/client-search@4.17.0)
-      '@popperjs/core': 2.11.7
-      classnames: 2.3.2
-      flowbite: 1.6.5
+      '@floating-ui/dom': 1.4.5
+      flowbite: 1.7.0
       svelte: 3.59.1
-    transitivePeerDependencies:
-      - '@algolia/client-search'
-      - '@types/react'
-      - react
-      - react-dom
+      tailwind-merge: 1.14.0
     dev: false
 
   /flowbite@1.6.5:
@@ -3047,6 +3019,10 @@ packages:
       svelte: 3.59.1
       zod: 3.21.4
     dev: true
+
+  /tailwind-merge@1.14.0:
+    resolution: {integrity: sha512-3mFKyCo/MBcgyOTlrY8T7odzZFx+w+qKSMAmdFzRvqBfLlSigU6TZnlFHK0lkMwj9Bj8OYU+9yW9lmGuS0QEnQ==}
+    dev: false
 
   /tailwindcss@3.3.2:
     resolution: {integrity: sha512-9jPkMiIBXvPc2KywkraqsUfbfj+dHDb+JPWtSJa9MLFdrPyazI7q6WX2sUrm7R9eVR7qqv3Pas7EvQFzxKnI6w==}
