@@ -18,7 +18,6 @@
 	import RecordsTable from '$lib/schema/recordsManager/views/recordsTable.svelte';
 	import { page } from '$app/stores';
 	import type { Record, RecordFullListQueryParams } from 'pocketbase';
-	import SignaturesFoldersHead from '$lib/components/signaturesFoldersHead.svelte';
 	import { Button, ButtonGroup, Toast } from 'flowbite-svelte';
 	import { Share } from 'svelte-heros-v2';
 	import ShareSignature from './_partials/ShareSignature.svelte';

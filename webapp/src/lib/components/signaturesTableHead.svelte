@@ -3,7 +3,7 @@
 	import { ArrowKeyDown, Button, Dropdown, DropdownItem, Modal, Spinner, P } from 'flowbite-svelte';
 
 	import TitleDescription from './titleDescription.svelte';
-	import { ClipboardDocumentCheck } from 'svelte-heros-v2';
+	import { ClipboardDocumentCheck, ExclamationCircle, HandThumbUp } from 'svelte-heros-v2';
 	import { getRecordsManagerContext } from '$lib/schema/recordsManager/recordsManager.svelte';
 	//@ts-ignore
 	import forge from 'node-forge';
@@ -24,11 +24,14 @@
 	const pki = forge.pki;
 
 	let loading = false;
-	let error = null;
+	let error:any = null;
+	let signatureName:string
 
 	async function sign(record: any) {
 		loading = true;
 		error = null;
+
+		try {
 
 		const algo = record.type;
 		const url = pb.files.getUrl(record, record.file);
@@ -136,7 +139,12 @@
 		const rc = await pb.collection('signatures').update(record.id, formData);
 		await loadRecords();
 		loading = false;
+		signatureName = rc.title
 		trigger("signed")
+		} catch (e) {
+			error = e;
+			loading = false;
+		}
 	}
 </script>
 
@@ -181,6 +189,18 @@
 		<div class="flex flex-col items-center gap-2">
 			<Spinner />
 			<P>Signing document, please wait</P>
+		</div>
+	</Modal>
+	<Modal open={error}>
+		<div class="flex items-center gap-2 p-4 text-red-500">
+			<ExclamationCircle size="30" />
+			<P>{error.message}</P>
+		</div>
+	</Modal>
+	<Modal open={!!signatureName}>
+		<div class="flex items-center gap-2 p-4">
+			<HandThumbUp size="30"/>
+			<P>{signatureName} signed!</P>
 		</div>
 	</Modal>
 </div>
