@@ -1,4 +1,6 @@
 <script lang="ts">
+	import ModalWrapper from '$lib/components/modalWrapper.svelte';
+
 	import type { Record } from 'pocketbase';
 	import { Button, Modal } from 'flowbite-svelte';
 	import { Pencil } from 'svelte-heros-v2';
