@@ -18,6 +18,8 @@
 	import CopyButton from '$lib/components/copyButton.svelte';
 	import Form, { createForm } from '$lib/components/forms/form.svelte';
 	import Input from '$lib/components/forms/input.svelte';
+	import FormError from '$lib/components/forms/formError.svelte';
+	import SubmitButton from '$lib/components/forms/submitButton.svelte';
 
 	//
 
@@ -103,6 +105,11 @@
 		{/each}
 
 		<Hr />
+
+		<FormError />
+		<div class="flex justify-end">
+			<SubmitButton>Generate keys</SubmitButton>
+		</div>
 	</Form>
 {:else}
 	<Heading tag="h4">Keypair creation successful!</Heading>
