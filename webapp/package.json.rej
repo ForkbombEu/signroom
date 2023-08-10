@@ -1,0 +1,10 @@
+diff a/webapp/package.json b/webapp/package.json	(rejected hunks)
+@@ -66,7 +66,7 @@
+ 		"@popperjs/core": "^2.11.7",
+ 		"classnames": "^2.3.2",
+ 		"flowbite": "^1.6.5",
+-		"flowbite-svelte": "^0.35.1",
++		"flowbite-svelte": "^0.40.1",
+ 		"flowbite-svelte-blocks": "^0.3.6",
+ 		"pocketbase": "^0.14.4",
+ 		"svelte-boring-avatars": "^1.2.4",

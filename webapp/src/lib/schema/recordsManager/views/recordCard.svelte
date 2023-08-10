@@ -1,4 +1,6 @@
 <script lang="ts">
+	import ShareRecord from '../recordActions/shareRecord.svelte';
+
 	import SelectRecord from '../recordActions/selectRecord.svelte';
 
 	import FieldComponent from './fieldComponent.svelte';
@@ -24,6 +26,7 @@
 
 	export let showDelete = false;
 	export let showEdit = false;
+	export let showShare = false;
 	export let showCheckbox = false;
 
 	//
@@ -66,6 +69,9 @@
 		{/if}
 		{#if showDelete}
 			<DeleteRecord {record} />
+		{/if}
+		{#if showShare}
+			<ShareRecord {record} />
 		{/if}
 	</div>
 </Card>
