@@ -1,4 +1,7 @@
 <script lang="ts">
+	import ShareRecord from '../recordActions/shareRecord.svelte';
+	import { Clock } from 'svelte-heros-v2';
+	import EmptyState from './emptyState.svelte';
 	import FieldComponent, { type FieldsComponents } from './fieldComponent.svelte';
 	import type { Record as PBRecord } from 'pocketbase';
 	import { getRecordsManagerContext } from '../recordsManager.svelte';
@@ -26,10 +29,17 @@
 	export let records: (PBRecord & RecordGeneric)[] = [];
 	export let fields: string[] = ['id'];
 	export let fieldsComponents: FieldsComponents<RecordGeneric> = {};
+	export let showShare: boolean = false;
 
 	export let showDelete = true;
 	export let showEdit = true;
 	export let showCheckboxes = true;
+	export let emptyState: { title?: string; description?: string; icon?: typeof SvelteComponent } = {};
+	const {
+		title = 'No records',
+		description = 'There are no records to show.',
+		icon = Clock
+	} = emptyState;
 
 	const { selectionManager } = getRecordsManagerContext();
 	const { allRecordsSelected, toggleSelectAllRecords, selectedRecords } = selectionManager;
