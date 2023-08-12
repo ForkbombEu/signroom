@@ -47,4 +47,4 @@
 			/>
 		</div>
 	</Modal>
-</div>
+</ModalWrapper>
