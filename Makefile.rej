@@ -1,0 +1,22 @@
+diff a/Makefile b/Makefile	(rejected hunks)
+@@ -29,10 +37,16 @@ fg:
+ 	fi
+ 	cd webapp && pnpm i && pnpm serve
+ 
+-clean: ## 🧹 Clean the containers
+-	@echo "🧹 Cleaning the data"
++purge: ## ⛔ Purge the data
++	@echo "⛔ Purge the data"
+ 	rm -fr admin/pb_data/*
++
++clean: ## 🧹 Clean the project builds
++	@echo "🧹 Cleaning project build"
+ 	rm -f admin/pb
++	rm -fr webapp/node_modules
++	rm -f webapp/src/lib/pocketbase-types.ts
++	rm -f webapp/src/lib/schema/pb_schema.json
+ 
+-up: bg fg ## 💄 Run all the components quickly
+-dev: bg fgdev ## 👩‍💻Run all the components in dev mode
++up: setup bg fg ## 💄 Run all the components quickly
++dev: bg fgdev ## 🧑‍💻Run all the components in dev mode
