@@ -1,24 +1,37 @@
 <script lang="ts">
 	import { currentUser } from '$lib/pocketbase';
 	import { Collections, type CrudExampleRecord } from '$lib/pocketbase-types';
-	import FilterRecords from '$lib/schema/recordsManager/filterRecords.svelte';
 	import RecordsManager, {
 		createSlotTypeCaster
 	} from '$lib/schema/recordsManager/recordsManager.svelte';
 	import RecordsManagerTopbar from '$lib/schema/recordsManager/recordsManagerTopbar.svelte';
-	import EmptyState from '$lib/schema/recordsManager/views/emptyState.svelte';
 	import Chip from '$lib/schema/recordsManager/views/fieldsComponents/cells/chip.svelte';
 	import RecordCard from '$lib/schema/recordsManager/views/recordCard.svelte';
 	import RecordsTable from '$lib/schema/recordsManager/views/recordsTable.svelte';
-	import { Heading, Hr } from 'flowbite-svelte';
-	import { XCircle } from 'svelte-heros-v2';
+	import { Button, Heading, Hr } from 'flowbite-svelte';
+	import { Share } from 'svelte-heros-v2';
+	import type { Record } from 'pocketbase';
+	import ShareRecord from '$lib/schema/recordsManager/recordActions/shareRecord.svelte';
+	import Ll from '$lib/components/ll.svelte';
+
+	let shareModal = false;
+	let record: Record;
+	let openShareModal = (r: Record) => {
+		console.log('openShareModal', r);
+
+		shareModal = true;
+		record = r;
+	};
+	$: {
+		console.log(record);
+	}
 
 	const slotTypeCaster = createSlotTypeCaster<CrudExampleRecord>();
 </script>
 
 <div class="p-4">
 	<RecordsManager
-		collection={Collections.CrudExample}
+		collection={Collections.Posts}
 		formSettings={{
 			hiddenFields: ['owner'],
 			hiddenFieldsValues: { owner: $currentUser?.id }
@@ -36,40 +49,33 @@
 
 			<div class="space-y-4">
 				<Heading tag="h4">Table</Heading>
+				<!-- add this component where you like, within recordsManager and indicate which fields to search for -->
 				<RecordsTable
 					{records}
-					fields={['id', 'text', 'textarea']}
-					emptyState={{
-						title: 'No records',
-						description: 'There are no records to show.'
-					}}
+					fields={['id', 'text', 'title', 'author']}
+					fieldsComponents={{ author: Ll }}
+					showShare
 				/>
-				<!-- add this component where you like, within recordsManager and indicate which fields to search for -->
-				<FilterRecords searchableFields={['text', 'textarea']} />
-				<RecordsTable {records} fields={['id', 'text', 'textarea']} />
 			</div>
 
 			<Hr />
 
 			<div class="space-y-4">
 				<Heading tag="h4">Cards</Heading>
-				{#if records.length === 0}
-					<EmptyState title={'No records'} description={'Start adding records.'} icon={XCircle}/>
-				{:else}
-					<div class="grid grid-cols-4 gap-4">
-						{#each records as record}
+				<div class="flex gap-4">
+					{#each records as record}
+						<div class="grow">
 							<RecordCard
 								{record}
 								titleField="id"
-								fields={['text', 'select', 'textarea']}
-								fieldsComponents={{ select: Chip }}
+								fields={['text', 'title']}
 								showEdit
 								showCheckbox
 								showDelete
 							/>
-						{/each}
-					</div>
-				{/if}
+						</div>
+					{/each}
+				</div>
 			</div>
 		</div>
 	</RecordsManager>
