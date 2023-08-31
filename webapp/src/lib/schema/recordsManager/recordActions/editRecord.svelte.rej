@@ -1,0 +1,16 @@
+diff a/webapp/src/lib/schema/recordsManager/recordActions/editRecord.svelte b/webapp/src/lib/schema/recordsManager/recordActions/editRecord.svelte	(rejected hunks)
+@@ -30,7 +32,7 @@
+ 	<Pencil size="20" />
+ </Button>
+ 
+-<div class="m-0">
++<ModalWrapper>
+ 	<Modal bind:open title="Edit record" size="lg">
+ 		<div class="w-[500px]">
+ 			<CrudForm
+@@ -45,4 +47,4 @@
+ 			/>
+ 		</div>
+ 	</Modal>
+-</div>
++</ModalWrapper>
