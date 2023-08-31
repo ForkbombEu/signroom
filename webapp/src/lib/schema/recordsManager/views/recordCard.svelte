@@ -1,4 +1,6 @@
 <script lang="ts">
+	import ShareRecord from '../recordActions/shareRecord.svelte';
+
 	import SelectRecord from '../recordActions/selectRecord.svelte';
 
 	import FieldComponent from './fieldComponent.svelte';
@@ -8,22 +10,22 @@
 	import { getRecordsManagerContext } from '../recordsManager.svelte';
 
 	import type { FieldsComponents } from './fieldComponent.svelte';
-	import type { Record } from 'pocketbase';
 	import { Card, P } from 'flowbite-svelte';
+	import type { PBRecord, PBResponse, PBResponseKeys } from '$lib/utils/types';
 
 	//
 
-	type RecordGeneric = $$Generic;
+	type RecordGeneric = $$Generic<PBRecord>;
+	export let record: PBResponse<RecordGeneric>;
 
-	export let record: Record & RecordGeneric;
-
-	export let fields: string[] = [];
+	export let fields: PBResponseKeys<PBResponse<RecordGeneric>>[] = [];
 	export let titleField = '';
 
-	export let fieldsComponents: FieldsComponents = {};
+	export let fieldsComponents: FieldsComponents<RecordGeneric> = {};
 
 	export let showDelete = false;
 	export let showEdit = false;
+	export let showShare = false;
 	export let showCheckbox = false;
 
 	//
@@ -66,6 +68,9 @@
 		{/if}
 		{#if showDelete}
 			<DeleteRecord {record} />
+		{/if}
+		{#if showShare}
+			<ShareRecord {record} />
 		{/if}
 	</div>
 </Card>

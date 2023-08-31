@@ -7,18 +7,14 @@
 	"description": "Advanced electronic signature service based on Zenroom",
 	"version": "0.0.1",
 	"private": true,
-	"pnpm": {
-		"allowedPrePostScripts": true
-	},
 	"engines": {
 		"node": ">=17",
 		"pnpm": ">=8"
 	},
 	"scripts": {
-		"schema": "node scripts/generate_schema.mjs",
-		"predev": "pnpm run schema",
+		"predev": "pnpm run definitions",
 		"dev": "vite dev",
-		"prebuild": "pnpm run schema",
+		"prebuild": "pnpm run definitions",
 		"build": "svelte-kit sync && vite build",
 		"preview": "vite preview",
 		"test": "playwright test",
@@ -29,7 +25,10 @@
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"types": "npx -y pocketbase-typegen --db ../admin/pb_data/data.db --out src/lib/pocketbase-types.ts",
-		"serve": "sleep 2 && pnpm types && pnpm schema && pnpm build && pnpm preview --host"
+		"features": "node ./src/lib/features/generateFeaturesList.mjs",
+		"schema": "node scripts/generate_schema.mjs",
+		"definitions": "pnpm types && pnpm schema && pnpm features",
+		"serve": "pnpm build && pnpm preview --host"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.33.0",

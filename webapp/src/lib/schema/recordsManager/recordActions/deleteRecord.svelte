@@ -1,10 +1,13 @@
 <script lang="ts">
+	import type { PBRecord, PBResponse } from '$lib/utils/types';
+	import { getRecordsManagerContext } from '../recordsManager.svelte';
+
 	import { Button, Modal, P } from 'flowbite-svelte';
 	import { Trash, XMark } from 'svelte-heros-v2';
-	import { getRecordsManagerContext } from '../recordsManager.svelte';
-	import type { Record } from 'pocketbase';
+	import ModalWrapper from '$lib/components/modalWrapper.svelte';
 
-	export let record: Record;
+	type RecordGeneric = $$Generic<PBRecord>;
+	export let record: PBResponse<RecordGeneric>;
 
 	const { dataManager } = getRecordsManagerContext();
 	const { loadRecords, recordService } = dataManager;
@@ -27,7 +30,7 @@
 	<Trash size="20" />
 </Button>
 
-<div class="m-0">
+<ModalWrapper>
 	<Modal bind:open title="Delete record" size="xs">
 		<div class="text-center space-y-6">
 			<P>Are you sure you want to delete this record?</P>
@@ -47,4 +50,4 @@
 			</div>
 		</div>
 	</Modal>
-</div>
+</ModalWrapper>

@@ -1,21 +1,36 @@
 <script lang="ts">
-	import CrudForm, { formMode } from '$lib/schema/CRUDForm.svelte';
-	import { Button, Modal } from 'flowbite-svelte';
-	import { Plus } from 'svelte-heros-v2';
-	import { getRecordsManagerContext } from '../recordsManager.svelte';
 	import { createEventDispatcher } from 'svelte';
-	import type { Record } from 'pocketbase';
+	import { createTypeProp } from '$lib/utils/typeProp';
+	import { getRecordsManagerContext } from '../recordsManager.svelte';
+	import type { PBRecord, PBResponse } from '$lib/utils/types';
 
-	export let initialData: Record = {} as Record;
+	import CrudForm from '$lib/schema/CRUDForm.svelte';
+	import { Button, Modal } from 'flowbite-svelte';
+	import ModalWrapper from '$lib/components/modalWrapper.svelte';
+	import { Plus } from 'svelte-heros-v2';
 
-	const { collection, dataManager, formSettings } = getRecordsManagerContext();
-	const { loadRecords } = dataManager;
+	//
+
+	type RecordGeneric = $$Generic<PBRecord>;
+	export let recordType = createTypeProp<RecordGeneric>();
+	recordType;
+
+	export let initialData: Partial<RecordGeneric> = {};
+
+	//
 
 	const dispatch = createEventDispatcher<{
 		success: {
-			record: Record;
+			record: PBResponse<RecordGeneric>;
 		};
 	}>();
+
+	const { collection, dataManager, formFieldsSettings } = getRecordsManagerContext<RecordGeneric>();
+	const { base, create } = formFieldsSettings;
+	const fieldsSettings = { ...base, ...create };
+	const { loadRecords } = dataManager;
+
+	//
 
 	let open = false;
 
@@ -31,13 +46,12 @@
 	</Button>
 </slot>
 
-<div class="fixed z-50">
+<ModalWrapper>
 	<Modal bind:open title="Create record" size="lg">
-		<div class="md:w-[500px]">
+		<div class="w-[500px]">
 			<CrudForm
-				mode={formMode.CREATE}
 				{collection}
-				{formSettings}
+				{fieldsSettings}
 				{initialData}
 				on:success={async (e) => {
 					await loadRecords();
@@ -47,4 +61,4 @@
 			/>
 		</div>
 	</Modal>
-</div>
+</ModalWrapper>

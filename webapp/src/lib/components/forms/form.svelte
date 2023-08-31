@@ -1,6 +1,4 @@
 <script lang="ts" context="module">
-	import type { StringPath, StringPathLeaves } from 'sveltekit-superforms/dist/stringPath';
-
 	import { getContext } from 'svelte';
 	import { normalizeError, type ClientResponseErrorData } from '$lib/errorHandling';
 	import type { AnyZodObject } from 'zod';
@@ -52,7 +50,7 @@
 					let error = normalizeError(e);
 					for (const [key, value] of Object.entries(error.data)) {
 						if (Boolean(input.form.data[key])) {
-							setError(input.form, key as StringPathLeaves<T>, value.message);
+							setError(input.form, key as any, value.message);
 							delete error.data[key];
 						}
 					}
@@ -107,8 +105,8 @@
 
 <script lang="ts">
 	import { setContext } from 'svelte';
-	import { Button, Spinner, Alert, Modal } from 'flowbite-svelte';
-	import Error from './error.svelte';
+	import { Spinner, Modal } from 'flowbite-svelte';
+	import ModalWrapper from '../modalWrapper.svelte';
 
 	type T = $$Generic<AnyZodObject>;
 
@@ -117,35 +115,22 @@
 	export let superform: SuperForm<UnwrapEffects<T>, any>;
 
 	export let showRequiredIndicator = false;
-	export let useDefaultSubmitButton = true;
-	export let defaultSubmitButtonText = 'Submit';
-
 	export let className = 'space-y-8';
 
 	//
 
-	const { enhance, delayed, allErrors } = superform;
+	const { enhance, delayed } = superform;
 	setContext<FormContext<T>>(FORM_KEY, { superform, showRequiredIndicator });
-
-	$: hasErrors = formHasErrors($allErrors);
 </script>
 
 <form class={className} method="post" use:enhance>
 	<slot />
-
-	<Error />
-
-	{#if useDefaultSubmitButton}
-		<div class="flex justify-end">
-			<Button id="submit" type="submit" disabled={hasErrors}>{defaultSubmitButtonText}</Button>
-		</div>
-	{/if}
-
-	{#if $delayed}
-		<div class="fixed m-0 p-0">
-			<Modal open={$delayed} permanent>
-				<Spinner />
-			</Modal>
-		</div>
-	{/if}
 </form>
+
+{#if $delayed}
+	<ModalWrapper>
+		<Modal open={$delayed} permanent>
+			<Spinner />
+		</Modal>
+	</ModalWrapper>
+{/if}

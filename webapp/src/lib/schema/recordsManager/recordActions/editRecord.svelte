@@ -1,37 +1,56 @@
 <script lang="ts">
-	import type { Record } from 'pocketbase';
+	import { createTypeProp } from '$lib/utils/typeProp';
+
+	import type { PBRecord, PBResponse } from '$lib/utils/types';
+	import CrudForm from '$lib/schema/CRUDForm.svelte';
+
+	import ModalWrapper from '$lib/components/modalWrapper.svelte';
 	import { Button, Modal } from 'flowbite-svelte';
 	import { Pencil } from 'svelte-heros-v2';
-	import CrudForm, { formMode } from '$lib/schema/CRUDForm.svelte';
 	import { getRecordsManagerContext } from '../recordsManager.svelte';
 
-	type RecordGeneric = $$Generic;
+	//
 
-	export let record: RecordGeneric & Record;
+	type RecordGeneric = $$Generic<PBRecord>;
+	export let recordType = createTypeProp<RecordGeneric>();
+	recordType;
 
-	const { dataManager, formSettings, editFormSettings } = getRecordsManagerContext();
+	export let record: PBResponse<RecordGeneric>;
+
+	//
+
+	const { dataManager, formFieldsSettings } = getRecordsManagerContext<RecordGeneric>();
+	const { base, edit } = formFieldsSettings;
 	const { loadRecords } = dataManager;
 
-	const settings = {
-		...formSettings,
-		...editFormSettings
+	const fieldsSettings = {
+		...base,
+		...edit
 	};
 
+	//
+
 	let open = false;
-	export let label = '';
-	export let size = 'xs';
-	export let iconSize = '12';
-	export let iconClass = 'mr-1';
+
+	function openModal() {
+		open = true;
+	}
 </script>
 
-<div class="m-0">
+<slot {openModal}>
+	<Button class="!p-2" color="alternative" on:click={openModal}>
+		<Pencil size="20" />
+	</Button>
+</slot>
+
+<ModalWrapper>
 	<Modal bind:open title="Edit record" size="lg">
-		<div class="md:w-[500px]">
+		<div class="w-[500px]">
 			<CrudForm
-				mode={formMode.EDIT}
 				collection={record.collectionId}
+				recordId={record.id}
 				initialData={record}
-				formSettings={settings}
+				{fieldsSettings}
 				on:success={async () => {
 					await loadRecords();
 					open = false;
@@ -39,15 +58,4 @@
 			/>
 		</div>
 	</Modal>
-</div>
-
-<Button
-	class="!p-2"
-	color="alternative"
-	{size}
-	on:click={() => {
-		open = true;
-	}}
->
-	<Pencil size={iconSize} class={iconClass} />{label}
-</Button>
+</ModalWrapper>
