@@ -42,8 +42,8 @@ dependencies:
     specifier: ^1.3.1
     version: 1.3.1
   pocketbase:
-    specifier: ^0.17.3
-    version: 0.17.3
+    specifier: ^0.14.4
+    version: 0.14.4
   svelte-boring-avatars:
     specifier: ^1.2.4
     version: 1.2.4
@@ -2437,8 +2437,8 @@ packages:
     hasBin: true
     dev: true
 
-  /pocketbase@0.17.3:
-    resolution: {integrity: sha512-tqtk7kd8K4/5BspCzqf8DcbjS+iCBLFdpC7s/d6hAuxeoqP5MH6llRICm22dldJDFcTa1chuCfyeeKoU5mYaHQ==}
+  /pocketbase@0.14.4:
+    resolution: {integrity: sha512-FZJmZ7+tRJ6ShK9h8nZJNSPVfDIR1gukqcAjrzc7IS2zgK4PdBv7wwIJtCRdYYBxHMNAvU1uFkpQ0sWE094wuw==}
     dev: false
 
   /postcss-import@15.1.0(postcss@8.4.29):
