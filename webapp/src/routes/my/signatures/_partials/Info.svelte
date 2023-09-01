@@ -3,7 +3,7 @@
 
 	import { Heading } from 'flowbite-svelte';
 	import OwnerDisplay from './OwnerDisplay.svelte';
-	import Chip from '$lib/schema/recordsManager/views/fieldsComponents/cells/chip.svelte';
+	import Chip from './chip.svelte';
 	import { currentUser } from '$lib/pocketbase';
 	import type { PBResponse } from '$lib/utils/types';
 
