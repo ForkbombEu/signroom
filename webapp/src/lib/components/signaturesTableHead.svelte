@@ -14,12 +14,12 @@
 	export let folderId: string | null = null;
 	export let trigger: (toast:ToastContent) => void;
 
-	const {  dataManager } = getRecordsManagerContext();
+	const {  dataManager, formFieldsSettings } = getRecordsManagerContext();
 	const { loadRecords } = dataManager;
 
 	const createRecord = (type: String, cb: () => void) => {
-		//TODO: fix me
-		type;
+		console.log(formFieldsSettings, "createRecord", type);
+		formFieldsSettings.base.hide!.type = type;
 		cb();
 	};
 	const pki = forge.pki;
