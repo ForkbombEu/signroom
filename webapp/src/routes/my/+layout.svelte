@@ -12,8 +12,6 @@
 		DropdownItem,
 		NavBrand,
 		NavHamburger,
-		NavLi,
-		NavUl,
 		Navbar,
 		Sidebar,
 		SidebarCta,

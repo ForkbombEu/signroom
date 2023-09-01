@@ -35,7 +35,7 @@
 	const downloadName = `${record.title}.json`;
 	const handleOpen = () => (open = !open);
 </script>
-
+<slot name="beforeButtons"/>
 <slot name="downloadButton" {downloadUrl} {downloadName}>
 	<Button
 		target="_blank"

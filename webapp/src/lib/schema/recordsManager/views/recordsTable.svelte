@@ -27,7 +27,7 @@
 	type RecordGeneric = $$Generic<PBRecord>;
 
 	export let records: PBResponse<RecordGeneric>[] = [];
-	export let fields: PBResponseKeys<PBResponse<RecordGeneric>>[] = ['id'];
+	export let fields: Array<PBResponseKeys<PBResponse<RecordGeneric>>|string> = ['id'];
 	export let fieldsComponents: FieldsComponents<RecordGeneric> = {};
 	export let showShare: boolean = false;
 

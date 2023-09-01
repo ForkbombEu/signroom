@@ -84,11 +84,11 @@
 			<SignaturesTableHead {folderId} {trigger} />
 			<RecordsTable
 				{records}
-				fields={['file']}
+				fields={['info','file']}
 				showCheckboxes={false}
 				fieldsComponents={{
 					info: Info,
-					files: Files
+					file: Files
 				}}
 				showDelete={false}
 				showEdit={false}
