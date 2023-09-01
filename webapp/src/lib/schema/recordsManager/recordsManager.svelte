@@ -1,14 +1,13 @@
 <script lang="ts" context="module">
-	import type { Record as PBRecord, RecordService } from 'pocketbase';
-	import { getContext, onMount, setContext } from 'svelte';
+	import { getContext } from 'svelte';
+	import type { RecordService } from 'pocketbase';
 	import type { Writable } from 'svelte/store';
-	import type { FormSettings } from '../CRUDForm.svelte';
-
-	//
+	import type { FieldsSettings } from '../CRUDForm.svelte';
+	import type { PBRecord } from '$lib/utils/types';
 
 	export const RECORDS_MANAGER_KEY = Symbol('rmk');
 
-	export type RecordsManagerContext = {
+	export type RecordsManagerContext<T = PBRecord> = {
 		collection: string;
 		dataManager: {
 			recordService: RecordService;
@@ -21,48 +20,66 @@
 			toggleSelectAllRecords: () => void;
 			discardSelection: () => void;
 		};
-		formSettings: Partial<FormSettings>;
-		editFormSettings: Partial<FormSettings>;
+		formFieldsSettings: {
+			base: Partial<FieldsSettings<T>>;
+			create: Partial<FieldsSettings<T>>;
+			edit: Partial<FieldsSettings<T>>;
+		};
 	};
 
-	export function getRecordsManagerContext(): RecordsManagerContext {
+	export function getRecordsManagerContext<T = PBRecord>(): RecordsManagerContext<T> {
 		return getContext(RECORDS_MANAGER_KEY);
-	}
-
-	//
-
-	type SlotTypeCaster<RecordGeneric> = RecordGeneric[];
-	export function createSlotTypeCaster<RecordGeneric>(): SlotTypeCaster<RecordGeneric> {
-		return [];
 	}
 </script>
 
 <script lang="ts">
+	import { onMount, setContext } from 'svelte';
+	import { writable } from 'svelte/store';
+
+	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
+	import { page } from '$app/stores';
 
 	import { pb } from '$lib/pocketbase';
 	import type { RecordFullListQueryParams } from 'pocketbase';
 	import type { Collections } from '$lib/pocketbase-types';
-	import { writable } from 'svelte/store';
+	import type { PBResponse } from '$lib/utils/types';
+	import { createTypeProp } from '$lib/utils/typeProp';
+
+	import { Pagination } from 'flowbite-svelte';
+	import GridSpinner from '$lib/components/gridSpinner.svelte';
+
+	//
+
+	type RecordGeneric = $$Generic<PBRecord>;
+	export let recordType = createTypeProp<RecordGeneric>();
+	recordType;
 
 	//
 
 	export let collection: Collections | string;
-	export let formSettings: Partial<FormSettings> = {};
-	export let editFormSettings: Partial<FormSettings> = {};
+
+	export let formSettings: Partial<FieldsSettings<RecordGeneric>> = {};
+	export let createFormSettings: Partial<FieldsSettings<RecordGeneric>> = {};
+	export let editFormSettings: Partial<FieldsSettings<RecordGeneric>> = {};
+
 	export let initialQueryParams: RecordFullListQueryParams = {};
 	export let subscribe: string[] = [];
 
-	/* Slot typing */
-
-	type RecordGeneric = $$Generic;
-	export let slotTypeCaster = createSlotTypeCaster<RecordGeneric>();
-	slotTypeCaster; // avoid 'unused' warning
-
 	/* Data load */
 
+	$: pages = Array.from({ length: totalPages }, (_, i) => ({
+		name: `${i + 1}`,
+		href: `?page=${i + 1}`
+	}));
+	let currentPage = '';
+	let totalItems = 0;
+	$: currentPage = $page.url.searchParams.get('page') || '1';
+	export let perPage = 5;
+
 	const queryParams = writable<RecordFullListQueryParams>({
-		sort: '-created'
+		sort: '-created',
+		...initialQueryParams
 	});
 
 	$: $queryParams = {
@@ -73,14 +90,30 @@
 
 	const recordService = pb.collection(collection);
 
-	let records: (RecordGeneric & PBRecord)[] = [];
+	let records: PBResponse<RecordGeneric>[] = [];
+	let totalPages: number = 0;
 
 	async function loadRecords() {
-		records = await recordService.getFullList($queryParams);
+		const res = await recordService.getList<PBResponse<RecordGeneric>>(
+			Number(currentPage),
+			perPage,
+			{
+				...$queryParams
+			}
+		);
+		records = res.items;
+		totalPages = res.totalPages;
+		totalItems = res.totalItems;
 	}
+
+	let promise = loadRecords();
 
 	$: if (browser) {
 		$queryParams;
+		initialQueryParams;
+		currentPage;
+		totalPages;
+		totalItems;
 		loadRecords();
 	}
 
@@ -122,7 +155,7 @@
 
 	/* Context */
 
-	setContext<RecordsManagerContext>(RECORDS_MANAGER_KEY, {
+	setContext<RecordsManagerContext<RecordGeneric>>(RECORDS_MANAGER_KEY, {
 		collection,
 		dataManager: {
 			recordService,
@@ -135,9 +168,59 @@
 			toggleSelectAllRecords,
 			discardSelection
 		},
-		formSettings,
-		editFormSettings
+		formFieldsSettings: {
+			base: formSettings,
+			create: createFormSettings,
+			edit: editFormSettings
+		}
 	});
 </script>
 
-<slot {records} {loadRecords} />
+{#await promise}
+	<div class="flex items-center justify-center min-h-screen justify-items-center">
+		<GridSpinner />
+	</div>
+{:then}
+	<slot {records} {loadRecords} />
+	<slot name="pagination" {totalItems} {totalPages} {currentPage} {perPage}>
+		{#if totalPages > 1}
+			<div class="flex flex-col items-center justify-center gap-2 my-5">
+				<div class="text-sm text-gray-700 dark:text-gray-400">
+					Showing <span class="font-semibold text-gray-900 dark:text-white"
+						>{perPage * Number(currentPage) - perPage + 1}</span
+					>
+					to
+					<span class="font-semibold text-gray-900 dark:text-white"
+						>{Number(currentPage) == totalPages ? totalItems : perPage * Number(currentPage)}</span
+					>
+					of <span class="font-semibold text-gray-900 dark:text-white">{totalItems}</span> Entries
+				</div>
+
+				<div class="flex w-full justify-center">
+					<Pagination
+						{pages}
+						activeClass="bg-blue-500 text-white"
+						on:previous={(e) => {
+							e.preventDefault();
+							if (Number(currentPage) - 1 < 1) return;
+							goto(`?page=${Number(currentPage) - 1}`);
+						}}
+						on:next={(e) => {
+							e.preventDefault();
+							if (Number(currentPage) + 1 > totalPages) return;
+							goto(`?page=${Number(currentPage) + 1}`);
+						}}
+						on:click={(e) => {
+							e.preventDefault();
+							goto(e.target?.href);
+						}}
+					/>
+				</div>
+			</div>
+		{/if}
+	</slot>
+{:catch}
+	<div class="flex items-center justify-center min-h-screen justify-items-center">
+		Some error occured
+	</div>
+{/await}

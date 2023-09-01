@@ -1,0 +1,31 @@
+diff a/webapp/package.json b/webapp/package.json	(rejected hunks)
+@@ -7,18 +7,14 @@
+ 	"description": "Advanced electronic signature service based on Zenroom",
+ 	"version": "0.0.1",
+ 	"private": true,
+-	"pnpm": {
+-		"allowedPrePostScripts": true
+-	},
+ 	"engines": {
+ 		"node": ">=17",
+ 		"pnpm": ">=8"
+ 	},
+ 	"scripts": {
+-		"schema": "node scripts/generate_schema.mjs",
+-		"predev": "pnpm run schema",
++		"predev": "pnpm run definitions",
+ 		"dev": "vite dev",
+-		"prebuild": "pnpm run schema",
++		"prebuild": "pnpm run definitions",
+ 		"build": "vite build",
+ 		"preview": "vite preview",
+ 		"test": "playwright test",
+@@ -66,7 +65,7 @@
+ 		"@popperjs/core": "^2.11.7",
+ 		"classnames": "^2.3.2",
+ 		"flowbite": "^1.6.5",
+-		"flowbite-svelte": "^0.35.1",
++		"flowbite-svelte": "^0.40.1",
+ 		"flowbite-svelte-blocks": "^0.3.6",
+ 		"pocketbase": "^0.14.4",
+ 		"svelte-boring-avatars": "^1.2.4",

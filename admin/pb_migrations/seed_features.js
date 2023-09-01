@@ -27,6 +27,11 @@ const features = [
         name: "auth",
         envVariables: {},
     },
+    {
+        name: "maintenance",
+        envVariables: {},
+        active: false
+    }
 ];
 
 migrate(
@@ -40,7 +45,7 @@ migrate(
             const record = new Record(collection, {
                 name: feature.name,
                 envVariables: feature.envVariables,
-                active: true,
+                active: feature.active ?? true,
             });
 
             dao.saveRecord(record);
