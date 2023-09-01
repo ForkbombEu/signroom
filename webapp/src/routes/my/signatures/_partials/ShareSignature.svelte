@@ -70,8 +70,8 @@
 	<Spinner />
 {:then { authorization }}
 	<div class="fixed z-50">
-		<Modal bind:open size="xl" title="Share signature">
-			<div class="md:w-[500px] relative">
+		<Modal bind:open size="md" title="Share signature">
+			<div class="md:w-full relative">
 				{#if !removeAccess}
 					<CrudForm
 						on:success={handleSuccess}

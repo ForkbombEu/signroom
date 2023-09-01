@@ -1,4 +1,6 @@
 <script lang="ts">
+	import ModalWrapper from '$lib/components/modalWrapper.svelte';
+
 	import type { PBResponse, PBRecord } from '$lib/utils/types';
 
 	import { createTypeProp } from '$lib/utils/typeProp';
@@ -83,9 +85,9 @@
 {#await authorizationRequest}
 	<Spinner />
 {:then response}
-	<div class="fixed z-50">
-		<Modal bind:open size="xl" title="Share signature">
-			<div class="w-[500px] relative">
+	<ModalWrapper>
+		<Modal bind:open size="md" title="Share signature">
+			<div class="w-full relative">
 				{#if !removeAccess}
 					<CrudForm
 						{recordType}
@@ -132,5 +134,5 @@
 				{/if}
 			</div>
 		</Modal>
-	</div>
+	</ModalWrapper>
 {/await}
