@@ -12,9 +12,10 @@
 	import { Button, Modal } from 'flowbite-svelte';
 	import { DocumentArrowDown, DocumentCheck } from 'svelte-heros-v2';
 	import RenderSignedFile from './RenderSignedFile.svelte';
+	import type { PBResponse } from '$lib/utils/types';
 
 	export let value: SignedFile;
-	export let record: Record & SignaturesRecord;
+	export let record: PBResponse<SignaturesRecord>;
 
 	let open = false;
 	const { type } = record;

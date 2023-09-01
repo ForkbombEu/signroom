@@ -7,4 +7,4 @@
 	const pades = getPades(file);
 </script>
 
-<object {...pades} class="w-full h-[40rem]" />
+<object {...pades} class="w-full h-[40rem]" title="pdf reader" aria-label="" aria-labelledby=""/>

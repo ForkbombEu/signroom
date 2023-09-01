@@ -39,7 +39,7 @@
 	);
 </script>
 
-<Form {superform} defaultSubmitButtonText="Update profile">
+<Form {superform}>
 	<Input field="name" label="Username" />
 	<div class="space-y-2">
 		<Input field="email" type="email" />

@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { currentUser } from '$lib/pocketbase';
 	import { Collections, type CrudExampleRecord } from '$lib/pocketbase-types';
-	import RecordsManager, {
-		createSlotTypeCaster
-	} from '$lib/schema/recordsManager/recordsManager.svelte';
+	import RecordsManager from '$lib/schema/recordsManager/recordsManager.svelte';
 	import RecordsManagerTopbar from '$lib/schema/recordsManager/recordsManagerTopbar.svelte';
 	import Chip from '$lib/schema/recordsManager/views/fieldsComponents/cells/chip.svelte';
 	import RecordCard from '$lib/schema/recordsManager/views/recordCard.svelte';
@@ -12,6 +10,7 @@
 	import { Share } from 'svelte-heros-v2';
 	import type { Record } from 'pocketbase';
 	import ShareRecord from '$lib/schema/recordsManager/recordActions/shareRecord.svelte';
+	import { createTypeProp } from '$lib/utils/typeProp';
 
 	let shareModal = false;
 	let record: Record;
@@ -25,24 +24,19 @@
 		console.log(record);
 	}
 
-	const slotTypeCaster = createSlotTypeCaster<CrudExampleRecord>();
+	const slotTypeCaster = createTypeProp<CrudExampleRecord>();
 </script>
 
 <div class="p-4">
 	<RecordsManager
 		collection={Collections.Posts}
-		formSettings={{
-			hiddenFields: ['owner'],
-			hiddenFieldsValues: { owner: $currentUser?.id }
-		}}
+		
 		editFormSettings={{
-			excludedFields: ['select', 'text']
+			exclude: ['owner'],
 		}}
-		{slotTypeCaster}
 		let:records
 	>
 		<div class="space-y-8">
-			<RecordsManagerTopbar />
 
 			<Hr />
 
@@ -52,7 +46,6 @@
 				<RecordsTable
 					{records}
 					fields={['id', 'text', 'title', 'author']}
-					fieldsComponents={{ author: Ll }}
 					showShare
 				/>
 			</div>

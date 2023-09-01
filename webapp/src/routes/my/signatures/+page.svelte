@@ -12,21 +12,21 @@
 
 	import { currentUser } from '$lib/pocketbase';
 	import { Collections, type SignaturesRecord } from '$lib/pocketbase-types';
-	import RecordsManager, {
-		createSlotTypeCaster
-	} from '$lib/schema/recordsManager/recordsManager.svelte';
+	import RecordsManager from '$lib/schema/recordsManager/recordsManager.svelte';
 	import RecordsTable from '$lib/schema/recordsManager/views/recordsTable.svelte';
 	import { page } from '$app/stores';
 	import type { Record, RecordFullListQueryParams } from 'pocketbase';
 	import { Button, ButtonGroup, Toast } from 'flowbite-svelte';
-	import { Share } from 'svelte-heros-v2';
+	import { Pencil, Share } from 'svelte-heros-v2';
 	import ShareSignature from './_partials/ShareSignature.svelte';
 	import { slide } from 'svelte/transition';
 	import Info from './_partials/Info.svelte';
 	import Files from './_partials/Files.svelte';
 	import EditRecord from '$lib/schema/recordsManager/recordActions/editRecord.svelte';
+	import { createTypeProp } from '$lib/utils/typeProp';
+	import type { PBResponse } from '$lib/utils/types';
 
-	const slotTypeCaster = createSlotTypeCaster<SignaturesRecord>();
+	const recordType = createTypeProp<SignaturesRecord>();
 
 	$: folderId = $page.url.searchParams.get('folder');
 
@@ -38,9 +38,9 @@
 	}
 
 	let shareModal = false;
-	let record: (Record & SignaturesRecord) | undefined = undefined;
+	let record: (PBResponse<SignaturesRecord>) | undefined = undefined;
 
-	function openShareModal(r: SignaturesRecord & Record) {
+	function openShareModal(r: PBResponse<SignaturesRecord>) {
 		shareModal = true;
 		record = r;
 	}
@@ -68,27 +68,23 @@
 		<RecordsManager
 			collection={Collections.Signatures}
 			formSettings={{
-				hiddenFields: ['owner', 'type'],
-				hiddenFieldsValues: { owner: $currentUser?.id },
-				relationsDisplayFields: {
-					folder: ['name']
-				},
-				relationsInputMode: {
-					folder: 'select'
+				hide: {'owner':$currentUser?.id, 'type':undefined},
+				relations: {
+					folder: {displayFields:['name'], inputMode:'select'}
 				}
 			}}
 			editFormSettings={{
-				excludedFields: ['owner', 'type', 'file']
+				exclude: ['owner', 'type', 'file']
 			}}
 			{initialQueryParams}
-			{slotTypeCaster}
+			{recordType}
 			subscribe={[Collections.Authorizations, Collections.Folders]}
 			let:records
 		>
 			<SignaturesTableHead {folderId} {trigger} />
 			<RecordsTable
 				{records}
-				fields={['info', 'files']}
+				fields={['file']}
 				showCheckboxes={false}
 				fieldsComponents={{
 					info: Info,
@@ -109,7 +105,11 @@
 						>
 							<Share size="12" class="mr-1" /> SHARE
 						</Button>
-						<EditRecord {record} label="EDIT" />
+						<EditRecord {record} let:openModal>
+							<Button class="!p-2" color="alternative" on:click={openModal}>
+								<Pencil size="20" /> EDIT
+							</Button>
+						</EditRecord>
 					</ButtonGroup>
 				{:else}
 					<div />
@@ -134,6 +134,6 @@
 	{/if}
 {/key}
 
-<Toast simple position="bottom-right" color="dark" transition={slide} bind:open={show}>
+<Toast simple position="bottom-right" color="indigo" transition={slide} bind:open={show}>
 	{content}
 </Toast>

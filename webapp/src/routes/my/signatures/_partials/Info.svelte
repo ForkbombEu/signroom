@@ -1,13 +1,14 @@
 <script lang="ts">
-	import type { Record } from 'pocketbase';
 	import type { SignaturesRecord } from '$lib/pocketbase-types';
-	import { Heading, P } from 'flowbite-svelte';
+
+	import { Heading } from 'flowbite-svelte';
 	import OwnerDisplay from './OwnerDisplay.svelte';
 	import Chip from '$lib/schema/recordsManager/views/fieldsComponents/cells/chip.svelte';
-	import { currentUser, pb } from '$lib/pocketbase';
+	import { currentUser } from '$lib/pocketbase';
+	import type { PBResponse } from '$lib/utils/types';
 
 	export let value: any;
-	export let record: Record & SignaturesRecord;
+	export let record: PBResponse<SignaturesRecord>;
 	value;
 
 	//@ts-ignore

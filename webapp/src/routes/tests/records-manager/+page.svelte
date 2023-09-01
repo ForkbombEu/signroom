@@ -43,16 +43,15 @@
 					{#if records.length === 0}
 						<EmptyState title={'No records'} description={'Start adding records.'} icon={XCircle} />
 					{:else}
-            <RecordsTable
-              {records}
-              fields={['id', 'text', 'textarea']}
-              emptyState={{
-                title: 'No records',
-                description: 'There are no records to show.'
-              }}
-            />
-            <FilterRecords {recordType} searchableFields={['text', 'textarea']} />
-            <RecordsTable {records} fields={['id', 'text', 'textarea']} />
+						<RecordsTable
+							{records}
+							fields={['id', 'text', 'textarea']}
+							emptyState={{
+							title: 'No records',
+							description: 'There are no records to show.'
+							}}
+						/>
+						<FilterRecords {recordType} searchableFields={['text', 'textarea']} />
 					{/if}
 				{:catch}
 					<EmptyState title={'Error'} description={'Something went wrong.'} icon={XCircle} />
@@ -81,7 +80,7 @@
 								<RecordCard
 									{record}
 									titleField="id"
-									fieldsComponents={{ select: Chip }}
+									fieldsComponents={{ "select": Chip }}
 									showEdit
 									showCheckbox
 									showDelete
@@ -92,6 +91,7 @@
 				{:catch}
 					<EmptyState title={'Error'} description={'Something went wrong.'} icon={XCircle} />
 				{/await}
+				{/if}
 			</div>
 		</div>
 	</RecordsManager>

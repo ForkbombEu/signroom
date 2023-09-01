@@ -174,6 +174,13 @@
 			edit: editFormSettings
 		}
 	});
+
+	function goToH(e:Event):void {
+							e.preventDefault();
+							const {target} = e
+							goto((target as HTMLAnchorElement).href);
+						}
+
 </script>
 
 {#await promise}
@@ -210,10 +217,7 @@
 							if (Number(currentPage) + 1 > totalPages) return;
 							goto(`?page=${Number(currentPage) + 1}`);
 						}}
-						on:click={(e) => {
-							e.preventDefault();
-							goto(e.target?.href);
-						}}
+						on:click={goToH}
 					/>
 				</div>
 			</div>

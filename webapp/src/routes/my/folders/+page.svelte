@@ -1,17 +1,15 @@
 <script lang="ts">
 	import { currentUser } from '$lib/pocketbase';
 	import { Collections, type FoldersRecord, type SignaturesRecord } from '$lib/pocketbase-types';
-	import RecordsManager, {
-		createSlotTypeCaster
-	} from '$lib/schema/recordsManager/recordsManager.svelte';
+	import RecordsManager from '$lib/schema/recordsManager/recordsManager.svelte';
 	import RecordsManagerTopbar from '$lib/schema/recordsManager/recordsManagerTopbar.svelte';
 	import RecordCard from '$lib/schema/recordsManager/views/recordCard.svelte';
-	import { Button, Heading, P } from 'flowbite-svelte';
-	import { ListBullet } from 'svelte-heros-v2';
+	import { createTypeProp } from '$lib/utils/typeProp';
+	import { Heading } from 'flowbite-svelte';
 
 	const expandQuery = 'signatures(folder)';
 
-	const slotTypeCaster = createSlotTypeCaster<
+	const recordType = createTypeProp<
 		FoldersRecord & { expand: { [expandQuery]: SignaturesRecord[] } }
 	>();
 </script>
@@ -20,10 +18,9 @@
 	<RecordsManager
 		collection={Collections.Folders}
 		formSettings={{
-			hiddenFields: ['owner'],
-			hiddenFieldsValues: { owner: $currentUser?.id }
+			hide: {'owner':$currentUser?.id},
 		}}
-		{slotTypeCaster}
+		{recordType}
 		initialQueryParams={{ expand: expandQuery }}
 		let:records
 		subscribe={[Collections.Signatures]}
