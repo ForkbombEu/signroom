@@ -12,10 +12,10 @@
 	import { formFieldProxy } from 'sveltekit-superforms/client';
 
 	import { Badge, Fileupload, Helper, Listgroup, ListgroupItem } from 'flowbite-svelte';
-	import { getFormContext } from './form.svelte';
+	import { getFormContext } from '../form.svelte';
 	import FieldError, { fieldHasErrors } from './fieldParts/fieldError.svelte';
 	import FieldLabel from './fieldParts/fieldLabel.svelte';
-	import ListgroupItemButton from '../listgroupItemButton.svelte';
+	import ListgroupItemButton from '$lib/components/listgroupItemButton.svelte';
 
 	//
 
