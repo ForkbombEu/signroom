@@ -1,12 +1,10 @@
 <script lang="ts">
 	import { getHMAC, regenerateKeypair, saveKeyringToLocalStorage } from '$lib/keypairoom/keypair';
-	import { A, Heading, P } from 'flowbite-svelte';
-	import Input from '$lib/components/forms/input.svelte';
+	import { currentUser } from '$lib/pocketbase';
 
-	import Form, { createForm } from '$lib/components/forms/form.svelte';
-	import Textarea from '$lib/components/forms/textarea.svelte';
 	import { z } from 'zod';
-	import { currentUser } from '$lib/pocketbase.js';
+	import { Form, createForm, FormError, SubmitButton, Textarea, Input } from '$lib/forms';
+	import { A, Heading, P } from 'flowbite-svelte';
 
 	//
 
@@ -35,12 +33,13 @@
 </script>
 
 {#if !success}
-	<Form {superform} defaultSubmitButtonText="Regenerate keys">
+	<Form {superform}>
 		<Heading tag="h4">Regenerate keys</Heading>
 		<div>
 			<P>You've been redirected here because your private keys are missing.</P>
 			<P>Please type here your email and seed</P>
 		</div>
+
 		{#if !$currentUser}
 			<div class="space-y-1">
 				<Input field="email" label="User email" />
@@ -49,7 +48,13 @@
 				</P>
 			</div>
 		{/if}
+
 		<Textarea field={keys.seed} placeholder={textAreaPlaceholder} />
+
+		<FormError />
+		<div class="flex justify-end">
+			<SubmitButton>Regenerate keys</SubmitButton>
+		</div>
 	</Form>
 	<A href="/keypairoom">Forgot the seed? Regenerate it</A>
 {:else}
