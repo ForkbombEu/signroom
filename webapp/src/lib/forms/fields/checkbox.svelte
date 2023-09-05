@@ -2,7 +2,7 @@
 	import { formFieldProxy } from 'sveltekit-superforms/client';
 
 	import { Checkbox, Label } from 'flowbite-svelte';
-	import { getFormContext } from './form.svelte';
+	import { getFormContext } from '../form.svelte';
 	import FieldError from './fieldParts/fieldError.svelte';
 	import FieldRequiredIndicator from './fieldParts/fieldRequiredIndicator.svelte';
 

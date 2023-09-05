@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { formFieldProxy } from 'sveltekit-superforms/client';
-	import { getFormContext } from './form.svelte';
+	import { getFormContext } from '../form.svelte';
 	import { Input } from 'flowbite-svelte';
 	import type { InputType } from 'flowbite-svelte/dist/types';
 	import FieldWrapper from './fieldParts/fieldWrapper.svelte';

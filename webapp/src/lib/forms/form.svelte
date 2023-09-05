@@ -1,6 +1,4 @@
 <script lang="ts" context="module">
-	import type { StringPath, StringPathLeaves } from 'sveltekit-superforms/dist/stringPath';
-
 	import { getContext } from 'svelte';
 	import { normalizeError, type ClientResponseErrorData } from '$lib/errorHandling';
 	import type { AnyZodObject } from 'zod';
@@ -52,7 +50,7 @@
 					let error = normalizeError(e);
 					for (const [key, value] of Object.entries(error.data)) {
 						if (Boolean(input.form.data[key])) {
-							setError(input.form, key as StringPathLeaves<T>, value.message);
+							setError(input.form, key as any, value.message);
 							delete error.data[key];
 						}
 					}
@@ -107,8 +105,8 @@
 
 <script lang="ts">
 	import { setContext } from 'svelte';
-	import { Button, Spinner, Alert, Modal } from 'flowbite-svelte';
-	import Error from './error.svelte';
+	import { Spinner, Modal } from 'flowbite-svelte';
+	import ModalWrapper from '$lib/components/modalWrapper.svelte';
 
 	type T = $$Generic<AnyZodObject>;
 

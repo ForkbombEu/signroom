@@ -1,0 +1,55 @@
+diff a/webapp/src/lib/forms/form.svelte b/webapp/src/lib/forms/form.svelte	(rejected hunks)
+@@ -80,7 +78,7 @@
+ 		return checks.some((check) => check);
+ 	}
+ 
+-	// 
++	//
+ 
+ 	export function createFormData(data: Record<string, unknown>) {
+ 		const formData = new FormData();
+@@ -117,35 +115,22 @@
+ 	export let superform: SuperForm<UnwrapEffects<T>, any>;
+ 
+ 	export let showRequiredIndicator = false;
+-	export let useDefaultSubmitButton = true;
+-	export let defaultSubmitButtonText = 'Submit';
+-
+ 	export let className = 'space-y-8';
+ 
+ 	//
+ 
+-	const { enhance, delayed, allErrors } = superform;
++	const { enhance, delayed } = superform;
+ 	setContext<FormContext<T>>(FORM_KEY, { superform, showRequiredIndicator });
+-
+-	$: hasErrors = formHasErrors($allErrors);
+ </script>
+ 
+ <form class={className} method="post" use:enhance>
+ 	<slot />
+-
+-	<Error />
+-
+-	{#if useDefaultSubmitButton}
+-		<div class="flex justify-end">
+-			<Button id="submit" type="submit" disabled={hasErrors}>{defaultSubmitButtonText}</Button>
+-		</div>
+-	{/if}
+-
+-	{#if $delayed}
+-		<div class="m-0 p-0">
+-			<Modal open={$delayed} permanent>
+-				<Spinner />
+-			</Modal>
+-		</div>
+-	{/if}
+ </form>
++
++{#if $delayed}
++	<ModalWrapper>
++		<Modal open={$delayed} permanent>
++			<Spinner />
++		</Modal>
++	</ModalWrapper>
++{/if}
