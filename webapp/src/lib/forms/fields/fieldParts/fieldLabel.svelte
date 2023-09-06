@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getFormContext } from '../form.svelte';
+	import { getFormContext } from '../../form.svelte';
 	import { formFieldProxy } from 'sveltekit-superforms/client';
 	import { fieldHasErrors } from './fieldError.svelte';
 	import { Label } from 'flowbite-svelte';
