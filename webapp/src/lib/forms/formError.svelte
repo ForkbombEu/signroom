@@ -7,7 +7,7 @@
 </script>
 
 {#if $message}
-	<Alert color="red" accent={false} dismissable>
+	<Alert color="red" dismissable>
 		<p>{$message.message}</p>
 		{#if $message.data && Object.keys($message.data).length > 0}
 			<ul class="space-y-2 mt-2">

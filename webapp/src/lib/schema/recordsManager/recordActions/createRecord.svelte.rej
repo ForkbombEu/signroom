@@ -1,0 +1,63 @@
+diff a/webapp/src/lib/schema/recordsManager/recordActions/createRecord.svelte b/webapp/src/lib/schema/recordsManager/recordActions/createRecord.svelte	(rejected hunks)
+@@ -1,20 +1,36 @@
+ <script lang="ts">
+-	import CrudForm, { formMode } from '$lib/schema/CRUDForm.svelte';
++	import { createEventDispatcher } from 'svelte';
++	import { createTypeProp } from '$lib/utils/typeProp';
++	import { getRecordsManagerContext } from '../recordsManager.svelte';
++	import type { PBRecord, PBResponse } from '$lib/utils/types';
++
++	import CrudForm from '$lib/schema/CRUDForm.svelte';
+ 	import { Button, Modal } from 'flowbite-svelte';
++	import ModalWrapper from '$lib/components/modalWrapper.svelte';
+ 	import { Plus } from 'svelte-heros-v2';
+-	import { getRecordsManagerContext } from '../recordsManager.svelte';
+-	import { createEventDispatcher } from 'svelte';
+-	import type { Record } from 'pocketbase';
+ 
++	//
++
++	type RecordGeneric = $$Generic<PBRecord>;
++	export let recordType = createTypeProp<RecordGeneric>();
++	recordType;
++
++	export let initialData: Partial<RecordGeneric> = {};
++
++	//
+ 
+-	export let initialData: Record = {} as Record;
++	const dispatch = createEventDispatcher<{
++		success: {
++			record: PBResponse<RecordGeneric>;
++		};
++	}>();
+ 
+-	const { collection, dataManager, formSettings } = getRecordsManagerContext();
++	const { collection, dataManager, formFieldsSettings } = getRecordsManagerContext<RecordGeneric>();
++	const { base, create } = formFieldsSettings;
++	const fieldsSettings = { ...base, ...create };
+ 	const { loadRecords } = dataManager;
+ 
+-	const dispatch = createEventDispatcher<{ success: {
+-		record: Record;
+-	} }>();
++	//
+ 
+ 	let open = false;
+ 
+@@ -30,13 +46,12 @@
+ 	</Button>
+ </slot>
+ 
+-<div class="m-0">
++<ModalWrapper>
+ 	<Modal bind:open title="Create record" size="lg">
+ 		<div class="w-[500px]">
+ 			<CrudForm
+-				mode={formMode.CREATE}
+ 				{collection}
+-				{formSettings}
++				{fieldsSettings}
+ 				{initialData}
+ 				on:success={async (e) => {
+ 					await loadRecords();

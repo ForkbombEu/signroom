@@ -1,29 +1,32 @@
 <script lang="ts">
+	import GridSpinner from '$lib/components/gridSpinner.svelte';
+	import TableSkeleton from '$lib/components/tableSkeleton.svelte';
 	import { currentUser } from '$lib/pocketbase';
-	import { Collections, type CrudExampleRecord } from '$lib/pocketbase-types';
-	import RecordsManager, {
-		createSlotTypeCaster
-	} from '$lib/schema/recordsManager/recordsManager.svelte';
+	import { Collections, type CrudExampleRecord } from '$lib/pocketbase/types';
+	import FilterRecords from '$lib/schema/recordsManager/filterRecords.svelte';
+	import RecordsManager from '$lib/schema/recordsManager/recordsManager.svelte';
 	import RecordsManagerTopbar from '$lib/schema/recordsManager/recordsManagerTopbar.svelte';
+	import EmptyState from '$lib/schema/recordsManager/views/emptyState.svelte';
 	import Chip from '$lib/schema/recordsManager/views/fieldsComponents/cells/chip.svelte';
 	import RecordCard from '$lib/schema/recordsManager/views/recordCard.svelte';
 	import RecordsTable from '$lib/schema/recordsManager/views/recordsTable.svelte';
-	import { Heading, Hr } from 'flowbite-svelte';
+	import { createTypeProp } from '$lib/utils/typeProp';
+	import { CardPlaceholder, Heading, Hr, Skeleton } from 'flowbite-svelte';
+	import { XCircle } from 'svelte-heros-v2';
 
-	const slotTypeCaster = createSlotTypeCaster<CrudExampleRecord>();
+	const recordType = createTypeProp<CrudExampleRecord>();
 </script>
 
 <div class="p-4">
 	<RecordsManager
+		{recordType}
 		collection={Collections.CrudExample}
 		formSettings={{
-			hiddenFields: ['owner'],
-			hiddenFieldsValues: { owner: $currentUser?.id }
+			hide: { owner: $currentUser?.id }
 		}}
 		editFormSettings={{
-			excludedFields: ['select', 'text']
+			exclude: ['select', 'text']
 		}}
-		{slotTypeCaster}
 		let:records
 	>
 		<div class="space-y-8">
@@ -33,28 +36,38 @@
 
 			<div class="space-y-4">
 				<Heading tag="h4">Table</Heading>
-				<RecordsTable {records} fields={['id', 'text', 'textarea']} />
+
+				<FilterRecords {recordType} searchableFields={['text', 'textarea']} />
+				<RecordsTable
+					{records}
+					fields={['id', 'text', 'textarea']}
+					emptyState={{
+						title: 'No records',
+						description: 'There are no records to show.'
+					}}
+				/>
 			</div>
 
 			<Hr />
 
 			<div class="space-y-4">
 				<Heading tag="h4">Cards</Heading>
-				<div class="flex gap-4">
-					{#each records as record}
-						<div class="grow">
+				{#if records.length === 0}
+					<EmptyState title={'No records'} description={'Start adding records.'} icon={XCircle} />
+				{:else}
+					<div class="grid grid-cols-4 gap-4">
+						{#each records as record}
 							<RecordCard
 								{record}
 								titleField="id"
-								fields={['text', 'select', 'textarea']}
 								fieldsComponents={{ select: Chip }}
 								showEdit
 								showCheckbox
 								showDelete
 							/>
-						</div>
-					{/each}
-				</div>
+						{/each}
+					</div>
+				{/if}
 			</div>
 		</div>
 	</RecordsManager>
