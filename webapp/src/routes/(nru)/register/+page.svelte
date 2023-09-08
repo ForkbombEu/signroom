@@ -1,15 +1,13 @@
 <script lang="ts">
 	import { pb } from '$lib/pocketbase';
-	import { Collections } from '$lib/pocketbase-types';
+	import { Collections } from '$lib/pocketbase/types';
 	import { goto } from '$app/navigation';
-	import { features, featuresNames, isFeatureActive } from '$lib/features';
+	import { featureFlags } from '$lib/features';
 	import { z } from 'zod';
 
 	// Components
 	import { A, Heading } from 'flowbite-svelte';
-	import Form, { createForm } from '$lib/components/forms/form.svelte';
-	import Input from '$lib/components/forms/input.svelte';
-	import Checkbox from '$lib/components/forms/checkbox.svelte';
+	import { Form, createForm, Input, Checkbox, FormError, SubmitButton } from '$lib/forms';
 
 	//
 
@@ -28,7 +26,7 @@
 		await u.create(data);
 		await u.authWithPassword(data.email, data.password);
 		await u.requestVerification(data.email);
-		if (isFeatureActive($features, featuresNames.KEYPAIROOM)) {
+		if ($featureFlags.KEYPAIROOM) {
 			await goto('/keypairoom');
 		} else {
 			await goto('/my');
@@ -40,7 +38,7 @@
 	export const snapshot = { capture, restore };
 </script>
 
-<Form {superform} defaultSubmitButtonText="Create an account">
+<Form {superform}>
 	<Heading tag="h3">Create an account</Heading>
 
 	<Input type="email" label="Your email" field={keys.email} placeholder="name@foundation.org" />
@@ -54,6 +52,11 @@
 	<Checkbox field={keys.acceptTerms}>
 		I accept the <A href="/">Terms and Conditions</A>
 	</Checkbox>
+
+	<FormError />
+	<div class="flex justify-end">
+		<SubmitButton>Create an account</SubmitButton>
+	</div>
 </Form>
 
 <p class="text-sm text-gray-500 dark:text-gray-400">

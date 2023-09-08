@@ -1,17 +1,10 @@
-import { isFile, isFileArray } from '$lib/components/forms/file.svelte';
-import type { HiddenFieldsValues, InitialData } from './CRUDForm.svelte';
+import { isFile, isFileArray } from '$lib/forms/fields';
 import { isArrayField } from './collectionSchemaToZod';
 import { FieldType, type FieldSchema, type CollectionSchema, type FieldOptions } from './types';
 
-/* IniitalData seeding */
+//
 
-export function seedInitialData(initialData: InitialData, hiddenFieldsValues: HiddenFieldsValues) {
-	const data = { ...initialData };
-	for (const [key, value] of Object.entries(hiddenFieldsValues)) {
-		data[key] = value;
-	}
-	return data;
-}
+type InitialData = Record<string, unknown>;
 
 /**
  * File handling

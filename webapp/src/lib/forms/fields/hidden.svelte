@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { formFieldProxy } from 'sveltekit-superforms/client';
-	import { getFormContext } from './form.svelte';
+	import { getFormContext } from '../form.svelte';
 
 	export let field: string;
 

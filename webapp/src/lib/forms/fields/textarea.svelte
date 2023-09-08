@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { formFieldProxy } from 'sveltekit-superforms/client';
 	import { Textarea } from 'flowbite-svelte';
-	import { getFormContext } from './form.svelte';
+	import { getFormContext } from '../form.svelte';
 	import FieldWrapper from './fieldParts/fieldWrapper.svelte';
 
 	export let field: string;

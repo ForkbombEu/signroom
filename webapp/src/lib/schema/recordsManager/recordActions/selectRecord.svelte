@@ -1,9 +1,11 @@
 <script lang="ts">
-	import { Checkbox } from 'flowbite-svelte';
 	import { getRecordsManagerContext } from '../recordsManager.svelte';
-	import type { Record } from 'pocketbase';
+	import type { PBRecord, PBResponse } from '$lib/utils/types';
+	import { Checkbox } from 'flowbite-svelte';
 
-	export let record: Record;
+	type RecordGeneric = $$Generic<PBRecord>;
+	export let record: PBResponse<RecordGeneric>;
+
 	const { selectionManager } = getRecordsManagerContext();
 	const { selectedRecords } = selectionManager;
 </script>
