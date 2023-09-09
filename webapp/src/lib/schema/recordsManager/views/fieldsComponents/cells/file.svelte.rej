@@ -1,0 +1,18 @@
+diff a/webapp/src/lib/schema/recordsManager/views/fieldsComponents/cells/file.svelte b/webapp/src/lib/schema/recordsManager/views/fieldsComponents/cells/file.svelte	(rejected hunks)
+@@ -1,13 +1,12 @@
+ <script lang="ts">
+ 	import { pb } from '$lib/pocketbase';
+ 	import { Button, Tooltip } from 'flowbite-svelte';
+-	import type { Record } from 'pocketbase';
++	import type { PBRecord, PBResponse } from '$lib/utils/types';
+ 	import { ArrowDownTray } from 'svelte-heros-v2';
+ 
+-	type RecordGeneric = $$Generic;
+-
++	type RecordGeneric = $$Generic<PBRecord>;
++	export let record: PBResponse<PBRecord>;
+ 	export let value: string;
+-	export let record: RecordGeneric & Record;
+ 
+ 	let url = '';
+ 	if (record) url = pb.files.getUrl(record, value);
