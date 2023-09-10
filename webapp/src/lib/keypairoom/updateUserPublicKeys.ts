@@ -1,5 +1,5 @@
 import { pb } from '$lib/pocketbase';
-import { Collections, type UsersRecord } from '$lib/pocketbase-types';
+import { Collections, type UsersRecord } from '$lib/pocketbase/types';
 import { log } from '$lib/utils/devLog';
 import type { Keypair } from './keypair';
 

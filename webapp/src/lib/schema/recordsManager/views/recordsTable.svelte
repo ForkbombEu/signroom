@@ -1,6 +1,8 @@
 <script lang="ts">
+	import ShareRecord from '../recordActions/shareRecord.svelte';
+	import { Clock } from 'svelte-heros-v2';
+	import EmptyState from './emptyState.svelte';
 	import FieldComponent, { type FieldsComponents } from './fieldComponent.svelte';
-	import type { Record as PBRecord } from 'pocketbase';
 	import { getRecordsManagerContext } from '../recordsManager.svelte';
 
 	// Components

@@ -1,0 +1,42 @@
+diff a/webapp/src/routes/my/profile/_partials/userDataForm.svelte b/webapp/src/routes/my/profile/_partials/userDataForm.svelte	(rejected hunks)
+@@ -26,21 +33,32 @@
+ 		emailVisibility: $currentUser!.emailVisibility
+ 	};
+ 
+-	const superform = createForm(schema, async ({form})=>{
+-        const formData = createFormData(form.data);
+-        $currentUser = await pb.collection('users').update($currentUser!.id, formData);
+-		dispatch('success');
+-    }, initialData);
+-
++	const superform = createForm(
++		schema,
++		async ({ form }) => {
++			const formData = createFormData(form.data);
++			$currentUser = await pb.collection('users').update($currentUser!.id, formData);
++			dispatch('success');
++		},
++		initialData
++	);
+ </script>
+ 
+-<Form {superform} defaultSubmitButtonText="Update profile">
++<Form {superform}>
+ 	<Input field="name" label="Username" />
++
+ 	<div class="space-y-2">
+ 		<Input field="email" type="email" />
+ 		<Checkbox field="emailVisibility">
+ 			<span>Show email to other users</span>
+ 		</Checkbox>
+ 	</div>
+-	<FileInput field="avatar" />
++
++	<File field="avatar" />
++
++	<FormError />
++
++	<div class="flex justify-end">
++		<SubmitButton>Update profile</SubmitButton>
++	</div>
+ </Form>

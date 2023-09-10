@@ -1,30 +1,31 @@
 <script lang="ts" context="module">
-	import type { Record as PBRecord } from 'pocketbase';
+	import type { PBRecord, PBResponse } from '$lib/utils/types';
 	import type { SvelteComponentTyped } from 'svelte';
 
-	export type FieldComponent<RecordGeneric = unknown> = typeof SvelteComponentTyped<{
-		value: unknown;
-		record: RecordGeneric & PBRecord;
-	}>;
+	export type FieldComponent<RecordGeneric extends PBRecord = PBRecord> =
+		typeof SvelteComponentTyped<{
+			value: unknown;
+			record?: PBResponse<RecordGeneric>;
+		}>;
 
-	export type FieldsComponents<RecordGeneric = unknown> = Record<
+	export type FieldsComponents<RecordGeneric extends PBRecord = PBRecord> = Record<
 		string,
 		FieldComponent<RecordGeneric>
 	>;
 </script>
 
 <script lang="ts">
-	type RecordGeneric = $$Generic;
+	type RecordGeneric = $$Generic<PBRecord>;
 
-	export let record: PBRecord & RecordGeneric;
+	export let record: PBResponse<RecordGeneric>;
 	export let field: string;
 	export let component: FieldComponent | undefined;
+
+	const value = record[field];
 </script>
 
 {#if component}
-	<svelte:component this={component} {record} value={record[field]} />
+	<svelte:component this={component} {record} {value} />
 {:else}
-	<div>
-		{record[field]}
-	</div>
+	<div>{value}</div>
 {/if}
