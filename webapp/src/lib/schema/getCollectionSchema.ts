@@ -1,4 +1,4 @@
-import type { Collections } from '$lib/pocketbase-types';
+import type { Collections } from '$lib/pocketbase/types';
 import pb_schema from './pb_schema.json';
 import type { CollectionSchema } from './types';
 

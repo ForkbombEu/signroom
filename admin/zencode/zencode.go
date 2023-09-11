@@ -2,18 +2,17 @@ package zencode
 
 import (
 	_ "embed"
-	"errors"
 	"encoding/json"
+	"errors"
+	zenroom "github.com/dyne/Zenroom/bindings/golang/zenroom"
 	"pb/config"
-	_ "embed"
-	zenroom "github.com/dyne/zenroom-go-wrapper"
 )
 
 //go:embed zenflows-crypto/src/keypairoomServer-6-7.zen
-var KEYPAIROOM_ZENCODE string;
+var KEYPAIROOM_ZENCODE string
 
 //go:embed zenflows-crypto/src/pubkeys-request-signed.zen
-var PUBKEYS_REQUEST_SIGNED_ZENCODE string;
+var PUBKEYS_REQUEST_SIGNED_ZENCODE string
 
 func KeypairoomServer(conf *config.KeypairoomConfig, data map[string]interface{}) (string, error) {
 	jsonData, err := json.Marshal(map[string]interface{}{

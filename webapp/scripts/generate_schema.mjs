@@ -13,3 +13,4 @@ const getSchema = async () => {
 };
 
 fs.writeFileSync('./src/lib/schema/pb_schema.json', await getSchema());
+console.log('📦 Created pocketbase definitions at /src/lib/schema/pb_schema.json');
