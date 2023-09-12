@@ -103,11 +103,11 @@
 								openShareModal(record);
 							}}
 						>
-							<Share size="12" class="mr-1" /> SHARE
+							<Share size="12" class="mr-1" />SHARE
 						</Button>
 						<EditRecord {record} let:openModal>
-							<Button class="!p-2" color="alternative" on:click={openModal}>
-								<Pencil size="20" /> EDIT
+							<Button class="!p-2 rounded-r-lg" color="alternative" size="xs" on:click={openModal}>
+								<Pencil size="12" class="mr-1"/>EDIT
 							</Button>
 						</EditRecord>
 					</ButtonGroup>
