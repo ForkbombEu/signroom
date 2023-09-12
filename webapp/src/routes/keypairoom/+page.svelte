@@ -16,10 +16,7 @@
 	// Components
 	import { Alert, Button, Heading, Hr, P } from 'flowbite-svelte';
 	import CopyButton from '$lib/components/copyButton.svelte';
-	import Form, { createForm } from '$lib/components/forms/form.svelte';
-	import Input from '$lib/components/forms/input.svelte';
-	import FormError from '$lib/components/forms/formError.svelte';
-	import SubmitButton from '$lib/components/forms/submitButton.svelte';
+	import { Form, createForm, Input, FormError, SubmitButton } from '$lib/forms';
 	import { InformationCircle } from 'svelte-heros-v2';
 
 	//

@@ -1,14 +1,10 @@
 <script lang="ts">
 	import { getHMAC, regenerateKeypair, saveKeyringToLocalStorage } from '$lib/keypairoom/keypair';
-	import { A, Heading, P } from 'flowbite-svelte';
-	import Input from '$lib/components/forms/input.svelte';
+	import { currentUser } from '$lib/pocketbase';
 
-	import Form, { createForm } from '$lib/components/forms/form.svelte';
-	import Textarea from '$lib/components/forms/textarea.svelte';
 	import { z } from 'zod';
-	import { currentUser } from '$lib/pocketbase.js';
-	import FormError from '$lib/components/forms/formError.svelte';
-	import SubmitButton from '$lib/components/forms/submitButton.svelte';
+	import { Form, createForm, FormError, SubmitButton, Textarea, Input } from '$lib/forms';
+	import { A, Heading, P } from 'flowbite-svelte';
 
 	//
 

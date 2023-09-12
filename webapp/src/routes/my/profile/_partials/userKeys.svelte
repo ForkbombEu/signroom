@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, P } from 'flowbite-svelte';
+	import { Button, Heading, P } from 'flowbite-svelte';
 	import { currentUser } from '$lib/pocketbase';
 	import CopyButton from '$lib/components/copyButton.svelte';
 	import { capitalizeFirstLetter } from '$lib/utils/strings';
@@ -14,6 +14,7 @@
 	const hasKeys = keys.map((k) => $currentUser?.[k]).every((k) => Boolean(k));
 </script>
 
+<Heading tag="h6" class="mb-1">Your keys</Heading>
 {#if hasKeys}
 	<div class="flex flex-col gap-4">
 		{#each keys as key}

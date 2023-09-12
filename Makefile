@@ -81,8 +81,8 @@ clean_build: ## 🧹 Clean project build
 	@echo "🧹 Clean project build"
 	rm -f admin/pb
 	rm -fr webapp/node_modules
-	rm -f webapp/src/lib/pocketbase-types.ts
-	rm -f webapp/src/lib/schema/pb_schema.json
+	rm -f webapp/src/lib/pocketbase/types.ts
+	rm -f webapp/src/lib/pocketbase/schema/db_schema.json
 	@echo " "
 
 clean: clean_submodules clean_build ## 🧹 Clean the project

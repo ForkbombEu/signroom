@@ -2,11 +2,11 @@
 	import { createTypeProp } from '$lib/utils/typeProp';
 
 	import { pb } from '$lib/pocketbase';
-	import { Collections } from '$lib/pocketbase-types';
+	import { Collections } from '$lib/pocketbase/types';
 
 	// @ts-ignore
 	import Svelecte from 'svelecte';
-	import { getCollectionSchema } from '$lib/schema/getCollectionSchema';
+	import { getCollectionSchema } from '$lib/pocketbase/schema';
 	import { createEventDispatcher } from 'svelte';
 
 	import type { PBRecord, PBResponse } from '$lib/utils/types';

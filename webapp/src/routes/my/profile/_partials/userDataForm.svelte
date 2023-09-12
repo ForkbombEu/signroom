@@ -1,10 +1,15 @@
 <script lang="ts">
-	import Checkbox from '$lib/components/forms/checkbox.svelte';
-	import FileInput from '$lib/components/forms/file.svelte';
-	import Form, { createForm, createFormData } from '$lib/components/forms/form.svelte';
-	import FormError from '$lib/components/forms/formError.svelte';
-	import Input from '$lib/components/forms/input.svelte';
-	import SubmitButton from '$lib/components/forms/submitButton.svelte';
+	import {
+		Form,
+		createForm,
+		createFormData,
+		FormError,
+		SubmitButton,
+		Input,
+		Checkbox,
+		File
+	} from '$lib/forms';
+
 	import { currentUser, pb } from '$lib/pocketbase';
 	import { createEventDispatcher } from 'svelte';
 	import { z } from 'zod';
@@ -47,10 +52,10 @@
 			<span>Show email to other users</span>
 		</Checkbox>
 	</div>
-  <FileInput field="avatar" />
-  <FormError />
+	<File field="avatar" />
+	<FormError />
 
-  <div class="flex justify-end">
-     <SubmitButton>Update profile</SubmitButton>
-  </div>
+	<div class="flex justify-end">
+		<SubmitButton>Update profile</SubmitButton>
+	</div>
 </Form>
