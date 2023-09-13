@@ -1,4 +1,4 @@
-import CollectionManager from './collectionManager.svelte';
+import CollectionManager, { getRecordsManagerContext } from './collectionManager.svelte';
 
-export { CollectionManager };
+export { CollectionManager, getRecordsManagerContext };
 export * from './ui';
