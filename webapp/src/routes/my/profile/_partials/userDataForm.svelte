@@ -14,7 +14,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import { z } from 'zod';
 
-	const dispatch = createEventDispatcher<{ success: {} }>();
+	const dispatch = createEventDispatcher<{ success: undefined }>();
 
 	const schema = z.object({
 		name: z.string().min(3).optional(),

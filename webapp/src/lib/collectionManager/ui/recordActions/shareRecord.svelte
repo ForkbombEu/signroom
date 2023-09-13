@@ -20,7 +20,7 @@
 	type RecordGeneric = $$Generic<PBRecord>;
 	export let record: PBResponse<RecordGeneric>;
 
-	const dispatch = createEventDispatcher<{ add: {}; remove: {} }>();
+	const dispatch = createEventDispatcher<{ add: undefined; remove: undefined }>();
 
 	/* */
 

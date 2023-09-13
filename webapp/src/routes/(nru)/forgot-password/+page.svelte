@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { Label, Input, Heading, P, Button } from 'flowbite-svelte';
-	// import type { ActionData } from './$types';
 
 	export let form: any;
 </script>

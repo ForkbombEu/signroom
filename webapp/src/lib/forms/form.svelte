@@ -2,7 +2,7 @@
 	import { getContext } from 'svelte';
 	import { normalizeError, type ClientResponseErrorData } from '$lib/errorHandling';
 	import type { AnyZodObject } from 'zod';
-	import type { UnwrapEffects } from 'sveltekit-superforms/index';
+	import type { UnwrapEffects } from 'sveltekit-superforms';
 	import {
 		superForm,
 		setMessage,
@@ -131,7 +131,7 @@
 
 {#if $delayed}
 	<ModalWrapper>
-		<Modal open={$delayed} permanent>
+		<Modal open={$delayed} dismissable={false}>
 			<Spinner />
 		</Modal>
 	</ModalWrapper>

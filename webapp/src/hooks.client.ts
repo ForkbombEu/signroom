@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/sveltekit';
-import { currentUser, pb } from '$lib/pocketbase';
+import { currentUser, pb, type AuthStoreModel } from '$lib/pocketbase';
 
 // If you don't want to use Session Replay, remove the `Replay` integration,
 // `replaysSessionSampleRate` and `replaysOnErrorSampleRate` options.
@@ -12,7 +12,8 @@ Sentry.init({
 
 pb.authStore.loadFromCookie(document.cookie);
 pb.authStore.onChange(() => {
-	currentUser.set(pb.authStore.model);
+	currentUser.set(pb.authStore.model as AuthStoreModel);
 	document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
 });
+
 export const handleError = Sentry.handleErrorWithSentry();

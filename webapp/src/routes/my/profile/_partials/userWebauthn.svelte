@@ -15,6 +15,8 @@
 
 	const platformAuthenticatorAvailable = isPlatformAuthenticatorAvailable();
 	const recordType = createTypeProp<WebauthnCredentialsRecord<{ ID: string }>>();
+
+	const userEmailAddress = $currentUser?.email!;
 </script>
 
 <Heading tag="h6">Your devices</Heading>
@@ -67,7 +69,7 @@
 	<Button
 		color="alternative"
 		on:click={() => {
-			registerUser($currentUser?.email, navigator.userAgent);
+			registerUser(userEmailAddress, navigator.userAgent);
 		}}
 	>
 		<Plus size="20" class="mr-1" /> Add a device

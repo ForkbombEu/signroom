@@ -3,8 +3,11 @@
 	import { currentUser } from '$lib/pocketbase';
 	import CopyButton from '$lib/components/copyButton.svelte';
 	import { capitalizeFirstLetter } from '$lib/utils/strings';
+	import type { UsersRecord } from '$lib/pocketbase/types';
 
-	const keys = [
+	type UserKeys = keyof UsersRecord;
+
+	const keys: Array<UserKeys> = [
 		'ethereum_address',
 		'ecdh_public_key',
 		'eddsa_public_key',
@@ -19,16 +22,18 @@
 	<div class="flex flex-col gap-4">
 		{#each keys as key}
 			{@const value = $currentUser?.[key]}
-			{@const title = capitalizeFirstLetter(key.replaceAll('_', ' '))}
-			<div class="flex flex-row items-center justify-between w-full gap-4">
-				<div class="w-0 grow overflow-hidden">
-					<div class="text-md text-black font-semibold max-w-sm">{title}</div>
-					<div class="text-ellipsis overflow-hidden">{value}</div>
+			{#if value}
+				{@const title = capitalizeFirstLetter(key.replaceAll('_', ' '))}
+				<div class="flex flex-row items-center justify-between w-full gap-4">
+					<div class="w-0 grow overflow-hidden">
+						<div class="text-md text-black font-semibold max-w-sm">{title}</div>
+						<div class="text-ellipsis overflow-hidden">{value}</div>
+					</div>
+					<div class="shrink-0">
+						<CopyButton textToCopy={value} />
+					</div>
 				</div>
-				<div class="shrink-0">
-					<CopyButton textToCopy={value} />
-				</div>
-			</div>
+			{/if}
 		{/each}
 	</div>
 {:else}
