@@ -8,7 +8,7 @@
 
 	export let record: PBResponse<SignaturesRecord>;
 	export let value: any;
-	value;
+
 	const signed_file = record?.signed_file as SignedFile;
 	let url = '';
 	if (record) url = pb.files.getUrl(record, value);

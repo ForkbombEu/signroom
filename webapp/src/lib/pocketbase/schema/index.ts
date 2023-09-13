@@ -8,8 +8,8 @@ export * from './types';
 
 export function getCollectionSchema(
 	collection: Collections | string
-): CollectionSchema | undefined {
-	return jsonSchema.find((e) => e.name === collection || e.id === collection);
+) {
+	return jsonSchema.find((e) => e.name === collection || e.id === collection) as CollectionSchema | undefined;
 }
 
 //
