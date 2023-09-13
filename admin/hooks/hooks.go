@@ -1,6 +1,7 @@
 package hooks
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -8,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"net/mail"
+	"net/url"
 	"os"
 	"os/exec"
 	"strings"
@@ -120,6 +122,8 @@ func executeEventAction(event, table, action_type, action, action_params string,
 		return doCommand(action, action_params, record)
 	case "post":
 		return doPost(action, action_params, record)
+	case "restroom-mw":
+		return doRestroomMW(action, action_params, record)
 	default:
 		return errors.New(fmt.Sprintf("Unknown action_type: %s", action_type))
 	}
@@ -166,7 +170,9 @@ func doSendMail(app *pocketbase.PocketBase, action, action_params string, record
 				Address: app.Settings().Meta.SenderAddress,
 				Name:    app.Settings().Meta.SenderName,
 			},
-			To:      []mail.Address{ {Address: email} },
+			To: []mail.Address{
+				{Address: email},
+			},
 			Subject: params.Subject,
 			HTML:    action,
 		}
@@ -227,6 +233,75 @@ func doPost(action, action_params string, record *models.Record) error {
 	}()
 	if err := json.NewEncoder(w).Encode(record); err != nil {
 		log.Println("ERROR writing to pipe", err)
+	}
+	return nil
+}
+
+func doRestroomMW(action, action_params string, record *models.Record) error {
+	// Parse action params
+	params := struct {
+		Wrapper string `json:"wrapper"`
+		Method  string `json:"method"`
+	}{
+		Wrapper: "",
+		Method:  "post",
+	}
+	if action_params != "" {
+		err := json.Unmarshal([]byte(action_params), &params)
+		if err != nil {
+			return err
+		}
+	}
+	r, w := io.Pipe()
+	defer w.Close()
+
+	var reqf func() (*http.Response, error)
+	if params.Method == "post" {
+		reqf = func() (*http.Response, error) {
+			return http.Post(action, "application/json", r)
+		}
+	} else if params.Method == "get" {
+		reqf = func() (*http.Response, error) {
+			buffer := new(bytes.Buffer)
+			buffer.ReadFrom(r)
+			return http.Get(fmt.Sprintf("%s?%s", action, buffer.String()))
+		}
+	} else {
+		return fmt.Errorf("Unknown method %s", params.Method)
+	}
+
+	go func() {
+		defer r.Close()
+		if resp, err := reqf(); err != nil {
+			log.Println("HTTP request failed", action, err)
+		} else {
+			io.Copy(os.Stdout, resp.Body)
+		}
+	}()
+
+	var reqObj interface{}
+
+	// Build request object
+	if params.Wrapper != "" {
+		reqObj = map[string]models.Record{
+			params.Wrapper: *record,
+		}
+	} else {
+		reqObj = record
+	}
+
+	if params.Method == "post" {
+		reqObj = map[string]interface{}{
+			"data": reqObj,
+			"keys": map[string]interface{}{},
+		}
+
+		if err := json.NewEncoder(w).Encode(reqObj); err != nil {
+			log.Println("ERROR writing to pipe", err)
+		}
+	} else if params.Method == "get" {
+		dataParam, _ := json.Marshal(reqObj)
+		fmt.Fprintf(w, "data=%s", url.QueryEscape(string(dataParam)))
 	}
 	return nil
 }
