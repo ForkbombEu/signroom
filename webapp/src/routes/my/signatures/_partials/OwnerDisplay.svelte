@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { currentUser } from '$lib/pocketbase';
-	import type { SignaturesRecord } from '$lib/pocketbase-types';
+	import type { SignaturesRecord } from '$lib/pocketbase/types';
 	import type { PBResponse } from '$lib/utils/types';
 	import { Badge } from 'flowbite-svelte';
 	import type { Record } from 'pocketbase';

@@ -46,7 +46,7 @@
 <ModalWrapper>
 	<Modal bind:open title="Edit record" size="md">
 		<div class="w-full">
-			<CrudForm
+			<RecordForm
 				collection={record.collectionId}
 				recordId={record.id}
 				initialData={record}

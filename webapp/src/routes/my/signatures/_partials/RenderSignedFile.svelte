@@ -4,7 +4,7 @@
 	import RenderXades from './RenderXades.svelte';
 	import RenderPades from './RenderPades.svelte';
 	import type { SignedFile } from './SignedFileDisplay.svelte';
-	import { SignaturesTypeOptions } from '$lib/pocketbase-types';
+	import { SignaturesTypeOptions } from '$lib/pocketbase/types';
 
 	export let type: SignaturesTypeOptions = SignaturesTypeOptions.xades;
 	export let signedFile: SignedFile;
@@ -30,7 +30,7 @@
 </script>
 
 <div class="flex flex-col gap-8 justify-end">
-	<div class={`flex justify-${leftButton? 'start' : 'end'}`}>
+	<div class={`flex justify-${leftButton ? 'start' : 'end'}`}>
 		<Button color="primary" on:click={validate}>Validate signature</Button>
 	</div>
 	<Accordion>
@@ -47,7 +47,7 @@
 			{/if}
 		</AccordionItem>
 		{#if result}
-		<AccordionItem open={!!result}>
+			<AccordionItem open={!!result}>
 				<span slot="header">Validation data</span>
 				<div class="overflow-x-scroll w-full h-max">
 					<pre>{JSON.stringify(result, null, 2)}</pre>

@@ -3,10 +3,10 @@
 		Collections,
 		type AuthorizationsRecord,
 		type SignaturesRecord
-	} from '$lib/pocketbase-types';
+	} from '$lib/pocketbase/types';
 	import type { Record } from 'pocketbase';
 
-	import CrudForm from '$lib/schema/CRUDForm.svelte';
+	import { RecordForm } from '$lib/recordForm';
 	import { Button, Modal, Spinner, P } from 'flowbite-svelte';
 	import { currentUser, pb } from '$lib/pocketbase';
 	import { ArrowLeft, Trash } from 'svelte-heros-v2';
@@ -63,7 +63,6 @@
 		dispatch('remove');
 	}
 	export let recordType = createTypeProp<AuthorizationsRecord>();
-	
 </script>
 
 {#await authorizationRequest}
@@ -73,17 +72,21 @@
 		<Modal bind:open size="md" title="Share signature">
 			<div class="md:w-full relative">
 				{#if !removeAccess}
-					<CrudForm
+					<RecordForm
 						on:success={handleSuccess}
 						{recordType}
 						initialData={authorization}
 						submitButtonText="Share"
 						collection={Collections.Authorizations}
 						fieldsSettings={{
-							hide: {'record_id':record.id, 'collection_id':record.collectionId, 'owner':$currentUser?.id},
-							relations: {
-								users: {displayFields:['email'],inputMode:'search'}
+							hide: {
+								record_id: record.id,
+								collection_id: record.collectionId,
+								owner: $currentUser?.id
 							},
+							relations: {
+								users: { displayFields: ['email'], inputMode: 'search' }
+							}
 						}}
 					/>
 					{#if authorization}

@@ -1,6 +1,5 @@
 <script lang="ts">
-	import File from '$lib/schema/recordsManager/views/fieldsComponents/cells/file.svelte';
-	import type { SignaturesRecord } from '$lib/pocketbase-types';
+	import type { SignaturesRecord } from '$lib/pocketbase/types';
 	import { A } from 'flowbite-svelte';
 	import { DocumentArrowDown, Eye, LockClosed } from 'svelte-heros-v2';
 	import SignedFileDisplay, { type SignedFile } from './SignedFileDisplay.svelte';

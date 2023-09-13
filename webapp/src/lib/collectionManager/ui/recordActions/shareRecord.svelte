@@ -89,7 +89,7 @@
 		<Modal bind:open size="md" title="Share signature">
 			<div class="w-full relative">
 				{#if !removeAccess}
-					<CrudForm
+					<RecordForm
 						{recordType}
 						on:success={handleSuccess}
 						initialData={authorization}

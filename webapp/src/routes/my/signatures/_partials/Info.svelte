@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { SignaturesRecord } from '$lib/pocketbase-types';
+	import type { SignaturesRecord } from '$lib/pocketbase/types';
 
 	import { Heading } from 'flowbite-svelte';
 	import OwnerDisplay from './OwnerDisplay.svelte';

@@ -49,7 +49,7 @@
 <ModalWrapper>
 	<Modal bind:open title="Create record" size="md" placement="center">
 		<div class="w-full">
-			<CrudForm
+			<RecordForm
 				{collection}
 				{fieldsSettings}
 				{initialData}

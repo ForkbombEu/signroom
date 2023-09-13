@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ArrowLeft, Folder } from 'svelte-heros-v2';
 	import { pb } from '$lib/pocketbase';
-	import { Collections, type FoldersRecord } from '$lib/pocketbase-types';
+	import { Collections, type FoldersRecord } from '$lib/pocketbase/types';
 
 	import { Heading, Spinner, A } from 'flowbite-svelte';
 	import type { Record } from 'pocketbase';

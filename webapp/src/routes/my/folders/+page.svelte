@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { currentUser } from '$lib/pocketbase';
-	import { Collections, type FoldersRecord, type SignaturesRecord } from '$lib/pocketbase-types';
-	import RecordsManager from '$lib/schema/recordsManager/recordsManager.svelte';
-	import RecordsManagerTopbar from '$lib/schema/recordsManager/recordsManagerTopbar.svelte';
-	import RecordCard from '$lib/schema/recordsManager/views/recordCard.svelte';
+	import { Collections, type FoldersRecord, type SignaturesRecord } from '$lib/pocketbase/types';
+	import { CollectionManager, CollectionManagerHeader, RecordCard } from '$lib/collectionManager';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { Heading } from 'flowbite-svelte';
 
@@ -15,21 +13,21 @@
 </script>
 
 <div class="p-4">
-	<RecordsManager
+	<CollectionManager
 		collection={Collections.Folders}
 		formSettings={{
-			hide: {'owner':$currentUser?.id},
+			hide: { owner: $currentUser?.id }
 		}}
 		{recordType}
 		initialQueryParams={{ expand: expandQuery }}
 		let:records
 		subscribe={[Collections.Signatures]}
 	>
-		<RecordsManagerTopbar>
+		<CollectionManagerHeader>
 			<svelte:fragment slot="title">
 				<Heading tag="h4">My folders</Heading>
 			</svelte:fragment>
-		</RecordsManagerTopbar>
+		</CollectionManagerHeader>
 		<div class="space-y-4">
 			<div class="gap-4 grid grid-cols-1 md:grid-cols-2">
 				{#each records as record}
@@ -51,5 +49,5 @@
 				{/each}
 			</div>
 		</div>
-	</RecordsManager>
+	</CollectionManager>
 </div>

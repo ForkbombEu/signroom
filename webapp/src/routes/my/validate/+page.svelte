@@ -3,7 +3,7 @@
 	import { Dropzone, Fileupload, Helper, P } from 'flowbite-svelte';
 	import RenderSignedFile from '../signatures/_partials/RenderSignedFile.svelte';
 	import type { SignedFile } from '../signatures/_partials/SignedFileDisplay.svelte';
-	import { SignaturesTypeOptions } from '$lib/pocketbase-types';
+	import { SignaturesTypeOptions } from '$lib/pocketbase/types';
 
 	type SignatureFile = {
 		type: SignaturesTypeOptions;
