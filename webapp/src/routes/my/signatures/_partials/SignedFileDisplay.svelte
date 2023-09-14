@@ -8,13 +8,14 @@
 
 <script lang="ts">
 	import type { Record } from 'pocketbase';
-	import type { SignaturesRecord } from '$lib/pocketbase-types';
+	import type { SignaturesRecord } from '$lib/pocketbase/types';
 	import { Button, Modal } from 'flowbite-svelte';
 	import { DocumentArrowDown, DocumentCheck } from 'svelte-heros-v2';
 	import RenderSignedFile from './RenderSignedFile.svelte';
+	import type { PBResponse } from '$lib/utils/types';
 
 	export let value: SignedFile;
-	export let record: Record & SignaturesRecord;
+	export let record: PBResponse<SignaturesRecord>;
 
 	let open = false;
 	const { type } = record;
@@ -35,6 +36,7 @@
 	const handleOpen = () => (open = !open);
 </script>
 
+<slot name="beforeButtons" />
 <slot name="downloadButton" {downloadUrl} {downloadName}>
 	<Button
 		target="_blank"

@@ -1,13 +1,20 @@
 <script lang="ts">
-	import Checkbox from '$lib/components/forms/checkbox.svelte';
-	import FileInput from '$lib/components/forms/file.svelte';
-	import Form, { createForm, createFormData } from '$lib/components/forms/form.svelte';
-	import Input from '$lib/components/forms/input.svelte';
+	import {
+		Form,
+		createForm,
+		createFormData,
+		FormError,
+		SubmitButton,
+		Input,
+		Checkbox,
+		File
+	} from '$lib/forms';
+
 	import { currentUser, pb } from '$lib/pocketbase';
 	import { createEventDispatcher } from 'svelte';
 	import { z } from 'zod';
 
-	const dispatch = createEventDispatcher<{ success: {} }>();
+	const dispatch = createEventDispatcher<{ success: undefined }>();
 
 	const schema = z.object({
 		name: z.string().min(3).optional(),
@@ -37,7 +44,7 @@
 	);
 </script>
 
-<Form {superform} defaultSubmitButtonText="Update profile">
+<Form {superform}>
 	<Input field="name" label="Username" />
 	<div class="space-y-2">
 		<Input field="email" type="email" />
@@ -45,5 +52,10 @@
 			<span>Show email to other users</span>
 		</Checkbox>
 	</div>
-	<FileInput field="avatar" />
+	<File field="avatar" />
+	<FormError />
+
+	<div class="flex justify-end">
+		<SubmitButton>Update profile</SubmitButton>
+	</div>
 </Form>

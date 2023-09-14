@@ -3,38 +3,39 @@
 		Collections,
 		type AuthorizationsRecord,
 		type SignaturesRecord
-	} from '$lib/pocketbase-types';
+	} from '$lib/pocketbase/types';
 	import type { Record } from 'pocketbase';
 
-	import CrudForm, { formMode, type FormMode } from '$lib/schema/CRUDForm.svelte';
+	import { RecordForm } from '$lib/recordForm';
 	import { Button, Modal, Spinner, P } from 'flowbite-svelte';
 	import { currentUser, pb } from '$lib/pocketbase';
 	import { ArrowLeft, Trash } from 'svelte-heros-v2';
 	import { createEventDispatcher } from 'svelte';
+	import type { PBResponse } from '$lib/utils/types';
+	import { createTypeProp } from '$lib/utils/typeProp';
 
 	export let open = false;
-	export let record: Record & SignaturesRecord;
+	export let record: PBResponse<SignaturesRecord>;
 
 	const dispatch = createEventDispatcher<{ add: {}; remove: {} }>();
 
 	/* Load */
 
-	type Authorization = Record & AuthorizationsRecord;
+	type Authorization = PBResponse<AuthorizationsRecord>;
 	let authorizationRecord: Authorization | undefined;
 	const authorizationRequest = loadAuthorization();
 
 	async function loadAuthorization(): Promise<{
 		authorization: Authorization | undefined;
-		mode: FormMode;
 	}> {
 		try {
 			const authorization = await pb
 				.collection(Collections.Authorizations)
 				.getFirstListItem<Authorization>(`record_id="${record.id}"`);
 			authorizationRecord = authorization;
-			return { authorization, mode: formMode.EDIT };
+			return { authorization };
 		} catch (e) {
-			return { authorization: undefined, mode: formMode.CREATE };
+			return { authorization: undefined };
 		}
 	}
 
@@ -61,33 +62,30 @@
 		open = false;
 		dispatch('remove');
 	}
+	export let recordType = createTypeProp<AuthorizationsRecord>();
 </script>
 
 {#await authorizationRequest}
 	<Spinner />
-{:then { authorization, mode }}
+{:then { authorization }}
 	<div class="fixed z-50">
-		<Modal bind:open size="xl" title="Share signature">
-			<div class="md:w-[500px] relative">
+		<Modal bind:open size="md" title="Share signature">
+			<div class="md:w-full relative">
 				{#if !removeAccess}
-					<CrudForm
+					<RecordForm
 						on:success={handleSuccess}
+						{recordType}
 						initialData={authorization}
-						{mode}
 						submitButtonText="Share"
 						collection={Collections.Authorizations}
-						formSettings={{
-							hiddenFields: ['record_id', 'collection_id', 'owner'],
-							hiddenFieldsValues: {
+						fieldsSettings={{
+							hide: {
 								record_id: record.id,
 								collection_id: record.collectionId,
 								owner: $currentUser?.id
 							},
-							relationsDisplayFields: {
-								users: ['email']
-							},
-							relationsInputMode: {
-								users: 'search'
+							relations: {
+								users: { displayFields: ['email'], inputMode: 'search' }
 							}
 						}}
 					/>

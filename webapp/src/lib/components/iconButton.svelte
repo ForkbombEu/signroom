@@ -1,10 +1,9 @@
 <script lang="ts">
 	import { Button } from 'flowbite-svelte';
-	import type { SizeType } from 'flowbite-svelte/dist/types';
-	import type { SvelteComponent } from 'svelte';
 	import { XMark } from 'svelte-heros-v2';
+	import type { IconComponent } from '$lib/utils/types';
 
-	export let icon: typeof SvelteComponent = XMark;
+	export let icon: IconComponent = XMark;
 	export let border = false;
 
 	const sizes = {

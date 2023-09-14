@@ -13,6 +13,7 @@
 	let src: string;
 	$: {
 		if ($currentUser?.avatar) {
+			//@ts-ignore
 			src = pb.files.getUrl($currentUser, $currentUser?.avatar);
 		}
 	}

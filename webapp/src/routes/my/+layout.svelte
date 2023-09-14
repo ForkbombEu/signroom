@@ -12,8 +12,6 @@
 		DropdownItem,
 		NavBrand,
 		NavHamburger,
-		NavLi,
-		NavUl,
 		Navbar,
 		Sidebar,
 		SidebarCta,
@@ -35,11 +33,11 @@
 		WrenchScrewdriver
 	} from 'svelte-heros-v2';
 	import '../../app.postcss';
-	import FeatureFlag from '$lib/components/featureFlag.svelte';
 	import UserAvatar from '$lib/components/userAvatar.svelte';
 	import { sineIn } from 'svelte/easing';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { featureFlags } from '$lib/features';
 
 	let spanClass = 'flex-1 ml-3 whitespace-nowrap';
 	$: activeUrl = $page.url.pathname;
@@ -105,7 +103,7 @@
 			<div>
 				<span>Hello, <span class="font-semibold text-primary-600">{$currentUser?.email}</span></span
 				>
-				<FeatureFlag flag="DID">
+				{#if $featureFlags.DID}
 					<Button
 						href="https://explorer.did.dyne.org/details/did:dyne:sandbox.signroom:{$currentUser?.eddsa_public_key}"
 						target="_blank"
@@ -113,7 +111,7 @@
 						class="ml-3"
 						color="light">My DID</Button
 					>
-				</FeatureFlag>
+				{/if}
 			</div>
 			<div class="flex items-center hover:cursor-pointer">
 				<button id="avatar-menu">
@@ -124,7 +122,7 @@
 			<Dropdown
 				placement="bottom"
 				triggeredBy="#avatar-menu"
-				frameClass="w-full min-h-screen md:w-fit md:min-h-fit"
+				containerClass="w-full min-h-screen md:w-fit md:min-h-fit"
 			>
 				<DropdownHeader>
 					<span class="block truncate text-sm font-medium">{$currentUser?.email}</span>
@@ -205,13 +203,13 @@
 							<svelte:fragment slot="icon">
 								<Identification />
 							</svelte:fragment>
-							<FeatureFlag flag="DID">
+							{#if $featureFlags.DID}
 								<SidebarDropdownItem
 									label="My DID"
 									href="https://explorer.did.dyne.org/details/did:dyne:sandbox.signroom:{$currentUser?.eddsa_public_key}"
 									target="_blank"
 								/>
-							</FeatureFlag>
+							{/if}
 							<SidebarDropdownItem
 								label="My Verifiable Credentials"
 								class="opacity-20 hover:bg-transparent cursor-default"
