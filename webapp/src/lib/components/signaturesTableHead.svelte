@@ -184,7 +184,7 @@
 </div>
 
 <div class="fixed m-0 p-0 z-50">
-	<Modal open={loading} permanent>
+	<Modal open={loading} dismissable={false}>
 		<div class="flex flex-col items-center gap-2">
 			<Spinner />
 			<P>Signing document, please wait</P>
