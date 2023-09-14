@@ -2,7 +2,7 @@
 	import RecordSearch from '$lib/components/recordSearch.svelte';
 	import RecordSelect from '$lib/components/recordSelect.svelte';
 	import RelationsManager from '$lib/components/relationsManager.svelte';
-	import { Collections } from '$lib/pocketbase-types';
+	import { Collections } from '$lib/pocketbase/types';
 	import { Heading, Hr } from 'flowbite-svelte';
 
 	export let relation: string;
