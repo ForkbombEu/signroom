@@ -4,7 +4,6 @@
 	import type { Writable } from 'svelte/store';
 	import type { FieldsSettings } from '$lib/recordForm';
 	import type { PBRecord } from '$lib/utils/types';
-	import type { RecordFullListOptions } from 'pocketbase';
 
 	export const RECORDS_MANAGER_KEY = Symbol('rmk');
 
@@ -13,7 +12,7 @@
 		dataManager: {
 			recordService: RecordService;
 			loadRecords: () => Promise<void>;
-			queryParams: Writable<RecordFullListOptions>;
+			queryParams: Writable<RecordFullListQueryParams>;
 		};
 		selectionManager: {
 			selectedRecords: Writable<string[]>;
@@ -42,6 +41,7 @@
 	import { page } from '$app/stores';
 
 	import { pb } from '$lib/pocketbase';
+	import type { RecordFullListQueryParams } from 'pocketbase';
 	import type { Collections } from '$lib/pocketbase/types';
 	import type { PBResponse } from '$lib/utils/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
@@ -66,7 +66,7 @@
 	export let createFormSettings: Partial<FieldsSettings<RecordGeneric>> = {};
 	export let editFormSettings: Partial<FieldsSettings<RecordGeneric>> = {};
 
-	export let initialQueryParams: RecordFullListOptions = {};
+	export let initialQueryParams: RecordFullListQueryParams = {};
 	export let subscribe: string[] = [];
 
 	/* Data load */
@@ -80,7 +80,7 @@
 	$: currentPage = $page.url.searchParams.get('page') || '1';
 	export let perPage = 5;
 
-	const queryParams = writable<RecordFullListOptions>({
+	const queryParams = writable<RecordFullListQueryParams>({
 		sort: '-created',
 		...initialQueryParams
 	});

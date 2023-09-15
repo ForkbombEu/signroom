@@ -1,0 +1,8 @@
+diff a/webapp/src/routes/my/+layout.svelte b/webapp/src/routes/my/+layout.svelte	(rejected hunks)
+@@ -1,5 +1,5 @@
+ <script lang="ts">
+-	import { SidebarBottomNav, SidebarBottomNavItem } from 'flowbite-svelte-blocks';
++	import { Section, SidebarBottomNav, SidebarBottomNavItem } from 'flowbite-svelte-blocks';
+ 	import '../../app.postcss';
+ 	import { page } from '$app/stores';
+ 
