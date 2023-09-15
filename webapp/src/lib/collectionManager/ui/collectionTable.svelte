@@ -26,7 +26,7 @@
 	type RecordGeneric = $$Generic<PBRecord>;
 
 	export let records: PBResponse<RecordGeneric>[] = [];
-	export let fields: Array<PBResponseKeys<PBResponse<RecordGeneric>>|string> = ['id'];
+	export let fields: Array<PBResponseKeys<PBResponse<RecordGeneric>> | string> = ['id'];
 	export let fieldsComponents: FieldsComponents<RecordGeneric> = {};
 	export let showShare: boolean = false;
 
@@ -69,10 +69,12 @@
 						</TableBodyCell>
 					{/if}
 					{#each fields as field}
-						<TableBodyCell>
-							{@const component = fieldsComponents[field]}
-							<FieldComponent {record} {field} {component} />
-						</TableBodyCell>
+						{#key record}
+							<TableBodyCell>
+								{@const component = fieldsComponents[field]}
+								<FieldComponent {record} {field} {component} />
+							</TableBodyCell>
+						{/key}
 					{/each}
 					{#if hasActions}
 						<TableBodyCell>
