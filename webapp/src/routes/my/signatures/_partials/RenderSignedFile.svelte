@@ -3,8 +3,8 @@
 	import RenderJades from './RenderJades.svelte';
 	import RenderXades from './RenderXades.svelte';
 	import RenderPades from './RenderPades.svelte';
-	import type { SignedFile } from './SignedFileDisplay.svelte';
 	import { SignaturesTypeOptions } from '$lib/pocketbase/types';
+	import type { SignedFile } from './Files.svelte';
 
 	export let type: SignaturesTypeOptions = SignaturesTypeOptions.xades;
 	export let signedFile: SignedFile;
