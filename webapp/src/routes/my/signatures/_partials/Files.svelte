@@ -1,47 +1,72 @@
+<script lang="ts" context="module">
+	export type SignedFile = {
+		name: string;
+		bytes: string;
+		digestAlgorithm: string;
+	};
+</script>
+
 <script lang="ts">
 	import type { SignaturesRecord } from '$lib/pocketbase/types';
-	import { A } from 'flowbite-svelte';
+	import { A, Modal } from 'flowbite-svelte';
 	import { DocumentArrowDown, Eye, LockClosed } from 'svelte-heros-v2';
-	import SignedFileDisplay, { type SignedFile } from './SignedFileDisplay.svelte';
 	import type { PBResponse } from '$lib/utils/types';
 	import { pb } from '$lib/pocketbase';
+	import RenderSignedFile from './RenderSignedFile.svelte';
 
 	export let record: PBResponse<SignaturesRecord>;
 	export let value: any;
 
-	const signed_file = record?.signed_file as SignedFile;
+	$: signedFile = record?.signed_file as SignedFile;
 	let url = '';
 	if (record) url = pb.files.getUrl(record, value);
+
+	let open = false;
+	const { type } = record;
+	let file: Blob;
+	let downloadUrl: string;
+
+	$: {
+		if (signedFile) {
+			file = new Blob([JSON.stringify({ type, signedFile })], {
+				type: 'application/json'
+			});
+		}
+		if (file) {
+			downloadUrl = URL.createObjectURL(file);
+		}
+	}
+	const downloadName = `${record.title}.json`;
+	const handleOpen = () => (open = !open);
 </script>
 
 <div class="flex flex-col gap-4 max-w-[400px]">
-	<SignedFileDisplay {record} value={signed_file}>
-		<A class="gap-1" href={url} download={value} slot="beforeButtons">
+	<A class="gap-1" href={url} download={value} slot="beforeButtons">
+		<span>
+			<DocumentArrowDown size="20" />
+		</span>
+		<span class="truncate">Original file</span>
+	</A>
+
+	<A class="gap-1" slot="downloadButton" href={downloadUrl} download={downloadName}>
+		<span>
+			<LockClosed size="20" />
+		</span>
+		<span class="truncate">Signed file</span>
+	</A>
+	<A slot="showButton">
+		<button on:click={handleOpen} class="flex items-center">
 			<span>
-				<DocumentArrowDown size="20" />
+				<Eye size="20" class="mr-1" />
 			</span>
-			<span class="truncate">Original file</span>
-		</A>
-		<A
-			class="gap-1"
-			slot="downloadButton"
-			let:downloadUrl
-			let:downloadName
-			href={downloadUrl}
-			download={downloadName}
-		>
-			<span>
-				<LockClosed size="20" />
-			</span>
-			<span class="truncate">Signed file</span>
-		</A>
-		<A slot="showButton" let:handleOpen>
-			<button on:click={handleOpen} class="flex items-center">
-				<span>
-					<Eye size="20" class="mr-1" />
-				</span>
-				<span class="truncate">Preview</span>
-			</button>
-		</A>
-	</SignedFileDisplay>
+			<span class="truncate">Preview</span>
+		</button>
+	</A>
+</div>
+<div class="fixed z-50">
+	<Modal bind:open title={`${record.title} – Signed`} size="md">
+		<div class="w-full">
+			<RenderSignedFile {type} signedFile={signedFile} />
+		</div>
+	</Modal>
 </div>

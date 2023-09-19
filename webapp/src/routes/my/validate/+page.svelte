@@ -2,8 +2,8 @@
 	import TitleDescription from '$lib/components/titleDescription.svelte';
 	import { Dropzone, Fileupload, Helper, P } from 'flowbite-svelte';
 	import RenderSignedFile from '../signatures/_partials/RenderSignedFile.svelte';
-	import type { SignedFile } from '../signatures/_partials/SignedFileDisplay.svelte';
 	import { SignaturesTypeOptions } from '$lib/pocketbase/types';
+	import type { SignedFile } from '../signatures/_partials/Files.svelte';
 
 	type SignatureFile = {
 		type: SignaturesTypeOptions;
