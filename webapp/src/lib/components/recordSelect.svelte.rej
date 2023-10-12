@@ -1,0 +1,62 @@
+diff a/webapp/src/lib/components/recordSelect.svelte b/webapp/src/lib/components/recordSelect.svelte	(rejected hunks)
+@@ -1,11 +1,11 @@
+ <script lang="ts">
+-	import { record } from 'zod';
++	import { createTypeProp } from '$lib/utils/typeProp';
+ 
+ 	import { createEventDispatcher } from 'svelte';
+ 	import type { SelectOptionType } from 'flowbite-svelte/dist/types';
++	import type { PBResponse, PBRecord } from '$lib/utils/types';
+ 
+ 	import { pb } from '$lib/pocketbase';
+-	import type { Record } from 'pocketbase';
+ 	import { Select, Spinner } from 'flowbite-svelte';
+ 
+ 	//
+@@ -18,28 +18,31 @@
+ 
+ 	//
+ 
+-	type RecordGeneric = $$Generic;
+-	type R = RecordGeneric & Record;
++	type RecordGeneric = $$Generic<PBRecord>;
++	export let recordType = createTypeProp<RecordGeneric>();
++	recordType;
+ 
+ 	$: recordsPromise = loadRecords(exclude);
+-	let records: R[] = [];
++	let records: PBResponse<RecordGeneric>[] = [];
+ 
+ 	async function loadRecords(exclude: string[]) {
+-		const res = await pb.collection(collection).getFullList<R>({ $autoCancel: false });
++		const res = await pb
++			.collection(collection)
++			.getFullList<PBResponse<RecordGeneric>>({ $autoCancel: false });
+ 		records = res.filter((r) => !exclude.includes(r.id));
+ 		return records;
+ 	}
+ 
+ 	//
+ 
+-	function createLabel(record: R) {
++	function createLabel(record: PBResponse<RecordGeneric>) {
+ 		return displayFields
+ 			.map((f) => record[f])
+ 			.filter((f) => Boolean(f))
+ 			.join(' | ');
+ 	}
+ 
+-	function createItems(records: R[]): SelectOptionType[] {
++	function createItems(records: PBResponse<RecordGeneric>[]): SelectOptionType[] {
+ 		return records.map((r) => ({ name: createLabel(r), value: r.id }));
+ 	}
+ 
+@@ -47,7 +50,7 @@
+ 
+ 	let value: string;
+ 
+-	const dispatch = createEventDispatcher<{ select: { record: R } }>();
++	const dispatch = createEventDispatcher<{ select: { record: PBResponse<RecordGeneric> } }>();
+ 
+ 	function handleChange() {
+ 		const record = records.find((r) => r.id == value);

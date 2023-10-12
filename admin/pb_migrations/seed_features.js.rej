@@ -1,0 +1,26 @@
+diff a/admin/pb_migrations/seed_features.js b/admin/pb_migrations/seed_features.js	(rejected hunks)
+@@ -27,6 +29,15 @@ const features = [
+         name: "auth",
+         envVariables: {},
+     },
++    {
++        name: "maintenance",
++        envVariables: {},
++        active: false,
++    },
++    {
++        name: "organizations",
++        envVariables: {},
++    },
+ ];
+ 
+ migrate(
+@@ -40,7 +51,7 @@ migrate(
+             const record = new Record(collection, {
+                 name: feature.name,
+                 envVariables: feature.envVariables,
+-                active: true,
++                active: feature.active ?? true,
+             });
+ 
+             dao.saveRecord(record);

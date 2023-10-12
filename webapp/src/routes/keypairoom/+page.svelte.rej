@@ -1,0 +1,84 @@
+diff a/webapp/src/routes/keypairoom/+page.svelte b/webapp/src/routes/keypairoom/+page.svelte	(rejected hunks)
+@@ -11,13 +11,13 @@
+ 	} from '$lib/keypairoom/updateUserPublicKeys';
+ 	import { currentUser, pb } from '$lib/pocketbase';
+ 	import { z } from 'zod';
+-	import { areFeaturesActive, features, featuresNames, isFeatureActive } from '$lib/features';
++	import { featureFlags } from '$lib/features';
+ 
+ 	// Components
+ 	import { Alert, Button, Heading, Hr, P } from 'flowbite-svelte';
+ 	import CopyButton from '$lib/components/copyButton.svelte';
+-	import Form, { createForm } from '$lib/components/forms/form.svelte';
+-	import Input from '$lib/components/forms/input.svelte';
++	import { Form, createForm, Input, FormError, SubmitButton } from '$lib/forms';
++	import { InformationCircle } from 'svelte-heros-v2';
+ 
+ 	//
+ 
+@@ -43,12 +43,12 @@
+ 		saveKeyringToLocalStorage(keypair.keyring);
+ 		seed = keypair.seed;
+ 
+-		if (isFeatureActive($features, featuresNames.AUTH) && $currentUser) {
++		if ($featureFlags.AUTH && $currentUser) {
+ 			const publicKeys = getPublicKeysFromKeypair(keypair);
+ 			await updateUserPublicKeys($currentUser?.id!, publicKeys);
+ 		}
+ 
+-		if (areFeaturesActive($features, [featuresNames.DID, featuresNames.AUTH]) && $currentUser) {
++		if ($featureFlags.DID && $featureFlags.AUTH && $currentUser) {
+ 			await pb.send('/api/did', {});
+ 		}
+ 	});
+@@ -62,24 +62,13 @@
+ {#if !seed}
+ 	<Heading tag="h4">Generate your keys</Heading>
+ 
+-	<Alert dismissable={false} accent={false}>
+-		<span slot="icon"
+-			><svg
+-				aria-hidden="true"
+-				class="w-5 h-5"
+-				fill="currentColor"
+-				viewBox="0 0 20 20"
+-				xmlns="http://www.w3.org/2000/svg"
+-				><path
+-					fill-rule="evenodd"
+-					d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+-					clip-rule="evenodd"
+-				/></svg
+-			>
+-		</span>
++	<Alert color="blue">
++		<svelte:fragment slot="icon">
++			<InformationCircle />
++		</svelte:fragment>
+ 		<span class="sr-only">Info</span>
+ 		<span class="font-bold">Important information</span>
+-		<ul slot="extra" class="mt-0 ml-8 list-disc pl-4 space-y-1 pt-1">
++		<ul class="list-disc pl-4 space-y-1 pt-1">
+ 			<li>
+ 				By answering these questions, you will generate keys that will be used to encrypt your data.
+ 			</li>
+@@ -103,6 +92,11 @@
+ 		{/each}
+ 
+ 		<Hr />
++
++		<FormError />
++		<div class="flex justify-end">
++			<SubmitButton>Generate keys</SubmitButton>
++		</div>
+ 	</Form>
+ {:else}
+ 	<Heading tag="h4">Keypair creation successful!</Heading>
+@@ -110,7 +104,7 @@
+ 		Please store this in a safe place to recover your account in the future, this passphrase will be
+ 		shown only one time!
+ 	</P>
+-	<Alert dismissable={false} accent={false}>
++	<Alert color="blue">
+ 		<span class="font-mono">
+ 			{seed}
+ 			<div class="flex flex-col items-end pt-4">

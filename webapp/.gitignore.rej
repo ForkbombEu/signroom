@@ -1,0 +1,13 @@
+diff a/webapp/.gitignore b/webapp/.gitignore	(rejected hunks)
+@@ -8,5 +8,9 @@ node_modules
+ !.env.example
+ vite.config.js.timestamp-*
+ vite.config.ts.timestamp-*
+-src/lib/schema/pb_schema.json
+ /playwright
++/test-results
++src/lib/pocketbase/schema/db_schema.json
++src/lib/pocketbase/types.ts
++src/lib/features/list.ts
++src/lib/rbac/roles.ts
+\ No newline at end of file

@@ -1,11 +1,13 @@
+/// <reference path="../pb_data/types.d.ts" />
+/**
+ * @typedef {import('../../webapp/src/lib/pocketbase/types').FeaturesRecord} Feature
+ */
+
 const FEATURES_COLLECTION_NAME = "features";
 
 /**
-    type Feature = {
-        name: string;
-        envVariables: Record<string, unknown>;
-    }
-*/
+ * @type {Feature[]}
+ */
 const features = [
     {
         name: "keypairoom",

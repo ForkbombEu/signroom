@@ -70,14 +70,7 @@
 {#if mode == 'search'}
 	<RecordSearch on:select={handleSelect} {collection} {name} {disabled} exclude={tempIDs} />
 {:else}
-	<RecordSelect
-		on:select={handleSelect}
-		{collection}
-		{name}
-		{displayFields}
-		{disabled}
-		exclude={tempIDs}
-	/>
+	<RecordSelect on:select={handleSelect} {collection} {name} {displayFields} {disabled} />
 {/if}
 
 <ArrayOrItemManager bind:value={relation} let:item>

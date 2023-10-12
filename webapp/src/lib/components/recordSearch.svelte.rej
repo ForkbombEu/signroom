@@ -1,0 +1,54 @@
+diff a/webapp/src/lib/components/recordSearch.svelte b/webapp/src/lib/components/recordSearch.svelte	(rejected hunks)
+@@ -1,14 +1,16 @@
+ <script lang="ts">
+-	import type { Record } from 'pocketbase';
++	import { createTypeProp } from '$lib/utils/typeProp';
+ 
+ 	import { pb } from '$lib/pocketbase';
+-	import { Collections } from '$lib/pocketbase-types';
++	import { Collections } from '$lib/pocketbase/types';
+ 
+ 	// @ts-ignore
+ 	import Svelecte from 'svelecte';
+-	import { getCollectionSchema } from '$lib/schema/getCollectionSchema';
++	import { getCollectionSchema } from '$lib/pocketbase/schema';
+ 	import { createEventDispatcher } from 'svelte';
+ 
++	import type { PBRecord, PBResponse } from '$lib/utils/types';
++
+ 	//
+ 
+ 	export let collection: string | Collections;
+@@ -16,8 +18,9 @@
+ 	export let name = '';
+ 	export let exclude: string[] = [];
+ 
+-	type RecordGeneric = $$Generic;
+-	type R = RecordGeneric & Record;
++	type RecordGeneric = $$Generic<PBRecord>;
++	export let recordType = createTypeProp<RecordGeneric>();
++	recordType;
+ 
+ 	//
+ 
+@@ -25,7 +28,7 @@
+ 	const labelField = 'label';
+ 
+ 	async function fetchOptions(text: string) {
+-		let data = await pb.collection(collection).getFullList<R>({
++		let data = await pb.collection(collection).getFullList<PBResponse<RecordGeneric>>({
+ 			$autoCancel: false,
+ 			filter: buildFilterString(text)
+ 		});
+@@ -70,9 +73,9 @@
+ 
+ 	//
+ 
+-	let value: R | undefined;
++	let value: { [valueField]: PBResponse<RecordGeneric>; [labelField]: string } | undefined;
+ 
+-	const dispatch = createEventDispatcher<{ select: { record: R } }>();
++	const dispatch = createEventDispatcher<{ select: { record: PBResponse<RecordGeneric> } }>();
+ 
+ 	function handleChange() {
+ 		if (!value) return;
