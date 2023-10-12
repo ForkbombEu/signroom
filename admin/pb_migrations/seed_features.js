@@ -32,8 +32,12 @@ const features = [
     {
         name: "maintenance",
         envVariables: {},
-        active: false
-    }
+        active: false,
+    },
+    {
+        name: "organizations",
+        envVariables: {},
+    },
 ];
 
 migrate(

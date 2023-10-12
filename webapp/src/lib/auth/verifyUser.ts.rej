@@ -1,9 +1,0 @@
-diff a/webapp/src/lib/auth/verifyUser.ts b/webapp/src/lib/auth/verifyUser.ts	(rejected hunks)
-@@ -1,6 +1,6 @@
- import { browser } from '$app/environment';
- import { pb } from '$lib/pocketbase';
--import { Collections } from '$lib/pocketbase-types';
-+import { Collections } from '$lib/pocketbase/types';
- 
- // Reference: https://github.com/pocketbase/js-sdk/issues/85
- 
