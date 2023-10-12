@@ -1,5 +1,0 @@
-diff a/webapp/.npmrc b/webapp/.npmrc	(rejected hunks)
-@@ -1 +1,2 @@
- engine-strict=true
-+enable-pre-post-scripts=true
-\ No newline at end of file
