@@ -1,8 +1,0 @@
-diff a/webapp/src/routes/tests/authorizations/+page.ts b/webapp/src/routes/tests/authorizations/+page.ts	(rejected hunks)
-@@ -1,5 +1,5 @@
- import { pb } from '$lib/pocketbase';
--import { Collections, type AuthorizationsExamplesRecord } from '$lib/pocketbase-types';
-+import { Collections, type AuthorizationsExamplesRecord } from '$lib/pocketbase/types';
- 
- export const load = async () => {
- 	try {
