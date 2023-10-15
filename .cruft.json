@@ -1,7 +1,7 @@
 {
   "template": "https://github.com/dyne/starters",
   "checkout": null,
-  "commit": "011d01b84054194092fcf54ef40d1a22558e2739",
+  "commit": "2a700ac5102b057ef60ac997586d9e3efeba06d9",
   "context": {
     "cookiecutter": {
       "project_name": "signroom",
