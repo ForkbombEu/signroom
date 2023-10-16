@@ -1,16 +1,11 @@
 import type { SidebarLink } from '$lib/layout';
 import { ClipboardDocumentCheck } from 'svelte-heros';
 import {
-	GlobeAlt,
-	Inbox,
 	RocketLaunch,
-	User,
-	Document,
 	InboxArrowDown,
 	Identification,
 	Wallet
 } from 'svelte-heros-v2';
-import { currentUser } from '$lib/pocketbase';
 
 const didUrl = `https://explorer.did.dyne.org/details/did:dyne:sandbox.signroom:`;
 
@@ -62,11 +57,6 @@ export const links: SidebarLink[] = [
 	{
 		label: 'Organizations',
 		icon: Wallet,
-		disabled: true,
-		subLinks: [
-			{
-				label: 'Credential Issuer'
-			}
-		]
+		disabled: true
 	}
 ];
