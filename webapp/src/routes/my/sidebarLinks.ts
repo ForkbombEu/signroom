@@ -1,82 +1,71 @@
 import type { SidebarLink } from '$lib/layout';
-import { GlobeAlt, Inbox, RocketLaunch, User, Document } from 'svelte-heros-v2';
+import { ClipboardDocumentCheck } from 'svelte-heros';
+import {
+	GlobeAlt,
+	Inbox,
+	RocketLaunch,
+	User,
+	Document,
+	InboxArrowDown,
+	Identification,
+	Wallet
+} from 'svelte-heros-v2';
+import { currentUser } from '$lib/pocketbase';
+
+const didUrl = `https://explorer.did.dyne.org/details/did:dyne:sandbox.signroom:`;
 
 export const links: SidebarLink[] = [
 	{
-		label: 'Overview',
+		label: 'Start',
 		href: '/my',
-		icon: GlobeAlt
+		icon: RocketLaunch
 	},
 	{
-		label: 'Pages',
-		icon: Document,
+		label: 'Signatures',
+		icon: ClipboardDocumentCheck,
 		subLinks: [
 			{
-				label: 'Profile',
-				href: '/my/profile'
+				label: 'My folders',
+				href: '/my/folders'
 			},
 			{
-				label: 'Kanban',
-				href: '/'
+				label: 'My signatures',
+				href: '/my/signatures'
 			},
 			{
-				label: 'Calendar',
+				label: 'Validate signatures',
+				href: '/my/validate'
+			},
+			{
+				label: 'Multisignatures',
+				disabled: true,
 				href: '/'
 			}
 		]
 	},
 	{
-		label: 'Sales',
-		icon: RocketLaunch,
+		label: 'Notification',
+		icon: InboxArrowDown,
+		disabled: true
+	},
+	{
+		label: 'Identity',
+		icon: Identification,
 		subLinks: [
 			{
-				label: 'Products',
-				href: '/'
+				label: 'My DID',
+				href: didUrl
 			},
-			{
-				label: 'Billing',
-				href: '/'
-			},
-			{
-				label: 'Invoice',
-				href: '/'
-			}
+			{ label: 'My Verifiable Credentials', disabled: true, href: '/' }
 		]
 	},
 	{
-		label: 'Messages',
-		href: '/',
-		icon: Inbox,
+		label: 'Organizations',
+		icon: Wallet,
+		disabled: true,
 		subLinks: [
 			{
-				label: 'Inbox',
-				href: '/'
-			},
-			{
-				label: 'Sent',
-				href: '/'
-			},
-			{
-				label: 'Drafts',
-				href: '/'
-			}
-		]
-	},
-	{
-		label: 'Authentication',
-		icon: User,
-		subLinks: [
-			{
-				label: 'Sign In',
-				href: '/'
-			},
-			{
-				label: 'Sign Up',
-				href: '/'
-			},
-			{
-				label: 'Forgot Password',
-				href: '/'
+				label: 'Credential Issuer'
 			}
 		]
 	}
