@@ -11,9 +11,9 @@ export const POST = async (evt: RequestEvent) => {
 			certificateChain: [],
 			detachedContents: null,
 			asicContainerType: null,
-			signatureAlgorithm: 'RSA_SHA256',
+			signatureAlgorithm: 'ECDSA_SHA256',
 			digestAlgorithm: 'SHA256',
-			encryptionAlgorithm: 'RSA',
+			encryptionAlgorithm: 'ECDSA',
 			contentTimestampParameters: {
 				digestAlgorithm: 'SHA256',
 				canonicalizationMethod: 'http://www.w3.org/2001/10/xml-exc-c14n#',

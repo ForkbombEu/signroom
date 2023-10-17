@@ -18,8 +18,7 @@
 	import CopyButton from '$lib/components/copyButton.svelte';
 	import { Form, createForm, Input, FormError, SubmitButton } from '$lib/forms';
 	import { InformationCircle } from 'svelte-heros-v2';
-
-	//
+	import { generateKeyAndCertificate } from '$lib/keypairoom/x509';
 
 	let seed = '';
 
@@ -42,6 +41,8 @@
 		const keypair = await generateKeypair(email, HMAC, data.questions);
 		saveKeyringToLocalStorage(keypair.keyring);
 		seed = keypair.seed;
+
+		await generateKeyAndCertificate();
 
 		if ($featureFlags.AUTH && $currentUser) {
 			const publicKeys = getPublicKeysFromKeypair(keypair);
