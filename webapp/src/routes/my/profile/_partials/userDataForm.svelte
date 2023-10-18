@@ -22,7 +22,14 @@
 		emailVisibility: z.boolean().optional(),
 		avatar: z
 			.instanceof(File)
-			.refine((file) => file.type === 'image/png' || file.type === 'image/jpeg')
+			.refine(
+				(file) =>
+					file.type === 'image/png' ||
+					file.type === 'image/jpeg' ||
+					file.type === 'image/gif' ||
+					file.type === 'image/svg+xml' ||
+					file.type === 'image/webp'
+			)
 			.refine((file) => file.size < 1024 * 1024 * 2)
 			.optional()
 	});
@@ -52,7 +59,7 @@
 			<span>Show email to other users</span>
 		</Checkbox>
 	</div>
-	<FileUpload field="avatar" accept={[".jpeg", ".png", ".jpg", ".svg", ".webp"]}/>
+	<FileUpload field="avatar" accept={['.jpeg', '.png', '.jpg', '.svg', '.webp']} />
 	<FormError />
 
 	<div class="flex justify-end">
