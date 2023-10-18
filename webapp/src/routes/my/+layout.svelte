@@ -117,8 +117,12 @@
 	</Sidebar>
 
 	<MainContent>
-		<div class="p-4">
-			<slot />
+		<div
+			class="p-1 md:p-8 pt-20 bg-slate-100 bg-[url('/bg.png')] bg-cover min-h-screen overflow-auto"
+		>
+			<div class="rounded-lg p-2 md:p-4 bg-white flex flex-col space gap-10 shadow-md">
+				<slot />
+			</div>
 		</div>
 	</MainContent>
 </UIShell>
