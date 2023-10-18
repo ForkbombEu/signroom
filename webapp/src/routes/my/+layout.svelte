@@ -80,7 +80,7 @@
 		</svelte:fragment>
 		<SidebarLinks {links} />
 		<svelte:fragment slot="bottom"
-			><SidebarGroup>
+			><SidebarGroup class="px-2">
 				<SidebarCta label="Beta">
 					<p class="mb-3 text-sm text-blue-900 dark:text-blue-400">
 						You are one of the lucky few to try Signroom and all of its feature offerings first
@@ -117,6 +117,8 @@
 	</Sidebar>
 
 	<MainContent>
-		<slot />
+		<div class="p-4">
+			<slot />
+		</div>
 	</MainContent>
 </UIShell>
