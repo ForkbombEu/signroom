@@ -7,7 +7,7 @@
 		SubmitButton,
 		Input,
 		Checkbox,
-		File
+		File as FileUpload
 	} from '$lib/forms';
 
 	import { currentUser, pb } from '$lib/pocketbase';
@@ -52,7 +52,7 @@
 			<span>Show email to other users</span>
 		</Checkbox>
 	</div>
-	<File field="avatar" />
+	<FileUpload field="avatar" accept={[".jpeg", ".png", ".jpg", ".svg", ".webp"]}/>
 	<FormError />
 
 	<div class="flex justify-end">
