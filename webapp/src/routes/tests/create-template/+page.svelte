@@ -8,8 +8,8 @@
 	on:create={(e) => {
 		result = e.detail.schema;
 	}}
-></JSONSchemaBuilder>
+/>
 
 {#if result}
-	<pre>{JSON.stringify(result, null, 2)}</pre>
+	<pre class="">{JSON.stringify(result, null, 2)}</pre>
 {/if}
