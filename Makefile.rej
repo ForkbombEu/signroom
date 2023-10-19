@@ -1,0 +1,21 @@
+diff a/Makefile b/Makefile	(rejected hunks)
+@@ -46,9 +70,6 @@ setup: setup_submodules setup_backend setup_frontend ## 📦 Setup the project
+ be: ## ⚙️ Run the backend
+ 	./admin/pb serve
+ 
+-be_debug: ## ⚙️ Run the backend in debug mode
+-	./admin/pb serve --debug
+-
+ fe: ## ⚙️ Run the frontend
+ 	sleep 2 && cd webapp && pnpm serve
+ 
+@@ -58,9 +79,6 @@ fe_dev: ## ⚙️ Watch the frontend
+ dev: ## ⚙️ Run the project in development mode
+ 	$(MAKE) be fe_dev -j2
+ 
+-dev_debug: ## ⚙️ Run the project in development and debug mode
+-	$(MAKE) be_debug fe_dev -j2
+-
+ up: setup ## ⚙️ Run the project
+ 	$(MAKE) be fe -j2
+ 
