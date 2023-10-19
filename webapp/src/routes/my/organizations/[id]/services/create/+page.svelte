@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getCollectionSchema } from '$lib/pocketbase/schema/index.js';
-	import { Collections, type IssuersRecord } from '$lib/pocketbase/types.js';
+	import { Collections, type IssuersRecord, type TemplatesRecord } from '$lib/pocketbase/types.js';
 	import { fieldsSchemaToZod } from '$lib/pocketbaseToZod/index.js';
 	import { Form, createForm, Input, Textarea, SubmitButton, Checkbox, Relations } from '$lib/forms';
 	import { Button, Drawer, Heading } from 'flowbite-svelte';
@@ -25,6 +25,10 @@
 			organization: data.organization.id
 		}
 	);
+	const { form } = superform;
+
+	const issuerRecordProp = createTypeProp<IssuersRecord>();
+	const templateRecordProp = createTypeProp<TemplatesRecord>();
 
 	//
 
@@ -59,8 +63,6 @@
 	};
 
 	//
-
-	const issuerRecordProp = createTypeProp<IssuersRecord>();
 </script>
 
 <Form {superform}>
@@ -93,7 +95,7 @@
 		<div class="flex justify-end pt-4">
 			<Button color="alternative" size="xs" on:click={toggleTemplateDrawer}>
 				<Plus size="16" />
-				<span class="ml-1">Add issuer</span>
+				<span class="ml-1">Add template</span>
 			</Button>
 		</div>
 	</div>
@@ -112,8 +114,26 @@
 		recordType={issuerRecordProp}
 		collection={Collections.Issuers}
 		on:success={(e) => {
-			superform.form.set({ issuer: e.detail.record.id });
+			$form.issuer = e.detail.record.id;
 			toggleIssuerDrawer();
+		}}
+	/>
+</Drawer>
+
+<Drawer bind:hidden={$hideTemplateDrawer} {...drawerProps}>
+	<div class="flex justify-between items-center">
+		<Heading tag="h5">Create new Template</Heading>
+		<IconButton on:click={toggleTemplateDrawer}></IconButton>
+	</div>
+	<RecordForm
+		recordType={templateRecordProp}
+		collection={Collections.Templates}
+		fieldsSettings={{
+			hide: { organization: data.organization.id }
+		}}
+		on:success={(e) => {
+			$form.templates = [...$form.templates, e.detail.record.id];
+			toggleTemplateDrawer();
 		}}
 	/>
 </Drawer>
