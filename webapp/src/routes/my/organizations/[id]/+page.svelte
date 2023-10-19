@@ -1,8 +1,6 @@
 <script lang="ts">
-	import { Button, Heading } from 'flowbite-svelte';
-
-	export let data;
-	const { organization } = data;
+	import { A } from 'flowbite-svelte';
+	import { page } from '$app/stores';
 </script>
 
-<pre>{JSON.stringify(organization, null, 2)}</pre>
+<A href={`${$page.url.pathname}/services`}>Services</A>
