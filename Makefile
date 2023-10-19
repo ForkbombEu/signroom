@@ -1,6 +1,19 @@
 .DEFAULT_GOAL := help
 .PHONY: help
 
+# detect the operating system
+OSFLAG 				:=
+ifneq ($(OS),Windows_NT)
+	UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S),Linux)
+		OSFLAG += LINUX
+	endif
+	ifeq ($(UNAME_S),Darwin)
+		OSFLAG += OSX
+	endif
+endif
+
+
 help: ## 🛟  Show this help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-7s\033[0m %s\n", $$1, $$2}'
 
@@ -25,6 +38,17 @@ setup_backend: ## 📦 Setup the frontend
     	mkdir ./admin/pb_data; \
 	fi
 	cd admin && ./setup
+	
+	if [ $(OSFLAG) == "OSX" ]; then \
+		wget -O /usr/local/bin/zencode-exec https://github.com/dyne/zenroom/releases/latest/download/zencode-exec.command; \
+		wget -O /usr/local/bin/zenroom https://github.com/dyne/zenroom/releases/latest/download/zenroom.command; \
+		else \
+		wget -O /usr/local/bin/zencode-exec https://github.com/dyne/zenroom/releases/latest/download/zencode-exec; \
+		wget -O /usr/local/bin/zenroom https://github.com/dyne/zenroom/releases/latest/download/zenroom; \
+	fi
+	
+	chmod +x /usr/local/bin/zencode-exec
+	chmod +x /usr/local/bin/zenroom
 	@echo " "
 
 setup_frontend: ## 📦 Setup the frontend

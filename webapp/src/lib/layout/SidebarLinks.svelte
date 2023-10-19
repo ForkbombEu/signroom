@@ -24,7 +24,7 @@
 		SidebarGroup,
 		SidebarItem
 	} from 'flowbite-svelte';
-	import { getUIShellContext } from './UIShell.svelte';
+	import { getUIShellContext } from './UiShell.svelte';
 	import type { ComponentProps } from 'svelte';
 	import { page } from '$app/stores';
 
@@ -37,14 +37,17 @@
 			toggleSidebar();
 		}
 	};
-	export let activeClass = "flex items-center p-2 pl-11 text-base font-normal text-gray-900 bg-gray-200 dark:bg-gray-700 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+	const disabledClass = (disabled?: boolean) =>
+		disabled ? 'opacity-20 hover:bg-transparent cursor-default' : undefined;
+	export let activeClass =
+		'flex items-center p-2 pl-11 text-base font-normal text-gray-900 bg-gray-200 dark:bg-gray-700 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700';
 </script>
 
 <div class="p-3">
 	<SidebarGroup>
 		{#each links as entry}
 			{#if entry.subLinks && entry.subLinks.length > 0}
-				<SidebarDropdownWrapper label={entry.label}>
+				<SidebarDropdownWrapper label={entry.label} disabled={entry.disabled}>
 					<svelte:fragment slot="icon">
 						<svelte:component this={entry.icon} />
 					</svelte:fragment>
@@ -55,11 +58,19 @@
 							on:click={() => toggleSidebarHandler()}
 							active={$page.url.pathname === subEntry.href}
 							{activeClass}
+							disabled={subEntry.disabled}
+							class={disabledClass(subEntry.disabled)}
 						/>
 					{/each}
 				</SidebarDropdownWrapper>
 			{:else}
-				<SidebarItem label={entry.label} href={entry.href} on:click={() => toggleSidebarHandler()}>
+				<SidebarItem
+					disabled={entry.disabled}
+					label={entry.label}
+					href={entry.href}
+					on:click={() => toggleSidebarHandler()}
+					class={disabledClass(entry.disabled)}
+				>
 					<svelte:fragment slot="icon">
 						<svelte:component this={entry.icon} />
 					</svelte:fragment>
