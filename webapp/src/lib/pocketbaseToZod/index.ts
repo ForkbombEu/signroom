@@ -13,7 +13,8 @@ const FieldTypeToZod = {
 	[FieldType.BOOL]: z.boolean(),
 	[FieldType.FILE]: z.instanceof(File),
 	[FieldType.SELECT]: z.string(),
-	[FieldType.RELATION]: z.string()
+	[FieldType.RELATION]: z.string(),
+	[FieldType.JSON]: z.string()
 };
 
 type FieldOptions = Record<string, unknown>;
@@ -58,7 +59,8 @@ const FieldTypeRefiners: FieldTypeRefiners = {
 	},
 	[FieldType.BOOL]: {},
 	[FieldType.EDITOR]: {},
-	[FieldType.RELATION]: {}
+	[FieldType.RELATION]: {},
+	[FieldType.JSON]: {}
 };
 
 //
