@@ -1,10 +1,15 @@
 <script lang="ts">
-	import { JSONSchemaBuilder, type JSONSchema } from 'json-schema-builder-svelte';
+	import {
+		JSONSchemaBuilder,
+		type JSONSchema,
+		createJSONSchemaInput
+	} from 'json-schema-builder-svelte';
 
 	let result: JSONSchema | undefined;
 </script>
 
 <JSONSchemaBuilder
+	schemaInput={createJSONSchemaInput()}
 	on:create={(e) => {
 		result = e.detail.schema;
 	}}
