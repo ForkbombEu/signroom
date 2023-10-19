@@ -24,7 +24,7 @@
 		SidebarGroup,
 		SidebarItem
 	} from 'flowbite-svelte';
-	import { getUIShellContext } from './UIShell.svelte';
+	import { getUIShellContext } from './UiShell.svelte';
 	import type { ComponentProps } from 'svelte';
 	import { page } from '$app/stores';
 
@@ -37,7 +37,8 @@
 			toggleSidebar();
 		}
 	};
-	const disabledClass = (disabled?:boolean)=>disabled ? 'opacity-20 hover:bg-transparent cursor-default' : undefined
+	const disabledClass = (disabled?: boolean) =>
+		disabled ? 'opacity-20 hover:bg-transparent cursor-default' : undefined;
 	export let activeClass =
 		'flex items-center p-2 pl-11 text-base font-normal text-gray-900 bg-gray-200 dark:bg-gray-700 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700';
 </script>
@@ -46,7 +47,7 @@
 	<SidebarGroup>
 		{#each links as entry}
 			{#if entry.subLinks && entry.subLinks.length > 0}
-				<SidebarDropdownWrapper label={entry.label} disabled={entry.disabled} >
+				<SidebarDropdownWrapper label={entry.label} disabled={entry.disabled}>
 					<svelte:fragment slot="icon">
 						<svelte:component this={entry.icon} />
 					</svelte:fragment>
