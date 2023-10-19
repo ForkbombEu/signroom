@@ -1,16 +1,32 @@
 <script lang="ts">
 	import { getCollectionSchema } from '$lib/pocketbase/schema/index.js';
-	import { Collections, type IssuersRecord, type TemplatesRecord } from '$lib/pocketbase/types.js';
+	import {
+		Collections,
+		type IssuersRecord,
+		type ServicesResponse,
+		type TemplatesRecord
+	} from '$lib/pocketbase/types.js';
 	import { fieldsSchemaToZod } from '$lib/pocketbaseToZod/index.js';
-	import { Form, createForm, Input, Textarea, SubmitButton, Checkbox, Relations } from '$lib/forms';
-	import { Button, Drawer, Heading } from 'flowbite-svelte';
+	import {
+		Form,
+		createForm,
+		Input,
+		Textarea,
+		SubmitButton,
+		Checkbox,
+		Relations,
+		createFormData
+	} from '$lib/forms';
+	import { Button, Drawer, Heading, Hr } from 'flowbite-svelte';
 	import { Plus } from 'svelte-heros-v2';
 	import { sineIn } from 'svelte/easing';
 	import RecordForm from '$lib/recordForm/recordForm.svelte';
 	import { createTypeProp } from '$lib/utils/typeProp.js';
 	import IconButton from '$lib/components/iconButton.svelte';
-	import { writable, type Writable } from 'svelte/store';
+	import { writable } from 'svelte/store';
 	import type { ComponentProps } from 'svelte';
+	import { pb } from '$lib/pocketbase/index.js';
+	import { goto } from '$app/navigation';
 
 	export let data;
 
@@ -18,8 +34,10 @@
 
 	const superform = createForm(
 		serviceSchema,
-		(e) => {
-			console.log(e);
+		async (e) => {
+			const formData = createFormData(e.form.data);
+			const record = await pb.collection(Collections.Services).create<ServicesResponse>(formData);
+			await goto(`/my/organizations/${data.organization.id}/services/${record.id}`);
 		},
 		{
 			organization: data.organization.id
@@ -65,10 +83,9 @@
 	//
 </script>
 
-<Form {superform}>
+<Form {superform} showRequiredIndicator>
 	<Input field="name" placeholder="Service name" />
 	<Textarea field="description" placeholder="Service name" />
-	<Checkbox field="add_ons">Use add ons</Checkbox>
 
 	<div>
 		<Relations
@@ -91,6 +108,7 @@
 			field="templates"
 			inputMode="select"
 			displayFields={['name']}
+			multiple
 		/>
 		<div class="flex justify-end pt-4">
 			<Button color="alternative" size="xs" on:click={toggleTemplateDrawer}>
@@ -99,6 +117,10 @@
 			</Button>
 		</div>
 	</div>
+
+	<Checkbox field="add_ons">Use add-ons</Checkbox>
+
+	<Hr />
 
 	<div class="flex justify-end">
 		<SubmitButton>Create service</SubmitButton>
