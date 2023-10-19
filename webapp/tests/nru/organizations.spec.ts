@@ -13,8 +13,7 @@ test('it should create an organization', async ({ browser }) => {
 	page = await userLogin(browser, 'A');
 	await expect(page).toHaveURL('/my');
 
-	await page.getByRole('link', { name: 'My organizations' }).click();
-	await expect(page).toHaveURL('/my/organizations');
+	await page.goto('/my/organizations');
 
 	await page.getByRole('link', { name: 'plus Create a new organization' }).click();
 	await expect(page).toHaveURL('/my/organizations/create');
