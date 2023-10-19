@@ -137,7 +137,7 @@
 		: 'Create record';
 </script>
 
-<Form {superform} on:success showRequiredIndicator>
+<Form {superform} showRequiredIndicator>
 	{#each fieldsSchema as fieldSchema}
 		{@const hidden = hide ? Object.keys(hide).includes(fieldSchema.name) : false}
 		{@const relationFieldSettings = relations?.[fieldSchema.name]}
