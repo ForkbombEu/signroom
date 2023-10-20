@@ -1,9 +1,15 @@
 <script lang="ts">
-	import { Collections } from '$lib/pocketbase/types';
+	import { Collections, type ServicesRecord } from '$lib/pocketbase/types';
 	import { CollectionManager, CollectionTable } from '$lib/collectionManager';
-	import { Plus } from 'svelte-heros-v2';
+	import { Eye, Plus } from 'svelte-heros-v2';
 	import { Button } from 'flowbite-svelte';
 	import { page } from '$app/stores';
+	import { createTypeProp } from '$lib/utils/typeProp';
+	import IconButton from '$lib/components/iconButton.svelte';
+
+	const recordType = createTypeProp<ServicesRecord>();
+
+	const serviceUrl = (id: string) => `${$page.url.pathname}/${id}`;
 </script>
 
 <div class="p-4">
@@ -13,7 +19,11 @@
 			<span class="ml-1">Create new service</span>
 		</Button>
 	</div>
-	<CollectionManager collection={Collections.Services} let:records>
-		<CollectionTable {records} let:record></CollectionTable>
+	<CollectionManager {recordType} collection={Collections.Services} let:records>
+		<CollectionTable fields={['name']} {records} hideActions={['edit', 'share']}>
+			<svelte:fragment slot="actions" let:record>
+				<IconButton size="sm" icon={Eye} border href={serviceUrl(record.id)} />
+			</svelte:fragment>
+		</CollectionTable>
 	</CollectionManager>
 </div>
