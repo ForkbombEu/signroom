@@ -1,3 +1,24 @@
+<script lang="ts" context="module">
+	import type { SvelteComponent, ComponentEvents, ComponentProps, ComponentType } from 'svelte';
+
+	type FieldComponent = SvelteComponent<{ field: string }>;
+
+	export function createFieldComponent<C extends FieldComponent>(
+		component: ComponentType<C>,
+		props?: ComponentProps<C>,
+		events?: ComponentEvents<C>
+	) {
+		return { component, props, events };
+	}
+
+	export type FieldComponentData<C extends FieldComponent = FieldComponent> = ReturnType<
+		typeof createFieldComponent<C>
+	>;
+	export type FieldComponentProp<C extends FieldComponent = FieldComponent> =
+		| FieldComponentData<C>
+		| undefined;
+</script>
+
 <script lang="ts">
 	import type { InputMode as RelationInputMode } from '$lib/components/relationsManager.svelte';
 	import {
@@ -19,9 +40,10 @@
 	export let hidden = false;
 	export let relationDisplayFields: RelationDisplayFields = [];
 	export let relationInputMode: RelationInputMode = 'search';
+	export let label = fieldSchema.name;
+	export let component: FieldComponentProp = undefined;
 
 	const field = fieldSchema.name;
-	const label = fieldSchema.name;
 
 	const multiple = isArrayField(fieldSchema);
 
@@ -51,8 +73,18 @@
 
 {#if hidden}
 	<Hidden {field} />
+{:else if component}
+	<svelte:component
+		this={component.component}
+		{field}
+		{...component.props}
+		{...component.events}
+		{label}
+	/>
 {:else if fieldSchema.type == FieldType.TEXT}
 	<Input {field} {label} />
+{:else if fieldSchema.type == FieldType.JSON}
+	<Textarea {field} {label} />
 {:else if fieldSchema.type == FieldType.BOOL}
 	<Checkbox {field}>{label}</Checkbox>
 {:else if fieldSchema.type == FieldType.FILE}

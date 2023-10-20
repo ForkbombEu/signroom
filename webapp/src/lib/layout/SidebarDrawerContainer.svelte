@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Drawer } from 'flowbite-svelte';
 	import { sineIn } from 'svelte/easing';
-	import { getUIShellContext } from './UIShell.svelte';
+	import { getUIShellContext } from './UiShell.svelte';
 
 	const { isSidebarHidden } = getUIShellContext();
 
