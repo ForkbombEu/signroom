@@ -53,6 +53,8 @@
 	<Hidden {field} />
 {:else if fieldSchema.type == FieldType.TEXT}
 	<Input {field} {label} />
+{:else if fieldSchema.type == FieldType.JSON}
+	<Textarea {field} {label} />
 {:else if fieldSchema.type == FieldType.BOOL}
 	<Checkbox {field}>{label}</Checkbox>
 {:else if fieldSchema.type == FieldType.FILE}

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createTypeProp } from '$lib/utils/typeProp';
 
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import type { SelectOptionType } from 'flowbite-svelte/dist/types';
 	import type { PBResponse, PBRecord } from '$lib/utils/types';
 
@@ -33,6 +33,15 @@
 		return records;
 	}
 
+	onMount(() => {
+		pb.collection(collection).subscribe('*', async function (e) {
+			recordsPromise = loadRecords(exclude);
+		});
+		return () => {
+			pb.collection(collection).unsubscribe('*');
+		};
+	});
+
 	//
 
 	function createLabel(record: PBResponse<RecordGeneric>) {
@@ -42,7 +51,7 @@
 			.join(' | ');
 	}
 
-	function createItems(records: PBResponse<RecordGeneric>[]): SelectOptionType[] {
+	function createItems(records: PBResponse<RecordGeneric>[]) {
 		return records.map((r) => ({ name: createLabel(r), value: r.id }));
 	}
 
