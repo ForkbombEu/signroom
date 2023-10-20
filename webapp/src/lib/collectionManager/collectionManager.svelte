@@ -3,7 +3,7 @@
 	import type { RecordService } from 'pocketbase';
 	import type { Writable } from 'svelte/store';
 	import type { FieldsSettings } from '$lib/recordForm';
-	import type { PBRecord } from '$lib/utils/types';
+	import type { PBRecord, PBExpand } from '$lib/utils/types';
 	import type { RecordFullListOptions } from 'pocketbase';
 
 	export const RECORDS_MANAGER_KEY = Symbol('rmk');
@@ -13,6 +13,10 @@
 		dataManager: {
 			recordService: RecordService;
 			loadRecords: () => Promise<void>;
+			perPage: Writable<number>;
+			currentPage: Writable<string>;
+			totalPages: Writable<number>;
+			totalItems: Writable<number>;
 			queryParams: Writable<RecordFullListOptions>;
 		};
 		selectionManager: {
@@ -37,7 +41,6 @@
 	import { onMount, setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 
-	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
 
@@ -46,7 +49,6 @@
 	import type { PBResponse } from '$lib/utils/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
 
-	import { Pagination } from 'flowbite-svelte';
 	import GridSpinner from '$lib/components/gridSpinner.svelte';
 	import CollectionEmptyState from './ui/collectionEmptyState.svelte';
 
@@ -57,6 +59,10 @@
 	type RecordGeneric = $$Generic<PBRecord>;
 	export let recordType = createTypeProp<RecordGeneric>();
 	recordType;
+
+	type ExpandGeneric = $$Generic<PBExpand>;
+	export let expandType = createTypeProp<ExpandGeneric>();
+	expandType;
 
 	//
 
@@ -69,16 +75,14 @@
 	export let initialQueryParams: RecordFullListOptions = {};
 	export let subscribe: string[] = [];
 
+	export let perPage = 5;
+	export let disablePagination = false;
+
 	/* Data load */
 
-	$: pages = Array.from({ length: totalPages }, (_, i) => ({
-		name: `${i + 1}`,
-		href: `?page=${i + 1}`
-	}));
-	let currentPage = '';
-	let totalItems = 0;
-	$: currentPage = $page.url.searchParams.get('page') || '1';
-	export let perPage = 5;
+	let currentPage = writable('');
+	let totalItems = writable(0);
+	$: currentPage.set($page.url.searchParams.get('page') || '1');
 
 	const queryParams = writable<RecordFullListOptions>({
 		sort: '-created',
@@ -93,20 +97,27 @@
 
 	const recordService = pb.collection(collection);
 
-	let records: PBResponse<RecordGeneric>[] = [];
-	let totalPages: number = 0;
+	let records: PBResponse<RecordGeneric, ExpandGeneric>[] = [];
+	let totalPages = writable(0);
 
 	async function loadRecords() {
-		const res = await recordService.getList<PBResponse<RecordGeneric>>(
-			Number(currentPage),
-			perPage,
-			{
+		if (!disablePagination) {
+			const res = await recordService.getList<PBResponse<RecordGeneric, ExpandGeneric>>(
+				Number($currentPage),
+				perPage,
+				{
+					...$queryParams
+				}
+			);
+			records = res.items;
+			totalPages.set(res.totalPages);
+			totalItems.set(res.totalItems);
+		} else {
+			const res = await recordService.getFullList<PBResponse<RecordGeneric, ExpandGeneric>>({
 				...$queryParams
-			}
-		);
-		records = res.items;
-		totalPages = res.totalPages;
-		totalItems = res.totalItems;
+			});
+			records = res;
+		}
 	}
 
 	let promise = loadRecords();
@@ -114,9 +125,9 @@
 	$: if (browser) {
 		$queryParams;
 		initialQueryParams;
-		currentPage;
-		totalPages;
-		totalItems;
+		$currentPage;
+		$totalPages;
+		$totalItems;
 		loadRecords();
 	}
 
@@ -163,7 +174,11 @@
 		dataManager: {
 			recordService,
 			loadRecords,
-			queryParams
+			queryParams,
+			perPage: writable(perPage),
+			currentPage,
+			totalPages,
+			totalItems
 		},
 		selectionManager: {
 			selectedRecords,
@@ -178,12 +193,7 @@
 		}
 	});
 
-	function goToH(e:Event):void {
-							e.preventDefault();
-							const {target} = e
-							goto((target as HTMLAnchorElement).href);
-						}
-
+	//
 </script>
 
 {#await promise}
@@ -192,42 +202,10 @@
 	</div>
 {:then}
 	<slot {records} {loadRecords} />
-	<slot name="pagination" {totalItems} {totalPages} {currentPage} {perPage}>
-		{#if totalPages > 1}
-			<div class="flex flex-col items-center justify-center gap-2 my-5">
-				<div class="text-sm text-gray-700 dark:text-gray-400">
-					Showing <span class="font-semibold text-gray-900 dark:text-white"
-						>{perPage * Number(currentPage) - perPage + 1}</span
-					>
-					to
-					<span class="font-semibold text-gray-900 dark:text-white"
-						>{Number(currentPage) == totalPages ? totalItems : perPage * Number(currentPage)}</span
-					>
-					of <span class="font-semibold text-gray-900 dark:text-white">{totalItems}</span> Entries
-				</div>
-
-				<div class="flex w-full justify-center">
-					<Pagination
-						{pages}
-						activeClass="bg-blue-500 text-white"
-						on:previous={(e) => {
-							e.preventDefault();
-							if (Number(currentPage) - 1 < 1) return;
-							goto(`?page=${Number(currentPage) - 1}`);
-						}}
-						on:next={(e) => {
-							e.preventDefault();
-							if (Number(currentPage) + 1 > totalPages) return;
-							goto(`?page=${Number(currentPage) + 1}`);
-						}}
-						on:click={goToH}
-					/>
-				</div>
-			</div>
-		{/if}
-	</slot>
 {:catch}
-	<div class="flex items-center justify-center min-h-screen justify-items-center">
-		Some error occured
-	</div>
+	<CollectionEmptyState
+		icon={ExclamationTriangle}
+		title="Loading error"
+		description="Some error occurred while loading records."
+	/>
 {/await}
