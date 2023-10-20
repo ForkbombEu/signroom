@@ -6,7 +6,8 @@ export const FieldType = {
 	BOOL: 'bool',
 	FILE: 'file',
 	SELECT: 'select',
-	RELATION: 'relation'
+	RELATION: 'relation',
+	JSON: 'json'
 } as const;
 
 export type FieldType = ValueOf<typeof FieldType>;

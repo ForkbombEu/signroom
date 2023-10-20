@@ -1,6 +1,6 @@
 <script>
 	import { Button } from 'flowbite-svelte';
-	import { getUIShellContext } from './UIShell.svelte';
+	import { getUIShellContext } from './UiShell.svelte';
 	import { Bars3 } from 'svelte-heros-v2';
 
 	const { toggleSidebar } = getUIShellContext();

@@ -7,6 +7,7 @@
 	import FieldRequiredIndicator from './fieldParts/fieldRequiredIndicator.svelte';
 
 	export let field: string;
+	export let label = '';
 
 	const { superform } = getFormContext();
 	const { value, errors, constraints } = formFieldProxy(superform, field);
@@ -24,7 +25,7 @@
 				{...$constraints}
 			/>
 			<div>
-				<span><slot /></span>
+				<span><slot>{label}</slot></span>
 				<FieldRequiredIndicator {field} />
 			</div>
 		</div>

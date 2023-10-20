@@ -14,8 +14,8 @@
 	export let field: string;
 	export let label = '';
 	export let collection: string | Collections;
-	export let multiple: boolean;
-	export let displayFields: RelationDisplayFields;
+	export let multiple = false;
+	export let displayFields: RelationDisplayFields = [];
 	export let max: number | undefined = undefined;
 	export let inputMode: RelationInputMode = 'search';
 

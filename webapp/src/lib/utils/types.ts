@@ -8,8 +8,14 @@ export type Link = {
 	text: string;
 };
 
+//
+
 export type PBRecord = Record<string, unknown>;
-export type PBResponse<T extends PBRecord = PBRecord, R = unknown> = T & BaseSystemFields<R>;
+export type PBExpand<T extends PBRecord = PBRecord> = Record<string, T | T[]>;
+
+export type PBResponse<R extends PBRecord = PBRecord, E extends PBExpand = PBExpand> = R &
+	BaseSystemFields<E>;
+
 export type PBResponseKeys<T> = Extract<keyof T, string>;
 
 export type IconComponent = typeof XCircle;
