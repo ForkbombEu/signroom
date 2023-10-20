@@ -5,6 +5,7 @@ import Input from './input.svelte';
 import Relations, { type RelationDisplayFields } from './relations.svelte';
 import Select from './select.svelte';
 import Textarea from './textarea.svelte';
+import Toggle from './toggle.svelte';
 
 import FieldError from './fieldParts/fieldError.svelte';
 import FieldLabel from './fieldParts/fieldLabel.svelte';
@@ -25,5 +26,6 @@ export {
 	FieldRequiredIndicator,
 	RelationDisplayFields,
 	isFile,
-	isFileArray
+	isFileArray,
+	Toggle
 };

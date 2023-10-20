@@ -10,7 +10,7 @@
 	export let options: string[] = [];
 	export let multiple = false;
 
-	const selectOptions: Array<SelectOptionType> = options.map((o) => {
+	const selectOptions: Array<SelectOptionType<string>> = options.map((o) => {
 		return { value: o, name: o };
 	});
 

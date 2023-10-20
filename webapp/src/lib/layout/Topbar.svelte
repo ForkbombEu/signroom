@@ -3,7 +3,7 @@
 </script>
 
 <div class="shrink-0 border-b">
-	<Navbar fluid class="!flex-nowrap !space-x-4 items-center !p-2 !md:p-4">
+	<Navbar fluid>
 		<div class="shrink-0 items-center justify-start">
 			<slot name="left" />
 		</div>
