@@ -40,7 +40,14 @@
 		serviceSchema,
 		async (e) => {
 			const formData = createFormData(e.form.data);
-			const record = await pb.collection(Collections.Services).create<ServicesResponse>(formData);
+			let record;
+			if (Boolean(initialData)) {
+				record = await pb
+					.collection(Collections.Services)
+					.update(initialData!.id, formData);
+			} else {
+				record = await pb.collection(Collections.Services).create<ServicesResponse>(formData);
+			}
 			await goto(`/my/organizations/${organizationId}/services/${record.id}`);
 		},
 		{
