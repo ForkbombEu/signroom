@@ -1,7 +1,9 @@
 <script lang="ts">
-	import { CollectionManager } from '$lib/collectionManager';
-	import CollectionManagerHeader from '$lib/collectionManager/ui/collectionManagerHeader.svelte';
-	import CollectionTable from '$lib/collectionManager/ui/collectionTable.svelte';
+	import {
+		CollectionManager,
+		CollectionManagerHeader,
+		CollectionTable
+	} from '$lib/collectionManager';
 	import { Collections, type TemplatesRecord } from '$lib/pocketbase/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
 
@@ -15,5 +17,5 @@
 	let:records
 >
 	<CollectionManagerHeader></CollectionManagerHeader>
-	<CollectionTable {records} fields={['name', 'ciao']} hideActions={['share', 'delete']} />
+	<CollectionTable {records} fields={['name']} hideActions={['share', 'delete']} />
 </CollectionManager>
