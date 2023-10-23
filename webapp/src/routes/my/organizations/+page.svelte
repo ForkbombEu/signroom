@@ -39,7 +39,7 @@
 							data-testid={`${org.name} link`}
 							size="sm"
 							color="alternative"
-							href={`/my/organizations/${org.id}`}
+							href={`/my/organizations/${org.id}/settings`}
 						>
 							Settings
 						</Button>
