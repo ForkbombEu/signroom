@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { pb } from '$lib/pocketbase';
 	import { ProtectedOrgLayout, ProtectedOrgUI, OrgRoles } from '$lib/rbac';
-	import { A, Button, ButtonGroup, Hr, P } from 'flowbite-svelte';
+	import { Button, ButtonGroup, P } from 'flowbite-svelte';
 
 	export let data;
 	$: organization = data.organization;
