@@ -1,7 +1,8 @@
 <script lang="ts">
+	import type { Link } from '$lib/utils/types';
 	import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
 
-	export let items: { label: string; href: string }[] = [];
+	export let items: Link[] = [];
 	export let homeIcon: any = undefined;
 </script>
 
@@ -14,7 +15,8 @@
 				</svelte:fragment>
 				Organizations</BreadcrumbItem
 			>
+		{:else}
+			<BreadcrumbItem href={item.href}>{item.text}</BreadcrumbItem>
 		{/if}
-		<BreadcrumbItem href={item.href}>{item.label}</BreadcrumbItem>
 	{/each}
 </Breadcrumb>
