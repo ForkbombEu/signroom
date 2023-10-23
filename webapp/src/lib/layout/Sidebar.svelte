@@ -32,7 +32,7 @@
 					<slot name="top" />
 				</div>
 			{/if}
-			<div class="h-0 grow">
+			<div class="h-0 grow overflow-y-auto">
 				<slot />
 			</div>
 			<div class="shrink-0">

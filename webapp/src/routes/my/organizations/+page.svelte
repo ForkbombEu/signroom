@@ -20,30 +20,32 @@
 </div>
 
 <div class="border rounded-lg divide-y">
-	{#if authorizations.length == 0}
-		<div class="p-4 text-gray-600">No organizations found. Create one!</div>
-	{:else}
-		{#each authorizations as a}
-			{@const org = a.expand.organization}
-			{@const role = a.expand.role}
-			<div class="px-4 py-3 flex justify-between items-center">
-				<div class="flex items-center space-x-4">
-					<P href={`/my/organizations/${org.id}`}>{org.name}</P>
-					{#if role.name == ADMIN || role.name == OWNER}
-						<Badge large color="dark">{c(role.name)}</Badge>
-					{/if}
+	{#if authorizations}
+		{#if authorizations.length == 0}
+			<div class="p-4 text-gray-600">No organizations found. Create one!</div>
+		{:else}
+			{#each authorizations as a}
+				{@const org = a.expand.organization}
+				{@const role = a.expand.role}
+				<div class="px-4 py-3 flex justify-between items-center">
+					<div class="flex items-center space-x-4">
+						<P href={`/my/organizations/${org.id}`}>{org.name}</P>
+						{#if role.name == ADMIN || role.name == OWNER}
+							<Badge large color="dark">{c(role.name)}</Badge>
+						{/if}
+					</div>
+					<ProtectedOrgUI orgId={org.id} roles={[ADMIN, OWNER]}>
+						<Button
+							data-testid={`${org.name} link`}
+							size="sm"
+							color="alternative"
+							href={`/my/organizations/${org.id}`}
+						>
+							Settings
+						</Button>
+					</ProtectedOrgUI>
 				</div>
-				<ProtectedOrgUI orgId={org.id} roles={[ADMIN, OWNER]}>
-					<Button
-						data-testid={`${org.name} link`}
-						size="sm"
-						color="alternative"
-						href={`/my/organizations/${org.id}`}
-					>
-						Settings
-					</Button>
-				</ProtectedOrgUI>
-			</div>
-		{/each}
+			{/each}
+		{/if}
 	{/if}
 </div>

@@ -17,14 +17,22 @@
 		DropdownDivider,
 		DropdownHeader,
 		DropdownItem,
+		Heading,
+		Hr,
+		P,
 		SidebarCta,
 		SidebarGroup,
 		SidebarItem
 	} from 'flowbite-svelte';
 	import DIDButton from '$lib/components/DIDButton.svelte';
 	import { Fire, Lifebuoy, UserCircle, WrenchScrewdriver } from 'svelte-heros-v2';
+	import { links } from './_partials/sidebarLinks';
+	import { createOrganizationLinks } from './_partials/organizationLinks';
 
-	import { links } from './sidebarLinks';
+	//
+
+	export let data;
+	let { authorizations } = data;
 
 	let sidebarLayoutBreakpoint = 1024;
 </script>
@@ -78,9 +86,25 @@
 				<SidebarCloseButton />
 			</div>
 		</svelte:fragment>
-		<SidebarLinks {links} />
-		<svelte:fragment slot="bottom"
-			><SidebarGroup class="px-2">
+
+		<div class="space-y-0">
+			<div class="p-3">
+				<SidebarLinks {links} />
+			</div>
+			{#if authorizations}
+				{@const links = authorizations.flatMap((a) =>
+					createOrganizationLinks(a.expand.organization)
+				)}
+				<Hr />
+				<p class="text-gray-500 text-xs font-medium tracking-wide p-4">ORGANIZATIONS</p>
+				<div class="p-3 pt-0">
+					<SidebarLinks {links} />
+				</div>
+			{/if}
+		</div>
+
+		<svelte:fragment slot="bottom">
+			<SidebarGroup class="px-2">
 				<SidebarCta label="Beta">
 					<p class="mb-3 text-sm text-blue-900 dark:text-blue-400">
 						You are one of the lucky few to try Signroom and all of its feature offerings first
