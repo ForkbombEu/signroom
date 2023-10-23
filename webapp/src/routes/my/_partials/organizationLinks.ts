@@ -23,7 +23,7 @@ export const createOrganizationLinks = (org: OrganizationsResponse): SidebarLink
 				},
 				{
 					label: 'Issuers',
-					href: base('/templates')
+					href: base('/issuers')
 				}
 			]
 		}

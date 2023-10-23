@@ -32,7 +32,7 @@
 	import JSONSchemaInput from './JSONSchemaInput.svelte';
 
 	export let organizationId: string;
-	export let initialData: ServicesRecord | undefined = undefined;
+	export let initialData: ServicesResponse | undefined = undefined;
 
 	const serviceSchema = fieldsSchemaToZod(getCollectionSchema(Collections.Services)!.schema);
 
@@ -42,9 +42,7 @@
 			const formData = createFormData(e.form.data);
 			let record;
 			if (Boolean(initialData)) {
-				record = await pb
-					.collection(Collections.Services)
-					.update(initialData!.id, formData);
+				record = await pb.collection(Collections.Services).update(initialData!.id, formData);
 			} else {
 				record = await pb.collection(Collections.Services).create<ServicesResponse>(formData);
 			}
