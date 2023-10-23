@@ -10,15 +10,10 @@
 	$: avatarPath = pb.files.getUrl(organization, organization.avatar);
 	$: activeUrl = $page.url.pathname;
 
-	const href = (path = '', i = 0) => {
-		let p = '';
-		Array.from(Array(i).keys()).forEach((x) => {
-			p = `${p}/${pathFragments[x]}`;
-			console.log(p, i);
-		});
-		return `/my/organizations/${organization.id}${p}${path}`;
+	const getHref = (pathFragments: string[] = []) => {
+		return `/my/organizations/${organization.id}/${pathFragments.join('/')}`;
 	};
-	$: pathFragments = (activeUrl && activeUrl.split(`${organization.id}/`)[1]?.split('/')) || [];
+	$: pathFragments = activeUrl?.split(`${organization.id}/`)[1]?.split('/') || [];
 </script>
 
 <!--  -->
@@ -31,9 +26,9 @@
 			</svelte:fragment>
 			Organizations</BreadcrumbItem
 		>
-		<BreadcrumbItem href={href()}>{organization.name}</BreadcrumbItem>
-		{#each pathFragments as link, i}
-			<BreadcrumbItem href={href(`/${link}`, i)}>{link}</BreadcrumbItem>
+		<BreadcrumbItem href={getHref()}>{organization.name}</BreadcrumbItem>
+		{#each pathFragments as fragment, i}
+			<BreadcrumbItem href={getHref(pathFragments.slice(0, i + 1))}>{fragment}</BreadcrumbItem>
 		{/each}
 	</Breadcrumb>
 </ProtectedOrgLayout>
