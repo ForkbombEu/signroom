@@ -29,7 +29,7 @@
 				{@const role = a.expand.role}
 				<div class="px-4 py-3 flex justify-between items-center">
 					<div class="flex items-center space-x-4">
-						<P href={`/my/organizations/${org.id}`}>{org.name}</P>
+						<A href={`/my/organizations/${org.id}`}>{org.name}</A>
 						{#if role.name == ADMIN || role.name == OWNER}
 							<Badge large color="dark">{c(role.name)}</Badge>
 						{/if}
