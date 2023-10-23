@@ -131,6 +131,7 @@
 	</div>
 
 	<Checkbox field="add_ons">Use add-ons</Checkbox>
+	<Checkbox field="published">Published</Checkbox>
 
 	<Hr />
 
