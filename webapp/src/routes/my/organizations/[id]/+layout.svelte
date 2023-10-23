@@ -1,39 +1,39 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 	import { pb } from '$lib/pocketbase';
 	import { ProtectedOrgLayout } from '$lib/rbac';
-	import { Breadcrumb, BreadcrumbItem, Hr } from 'flowbite-svelte';
+	import { Hr } from 'flowbite-svelte';
 	import { UserGroup } from 'svelte-heros-v2';
 
 	export let data;
 	$: organization = data.organization;
 	$: avatarPath = pb.files.getUrl(organization, organization.avatar);
 	$: activeUrl = $page.url.pathname;
-
-	const getHref = (pathFragments: string[] = []) => {
-		return `/my/organizations/${organization.id}/${pathFragments.join('/')}`;
-	};
 	$: pathFragments = activeUrl?.split(`${organization.id}/`)[1]?.split('/') || [];
+	let breadcrumbItems:{label:string, href:string}[] = []
+
+	$: {
+		breadcrumbItems = [
+			{ label: 'Organizations', href: '/my/organizations' },
+			{ label: organization?.name, href: `/my/organizations/${organization?.id}` }
+		];
+
+		pathFragments?.forEach((fragment, i) => {
+			breadcrumbItems.push({
+				label: fragment,
+				href: `/my/organizations/${organization?.id}/${pathFragments.slice(0, i + 1).join('/')}`
+			});
+		});
+	}
 </script>
 
 <!--  -->
 
 <ProtectedOrgLayout orgId={organization.id}>
-	<Breadcrumb aria-label="breadcrumb">
-		<BreadcrumbItem href="/my/organizations" home>
-			<svelte:fragment slot="icon">
-				<UserGroup class="w-5 h-5 mr-2" />
-			</svelte:fragment>
-			Organizations</BreadcrumbItem
-		>
-		<BreadcrumbItem href={getHref()}>{organization.name}</BreadcrumbItem>
-		{#each pathFragments as fragment, i}
-			<BreadcrumbItem href={getHref(pathFragments.slice(0, i + 1))}>{fragment}</BreadcrumbItem>
-		{/each}
-	</Breadcrumb>
-</ProtectedOrgLayout>
-<Hr />
+	<Breadcrumb items={breadcrumbItems} homeIcon={UserGroup} />
 
-<ProtectedOrgLayout orgId={organization.id}>
+	<Hr />
+
 	<slot />
 </ProtectedOrgLayout>
