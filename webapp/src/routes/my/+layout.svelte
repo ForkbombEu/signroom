@@ -28,6 +28,7 @@
 	import { Fire, Lifebuoy, UserCircle, WrenchScrewdriver } from 'svelte-heros-v2';
 	import { links } from './_partials/sidebarLinks';
 	import { createOrganizationLinks } from './_partials/organizationLinks';
+	import { OrgRoles } from '$lib/rbac';
 
 	//
 
@@ -92,9 +93,12 @@
 				<SidebarLinks {links} />
 			</div>
 			{#if authorizations}
-				{@const links = authorizations.flatMap((a) =>
-					createOrganizationLinks(a.expand.organization)
-				)}
+				{@const links = authorizations.flatMap((a) => {
+					const userRole = a.expand.role.name;
+					const isOwner = userRole == OrgRoles.OWNER;
+					const isAdmin = userRole == OrgRoles.ADMIN;
+					return createOrganizationLinks(a.expand.organization, isAdmin || isOwner);
+				})}
 				<Hr />
 				<p class="text-gray-500 text-xs font-medium tracking-wide p-4">ORGANIZATIONS</p>
 				<div class="p-3 pt-0">

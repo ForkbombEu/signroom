@@ -10,8 +10,9 @@
 	$: organization = data.organization;
 	$: avatarPath = pb.files.getUrl(organization, organization.avatar);
 	$: activeUrl = $page.url.pathname;
+
 	$: pathFragments = activeUrl?.split(`${organization.id}/`)[1]?.split('/') || [];
-	let breadcrumbItems:{label:string, href:string}[] = []
+	let breadcrumbItems: { label: string; href: string }[] = [];
 
 	$: {
 		breadcrumbItems = [
