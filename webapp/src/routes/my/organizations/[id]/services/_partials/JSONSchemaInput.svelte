@@ -3,7 +3,7 @@
 	import { FieldWrapper } from '$lib/forms';
 	import { getFormContext } from '$lib/forms/form.svelte';
 	import { JSONSchemaField, JSONSchemaEditor } from 'json-schema-builder-svelte';
-	import { TabItem, Tabs } from 'flowbite-svelte';
+	import { Alert, P, TabItem, Tabs } from 'flowbite-svelte';
 
 	export let field: string;
 	export let label = '';
@@ -18,11 +18,15 @@
 <FieldWrapper {field} {label}>
 	<Tabs style="full">
 		<TabItem open={openPlain} title="Plain schema">
-			<JSONSchemaField bind:schema={$value}></JSONSchemaField>
+			<Alert color="yellow" border class="!p-3 text-xs mb-4">
+				If the schema was not created with the Visual Editor, changing mode will alter some fields
+				<strong>with breaking changes!</strong>.
+			</Alert>
+			<JSONSchemaField bind:schema={$value} />
 		</TabItem>
 		<TabItem open={openEditor} title="Visual editor">
 			<div class="space-y-6">
-				<JSONSchemaEditor bind:schema={$value} hide={['title', 'description']}></JSONSchemaEditor>
+				<JSONSchemaEditor bind:schema={$value} hide={['title', 'description']} />
 			</div>
 		</TabItem>
 	</Tabs>
