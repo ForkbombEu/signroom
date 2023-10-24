@@ -1,0 +1,12 @@
+diff a/webapp/src/routes/my/+layout.svelte b/webapp/src/routes/my/+layout.svelte	(rejected hunks)
+@@ -71,7 +71,9 @@
+ 				<SidebarCloseButton />
+ 			</div>
+ 		</svelte:fragment>
+-		<SidebarLinks {links} />
++		<div class="p-3">
++			<SidebarLinks {links} />
++		</div>
+ 		<svelte:fragment slot="bottom">bottom</svelte:fragment>
+ 	</Sidebar>
+ 
