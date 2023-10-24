@@ -2,8 +2,13 @@
 	import { formFieldProxy } from 'sveltekit-superforms/client';
 	import { FieldWrapper } from '$lib/forms';
 	import { getFormContext } from '$lib/forms/form.svelte';
-	import { JSONSchemaField, JSONSchemaEditor } from 'json-schema-builder-svelte';
-	import { Alert, P, TabItem, Tabs } from 'flowbite-svelte';
+	import {
+		JSONSchemaField,
+		JSONSchemaEditor,
+		type JSONSchemaInput
+	} from 'json-schema-builder-svelte';
+	import { Alert, TabItem, Tabs } from 'flowbite-svelte';
+	import { nanoid } from 'nanoid';
 
 	export let field: string;
 	export let label = '';
@@ -13,6 +18,9 @@
 
 	const openEditor = $value === '';
 	const openPlain = $value !== '';
+
+	let initialSchemaInput: Partial<JSONSchemaInput> = {};
+	if (!Boolean($value)) initialSchemaInput = { $id: `didroom-schema-${nanoid(5)}` };
 </script>
 
 <FieldWrapper {field} {label}>
@@ -26,7 +34,11 @@
 		</TabItem>
 		<TabItem open={openEditor} title="Visual editor">
 			<div class="space-y-6">
-				<JSONSchemaEditor bind:schema={$value} hide={['title', 'description']} />
+				<JSONSchemaEditor
+					bind:schema={$value}
+					hide={['title', 'description', 'id']}
+					{initialSchemaInput}
+				/>
 			</div>
 		</TabItem>
 	</Tabs>
