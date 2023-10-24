@@ -12,6 +12,7 @@
 
 	export let field: string;
 	export let label = '';
+	export let mode: 'create' | 'edit' = 'create';
 
 	const { superform } = getFormContext();
 	const { value } = formFieldProxy(superform, field);
@@ -20,7 +21,7 @@
 	const openPlain = $value !== '';
 
 	let initialSchemaInput: Partial<JSONSchemaInput> = {};
-	if (!Boolean($value)) initialSchemaInput = { $id: `didroom-schema-${nanoid(5)}` };
+	if (mode == 'create') initialSchemaInput = { $id: `didroom-schema-${nanoid(5)}` };
 </script>
 
 <FieldWrapper {field} {label}>
@@ -36,7 +37,7 @@
 			<div class="space-y-6">
 				<JSONSchemaEditor
 					bind:schema={$value}
-					hide={['title', 'description', 'id']}
+					hide={['id', 'title', 'description']}
 					{initialSchemaInput}
 				/>
 			</div>

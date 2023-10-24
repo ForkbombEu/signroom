@@ -30,7 +30,6 @@
 	import { goto } from '$app/navigation';
 	import { createFieldComponent } from '$lib/recordForm/fieldSchemaToInput.svelte';
 	import JSONSchemaInput from './JSONSchemaInput.svelte';
-	import { nanoid } from 'nanoid';
 
 	export let organizationId: string;
 	export let initialData: ServicesResponse | undefined = undefined;
@@ -168,13 +167,8 @@
 		fieldsSettings={{
 			hide: { organization: organizationId },
 			components: {
-				schema: createFieldComponent(JSONSchemaInput)
+				schema: createFieldComponent(JSONSchemaInput, { mode })
 			}
-		}}
-		initialData={{
-			...(mode == 'create' && {
-				schema: `{\n\t"$id": "signroom-org-${organizationId}-schema-${nanoid(5)}"\n}`
-			})
 		}}
 		on:success={(e) => {
 			$form.templates = [...$form.templates, e.detail.record.id];
