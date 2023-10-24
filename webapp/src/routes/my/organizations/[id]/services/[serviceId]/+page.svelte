@@ -5,4 +5,4 @@
 </script>
 
 <pre>{JSON.stringify(data, null, 2)}</pre>
-<ServiceForm organizationId={data.organization.id} initialData={data.service} />
+<ServiceForm organizationId={data.organization.id} initialData={data.service} mode="edit" />
