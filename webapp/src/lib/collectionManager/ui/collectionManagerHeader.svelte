@@ -4,8 +4,11 @@
 	import { Trash, XMark } from 'svelte-heros-v2';
 	import { CreateRecord } from './recordActions';
 	import ModalWrapper from '$lib/components/modalWrapper.svelte';
+	import type { ComponentProps } from 'svelte';
 
 	//
+
+	export let headingTag: ComponentProps<Heading>['tag'] = 'h4';
 
 	const { collection, selectionManager, dataManager } = getRecordsManagerContext();
 	const { recordService, loadRecords } = dataManager;
@@ -27,7 +30,7 @@
 	{#if $$slots.title}
 		<slot name="title" />
 	{:else}
-		<Heading tag="h2">{collection}</Heading>
+		<Heading tag={headingTag}>{collection}</Heading>
 	{/if}
 	{#if description}
 		<P class="text-slate-600 pt-6">{description}</P>
