@@ -2,7 +2,7 @@
 	import { OrgRoles } from '$lib/rbac';
 	import { Heading, Button, A, P, Badge } from 'flowbite-svelte';
 	import { ProtectedOrgUI } from '$lib/rbac';
-	import { Plus } from 'svelte-heros-v2';
+	import { Plus, UserPlus } from 'svelte-heros-v2';
 	import { c } from '$lib/utils/strings.js';
 
 	export let data;
@@ -13,10 +13,16 @@
 
 <div class="flex justify-between items-center mb-6">
 	<Heading tag="h5">Your organizations</Heading>
-	<Button size="sm" color="alternative" class="!px-4 shrink-0" href="/my/organizations/create">
-		<Plus size="20" />
-		<span class="ml-1"> Create a new organization </span>
-	</Button>
+	<div class="flex justify-end gap-2">
+		<Button size="sm" color="alternative" class="!px-4 shrink-0" href="/my/organizations/join">
+			<UserPlus size="20" />
+			<span class="ml-1"> Join an organization </span>
+		</Button>
+		<Button size="sm" color="alternative" class="!px-4 shrink-0" href="/my/organizations/create">
+			<Plus size="20" />
+			<span class="ml-1"> Create a new organization </span>
+		</Button>
+	</div>
 </div>
 
 <div class="border rounded-lg divide-y">
