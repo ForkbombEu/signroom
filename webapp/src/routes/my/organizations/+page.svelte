@@ -70,7 +70,7 @@
 		<Heading tag="h5">Your join requests</Heading>
 		<div class="border rounded-lg divide-y">
 			{#each orgJoinRequests as request}
-				<div class="flex items-center justify-between space-x-4 p-3">
+				<div class="flex items-center justify-between space-x-4 py-3 px-4">
 					<div class="flex space-x-2">
 						<P>{request.expand?.organization.name}</P>
 						<Badge large color="yellow">Pending</Badge>
