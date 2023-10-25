@@ -1,0 +1,28 @@
+{
+  "name": "signroom",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "features": {
+    "ghcr.io/devcontainers/features/sshd:1": {
+      "version": "latest"
+    }
+  },
+  "postCreateCommand": "make setup",
+  "postStartCommand": "make dev",
+  "forwardPorts": [5173, 4173, 8090],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bradlc.vscode-tailwindcss",
+        "Cardinal90.multi-cursor-case-preserve",
+        "dbaeumer.vscode-eslint",
+        "EditorConfig.EditorConfig",
+        "esbenp.prettier-vscode",
+        "golang.go",
+        "lokalise.i18n-ally",
+        "ms-playwright.playwright",
+        "svelte.svelte-vscode",
+        "yoavbls.pretty-ts-errors"
+      ]
+    }
+  }
+}
