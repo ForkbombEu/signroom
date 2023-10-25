@@ -1,10 +1,16 @@
 <script lang="ts">
+	import { invalidateAll } from '$app/navigation';
 	import ModalWrapper from '$lib/components/modalWrapper.svelte';
 	import Input from '$lib/forms/fields/input.svelte';
 	import Form, { createForm } from '$lib/forms/form.svelte';
 	import SubmitButton from '$lib/forms/submitButton.svelte';
 	import { currentUser, pb } from '$lib/pocketbase/index.js';
-	import type { OrganizationsResponse } from '$lib/pocketbase/types.js';
+	import {
+		Collections,
+		OrgJoinRequestsStatusOptions,
+		type OrgJoinRequestsRecord,
+		type OrganizationsResponse
+	} from '$lib/pocketbase/types.js';
 	import clsx from 'clsx';
 	import { Avatar, Button, Heading, Modal, P } from 'flowbite-svelte';
 	import { z } from 'zod';
@@ -20,9 +26,14 @@
 	const formSchema = z.object({ email: z.string().email() });
 	const superform = createForm(
 		formSchema,
-		({ form }) => {
-			console.log('miao');
+		async ({ form }) => {
+			await pb.collection(Collections.OrgJoinRequests).create({
+				user: $currentUser?.id!,
+				organization: selectedOrganization?.id!,
+				status: OrgJoinRequestsStatusOptions.pending
+			} satisfies OrgJoinRequestsRecord);
 			selectedOrganization = undefined;
+			invalidateAll();
 		},
 		{ email: $currentUser?.email }
 	);
