@@ -1,0 +1,18 @@
+diff a/webapp/src/lib/collectionManager/ui/collectionManagerHeader.svelte b/webapp/src/lib/collectionManager/ui/collectionManagerHeader.svelte	(rejected hunks)
+@@ -8,6 +8,8 @@
+ 
+ 	//
+ 
++	export let headingTag: ComponentProps<Heading>['tag'] = 'h4';
++
+ 	const { collection, selectionManager, dataManager } = getRecordsManagerContext();
+ 	const { recordService, loadRecords } = dataManager;
+ 	const { selectedRecords, discardSelection } = selectionManager;
+@@ -15,7 +17,6 @@
+ 	let showDeleteModal = false;
+ 	let description: string | null = null;
+ 	let hideCreateButton: false;
+-	let headingTag: ComponentProps<Heading>['tag'] = 'h4';
+ 
+ 	async function deleteSelection() {
+ 		if (!$selectedRecords.length) return;
