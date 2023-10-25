@@ -15,7 +15,7 @@
 	import { createTypeProp } from '$lib/utils/typeProp.js';
 	import type { PBResponse } from '$lib/utils/types.js';
 	import { Button, Heading } from 'flowbite-svelte';
-	import { Check, UserGroup, XMark } from 'svelte-heros-v2';
+	import { ArrowUturnLeft, Check, UserGroup, XMark } from 'svelte-heros-v2';
 
 	export let data;
 	$: organization = data.organization;
@@ -139,7 +139,7 @@
 							appendRequest(record);
 						}}
 					>
-						<Check size="20" />
+						<ArrowUturnLeft size="20" />
 						<span class="ml-1"> Move to pending </span>
 					</Button>
 				</svelte:fragment>
