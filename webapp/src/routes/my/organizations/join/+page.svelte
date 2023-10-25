@@ -9,19 +9,27 @@
 		Collections,
 		OrgJoinRequestsStatusOptions,
 		type OrgJoinRequestsRecord,
-		type OrganizationsResponse
+		type OrganizationsResponse,
+		type OrgJoinRequestsResponse
 	} from '$lib/pocketbase/types.js';
 	import clsx from 'clsx';
 	import { Avatar, Button, Heading, Modal, P } from 'flowbite-svelte';
 	import { z } from 'zod';
 
+	//
+
 	export let data;
-	let { organizations } = data;
+	$: organizations = data.organizations;
+	$: orgJoinRequests = data.orgJoinRequests;
+
+	//
 
 	let selectedOrganization: OrganizationsResponse | undefined = undefined;
 	function selectOrganization(org: OrganizationsResponse) {
 		selectedOrganization = org;
 	}
+
+	//
 
 	const formSchema = z.object({ email: z.string().email() });
 	const superform = createForm(
@@ -30,13 +38,20 @@
 			await pb.collection(Collections.OrgJoinRequests).create({
 				user: $currentUser?.id!,
 				organization: selectedOrganization?.id!,
-				status: OrgJoinRequestsStatusOptions.pending
+				status: OrgJoinRequestsStatusOptions.pending,
+				email: form.data.email
 			} satisfies OrgJoinRequestsRecord);
 			selectedOrganization = undefined;
 			invalidateAll();
 		},
 		{ email: $currentUser?.email }
 	);
+
+	//
+
+	function isRequestAlreadySent(organization: OrganizationsResponse): boolean {
+		return Boolean(orgJoinRequests.find((request) => request.organization == organization.id));
+	}
 </script>
 
 <div class="space-y-8">
@@ -56,15 +71,19 @@
 						{/if}
 					</div>
 				</div>
-				<Button
-					color="alternative"
-					class="self-start shrink-0"
-					on:click={() => {
-						selectOrganization(org);
-					}}
-				>
-					Join
-				</Button>
+				{#if !isRequestAlreadySent(org)}
+					<Button
+						color="alternative"
+						class="self-start shrink-0"
+						on:click={() => {
+							selectOrganization(org);
+						}}
+					>
+						Join
+					</Button>
+				{:else}
+					<Button color="alternative" class="self-start shrink-0" disabled>Request sent</Button>
+				{/if}
 			</div>
 		{/each}
 	</div>
