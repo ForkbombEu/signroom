@@ -13,7 +13,7 @@
 		type OrgJoinRequestsResponse
 	} from '$lib/pocketbase/types.js';
 	import clsx from 'clsx';
-	import { Avatar, Button, Heading, Modal, P } from 'flowbite-svelte';
+	import { A, Avatar, Button, Heading, Modal, P } from 'flowbite-svelte';
 	import { z } from 'zod';
 
 	//
@@ -55,6 +55,7 @@
 </script>
 
 <div class="space-y-8">
+	<A href="/my/organizations">← My organizations</A>
 	<Heading tag="h4">Join an organization</Heading>
 	<div class="space-y-6">
 		{#each organizations as org}
@@ -71,19 +72,20 @@
 						{/if}
 					</div>
 				</div>
-				{#if !isRequestAlreadySent(org)}
-					<Button
-						color="alternative"
-						class="self-start shrink-0"
-						on:click={() => {
-							selectOrganization(org);
-						}}
-					>
-						Join
-					</Button>
-				{:else}
-					<Button color="alternative" class="self-start shrink-0" disabled>Request sent</Button>
-				{/if}
+				<div class="pl-8 shrink-0 self-start">
+					{#if !isRequestAlreadySent(org)}
+						<Button
+							color="alternative"
+							on:click={() => {
+								selectOrganization(org);
+							}}
+						>
+							Join
+						</Button>
+					{:else}
+						<Button color="alternative" disabled>Request sent</Button>
+					{/if}
+				</div>
 			</div>
 		{/each}
 	</div>
