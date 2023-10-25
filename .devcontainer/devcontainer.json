@@ -4,7 +4,8 @@
   "features": {
     "ghcr.io/devcontainers/features/sshd:1": {
       "version": "latest"
-    }
+    },
+    "ghcr.io/devcontainers-contrib/features/pnpm:2": { "version": "latest" }
   },
   "postCreateCommand": "make setup",
   "postStartCommand": "make dev",
