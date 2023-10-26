@@ -1,0 +1,22 @@
+diff a/webapp/src/lib/collectionManager/ui/collectionManagerHeader.svelte b/webapp/src/lib/collectionManager/ui/collectionManagerHeader.svelte	(rejected hunks)
+@@ -8,15 +8,15 @@
+ 
+ 	//
+ 
++	export let headingTag: ComponentProps<Heading>['tag'] = 'h4';
++	export let showDeleteModal = false;
++	export let description: string | null = null;
++	export let hideCreateButton = false;
++
+ 	const { collection, selectionManager, dataManager } = getRecordsManagerContext();
+ 	const { recordService, loadRecords } = dataManager;
+ 	const { selectedRecords, discardSelection } = selectionManager;
+ 
+-	let showDeleteModal = false;
+-	let description: string | null = null;
+-	let hideCreateButton: false;
+-	let headingTag: ComponentProps<Heading>['tag'] = 'h4';
+-
+ 	async function deleteSelection() {
+ 		if (!$selectedRecords.length) return;
+ 		await Promise.all([...$selectedRecords.map((id) => recordService.delete(id))]);

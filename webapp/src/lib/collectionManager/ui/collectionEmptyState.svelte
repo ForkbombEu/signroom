@@ -7,6 +7,7 @@
 	export let title = 'No records here!';
 	export let description = 'Start by adding a record to this collection.';
 	export let icon: IconComponent = XCircle;
+	export let hideCreateButton: boolean = false;
 </script>
 
 <div class="w-full p-10 text-center border-2 rounded-lg">
@@ -18,6 +19,8 @@
 			<Heading tag="h4">{title}</Heading>
 			<P class="w-fit text-gray-400 font-medium">{description}</P>
 		</div>
-		<CreateRecord />
+		{#if !hideCreateButton}
+			<CreateRecord />
+		{/if}
 	</div>
 </div>
