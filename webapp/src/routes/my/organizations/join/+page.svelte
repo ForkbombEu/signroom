@@ -3,6 +3,7 @@
 	import ModalWrapper from '$lib/components/modalWrapper.svelte';
 	import Input from '$lib/forms/fields/input.svelte';
 	import Form, { createForm } from '$lib/forms/form.svelte';
+	import FormError from '$lib/forms/formError.svelte';
 	import SubmitButton from '$lib/forms/submitButton.svelte';
 	import { currentUser, pb } from '$lib/pocketbase/index.js';
 	import {
@@ -98,6 +99,7 @@
 	>
 		<Form {superform}>
 			<Input field="email" />
+			<FormError />
 			<div class="flex justify-end">
 				<SubmitButton>Send request</SubmitButton>
 			</div>
