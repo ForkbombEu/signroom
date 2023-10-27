@@ -10,8 +10,7 @@
 		Collections,
 		OrgJoinRequestsStatusOptions,
 		type OrgJoinRequestsRecord,
-		type OrganizationsResponse,
-		type OrgJoinRequestsResponse
+		type OrganizationsResponse
 	} from '$lib/pocketbase/types.js';
 	import clsx from 'clsx';
 	import { A, Avatar, Button, Heading, Modal, P } from 'flowbite-svelte';
