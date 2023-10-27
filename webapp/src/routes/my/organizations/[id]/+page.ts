@@ -1,5 +1,10 @@
 import { pb } from '$lib/pocketbase';
-import { Collections, type ServicesResponse } from '$lib/pocketbase/types.js';
+import {
+	Collections,
+	OrgJoinRequestsStatusOptions,
+	type OrgJoinRequestsResponse,
+	type ServicesResponse
+} from '$lib/pocketbase/types.js';
 
 export const load = async ({ parent }) => {
 	const { organization } = await parent();
@@ -9,5 +14,11 @@ export const load = async ({ parent }) => {
 		sort: 'updated'
 	});
 
-	return { services };
+	const requests = await pb
+		.collection(Collections.OrgJoinRequests)
+		.getFullList<OrgJoinRequestsResponse>({
+			filter: `organization.id = '${organization.id}' && status = "${OrgJoinRequestsStatusOptions.pending}"`
+		});
+
+	return { services, requests };
 };

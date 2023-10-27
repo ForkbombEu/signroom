@@ -4,11 +4,20 @@
 	import { ProtectedOrgUI } from '$lib/rbac';
 	import { Plus, UserPlus } from 'svelte-heros-v2';
 	import { c } from '$lib/utils/strings.js';
+	import { pb } from '$lib/pocketbase/index.js';
+	import { Collections } from '$lib/pocketbase/types.js';
+	import { invalidateAll } from '$app/navigation';
 
 	export let data;
-	let { authorizations } = data;
+	$: authorizations = data.authorizations;
+	$: orgJoinRequests = data.orgJoinRequests;
 
 	const { ADMIN, OWNER } = OrgRoles;
+
+	async function deleteJoinRequest(requestId: string) {
+		await pb.collection(Collections.OrgJoinRequests).delete(requestId);
+		invalidateAll();
+	}
 </script>
 
 <div class="flex justify-between items-center mb-6">
@@ -55,3 +64,28 @@
 		{/if}
 	{/if}
 </div>
+
+{#if orgJoinRequests.length}
+	<div class="mt-8 space-y-4">
+		<Heading tag="h5">Your join requests</Heading>
+		<div class="border rounded-lg divide-y">
+			{#each orgJoinRequests as request}
+				<div class="flex items-center justify-between space-x-4 py-3 px-4">
+					<div class="flex space-x-2">
+						<P>{request.expand?.organization.name}</P>
+						<Badge large color="yellow">Pending</Badge>
+					</div>
+					<Button
+						color="alternative"
+						size="sm"
+						on:click={() => {
+							deleteJoinRequest(request.id);
+						}}
+					>
+						Undo request
+					</Button>
+				</div>
+			{/each}
+		</div>
+	</div>
+{/if}
