@@ -38,10 +38,13 @@
 
 	async function acceptRequest(request: PBResponse<OrgJoinRequestsRecord>) {
 		await updateRequestStatus(request, accepted);
+		const memberRole = await pb
+			.collection(Collections.OrgRoles)
+			.getFirstListItem(`name = "${OrgRoles.MEMBER}"`);
 		await pb.collection(Collections.OrgAuthorizations).create({
 			organization: organization.id,
 			user: request.user,
-			role: OrgRoles.MEMBER
+			role: memberRole.id
 		} satisfies OrgAuthorizationsRecord);
 	}
 
@@ -76,7 +79,7 @@
 			</CollectionManagerHeader>
 			<CollectionTable
 				records={pendingRequests}
-				fields={['user', 'email', 'status']}
+				fields={['user', 'status']}
 				hideActions={['edit', 'share', 'select']}
 			>
 				<svelte:fragment slot="emptyState">
@@ -120,7 +123,7 @@
 			</CollectionManagerHeader>
 			<CollectionTable
 				records={rejectedRequests}
-				fields={['user', 'email', 'status']}
+				fields={['user', 'status']}
 				hideActions={['edit', 'share', 'select']}
 			>
 				<svelte:fragment slot="emptyState">
