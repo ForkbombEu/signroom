@@ -1,10 +1,6 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import ModalWrapper from '$lib/components/modalWrapper.svelte';
-	import Input from '$lib/forms/fields/input.svelte';
-	import Form, { createForm } from '$lib/forms/form.svelte';
-	import FormError from '$lib/forms/formError.svelte';
-	import SubmitButton from '$lib/forms/submitButton.svelte';
 	import { currentUser, pb } from '$lib/pocketbase/index.js';
 	import {
 		Collections,
@@ -14,7 +10,6 @@
 	} from '$lib/pocketbase/types.js';
 	import clsx from 'clsx';
 	import { A, Avatar, Button, Heading, Modal, P } from 'flowbite-svelte';
-	import { z } from 'zod';
 
 	//
 
@@ -29,25 +24,15 @@
 		selectedOrganization = org;
 	}
 
-	//
-
-	const formSchema = z.object({ email: z.string().email() });
-	const superform = createForm(
-		formSchema,
-		async ({ form }) => {
-			await pb.collection(Collections.OrgJoinRequests).create({
-				user: $currentUser?.id!,
-				organization: selectedOrganization?.id!,
-				status: OrgJoinRequestsStatusOptions.pending,
-				email: form.data.email
-			} satisfies OrgJoinRequestsRecord);
-			selectedOrganization = undefined;
-			invalidateAll();
-		},
-		{ email: $currentUser?.email }
-	);
-
-	//
+	async function sendJoinRequest() {
+		await pb.collection(Collections.OrgJoinRequests).create({
+			user: $currentUser?.id!,
+			organization: selectedOrganization?.id!,
+			status: OrgJoinRequestsStatusOptions.pending
+		} satisfies OrgJoinRequestsRecord);
+		selectedOrganization = undefined;
+		invalidateAll();
+	}
 
 	function isRequestAlreadySent(organization: OrganizationsResponse): boolean {
 		return Boolean(orgJoinRequests.find((request) => request.organization == organization.id));
@@ -96,12 +81,9 @@
 		title={`Send a request to ${selectedOrganization?.name}`}
 		open={Boolean(selectedOrganization)}
 	>
-		<Form {superform}>
-			<Input field="email" />
-			<FormError />
-			<div class="flex justify-end">
-				<SubmitButton>Send request</SubmitButton>
-			</div>
-		</Form>
+		<P>Please confirm that you want to join this organization.</P>
+		<div class="flex justify-end">
+			<Button on:click={sendJoinRequest}>Send join request</Button>
+		</div>
 	</Modal>
 </ModalWrapper>
