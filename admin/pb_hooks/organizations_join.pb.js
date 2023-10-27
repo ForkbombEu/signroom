@@ -46,3 +46,56 @@ onRecordAfterCreateRequest((e) => {
         console.log(JSON.stringify(e));
     }
 }, "orgJoinRequests");
+
+onRecordAfterUpdateRequest((e) => {
+    try {
+        console.log("Hook - orgJoinRequests - Sending email to user");
+
+        const USER_KEY = "user";
+        const ORGANIZATION_KEY = "organization";
+
+        const status = e.record.get("status");
+        if (status == "pending") return;
+
+        $app.dao().expandRecord(e.record, [USER_KEY, ORGANIZATION_KEY]);
+
+        const userEmail = e.record.expandedOne(USER_KEY).get("email");
+        /** @type {mail.Address} */
+        const userAddress = { address: userEmail };
+
+        const organizationName = e.record
+            .expandedOne(ORGANIZATION_KEY)
+            .get("name");
+
+        /**
+         * @typedef {Object} EmailContent
+         * @property {string} subject
+         * @property {string} html
+         */
+
+        /** @type {EmailContent} */
+        const successEmail = {
+            subject: `${organizationName} | Request accepted`,
+            html: `Welcome to ${organizationName}! Your request has been accepted!`,
+        };
+        /** @type {EmailContent} */
+        const rejectEmail = {
+            subject: `${organizationName} | Request declined`,
+            html: "Your join request has been declined.",
+        };
+
+        const message = new MailerMessage({
+            from: {
+                address: $app.settings().meta.senderAddress,
+                name: $app.settings().meta.senderName,
+            },
+            to: [userAddress],
+            ...(status == "accepted" ? successEmail : rejectEmail),
+        });
+
+        $app.newMailClient().send(message);
+    } catch (e) {
+        console.log(e);
+        console.log(JSON.stringify(e));
+    }
+}, "orgJoinRequests");
