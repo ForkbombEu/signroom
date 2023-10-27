@@ -28,7 +28,8 @@
 		await pb.collection(Collections.OrgJoinRequests).create({
 			user: $currentUser?.id!,
 			organization: selectedOrganization?.id!,
-			status: OrgJoinRequestsStatusOptions.pending
+			status: OrgJoinRequestsStatusOptions.pending,
+			reminders: 0
 		} satisfies OrgJoinRequestsRecord);
 		selectedOrganization = undefined;
 		invalidateAll();
