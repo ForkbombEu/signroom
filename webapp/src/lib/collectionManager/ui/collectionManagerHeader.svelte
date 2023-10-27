@@ -9,14 +9,13 @@
 	//
 
 	export let headingTag: ComponentProps<Heading>['tag'] = 'h4';
+	export let showDeleteModal = false;
+	export let description: string | null = null;
+	export let hideCreateButton = false;
 
 	const { collection, selectionManager, dataManager } = getRecordsManagerContext();
 	const { recordService, loadRecords } = dataManager;
 	const { selectedRecords, discardSelection } = selectionManager;
-
-	let showDeleteModal = false;
-	let description: string | null = null;
-	let hideCreateButton: false;
 
 	async function deleteSelection() {
 		if (!$selectedRecords.length) return;
