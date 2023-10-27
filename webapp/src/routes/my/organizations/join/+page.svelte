@@ -1,20 +1,15 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import ModalWrapper from '$lib/components/modalWrapper.svelte';
-	import Input from '$lib/forms/fields/input.svelte';
-	import Form, { createForm } from '$lib/forms/form.svelte';
-	import SubmitButton from '$lib/forms/submitButton.svelte';
 	import { currentUser, pb } from '$lib/pocketbase/index.js';
 	import {
 		Collections,
 		OrgJoinRequestsStatusOptions,
 		type OrgJoinRequestsRecord,
-		type OrganizationsResponse,
-		type OrgJoinRequestsResponse
+		type OrganizationsResponse
 	} from '$lib/pocketbase/types.js';
 	import clsx from 'clsx';
-	import { Avatar, Button, Heading, Modal, P } from 'flowbite-svelte';
-	import { z } from 'zod';
+	import { A, Avatar, Button, Heading, Modal, P } from 'flowbite-svelte';
 
 	//
 
@@ -29,25 +24,16 @@
 		selectedOrganization = org;
 	}
 
-	//
-
-	const formSchema = z.object({ email: z.string().email() });
-	const superform = createForm(
-		formSchema,
-		async ({ form }) => {
-			await pb.collection(Collections.OrgJoinRequests).create({
-				user: $currentUser?.id!,
-				organization: selectedOrganization?.id!,
-				status: OrgJoinRequestsStatusOptions.pending,
-				email: form.data.email
-			} satisfies OrgJoinRequestsRecord);
-			selectedOrganization = undefined;
-			invalidateAll();
-		},
-		{ email: $currentUser?.email }
-	);
-
-	//
+	async function sendJoinRequest() {
+		await pb.collection(Collections.OrgJoinRequests).create({
+			user: $currentUser?.id!,
+			organization: selectedOrganization?.id!,
+			status: OrgJoinRequestsStatusOptions.pending,
+			reminders: 0
+		} satisfies OrgJoinRequestsRecord);
+		selectedOrganization = undefined;
+		invalidateAll();
+	}
 
 	function isRequestAlreadySent(organization: OrganizationsResponse): boolean {
 		return Boolean(orgJoinRequests.find((request) => request.organization == organization.id));
@@ -55,6 +41,7 @@
 </script>
 
 <div class="space-y-8">
+	<A href="/my/organizations">← My organizations</A>
 	<Heading tag="h4">Join an organization</Heading>
 	<div class="space-y-6">
 		{#each organizations as org}
@@ -71,19 +58,20 @@
 						{/if}
 					</div>
 				</div>
-				{#if !isRequestAlreadySent(org)}
-					<Button
-						color="alternative"
-						class="self-start shrink-0"
-						on:click={() => {
-							selectOrganization(org);
-						}}
-					>
-						Join
-					</Button>
-				{:else}
-					<Button color="alternative" class="self-start shrink-0" disabled>Request sent</Button>
-				{/if}
+				<div class="pl-8 shrink-0 self-start">
+					{#if !isRequestAlreadySent(org)}
+						<Button
+							color="alternative"
+							on:click={() => {
+								selectOrganization(org);
+							}}
+						>
+							Join
+						</Button>
+					{:else}
+						<Button color="alternative" disabled>Request sent</Button>
+					{/if}
+				</div>
 			</div>
 		{/each}
 	</div>
@@ -94,11 +82,9 @@
 		title={`Send a request to ${selectedOrganization?.name}`}
 		open={Boolean(selectedOrganization)}
 	>
-		<Form {superform}>
-			<Input field="email" />
-			<div class="flex justify-end">
-				<SubmitButton>Send request</SubmitButton>
-			</div>
-		</Form>
+		<P>Please confirm that you want to join this organization.</P>
+		<div class="flex justify-end">
+			<Button on:click={sendJoinRequest}>Send join request</Button>
+		</div>
 	</Modal>
 </ModalWrapper>

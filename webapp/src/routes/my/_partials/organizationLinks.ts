@@ -3,7 +3,7 @@ import type { OrganizationsResponse } from '$lib/pocketbase/types';
 
 export const createOrganizationLinks = (
 	org: OrganizationsResponse,
-	showSettings: boolean = false
+	isAdminOrOwner = false
 ): SidebarLink[] => {
 	const base = (path = '') => `/my/organizations/${org.id}${path}`;
 
@@ -26,7 +26,10 @@ export const createOrganizationLinks = (
 		}
 	];
 
-	if (showSettings) subLinks.push({ label: 'Settings', href: base('/settings') });
+	if (isAdminOrOwner) {
+		subLinks.push({ label: 'Settings', href: base('/settings') });
+		subLinks.push({ label: 'Requests', href: base('/requests') });
+	}
 
 	return [
 		{
