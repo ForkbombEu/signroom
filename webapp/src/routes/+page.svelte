@@ -51,7 +51,7 @@
 
 <div class="flex flex-col gap-20">
 	<header>
-		<Navbar let:hidden let:toggle fluid={false} {navClass} {navDivClass}>
+		<Navbar let:hidden let:toggle fluid={false}>
 			<NavBrand href="/">
 				<img src="/logo.svg" class="mr-3 h-6 sm:h-9" alt={`${appTitle} Logo`} />
 				<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">

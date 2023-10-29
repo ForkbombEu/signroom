@@ -4,7 +4,7 @@
 		type AuthorizationsRecord,
 		type SignaturesRecord
 	} from '$lib/pocketbase/types';
-	import type { Record } from 'pocketbase';
+	
 
 	import { RecordForm } from '$lib/recordForm';
 	import { Button, Modal, Spinner, P } from 'flowbite-svelte';
@@ -17,7 +17,7 @@
 	export let open = false;
 	export let record: PBResponse<SignaturesRecord>;
 
-	const dispatch = createEventDispatcher<{ add: {}; remove: {} }>();
+	const dispatch = createEventDispatcher<{ add: undefined; remove: undefined }>();
 
 	/* Load */
 

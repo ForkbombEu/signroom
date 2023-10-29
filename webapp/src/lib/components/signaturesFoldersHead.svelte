@@ -4,7 +4,7 @@
 	import { Collections, type FoldersRecord } from '$lib/pocketbase/types';
 
 	import { Heading, Spinner, A } from 'flowbite-svelte';
-	import type { Record } from 'pocketbase';
+	import type { RecordModel } from 'pocketbase';
 
 	//
 
@@ -13,7 +13,7 @@
 	let folderPromise = loadFolder();
 
 	async function loadFolder() {
-		return await pb.collection(Collections.Folders).getOne<FoldersRecord & Record>(folderId);
+		return await pb.collection(Collections.Folders).getOne<FoldersRecord & RecordModel>(folderId);
 	}
 </script>
 
