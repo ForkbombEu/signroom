@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { pb } from '$lib/pocketbase';
-	import { Collections } from '$lib/pocketbase/types';
+	import { Collections, OrgJoinRequestsStatusOptions } from '$lib/pocketbase/types';
 	import { goto } from '$app/navigation';
 	import { featureFlags } from '$lib/features';
 	import { z } from 'zod';
@@ -8,7 +8,11 @@
 	// Components
 	import { A, Heading, Hr, P } from 'flowbite-svelte';
 	import { Form, createForm, Input, Checkbox, FormError, SubmitButton } from '$lib/forms';
+	import { page } from '$app/stores';
 
+	const url = $page.url;
+
+	const join = url.searchParams.get('join');
 	//
 
 	const schema = z
@@ -24,12 +28,25 @@
 		const { data } = form;
 		const u = pb.collection(Collections.Users);
 		await u.create(data);
-		await u.authWithPassword(data.email, data.password);
+		const { record } = await u.authWithPassword(data.email, data.password);
 		await u.requestVerification(data.email);
+		//Join organization
+		if (Boolean(join)) {
+			await pb.collection(Collections.OrgJoinRequests).create({
+				user: record.id,
+				organization: join,
+				status: OrgJoinRequestsStatusOptions.pending,
+				reminders: 0
+			});
+			await goto('/my/organizations')
+			return
+		}
 		if ($featureFlags.KEYPAIROOM) {
 			await goto('/keypairoom');
+			return
 		} else {
 			await goto('/my');
+			return
 		}
 	});
 
