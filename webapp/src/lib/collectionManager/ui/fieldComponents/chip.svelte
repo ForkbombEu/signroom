@@ -1,7 +1,5 @@
 <script lang="ts">
-	import type { Record } from 'pocketbase';
-	import type { CrudExampleRecord } from '$lib/pocketbase/types';
-	import type { PBResponse } from '$lib/utils/types';
+	import type { PBResponse, PBRecord } from '$lib/utils/types';
 
 	export let value: unknown;
 	type RecordGeneric = $$Generic<PBRecord>;

@@ -14,7 +14,7 @@
 	import { Collections, type SignaturesRecord } from '$lib/pocketbase/types';
 	import { CollectionManager, CollectionTable, EditRecord } from '$lib/collectionManager';
 	import { page } from '$app/stores';
-	import type { Record, RecordFullListQueryParams } from 'pocketbase';
+	import type { RecordFullListOptions } from 'pocketbase';
 	import { Button, ButtonGroup, Toast } from 'flowbite-svelte';
 	import { Pencil, Share } from 'svelte-heros-v2';
 	import ShareSignature from './_partials/ShareSignature.svelte';
@@ -28,7 +28,7 @@
 
 	$: folderId = $page.url.searchParams.get('folder');
 
-	let initialQueryParams: RecordFullListQueryParams;
+	let initialQueryParams: RecordFullListOptions;
 	$: if (folderId) {
 		initialQueryParams = { filter: `folder.id="${folderId}"`, expand: 'folder' };
 	} else {
@@ -82,14 +82,12 @@
 			<SignaturesTableHead {folderId} {trigger} />
 			<CollectionTable
 				{records}
-				fields={['info', 'file']}
-				showCheckboxes={false}
+				fields={['_info', 'file']}
+				hideActions={["select", "delete", "edit"]}
 				fieldsComponents={{
 					info: Info,
 					file: Files
 				}}
-				showDelete={false}
-				showEdit={false}
 				let:record
 			>
 				{#if record.owner == $currentUser?.id}
@@ -132,6 +130,6 @@
 	{/if}
 {/key}
 
-<Toast simple position="bottom-right" color="indigo" transition={slide} bind:open={show}>
+<Toast position="bottom-right" color="indigo" transition={slide} bind:open={show}>
 	{content}
 </Toast>
