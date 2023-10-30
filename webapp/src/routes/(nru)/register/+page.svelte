@@ -38,7 +38,7 @@
 				status: OrgJoinRequestsStatusOptions.pending,
 				reminders: 0
 			});
-			await goto('/my/organizations')
+			await goto('/keypairoom?joined=true')
 			return
 		}
 		if ($featureFlags.KEYPAIROOM) {
