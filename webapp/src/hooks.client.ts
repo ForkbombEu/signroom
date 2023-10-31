@@ -13,7 +13,7 @@ Sentry.init({
 pb.authStore.loadFromCookie(document.cookie);
 pb.authStore.onChange(() => {
 	currentUser.set(pb.authStore.model as AuthStoreModel);
-	document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
+	document.cookie = pb.authStore.exportToCookie({ httpOnly: false, secure: false });
 });
 
 export const handleError = Sentry.handleErrorWithSentry();
