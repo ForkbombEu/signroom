@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -73,6 +74,7 @@ func main() {
 			Path:   "/api/did",
 			Handler: func(c echo.Context) error {
 				authRecord, _ := c.Get(apis.ContextAuthRecordKey).(*models.Record)
+				
 				if authRecord == nil {
 					return apis.NewForbiddenError("Only auth records can access this endpoint", nil)
 				}
@@ -81,6 +83,7 @@ func main() {
 				if err != nil {
 					return err
 				}
+
 
 				did, err := did.ClaimDid(conf, &did.DidAgent{
 					BitcoinPublicKey: authRecord.Get("bitcoin_public_key").(string),
@@ -95,6 +98,64 @@ func main() {
 				}
 
 				return c.JSON(http.StatusOK, did)
+			},
+			Middlewares: []echo.MiddlewareFunc{
+				apis.ActivityLogger(app),
+			},
+		})
+		e.Router.AddRoute(echo.Route{
+			Method: http.MethodGet,
+			Path:   "/api/organization/join/accept/:org_join_request/:token/:authorizationId",
+			Handler: func(c echo.Context) error {
+				token := c.PathParam("token")
+				orgJoinRequest := c.PathParam("org_join_request")
+				authRecord, err := app.Dao().FindAuthRecordByToken(token, app.Settings().RecordAuthToken.Secret)
+				if err != nil {
+					return err
+				}
+				if authRecord == nil {
+					c.HTML(http.StatusForbidden, "Forbidden")
+				}
+				record, err := app.Dao().FindRecordById("orgJoinRequests", orgJoinRequest)
+				if err != nil {
+					return err
+				}
+				if record == nil {
+					c.HTML(http.StatusNotFound, "Request not found")
+				}
+				
+				record.Set("status", "Accepted")
+
+				return c.HTML(http.StatusOK, "<h2>Join request accepted.")
+			},
+			Middlewares: []echo.MiddlewareFunc{
+				apis.ActivityLogger(app),
+			},
+		})
+		e.Router.AddRoute(echo.Route{
+			Method: http.MethodGet,
+			Path:   "/api/organization/join/reject/:org_join_request/:token/:authorizationId",
+			Handler: func(c echo.Context) error {
+				token := c.PathParam("token")
+				orgJoinRequest := c.PathParam("org_join_request")
+				authRecord, err := app.Dao().FindAuthRecordByToken(token, app.Settings().RecordAuthToken.Secret)
+				if err != nil {
+					return err
+				}
+				if authRecord == nil {
+					c.HTML(http.StatusForbidden, "Forbidden")
+				}
+				record, err := app.Dao().FindRecordById("orgJoinRequests", orgJoinRequest)
+				if err != nil {
+					return err
+				}
+				if record == nil {
+					c.HTML(http.StatusNotFound, "Request not found")
+				}
+				
+				record.Set("status", "Rejected")
+
+				return c.HTML(http.StatusOK, "<h2>Join request rejected.")
 			},
 			Middlewares: []echo.MiddlewareFunc{
 				apis.ActivityLogger(app),
