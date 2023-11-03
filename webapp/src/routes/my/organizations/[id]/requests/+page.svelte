@@ -16,6 +16,7 @@
 	import type { PBResponse } from '$lib/utils/types.js';
 	import { Button, Heading } from 'flowbite-svelte';
 	import { ArrowUturnLeft, Check, UserGroup, XMark } from 'svelte-heros-v2';
+	import User from './_partials/user.svelte';
 
 	export let data;
 	$: organization = data.organization;
@@ -81,6 +82,7 @@
 				records={pendingRequests}
 				fields={['user', 'status']}
 				hideActions={['edit', 'share', 'select']}
+				fieldsComponents={{"user":User}}
 			>
 				<svelte:fragment slot="emptyState">
 					<CollectionEmptyState

@@ -2,9 +2,11 @@
 	import { page } from '$app/stores';
 	import { A, Heading, Hr, P, List, Li } from 'flowbite-svelte';
 	import VanityMetric from '$lib/components/vanityMetric.svelte';
+	import { OrgRoles, ProtectedOrgUI } from '$lib/rbac/index.js';
 
 	export let data;
 	let { organization, services, requests } = data;
+	const { OWNER, ADMIN } = OrgRoles;
 
 	$: servicesInView = services.slice(0, 4);
 </script>
@@ -35,10 +37,11 @@
 		<A href={`${$page.url.pathname}/services`}>→ View all services</A>
 	</div>
 </div>
-
-<Hr />
-
-<div class="flex justify-between items-start">
-	<VanityMetric number={requests.length} text="Join requests" />
-	<A href={`${$page.url.pathname}/requests`}>→ Manage join requests</A>
-</div>
+<ProtectedOrgUI orgId={organization.id} roles={[ADMIN, OWNER]}>
+	<Hr />
+	
+	<div class="flex justify-between items-start">
+		<VanityMetric number={requests.length} text="Join requests" />
+		<A href={`${$page.url.pathname}/requests`}>→ Manage join requests</A>
+	</div>
+</ProtectedOrgUI>

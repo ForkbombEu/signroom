@@ -23,24 +23,39 @@ onRecordAfterCreateRequest((e) => {
             );
         $app.dao().expandRecords(recipients, ["user"]);
 
+        const appUrl = $app.settings().meta.appUrl
+        const joinRequestId = e.record.id
+        const getUrls = (recipient)=>({
+            accept:`${appUrl}/api/organization/join/accept/${joinRequestId}/${$tokens.recordAuthToken($app, recipient.expand().user)}/${recipient.id}`,
+            reject:`${appUrl}/api/organization/join/reject/${joinRequestId}/${$tokens.recordAuthToken($app, recipient.expand().user)}/${recipient.id}`,
+        })
+
         /**
          * @type {mail.Address[]}
          */
+        
         const recipientsAddresses = recipients
             .map((r) => r.expandedOne("user").get("email"))
             .map((e) => ({ address: e }));
 
-        const message = new MailerMessage({
-            from: {
-                address: $app.settings().meta.senderAddress,
-                name: $app.settings().meta.senderName,
-            },
-            to: recipientsAddresses,
-            subject: `${organizationName} | New join request`,
-            html: "Your organization receved a new join request",
-        });
+        const mailClient = $app.newMailClient()
 
-        $app.newMailClient().send(message);
+        recipients.forEach((recipient, i) =>{
+            const urls = getUrls(recipient)
+            const message = new MailerMessage({
+                from: {
+                    address: $app.settings().meta.senderAddress,
+                    name: $app.settings().meta.senderName,
+                },
+                to: recipientsAddresses,
+                subject: `${organizationName} | New join request`,
+                html: `Your organization receved a new join request from ${e.record.user}
+                <br />
+                <a href="${urls.accept}">accept</a> | <a href="${urls.reject}">reject</a>`,
+            });
+
+            mailClient.send(message);
+        })
     } catch (e) {
         console.log(e);
         console.log(JSON.stringify(e));
