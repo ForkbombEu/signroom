@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ModalWrapper from '$lib/components/modalWrapper.svelte';
+	import PortalWrapper from '$lib/components/portalWrapper.svelte';
 
 	import type { PBResponse, PBRecord } from '$lib/utils/types';
 
@@ -85,7 +85,7 @@
 {#await authorizationRequest}
 	<Spinner />
 {:then response}
-	<ModalWrapper>
+	<PortalWrapper>
 		<Modal bind:open size="md" title="Share signature">
 			<div class="w-full relative">
 				{#if !removeAccess}
@@ -134,5 +134,5 @@
 				{/if}
 			</div>
 		</Modal>
-	</ModalWrapper>
+	</PortalWrapper>
 {/await}

@@ -1,11 +1,21 @@
-<script lang="ts">
-	import { formFieldProxy } from 'sveltekit-superforms/client';
-	import { getFormContext } from '../form.svelte';
+<script lang="ts" context="module">
+	import type { HTMLInputAttributes } from 'svelte/elements';
 
-	export let field: string;
-
-	const { superform } = getFormContext();
-	const { value } = formFieldProxy(superform, field);
+	export type FormHiddenOptions = Partial<HTMLInputAttributes>;
 </script>
 
-<input type="hidden" id={field} name={field} bind:value={$value} />
+<script lang="ts">
+	import type { z } from 'zod';
+	import type { FormPathLeaves, ZodValidation } from 'sveltekit-superforms';
+	import { formFieldProxy, type SuperForm } from 'sveltekit-superforms/client';
+
+	type T = $$Generic<AnyZodObject>;
+
+	export let superform: SuperForm<ZodValidation<T>, any>;
+	export let field: FormPathLeaves<z.infer<T>>;
+	export let options: FormHiddenOptions = {};
+
+	const { value } = formFieldProxy(superform, field as string);
+</script>
+
+<input {...options} type="hidden" id={field} name={field} bind:value={$value} />

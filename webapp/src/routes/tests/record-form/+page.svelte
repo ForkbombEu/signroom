@@ -3,7 +3,14 @@
 	import Input from '$lib/forms/fields/input.svelte';
 	import Toggle from '$lib/forms/fields/toggle.svelte';
 	import { currentUser } from '$lib/pocketbase';
-	import { Collections, type CrudExampleRecord } from '$lib/pocketbase/types';
+	import {
+		Collections,
+		type CrudExampleRecord,
+		type FeaturesRecord,
+		type FeaturesResponse,
+		type UsersRecord,
+		type UsersResponse
+	} from '$lib/pocketbase/types';
 	import { RecordForm } from '$lib/recordForm';
 	import { createFieldComponent } from '$lib/recordForm/fieldSchemaToInput.svelte';
 	import { createTypeProp } from '$lib/utils/typeProp';
@@ -12,11 +19,17 @@
 	console.log(data.item);
 
 	const recordType = createTypeProp<CrudExampleRecord>();
+	const expandType = createTypeProp<{
+		relation: FeaturesResponse[];
+		relation_single: FeaturesResponse;
+		owner: UsersResponse;
+	}>();
 </script>
 
 <div class="max-w-xl mx-auto p-4">
 	<RecordForm
 		{recordType}
+		{expandType}
 		collection={Collections.CrudExample}
 		fieldsSettings={{
 			relations: {

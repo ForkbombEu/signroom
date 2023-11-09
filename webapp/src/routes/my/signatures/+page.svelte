@@ -69,7 +69,8 @@
 				hide: { owner: $currentUser?.id, type: undefined },
 				relations: {
 					folder: { displayFields: ['name'], inputMode: 'select' }
-				}
+				},
+				exclude:["signed_file"]
 			}}
 			editFormSettings={{
 				exclude: ['owner', 'type', 'file']
@@ -83,9 +84,9 @@
 			<CollectionTable
 				{records}
 				fields={['_info', 'file']}
-				hideActions={["select", "delete", "edit"]}
+				hideActions={["select", "delete", "edit", "share"]}
 				fieldsComponents={{
-					info: Info,
+					_info: Info,
 					file: Files
 				}}
 				let:record

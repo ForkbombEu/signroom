@@ -23,7 +23,7 @@
 </script>
 
 <Button
-	class={`${props.padding} ${!border ? '!border-transparent' : ''}`}
+	class={`${props.padding} ${!border ? '!border-transparent' : ''} !shrink-0`}
 	color="alternative"
 	on:click
 	{href}

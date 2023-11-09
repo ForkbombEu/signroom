@@ -4,7 +4,7 @@
 	import type { PBRecord, PBResponse } from '$lib/utils/types';
 	import { RecordForm } from '$lib/recordForm';
 
-	import ModalWrapper from '$lib/components/modalWrapper.svelte';
+	import PortalWrapper from '$lib/components/portalWrapper.svelte';
 	import { Button, Modal } from 'flowbite-svelte';
 	import { Pencil } from 'svelte-heros-v2';
 	import { getRecordsManagerContext } from '../../collectionManager.svelte';
@@ -43,7 +43,7 @@
 	</Button>
 </slot>
 
-<ModalWrapper>
+<PortalWrapper>
 	<Modal bind:open title="Edit record" size="md">
 		<div class="w-full">
 			<RecordForm
@@ -58,4 +58,4 @@
 			/>
 		</div>
 	</Modal>
-</ModalWrapper>
+</PortalWrapper>

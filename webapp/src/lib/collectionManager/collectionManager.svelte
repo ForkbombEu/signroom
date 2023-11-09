@@ -8,7 +8,10 @@
 
 	export const RECORDS_MANAGER_KEY = Symbol('rmk');
 
-	export type RecordsManagerContext<T = PBRecord> = {
+	export type RecordsManagerContext<
+		R extends PBRecord = PBRecord,
+		E extends PBExpand = PBExpand
+	> = {
 		collection: string;
 		dataManager: {
 			recordService: RecordService;
@@ -26,13 +29,16 @@
 			discardSelection: () => void;
 		};
 		formFieldsSettings: {
-			base: Partial<FieldsSettings<T>>;
-			create: Partial<FieldsSettings<T>>;
-			edit: Partial<FieldsSettings<T>>;
+			base: Partial<FieldsSettings<R, E>>;
+			create: Partial<FieldsSettings<R, E>>;
+			edit: Partial<FieldsSettings<R, E>>;
 		};
 	};
 
-	export function getRecordsManagerContext<T = PBRecord>(): RecordsManagerContext<T> {
+	export function getRecordsManagerContext<
+		R extends PBRecord = PBRecord,
+		E extends PBExpand = PBExpand
+	>(): RecordsManagerContext<R, E> {
 		return getContext(RECORDS_MANAGER_KEY);
 	}
 </script>

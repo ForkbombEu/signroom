@@ -1,20 +1,16 @@
 <script lang="ts" context="module">
-	import type { RelationDisplayFields } from '$lib/forms/fields';
-	import type { InputMode as RelationInputMode } from '$lib/components/relationsManager.svelte';
+	import type { RecordsManagerOptions } from '$lib/components/records/recordsManager.svelte';
 	import type { FieldComponentProp } from './fieldSchemaToInput.svelte';
 
-	export type RelationFieldSettings = {
-		displayFields: RelationDisplayFields;
-		inputMode: RelationInputMode;
-	};
+	type Extract<T> = T extends (infer U)[] ? U : T;
 
-	export type FieldsSettings<T> = {
-		labels: { [K in keyof T]?: string };
-		order: Array<keyof T>;
-		exclude: Array<keyof T>;
-		hide: { [K in keyof T]?: T[K] };
-		relations: { [K in keyof T]?: Partial<RelationFieldSettings> };
-		components: { [K in keyof T]?: FieldComponentProp };
+	export type FieldsSettings<R extends PBRecord = PBRecord, E extends PBExpand = PBExpand> = {
+		labels: { [K in keyof R]?: string };
+		order: Array<keyof R>;
+		exclude: Array<keyof R>;
+		hide: { [K in keyof R]?: R[K] };
+		relations: { [K in keyof E & keyof R]?: Partial<RecordsManagerOptions<Extract<E[K]>>> };
+		components: { [K in keyof R]?: FieldComponentProp };
 	};
 </script>
 
@@ -37,7 +33,7 @@
 	import { getCollectionSchema } from '$lib/pocketbase/schema';
 	import { fieldsSchemaToZod } from '$lib/pocketbaseToZod';
 	import FieldSchemaToInput from './fieldSchemaToInput.svelte';
-	import type { PBRecord, PBResponse } from '$lib/utils/types';
+	import type { PBExpand, PBRecord, PBResponse } from '$lib/utils/types';
 
 	//
 
@@ -45,14 +41,18 @@
 	export let recordType = createTypeProp<RecordGeneric>();
 	recordType;
 
+	type ExpandGeneric = $$Generic<PBExpand>;
+	export let expandType = createTypeProp<ExpandGeneric>();
+	expandType;
+
 	//
 
 	export let collection: Collections | string;
 	export let initialData: Partial<RecordGeneric> = {};
 	export let recordId = '';
 
-	export let fieldsSettings: Partial<FieldsSettings<RecordGeneric>> = {};
-	let { order = [], exclude = [], hide, relations, labels, components } = fieldsSettings;
+	export let fieldsSettings: Partial<FieldsSettings<RecordGeneric, ExpandGeneric>> = {};
+	let { order = [], exclude = [], hide, labels, components, relations } = fieldsSettings;
 
 	export let submitButtonText = '';
 
@@ -143,19 +143,10 @@
 <Form {superform} showRequiredIndicator>
 	{#each fieldsSchema as fieldSchema}
 		{@const hidden = hide ? Object.keys(hide).includes(fieldSchema.name) : false}
-		{@const relationFieldSettings = relations?.[fieldSchema.name]}
-		{@const relationDisplayFields = relationFieldSettings?.displayFields ?? []}
-		{@const relationInputMode = relationFieldSettings?.inputMode ?? 'search'}
 		{@const label = labels?.[fieldSchema.name] ?? fieldSchema.name}
 		{@const component = components?.[fieldSchema.name]}
-		<FieldSchemaToInput
-			{label}
-			{fieldSchema}
-			{hidden}
-			{relationDisplayFields}
-			{relationInputMode}
-			{component}
-		/>
+		{@const relationInputOptions = relations?.[fieldSchema.name] ?? {}}
+		<FieldSchemaToInput {label} {fieldSchema} {hidden} {component} {relationInputOptions} />
 	{/each}
 
 	<FormError />

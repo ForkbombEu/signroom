@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { Drawer } from 'flowbite-svelte';
-	import { sineIn } from 'svelte/easing';
+	import Drawer from '$lib/components/drawer.svelte';
 	import { getUIShellContext } from './UiShell.svelte';
 
 	const { isSidebarHidden } = getUIShellContext();
@@ -9,23 +8,15 @@
 	export let width = 'w-40';
 	export let backdrop = true;
 	export let closeOnClickOutside = true;
-
-	let transitionParams = {
-		x: placement == 'right' ? 320 : -320,
-		duration: 200,
-		easing: sineIn
-	};
 </script>
 
 <Drawer
-	transitionType="fly"
-	{backdrop}
-	{transitionParams}
 	bind:hidden={$isSidebarHidden}
-	activateClickOutside={closeOnClickOutside}
 	{placement}
-	class={`flex flex-col !p-0`}
 	{width}
+	{backdrop}
+	{closeOnClickOutside}
+	hideTopbar
 >
 	<slot />
 </Drawer>

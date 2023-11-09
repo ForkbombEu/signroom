@@ -4,3 +4,4 @@ import SubmitButton from './submitButton.svelte';
 
 export { Form, FormError, SubmitButton, createForm, createFormData };
 export * from './fields';
+export * from './utils';
