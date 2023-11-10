@@ -11,7 +11,7 @@
 	import SignaturesTableHead from '$lib/components/signaturesTableHead.svelte';
 
 	import { currentUser } from '$lib/pocketbase';
-	import { Collections, type SignaturesRecord } from '$lib/pocketbase/types';
+	import { Collections, type SignaturesRecord, type SignaturesResponse } from '$lib/pocketbase/types';
 	import { CollectionManager, CollectionTable, EditRecord } from '$lib/collectionManager';
 	import { page } from '$app/stores';
 	import type { RecordFullListOptions } from 'pocketbase';
@@ -22,9 +22,8 @@
 	import Info from './_partials/Info.svelte';
 	import Files from './_partials/Files.svelte';
 	import { createTypeProp } from '$lib/utils/typeProp';
-	import type { PBResponse } from '$lib/utils/types';
 
-	const recordType = createTypeProp<SignaturesRecord>();
+	const recordType = createTypeProp<SignaturesResponse>();
 
 	$: folderId = $page.url.searchParams.get('folder');
 
@@ -36,9 +35,9 @@
 	}
 
 	let shareModal = false;
-	let record: PBResponse<SignaturesRecord> | undefined = undefined;
+	let record: SignaturesResponse | undefined = undefined;
 
-	function openShareModal(r: PBResponse<SignaturesRecord>) {
+	function openShareModal(r: SignaturesResponse) {
 		shareModal = true;
 		record = r;
 	}
@@ -69,7 +68,8 @@
 				hide: { owner: $currentUser?.id, type: undefined },
 				relations: {
 					folder: { displayFields: ['name'], inputMode: 'select' }
-				}
+				},
+				exclude:["signed_file"]
 			}}
 			editFormSettings={{
 				exclude: ['owner', 'type', 'file']
@@ -83,9 +83,9 @@
 			<CollectionTable
 				{records}
 				fields={['_info', 'file']}
-				hideActions={["select", "delete", "edit"]}
+				hideActions={["select", "delete", "edit", "share"]}
 				fieldsComponents={{
-					info: Info,
+					_info: Info,
 					file: Files
 				}}
 				let:record

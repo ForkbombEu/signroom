@@ -4,7 +4,7 @@
 	import CreateRecord from '$lib/collectionManager/ui/recordActions/createRecord.svelte';
 	import {
 		Collections,
-		type OrgAuthorizationsRecord,
+		type OrgAuthorizationsResponse,
 		type OrgRolesResponse,
 		type UsersResponse
 	} from '$lib/pocketbase/types';
@@ -14,13 +14,11 @@
 	export let data;
 	$: organization = data.organization;
 
-	const recordType = createTypeProp<OrgAuthorizationsRecord>();
-	const expandType = createTypeProp<{ user: UsersResponse; role: OrgRolesResponse }>();
+	const recordType = createTypeProp<OrgAuthorizationsResponse<{ user: UsersResponse; role: OrgRolesResponse }>>();
 </script>
 
 <CollectionManager
 	{recordType}
-	{expandType}
 	collection={Collections.OrgAuthorizations}
 	formSettings={{
 		hide: { organization: organization.id },

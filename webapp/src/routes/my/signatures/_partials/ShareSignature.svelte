@@ -2,7 +2,13 @@
 	import {
 		Collections,
 		type AuthorizationsRecord,
-		type SignaturesRecord
+		type SignaturesRecord,
+
+		type SignaturesResponse,
+
+		type AuthorizationsResponse
+
+
 	} from '$lib/pocketbase/types';
 	
 
@@ -15,23 +21,23 @@
 	import { createTypeProp } from '$lib/utils/typeProp';
 
 	export let open = false;
-	export let record: PBResponse<SignaturesRecord>;
+	export let record: SignaturesResponse;
 
 	const dispatch = createEventDispatcher<{ add: undefined; remove: undefined }>();
 
 	/* Load */
 
-	type Authorization = PBResponse<AuthorizationsRecord>;
-	let authorizationRecord: Authorization | undefined;
+	// type Authorization = PBResponse<AuthorizationsRecord>;
+	let authorizationRecord: AuthorizationsResponse | undefined;
 	const authorizationRequest = loadAuthorization();
 
 	async function loadAuthorization(): Promise<{
-		authorization: Authorization | undefined;
+		authorization:  AuthorizationsResponse | undefined;
 	}> {
 		try {
 			const authorization = await pb
 				.collection(Collections.Authorizations)
-				.getFirstListItem<Authorization>(`record_id="${record.id}"`);
+				.getFirstListItem<AuthorizationsResponse>(`record_id="${record.id}"`);
 			authorizationRecord = authorization;
 			return { authorization };
 		} catch (e) {
@@ -62,7 +68,7 @@
 		open = false;
 		dispatch('remove');
 	}
-	export let recordType = createTypeProp<AuthorizationsRecord>();
+	export let recordType = createTypeProp<AuthorizationsResponse>();
 </script>
 
 {#await authorizationRequest}

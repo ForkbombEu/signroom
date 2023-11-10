@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Collections, type ServicesRecord } from '$lib/pocketbase/types';
+	import { Collections, type ServicesResponse } from '$lib/pocketbase/types';
 	import { CollectionManager, CollectionTable } from '$lib/collectionManager';
 	import { Eye, Plus } from 'svelte-heros-v2';
 	import { Button, Heading } from 'flowbite-svelte';
@@ -10,7 +10,7 @@
 	export let data;
 	let { organization } = data;
 
-	const recordType = createTypeProp<ServicesRecord>();
+	const recordType = createTypeProp<ServicesResponse>();
 
 	const serviceUrl = (id: string) => `${$page.url.pathname}/${id}`;
 </script>

@@ -1,15 +1,20 @@
 <script lang="ts">
 	import { currentUser } from '$lib/pocketbase';
-	import { Collections, type FoldersRecord, type SignaturesRecord } from '$lib/pocketbase/types';
+	import {
+		Collections,
+		type FoldersRecord,
+		type FoldersResponse,
+		type SignaturesRecord,
+		type SignaturesResponse
+	} from '$lib/pocketbase/types';
 	import { CollectionManager, CollectionManagerHeader, RecordCard } from '$lib/collectionManager';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { Heading } from 'flowbite-svelte';
 
 	const expandQuery = 'signatures(folder)';
 
-	const recordType = createTypeProp<
-		FoldersRecord & { expand: { [expandQuery]: SignaturesRecord[] } }
-	>();
+	const recordType =
+		createTypeProp<FoldersResponse<{ 'signatures(folder)': SignaturesResponse[] }>>();
 </script>
 
 <div class="p-4">
@@ -31,9 +36,9 @@
 		<div class="space-y-4">
 			<div class="gap-4 grid grid-cols-1 md:grid-cols-2">
 				{#each records as record}
-					{@const expand = record.expand[expandQuery]}
+					{@const expand = record.expand?.[expandQuery]}
 					<div class="grow">
-						<RecordCard {record} titleField="name" showEdit showDelete>
+						<RecordCard {record} titleField="name" hideActions={['select']}>
 							<div class="mb-3">
 								<a class="text-primary-500 underline" href={`/my/signatures?folder=${record.id}`}>
 									{#if expand}

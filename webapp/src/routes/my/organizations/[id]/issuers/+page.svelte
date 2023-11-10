@@ -4,15 +4,13 @@
 		CollectionManagerHeader,
 		CollectionTable
 	} from '$lib/collectionManager';
-	import { Collections, type ServicesRecord } from '$lib/pocketbase/types';
+	import { Collections, type ServicesResponse } from '$lib/pocketbase/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { Heading } from 'flowbite-svelte';
 
 	export let data;
-	let { organization } = data;
-	console.log(organization);
-
-	const recordType = createTypeProp<ServicesRecord>();
+	data
+	const recordType = createTypeProp<ServicesResponse>();
 </script>
 
 <CollectionManager {recordType} collection={Collections.Issuers} let:records>

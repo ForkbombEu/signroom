@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { formFieldProxy } from 'sveltekit-superforms/client';
+	import { formFieldProxy, type SuperForm } from 'sveltekit-superforms/client';
 	import { FieldWrapper } from '$lib/forms';
 	import { getFormContext } from '$lib/forms/form.svelte';
 	import {
@@ -9,12 +9,15 @@
 	} from 'json-schema-builder-svelte';
 	import { Alert, TabItem, Tabs } from 'flowbite-svelte';
 	import { nanoid } from 'nanoid';
+	import type { UnwrapEffects } from 'sveltekit-superforms';
+
+	type T = $$Generic<AnyZodObject>;
 
 	export let field: string;
 	export let label = '';
 	export let mode: 'create' | 'edit' = 'create';
+	export let superform: SuperForm<UnwrapEffects<T>, any>;
 
-	const { superform } = getFormContext();
 	const { value } = formFieldProxy(superform, field);
 
 	const openEditor = $value === '';

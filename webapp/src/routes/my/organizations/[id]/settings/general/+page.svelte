@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
-	import { Collections, type OrganizationsRecord } from '$lib/pocketbase/types';
+	import { Collections, type OrganizationsResponse } from '$lib/pocketbase/types';
 	import { RecordForm } from '$lib/recordForm';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { Heading } from 'flowbite-svelte';
@@ -10,7 +10,7 @@
 	export let data;
 	$: organization = data.organization;
 
-	const recordType = createTypeProp<OrganizationsRecord>();
+	const recordType = createTypeProp<OrganizationsResponse>();
 </script>
 
 <Heading tag="h6" class="mb-6">Manage your organization public info</Heading>

@@ -1,8 +1,7 @@
 <script lang="ts">
-	import type { ServicesResponse, TemplatesRecord } from '$lib/pocketbase/types';
-	import type { PBResponse } from '$lib/utils/types';
+	import type { ServicesResponse, TemplatesResponse } from '$lib/pocketbase/types';
 
-	export let record: PBResponse<TemplatesRecord, { 'services(templates)': ServicesResponse[] }>;
+	export let record: TemplatesResponse<{ 'services(templates)': ServicesResponse[] }>;
 </script>
 
 {JSON.stringify(record)}
