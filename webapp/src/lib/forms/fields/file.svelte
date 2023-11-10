@@ -16,8 +16,6 @@
 </script>
 
 <script lang="ts">
-	import type { an } from 'vitest/dist/reporters-cb94c88b';
-
 	import type { z } from 'zod';
 	import type { FormPath, ZodValidation } from 'sveltekit-superforms';
 	import { formFieldProxy, type SuperForm } from 'sveltekit-superforms/client';

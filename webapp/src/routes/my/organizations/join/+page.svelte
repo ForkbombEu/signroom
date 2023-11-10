@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
-	import ModalWrapper from '$lib/components/modalWrapper.svelte';
+	import PortalWrapper from '$lib/components/portalWrapper.svelte';
 	import { currentUser, pb } from '$lib/pocketbase/index.js';
 	import {
 		Collections,
@@ -77,7 +77,7 @@
 	</div>
 </div>
 
-<ModalWrapper>
+<PortalWrapper>
 	<Modal
 		title={`Send a request to ${selectedOrganization?.name}`}
 		open={Boolean(selectedOrganization)}
@@ -87,4 +87,4 @@
 			<Button on:click={sendJoinRequest}>Send join request</Button>
 		</div>
 	</Modal>
-</ModalWrapper>
+</PortalWrapper>

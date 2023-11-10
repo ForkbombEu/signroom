@@ -3,7 +3,6 @@
 	import {
 		Collections,
 		type IssuersRecord,
-		type ServicesRecord,
 		type ServicesResponse,
 		type TemplatesRecord
 	} from '$lib/pocketbase/types.js';
@@ -97,15 +96,18 @@
 </script>
 
 <Form {superform} showRequiredIndicator>
-	<Input field="name" placeholder="Service name" />
-	<Textarea field="description" placeholder="Service name" />
+	<Input field="name" options={{ placeholder: 'Service name' }} {superform} />
+	<Textarea field="description" options={{ placeholder: 'Service name' }} {superform} />
 
 	<div>
 		<Relations
 			collection={Collections.Issuers}
 			field="issuer"
-			inputMode="select"
-			displayFields={['name']}
+			options={{
+				inputMode: 'select',
+				displayFields: ['name']
+			}}
+			{superform}
 		/>
 		<div class="flex justify-end pt-4">
 			<Button color="alternative" size="xs" on:click={toggleIssuerDrawer}>
@@ -119,9 +121,12 @@
 		<Relations
 			collection={Collections.Templates}
 			field="templates"
-			inputMode="select"
-			displayFields={['name']}
-			multiple
+			options={{
+				inputMode:"select",
+				displayFields:['name'],
+				multiple:true
+			}}
+			{superform}
 		/>
 		<div class="flex justify-end pt-4">
 			<Button color="alternative" size="xs" on:click={toggleTemplateDrawer}>
@@ -131,8 +136,8 @@
 		</div>
 	</div>
 
-	<Checkbox field="add_ons">Use add-ons</Checkbox>
-	<Checkbox field="published">Published</Checkbox>
+	<Checkbox field="add_ons" {superform}>Use add-ons</Checkbox>
+	<Checkbox field="published" {superform}>Published</Checkbox>
 
 	<Hr />
 
@@ -167,7 +172,7 @@
 		fieldsSettings={{
 			hide: { organization: organizationId },
 			components: {
-				schema: createFieldComponent(JSONSchemaInput, { mode })
+				schema: createFieldComponent(JSONSchemaInput, { mode, superform })
 			}
 		}}
 		on:success={(e) => {

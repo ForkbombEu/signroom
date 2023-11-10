@@ -31,9 +31,9 @@
 		<div class="space-y-4">
 			<div class="gap-4 grid grid-cols-1 md:grid-cols-2">
 				{#each records as record}
-					{@const expand = record.expand[expandQuery]}
+					{@const expand = record.expand?.[expandQuery]}
 					<div class="grow">
-						<RecordCard {record} titleField="name" showEdit showDelete>
+						<RecordCard {record} titleField="name" hideActions={["edit", "share", "select"]}>
 							<div class="mb-3">
 								<a class="text-primary-500 underline" href={`/my/signatures?folder=${record.id}`}>
 									{#if expand}

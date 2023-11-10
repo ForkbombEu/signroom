@@ -8,7 +8,7 @@
 
 	export function createFieldComponent<C extends FieldComponent>(
 		component: ComponentType<C>,
-		props?: Omit<ComponentProps<C>, 'field'>,
+		props?: Partial<Omit<ComponentProps<C>, 'field'>>,
 		events?: ComponentEvents<C>
 	) {
 		return { component, props, events };
