@@ -20,7 +20,6 @@
 		{ email: $currentEmail },
 		{ taintedMessage: null }
 	);
-	const keys = schema.keyof().Enum;
 
 	const { capture, restore, form } = superform;
 	export const snapshot = { capture, restore };
@@ -30,13 +29,18 @@
 
 <Form {superform}>
 	<Input
-		id="email"
-		type="email"
-		label="Your email"
-		field={keys.email}
-		placeholder="name@foundation.org"
+		{superform}
+		field="email"
+		options={{
+			id: 'email',
+			type: 'email',
+			label: 'Your email',
+			placeholder: 'name@foundation.org'
+		}}
 	/>
+
 	<FormError />
+
 	<div class="flex justify-end">
 		<SubmitButton>Log in with webauthn</SubmitButton>
 	</div>

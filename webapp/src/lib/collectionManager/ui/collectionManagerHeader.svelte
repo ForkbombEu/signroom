@@ -3,7 +3,7 @@
 	import { getRecordsManagerContext } from '../collectionManager.svelte';
 	import { Trash, XMark } from 'svelte-heros-v2';
 	import { CreateRecord } from './recordActions';
-	import ModalWrapper from '$lib/components/modalWrapper.svelte';
+	import PortalWrapper from '$lib/components/portalWrapper.svelte';
 	import type { ComponentProps } from 'svelte';
 
 	//
@@ -63,7 +63,7 @@
 	</div>
 </div>
 
-<ModalWrapper>
+<PortalWrapper>
 	<Modal bind:open={showDeleteModal} title="Delete records" size="xs">
 		<div class="text-center space-y-6">
 			<P>
@@ -80,4 +80,4 @@
 			</div>
 		</div>
 	</Modal>
-</ModalWrapper>
+</PortalWrapper>

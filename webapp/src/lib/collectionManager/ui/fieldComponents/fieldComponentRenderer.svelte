@@ -1,31 +1,28 @@
 <script lang="ts" context="module">
-	import type { PBRecord, PBResponse } from '$lib/utils/types';
-	import type { SvelteComponentTyped } from 'svelte';
+	import type { PBResponse } from '$lib/utils/types';
+	import type { SvelteComponent } from 'svelte';
 
-	export type FieldComponent<RecordGeneric extends PBRecord = PBRecord> =
-		typeof SvelteComponentTyped<{
+	export type FieldComponent<RecordGeneric extends PBResponse = PBResponse> =
+		typeof SvelteComponent<{
 			value?: unknown;
-			record?: PBResponse<RecordGeneric>;
+			record?: RecordGeneric;
 		}>;
-
-	export type FieldsComponents<RecordGeneric extends PBRecord = PBRecord> = Record<
-		string,
-		FieldComponent<RecordGeneric>
-	>;
 </script>
 
 <script lang="ts">
-	type RecordGeneric = $$Generic<PBRecord>;
+	type RecordGeneric = $$Generic<PBResponse>;
 
-	export let record: PBResponse<RecordGeneric>;
+	export let record: RecordGeneric;
 	export let field: string;
 	export let component: FieldComponent | undefined;
+	export let showLabel: boolean = false;
 
-	const value = record[field];
+	$: value = record[field];
+	$: text = showLabel ? `${field}: ${value}` : field;
 </script>
 
 {#if component}
 	<svelte:component this={component} {record} {value} />
 {:else}
-	<div>{value}</div>
+	<div>{text}</div>
 {/if}
