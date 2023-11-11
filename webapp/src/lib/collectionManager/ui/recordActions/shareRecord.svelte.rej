@@ -1,0 +1,28 @@
+diff a/webapp/src/lib/collectionManager/ui/recordActions/shareRecord.svelte b/webapp/src/lib/collectionManager/ui/recordActions/shareRecord.svelte	(rejected hunks)
+@@ -1,22 +1,15 @@
+ <script lang="ts">
+-	import type { PBResponse, PBRecord } from '$lib/utils/types';
+-
++	import type { PBResponse } from '$lib/utils/types';
+ 	import { createTypeProp } from '$lib/utils/typeProp';
+-
+-	import {
+-		Collections,
+-		type AuthorizationsRecord,
+-		type AuthorizationsResponse
+-	} from '$lib/pocketbase/types';
+-
++	import { Collections, type AuthorizationsResponse } from '$lib/pocketbase/types';
+ 	import { RecordForm } from '$lib/recordForm';
+ 	import { Button, Modal, Spinner, P } from 'flowbite-svelte';
+ 	import { currentUser, pb } from '$lib/pocketbase';
+ 	import { ArrowLeft, Share, Trash } from 'svelte-heros-v2';
+ 	import { createEventDispatcher } from 'svelte';
+ 
+-	type RecordGeneric = $$Generic<PBRecord>;
+-	export let record: PBResponse<RecordGeneric>;
++	type RecordGeneric = $$Generic<PBResponse>;
++	export let record: RecordGeneric;
+ 
+ 	const dispatch = createEventDispatcher<{ add: undefined; remove: undefined }>();
+ 

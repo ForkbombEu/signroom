@@ -116,8 +116,8 @@ devDependencies:
     specifier: ^3.0.3
     version: 3.0.3(prettier@3.0.3)(svelte@4.2.0)
   svelecte:
-    specifier: ^3.17.0
-    version: 3.17.0
+    specifier: ^3.17.2
+    version: 3.17.2
   svelte:
     specifier: ^4.2.0
     version: 4.2.0
@@ -2967,8 +2967,8 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  /svelecte@3.17.0:
-    resolution: {integrity: sha512-KyFVCYYKjDwbyV0Lp1fxRSr7J2IuIdZG5XSliwS+VQ2wpv41uk+PCA2LM46UfNxWvICfW0com9yWWCaa6sLfEw==}
+  /svelecte@3.17.2:
+    resolution: {integrity: sha512-dKm50Em11f4DNP3UMI+6oGUBHSrPWDOVsuG44T+2f/Vh/RVJYWjdTGJy87BfetDRTHKmuGMiwaGmMBh58tHmGg==}
     dependencies:
       svelte-tiny-virtual-list: 2.0.5
     dev: true

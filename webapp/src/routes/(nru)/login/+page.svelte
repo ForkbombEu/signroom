@@ -22,7 +22,6 @@
 		{ email: $currentEmail },
 		{ taintedMessage: null }
 	);
-	const keys = schema.keyof().Enum;
 
 	const { capture, restore, form } = superform;
 	export const snapshot = { capture, restore };
@@ -32,20 +31,29 @@
 
 <Form {superform}>
 	<Input
-		id="email"
-		type="email"
-		label="Your email"
-		field={keys.email}
-		placeholder="name@foundation.org"
+		{superform}
+		field="email"
+		options={{
+			id: 'email',
+			type: 'email',
+			label: 'Your email',
+			placeholder: 'name@foundation.org'
+		}}
 	/>
+
 	<Input
-		id="password"
-		type="password"
-		label="Your password"
-		field={keys.password}
-		placeholder="•••••"
+		{superform}
+		field="password"
+		options={{
+			id: 'password',
+			type: 'password',
+			label: 'Your password',
+			placeholder: '•••••'
+		}}
 	/>
+
 	<FormError />
+
 	<div class="flex justify-end">
 		<SubmitButton>Log in</SubmitButton>
 	</div>

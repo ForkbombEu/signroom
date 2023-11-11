@@ -33,7 +33,7 @@
 
 	let authorization: AuthorizationsResponse | undefined;
 	const authorizationRequest = loadAuthorization();
-	const recordType = createTypeProp<AuthorizationsRecord>();
+	const recordType = createTypeProp<AuthorizationsResponse>();
 
 	async function loadAuthorization() {
 		try {

@@ -6,7 +6,7 @@
 	} from '$lib/webauthn';
 	import { currentUser } from '$lib/pocketbase';
 
-	import { Collections, type WebauthnCredentialsRecord } from '$lib/pocketbase/types';
+	import { Collections, type WebauthnCredentialsResponse } from '$lib/pocketbase/types';
 	import { CollectionManager, DeleteRecord, EditRecord } from '$lib/collectionManager';
 
 	import { InformationCircle, Plus } from 'svelte-heros-v2';
@@ -14,7 +14,7 @@
 	import { createTypeProp } from '$lib/utils/typeProp';
 
 	const platformAuthenticatorAvailable = isPlatformAuthenticatorAvailable();
-	const recordType = createTypeProp<WebauthnCredentialsRecord<{ ID: string }>>();
+	const recordType = createTypeProp<WebauthnCredentialsResponse<{ ID: string }>>();
 
 	const userEmailAddress = $currentUser?.email!;
 </script>

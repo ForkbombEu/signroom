@@ -1,0 +1,28 @@
+diff a/webapp/src/lib/collectionManager/ui/recordActions/deleteRecord.svelte b/webapp/src/lib/collectionManager/ui/recordActions/deleteRecord.svelte	(rejected hunks)
+@@ -1,13 +1,13 @@
+ <script lang="ts">
+-	import type { PBRecord, PBResponse } from '$lib/utils/types';
++	import type { PBResponse } from '$lib/utils/types';
+ 	import { getRecordsManagerContext } from '../../collectionManager.svelte';
+ 
+ 	import { Alert, Button, Modal, P } from 'flowbite-svelte';
+ 	import { Trash, XMark } from 'svelte-heros-v2';
+-	import ModalWrapper from '$lib/components/modalWrapper.svelte';
++	import PortalWrapper from '$lib/components/portalWrapper.svelte';
+ 
+-	type RecordGeneric = $$Generic<PBRecord>;
+-	export let record: PBResponse<RecordGeneric>;
++	type RecordGeneric = $$Generic<PBResponse>;
++	export let record: RecordGeneric;
+ 
+ 	const { dataManager } = getRecordsManagerContext();
+ 	const { loadRecords, recordService } = dataManager;
+@@ -37,7 +37,7 @@
+ 	<Trash size="20" />
+ </Button>
+ 
+-<ModalWrapper>
++<PortalWrapper>
+ 	<Modal
+ 		bind:open
+ 		title="Delete record"

@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { pb } from '$lib/pocketbase';
 	import { Button, Tooltip } from 'flowbite-svelte';
-	import type { PBRecord, PBResponse } from '$lib/utils/types';
+	import type { PBResponse } from '$lib/utils/types';
 	import { ArrowDownTray } from 'svelte-heros-v2';
 
-	type RecordGeneric = $$Generic<PBRecord>;
-	export let record: PBResponse<PBRecord>;
+	type RecordGeneric = $$Generic<PBResponse>;
+	export let record: RecordGeneric;
 	export let value: string;
 
 	let url = '';
