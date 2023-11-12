@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { FieldsComponents, Keys, ViewAction } from './types';
-	import type { PBRecord, PBResponse, PBExpand } from '$lib/utils/types';
+	import type { FieldsComponents, ViewAction } from './types';
+	import type { PBResponse, StringKeys } from '$lib/utils/types';
 
 	import { ShareRecord, SelectRecord, EditRecord, DeleteRecord } from './recordActions';
 	import EmptyState from './collectionEmptyState.svelte';
@@ -21,11 +21,10 @@
 
 	//
 
-	type RecordGeneric = $$Generic<PBRecord>;
-	type ExpandGeneric = $$Generic<PBExpand>;
-	export let records: PBResponse<RecordGeneric, ExpandGeneric>[] = [];
+	type RecordGeneric = $$Generic<PBResponse>;
+	export let records: RecordGeneric[] = [];
 
-	export let fields: (Keys<RecordGeneric> | `_${string}`)[] = [];
+	export let fields: (StringKeys<RecordGeneric> | `_${string}`)[] = [];
 	export let fieldsComponents: FieldsComponents<RecordGeneric> = {};
 	export let fieldsLabels: Partial<Record<(typeof fields)[number], string>> = {};
 	export let hideActions: Array<ViewAction> = [];

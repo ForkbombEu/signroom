@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { currentUser } from '$lib/pocketbase';
-	import { Collections, type CrudExampleRecord } from '$lib/pocketbase/types';
-
+	import { Collections, type CrudExampleResponse } from '$lib/pocketbase/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import {
 		CollectionManager,

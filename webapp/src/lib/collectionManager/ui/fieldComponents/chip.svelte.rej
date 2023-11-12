@@ -1,0 +1,10 @@
+diff a/webapp/src/lib/collectionManager/ui/fieldComponents/chip.svelte b/webapp/src/lib/collectionManager/ui/fieldComponents/chip.svelte	(rejected hunks)
+@@ -1,6 +1,6 @@
+ <script lang="ts">
+-	import type { PBRecord, PBResponse } from '$lib/utils/types';
+-	type RecordGeneric = $$Generic<PBRecord>;
++	import type { PBResponse } from '$lib/utils/types';
++	type RecordGeneric = $$Generic<PBResponse>;
+ 
+ 	export let value: unknown;
+ </script>

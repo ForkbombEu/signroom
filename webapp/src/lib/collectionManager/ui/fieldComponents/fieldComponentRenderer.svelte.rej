@@ -1,0 +1,38 @@
+diff a/webapp/src/lib/collectionManager/ui/fieldComponents/fieldComponentRenderer.svelte b/webapp/src/lib/collectionManager/ui/fieldComponents/fieldComponentRenderer.svelte	(rejected hunks)
+@@ -1,25 +1,28 @@
+ <script lang="ts" context="module">
+-	import type { PBRecord, PBResponse } from '$lib/utils/types';
++	import type { PBResponse } from '$lib/utils/types';
+ 	import type { SvelteComponent } from 'svelte';
+ 
+-	export type FieldComponent<RecordGeneric extends PBRecord = PBRecord> = typeof SvelteComponent<{
+-		value?: unknown;
+-		record?: PBResponse<RecordGeneric>;
+-	}>;
++	export type FieldComponent<RecordGeneric extends PBResponse = PBResponse> =
++		typeof SvelteComponent<{
++			value?: unknown;
++			record?: RecordGeneric;
++		}>;
+ </script>
+ 
+ <script lang="ts">
+-	type RecordGeneric = $$Generic<PBRecord>;
++	type RecordGeneric = $$Generic<PBResponse>;
+ 
+-	export let record: PBResponse<RecordGeneric>;
++	export let record: RecordGeneric;
+ 	export let field: string;
+ 	export let component: FieldComponent | undefined;
++	export let showLabel: boolean = false;
+ 
+ 	$: value = record[field];
++	$: text = showLabel ? `${field}: ${value}` : field;
+ </script>
+ 
+ {#if component}
+ 	<svelte:component this={component} {record} {value} />
+ {:else}
+-	<div>{value}</div>
++	<div>{text}</div>
+ {/if}

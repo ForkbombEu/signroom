@@ -1,11 +1,14 @@
 <script lang="ts" context="module">
 	import type { SvelteComponent, ComponentEvents, ComponentProps, ComponentType } from 'svelte';
 
-	type FieldComponent = SvelteComponent<{ field: string }>;
+	type FieldComponent = SvelteComponent<{
+		field: string;
+		superform: SuperForm<ZodValidation<AnyZodObject>, ClientResponseErrorData>;
+	}>;
 
 	export function createFieldComponent<C extends FieldComponent>(
 		component: ComponentType<C>,
-		props?: Omit<ComponentProps<C>, 'field'>,
+		props?: Omit<ComponentProps<C>, 'field' | 'superform'>,
 		events?: ComponentEvents<C>
 	) {
 		return { component, props, events };
@@ -20,32 +23,32 @@
 </script>
 
 <script lang="ts">
-	import type { InputMode as RelationInputMode } from '$lib/components/relationsManager.svelte';
-	import {
-		Checkbox,
-		File,
-		Hidden,
-		Input,
-		Relations,
-		Select,
-		Textarea,
-		type RelationDisplayFields
-	} from '$lib/forms/fields';
+	import { Checkbox, File, Hidden, Input, Relations, Select, Textarea } from '$lib/forms/fields';
 	import { isArrayField } from '$lib/pocketbase/schema';
 	import { type FieldSchema, FieldType } from '$lib/pocketbase/schema/types';
+	import type { ZodValidation } from 'sveltekit-superforms';
+	import type { SuperForm } from 'sveltekit-superforms/client';
+	import type { AnyZodObject } from 'zod';
+	import { getFormContext } from '$lib/forms/form.svelte';
+	import type { ClientResponseErrorData } from '$lib/errorHandling';
+	import type { RecordsManagerOptions } from '$lib/components/records/recordsManager.svelte';
+	import type { PBResponse } from '$lib/utils/types';
 
 	//
 
+	type R = $$Generic<PBResponse>;
+
 	export let fieldSchema: FieldSchema;
-	export let hidden = false;
-	export let relationDisplayFields: RelationDisplayFields = [];
-	export let relationInputMode: RelationInputMode = 'search';
-	export let label = fieldSchema.name;
 	export let component: FieldComponentProp = undefined;
+	export let hidden = false;
+	export let relationInputOptions: Partial<RecordsManagerOptions<R>> = {};
+	export let label = fieldSchema.name;
 
 	const field = fieldSchema.name;
-
 	const multiple = isArrayField(fieldSchema);
+	const { superform } = getFormContext();
+
+	//
 
 	/* Select */
 
@@ -56,9 +59,9 @@
 
 	/* File */
 
-	let accept: string[];
+	let accept: string;
 	if (fieldSchema.type == FieldType.FILE) {
-		accept = fieldSchema.options.mimeTypes as string[];
+		accept = (fieldSchema.options.mimeTypes as string[]).join(',');
 	}
 
 	/* Relation */
@@ -72,35 +75,38 @@
 </script>
 
 {#if hidden}
-	<Hidden {field} />
+	<Hidden {field} {superform} />
 {:else if component}
 	<svelte:component
 		this={component.component}
 		{field}
+		{superform}
 		{...component.props}
 		{...component.events}
 		{label}
 	/>
 {:else if fieldSchema.type == FieldType.TEXT}
-	<Input {field} {label} />
+	<Input {superform} {field} options={{ label }} />
 {:else if fieldSchema.type == FieldType.JSON}
-	<Textarea {field} {label} />
+	<Textarea {superform} {field} options={{ label }} />
 {:else if fieldSchema.type == FieldType.BOOL}
-	<Checkbox {field}>{label}</Checkbox>
+	<Checkbox {superform} {field}>{label}</Checkbox>
 {:else if fieldSchema.type == FieldType.FILE}
-	<File {field} {label} {multiple} {accept} />
+	<File {superform} {field} options={{ label, multiple, accept }} />
 {:else if fieldSchema.type == FieldType.SELECT}
-	<Select {field} {label} {options} {multiple} />
+	<Select {superform} {field} options={{ label, options, multiple }} />
 {:else if fieldSchema.type == FieldType.EDITOR}
-	<Textarea {field} {label} />
+	<Textarea {superform} {field} options={{ label }} />
 {:else if fieldSchema.type == FieldType.RELATION}
 	<Relations
+		{superform}
 		{field}
-		{label}
-		{multiple}
 		collection={collectionId}
-		displayFields={relationDisplayFields}
-		inputMode={relationInputMode}
-		{max}
+		options={{
+			...relationInputOptions,
+			label,
+			multiple,
+			max
+		}}
 	/>
 {/if}

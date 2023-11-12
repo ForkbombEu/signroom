@@ -1,0 +1,22 @@
+diff a/webapp/src/routes/tests/collection-manager/+page.svelte b/webapp/src/routes/tests/collection-manager/+page.svelte	(rejected hunks)
+@@ -17,7 +15,7 @@
+ 	import Pagination from '$lib/collectionManager/ui/pagination.svelte';
+ 	import EditRecord from '$lib/collectionManager/ui/recordActions/editRecord.svelte';
+ 
+-	const recordType = createTypeProp<CrudExampleRecord>();
++	const recordType = createTypeProp<CrudExampleResponse>();
+ </script>
+ 
+ <div class="p-4">
+@@ -29,6 +27,11 @@
+ 				text: 'Titolo',
+ 				file_only_pdf_json: 'PDF or JSON file',
+ 				textarea: 'Short description'
++			},
++			relations: {
++				relation: {
++					displayFields: ['name']
++				}
+ 			}
+ 		}}
+ 		editFormSettings={{

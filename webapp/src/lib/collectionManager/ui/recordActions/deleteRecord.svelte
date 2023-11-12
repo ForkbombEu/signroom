@@ -51,4 +51,4 @@
 			</div>
 		</div>
 	</Modal>
-</ModalWrapper>
+</PortalWrapper>
