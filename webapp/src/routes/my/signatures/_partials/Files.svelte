@@ -7,14 +7,13 @@
 </script>
 
 <script lang="ts">
-	import type { SignaturesRecord } from '$lib/pocketbase/types';
+	import type { SignaturesResponse } from '$lib/pocketbase/types';
 	import { A, Modal } from 'flowbite-svelte';
 	import { DocumentArrowDown, Eye, LockClosed } from 'svelte-heros-v2';
-	import type { PBResponse } from '$lib/utils/types';
 	import { pb } from '$lib/pocketbase';
 	import RenderSignedFile from './RenderSignedFile.svelte';
 
-	export let record: PBResponse<SignaturesRecord>;
+	export let record: SignaturesResponse;
 	export let value: any;
 
 	$: signedFile = record?.signed_file as SignedFile;

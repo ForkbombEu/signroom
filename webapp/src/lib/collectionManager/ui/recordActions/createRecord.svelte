@@ -2,16 +2,16 @@
 	import { createEventDispatcher } from 'svelte';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { getRecordsManagerContext } from '../../collectionManager.svelte';
-	import type { PBRecord, PBResponse } from '$lib/utils/types';
-
+	import type { PBResponse } from '$lib/utils/types';
+	
 	import { RecordForm } from '$lib/recordForm';
 	import { Button, Modal } from 'flowbite-svelte';
-	import ModalWrapper from '$lib/components/modalWrapper.svelte';
+	import PortalWrapper from '$lib/components/portalWrapper.svelte';
 	import { Plus } from 'svelte-heros-v2';
 
 	//
 
-	type RecordGeneric = $$Generic<PBRecord>;
+	type RecordGeneric = $$Generic<PBResponse>;
 	export let recordType = createTypeProp<RecordGeneric>();
 	recordType;
 
@@ -21,7 +21,7 @@
 
 	const dispatch = createEventDispatcher<{
 		success: {
-			record: PBResponse<RecordGeneric>;
+			record: RecordGeneric;
 		};
 	}>();
 
@@ -46,7 +46,7 @@
 	</Button>
 </slot>
 
-<ModalWrapper>
+<PortalWrapper>
 	<Modal bind:open title="Create record" size="md" placement="center">
 		<div class="w-full">
 			<RecordForm
@@ -61,4 +61,4 @@
 			/>
 		</div>
 	</Modal>
-</ModalWrapper>
+</PortalWrapper>

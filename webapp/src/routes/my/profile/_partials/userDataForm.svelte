@@ -7,7 +7,8 @@
 		SubmitButton,
 		Input,
 		Checkbox,
-		File as FileUpload
+		File as FileInput,
+		zodFile
 	} from '$lib/forms';
 
 	import { currentUser, pb } from '$lib/pocketbase';
@@ -20,21 +21,10 @@
 		name: z.string().min(3).optional(),
 		email: z.string().email(),
 		emailVisibility: z.boolean().optional(),
-		avatar: z
-			.instanceof(File)
-			.refine(
-				(file) =>
-					file.type === 'image/png' ||
-					file.type === 'image/jpeg' ||
-					file.type === 'image/gif' ||
-					file.type === 'image/svg+xml' ||
-					file.type === 'image/webp'
-			)
-			.refine((file) => file.size < 1024 * 1024 * 2)
-			.optional()
+		avatar: zodFile({ types: ['image/png', 'image/jpeg'], size: 1024 * 1024 * 2 }).optional()
 	});
 
-	const initialData: z.infer<typeof schema> = {
+	const initialData: Partial<z.infer<typeof schema>> = {
 		name: $currentUser!.name,
 		email: $currentUser!.email,
 		emailVisibility: $currentUser!.emailVisibility
@@ -52,14 +42,18 @@
 </script>
 
 <Form {superform}>
-	<Input field="name" label="Username" />
+	<Input {superform} field="name" options={{ label: 'Username' }} />
+
 	<div class="space-y-2">
-		<Input field="email" type="email" />
-		<Checkbox field="emailVisibility">
+		<Input {superform} field="email" options={{ type: 'email' }} />
+
+		<Checkbox {superform} field="emailVisibility">
 			<span>Show email to other users</span>
 		</Checkbox>
 	</div>
-	<FileUpload field="avatar" accept={['.jpeg', '.png', '.jpg', '.svg', '.webp']} />
+
+	<FileInput {superform} field="avatar" />
+
 	<FormError />
 
 	<div class="flex justify-end">

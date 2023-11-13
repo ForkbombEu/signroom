@@ -1,13 +1,12 @@
 <script lang="ts">
 	import { A, Heading } from 'flowbite-svelte';
 	import { RecordForm } from '$lib/recordForm';
-	import { Collections, type OrganizationsRecord } from '$lib/pocketbase/types';
+	import { Collections, type OrganizationsResponse } from '$lib/pocketbase/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
-	import type { PBResponse } from '$lib/utils/types';
 
-	const recordType = createTypeProp<OrganizationsRecord>();
+	const recordType = createTypeProp<OrganizationsResponse>();
 
-	function handleSuccess(e: CustomEvent<{ record: PBResponse<OrganizationsRecord> }>) {
+	function handleSuccess(e: CustomEvent<{ record: OrganizationsResponse }>) {
 		window.location.replace(`/my/organizations/${e.detail.record.id}`);
 	}
 </script>

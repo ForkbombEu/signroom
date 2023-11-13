@@ -3,11 +3,13 @@
 	import FieldLabel from './fieldLabel.svelte';
 
 	export let field: string;
-	export let label = '';
+	export let label: string | null | undefined = undefined;
 </script>
 
 <div class="space-y-2">
-	<FieldLabel {field} text={label} />
+	{#if label}
+		<FieldLabel {field} text={label} />
+	{/if}
 	<slot />
 	<FieldError {field} />
 </div>
