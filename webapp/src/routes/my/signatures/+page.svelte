@@ -11,7 +11,7 @@
 	import SignaturesTableHead from '$lib/components/signaturesTableHead.svelte';
 
 	import { currentUser } from '$lib/pocketbase';
-	import { Collections, type SignaturesRecord, type SignaturesResponse } from '$lib/pocketbase/types';
+	import { Collections, type FoldersResponse, type SignaturesRecord, type SignaturesResponse } from '$lib/pocketbase/types';
 	import { CollectionManager, CollectionTable, EditRecord } from '$lib/collectionManager';
 	import { page } from '$app/stores';
 	import type { RecordFullListOptions } from 'pocketbase';
@@ -23,7 +23,7 @@
 	import Files from './_partials/Files.svelte';
 	import { createTypeProp } from '$lib/utils/typeProp';
 
-	const recordType = createTypeProp<SignaturesResponse>();
+	const recordType = createTypeProp<SignaturesResponse<FoldersResponse>>();
 
 	$: folderId = $page.url.searchParams.get('folder');
 
