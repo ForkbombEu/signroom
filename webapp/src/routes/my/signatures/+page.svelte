@@ -11,7 +11,12 @@
 	import SignaturesTableHead from '$lib/components/signaturesTableHead.svelte';
 
 	import { currentUser } from '$lib/pocketbase';
-	import { Collections, type SignaturesRecord, type SignaturesResponse } from '$lib/pocketbase/types';
+	import {
+		Collections,
+		type FoldersResponse,
+		type SignaturesRecord,
+		type SignaturesResponse
+	} from '$lib/pocketbase/types';
 	import { CollectionManager, CollectionTable, EditRecord } from '$lib/collectionManager';
 	import { page } from '$app/stores';
 	import type { RecordFullListOptions } from 'pocketbase';
@@ -22,8 +27,9 @@
 	import Info from './_partials/Info.svelte';
 	import Files from './_partials/Files.svelte';
 	import { createTypeProp } from '$lib/utils/typeProp';
+	import CollectionEmptyState from '$lib/collectionManager/ui/collectionEmptyState.svelte';
 
-	const recordType = createTypeProp<SignaturesResponse>();
+	const recordType = createTypeProp<SignaturesResponse<FoldersResponse>>();
 
 	$: folderId = $page.url.searchParams.get('folder');
 
@@ -69,7 +75,7 @@
 				relations: {
 					folder: { displayFields: ['name'], inputMode: 'select' }
 				},
-				exclude:["signed_file"]
+				exclude: ['signed_file']
 			}}
 			editFormSettings={{
 				exclude: ['owner', 'type', 'file']
@@ -83,7 +89,7 @@
 			<CollectionTable
 				{records}
 				fields={['_info', 'file']}
-				hideActions={["select", "delete", "edit", "share"]}
+				hideActions={['select', 'delete', 'edit', 'share']}
 				fieldsComponents={{
 					_info: Info,
 					file: Files
@@ -110,6 +116,13 @@
 				{:else}
 					<div />
 				{/if}
+				<svelte:fragment slot="emptyState">
+					<CollectionEmptyState
+						title="No signatures yet"
+						description="Start signing a document"
+						hideCreateButton
+					/>
+				</svelte:fragment>
 			</CollectionTable>
 		</CollectionManager>
 	{/key}

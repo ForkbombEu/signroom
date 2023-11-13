@@ -154,7 +154,7 @@
 		<SignaturesFoldersHead {folderId} />
 	{/if}
 	<div class="md:ml-4">
-		<CreateRecord let:openModal on:success={(e) => sign(e.detail.record)}>
+		<CreateRecord initialData={{folder:folderId}} let:openModal on:success={(e) => sign(e.detail.record)}>
 			<Button
 				id="new-signature"
 				color="primary"
