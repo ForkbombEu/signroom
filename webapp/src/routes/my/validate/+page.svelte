@@ -1,6 +1,6 @@
 <script lang="ts">
 	import TitleDescription from '$lib/components/titleDescription.svelte';
-	import { Dropzone, Fileupload, Helper, P } from 'flowbite-svelte';
+	import { Dropzone, Helper, P } from 'flowbite-svelte';
 	import RenderSignedFile from '../signatures/_partials/RenderSignedFile.svelte';
 	import { SignaturesTypeOptions } from '$lib/pocketbase/types';
 	import type { SignedFile } from '../signatures/_partials/Files.svelte';
@@ -52,8 +52,9 @@
 	}
 </script>
 
-<div class="p-8 flex flex-col gap-8 max-w-4xl">
+<div class="p-4">
 	<TitleDescription title="Validate" description="Upload a signature file and verify autenticity" />
+	<br />
 	<Dropzone
 		id="dropzone"
 		on:drop={dropHandle}
