@@ -1,0 +1,30 @@
+diff a/webapp/src/lib/collectionManager/ui/recordActions/createRecord.svelte b/webapp/src/lib/collectionManager/ui/recordActions/createRecord.svelte	(rejected hunks)
+@@ -2,16 +2,16 @@
+ 	import { createEventDispatcher } from 'svelte';
+ 	import { createTypeProp } from '$lib/utils/typeProp';
+ 	import { getRecordsManagerContext } from '../../collectionManager.svelte';
+-	import type { PBRecord, PBResponse } from '$lib/utils/types';
++	import type { PBResponse } from '$lib/utils/types';
+ 
+ 	import { RecordForm, type FieldsSettings } from '$lib/recordForm';
+ 	import { Button, Modal } from 'flowbite-svelte';
+-	import ModalWrapper from '$lib/components/modalWrapper.svelte';
++	import PortalWrapper from '$lib/components/portalWrapper.svelte';
+ 	import { Plus } from 'svelte-heros-v2';
+ 
+ 	//
+ 
+-	type RecordGeneric = $$Generic<PBRecord>;
++	type RecordGeneric = $$Generic<PBResponse>;
+ 	export let recordType = createTypeProp<RecordGeneric>();
+ 	recordType;
+ 
+@@ -47,7 +47,7 @@
+ 	</Button>
+ </slot>
+ 
+-<ModalWrapper>
++<PortalWrapper>
+ 	<Modal bind:open title="Create record" size="md">
+ 		<div class="w-full">
+ 			<RecordForm

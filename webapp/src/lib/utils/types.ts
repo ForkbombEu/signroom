@@ -1,21 +1,28 @@
 import type { BaseSystemFields } from '$lib/pocketbase/types';
 import type { XCircle } from 'svelte-heros-v2';
 
+/* TS utils */
+
 export type ValueOf<T> = T[keyof T];
+
+export type ArrayExtract<T> = T extends (infer U)[] ? U : T;
+// Util to extract type from T | T[]
+
+export type StringKeys<T> = Extract<keyof T, string>;
+
+/* Components */
 
 export type Link = {
 	href: string;
 	text: string;
 };
 
-//
+export type IconComponent = typeof XCircle;
+
+/* Pocketbase generics */
 
 export type PBRecord = Record<string, unknown>;
-export type PBExpand<T extends PBRecord = PBRecord> = Record<string, T | T[]>;
+export type PBResponse = PBRecord & BaseSystemFields<any>;
 
-export type PBResponse<R extends PBRecord = PBRecord, E extends PBExpand = PBExpand> = R &
-	BaseSystemFields<E>;
-
-export type PBResponseKeys<T> = Extract<keyof T, string>;
-
-export type IconComponent = typeof XCircle;
+export type ExtractPBRecord<T> = T extends infer R & BaseSystemFields<unknown> ? R : never;
+export type ExtractPBExpand<T> = T extends unknown & BaseSystemFields<infer E> ? E : never;

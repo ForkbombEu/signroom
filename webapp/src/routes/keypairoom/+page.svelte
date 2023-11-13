@@ -2,7 +2,9 @@
 	import {
 		userQuestions,
 		type UserAnswers,
-		userAnswersSchema
+		userAnswersSchema,
+		userQuestionsKeys,
+		type UserQuestionsKey
 	} from '$lib/keypairoom/userQuestions.js';
 	import { generateKeypair, getHMAC, saveKeyringToLocalStorage } from '$lib/keypairoom/keypair';
 	import {
@@ -30,16 +32,11 @@
 
 	const superform = createForm(schema, async ({ form }) => {
 		let { data } = form;
-		let { email } = data;
+		let { email } = form.data;
 
 		const HMAC = await getHMAC(email);
 
-		// non-answered questions *must* be set to null
-		for (let [key, value] of Object.entries(data.questions)) {
-			if (!value) data.questions[key] = 'null';
-		}
-
-		const keypair = await generateKeypair(email, HMAC, data.questions);
+		const keypair = await generateKeypair(email, HMAC, formQuestionsToUserAnswers(data.questions));
 		saveKeyringToLocalStorage(keypair.keyring);
 		seed = keypair.seed;
 
@@ -52,6 +49,17 @@
 			await pb.send('/api/did', {});
 		}
 	});
+
+	// non-answered questions *must* be set to 'null'
+	function formQuestionsToUserAnswers(questions: z.infer<typeof schema>['questions']): UserAnswers {
+		return {
+			question1: questions['question1'] ?? 'null',
+			question2: questions['question2'] ?? 'null',
+			question3: questions['question3'] ?? 'null',
+			question4: questions['question4'] ?? 'null',
+			question5: questions['question5'] ?? 'null'
+		};
+	}
 
 	const { capture, restore, form } = superform;
 	export const snapshot = { capture, restore };
@@ -80,20 +88,24 @@
 	<Form {superform} className="space-y-6">
 		{#if !$currentUser}
 			<div class="space-y-1">
-				<Input field="email" label="User email" />
+				<Input {superform} field="email" options={{ label: 'User email' }} />
+
 				<P size="sm" color="text-gray-400">
 					Your email won't be stored anywhere, it will be used only to generate the keys.
 				</P>
 			</div>
+
 			<Hr />
 		{/if}
+
 		{#each userQuestions as question}
-			<Input field={`questions.${question.id}`} label={question.text} />
+			<Input {superform} field={`questions.${question.id}`} options={{ label: question.text }} />
 		{/each}
 
 		<Hr />
 
 		<FormError />
+
 		<div class="flex justify-end">
 			<SubmitButton>Generate keys</SubmitButton>
 		</div>

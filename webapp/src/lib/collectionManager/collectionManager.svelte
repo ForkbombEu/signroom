@@ -3,12 +3,11 @@
 	import type { RecordService } from 'pocketbase';
 	import type { Writable } from 'svelte/store';
 	import type { FieldsSettings } from '$lib/recordForm';
-	import type { PBRecord, PBExpand } from '$lib/utils/types';
 	import type { RecordFullListOptions } from 'pocketbase';
 
 	export const RECORDS_MANAGER_KEY = Symbol('rmk');
 
-	export type RecordsManagerContext<T = PBRecord> = {
+	export type RecordsManagerContext<R extends PBResponse = PBResponse> = {
 		collection: string;
 		dataManager: {
 			recordService: RecordService;
@@ -26,13 +25,15 @@
 			discardSelection: () => void;
 		};
 		formFieldsSettings: {
-			base: Partial<FieldsSettings<T>>;
-			create: Partial<FieldsSettings<T>>;
-			edit: Partial<FieldsSettings<T>>;
+			base: Partial<FieldsSettings<R>>;
+			create: Partial<FieldsSettings<R>>;
+			edit: Partial<FieldsSettings<R>>;
 		};
 	};
 
-	export function getRecordsManagerContext<T = PBRecord>(): RecordsManagerContext<T> {
+	export function getRecordsManagerContext<
+		R extends PBResponse = PBResponse
+	>(): RecordsManagerContext<R> {
 		return getContext(RECORDS_MANAGER_KEY);
 	}
 </script>
@@ -56,13 +57,9 @@
 
 	//
 
-	type RecordGeneric = $$Generic<PBRecord>;
+	type RecordGeneric = $$Generic<PBResponse>;
 	export let recordType = createTypeProp<RecordGeneric>();
 	recordType;
-
-	type ExpandGeneric = $$Generic<PBExpand>;
-	export let expandType = createTypeProp<ExpandGeneric>();
-	expandType;
 
 	//
 
@@ -97,23 +94,19 @@
 
 	const recordService = pb.collection(collection);
 
-	let records: PBResponse<RecordGeneric, ExpandGeneric>[] = [];
+	let records: RecordGeneric[] = [];
 	let totalPages = writable(0);
 
 	async function loadRecords() {
 		if (!disablePagination) {
-			const res = await recordService.getList<PBResponse<RecordGeneric, ExpandGeneric>>(
-				Number($currentPage),
-				perPage,
-				{
-					...$queryParams
-				}
-			);
+			const res = await recordService.getList<RecordGeneric>(Number($currentPage), perPage, {
+				...$queryParams
+			});
 			records = res.items;
 			totalPages.set(res.totalPages);
 			totalItems.set(res.totalItems);
 		} else {
-			const res = await recordService.getFullList<PBResponse<RecordGeneric, ExpandGeneric>>({
+			const res = await recordService.getFullList<RecordGeneric>({
 				...$queryParams
 			});
 			records = res;

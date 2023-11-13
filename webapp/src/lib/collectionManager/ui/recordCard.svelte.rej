@@ -1,0 +1,24 @@
+diff a/webapp/src/lib/collectionManager/ui/recordCard.svelte b/webapp/src/lib/collectionManager/ui/recordCard.svelte	(rejected hunks)
+@@ -1,6 +1,6 @@
+ <script lang="ts">
+-	import type { FieldsComponents, Keys, ViewAction } from './types';
+-	import type { PBRecord, PBResponse } from '$lib/utils/types';
++	import type { FieldsComponents, ViewAction } from './types';
++	import type { PBResponse, StringKeys } from '$lib/utils/types';
+ 	import { getRecordsManagerContext } from '../collectionManager.svelte';
+ 
+ 	import { ShareRecord, SelectRecord, EditRecord, DeleteRecord } from './recordActions';
+@@ -10,10 +10,10 @@
+ 
+ 	//
+ 
+-	type RecordGeneric = $$Generic<PBRecord>;
+-	export let record: PBResponse<RecordGeneric>;
++	type RecordGeneric = $$Generic<PBResponse>;
++	export let record: RecordGeneric;
+ 
+-	export let fields: Keys<RecordGeneric>[] = [];
++	export let fields: StringKeys<RecordGeneric>[] = [];
+ 	export let fieldsComponents: FieldsComponents<RecordGeneric> = {};
+ 	export let hideActions: Array<ViewAction> = [];
+ 	export let titleField = '';

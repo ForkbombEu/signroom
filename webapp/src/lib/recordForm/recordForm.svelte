@@ -1,20 +1,27 @@
 <script lang="ts" context="module">
-	import type { RelationDisplayFields } from '$lib/forms/fields';
-	import type { InputMode as RelationInputMode } from '$lib/components/relationsManager.svelte';
+	import type { RecordsManagerOptions } from '$lib/components/records/recordsManager.svelte';
 	import type { FieldComponentProp } from './fieldSchemaToInput.svelte';
+	import type {
+		PBResponse,
+		ExtractPBRecord,
+		ExtractPBExpand,
+		StringKeys,
+		ArrayExtract
+	} from '$lib/utils/types';
 
-	export type RelationFieldSettings = {
-		displayFields: RelationDisplayFields;
-		inputMode: RelationInputMode;
-	};
+	type Keys<R extends PBResponse> = StringKeys<ExtractPBRecord<R>>;
 
-	export type FieldsSettings<T> = {
-		labels: { [K in keyof T]?: string };
-		order: Array<keyof T>;
-		exclude: Array<keyof T>;
-		hide: { [K in keyof T]?: T[K] };
-		relations: { [K in keyof T]?: Partial<RelationFieldSettings> };
-		components: { [K in keyof T]?: FieldComponentProp };
+	export type FieldsSettings<R extends PBResponse = PBResponse> = {
+		labels: { [K in Keys<R>]?: string };
+		order: Array<Keys<R>>;
+		exclude: Array<Keys<R>>;
+		hide: { [K in Keys<R>]?: R[K] };
+		relations: {
+			[K in Keys<R>]?: K extends keyof ExtractPBExpand<R>
+				? RecordsManagerOptions<ArrayExtract<ExtractPBExpand<R>[K]>>
+				: RecordsManagerOptions;
+		};
+		components: { [K in Keys<R>]?: FieldComponentProp };
 	};
 </script>
 
@@ -37,11 +44,10 @@
 	import { getCollectionSchema } from '$lib/pocketbase/schema';
 	import { fieldsSchemaToZod } from '$lib/pocketbaseToZod';
 	import FieldSchemaToInput from './fieldSchemaToInput.svelte';
-	import type { PBRecord, PBResponse } from '$lib/utils/types';
 
 	//
 
-	type RecordGeneric = $$Generic<PBRecord>;
+	type RecordGeneric = $$Generic<PBResponse>;
 	export let recordType = createTypeProp<RecordGeneric>();
 	recordType;
 
@@ -52,7 +58,7 @@
 	export let recordId = '';
 
 	export let fieldsSettings: Partial<FieldsSettings<RecordGeneric>> = {};
-	let { order = [], exclude = [], hide, relations, labels, components } = fieldsSettings;
+	let { order = [], exclude = [], hide, labels, components, relations } = fieldsSettings;
 
 	export let submitButtonText = '';
 
@@ -60,13 +66,13 @@
 
 	const dispatch = createEventDispatcher<{
 		success: {
-			record: PBResponse<RecordGeneric>;
+			record: RecordGeneric;
 		};
 		edit: {
-			record: PBResponse<RecordGeneric>;
+			record: RecordGeneric;
 		};
 		create: {
-			record: PBResponse<RecordGeneric>;
+			record: RecordGeneric;
 		};
 	}>();
 
@@ -96,7 +102,7 @@
 			async ({ form }) => {
 				const data = cleanFormDataFiles(form.data, fileFieldsInitialData);
 				const formData = createFormData(data);
-				let record: PBResponse<RecordGeneric>;
+				let record: RecordGeneric;
 				if (Boolean(recordId)) {
 					record = await pb.collection(collection).update(recordId, formData);
 					dispatch('edit', { record });
@@ -128,7 +134,7 @@
 	}
 
 	function filterFieldsSchema(schema: FieldSchema) {
-		return !exclude.includes(schema.name as keyof RecordGeneric);
+		return !exclude.includes(schema.name as Keys<RecordGeneric>);
 	}
 
 	/* */
@@ -143,19 +149,10 @@
 <Form {superform} showRequiredIndicator>
 	{#each fieldsSchema as fieldSchema}
 		{@const hidden = hide ? Object.keys(hide).includes(fieldSchema.name) : false}
-		{@const relationFieldSettings = relations?.[fieldSchema.name]}
-		{@const relationDisplayFields = relationFieldSettings?.displayFields ?? []}
-		{@const relationInputMode = relationFieldSettings?.inputMode ?? 'search'}
 		{@const label = labels?.[fieldSchema.name] ?? fieldSchema.name}
 		{@const component = components?.[fieldSchema.name]}
-		<FieldSchemaToInput
-			{label}
-			{fieldSchema}
-			{hidden}
-			{relationDisplayFields}
-			{relationInputMode}
-			{component}
-		/>
+		{@const relationInputOptions = relations?.[fieldSchema.name] ?? {}}
+		<FieldSchemaToInput {label} {fieldSchema} {hidden} {component} {relationInputOptions} />
 	{/each}
 
 	<FormError />

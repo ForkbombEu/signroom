@@ -43,7 +43,7 @@
 	</Button>
 </slot>
 
-<ModalWrapper>
+<PortalWrapper>
 	<Modal bind:open title="Edit record" size="md">
 		<div class="w-full">
 			<RecordForm
@@ -58,4 +58,4 @@
 			/>
 		</div>
 	</Modal>
-</ModalWrapper>
+</PortalWrapper>

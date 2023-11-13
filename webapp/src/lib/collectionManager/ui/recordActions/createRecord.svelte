@@ -21,7 +21,7 @@
 
 	const dispatch = createEventDispatcher<{
 		success: {
-			record: PBResponse<RecordGeneric>;
+			record: RecordGeneric;
 		};
 	}>();
 
@@ -61,4 +61,4 @@
 			/>
 		</div>
 	</Modal>
-</ModalWrapper>
+</PortalWrapper>
