@@ -20,6 +20,12 @@
 	import CopyButton from '$lib/components/copyButton.svelte';
 	import { Form, createForm, Input, FormError, SubmitButton } from '$lib/forms';
 	import { InformationCircle } from 'svelte-heros-v2';
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
+
+	const url = $page.url;
+
+	const joined = url.searchParams.get('joined');
 
 	//
 
@@ -29,6 +35,7 @@
 		email: z.string().email(),
 		questions: userAnswersSchema
 	});
+
 
 	const superform = createForm(schema, async ({ form }) => {
 		let { data } = form;
@@ -47,6 +54,9 @@
 
 		if ($featureFlags.DID && $featureFlags.AUTH && $currentUser) {
 			await pb.send('/api/did', {});
+		}
+		if (joined) {
+			await goto('my/organizations');
 		}
 	});
 

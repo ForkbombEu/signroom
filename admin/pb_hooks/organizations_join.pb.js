@@ -11,9 +11,11 @@ onRecordAfterCreateRequest((e) => {
         console.log("Hook - orgJoinRequests - Sending email to admins");
 
         $app.dao().expandRecord(e.record, ["organization"]);
+        const basePath = $app.isDebug() ? "http://localhost:5173/" : "https://beta.signroom.org/";
         const organization = e.record.expandedOne("organization");
         const organizationId = organization.getId();
         const organizationName = organization.get("name");
+        const acceptanceLink = `<a href="${basePath}my/organizations/${organizationId}/requests">Manage organization pending requestes</a>`
 
         const recipients = $app
             .dao()
@@ -37,8 +39,11 @@ onRecordAfterCreateRequest((e) => {
             },
             to: recipientsAddresses,
             subject: `${organizationName} | New join request`,
-            html: "Your organization receved a new join request",
+            html: `Your organization receved a new join request 
+            <br />
+            ${acceptanceLink}`,
         });
+        console.log(message.html)
 
         $app.newMailClient().send(message);
     } catch (e) {
