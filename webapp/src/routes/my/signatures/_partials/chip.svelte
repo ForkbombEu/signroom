@@ -1,11 +1,11 @@
 <script lang="ts">
 	import clsx from 'clsx';
-	import type { PBRecord, PBResponse } from '$lib/utils/types';
+	import type { PBResponse } from '$lib/utils/types';
 
-	type RecordGeneric = $$Generic<PBRecord>;
+	type RecordGeneric = $$Generic<PBResponse>;
 
 	export let value: unknown;
-	export let record: PBResponse<RecordGeneric>;
+	export let record: RecordGeneric;
 	record; // avoid 'unused' warning
 
 	let cl = clsx(

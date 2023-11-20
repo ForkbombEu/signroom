@@ -1,22 +1,36 @@
-<script lang="ts">
-	import { formFieldProxy } from 'sveltekit-superforms/client';
+<script lang="ts" context="module">
+	import { Checkbox } from 'flowbite-svelte';
+	import type { ComponentProps } from 'svelte';
+	import type { HTMLInputAttributes } from 'svelte/elements';
+	import type { LabelOption } from './types';
 
-	import { Checkbox, Label } from 'flowbite-svelte';
-	import { getFormContext } from '../form.svelte';
+	export type FormCheckboxOptions = Partial<HTMLInputAttributes & ComponentProps<Checkbox>> &
+		LabelOption;
+</script>
+
+<script lang="ts">
+	import type { z } from 'zod';
+	import type { FormPathLeaves, ZodValidation } from 'sveltekit-superforms';
+	import { formFieldProxy, type SuperForm } from 'sveltekit-superforms/client';
+
+	import { Label } from 'flowbite-svelte';
 	import FieldError from './fieldParts/fieldError.svelte';
 	import FieldRequiredIndicator from './fieldParts/fieldRequiredIndicator.svelte';
 
-	export let field: string;
-	export let label = '';
+	type T = $$Generic<AnyZodObject>;
 
-	const { superform } = getFormContext();
-	const { value, errors, constraints } = formFieldProxy(superform, field);
+	export let superform: SuperForm<ZodValidation<T>, any>;
+	export let field: FormPathLeaves<z.infer<T>>;
+	export let options: FormCheckboxOptions = {};
+
+	const { value, errors, constraints } = formFieldProxy(superform, field as string);
 </script>
 
 <div class="space-y-2">
 	<Label color={$errors ? 'red' : 'gray'}>
 		<div class="flex items-center space-x-2">
 			<Checkbox
+				{...options}
 				color={$errors ? 'red' : 'secondary'}
 				bind:checked={$value}
 				name={field}
@@ -25,7 +39,7 @@
 				{...$constraints}
 			/>
 			<div>
-				<span><slot>{label}</slot></span>
+				<span><slot>{options.label}</slot></span>
 				<FieldRequiredIndicator {field} />
 			</div>
 		</div>

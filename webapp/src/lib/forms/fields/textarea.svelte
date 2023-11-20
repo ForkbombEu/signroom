@@ -1,25 +1,36 @@
-<script lang="ts">
-	import { formFieldProxy } from 'sveltekit-superforms/client';
+<script lang="ts" context="module">
 	import { Textarea } from 'flowbite-svelte';
-	import { getFormContext } from '../form.svelte';
-	import FieldWrapper from './fieldParts/fieldWrapper.svelte';
+	import type { ComponentProps } from 'svelte';
+	import type { HTMLInputAttributes } from 'svelte/elements';
+	import type { LabelOption } from './types';
 
-	export let field: string;
-	export let label = '';
-	export let placeholder = '';
-
-	const { superform } = getFormContext();
-	const { value, errors, constraints } = formFieldProxy(superform, field);
+	export type FormTextareaOptions = Partial<HTMLInputAttributes & ComponentProps<Textarea>> &
+		LabelOption;
 </script>
 
-<FieldWrapper {field} {label}>
+<script lang="ts">
+	import type { z } from 'zod';
+	import type { FormPathLeaves, ZodValidation } from 'sveltekit-superforms';
+	import { formFieldProxy, type SuperForm } from 'sveltekit-superforms/client';
+	import FieldWrapper from './fieldParts/fieldWrapper.svelte';
+
+	type T = $$Generic<AnyZodObject>;
+
+	export let superform: SuperForm<ZodValidation<T>, any>;
+	export let field: FormPathLeaves<z.infer<T>>;
+	export let options: FormTextareaOptions = {};
+
+	const { value, errors, constraints } = formFieldProxy(superform, field as string);
+</script>
+
+<FieldWrapper {field} label={options.label}>
 	<Textarea
+		{...options}
 		bind:value={$value}
-		class="!min-h-[200px]"
+		class={`!min-h-[200px] ${options.class}`}
 		color={$errors ? 'red' : 'base'}
 		name={field}
 		data-invalid={$errors}
-		{placeholder}
 		{...$constraints}
 	/>
 </FieldWrapper>

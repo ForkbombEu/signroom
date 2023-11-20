@@ -1,21 +1,35 @@
-<script lang="ts">
-	import { formFieldProxy } from 'sveltekit-superforms/client';
+<script lang="ts" context="module">
+	import { Toggle } from 'flowbite-svelte';
+	import type { ComponentProps } from 'svelte';
+	import type { HTMLInputAttributes } from 'svelte/elements';
+	import type { LabelOption } from './types';
 
-	import { Toggle, Label } from 'flowbite-svelte';
-	import { getFormContext } from '../form.svelte';
+	export type FormToggleOptions = Partial<HTMLInputAttributes & ComponentProps<Toggle>> &
+		LabelOption;
+</script>
+
+<script lang="ts">
+	import type { z } from 'zod';
+	import type { FormPathLeaves, ZodValidation } from 'sveltekit-superforms';
+	import { formFieldProxy, type SuperForm } from 'sveltekit-superforms/client';
+
+	import { Label } from 'flowbite-svelte';
 	import FieldError from './fieldParts/fieldError.svelte';
 	import FieldRequiredIndicator from './fieldParts/fieldRequiredIndicator.svelte';
 
-	export let field: string;
-	export let label = '';
+	type T = $$Generic<AnyZodObject>;
 
-	const { superform } = getFormContext();
-	const { value, errors, constraints } = formFieldProxy(superform, field);
+	export let superform: SuperForm<ZodValidation<T>, any>;
+	export let field: FormPathLeaves<z.infer<T>>;
+	export let options: FormToggleOptions = {};
+
+	const { value, errors, constraints } = formFieldProxy(superform, field as string);
 </script>
 
 <div class="space-y-2">
 	<div class="flex items-center">
 		<Toggle
+			{...options}
 			bind:checked={$value}
 			name={field}
 			value="true"
@@ -24,7 +38,7 @@
 		/>
 		<Label color={$errors ? 'red' : 'gray'}>
 			<div>
-				<span><slot>{label}</slot></span>
+				<span><slot>{options.label}</slot></span>
 				<FieldRequiredIndicator {field} />
 			</div>
 		</Label>

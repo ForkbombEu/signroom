@@ -9,7 +9,10 @@
 		OrgJoinRequestsStatusOptions,
 		type OrgJoinRequestsRecord,
 		type UsersResponse,
-		type OrgAuthorizationsRecord
+		type OrgAuthorizationsRecord,
+
+		type OrgJoinRequestsResponse
+
 	} from '$lib/pocketbase/types';
 	import { OrgRoles } from '$lib/rbac/roles.js';
 	import { createTypeProp } from '$lib/utils/typeProp.js';
@@ -21,15 +24,14 @@
 	export let data;
 	$: organization = data.organization;
 
-	const recordType = createTypeProp<OrgJoinRequestsRecord>();
-	const expandType = createTypeProp<{ user: UsersResponse }>();
+	const recordType = createTypeProp<OrgJoinRequestsResponse<{ user: UsersResponse }>>();
 
 	//
 
 	const { accepted, rejected, pending } = OrgJoinRequestsStatusOptions;
 
 	async function updateRequestStatus(
-		request: PBResponse<OrgJoinRequestsRecord>,
+		request: OrgJoinRequestsResponse,
 		status: OrgJoinRequestsStatusOptions
 	) {
 		await pb.collection(Collections.OrgJoinRequests).update(request.id, {
@@ -37,7 +39,7 @@
 		} satisfies Partial<OrgJoinRequestsRecord>);
 	}
 
-	async function acceptRequest(request: PBResponse<OrgJoinRequestsRecord>) {
+	async function acceptRequest(request: OrgJoinRequestsResponse) {
 		await updateRequestStatus(request, accepted);
 		const memberRole = await pb
 			.collection(Collections.OrgRoles)
@@ -49,11 +51,11 @@
 		} satisfies OrgAuthorizationsRecord);
 	}
 
-	async function rejectRequest(request: PBResponse<OrgJoinRequestsRecord>) {
+	async function rejectRequest(request: OrgJoinRequestsResponse) {
 		await updateRequestStatus(request, rejected);
 	}
 
-	async function appendRequest(request: PBResponse<OrgJoinRequestsRecord>) {
+	async function appendRequest(request: OrgJoinRequestsResponse) {
 		await updateRequestStatus(request, pending);
 	}
 </script>
@@ -66,7 +68,6 @@
 			expand: 'user'
 		}}
 		{recordType}
-		{expandType}
 		let:records
 	>
 		{@const pendingRequests = records.filter((r) => r.status == pending)}

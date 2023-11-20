@@ -1,21 +1,21 @@
 <script lang="ts">
 	import { createTypeProp } from '$lib/utils/typeProp';
 
-	import type { PBRecord, PBResponse } from '$lib/utils/types';
+	import type { PBResponse } from '$lib/utils/types';
 	import { RecordForm } from '$lib/recordForm';
 
-	import ModalWrapper from '$lib/components/modalWrapper.svelte';
+	import PortalWrapper from '$lib/components/portalWrapper.svelte';
 	import { Button, Modal } from 'flowbite-svelte';
 	import { Pencil } from 'svelte-heros-v2';
 	import { getRecordsManagerContext } from '../../collectionManager.svelte';
 
 	//
 
-	type RecordGeneric = $$Generic<PBRecord>;
+	type RecordGeneric = $$Generic<PBResponse>;
 	export let recordType = createTypeProp<RecordGeneric>();
 	recordType;
 
-	export let record: PBResponse<RecordGeneric>;
+	export let record: RecordGeneric;
 
 	//
 
@@ -43,7 +43,7 @@
 	</Button>
 </slot>
 
-<ModalWrapper>
+<PortalWrapper>
 	<Modal bind:open title="Edit record" size="md">
 		<div class="w-full">
 			<RecordForm
@@ -58,4 +58,4 @@
 			/>
 		</div>
 	</Modal>
-</ModalWrapper>
+</PortalWrapper>

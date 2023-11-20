@@ -1,28 +1,22 @@
 <script lang="ts">
-	import type { PBRecord, PBResponse, PBResponseKeys } from '$lib/utils/types';
+	import type { FieldsComponents, ViewAction } from './types';
+	import type { PBResponse, StringKeys } from '$lib/utils/types';
 	import { getRecordsManagerContext } from '../collectionManager.svelte';
 
 	import { ShareRecord, SelectRecord, EditRecord, DeleteRecord } from './recordActions';
-	import FieldComponent, {
-		type FieldsComponents
-	} from './fieldComponents/fieldComponentRenderer.svelte';
+	import FieldComponent from './fieldComponents/fieldComponentRenderer.svelte';
 
 	import { Card, P } from 'flowbite-svelte';
 
 	//
 
-	type RecordGeneric = $$Generic<PBRecord>;
-	export let record: PBResponse<RecordGeneric>;
+	type RecordGeneric = $$Generic<PBResponse>;
+	export let record: RecordGeneric;
 
-	export let fields: PBResponseKeys<PBResponse<RecordGeneric>>[] = [];
-	export let titleField = '';
-
+	export let fields: StringKeys<RecordGeneric>[] = [];
 	export let fieldsComponents: FieldsComponents<RecordGeneric> = {};
-
-	export let showDelete = false;
-	export let showEdit = false;
-	export let showShare = false;
-	export let showCheckbox = false;
+	export let hideActions: Array<ViewAction> = [];
+	export let titleField = '';
 
 	//
 
@@ -38,7 +32,7 @@
 		<P weight="bold" class="mb-2">{record[titleField]}</P>
 	{/if}
 
-	{#if showCheckbox}
+	{#if !hideActions.includes('select')}
 		<div class="absolute right-1 top-1 p-3 bg-inherit">
 			<SelectRecord {record} />
 		</div>
@@ -59,14 +53,14 @@
 
 	<div class="flex justify-end items-center gap-1 pt-2">
 		<slot name="actions" {record} />
-		{#if showEdit}
+		{#if !hideActions.includes('edit')}
 			<EditRecord {record} />
 		{/if}
-		{#if showDelete}
-			<DeleteRecord {record} />
-		{/if}
-		{#if showShare}
+		{#if !hideActions.includes('share')}
 			<ShareRecord {record} />
+		{/if}
+		{#if !hideActions.includes('delete')}
+			<DeleteRecord {record} />
 		{/if}
 	</div>
 </Card>

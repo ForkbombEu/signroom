@@ -11,10 +11,15 @@
 	import SignaturesTableHead from '$lib/components/signaturesTableHead.svelte';
 
 	import { currentUser } from '$lib/pocketbase';
-	import { Collections, type SignaturesRecord } from '$lib/pocketbase/types';
+	import {
+		Collections,
+		type FoldersResponse,
+		type SignaturesRecord,
+		type SignaturesResponse
+	} from '$lib/pocketbase/types';
 	import { CollectionManager, CollectionTable, EditRecord } from '$lib/collectionManager';
 	import { page } from '$app/stores';
-	import type { Record, RecordFullListQueryParams } from 'pocketbase';
+	import type { RecordFullListOptions } from 'pocketbase';
 	import { Button, ButtonGroup, Toast } from 'flowbite-svelte';
 	import { Pencil, Share } from 'svelte-heros-v2';
 	import ShareSignature from './_partials/ShareSignature.svelte';
@@ -22,13 +27,13 @@
 	import Info from './_partials/Info.svelte';
 	import Files from './_partials/Files.svelte';
 	import { createTypeProp } from '$lib/utils/typeProp';
-	import type { PBResponse } from '$lib/utils/types';
+	import CollectionEmptyState from '$lib/collectionManager/ui/collectionEmptyState.svelte';
 
-	const recordType = createTypeProp<SignaturesRecord>();
+	const recordType = createTypeProp<SignaturesResponse<FoldersResponse>>();
 
 	$: folderId = $page.url.searchParams.get('folder');
 
-	let initialQueryParams: RecordFullListQueryParams;
+	let initialQueryParams: RecordFullListOptions;
 	$: if (folderId) {
 		initialQueryParams = { filter: `folder.id="${folderId}"`, expand: 'folder' };
 	} else {
@@ -36,9 +41,9 @@
 	}
 
 	let shareModal = false;
-	let record: PBResponse<SignaturesRecord> | undefined = undefined;
+	let record: SignaturesResponse | undefined = undefined;
 
-	function openShareModal(r: PBResponse<SignaturesRecord>) {
+	function openShareModal(r: SignaturesResponse) {
 		shareModal = true;
 		record = r;
 	}
@@ -69,7 +74,8 @@
 				hide: { owner: $currentUser?.id, type: undefined },
 				relations: {
 					folder: { displayFields: ['name'], inputMode: 'select' }
-				}
+				},
+				exclude: ['signed_file']
 			}}
 			editFormSettings={{
 				exclude: ['owner', 'type', 'file']
@@ -82,14 +88,12 @@
 			<SignaturesTableHead {folderId} {trigger} />
 			<CollectionTable
 				{records}
-				fields={['info', 'file']}
-				showCheckboxes={false}
+				fields={['_info', 'file']}
+				hideActions={['select', 'delete', 'edit', 'share']}
 				fieldsComponents={{
-					info: Info,
+					_info: Info,
 					file: Files
 				}}
-				showDelete={false}
-				showEdit={false}
 				let:record
 			>
 				{#if record.owner == $currentUser?.id}
@@ -112,6 +116,13 @@
 				{:else}
 					<div />
 				{/if}
+				<svelte:fragment slot="emptyState">
+					<CollectionEmptyState
+						title="No signatures yet"
+						description="Start signing a document"
+						hideCreateButton
+					/>
+				</svelte:fragment>
 			</CollectionTable>
 		</CollectionManager>
 	{/key}
@@ -132,6 +143,6 @@
 	{/if}
 {/key}
 
-<Toast simple position="bottom-right" color="indigo" transition={slide} bind:open={show}>
+<Toast position="bottom-right" color="indigo" transition={slide} bind:open={show}>
 	{content}
 </Toast>

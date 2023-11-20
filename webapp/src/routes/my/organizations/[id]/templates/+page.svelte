@@ -4,7 +4,7 @@
 		CollectionManagerHeader,
 		CollectionTable
 	} from '$lib/collectionManager';
-	import { Collections, type TemplatesRecord } from '$lib/pocketbase/types';
+	import { Collections, type TemplatesResponse } from '$lib/pocketbase/types';
 	import { createFieldComponent } from '$lib/recordForm/fieldSchemaToInput.svelte';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { Heading } from 'flowbite-svelte';
@@ -14,7 +14,7 @@
 	export let data;
 	let { organization } = data;
 
-	const recordType = createTypeProp<TemplatesRecord>();
+	const recordType = createTypeProp<TemplatesResponse>();
 </script>
 
 <CollectionManager
