@@ -2,11 +2,13 @@
 	import { featureFlags } from '$lib/features';
 	import { currentUser } from '$lib/pocketbase';
 	import { Button } from 'flowbite-svelte';
+
+	$: eddsa = $currentUser?.eddsa_public_key;
 </script>
 
-{#if $featureFlags.DID}
+{#if $featureFlags.DID && eddsa}
 	<Button
-		href="https://explorer.did.dyne.org/details/did:dyne:sandbox.signroom:{$currentUser?.eddsa_public_key}"
+		href="https://explorer.did.dyne.org/details/did:dyne:sandbox.signroom:{eddsa}"
 		target="_blank"
 		size="xs"
 		class="ml-3"
