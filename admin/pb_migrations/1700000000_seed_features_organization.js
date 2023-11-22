@@ -10,30 +10,9 @@ const FEATURES_COLLECTION_NAME = "features";
  */
 const features = [
     {
-        name: "keypairoom",
-        envVariables: {
-            SALT: "bWltbW8K",
-        },
-    },
-    {
-        name: "DID",
-        envVariables: {
-            DID_URL: "url",
-            DID_SPEC: "string",
-            DID_SIGNER_SPEC: "string",
-            DID_IDENTITY: "string",
-            DID_KEYRING: "json, currently passed base64 encoded",
-        },
-    },
-    {
-        name: "auth",
+        name: "organizations",
         envVariables: {},
     },
-    {
-        name: "maintenance",
-        envVariables: {},
-        active: false,
-    }
 ];
 
 migrate(
