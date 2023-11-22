@@ -109,7 +109,7 @@
 
 		<svelte:fragment slot="bottom">
 			<SidebarGroup class="px-2">
-				<SidebarCta label="Beta">
+				<!-- <SidebarCta label="Beta">
 					<p class="mb-3 text-sm text-blue-900 dark:text-blue-400">
 						You are one of the lucky few to try Signroom and all of its feature offerings first
 						before anyone else.
@@ -120,7 +120,7 @@
 					>
 						Please provide us feedbacks and suggestions for how to make it better.
 					</a>
-				</SidebarCta>
+				</SidebarCta> -->
 				<SidebarItem
 					label="Settings"
 					href="/my/settings"
