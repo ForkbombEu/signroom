@@ -7,7 +7,7 @@
 	const recordType = createTypeProp<OrganizationsResponse>();
 
 	function handleSuccess(e: CustomEvent<{ record: OrganizationsResponse }>) {
-		window.location.replace(`/my/organizations/${e.detail.record.id}`);
+		window.location.assign(`/my/organizations/${e.detail.record.id}`);
 	}
 </script>
 
