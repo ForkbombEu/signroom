@@ -11,7 +11,7 @@ onRecordAfterCreateRequest((e) => {
         console.log("Hook - orgJoinRequests - Sending email to admins");
 
         $app.dao().expandRecord(e.record, ["organization"]);
-        const basePath = $app.isDebug() ? "http://localhost:5173/" : "https://beta.signroom.org/";
+        const basePath = $app.isDebug() ? "http://localhost:5173/" : "https://beta.signroom.io/";
         const organization = e.record.expandedOne("organization");
         const organizationId = organization.getId();
         const organizationName = organization.get("name");
