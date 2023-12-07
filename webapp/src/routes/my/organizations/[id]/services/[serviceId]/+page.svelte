@@ -8,10 +8,12 @@
 
 <div class="space-y-8">
 	<div class="flex justify-end">
-		<Button color="alternative">
-			<ArrowDownTray></ArrowDownTray>
-			<span class="ml-2"> Download credential issuer </span>
-		</Button>
+		<form method="post" action="?/downloadCredentialIssuer">
+			<Button color="alternative" type="submit">
+				<ArrowDownTray />
+				<span class="ml-2"> Download credential issuer </span>
+			</Button>
+		</form>
 	</div>
 	<Hr />
 	<div class="max-h-96 overflow-scroll border rounded-lg p-4">
