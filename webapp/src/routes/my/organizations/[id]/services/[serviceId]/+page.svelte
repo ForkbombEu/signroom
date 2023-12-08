@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, Hr } from 'flowbite-svelte';
+	import { Button, Heading, Hr } from 'flowbite-svelte';
 	import { ArrowDownTray } from 'svelte-heros-v2';
 	import ServiceForm from '../_partials/serviceForm.svelte';
 	import { downloadBlob } from '$lib/utils/downloadBlob';
@@ -30,9 +30,11 @@
 		</Button>
 	</div>
 	<Hr />
+	<Heading tag="h4">Service preview</Heading>
 	<div class="max-h-96 overflow-scroll border rounded-lg p-4">
-		<pre>{JSON.stringify(data, null, 2)}</pre>
+		<pre>{JSON.stringify(data.service, null, 2)}</pre>
 	</div>
 	<Hr />
+	<Heading tag="h4">Edit service</Heading>
 	<ServiceForm organizationId={data.organization.id} initialData={data.service} mode="edit" />
 </div>
