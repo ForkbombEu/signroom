@@ -1,5 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import AdmZip from 'adm-zip';
+import type { RequestBody } from '.';
 
 //
 
@@ -11,8 +12,11 @@ const CREDENTIAL_ISSUER_FILE_NAME = 'openid-credential-issuer';
 
 export const POST: RequestHandler = async ({ fetch, request }) => {
 	try {
-		const response = await fetch(DIDROOM_MICROSERVICES_URL);
-		const buffer = Buffer.from(await response.arrayBuffer());
+		const requestBody = (await request.json()) as RequestBody;
+		console.log(requestBody);
+
+		const zipResponse = await fetch(DIDROOM_MICROSERVICES_URL);
+		const buffer = Buffer.from(await zipResponse.arrayBuffer());
 		const zip = new AdmZip(buffer);
 
 		const credentialIssuerEntry = zip
