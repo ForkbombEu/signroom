@@ -8,7 +8,7 @@
 	export let data;
 
 	async function downloadCredentialIssuer() {
-		const response = await request({ template: data.service.expand?.templates[0]! });
+		const response = await request({ templates: data.service.expand?.templates ?? [] });
 
 		if (response.ok) {
 			const blob = new Blob([await response.arrayBuffer()], { type: 'application/zip' });

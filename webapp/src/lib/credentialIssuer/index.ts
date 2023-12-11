@@ -1,5 +1,6 @@
 import type { ObjectSchema } from '$lib/jsonSchema/types';
-import type { CredentialSubject, CredentialSubjectItem } from './types';
+import type { TemplatesResponse } from '$lib/pocketbase/types';
+import type { CredentialMetadata, CredentialSubject, CredentialSubjectItem } from './types';
 
 export function objectSchemaToCredentialSubject(
 	schema: ObjectSchema,
@@ -18,4 +19,14 @@ export function objectSchemaToCredentialSubject(
 		}
 	}
 	return credentialSubject;
+}
+
+export function templateToCredentialMetadata(template: TemplatesResponse): CredentialMetadata {
+	return {
+		format: 'jwt_vc_json',
+		credential_definition: {
+			type: [],
+			credentialSubject: objectSchemaToCredentialSubject(JSON.parse(template.schema))
+		}
+	};
 }

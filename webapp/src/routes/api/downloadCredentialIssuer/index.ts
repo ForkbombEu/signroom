@@ -1,7 +1,7 @@
 import type { TemplatesResponse } from '$lib/pocketbase/types';
 
 export type RequestBody = {
-	template: TemplatesResponse;
+	templates: TemplatesResponse[];
 };
 
 export function request(body: RequestBody, fetchFn = fetch) {
