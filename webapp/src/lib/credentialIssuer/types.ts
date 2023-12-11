@@ -22,14 +22,16 @@ export interface CredentialMetadata {
 
 export interface CredentialDefinition {
 	type: string[];
-	credentialSubject?: {
-		[key: string]: CredentialDefinition | CredentialDefinition[] | CredentialSubjectItem; // https://openid.github.io/OpenID4VCI/openid-4-verifiable-credential-issuance-wg-draft.html#appendix-E.1.1.2-2.1.2.2.1
-	};
+	credentialSubject?: CredentialSubject;
+}
+
+export interface CredentialSubject {
+	[key: string]: CredentialDefinition | CredentialDefinition[] | CredentialSubjectItem; // https://openid.github.io/OpenID4VCI/openid-4-verifiable-credential-issuance-wg-draft.html#appendix-E.1.1.2-2.1.2.2.1
 }
 
 export interface CredentialSubjectItem {
 	mandatory?: boolean;
-	value_type?: 'string' | 'number'; // Not exaustive
+	value_type?: string; // TODO - find the exaustive list
 	display?: DisplayObject[];
 }
 
