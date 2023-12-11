@@ -3,17 +3,12 @@
 	import { ArrowDownTray } from 'svelte-heros-v2';
 	import ServiceForm from '../_partials/serviceForm.svelte';
 	import { downloadBlob } from '$lib/utils/downloadBlob';
+	import { request } from '@api/downloadCredentialIssuer';
 
 	export let data;
 
 	async function downloadCredentialIssuer() {
-		const response = await fetch('/api/downloadCredentialIssuer', {
-			method: 'POST',
-			body: JSON.stringify({ a: 'ciao' }),
-			headers: {
-				'content-type': 'application/json'
-			}
-		});
+		const response = await request({ template: data.service.expand?.templates[0]! });
 
 		if (response.ok) {
 			const blob = new Blob([await response.arrayBuffer()], { type: 'application/zip' });
