@@ -18,7 +18,7 @@
 	export let showLabel: boolean = false;
 
 	$: value = record[field];
-	$: text = showLabel ? `${field}: ${value}` : field;
+	$: text = showLabel ? `${field}: ${value}` : value;
 </script>
 
 {#if component}
