@@ -3,9 +3,9 @@ import { error } from '@sveltejs/kit';
 
 export const ssr = false;
 
-export const load = async () => {
-	// const flags = await loadFeatureFlags();
-	// if (flags.MAINTENANCE) {
-	// 	throw error(503);
-	// }
+export const load = async ({ fetch }) => {
+	const flags = await loadFeatureFlags(fetch);
+	if (flags.MAINTENANCE) {
+		throw error(503);
+	}
 };

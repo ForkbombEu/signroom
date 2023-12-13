@@ -2,8 +2,9 @@ import { json, type RequestEvent } from '@sveltejs/kit';
 
 export const POST = async (evt: RequestEvent) => {
 	const req = await evt.request.json();
+	const { fetch } = evt;
 
-	const params:Record<string, any> = {
+	const params: Record<string, any> = {
 		parameters: {
 			signingCertificate: {
 				encodedCertificate: req.cert_pem

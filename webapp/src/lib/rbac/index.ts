@@ -10,7 +10,7 @@ import { browser } from '$app/environment';
 import { pb } from '$lib/pocketbase';
 import type { OrgRole } from './roles';
 
-export async function verifyAuthorizations(organizationId: string) {
+export async function verifyAuthorizations(organizationId: string, fetchFn = fetch) {
 	if (!browser) return;
 	await pb.send('/verify-org-authorization', {
 		method: 'POST',
@@ -18,17 +18,19 @@ export async function verifyAuthorizations(organizationId: string) {
 			organizationId,
 			url: window.location.href
 		},
-		requestKey: null
+		requestKey: null,
+		fetch: fetchFn
 	});
 }
 
-export async function verifyRole(organizationId: string, roles: OrgRole[]) {
+export async function verifyRole(organizationId: string, roles: OrgRole[], fetchFn = fetch) {
 	await pb.send('/verify-user-role', {
 		method: 'POST',
 		body: {
 			organizationId,
 			roles
 		},
-		requestKey: null
+		requestKey: null,
+		fetch: fetchFn
 	});
 }
