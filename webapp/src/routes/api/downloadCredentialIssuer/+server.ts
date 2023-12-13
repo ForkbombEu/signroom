@@ -1,55 +1,61 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import AdmZip from 'adm-zip';
 import type { RequestBody } from '.';
-import type { CredentialIssuerMetadata } from '$lib/credentialIssuer/types';
-import { templateToCredentialMetadata } from '$lib/credentialIssuer';
+import {
+	credentialIssuerMetadataTemplate,
+	objectSchemaToCredentialSubject
+} from '$lib/credentialIssuer';
+import path from 'node:path';
 
 //
 
 const DIDROOM_MICROSERVICES_URL =
 	'https://github.com/ForkbombEu/DIDroom_microservices/archive/refs/heads/main.zip';
-const CREDENTIAL_ISSUER_FILE_NAME = 'openid-credential-issuer';
+const CREDENTIAL_ISSUER_METADATA_FILE_NAME = 'openid-credential-issuer';
 
 //
 
 export const POST: RequestHandler = async ({ fetch, request }) => {
 	try {
-		const requestBody = (await request.json()) as RequestBody;
+		const body = (await request.json()) as RequestBody;
+		const {
+			credential_issuer_url,
+			credential_issuer_name,
+			credential_name,
+			authorization_server,
+			templates
+		} = body;
 
 		//
 
-		const credentialIssuerMetadata: CredentialIssuerMetadata = {
-			credential_issuer: 'todo',
-			credential_endpoint: 'todo',
-			credentials_supported: {}
-		};
-
-		for (const template of requestBody.templates) {
-			credentialIssuerMetadata.credentials_supported[template.id] =
-				templateToCredentialMetadata(template);
-		}
+		const credentialIssuerMetadata = credentialIssuerMetadataTemplate({
+			credential_issuer_url,
+			credential_issuer_name,
+			credential_name,
+			authorization_server,
+			credentialSubject: templates.reduce((acc, curr) => {
+				return { ...acc, ...objectSchemaToCredentialSubject(JSON.parse(curr)) };
+			}, {})
+		});
 
 		//
 
 		const zipResponse = await fetch(DIDROOM_MICROSERVICES_URL);
 		const buffer = Buffer.from(await zipResponse.arrayBuffer());
 		const zip = new AdmZip(buffer);
+		const zipName = zip.getEntries()[0]?.entryName.split('/')[0];
 
-		const credentialIssuerEntry = zip
+		const credentialIssuerMetadataEntry = zip
 			.getEntries()
-			.find((entry) => entry.name === CREDENTIAL_ISSUER_FILE_NAME);
-		if (!credentialIssuerEntry) throw new Error('Credential issuer file not found');
+			.find((entry) => entry.name === CREDENTIAL_ISSUER_METADATA_FILE_NAME);
 
-		const credentialIssuerJSON = JSON.parse(
-			zip.readAsText(credentialIssuerEntry.entryName)
-		) as CredentialIssuerMetadata;
-		// TODO - implement proper edit
-		// const updatedCredentialIssuerJSON = { ...credentialIssuerJSON, ...(await request.json()) };
-
-		zip.updateFile(
-			credentialIssuerEntry.entryName,
-			Buffer.from(JSON.stringify(credentialIssuerMetadata))
+		zip.addFile(
+			credentialIssuerMetadataEntry?.entryName ??
+				path.join(zipName, 'public/.well-known', CREDENTIAL_ISSUER_METADATA_FILE_NAME),
+			Buffer.from(JSON.stringify(credentialIssuerMetadata, null, 4))
 		);
+
+		//
 
 		return new Response(zip.toBuffer(), {
 			status: 200,
