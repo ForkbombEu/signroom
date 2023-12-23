@@ -1,6 +1,13 @@
 .DEFAULT_GOAL := help
 .PHONY: help
 
+ROOT_DIR	= $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+ADMIN			= $(ROOT_DIR)/admin
+WEBAPP		= $(ROOT_DIR)/webapp
+AZC				= $(ADMIN)/zencode/zenflows-crypto
+WZC				= $(WEBAPP)/zenflows-crypto
+
+
 # detect the operating system
 OSFLAG 				:=
 ifneq ($(OS),Windows_NT)
@@ -24,18 +31,21 @@ help: ## 🛟  Show this help message
 
 # - Setup - #
 
-setup_git: ## 📦 Setup the Git (if not already done)
+.git:
 	@echo "📦 Setup Git"
-	@(git status > /dev/null 2>&1 && echo "Git already set up") || (echo "git init" && git init)
-	@echo " "
+	@git init -q
+	@git branch -m main
 
-setup_submodules: setup_git ## 📦 Setup the submodules
+$(AZC): .git
+	@rm -rf $(AZC)
+	@cd $(ADMIN) && git submodule --quiet add -f https://github.com/interfacerproject/zenflows-crypto zencode/zenflows-crypto
+
+$(WZC): .git
+	@rm -rf $(WZC)
+	@cd $(WEBAPP) && git submodule --quiet add -f https://github.com/interfacerproject/zenflows-crypto zenflows-crypto
+
+setup_submodules: $(AZC) $(WZC) ## 📦 Setup the submodules
 	@echo "📦 Setup the submodules"
-	rm -rf admin/zencode/zenflows-crypto
-	rm -rf webapp/zenflows-crypto
-	cd admin && git submodule add -f https://github.com/interfacerproject/zenflows-crypto zencode/zenflows-crypto
-	cd webapp && git submodule add -f https://github.com/interfacerproject/zenflows-crypto zenflows-crypto
-	@echo " "
 
 setup_zenroom: ## 📦 Setup zenroom
 	@echo "📦 Setup zenroom"
@@ -97,7 +107,7 @@ fe_dev: ## ⚙️ Watch the frontend
 dev: ## ⚙️ Run the project in development mode
 	$(MAKE) be fe_dev -j2
 
-up: setup ## ⚙️ Run the project
+up: setup ## 💄 Run the project
 	$(MAKE) be fe -j2
 
 doc: ## 📚 Serve documentation on localhost
@@ -108,18 +118,12 @@ definitions: ## ⚙️ Generate type definitions and schema
 
 # - Cleaning - #
 
-remove_git: ## 🧹 Remove git
-	@echo "🧹 Removing git"
-	rm -rf .git
-	@echo " "
-
-clean_submodules: ## 🧹 Clean submodules
+clean_submodules:
 	@echo "🧹 Clean submodules"
-	rm -rf admin/zencode/zenflows-crypto
-	rm -rf webapp/zenflows-crypto
-	@echo " "
+	@rm -rf $(AZC)
+	@rm -rf $(WZC)
 
-clean_build: ## 🧹 Clean project build
+clean_build:
 	@echo "🧹 Clean project build"
 	rm -f admin/pb
 	rm -fr webapp/node_modules
