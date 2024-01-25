@@ -12,6 +12,9 @@
 	import { currentUser, pb } from '$lib/pocketbase';
 	import { z } from 'zod';
 	import { featureFlags } from '$lib/features';
+	import { welcomeSearchParamKey } from '../../lib/utils/constants.js';
+	import { appTitle } from '../../lib/strings.js';
+
 
 	// Components
 	import { Alert, Button, Heading, Hr, P } from 'flowbite-svelte';
@@ -20,7 +23,7 @@
 	import { InformationCircle } from 'svelte-heros-v2';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-
+	
 	const url = $page.url;
 
 	const joined = url.searchParams.get('joined');
