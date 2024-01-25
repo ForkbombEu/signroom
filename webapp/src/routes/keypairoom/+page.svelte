@@ -12,6 +12,8 @@
 	import { currentUser, pb } from '$lib/pocketbase';
 	import { z } from 'zod';
 	import { featureFlags } from '$lib/features';
+	import { welcomeSearchParamKey } from '../../lib/utils/constants.js';
+	import { appTitle } from '../../lib/strings.js';
 
 	// Components
 	import { Alert, Button, Heading, Hr, P } from 'flowbite-svelte';
@@ -33,7 +35,6 @@
 		email: z.string().email(),
 		questions: userAnswersSchema
 	});
-
 
 	const superform = createForm(schema, async ({ form }) => {
 		let { data } = form;
