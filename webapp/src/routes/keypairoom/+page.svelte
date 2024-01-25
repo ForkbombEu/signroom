@@ -14,16 +14,16 @@
 	import { featureFlags } from '$lib/features';
 	import { welcomeSearchParamKey } from '../../lib/utils/constants.js';
 	import { appTitle } from '../../lib/strings.js';
-
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 
 	// Components
-	import { Alert, Button, Heading, Hr, P } from 'flowbite-svelte';
+	import { A, Alert, Button, Heading, Hr, P } from 'flowbite-svelte';
 	import CopyButton from '$lib/components/copyButton.svelte';
 	import { Form, createForm, Input, FormError, SubmitButton } from '$lib/forms';
 	import { InformationCircle } from 'svelte-heros-v2';
-	import { page } from '$app/stores';
-	import { goto } from '$app/navigation';
-	
+	import Card from '$lib/components/card.svelte';
+
 	const url = $page.url;
 
 	const joined = url.searchParams.get('joined');
@@ -36,7 +36,6 @@
 		email: z.string().email(),
 		questions: userAnswersSchema
 	});
-
 
 	const superform = createForm(schema, async ({ form }) => {
 		let { data } = form;
