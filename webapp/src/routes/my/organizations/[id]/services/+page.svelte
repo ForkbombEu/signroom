@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Collections, type ServicesResponse } from '$lib/pocketbase/types';
-	import { CollectionManager, CollectionTable } from '$lib/collectionManager';
+	import { CollectionEmptyState, CollectionManager, CollectionTable } from '$lib/collectionManager';
 	import { Eye, Plus } from 'svelte-heros-v2';
 	import { Button, Heading } from 'flowbite-svelte';
 	import { page } from '$app/stores';
@@ -31,6 +31,14 @@
 	}}
 >
 	<CollectionTable fields={['name', 'organization']} {records} hideActions={['edit', 'share']}>
+		<svelte:fragment slot="emptyState">
+			<CollectionEmptyState
+				title="No services"
+				description="You can create a new service by pushing the button placed on the top right."
+				hideCreateButton
+				></CollectionEmptyState>
+		</svelte:fragment>
+
 		<svelte:fragment slot="actions" let:record>
 			<IconButton size="sm" icon={Eye} border href={serviceUrl(record.id)} />
 		</svelte:fragment>
