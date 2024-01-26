@@ -2,6 +2,7 @@
 	import { getCollectionSchema } from '$lib/pocketbase/schema/index.js';
 	import {
 		Collections,
+		ServicesCredentialTypeOptions,
 		type IssuersResponse,
 		type ServicesResponse,
 		type TemplatesResponse
@@ -15,9 +16,10 @@
 		SubmitButton,
 		Checkbox,
 		Relations,
-		createFormData
+		createFormData,
+		Select
 	} from '$lib/forms';
-	import { Button, Drawer, Heading, Hr } from 'flowbite-svelte';
+	import { Button, Drawer, Heading, Hr, type SelectOptionType } from 'flowbite-svelte';
 	import { Plus } from 'svelte-heros-v2';
 	import { sineIn } from 'svelte/easing';
 	import RecordForm from '$lib/recordForm/recordForm.svelte';
@@ -93,19 +95,39 @@
 	//
 
 	const submitButtonText = !Boolean(initialData) ? 'Create service' : 'Update service';
+
+	//
+
+	const credentialTypeOptions: string[] = Object.values(ServicesCredentialTypeOptions);
 </script>
 
 <Form {superform} showRequiredIndicator>
-	<Input field="name" options={{placeholder:"Service name"}} {superform}/>
-	<Textarea field="description" options={{placeholder:"Service name"}} {superform}/>
+	<Input
+		field="name"
+		options={{ placeholder: 'Service name', label: 'Service name' }}
+		{superform}
+	/>
+
+	<Textarea
+		field="description"
+		options={{ placeholder: 'Service description', label: 'Service description' }}
+		{superform}
+	/>
+
+	<Select
+		{superform}
+		field="credential_type"
+		options={{ label: 'Select credential cryptography type', options: credentialTypeOptions }}
+	/>
 
 	<div>
 		<Relations
 			collection={Collections.Issuers}
 			field="issuer"
 			options={{
-				inputMode:"select",
-				displayFields:['name']
+				inputMode: 'select',
+				displayFields: ['name'],
+				label: 'Select a service for credential issuer'
 			}}
 			{superform}
 		/>
@@ -122,9 +144,10 @@
 			collection={Collections.Templates}
 			field="templates"
 			options={{
-				inputMode:"select",
-				displayFields:['name'],
-				multiple:true
+				label: 'Select one or more templates for this service',
+				inputMode: 'select',
+				displayFields: ['name'],
+				multiple: true
 			}}
 			{superform}
 		/>

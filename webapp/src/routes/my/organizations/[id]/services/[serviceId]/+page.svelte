@@ -46,14 +46,18 @@
 			<span class="ml-2"> Download credential issuer </span>
 		</Button>
 	</div>
+
 	<Hr />
+
+	<Heading tag="h4">Edit service</Heading>
+	<ServiceForm organizationId={data.organization.id} initialData={data.service} mode="edit" />
+
+	<Hr />
+
 	<Heading tag="h4">Service preview</Heading>
 	<div class="max-h-96 overflow-scroll border rounded-lg p-4">
 		<pre>{JSON.stringify(data.service, null, 2)}</pre>
 	</div>
-	<Hr />
-	<Heading tag="h4">Edit service</Heading>
-	<ServiceForm organizationId={data.organization.id} initialData={data.service} mode="edit" />
 </div>
 
 <PortalWrapper>
