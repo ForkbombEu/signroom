@@ -121,21 +121,15 @@ remove_git: ## 🧹 Remove git
 	rm -rf .git
 	@echo " "
 
-clean_submodules: ## 🧹 Clean submodules
+clean: ## 🧹 Clean the project
 	@echo "🧹 Clean submodules"
-	rm -rf admin/zencode/zenflows-crypto
-	rm -rf webapp/zenflows-crypto
-	@echo " "
-
-clean_build: ## 🧹 Clean project build
+	@rm -rf admin/zencode/zenflows-crypto
+	@rm -rf webapp/zenflows-crypto
 	@echo "🧹 Clean project build"
-	rm -f admin/pb
-	rm -fr webapp/node_modules
-	rm -f webapp/src/lib/pocketbase/types.ts
-	rm -f webapp/src/lib/pocketbase/schema/db_schema.json
-	@echo " "
-
-clean: clean_submodules clean_build ## 🧹 Clean the project
+	@rm -f admin/pb
+	@rm -fr webapp/node_modules
+	@rm -f webapp/src/lib/pocketbase/types.ts
+	@rm -f webapp/src/lib/pocketbase/schema/db_schema.json
 
 purge: ## ⛔ Purge the database
 	@echo "⛔ Purge the database"
