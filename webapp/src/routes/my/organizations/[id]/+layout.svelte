@@ -1,38 +1,50 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import Breadcrumb from '$lib/components/Breadcrumb.svelte';
-	import { pb } from '$lib/pocketbase';
+	import { pb } from '$lib/pocketbase/index.js';
+	import {
+		Collections,
+		type OrganizationsResponse,
+		type ServicesResponse
+	} from '$lib/pocketbase/types.js';
+
+	// Components
 	import { ProtectedOrgLayout } from '$lib/rbac';
-	import type { Link } from '$lib/utils/types.js';
+	import Breadcrumbs, { type BreadcrumbRenamer } from '$lib/components/Breadcrumbs.svelte';
 	import { Hr } from 'flowbite-svelte';
-	import { UserGroup } from 'svelte-heros-v2';
+
+	//
 
 	export let data;
-	$: organization = data.organization;
-	$: activeUrl = $page.url.pathname;
 
-	$: pathFragments = activeUrl?.split(`${organization.id}/`)[1]?.split('/') || [];
-	let breadcrumbItems: Link[] = [];
+	//
 
-	$: {
-		breadcrumbItems = [
-			{ text: 'Organizations', href: '/my/organizations' },
-			{ text: organization?.name, href: `/my/organizations/${organization?.id}` }
-		];
+	const breadcrumbRenamers: BreadcrumbRenamer[] = [
+		{
+			sveltekitFolder: '[id]',
+			newText: getOrganizationNameById
+		},
+		{
+			sveltekitFolder: '[serviceId]',
+			newText: getServiceNameById
+		}
+	];
 
-		pathFragments?.forEach((fragment, i) => {
-			breadcrumbItems.push({
-				text: fragment,
-				href: `/my/organizations/${organization?.id}/${pathFragments.slice(0, i + 1).join('/')}`
-			});
-		});
+	async function getServiceNameById(id: string): Promise<string> {
+		const service = await pb.collection(Collections.Services).getOne<ServicesResponse>(id);
+		return service.name;
+	}
+
+	async function getOrganizationNameById(id: string): Promise<string> {
+		const organization = await pb
+			.collection(Collections.Organizations)
+			.getOne<OrganizationsResponse>(id);
+		return organization.name;
 	}
 </script>
 
 <!--  -->
 
-<ProtectedOrgLayout orgId={organization.id}>
-	<Breadcrumb items={breadcrumbItems} homeIcon={UserGroup} />
+<ProtectedOrgLayout orgId={data.organization.id}>
+	<Breadcrumbs renamers={breadcrumbRenamers} />
 
 	<Hr />
 
