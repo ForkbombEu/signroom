@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import Breadcrumb from '$lib/components/Breadcrumb.svelte';
-	import { pb } from '$lib/pocketbase';
 	import { ProtectedOrgLayout } from '$lib/rbac';
 	import type { Link } from '$lib/utils/types.js';
 	import { Hr } from 'flowbite-svelte';
