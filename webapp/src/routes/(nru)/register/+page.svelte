@@ -2,12 +2,12 @@
 	import { pb } from '$lib/pocketbase';
 	import { Collections, OrgJoinRequestsStatusOptions } from '$lib/pocketbase/types';
 	import { goto } from '$app/navigation';
-	import { featureFlags } from '$lib/features';
 	import { z } from 'zod';
 
 	import { A, Heading, Hr, P } from 'flowbite-svelte';
 	import { Form, createForm, Input, Checkbox, FormError, SubmitButton } from '$lib/forms';
 	import { page } from '$app/stores';
+	import { welcomeSearchParam } from '$lib/utils/constants';
 
 	const url = $page.url;
 
@@ -41,14 +41,7 @@
 			return
 		}
 
-    // TODO - This should redirect to /my?welcome=true, and there we should check where to redirect
-		if ($featureFlags.KEYPAIROOM) {
-			await goto('/keypairoom');
-			return
-		} else {
-			await goto('/my');
-			return
-		}
+		window.location.assign(`/my?${welcomeSearchParam}`);
 	});
 </script>
 
