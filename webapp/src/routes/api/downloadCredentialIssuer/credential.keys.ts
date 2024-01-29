@@ -41,7 +41,7 @@ export function template(props: CredentialKeysJSONTemplateProps) {
 					],
 					format: 'vc+sd-jwt',
 					id,
-					order: ['given_name', 'family_name'],
+					order: [],
 					types: ['VerifiableCredential', 'IdentityCredential']
 				}
 			],
