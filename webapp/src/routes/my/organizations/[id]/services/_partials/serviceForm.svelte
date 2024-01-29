@@ -5,7 +5,9 @@
 		ServicesCredentialTypeOptions,
 		type IssuersResponse,
 		type ServicesResponse,
-		type TemplatesResponse
+		type TemplatesResponse,
+		type AuthorizationServersResponse,
+		type RelyingPartiesResponse
 	} from '$lib/pocketbase/types.js';
 	import { fieldsSchemaToZod } from '$lib/pocketbaseToZod/index.js';
 	import {
@@ -31,6 +33,7 @@
 	import { goto } from '$app/navigation';
 	import { createFieldComponent } from '$lib/recordForm/fieldSchemaToInput.svelte';
 	import JSONSchemaInput from './JSONSchemaInput.svelte';
+	import FormError from '$lib/forms/formError.svelte';
 
 	export let organizationId: string;
 	export let initialData: ServicesResponse | undefined = undefined;
@@ -99,9 +102,13 @@
 	const credentialTypeOptions: string[] = Object.values(ServicesCredentialTypeOptions);
 
 	const issuersType = createTypeProp<IssuersResponse>();
+	const authorizationServersType = createTypeProp<AuthorizationServersResponse>();
+	const relyingPartiesType = createTypeProp<RelyingPartiesResponse>();
 </script>
 
 <Form {superform} showRequiredIndicator>
+	<Heading tag="h5">Main info</Heading>
+
 	<Input
 		field="name"
 		options={{ placeholder: 'Service name', label: 'Service name' }}
@@ -122,26 +129,6 @@
 
 	<div>
 		<Relations
-			recordType={issuersType}
-			collection={Collections.Issuers}
-			field="issuer"
-			options={{
-				inputMode: 'select',
-				displayFields: ['name', 'endpoint'],
-				label: 'Select a service for credential issuer'
-			}}
-			{superform}
-		/>
-		<div class="flex justify-end pt-4">
-			<Button color="alternative" size="xs" on:click={toggleIssuerDrawer}>
-				<Plus size="16" />
-				<span class="ml-1">Add issuer</span>
-			</Button>
-		</div>
-	</div>
-
-	<div>
-		<Relations
 			collection={Collections.Templates}
 			field="templates"
 			options={{
@@ -152,18 +139,88 @@
 			}}
 			{superform}
 		/>
-		<div class="flex justify-end pt-4">
+		<!-- <div class="flex justify-end pt-4">
 			<Button color="alternative" size="xs" on:click={toggleTemplateDrawer}>
 				<Plus size="16" />
 				<span class="ml-1">Add template</span>
 			</Button>
-		</div>
+		</div> -->
 	</div>
+
+	<Hr />
+
+	<Heading tag="h5">Servers</Heading>
+
+	<div>
+		<Relations
+			recordType={issuersType}
+			collection={Collections.Issuers}
+			field="issuer"
+			options={{
+				inputMode: 'select',
+				displayFields: ['name', 'endpoint'],
+				label: 'Select an service for credential issuer'
+			}}
+			{superform}
+		/>
+		<!-- <div class="flex justify-end pt-4">
+			<Button color="alternative" size="xs" on:click={toggleIssuerDrawer}>
+				<Plus size="16" />
+				<span class="ml-1">Add issuer</span>
+			</Button>
+		</div> -->
+	</div>
+
+	<div>
+		<Relations
+			recordType={authorizationServersType}
+			collection={Collections.AuthorizationServers}
+			field="authorization_server"
+			options={{
+				inputMode: 'select',
+				displayFields: ['name', 'endpoint'],
+				label: 'Select an authorization service'
+			}}
+			{superform}
+		/>
+		<!-- <div class="flex justify-end pt-4">
+			<Button color="alternative" size="xs" on:click={toggleIssuerDrawer}>
+				<Plus size="16" />
+				<span class="ml-1">Add issuer</span>
+			</Button>
+		</div> -->
+	</div>
+
+	<div>
+		<Relations
+			recordType={relyingPartiesType}
+			collection={Collections.RelyingParties}
+			field="relying_party"
+			options={{
+				inputMode: 'select',
+				displayFields: ['name', 'endpoint'],
+				label: 'Select a relying party'
+			}}
+			{superform}
+		/>
+		<!-- <div class="flex justify-end pt-4">
+			<Button color="alternative" size="xs" on:click={toggleIssuerDrawer}>
+				<Plus size="16" />
+				<span class="ml-1">Add relying party</span>
+			</Button>
+		</div> -->
+	</div>
+
+	<Hr />
+
+	<Heading tag="h5">Options</Heading>
 
 	<Checkbox field="add_ons" {superform}>Use add-ons</Checkbox>
 	<Checkbox field="published" {superform}>Published</Checkbox>
 
 	<Hr />
+
+	<FormError />
 
 	<div class="flex justify-end">
 		<SubmitButton>{submitButtonText}</SubmitButton>
