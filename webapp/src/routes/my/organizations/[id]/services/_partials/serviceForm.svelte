@@ -159,7 +159,7 @@
 			options={{
 				inputMode: 'select',
 				displayFields: ['name', 'endpoint'],
-				label: 'Select an service for credential issuer'
+				label: 'Select a credential issuer'
 			}}
 			{superform}
 		/>
