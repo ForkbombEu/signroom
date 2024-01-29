@@ -70,3 +70,10 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 		});
 	}
 };
+
+const editFile = (zip: AdmZip, entryName: string, content: string) => {
+	const entry = zip.getEntries().find((entry) => entry.name === entryName);
+	if (!entry) return;
+
+	zip.updateFile(entry, Buffer.from(content));
+};
