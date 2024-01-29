@@ -3,7 +3,7 @@ import type { CredentialSubject, CredentialSubjectItem, CredentialIssuerMetadata
 
 //
 
-type CredentialIssuerMetadataTemplateProps = {
+type TemplateProps = {
 	credential_issuer_url: string;
 	credential_issuer_name: string;
 	credential_name: string;
@@ -11,31 +11,29 @@ type CredentialIssuerMetadataTemplateProps = {
 	credentialSubject: CredentialSubject;
 };
 
-export function credentialIssuerMetadataTemplate({
+export function template({
 	credential_issuer_url,
 	credential_issuer_name,
 	credential_name,
 	authorization_server,
 	credentialSubject
-}: CredentialIssuerMetadataTemplateProps): CredentialIssuerMetadata {
+}: TemplateProps): CredentialIssuerMetadata {
 	return {
-		credential_issuer: credential_issuer_url,
+		authorization_endpoint: `${credential_issuer_url}/credential_issuer/authorize`,
+		authorization_response_iss_parameter_supported: true,
 		authorization_servers: [authorization_server],
-		credential_endpoint: `${credential_issuer_url}`, // TODO - Review
-		batch_credential_endpoint: `${credential_issuer_url}/batch_credential`, // TODO - Review
-		deferred_credential_endpoint: `${credential_issuer_url}/deferred_credential`, // TODO - Review
-		display: [
-			{
-				name: credential_issuer_name,
-				locale: 'en-US'
-			}
-		],
+		batch_credential_endpoint: `${credential_issuer_url}/credential_issuer/batch_credential`, // TODO - Review
+		claim_types_supported: ['normal'],
+		claims_parameter_supported: false,
+		code_challenge_methods_supported: ['S256'],
+		credential_endpoint: `${credential_issuer_url}/credential_issuer/credential`, // TODO - Review
+		credential_issuer: credential_issuer_url,
 		credentials_supported: {
 			[credential_name]: {
-				format: 'jwt_vc_json',
+				format: 'vc+sd-jwt',
 				// scope: 'UniversityDegree', // not sure
 				cryptographic_binding_methods_supported: ['did:dyne:sandbox.signroom'],
-				cryptographic_suites_supported: ['ES256K'],
+				cryptographic_suites_supported: ['ES256'],
 				proof_types_supported: ['jwt'],
 				credential_definition: {
 					type: [credential_name],
@@ -54,7 +52,25 @@ export function credentialIssuerMetadataTemplate({
 				// 	}
 				// ]
 			}
-		}
+		},
+		deferred_credential_endpoint: `${credential_issuer_url}/credential_issuer/deferred_credential`,
+		grant_types_supported: ['authorization_code'],
+		id_token_signing_alg_values_supported: ['ES256'],
+		pushed_authorization_request_endpoint: `${credential_issuer_url}/credential_issuer/par`,
+		request_object_signing_alg_values_supported: ['ES256'],
+		request_parameter_supported: true,
+		request_uri_parameter_supported: true,
+		response_modes_supported: ['query'],
+		response_types_supported: ['code'],
+		scopes_supported: ['openid'],
+		token_endpoint: `${credential_issuer_url}/credential_issuer/token`,
+		token_endpoint_auth_methods_supported: ['none'],
+		display: [
+			{
+				name: credential_issuer_name,
+				locale: 'en-US'
+			}
+		]
 	};
 }
 
