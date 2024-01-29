@@ -96,9 +96,9 @@
 
 	const submitButtonText = !Boolean(initialData) ? 'Create service' : 'Update service';
 
-	//
-
 	const credentialTypeOptions: string[] = Object.values(ServicesCredentialTypeOptions);
+
+	const issuersType = createTypeProp<IssuersResponse>();
 </script>
 
 <Form {superform} showRequiredIndicator>
@@ -122,11 +122,12 @@
 
 	<div>
 		<Relations
+			recordType={issuersType}
 			collection={Collections.Issuers}
 			field="issuer"
 			options={{
 				inputMode: 'select',
-				displayFields: ['name'],
+				displayFields: ['name', 'endpoint'],
 				label: 'Select a service for credential issuer'
 			}}
 			{superform}

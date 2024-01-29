@@ -1,9 +1,16 @@
 <script lang="ts">
-	import { Collections } from '$lib/pocketbase/types';
-	import { CollectionManager, CollectionManagerHeader, CollectionTable } from '$lib/collectionManager';
+	import { Collections, type IssuersResponse } from '$lib/pocketbase/types';
+	import {
+		CollectionManager,
+		CollectionManagerHeader,
+		CollectionTable
+	} from '$lib/collectionManager';
+	import { createTypeProp } from '$lib/utils/typeProp';
+
+	const recordType = createTypeProp<IssuersResponse>();
 </script>
 
-<CollectionManager collection={Collections.Issuers} let:records>
+<CollectionManager {recordType} collection={Collections.Issuers} let:records>
 	<CollectionManagerHeader />
-	<CollectionTable {records} fields={["name"]}></CollectionTable>
+	<CollectionTable {records} fields={['name', 'endpoint']}></CollectionTable>
 </CollectionManager>
