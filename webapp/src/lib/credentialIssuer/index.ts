@@ -3,7 +3,7 @@ import type { CredentialSubject, CredentialSubjectItem, CredentialIssuerMetadata
 
 //
 
-type CredentialIssuerMetadataTemplateProps = {
+type TemplateProps = {
 	credential_issuer_url: string;
 	credential_issuer_name: string;
 	credential_name: string;
@@ -11,13 +11,13 @@ type CredentialIssuerMetadataTemplateProps = {
 	credentialSubject: CredentialSubject;
 };
 
-export function credentialIssuerMetadataTemplate({
+export function template({
 	credential_issuer_url,
 	credential_issuer_name,
 	credential_name,
 	authorization_server,
 	credentialSubject
-}: CredentialIssuerMetadataTemplateProps): CredentialIssuerMetadata {
+}: TemplateProps): CredentialIssuerMetadata {
 	return {
 		authorization_endpoint: `${credential_issuer_url}/credential_issuer/authorize`,
 		authorization_response_iss_parameter_supported: true,
