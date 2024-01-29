@@ -21,7 +21,7 @@ export const createOrganizationLinks = (
 			href: base('/templates')
 		},
 		{
-			label: 'Issuers',
+			label: 'Servers',
 			href: base('/issuers')
 		}
 	];
