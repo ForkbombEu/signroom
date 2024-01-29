@@ -1,10 +1,9 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import AdmZip from 'adm-zip';
 import type { RequestBody } from '.';
-import path from 'node:path';
 import * as credentialIssuer from '$lib/credentialIssuer';
 import * as credentialKeys from './credential.keys';
-import { merge } from 'lodash';
+import _ from 'lodash';
 import type { ObjectSchema } from '$lib/jsonSchema/types';
 import { nanoid } from 'nanoid';
 
@@ -38,7 +37,7 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 		const credentialIssuerMetadataEntry = getFile(zip, CREDENTIAL_ISSUER_METADATA_FILE_NAME);
 
 		if (credentialIssuerMetadataEntry) {
-			const credentialSubject = merge(
+			const credentialSubject = _.merge(
 				templates
 					.map((t) => JSON.parse(t))
 					.map((t) => credentialIssuer.objectSchemaToCredentialSubject(t))
@@ -65,7 +64,7 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 		const credentialKeysJsonEntry = getFile(zip, CREDENTIAL_KEYS_FILE_NAME);
 
 		if (credentialKeysJsonEntry) {
-			const credentialSubject = merge(
+			const credentialSubject = _.merge(
 				templates
 					.map((t) => JSON.parse(t))
 					.map((t) => credentialKeys.objectSchemaToCredentialSubject(t))
