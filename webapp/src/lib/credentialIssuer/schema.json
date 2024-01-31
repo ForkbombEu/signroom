@@ -1,0 +1,111 @@
+{
+	"$schema": "https://json-schema.org/draft-07/schema",
+	"type": "object",
+	"required": ["credential_issuer", "credential_endpoint", "credentials_supported"],
+	"properties": {
+		"credential_issuer": {
+			"type": "string",
+			"format": "uri"
+		},
+		"authorization_servers": {
+			"type": "array",
+			"items": {
+				"type": "string",
+				"format": "uri"
+			}
+		},
+		"credential_endpoint": {
+			"type": "string",
+			"format": "uri"
+		},
+		"batch_credential_endpoint": {
+			"type": "string",
+			"format": "uri"
+		},
+		"deferred_credential_endpoint": {
+			"type": "string",
+			"format": "uri"
+		},
+		"display": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"name": { "type": "string" },
+					"locale": { "type": "string" }
+				}
+			}
+		},
+		"credentials_supported": {
+			"type": "object",
+			"properties": {},
+			"additionalProperties": {
+				"type": "object",
+				"properties": {
+					"format": { "type": "string" },
+					"scope": { "type": "string" },
+					"cryptographic_binding_methods_supported": {
+						"type": "array",
+						"items": { "type": "string" }
+					},
+					"cryptographic_suites_supported": {
+						"type": "array",
+						"items": { "type": "string" }
+					},
+					"credential_definition": {
+						"type": "object",
+						"required": ["type"],
+						"properties": {
+							"type": {
+								"type": "array",
+								"items": { "type": "string" }
+							},
+							"credentialSubject": {
+								"type": "object",
+								"properties": {},
+								"additionalProperties": {
+									"type": "object",
+									"properties": {
+										"display": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"name": { "type": "string" },
+													"locale": { "type": "string" }
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"proof_types_supported": {
+						"type": "array",
+						"items": { "type": "string" }
+					},
+					"display": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"name": { "type": "string" },
+								"locale": { "type": "string" },
+								"logo": {
+									"type": "object",
+									"properties": {
+										"url": { "type": "string", "format": "uri" },
+										"alt_text": { "type": "string" }
+									}
+								},
+								"background_color": { "type": "string" },
+								"text_color": { "type": "string" }
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

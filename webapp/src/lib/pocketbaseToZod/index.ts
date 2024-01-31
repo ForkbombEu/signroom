@@ -14,7 +14,8 @@ const FieldTypeToZod = {
 	[FieldType.FILE]: z.instanceof(File),
 	[FieldType.SELECT]: z.string(),
 	[FieldType.RELATION]: z.string(),
-	[FieldType.JSON]: z.string()
+	[FieldType.JSON]: z.string(),
+	[FieldType.URL]: z.string().url()
 };
 
 type FieldOptions = Record<string, unknown>;
@@ -60,7 +61,8 @@ const FieldTypeRefiners: FieldTypeRefiners = {
 	[FieldType.BOOL]: {},
 	[FieldType.EDITOR]: {},
 	[FieldType.RELATION]: {},
-	[FieldType.JSON]: {}
+	[FieldType.JSON]: {},
+	[FieldType.URL]: {}
 };
 
 //

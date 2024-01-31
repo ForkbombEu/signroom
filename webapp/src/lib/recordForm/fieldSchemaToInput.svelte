@@ -85,7 +85,7 @@
 		{...component.events}
 		{label}
 	/>
-{:else if fieldSchema.type == FieldType.TEXT}
+{:else if fieldSchema.type == FieldType.TEXT || fieldSchema.type == FieldType.URL}
 	<Input {superform} {field} options={{ label }} />
 {:else if fieldSchema.type == FieldType.JSON}
 	<Textarea {superform} {field} options={{ label }} />
