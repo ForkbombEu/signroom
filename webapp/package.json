@@ -13,7 +13,7 @@
 	},
 	"scripts": {
 		"predev": "pnpm run definitions",
-		"dev": "paraglide && vite dev",
+		"dev": "pnpm paraglide && vite dev",
 		"prebuild": "pnpm run definitions",
 		"paraglide": "paraglide-js compile --project ./project.inlang ",
 		"build": "pnpm paraglide && svelte-kit sync && vite build",
