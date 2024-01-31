@@ -8,7 +8,7 @@ import {
 	type RelyingPartiesResponse
 } from '$lib/pocketbase/types.js';
 
-export const load = async ({ params }) => {
+export const load = async ({ params, fetch }) => {
 	const { serviceId } = params;
 
 	const templatesExpand = 'templates';
@@ -30,6 +30,6 @@ export const load = async ({ params }) => {
 		relyingPartyExpand
 	].join(', ');
 
-	const service = await pb.collection(Collections.Services).getOne<Service>(serviceId, { expand });
+	const service = await pb.collection(Collections.Services).getOne<Service>(serviceId, { expand, fetch });
 	return { service };
 };

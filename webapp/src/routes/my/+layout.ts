@@ -13,11 +13,11 @@ import { browser } from '$app/environment';
 import { getKeyringFromLocalStorage } from '$lib/keypairoom/keypair';
 import { missingKeyringParam, welcomeSearchParamKey } from '$lib/utils/constants';
 
-export const load = async ({ url }) => {
+export const load = async ({ url, fetch }) => {
 	const featureFlags = await loadFeatureFlags();
 
 	if (!featureFlags.AUTH) throw error(404);
-	if (!(await verifyUser())) throw redirect(303, '/login');
+	if (!(await verifyUser(fetch))) throw redirect(303, '/login');
 
 	if (featureFlags.KEYPAIROOM && browser) {
 		const keyring = getKeyringFromLocalStorage();
@@ -40,7 +40,8 @@ export const load = async ({ url }) => {
 			.collection(Collections.OrgAuthorizations)
 			.getFullList<Authorizations>({
 				filter: `user = "${pb.authStore.model!.id}"`,
-				expand: 'organization,role'
+				expand: 'organization,role',
+				fetch
 			});
 
 		return { authorizations };

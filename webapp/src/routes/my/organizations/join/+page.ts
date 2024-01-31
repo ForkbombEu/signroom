@@ -14,7 +14,8 @@ export const load = async ({ fetch }) => {
 		.collection(Collections.OrgJoinRequests)
 		.getFullList<OrgJoinRequestsResponse>({
 			filter: `user.id = "${user.id}"`,
-			requestKey: null
+			requestKey: null,
+			fetch
 		});
 
 	const orgAuthorizations = await pb
@@ -26,8 +27,6 @@ export const load = async ({ fetch }) => {
 			requestKey: null
 		});
 
-	console.log(orgAuthorizations);
-
 	const joinedOrganizationsIdsFilter = orgAuthorizations
 		.map((authorization) => {
 			return authorization.expand?.organization.id;
@@ -36,8 +35,6 @@ export const load = async ({ fetch }) => {
 		.map((id) => `id != "${id}"`)
 		.join(' && ');
 
-	console.log(joinedOrganizationsIdsFilter);
-
 	const organizations = await pb
 		.collection(Collections.Organizations)
 		.getFullList<OrganizationsResponse>({
@@ -45,8 +42,6 @@ export const load = async ({ fetch }) => {
 			fetch,
 			requestKey: null
 		});
-
-	console.log(organizations);
 
 	return { organizations, orgJoinRequests };
 };
