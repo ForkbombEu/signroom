@@ -1,0 +1,16 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"loading": "Loading...",
+	"read_more": "Read more",
+	"home": "Home",
+	"login": "Login",
+	"register": "Register",
+	"my": "My",
+	"Here_are_some_helpful_links": "Here are some helpful links:",
+	"Internal_Error": "Internal Error",
+	"Something_went_wrong_Please_try_again_later_": "Something went wrong. Please try again later.",
+	"Service_Unavailable": "Service Unavailable",
+	"Were_temporarily_offline_for_maintenance_Please_try_again_later_": "We’re temporarily offline for maintenance. Please try again later.",
+	"Not_Found": "Not Found",
+	"Whoops_That_page_doesnt_exist_": "Whoops! That page doesn’t exist."
+}

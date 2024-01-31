@@ -5,6 +5,8 @@
 	import { Card, Heading } from 'flowbite-svelte';
 	import { BlogBodyWrapper, Section } from 'flowbite-svelte-blocks';
 	import { ArrowTopRightOnSquare, ArrowLongRight } from 'svelte-heros';
+	import { m } from '$lib/i18n';
+
 	let news = pb.collection('posts').getFullList({ filter: 'published=true' });
 	let links = pb.collection('quick_actions').getFullList({ filter: 'published=true' });
 </script>
@@ -14,7 +16,7 @@
 	description="Perform essential tasks efficiently and effortlessly, empowering you to sign, verify, and manage documents with ease."
 />
 {#await links}
-	<p>Loading...</p>
+	<p>{m.loading()}</p>
 {:then links}
 	{#each links as link}
 		<a
@@ -53,7 +55,7 @@
 					{n.preview}
 				</p>
 				<a href={`/news#${n.id}`} class="inline-flex items-center text-primary-600 hover:underline">
-					Read more
+					{m.read_more()}
 					<ArrowTopRightOnSquare class="ml-2 w-4" />
 				</a>
 			</Card>
