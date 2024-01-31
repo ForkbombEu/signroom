@@ -15,7 +15,7 @@
 		"predev": "pnpm run definitions",
 		"dev": "vite dev",
 		"prebuild": "pnpm run definitions",
-		"build": "svelte-kit sync && vite build",
+		"build": "paraglide-js compile --project ./project.inlang && svelte-kit sync && vite build",
 		"preview": "vite preview",
 		"test": "playwright test",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -29,7 +29,8 @@
 		"roles": "node ./src/lib/rbac/generateRolesList.mjs",
 		"schema": "node ./src/lib/pocketbase/schema/generateSchema.mjs",
 		"definitions": "pnpm types && pnpm schema && pnpm features && pnpm roles",
-		"serve": "pnpm build && pnpm preview --host"
+		"serve": "pnpm build && pnpm preview --host",
+		"postinstall": "paraglide-js compile --project ./project.inlang"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.37.1",
@@ -61,7 +62,8 @@
 		"typescript": "^5.2.2",
 		"vite": "^4.4.9",
 		"vitest": "^0.34.3",
-		"zod": "^3.22.2"
+		"zod": "^3.22.2",
+		"@inlang/paraglide-js": "1.2.2"
 	},
 	"type": "module",
 	"dependencies": {
