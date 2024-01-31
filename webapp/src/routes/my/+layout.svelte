@@ -29,6 +29,8 @@
 	import { links } from './_partials/sidebarLinks';
 	import { createOrganizationLinks } from './_partials/organizationLinks';
 	import { OrgRoles } from '$lib/rbac';
+	import { m } from '$lib/i18n';
+	import LanguageSwitcher from '$lib/components/languageSwitcher.svelte';
 
 	//
 
@@ -52,7 +54,7 @@
 			<div class="flex items-center">
 				<div>
 					<span class="whitespace-nowrap">
-						Hello, <span class="font-semibold text-primary-600">{$currentUser?.email}</span>
+						{m.hello()}, <span class="font-semibold text-primary-600">{$currentUser?.email}</span>
 					</span>
 				</div>
 				<div class="shrink-0">
@@ -61,20 +63,21 @@
 			</div>
 		</svelte:fragment>
 		<svelte:fragment slot="right">
+			<LanguageSwitcher />
 			<AvatarMenu>
 				<DropdownHeader>
 					<span class="block truncate text-xs font-medium text-gray-500">
 						{$currentUser?.email}
 					</span>
 				</DropdownHeader>
-				<DropdownItem href="/my/profile">My profile</DropdownItem>
+				<DropdownItem href="/my/profile">{m.my_profile()}</DropdownItem>
 				<DropdownDivider />
 				<DropdownItem href="/pro" class="flex items-center">
 					<Fire class="text-red-500 mr-2 w-5" /> Go Pro</DropdownItem
 				>
 				<DropdownDivider />
 				<DropdownItem on:click={() => goto('/my/logout')} class="text-primary-600">
-					Sign out
+					{m.sign_out()}
 				</DropdownItem>
 			</AvatarMenu>
 		</svelte:fragment>
@@ -140,8 +143,8 @@
 						<Lifebuoy />
 					</svelte:fragment>
 				</SidebarItem>
-			</SidebarGroup></svelte:fragment
-		>
+			</SidebarGroup>
+		</svelte:fragment>
 	</Sidebar>
 
 	<MainContent>

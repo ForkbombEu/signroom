@@ -1,3 +1,4 @@
+import { m } from '$lib/i18n';
 import type { SidebarLink } from '$lib/layout';
 import { pb } from '$lib/pocketbase';
 import { ClipboardDocumentCheck } from 'svelte-heros';
@@ -7,51 +8,51 @@ const didUrl = `https://explorer.did.dyne.org/details/did:dyne:sandbox.signroom:
 
 export const links: SidebarLink[] = [
 	{
-		label: 'Start',
+		label: m.Start(),
 		href: '/my',
 		icon: RocketLaunch
 	},
 	{
-		label: 'Signatures',
+		label: m.Signatures(),
 		icon: ClipboardDocumentCheck,
 		subLinks: [
 			{
-				label: 'My folders',
+				label: m.My_folders(),
 				href: '/my/folders'
 			},
 			{
-				label: 'My signatures',
+				label: m.My_signatures(),
 				href: '/my/signatures'
 			},
 			{
-				label: 'Validate signatures',
+				label: m.Validate_signatures(),
 				href: '/my/validate'
 			},
 			{
-				label: 'Multisignatures',
+				label: m.Multisignatures(),
 				disabled: true,
 				href: '/'
 			}
 		]
 	},
 	{
-		label: 'Notifications',
+		label: m.Notifications(),
 		icon: InboxArrowDown,
 		disabled: true
 	},
 	{
-		label: 'Identity',
+		label: m.identity(),
 		icon: Identification,
 		subLinks: [
 			{
-				label: 'My DID',
+				label: m.My_DID(),
 				href: didUrl
 			},
-			{ label: 'My Verifiable Credentials', disabled: true, href: '/' }
+			{ label: m.My_Verifiable_Credentials(), disabled: true, href: '/' }
 		]
 	},
 	{
-		label: 'Organizations',
+		label: m.organizations(),
 		icon: Wallet,
 		href: '/my/organizations'
 	}
