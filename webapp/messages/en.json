@@ -12,5 +12,19 @@
 	"Service_Unavailable": "Service Unavailable",
 	"Were_temporarily_offline_for_maintenance_Please_try_again_later_": "We’re temporarily offline for maintenance. Please try again later.",
 	"Not_Found": "Not Found",
-	"Whoops_That_page_doesnt_exist_": "Whoops! That page doesn’t exist."
+	"Whoops_That_page_doesnt_exist_": "Whoops! That page doesn’t exist.",
+	"Start": "Start",
+	"Signatures": "Signatures",
+	"My_folders": "My folders",
+	"My_signatures": "My signatures",
+	"Validate_signatures": "Validate signatures",
+	"Multisignatures": "Multisignatures",
+	"Notifications": "Notifications",
+	"identity": "Identity",
+	"organizations": "Organizations",
+	"My_Verifiable_Credentials": "My Verifiable Credentials",
+	"My_DID": "My DID",
+	"hello": "Hello",
+	"sign_out": "Sign out",
+	"my_profile": "My profile"
 }
