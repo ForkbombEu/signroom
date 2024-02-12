@@ -4,12 +4,12 @@
 	import TitleDescription from './titleDescription.svelte';
 	import { ClipboardDocumentCheck, ExclamationCircle, HandThumbUp } from 'svelte-heros-v2';
 	import { getRecordsManagerContext, CreateRecord } from '$lib/collectionManager';
-	import { zencode_exec } from 'zenroom';
+	import { X509Certificate } from "@peculiar/x509";
 	//@ts-ignore
 	import { pb } from '$lib/pocketbase';
 	import SignaturesFoldersHead from './signaturesFoldersHead.svelte';
 	import type { ToastContent } from '../../routes/my/signatures/+page.svelte';
-	import hexDerEs256Signature from '../../../zenflows-crypto/src/hex_der_es256_signature.zen?raw';
+	import { signData } from './utils/sign';
 
 	export let folderId: string | null = null;
 	export let trigger: (toast: ToastContent) => void;
@@ -23,6 +23,7 @@
 		cb();
 	};
 	const CERTIFICATE_ZENROOM_KEY = "certificateZenroomKey";
+	const CERTIFICATE_KEY = "certificateKey";
 	const CERTIFICATE = "certificate";
 
 	let loading = false;
@@ -60,8 +61,20 @@
 
 			// current timestamp
 			const ts_now = Date.now();
+			const sk = localStorage.getItem(CERTIFICATE_ZENROOM_KEY) || localStorage.getItem(CERTIFICATE_KEY);
+			if ( sk == null ) throw("Empty secret key");
 			const cert_pem = localStorage.getItem(CERTIFICATE);
-			const sk = localStorage.getItem(CERTIFICATE_ZENROOM_KEY);
+			if ( cert_pem == null ) throw("Empty Certificate");
+
+			// TODO: move checks to upload moment, maybe save on local storage
+			const c = cert_pem.replace(/(\r\n|\n|\r)/gm,"");
+			const cert_alg: {name: string, namedCurve?: string } = (new X509Certificate(c)).publicKey.algorithm;
+			if (cert_alg.name == "ECDSA" && cert_alg.namedCurve != "P-256") {
+				throw("ECDSA signature must be on P-256 curve");
+			}
+			if (cert_alg.name == "EdDSA" && cert_alg.namedCurve != "Ed25519") {
+				throw("EdDSA signature must be on Ed25519 curve");
+			}
 
 			//2. get data to sign
 			const toSign = await fetch('/api/getDataToSign', {
@@ -75,16 +88,7 @@
 			const toBeSigned = await toSign.json();
 
 			//3. sign digest of data
-			var signedDigest;
-			if (sk) {
-				const { result } = await zencode_exec(hexDerEs256Signature,
-					{
-						keys: JSON.stringify({ keyring: JSON.parse(sk) }),
-						data: JSON.stringify({ bytes: toBeSigned.bytes })
-				});
-				const hexSignedDigest = JSON.parse(result).der_signature;
-				signedDigest = btoa(hexSignedDigest.match(/\w{2}/g).map(function(a: string){return String.fromCharCode(parseInt(a, 16));} ).join(""));
-			}
+			const signedDigest = await signData(cert_alg.name, sk, toBeSigned.bytes);
 
 			//4. sign document (insert signature)
 			const signed = await fetch('/api/signDocument', {
@@ -106,7 +110,8 @@
 			signatureName = rc.title;
 			trigger('signed');
 		} catch (e) {
-			error = e;
+			error = {}
+			error.message = e;
 			loading = false;
 		}
 	}

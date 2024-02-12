@@ -31,9 +31,9 @@ export async function generateKeyAndCertificate(): void {
 	const sk = await crypto.subtle.exportKey("pkcs8", keyPair.privateKey);
 	const sk_b64 = btoa(String.fromCharCode(...(new Uint8Array(sk))));
 	localStorage.setItem(CERTIFICATE_KEY, sk_b64);
-	const sk_jwk = await crypto.subtle.exportKey("jwk", keyPair.privateKey);
-	const sk_zenroom = JSON.stringify({es256: url64ToBase64(sk_jwk.d)});
-	localStorage.setItem(CERTIFICATE_ZENROOM_KEY, sk_zenroom);
+	// const sk_jwk = await crypto.subtle.exportKey("jwk", keyPair.privateKey);
+	// const sk_zenroom = JSON.stringify({es256: url64ToBase64(sk_jwk.d)});
+	// localStorage.setItem(CERTIFICATE_ZENROOM_KEY, sk_zenroom);
 	// compute date for certificate,
 	// valid from yesterday for an year
 	var yesterday = new Date();
