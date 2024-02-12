@@ -4,11 +4,12 @@
 	import TitleDescription from './titleDescription.svelte';
 	import { ClipboardDocumentCheck, ExclamationCircle, HandThumbUp } from 'svelte-heros-v2';
 	import { getRecordsManagerContext, CreateRecord } from '$lib/collectionManager';
+	import { zencode_exec } from 'zenroom';
 	//@ts-ignore
-	import forge from 'node-forge';
 	import { pb } from '$lib/pocketbase';
 	import SignaturesFoldersHead from './signaturesFoldersHead.svelte';
 	import type { ToastContent } from '../../routes/my/signatures/+page.svelte';
+	import hexDerEs256Signature from '../../../zenflows-crypto/src/hex_der_es256_signature.zen?raw';
 
 	export let folderId: string | null = null;
 	export let trigger: (toast: ToastContent) => void;
@@ -21,7 +22,8 @@
 		formFieldsSettings.base.hide!.type = type;
 		cb();
 	};
-	const pki = forge.pki;
+	const CERTIFICATE_ZENROOM_KEY = "certificateZenroomKey";
+	const CERTIFICATE = "certificate";
 
 	let loading = false;
 	let error: any = null;
@@ -58,52 +60,8 @@
 
 			// current timestamp
 			const ts_now = Date.now();
-			// yesterday timestamp to be used as notBefore
-			// date in the x509 certificate
-			var yesterday = new Date();
-			yesterday.setDate(yesterday.getDate() - 1);
-
-			//1. generate a rsa keypair and a X.509v3 certificate
-			const keypair = pki.rsa.generateKeyPair(2048);
-			var cert = pki.createCertificate();
-			cert.publicKey = keypair.publicKey;
-			cert.serialNumber = '01';
-			cert.validity.notBefore = yesterday;
-			cert.validity.notAfter = new Date();
-			cert.validity.notAfter.setFullYear(cert.validity.notBefore.getFullYear() + 1);
-			const attrs = [
-				{
-					name: 'commonName',
-					value: ''
-				},
-				{
-					name: 'countryName',
-					value: ''
-				},
-				{
-					shortName: 'ST',
-					value: ''
-				},
-				{
-					name: 'localityName',
-					value: ''
-				},
-				{
-					name: 'organizationName',
-					value: ''
-				},
-				{
-					shortName: 'OU',
-					value: ''
-				}
-			];
-			cert.setSubject(attrs);
-			cert.setIssuer(attrs);
-			// self-sign certificate
-			cert.sign(keypair.privateKey);
-			// convert a Forge certificate to PEM
-			var cert_pem = pki.certificateToPem(cert);
-			cert_pem = cert_pem.split('\r\n').slice(1, -2).join('\n');
+			const cert_pem = localStorage.getItem(CERTIFICATE);
+			const sk = localStorage.getItem(CERTIFICATE_ZENROOM_KEY);
 
 			//2. get data to sign
 			const toSign = await fetch('/api/getDataToSign', {
@@ -117,9 +75,16 @@
 			const toBeSigned = await toSign.json();
 
 			//3. sign digest of data
-			var md = forge.md.sha256.create();
-			md.update(atob(toBeSigned.bytes), 'raw');
-			const signedDigest = btoa(keypair.privateKey.sign(md));
+			var signedDigest;
+			if (sk) {
+				const { result } = await zencode_exec(hexDerEs256Signature,
+					{
+						keys: JSON.stringify({ keyring: JSON.parse(sk) }),
+						data: JSON.stringify({ bytes: toBeSigned.bytes })
+				});
+				const hexSignedDigest = JSON.parse(result).der_signature;
+				signedDigest = btoa(hexSignedDigest.match(/\w{2}/g).map(function(a: string){return String.fromCharCode(parseInt(a, 16));} ).join(""));
+			}
 
 			//4. sign document (insert signature)
 			const signed = await fetch('/api/signDocument', {

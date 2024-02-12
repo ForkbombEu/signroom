@@ -9,6 +9,7 @@
 		getPublicKeysFromKeypair,
 		updateUserPublicKeys
 	} from '$lib/keypairoom/updateUserPublicKeys';
+	import { generateKeyAndCertificate } from '$lib/keypairoom/x509';
 	import { currentUser, pb } from '$lib/pocketbase';
 	import { z } from 'zod';
 	import { featureFlags } from '$lib/features';
@@ -46,6 +47,8 @@
 		const keypair = await generateKeypair(email, HMAC, formQuestionsToUserAnswers(data.questions));
 		saveKeyringToLocalStorage(keypair.keyring);
 		seed = keypair.seed;
+
+		await generateKeyAndCertificate();
 
 		if ($featureFlags.AUTH && $currentUser) {
 			const publicKeys = getPublicKeysFromKeypair(keypair);
