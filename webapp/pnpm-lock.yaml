@@ -32,6 +32,9 @@ dependencies:
   adm-zip:
     specifier: ^0.5.10
     version: 0.5.10
+  asn1js:
+    specifier: ^3.0.5
+    version: 3.0.5
   classnames:
     specifier: ^2.3.2
     version: 2.3.2
