@@ -2,6 +2,7 @@ import hexDerEs256Signature from '../../../../zenflows-crypto/src/hex_der_es256_
 import EdDSASignature from '../../../../zenflows-crypto/src/eddsa_signature.zen?raw';
 import { fromBER } from 'asn1js';
 import { zencode_exec } from 'zenroom';
+import forge from 'node-forge';
 
 async function zencodeExec(contract: string, data: string) {
 	const { result } = await zencode_exec(contract, {data: data});
@@ -39,12 +40,30 @@ export async function signData(algorithmName: string, secretKey: string, data: s
 				`{"keyring": {"eddsa": "${sk}"}, "bytes": "${data}"}`);
 			return eddsa_signature;
 			break;
-		case 'RSA':
-			throw('RSA not yet implemented');
-			return;
+		case 'RSASSA-PKCS1-v1_5':
+			// sk needs to be Pem, i.e.
+			// -----BEGIN PRIVATE KEY-----\nbase64\n-----END PRIVATE KEY-----
+			const privateKey = forge.pki.privateKeyFromPem(sk);
+			var md = forge.md.sha256.create();
+			md.update(atob(data), 'raw');
+			const signedDigest = btoa(privateKey.sign(md));
+			return signedDigest;
+			break;
+		case '1.2.840.113549.1.1.10':
+			// sk needs to be Pem, i.e.
+			// -----BEGIN PRIVATE KEY-----\nbase64\n-----END PRIVATE KEY-----
+			const privateKey = forge.pki.privateKeyFromPem(sk);
+			var md = forge.md.sha256.create();
+			md.update(atob(data), 'raw');
+			const pss = forge.pss.create({
+				md: forge.md.sha1.create(),
+				mgf: forge.mgf.mgf1.create(forge.md.sha1.create()),
+				saltLength: 20
+			});
+			const signedDigest = btoa(privateKey.sign(md, pss));
+			return signedDigest;
 			break;
 		default:
 			throw(algorithmName + '  not yet implemented')
 	}
-
 }
