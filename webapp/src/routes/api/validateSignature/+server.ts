@@ -1,18 +1,21 @@
 import { json, type RequestEvent } from '@sveltejs/kit';
+import policyConstraint from './policy.xml?raw';
 
 export const POST = async (evt: RequestEvent) => {
 	const req = await evt.request.json();
 	const { fetch } = evt;
-
+	const policy = {
+		bytes: btoa(policyConstraint),
+		digestAlgorithm : null,
+		name : "policy.xml"
+	}
 	const validateSignature = await fetch(
 		`http://dss.forkbomb.eu:8080/services/rest/validation/validateSignature`,
 		{
 			method: 'POST',
 			body: JSON.stringify({
 				signedDocument: req.signedDocument,
-				policy: null,
-				tokenExtractionStrategy: 'NONE',
-				signatureId: null
+				policy
 			}),
 			headers: {
 				'Content-Type': 'application/json',

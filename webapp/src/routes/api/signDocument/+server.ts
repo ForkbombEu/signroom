@@ -1,5 +1,11 @@
 import { json, type RequestEvent } from '@sveltejs/kit';
 
+const SHA256 = 'SHA256'
+const SHA512 = 'SHA512'
+const ECDSA = 'ECDSA'
+const EdDSA = 'EdDSA'
+const RSA = 'RSA'
+
 export const POST = async (evt: RequestEvent) => {
 	const req = await evt.request.json();
 	const { fetch } = evt;
@@ -7,14 +13,12 @@ export const POST = async (evt: RequestEvent) => {
 	const params: Record<string, any> = {
 		parameters: {
 			signingCertificate: {
-				encodedCertificate: req.cert_pem
+				encodedCertificate: req.certPem
 			},
 			certificateChain: [],
 			detachedContents: null,
 			asicContainerType: null,
-			signatureAlgorithm: 'ECDSA_SHA256',
 			digestAlgorithm: 'SHA256',
-			encryptionAlgorithm: 'ECDSA',
 			contentTimestampParameters: {
 				digestAlgorithm: 'SHA256',
 				canonicalizationMethod: 'http://www.w3.org/2001/10/xml-exc-c14n#',
@@ -57,7 +61,6 @@ export const POST = async (evt: RequestEvent) => {
 			name: 'RemoteDocument'
 		},
 		signatureValue: {
-			algorithm: 'ECDSA_SHA256',
 			value: req.signedDigest
 		}
 	};
@@ -77,6 +80,32 @@ export const POST = async (evt: RequestEvent) => {
 		case 'cades':
 			params.parameters.signatureLevel = 'CAdES_BASELINE_B';
 			params.parameters.signaturePackaging = 'ENVELOPING';
+			break;
+	}
+	switch (req.signatureAlgorithmName) {
+		case ECDSA:
+			params.parameters.signatureAlgorithm = ECDSA+'_SHA256';
+			params.parameters.encryptionAlgorithm = ECDSA;
+			params.signatureValue.algorithm = ECDSA+'_SHA256';
+			break;
+		case EdDSA:
+			params.parameters.signatureAlgorithm = 'ED25519';
+			params.parameters.digestAlgorithm = SHA512;
+			params.parameters.encryptionAlgorithm = 'EDDSA';
+			params.parameters.contentTimestampParameters.digestAlgorithm = SHA512
+			params.parameters.signatureTimestampParameters.digestAlgorithm = SHA512
+			params.parameters.archiveTimestampParameters.digestAlgorithm = SHA512
+			params.signatureValue.algorithm = 'ED25519'
+			break;
+		case 'RSASSA-PKCS1-v1_5':
+			params.parameters.signatureAlgorithm = RSA+'_SHA256';
+			params.parameters.encryptionAlgorithm = RSA;
+			params.signatureValue.algorithm = RSA+'_SHA256';
+			break;
+		case '1.2.840.113549.1.1.10':
+			params.parameters.signatureAlgorithm = 'RSA_SSA_PSS_SHA256_MGF1';
+			params.parameters.encryptionAlgorithm = RSA;
+			params.signatureValue.algorithm = 'RSA_SSA_PSS_SHA256_MGF1'
 			break;
 	}
 

@@ -63,23 +63,26 @@
 			const ts_now = Date.now();
 			const sk = localStorage.getItem(CERTIFICATE_ZENROOM_KEY) || localStorage.getItem(CERTIFICATE_KEY);
 			if ( sk == null ) throw("Empty secret key");
-			const cert_pem = localStorage.getItem(CERTIFICATE);
-			if ( cert_pem == null ) throw("Empty Certificate");
+			const certPem = localStorage.getItem(CERTIFICATE);
+			if ( certPem == null ) throw("Empty Certificate");
 
 			// TODO: move checks to upload moment, maybe save on local storage
-			const c = cert_pem.replace(/(\r\n|\n|\r)/gm,"");
-			const cert_alg: {name: string, namedCurve?: string } = (new X509Certificate(c)).publicKey.algorithm;
-			if (cert_alg.name == "ECDSA" && cert_alg.namedCurve != "P-256") {
+			const c = certPem.replace(/(\r\n|\n|\r)/gm,"");
+			const certAlg: {name: string, namedCurve?: string } = (new X509Certificate(c)).publicKey.algorithm;
+			const signatureAlgorithmName = certAlg.name;
+			if (signatureAlgorithmName == "ECDSA" && certAlg.namedCurve != "P-256") {
 				throw("ECDSA signature must be on P-256 curve");
 			}
-			if (cert_alg.name == "EdDSA" && cert_alg.namedCurve != "Ed25519") {
+			if (signatureAlgorithmName == "EdDSA" && certAlg.namedCurve != "Ed25519") {
 				throw("EdDSA signature must be on Ed25519 curve");
 			}
+			// certAlg.name = RSASSA-PKCS1-v1_5
+			// certAlg.name = 1.2.840.113549.1.1.10 (RSA-PSS)
 
 			//2. get data to sign
 			const toSign = await fetch('/api/getDataToSign', {
 				method: 'POST',
-				body: JSON.stringify({ algo, doc: fb64, cert_pem, ts_now }),
+				body: JSON.stringify({ algo, doc: fb64, certPem, signatureAlgorithmName }),
 				headers: {
 					'Content-Type': 'application/json',
 					Accept: 'application/json'
@@ -88,12 +91,12 @@
 			const toBeSigned = await toSign.json();
 
 			//3. sign digest of data
-			const signedDigest = await signData(cert_alg.name, sk, toBeSigned.bytes);
+			const signedDigest = await signData(signatureAlgorithmName, sk, toBeSigned.bytes);
 
 			//4. sign document (insert signature)
 			const signed = await fetch('/api/signDocument', {
 				method: 'POST',
-				body: JSON.stringify({ cert_pem, ts_now, signedDigest, doc: fb64, algo }),
+				body: JSON.stringify({ certPem, ts_now, signedDigest, doc: fb64, algo, signatureAlgorithmName }),
 				headers: {
 					'Content-Type': 'application/json',
 					Accept: 'application/json'

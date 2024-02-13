@@ -36,12 +36,7 @@ export async function signData(algorithmName: string, secretKey: string, data: s
 			break;;
 		case 'EdDSA':
 			const { eddsa_signature } = await zencodeExec(EdDSASignature,
-				JSON.stringify(
-					{
-						keyring: { eddsa: sk},
-						bytes: data
-					}
-				));
+				`{"keyring": {"eddsa": "${sk}"}, "bytes": "${data}"}`);
 			return eddsa_signature;
 			break;
 		case 'RSA':
