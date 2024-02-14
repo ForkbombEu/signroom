@@ -12,8 +12,8 @@
 	import { currentUser, pb } from '$lib/pocketbase';
 	import { z } from 'zod';
 	import { featureFlags } from '$lib/features';
-	import { welcomeSearchParamKey } from '../../lib/utils/constants.js';
-	import { appTitle } from '../../lib/strings.js';
+	import { welcomeSearchParamKey } from '$lib/utils/constants.js';
+	import { appTitle } from '$lib/strings.js';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 
