@@ -5,6 +5,7 @@
 	import ServiceForm from '../_partials/serviceForm.svelte';
 	import { Button, Heading, Hr, Spinner } from 'flowbite-svelte';
 	import { ArrowDownTray } from 'svelte-heros-v2';
+	import { generateQr } from '$lib/qrcode';
 
 	//
 
@@ -33,6 +34,7 @@
 
 		loading = false;
 	}
+	const qr = async () => await generateQr(data.service);
 </script>
 
 <div class="space-y-8">
@@ -53,6 +55,19 @@
 
 	<Heading tag="h4">Edit service</Heading>
 	<ServiceForm organizationId={data.organization.id} initialData={data.service} mode="edit" />
+
+	<Hr />
+
+	{#await qr()}
+		<Hr />
+	{:then qr}
+		<Heading tag="h4">Service Qr Code</Heading>
+		<div class="flex justify-around">
+			<img src={qr.result.qrcode} alt="Service QR Code" />
+		</div>
+	{:catch error}
+		<p class="text-red-500">{JSON.stringify(error)}</p>
+	{/await}
 
 	<Hr />
 

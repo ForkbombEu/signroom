@@ -72,6 +72,8 @@
 		"@fontsource-variable/inter": "^5.0.8",
 		"@popperjs/core": "^2.11.8",
 		"@sentry/sveltekit": "^7.66.0",
+		"@slangroom/core": "^1.13.0",
+		"@slangroom/qrcode": "^1.13.0",
 		"@tailwindcss/line-clamp": "^0.4.4",
 		"@types/adm-zip": "^0.5.5",
 		"adm-zip": "^0.5.10",
@@ -90,6 +92,6 @@
 		"svelte-boring-avatars": "^1.2.4",
 		"svelte-heros": "^5.1.0",
 		"xml-formatter": "^3.5.0",
-		"zenroom": "^3.18.1"
+		"zenroom": "^4.12.0"
 	}
 }
