@@ -1,5 +1,6 @@
 import * as x509 from "@peculiar/x509";
 
+const REAL_CERTIFICATE = 'realCertificate';
 const CERTIFICATE_KEY = "certificateKey";
 const CERTIFICATE_ZENROOM_KEY = "certificateZenroomKey";
 const CERTIFICATE = "certificate";
@@ -58,4 +59,5 @@ export async function generateKeyAndCertificate(): void {
 	// storing the cert in local storage
 	const parsedCert = cert.toString("pem").split('\n').slice(1, -1).join('\n');
 	localStorage.setItem(CERTIFICATE, parsedCert);
+	localStorage.setItem(REAL_CERTIFICATE, 'false');
 }

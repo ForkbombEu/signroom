@@ -43,16 +43,15 @@ export async function signData(algorithmName: string, secretKey: string, data: s
 		case 'RSASSA-PKCS1-v1_5':
 			// sk needs to be Pem, i.e.
 			// -----BEGIN PRIVATE KEY-----\nbase64\n-----END PRIVATE KEY-----
-			const privateKey = forge.pki.privateKeyFromPem(sk);
+			const pkcs1PrivateKey = forge.pki.privateKeyFromPem(sk);
 			var md = forge.md.sha256.create();
 			md.update(atob(data), 'raw');
-			const signedDigest = btoa(privateKey.sign(md));
-			return signedDigest;
+			return btoa(privateKey.sign(md));
 			break;
 		case '1.2.840.113549.1.1.10':
 			// sk needs to be Pem, i.e.
 			// -----BEGIN PRIVATE KEY-----\nbase64\n-----END PRIVATE KEY-----
-			const privateKey = forge.pki.privateKeyFromPem(sk);
+			const pssPrivateKey = forge.pki.privateKeyFromPem(sk);
 			var md = forge.md.sha256.create();
 			md.update(atob(data), 'raw');
 			const pss = forge.pss.create({
@@ -60,8 +59,7 @@ export async function signData(algorithmName: string, secretKey: string, data: s
 				mgf: forge.mgf.mgf1.create(forge.md.sha1.create()),
 				saltLength: 20
 			});
-			const signedDigest = btoa(privateKey.sign(md, pss));
-			return signedDigest;
+			return btoa(privateKey.sign(md, pss));
 			break;
 		default:
 			throw(algorithmName + '  not yet implemented')
