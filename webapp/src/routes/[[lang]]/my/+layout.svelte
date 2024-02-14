@@ -29,6 +29,7 @@
 	import { links } from './_partials/sidebarLinks';
 	import { createOrganizationLinks } from './_partials/organizationLinks';
 	import { OrgRoles } from '$lib/rbac';
+	import LanguageSwitcher from '$lib/i18n/languageSwitcher.svelte';
 
 	//
 
@@ -61,6 +62,9 @@
 			</div>
 		</svelte:fragment>
 		<svelte:fragment slot="right">
+			<div class="mr-3">
+				<LanguageSwitcher />
+			</div>
 			<AvatarMenu>
 				<DropdownHeader>
 					<span class="block truncate text-xs font-medium text-gray-500">
