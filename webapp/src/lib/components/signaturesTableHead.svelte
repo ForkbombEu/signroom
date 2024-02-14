@@ -4,7 +4,6 @@
 	import TitleDescription from './titleDescription.svelte';
 	import { ClipboardDocumentCheck, ExclamationCircle, HandThumbUp } from 'svelte-heros-v2';
 	import { getRecordsManagerContext, CreateRecord } from '$lib/collectionManager';
-	import { X509Certificate } from "@peculiar/x509";
 	//@ts-ignore
 	import { pb } from '$lib/pocketbase';
 	import SignaturesFoldersHead from './signaturesFoldersHead.svelte';
@@ -25,6 +24,7 @@
 	const CERTIFICATE_ZENROOM_KEY = "certificateZenroomKey";
 	const CERTIFICATE_KEY = "certificateKey";
 	const CERTIFICATE = "certificate";
+	const CERTIFICATE_ALGORITHM = "certificateAlgorithm";
 
 	let loading = false;
 	let error: any = null;
@@ -65,19 +65,8 @@
 			if ( sk == null ) throw("Empty secret key");
 			const certPem = localStorage.getItem(CERTIFICATE);
 			if ( certPem == null ) throw("Empty Certificate");
-
-			// TODO: move checks to upload moment, maybe save on local storage
-			const c = certPem.replace(/(\r\n|\n|\r)/gm,"");
-			const certAlg: {name: string, namedCurve?: string } = (new X509Certificate(c)).publicKey.algorithm;
-			const signatureAlgorithmName = certAlg.name;
-			if (signatureAlgorithmName == "ECDSA" && certAlg.namedCurve != "P-256") {
-				throw("ECDSA signature must be on P-256 curve");
-			}
-			if (signatureAlgorithmName == "EdDSA" && certAlg.namedCurve != "Ed25519") {
-				throw("EdDSA signature must be on Ed25519 curve");
-			}
-			// certAlg.name = RSASSA-PKCS1-v1_5
-			// certAlg.name = 1.2.840.113549.1.1.10 (RSA-PSS)
+			const signatureAlgorithmName = localStorage.getItem(CERTIFICATE_ALGORITHM);
+			if (signatureAlgorithmName == null ) throw("Empty Certificate algorithm");
 
 			//2. get data to sign
 			const toSign = await fetch('/api/getDataToSign', {

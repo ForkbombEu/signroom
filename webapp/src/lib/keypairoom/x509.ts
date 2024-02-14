@@ -30,8 +30,9 @@ export async function generateKeyAndCertificate(): void {
 	const keyPair = await crypto.subtle.generateKey(ALGORITHM, true, ["sign", "verify"]);
 	// storing the sk in local storage
 	const sk = await crypto.subtle.exportKey("pkcs8", keyPair.privateKey);
-	const sk_b64 = btoa(String.fromCharCode(...(new Uint8Array(sk))));
-	localStorage.setItem(CERTIFICATE_KEY, sk_b64);
+	const sk_b64 = btoa(String.fromCharCode(...(new Uint8Array(sk)))).replace(/.{64}/g, '$&\n');
+	const completeKey = '-----BEGIN EC PRIVATE KEY-----\n'+sk_b64+'\n-----END EC PRIVATE KEY-----'
+	localStorage.setItem(CERTIFICATE_KEY, completeKey);
 	// const sk_jwk = await crypto.subtle.exportKey("jwk", keyPair.privateKey);
 	// const sk_zenroom = JSON.stringify({es256: url64ToBase64(sk_jwk.d)});
 	// localStorage.setItem(CERTIFICATE_ZENROOM_KEY, sk_zenroom);
