@@ -13,9 +13,9 @@
 	},
 	"scripts": {
 		"predev": "pnpm run definitions",
-		"dev": "vite dev",
+		"dev": "pnpm paraglide && vite dev",
 		"prebuild": "pnpm run definitions",
-		"build": "paraglide-js compile --project ./project.inlang && svelte-kit sync && vite build",
+		"build": "pnpm paraglide && svelte-kit sync && vite build",
 		"preview": "vite preview",
 		"test": "playwright test",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -30,7 +30,8 @@
 		"schema": "node ./src/lib/pocketbase/schema/generateSchema.mjs",
 		"definitions": "pnpm types && pnpm schema && pnpm features && pnpm roles",
 		"serve": "pnpm build && pnpm preview --host",
-		"postinstall": "paraglide-js compile --project ./project.inlang"
+		"postinstall": "pnpm paraglide",
+		"paraglide":"paraglide-js compile --project ./project.inlang"
 	},
 	"devDependencies": {
 		"@inlang/paraglide-js": "1.2.5",

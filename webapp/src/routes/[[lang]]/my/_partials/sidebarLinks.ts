@@ -1,3 +1,4 @@
+import type { m } from '$lib/i18n';
 import type { SidebarLink } from '$lib/layout';
 import { pb } from '$lib/pocketbase';
 import { ClipboardDocumentCheck } from 'svelte-heros';
@@ -5,54 +6,57 @@ import { RocketLaunch, InboxArrowDown, Identification, Wallet } from 'svelte-her
 
 const didUrl = `https://explorer.did.dyne.org/details/did:dyne:sandbox.signroom:${pb.authStore.model?.eddsa_public_key}`;
 
-export const links: SidebarLink[] = [
+export function createSidebarLinks(messages: typeof m): SidebarLink[] {
+	const m = messages
+
+	return[
 	{
-		label: 'Start',
+		label: m.start(),
 		href: '/my',
 		icon: RocketLaunch
 	},
 	{
-		label: 'Signatures',
+		label: m.signatures(),
 		icon: ClipboardDocumentCheck,
 		subLinks: [
 			{
-				label: 'My folders',
+				label: m.my_folders(),
 				href: '/my/folders'
 			},
 			{
-				label: 'My signatures',
+				label: m.my_signatures(),
 				href: '/my/signatures'
 			},
 			{
-				label: 'Validate signatures',
+				label: m.validate_signatures(),
 				href: '/my/validate'
 			},
 			{
-				label: 'Multisignatures',
+				label: m.multisignatures(),
 				disabled: true,
 				href: '/'
 			}
 		]
 	},
 	{
-		label: 'Notifications',
+		label: m.notifications(),
 		icon: InboxArrowDown,
 		disabled: true
 	},
 	{
-		label: 'Identity',
+		label: m.identity(),
 		icon: Identification,
 		subLinks: [
 			{
-				label: 'My DID',
+				label: m.my_DID(),
 				href: didUrl
 			},
-			{ label: 'My Verifiable Credentials', disabled: true, href: '/' }
+			{ label: m.my_verifiable_credentials(), disabled: true, href: '/' }
 		]
 	},
 	{
-		label: 'Organizations',
+		label: m.organizations(),
 		icon: Wallet,
 		href: '/my/organizations'
 	}
-];
+]}
