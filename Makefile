@@ -86,6 +86,7 @@ setup_frontend: $(WEBAPP)/.env
 	cd $(WEBAPP) && pnpm i
 
 setup: $(AZC) $(WZC) $(ZENROOM) $(ZENCODE) $(PB) setup_frontend ## 📦 Setup the project
+setup_arm: $(AZC) $(WZC) $(PB) setup_frontend ## 📦 Setup the project
 
 # - Running - #
 

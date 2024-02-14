@@ -17,16 +17,13 @@
 		DropdownDivider,
 		DropdownHeader,
 		DropdownItem,
-		Heading,
 		Hr,
-		P,
-		SidebarCta,
 		SidebarGroup,
 		SidebarItem
 	} from 'flowbite-svelte';
 	import DIDButton from '$lib/components/DIDButton.svelte';
 	import { Fire, Lifebuoy, UserCircle, WrenchScrewdriver } from 'svelte-heros-v2';
-	import { links } from './_partials/sidebarLinks';
+	import { createSidebarLinks } from './_partials/sidebarLinks';
 	import { createOrganizationLinks } from './_partials/organizationLinks';
 	import { OrgRoles } from '$lib/rbac';
 	import { m } from '$lib/i18n';
@@ -63,7 +60,9 @@
 			</div>
 		</svelte:fragment>
 		<svelte:fragment slot="right">
-			<LanguageSwitcher />
+			<div class="mr-3">
+				<LanguageSwitcher />
+			</div>
 			<AvatarMenu>
 				<DropdownHeader>
 					<span class="block truncate text-xs font-medium text-gray-500">
@@ -93,7 +92,7 @@
 
 		<div class="space-y-0">
 			<div class="p-3">
-				<SidebarLinks {links} />
+				<SidebarLinks links={createSidebarLinks(m)} />
 			</div>
 			{#if authorizations}
 				{@const links = authorizations.flatMap((a) => {
