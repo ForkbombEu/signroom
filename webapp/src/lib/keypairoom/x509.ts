@@ -4,6 +4,7 @@ const REAL_CERTIFICATE = 'realCertificate';
 const CERTIFICATE_KEY = "certificateKey";
 const CERTIFICATE_ZENROOM_KEY = "certificateZenroomKey";
 const CERTIFICATE = "certificate";
+const CERTIFICATE_ALGORITHM = "certificateAlgorithm"
 const ALGORITHM = {
 	name: "ECDSA",
 	namedCurve: "P-256",
@@ -33,9 +34,9 @@ export async function generateKeyAndCertificate(): void {
 	const sk_b64 = btoa(String.fromCharCode(...(new Uint8Array(sk)))).replace(/.{64}/g, '$&\n');
 	const completeKey = '-----BEGIN EC PRIVATE KEY-----\n'+sk_b64+'\n-----END EC PRIVATE KEY-----'
 	localStorage.setItem(CERTIFICATE_KEY, completeKey);
-	// const sk_jwk = await crypto.subtle.exportKey("jwk", keyPair.privateKey);
-	// const sk_zenroom = JSON.stringify({es256: url64ToBase64(sk_jwk.d)});
-	// localStorage.setItem(CERTIFICATE_ZENROOM_KEY, sk_zenroom);
+	// raw key to be used in zenroom
+	const sk_jwk = await crypto.subtle.exportKey("jwk", keyPair.privateKey);
+	localStorage.setItem(CERTIFICATE_ZENROOM_KEY, url64ToBase64(sk_jwk.d));
 	// compute date for certificate,
 	// valid from yesterday for an year
 	var yesterday = new Date();
@@ -58,7 +59,8 @@ export async function generateKeyAndCertificate(): void {
 		]
 	});
 	// storing the cert in local storage
-	const parsedCert = cert.toString("pem").split('\n').slice(1, -1).join('\n');
+	const parsedCert = cert.toString("pem").split('\n').slice(1, -1).join('');
 	localStorage.setItem(CERTIFICATE, parsedCert);
+	localStorage.setItem(CERTIFICATE_ALGORITHM, 'ECDSA')
 	localStorage.setItem(REAL_CERTIFICATE, 'false');
 }
