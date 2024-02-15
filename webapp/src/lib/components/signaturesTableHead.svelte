@@ -71,7 +71,7 @@
 			//2. get data to sign
 			const toSign = await fetch('/api/getDataToSign', {
 				method: 'POST',
-				body: JSON.stringify({ algo, doc: fb64, certPem, signatureAlgorithmName }),
+				body: JSON.stringify({ certPem, ts_now, algo, doc: fb64, signatureAlgorithmName }),
 				headers: {
 					'Content-Type': 'application/json',
 					Accept: 'application/json'
@@ -85,7 +85,7 @@
 			//4. sign document (insert signature)
 			const signed = await fetch('/api/signDocument', {
 				method: 'POST',
-				body: JSON.stringify({ certPem, ts_now, signedDigest, doc: fb64, algo, signatureAlgorithmName }),
+				body: JSON.stringify({ certPem, ts_now, algo, doc: fb64, signatureAlgorithmName, signedDigest }),
 				headers: {
 					'Content-Type': 'application/json',
 					Accept: 'application/json'
