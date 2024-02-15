@@ -87,6 +87,7 @@
 		const [parsedCertificate, signatureAlgorithmName] = checkCertificate(certificate)
 		const sk = await decodeKey(signatureAlgorithmName, key);
 		if(sk) localStorage.setItem('certificateZenroomKey', sk);
+		else localStorage.removeItem('certificateZenroomKey');
 		localStorage.setItem('realCertificate', 'true');
 		localStorage.setItem('certificate', parsedCertificate);
 		localStorage.setItem('certificateAlgorithm', signatureAlgorithmName)
