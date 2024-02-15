@@ -6,8 +6,8 @@
 	import { X509Certificate } from "@peculiar/x509";
 	import { zencode_exec } from 'zenroom';
 
-	let showModal  = false;
-	const converter = {
+	let showModal: boolean  = false;
+	const converter: Record<string,string> = {
 		ECDSA: `Given I have a 'hex' named 'key'
 		Then print the 'key' as 'base64'`,
 		EdDSA: `Given I have a 'hex' named 'key'
@@ -19,6 +19,7 @@
 	const END_KEY='-----END PRIVATE KEY-----'
 	const BEGIN_EC='-----BEGIN EC PRIVATE KEY-----'
 	const END_EC='-----END EC PRIVATE KEY-----'
+
 	const schema = z.object({
 		certificate: z.string(),
 		key: z.string()
@@ -70,12 +71,13 @@
 		return secretKey.slice(begin, end).split('\n').join('');
 	}
 
-	async function decodeKey(algorithmName: string, secretKey:string): string {
+	async function decodeKey(algorithmName: string, secretKey:string): Promise<string | null> {
 		const sk = checkKey(secretKey);
 		if (algorithmName == 'RSASSA-PKCS1-v1_5' || algorithmName =='1.2.840.113549.1.1.10') return null;
 		const buf = Uint8Array.from(atob(sk), c => c.charCodeAt(0));
-		const arr = fromBER(buf).result.valueBlock.value;
-		const hexKey = arr.find((value) => value.constructor.name == '_OctetString').toString().replace(/OCTET STRING :/g, '').trim();
+		const obj: any= fromBER(buf).valueOf();
+		const arr = obj.result.valueBlock.value;
+		const hexKey = arr.find((value: any[]) => value.constructor.name == '_OctetString').toString().replace(/OCTET STRING :/g, '').trim();
 		const { result } = await zencode_exec(converter[algorithmName], {data: `{"key": "${hexKey}"}`});
 		return JSON.parse(result).key;
 	}
