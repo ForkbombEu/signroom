@@ -27,7 +27,7 @@ export async function signData(algorithmName: string, sk: string, data: string):
 			const pkcs1PrivateKey = forge.pki.privateKeyFromPem(sk);
 			var md = forge.md.sha256.create();
 			md.update(atob(data), 'raw');
-			return btoa(privateKey.sign(md));
+			return btoa(pkcs1PrivateKey.sign(md));
 			break;
 		case '1.2.840.113549.1.1.10':
 			// sk needs to be Pem, i.e.
@@ -40,7 +40,7 @@ export async function signData(algorithmName: string, sk: string, data: string):
 				mgf: forge.mgf.mgf1.create(forge.md.sha1.create()),
 				saltLength: 20
 			});
-			return btoa(privateKey.sign(md, pss));
+			return btoa(pssPrivateKey.sign(md, pss));
 			break;
 		default:
 			throw(algorithmName + '  not yet implemented')
