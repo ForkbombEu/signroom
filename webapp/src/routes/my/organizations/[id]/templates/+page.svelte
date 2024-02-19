@@ -26,14 +26,14 @@
 	formSettings={{
 		hide: { organization: organization.id },
 		components: {
-			schema: createFieldComponent(JSONSchemaInput, { mode: 'create' }),
+			schema: createFieldComponent(JSONSchemaInput),
 			description: createFieldComponent(Textarea)
 		}
 	}}
 	editFormSettings={{
 		hide: { organization: organization.id },
 		components: {
-			schema: createFieldComponent(JSONSchemaInput, { mode: 'edit' }),
+			schema: createFieldComponent(JSONSchemaInput),
 			description: createFieldComponent(Textarea)
 		}
 	}}
