@@ -8,20 +8,20 @@ import {
 	type RelyingPartiesResponse
 } from '$lib/pocketbase/types.js';
 
+const templatesExpand = 'templates';
+const authorizationServerExpand = 'authorization_server';
+const credentialIssuerExpand = 'issuer';
+const relyingPartyExpand = 'relying_party';
+
+export type Service = ServicesResponse<{
+	[templatesExpand]: TemplatesResponse[];
+	[authorizationServerExpand]: AuthorizationServersResponse;
+	[credentialIssuerExpand]: IssuersResponse;
+	[relyingPartyExpand]: RelyingPartiesResponse;
+}>;
+
 export const load = async ({ params, fetch }) => {
 	const { serviceId } = params;
-
-	const templatesExpand = 'templates';
-	const authorizationServerExpand = 'authorization_server';
-	const credentialIssuerExpand = 'issuer';
-	const relyingPartyExpand = 'relying_party';
-
-	type Service = ServicesResponse<{
-		[templatesExpand]: TemplatesResponse[];
-		[authorizationServerExpand]: AuthorizationServersResponse;
-		[credentialIssuerExpand]: IssuersResponse;
-		[relyingPartyExpand]: RelyingPartiesResponse;
-	}>;
 
 	const expand = [
 		templatesExpand,
@@ -30,6 +30,8 @@ export const load = async ({ params, fetch }) => {
 		relyingPartyExpand
 	].join(', ');
 
-	const service = await pb.collection(Collections.Services).getOne<Service>(serviceId, { expand, fetch });
+	const service = await pb
+		.collection(Collections.Services)
+		.getOne<Service>(serviceId, { expand, fetch });
 	return { service };
 };

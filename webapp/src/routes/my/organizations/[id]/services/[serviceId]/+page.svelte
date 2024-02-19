@@ -34,7 +34,7 @@
 
 		loading = false;
 	}
-	const qr = async () => await generateQr(data.service);
+	const qr = async () => await generateQr(service);
 </script>
 
 <div class="space-y-8">
