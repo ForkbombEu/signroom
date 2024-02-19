@@ -7,36 +7,27 @@
 
 	let isCopied = false;
 
-	function copyImage() {
+	async function copyImage() {
 		const img = new Image();
 		img.src = imageSrc;
 
-		const responsePromise = fetch(img.src);
-  try {
-    if ('write' in navigator.clipboard) {
-      await navigator.clipboard.write([
-        new ClipboardItem({
-          'image/svg+xml': new Promise(async (resolve) => {
-            const blob = await responsePromise.then(response => response.blob());
-            resolve(blob);
-          }),
-        }),
-      ]);
-      // Image copied as image.
-    } else {
-      const text = await responsePromise.then(response => response.text());
-      await navigator.clipboard.writeText(text);
-      // Image copied as source code.
-    }
-  } catch (err) {
-    console.error(err.name, err.message);
-  }
-});
-		isCopied = true;
+		const responsePromise = await fetch(img.src);
+		const blob = await responsePromise.blob();
+		console.log(blob, responsePromise)
+		try {
+			await navigator.clipboard.write([
+				new ClipboardItem({
+					'image/png': blob
+				})
+			]);
+			isCopied = true;
 
-		setTimeout(() => {
-			isCopied = false;
-		}, delay);
+			setTimeout(() => {
+				isCopied = false;
+			}, delay);
+		} catch (err) {
+			console.error(err);
+		}
 	}
 </script>
 

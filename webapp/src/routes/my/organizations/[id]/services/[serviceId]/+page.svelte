@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { request } from '@api/downloadCredentialIssuer';
 	import { downloadBlob } from '$lib/utils/downloadBlob';
+	import CopyImageButton from '$lib/components/copyImageButton.svelte';
 
 	import ServiceForm from '../_partials/serviceForm.svelte';
 	import { Button, Heading, Hr, Spinner } from 'flowbite-svelte';
@@ -61,10 +62,12 @@
 	{#await qr()}
 		<Hr />
 	{:then qr}
-		<Heading tag="h4">Service Qr Code</Heading>
-		<div class="flex justify-around">
-			<img src={qr.result.qrcode} alt="Service QR Code" />
+		{@const qrimg = qr.result.qrcode}
+		<div class="flex justify-between">
+			<Heading tag="h4">Service Qr Code</Heading>
+			<CopyImageButton imageSrc={qrimg} />
 		</div>
+			<img src={qrimg} alt="Service QR Code" />
 	{:catch error}
 		<p class="text-red-500">{JSON.stringify(error)}</p>
 	{/await}
