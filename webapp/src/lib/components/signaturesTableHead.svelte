@@ -21,10 +21,8 @@
 		formFieldsSettings.base.hide!.type = type;
 		cb();
 	};
-	const CERTIFICATE_ZENROOM_KEY = "certificateZenroomKey";
 	const CERTIFICATE_KEY = "certificateKey";
 	const CERTIFICATE = "certificate";
-	const CERTIFICATE_ALGORITHM = "certificateAlgorithm";
 
 	let loading = false;
 	let error: any = null;
@@ -59,15 +57,15 @@
 				return;
 			}
 
+		        const cert = await pb.collection('certificates').getOne(record.certificate)
+		        const name = cert.name;
+		        const certPem = cert.value;
+		        const signatureAlgorithmName = cert.algorithm;
 			// current timestamp
 			const ts_now = Date.now();
-			const sk = localStorage.getItem(CERTIFICATE_ZENROOM_KEY) || localStorage.getItem(CERTIFICATE_KEY);
-			if ( sk == null ) throw("Empty secret key");
-			const certPem = localStorage.getItem(CERTIFICATE);
-			if ( certPem == null ) throw("Empty Certificate");
-			const signatureAlgorithmName = localStorage.getItem(CERTIFICATE_ALGORITHM);
-			if (signatureAlgorithmName == null ) throw("Empty Certificate algorithm");
-
+		        const sk = JSON.parse(localStorage.getItem(CERTIFICATE_KEY) || '{}');
+		        if ( sk[name] == null ) throw("Empty secret key");
+		        const secretKey = sk[name].zenroomValue || sk[name].value;
 			//2. get data to sign
 			const toSign = await fetch('/api/getDataToSign', {
 				method: 'POST',
@@ -80,7 +78,7 @@
 			const toBeSigned = await toSign.json();
 
 			//3. sign digest of data
-			const signedDigest = await signData(signatureAlgorithmName, sk, toBeSigned.bytes);
+			const signedDigest = await signData(signatureAlgorithmName, secretKey, toBeSigned.bytes);
 
 			//4. sign document (insert signature)
 			const signed = await fetch('/api/signDocument', {

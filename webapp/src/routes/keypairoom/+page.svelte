@@ -48,8 +48,9 @@
 		saveKeyringToLocalStorage(keypair.keyring);
 		seed = keypair.seed;
 
-		await generateKeyAndCertificate();
-
+		if($currentUser) {
+			await generateKeyAndCertificate($currentUser?.id!);
+		}
 		if ($featureFlags.AUTH && $currentUser) {
 			const publicKeys = getPublicKeysFromKeypair(keypair);
 			await updateUserPublicKeys($currentUser?.id!, publicKeys);

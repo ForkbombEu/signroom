@@ -1,12 +1,24 @@
 <script lang="ts">
 	import { Button, Heading, Modal } from 'flowbite-svelte';
-	import { Form, createForm, FormError, Textarea, SubmitButton } from '$lib/forms';
+	import { Form, createForm, FormError, Input, SubmitButton, File, zodFile } from '$lib/forms';
 	import { z } from 'zod';
 	import { fromBER } from 'asn1js';
 	import { X509Certificate } from "@peculiar/x509";
 	import { zencode_exec } from 'zenroom';
+	import { pb, currentUser } from '$lib/pocketbase';
+	import {
+		CollectionManager,
+		CollectionManagerHeader,
+		CollectionTable
+	} from '$lib/collectionManager';
+	import { Collections, type CertificatesResponse } from '$lib/pocketbase/types';
+	import { createTypeProp } from '$lib/utils/typeProp';
 
-	let showModal: boolean  = false;
+	const recordType = createTypeProp<certificateResponse>();
+	export let data;
+
+
+	let showModal: boolean	= false;
 	const converter: Record<string,string> = {
 		ECDSA: `Given I have a 'hex' named 'key'
 		Then print the 'key' as 'base64'`,
@@ -21,8 +33,9 @@
 	const END_EC='-----END EC PRIVATE KEY-----'
 
 	const schema = z.object({
-		certificate: z.string(),
-		key: z.string()
+		name: z.string(),
+		certificate: zodFile(),
+		key: zodFile()
 	});
 
 	const superform = createForm(
@@ -33,12 +46,27 @@
 		}
 	);
 
-	const key = localStorage.getItem('certificateKey');
-	const certificate = localStorage.getItem('certificate') || '';
-	const realCertificate = localStorage.getItem('realCertificate');
-	const completeCertificate = BEGIN_CERTIFICATE+'\n'+certificate.replace(/.{64}/g, '$&\n')+'\n'+END_CERTIFICATE
+	const allKeys = JSON.parse(localStorage.getItem('certificateKey') || '{}');
 
-	function checkCertificate(certificate: string): [string, string] {
+	async function getFile(f) {
+		var file = f.files[0];
+		let res;
+		try {
+			res = await new Promise((resolve, reject) => {
+				const reader = new FileReader();
+				reader.readAsText(file);
+				reader.onload = () => {
+					resolve(reader.result);
+				}
+			})
+		} catch(e) {
+			trhow(e);
+		}
+		return res.trim();
+	}
+
+	async function checkCertificate(): [string, string] {
+		const certificate = await getFile(document.getElementById('certificate'));
 		if(!certificate.startsWith(BEGIN_CERTIFICATE) || !certificate.endsWith(END_CERTIFICATE)) {
 			throw("Invalid ceritifcate: must be in pem format");
 		}
@@ -82,38 +110,60 @@
 		return JSON.parse(result).key;
 	}
 
-	async function addCertifcateAndKey(data: {certificate: string, key: string}) {
-		const { certificate, key } = data;
-		const [parsedCertificate, signatureAlgorithmName] = checkCertificate(certificate)
-		const sk = await decodeKey(signatureAlgorithmName, key);
-		if(sk) localStorage.setItem('certificateZenroomKey', sk);
-		else localStorage.removeItem('certificateZenroomKey');
-		localStorage.setItem('realCertificate', 'true');
-		localStorage.setItem('certificate', parsedCertificate);
-		localStorage.setItem('certificateAlgorithm', signatureAlgorithmName)
-		localStorage.setItem('certificateKey', key);
+	async function addCertifcateAndKey(data: {name: string, certificate: string, key: string}) {
+		const name = data.name;
+		if (allKeys[name]) throw('Certificate name already in use')
+		const [parsedCertificate, signatureAlgorithmName] = await checkCertificate(certificate)
+		const c: CertificatesRecord = {
+		  name,
+		  value: parsedCertificate,
+		  algorithm: signatureAlgorithmName,
+		  owner: $currentUser.id
+		}
+		try {
+			await pb.collection('certificates').create(c);
+		} catch(e) {
+			throw(e)
+		}
+		const k = await getFile(document.getElementById('key'));
+		const sk = await decodeKey(signatureAlgorithmName, k);
+		allKeys[name] = {
+			value: k
+		}
+		if(sk) allKeys[name].zenroomValue = sk;
+		localStorage.setItem('certificateKey', JSON.stringify(allKeys));
 		location.reload();
 	}
 </script>
 
 
-<div class="p-4 space-y-4">
-	<Heading tag="h3">Your Certificate</Heading>
-	<pre class="bg-white p-4 border border-slate-200 rounded-lg">{completeCertificate}</pre>
-	<Heading tag="h3">Your Key</Heading>
-	<pre class="bg-white p-4 border border-slate-200 rounded-lg">{key}</pre>
-</div>
-{#if realCertificate == 'false'}
-	<Button on:click={() => (showModal = true)}> Load personal key and certificate </Button>
-{:else}
-	<Button on:click={() => (showModal = true)}> Change personal key and certificate </Button>
-{/if}
-
+<div class="p-4 space-y-4 border-slate-200 rounded-lg">
+	<CollectionManager
+		collection={Collections.Certificates}
+		{recordType}
+		let:records
+		>
+		<CollectionManagerHeader>
+			<svelte:fragment slot="title">
+				<Heading tag="h4">My Certificates</Heading>
+			</svelte:fragment>
+		</CollectionManagerHeader>
+		<CollectionTable
+			{records}
+			fields={['name', 'algorithm']}
+			hideActions={['select', 'edit', 'share']}
+			let:record
+			>
+		</CollectionTable>
+	</CollectionManager>
+<Button on:click={() => (showModal = true)}> Add another Key and Certificate Pair </Button>
 <Modal bind:open={showModal} size="md" title="Key and certificate" placement="center">
 	<Form {superform}>
-		<Textarea {superform} field="certificate" options={{id: "certificate", type:"text", label:"Insert your certificate"}}/>
-		<Textarea {superform} field="key" options={{id: "key", type:"text", label:"Insert your key"}}/>
+		<Input {superform} field="name" options={{id: "name", type:"text", label:"Insert your certificate name"}}/>
+		<File {superform} field="certificate" options={{id: "certificate", label:"Select your certificate"}}/>
+		<File {superform} field="key" options={{id: "key", type:"text", label:"Select your key"}}/>
 		<FormError />
 		<SubmitButton>Submit certificate and key</SubmitButton>
 	</Form>
 </Modal>
+</div>
