@@ -27,18 +27,14 @@
 		hide: { organization: organization.id },
 		components: {
 			schema: createFieldComponent(JSONSchemaInput),
-			description: createFieldComponent(Textarea)
-		}
-	}}
-	editFormSettings={{
-		hide: { organization: organization.id },
-		components: {
-			schema: createFieldComponent(JSONSchemaInput),
-			description: createFieldComponent(Textarea)
+			description: createFieldComponent(Textarea, {
+				options: { label: 'Description', placeholder: 'Enter a description for the schema' }
+			})
 		}
 	}}
 	let:records
 >
+	<pre>{JSON.stringify(records, null, 2)}</pre>
 	<CollectionManagerHeader>
 		<Heading slot="title" tag="h4">Services templates</Heading>
 	</CollectionManagerHeader>
