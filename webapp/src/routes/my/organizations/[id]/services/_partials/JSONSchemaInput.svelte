@@ -14,3 +14,11 @@
 </script>
 
 <JSONSchemaEditor {label} bind:schema={$value} mode="builder" returnType="string" />
+
+<style>
+	:global(label[for*='required']) {
+		display: flex !important;
+		align-items: center;
+		gap: 6px;
+	}
+</style>
