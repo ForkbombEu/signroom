@@ -28,7 +28,7 @@
 		components: {
 			schema: createFieldComponent(JSONSchemaInput),
 			description: createFieldComponent(Textarea, {
-				options: { label: 'Description', placeholder: 'Enter a description for the schema' }
+				options: { placeholder: 'Enter a description for the schema' }
 			})
 		}
 	}}

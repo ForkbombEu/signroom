@@ -7,9 +7,7 @@
 </script>
 
 <div class="space-y-2">
-	{#if label}
-		<FieldLabel {field} text={label} />
-	{/if}
+	<FieldLabel {field} text={label} />
 	<slot />
 	<FieldError {field} />
 </div>
