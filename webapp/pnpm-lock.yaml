@@ -52,7 +52,7 @@ dependencies:
     version: 0.5.1(svelte@4.2.10)(tailwindcss@3.4.1)
   json-schema-builder-svelte:
     specifier: github:dyne/json-schema-builder-svelte
-    version: github.com/dyne/json-schema-builder-svelte/dc95e8cd2104669eee9e42940a1748527d0aa35b(svelte@4.2.10)
+    version: github.com/dyne/json-schema-builder-svelte/81c1068f93370a9a068205f07ed2383c4b36a0eb(svelte@4.2.10)
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
@@ -4062,11 +4062,11 @@ packages:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
     dev: true
 
-  github.com/dyne/json-schema-builder-svelte/dc95e8cd2104669eee9e42940a1748527d0aa35b(svelte@4.2.10):
-    resolution: {tarball: https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/dc95e8cd2104669eee9e42940a1748527d0aa35b}
-    id: github.com/dyne/json-schema-builder-svelte/dc95e8cd2104669eee9e42940a1748527d0aa35b
+  github.com/dyne/json-schema-builder-svelte/81c1068f93370a9a068205f07ed2383c4b36a0eb(svelte@4.2.10):
+    resolution: {tarball: https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/81c1068f93370a9a068205f07ed2383c4b36a0eb}
+    id: github.com/dyne/json-schema-builder-svelte/81c1068f93370a9a068205f07ed2383c4b36a0eb
     name: json-schema-builder-svelte
-    version: 0.0.20
+    version: 0.1.2
     peerDependencies:
       svelte: ^4.0.0
     dependencies:
