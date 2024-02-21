@@ -21,7 +21,7 @@
 		</div>
 		<div class="flex space-x-2 items-center">
 			{#if !hideCreateButton}
-			  <CreateRecord />
+				<CreateRecord />
 			{/if}
 			<slot name="actions" />
 		</div>
