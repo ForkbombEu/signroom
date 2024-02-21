@@ -9,12 +9,20 @@ const converter: Record<string, string> = {
 	EdDSA: `Given I have a 'hex' named 'key'
 		Then print the 'key' as 'base58'`
 };
+// TODO: check all possible RSA identifier that can be used
+const algorithmIdentifier: Record<string, string> = {
+	'1.2.840.10045.3.1.7': 'ECDSA',
+	'1.3.101.112': 'EdDSA',
+	'1.2.840.113549.1.1.1': 'RSASSA-PKCS1-v1_5',
+	'1.2.840.113549.1.1.10': '1.2.840.113549.1.1.10'
+}
 const BEGIN_CERTIFICATE = '-----BEGIN CERTIFICATE-----';
 const END_CERTIFICATE = '-----END CERTIFICATE-----';
 const BEGIN_KEY = '-----BEGIN PRIVATE KEY-----';
 const END_KEY = '-----END PRIVATE KEY-----';
 const BEGIN_EC = '-----BEGIN EC PRIVATE KEY-----';
 const END_EC = '-----END EC PRIVATE KEY-----';
+const OBJECT_IDENTIFIER = 'OBJECT IDENTIFIER : ';
 
 export function readKeyFromLocalStorage(){
 	return JSON.parse(localStorage.getItem('certificateKey') || '{}');
@@ -54,13 +62,29 @@ function checkKey(secretKey: string): string {
 	return secretKey.slice(begin, end).split('\n').join('');
 }
 
+function mathcKeyCertAlgo(algorithmName: string, arr: any[]) {
+	var id;
+	for (const v of arr) {
+		const index = v.toString().indexOf(OBJECT_IDENTIFIER);
+		if(index != -1) {
+			id = v.toString().slice(index+OBJECT_IDENTIFIER.length).split('\n')[0];
+			break;
+		}
+	}
+	if(!id) throw('Key has no object identifier')
+	if(!algorithmIdentifier[id]) throw('Algorithm not supported')
+	if(algorithmIdentifier[id] != algorithmName)
+		throw('Key algorithm does not correspond to certificate algorithm')
+}
+
 async function decodeKey(algorithmName: string, secretKey: string): Promise<string | null> {
 	const sk = checkKey(secretKey);
-	if (algorithmName == 'RSASSA-PKCS1-v1_5' || algorithmName == '1.2.840.113549.1.1.10')
-		return null;
 	const buf = Uint8Array.from(atob(sk), (c) => c.charCodeAt(0));
 	const obj: any = fromBER(buf).valueOf();
 	const arr = obj.result.valueBlock.value;
+	mathcKeyCertAlgo(algorithmName, arr);
+	if (algorithmName == 'RSASSA-PKCS1-v1_5' || algorithmName == '1.2.840.113549.1.1.10')
+		return null;
 	const hexKey = arr
 		.find((value: any[]) => value.constructor.name == '_OctetString')
 		.toString()
