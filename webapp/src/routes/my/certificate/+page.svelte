@@ -28,10 +28,10 @@
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import PortalWrapper from '$lib/components/portalWrapper.svelte';
 	import { Plus } from 'svelte-heros-v2';
+	import DeleteRecord from '$lib/collectionManager/ui/recordActions/deleteRecord.svelte';
 
-	const recordType = createTypeProp<CertificatesResponse>();
+	//
 
-	let showModal: boolean = true;
 	const converter: Record<string, string> = {
 		ECDSA: `Given I have a 'hex' named 'key'
 		Then print the 'key' as 'base64'`,
@@ -152,6 +152,13 @@
 		localStorage.setItem('certificateKey', JSON.stringify(allKeys));
 		location.reload();
 	}
+
+	function handleDelete() {}
+
+	//
+
+	const recordType = createTypeProp<CertificatesResponse>();
+	let showModal = false;
 </script>
 
 <div class="p-4 space-y-4 border-slate-200 rounded-lg">
@@ -170,10 +177,18 @@
 		<CollectionTable
 			{records}
 			fields={['name', 'algorithm']}
-			hideActions={['select', 'edit', 'share']}
+			hideActions={['select', 'edit', 'share', 'delete']}
 		>
 			<svelte:fragment slot="emptyState">
 				<CollectionEmptyState hideCreateButton />
+			</svelte:fragment>
+			<svelte:fragment slot="actions" let:record>
+				<DeleteRecord
+					{record}
+					on:delete={(e) => {
+						console.log(e.detail.record);
+					}}
+				/>
 			</svelte:fragment>
 		</CollectionTable>
 	</CollectionManager>

@@ -1,21 +1,28 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
 	import PortalWrapper from '$lib/components/portalWrapper.svelte';
-
 	import type { PBResponse } from '$lib/utils/types';
 	import { getRecordsManagerContext } from '../../collectionManager.svelte';
 
 	import { Button, Modal, P } from 'flowbite-svelte';
 	import { Trash, XMark } from 'svelte-heros-v2';
 
+	//
+
 	type RecordGeneric = $$Generic<PBResponse>;
 	export let record: RecordGeneric;
+
+	//
 
 	const { dataManager } = getRecordsManagerContext();
 	const { loadRecords, recordService } = dataManager;
 
+	const dispatch = createEventDispatcher<{ delete: { record: RecordGeneric } }>();
+
 	async function deleteRecord() {
 		await recordService.delete(record.id);
 		loadRecords();
+		dispatch('delete', { record });
 		open = false;
 	}
 
