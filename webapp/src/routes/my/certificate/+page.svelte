@@ -173,6 +173,7 @@
 	/* Upload key modal */
 
 	let keyUploadModal = createToggleStore(false);
+	let keyUploadCertificate: CertificatesResponse | undefined = undefined;
 
 	const keyUploadFormSchema = z.object({
 		key: zodFile()
@@ -181,8 +182,10 @@
 	const keyUploadForm = createForm(
 		keyUploadFormSchema,
 		async ({ form }) => {
+			if (!keyUploadCertificate) return;
 			const key = form.data.key as File;
 			const keyContent = await readFile(key);
+			const certificateName = keyUploadCertificate.name;
 			console.log(keyContent);
 		},
 		undefined,
@@ -226,7 +229,14 @@
 					{:else}
 						<div class="flex items-center gap-2">
 							<Badge color="red">Missing</Badge>
-							<Button size="xs" color="alternative" on:click={keyUploadModal.on}>
+							<Button
+								size="xs"
+								color="alternative"
+								on:click={() => {
+									keyUploadCertificate = record;
+									keyUploadModal.on();
+								}}
+							>
 								<ArrowUpTray size="16"></ArrowUpTray>
 								<span class="ml-1.5">Load key</span>
 							</Button>
