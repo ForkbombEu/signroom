@@ -9,7 +9,8 @@
 	import {
 		CollectionManager,
 		CollectionManagerHeader,
-		CollectionTable
+		CollectionTable,
+		CollectionEmptyState
 	} from '$lib/collectionManager';
 	import {
 		Collections,
@@ -17,6 +18,8 @@
 		type CertificatesRecord
 	} from '$lib/pocketbase/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
+	import PortalWrapper from '$lib/components/portalWrapper.svelte';
+	import { Plus } from 'svelte-heros-v2';
 
 	const recordType = createTypeProp<CertificatesResponse>();
 
@@ -145,19 +148,30 @@
 
 <div class="p-4 space-y-4 border-slate-200 rounded-lg">
 	<CollectionManager collection={Collections.Certificates} {recordType} let:records>
-		<CollectionManagerHeader>
+		<CollectionManagerHeader hideCreateButton>
 			<svelte:fragment slot="title">
 				<Heading tag="h4">My Certificates</Heading>
+			</svelte:fragment>
+			<svelte:fragment slot="actions">
+				<Button on:click={() => (showModal = true)}>
+					<Plus></Plus>
+					<span class="ml-2"> Add a Key-Certificate Pair </span>
+				</Button>
 			</svelte:fragment>
 		</CollectionManagerHeader>
 		<CollectionTable
 			{records}
 			fields={['name', 'algorithm']}
 			hideActions={['select', 'edit', 'share']}
-			let:record
-		></CollectionTable>
+		>
+			<svelte:fragment slot="emptyState">
+				<CollectionEmptyState hideCreateButton />
+			</svelte:fragment>
+		</CollectionTable>
 	</CollectionManager>
-	<Button on:click={() => (showModal = true)}>Add another Key and Certificate Pair</Button>
+</div>
+
+<PortalWrapper>
 	<Modal bind:open={showModal} size="md" title="Key and certificate" placement="center">
 		<Form {superform}>
 			<Input
@@ -179,4 +193,4 @@
 			<SubmitButton>Submit certificate and key</SubmitButton>
 		</Form>
 	</Modal>
-</div>
+</PortalWrapper>
