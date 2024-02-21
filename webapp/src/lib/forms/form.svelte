@@ -126,9 +126,16 @@
 
 	const { enhance, delayed } = superform;
 	setContext<FormContext<T>>(FORM_KEY, { superform, showRequiredIndicator });
+
+	const isMultipart = superform.options.dataType == 'form';
 </script>
 
-<form class={className} method="post" use:enhance>
+<form
+	class={className}
+	method="post"
+	use:enhance
+	enctype={isMultipart ? 'multipart/form-data' : undefined}
+>
 	<slot />
 </form>
 
