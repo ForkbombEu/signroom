@@ -58,7 +58,7 @@ dependencies:
     version: 0.5.1(svelte@4.2.0)(tailwindcss@3.3.3)
   json-schema-builder-svelte:
     specifier: github:dyne/json-schema-builder-svelte
-    version: github.com/dyne/json-schema-builder-svelte/d64ca7a025fb0a2445e694530866fa5cf2ef09bc(svelte@4.2.0)
+    version: github.com/dyne/json-schema-builder-svelte/81c1068f93370a9a068205f07ed2383c4b36a0eb(svelte@4.2.0)
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
@@ -949,6 +949,10 @@ packages:
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
     dev: true
 
+  /@sinclair/typebox@0.32.14:
+    resolution: {integrity: sha512-EC77Mw8huT2z9YlYbWfpIQgN6shZE1tH4NP4/Trig8UBel9FZNMZRJ42ubJI8PLor2uIU+waLml1dce5ReCOPg==}
+    dev: false
+
   /@slangroom/core@1.13.0(zenroom@4.12.0):
     resolution: {integrity: sha512-RRocga8WaaHnxcs5RJVab9JEEUEtxAoCjiLzt3Q8yDLNv7FQJ5V5iAlK+U1zADpc4kzNbVe9jF6xaSp1tLkQrg==}
     dependencies:
@@ -1793,6 +1797,10 @@ packages:
     resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==}
     engines: {node: '>=12'}
     dev: true
+
+  /effect@2.3.8:
+    resolution: {integrity: sha512-jLPRJp1f85HwIu2eP1BFJGF2La0wS8xfqYNSJsTKDlCemyDSGMbtHvtEGKJCB0TQg+CK+DxJAvWOHloTGqMa9w==}
+    dev: false
 
   /electron-to-chromium@1.4.551:
     resolution: {integrity: sha512-/Ng/W/kFv7wdEHYzxdK7Cv0BHEGSkSB3M0Ssl8Ndr1eMiYeas/+Mv4cNaDqamqWx6nd2uQZfPz6g25z25M/sdw==}
@@ -4050,16 +4058,18 @@ packages:
     resolution: {integrity: sha512-wvWkphh5WQsJbVk1tbx1l1Ly4yg+XecD+Mq280uBGt9wa5BKSWf4Mhp6GmrkPixhMxmabYY7RbzlwVP32pbGCg==}
     dev: true
 
-  github.com/dyne/json-schema-builder-svelte/d64ca7a025fb0a2445e694530866fa5cf2ef09bc(svelte@4.2.0):
-    resolution: {tarball: https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/d64ca7a025fb0a2445e694530866fa5cf2ef09bc}
-    id: github.com/dyne/json-schema-builder-svelte/d64ca7a025fb0a2445e694530866fa5cf2ef09bc
+  github.com/dyne/json-schema-builder-svelte/81c1068f93370a9a068205f07ed2383c4b36a0eb(svelte@4.2.0):
+    resolution: {tarball: https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/81c1068f93370a9a068205f07ed2383c4b36a0eb}
+    id: github.com/dyne/json-schema-builder-svelte/81c1068f93370a9a068205f07ed2383c4b36a0eb
     name: json-schema-builder-svelte
-    version: 0.0.13
+    version: 0.1.2
     peerDependencies:
       svelte: ^4.0.0
     dependencies:
+      '@sinclair/typebox': 0.32.14
       ajv: 8.12.0
       ajv-formats: 2.1.1(ajv@8.12.0)
+      effect: 2.3.8
       nanoid: 5.0.2
       svelte: 4.2.0
       svelte-heros-v2: 0.10.12(svelte@4.2.0)
