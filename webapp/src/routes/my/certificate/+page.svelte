@@ -15,7 +15,6 @@
 	import { createTypeProp } from '$lib/utils/typeProp';
 
 	const recordType = createTypeProp<certificateResponse>();
-	export let data;
 
 	let showModal: boolean = false;
 	const converter: Record<string, string> = {
