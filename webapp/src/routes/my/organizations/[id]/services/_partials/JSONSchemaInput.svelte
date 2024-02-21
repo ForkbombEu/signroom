@@ -10,7 +10,6 @@
 	export let superform: SuperForm<UnwrapEffects<T>, any>;
 
 	const { value } = formFieldProxy(superform, field);
-	console.log($value);
 </script>
 
 <JSONSchemaEditor {label} bind:schema={$value} mode="builder" returnType="string" />
