@@ -1,6 +1,14 @@
 <script lang="ts">
 	import { Button, Heading, Modal } from 'flowbite-svelte';
-	import { Form, createForm, FormError, Input, SubmitButton, File, zodFile } from '$lib/forms';
+	import {
+		Form,
+		createForm,
+		FormError,
+		Input,
+		SubmitButton,
+		File as FileInput,
+		zodFile
+	} from '$lib/forms';
 	import { z } from 'zod';
 	import { fromBER } from 'asn1js';
 	import { X509Certificate } from '@peculiar/x509';
@@ -37,38 +45,40 @@
 	const BEGIN_EC = '-----BEGIN EC PRIVATE KEY-----';
 	const END_EC = '-----END EC PRIVATE KEY-----';
 
+	const allKeys = JSON.parse(localStorage.getItem('certificateKey') || '{}');
+
 	const schema = z.object({
 		name: z.string(),
 		certificate: zodFile(),
 		key: zodFile()
 	});
 
-	const superform = createForm(schema, async ({ form }) => {
-		const { data } = form;
-		await addCertifcateAndKey(data);
-	});
-
-	const allKeys = JSON.parse(localStorage.getItem('certificateKey') || '{}');
-
-	async function getFile(f) {
-		var file = f.files[0];
-		let res: string;
-		try {
-			res = await new Promise((resolve, reject) => {
-				const reader = new FileReader();
-				reader.readAsText(file);
-				reader.onload = () => {
-					resolve(reader.result as string);
-				};
-			});
-		} catch (e) {
-			throw e;
+	const superform = createForm(
+		schema,
+		async ({ form }) => {
+			const { data } = form;
+			const certificate = await readFile(data.certificate as File);
+			const key = await readFile(data.certificate as File);
+			await addCertifcateAndKey(data.name, certificate, key);
+		},
+		undefined,
+		{
+			dataType: 'form'
 		}
+	);
+
+	async function readFile(file: File) {
+		let res: string = await new Promise((resolve, reject) => {
+			const reader = new FileReader();
+			reader.readAsText(file);
+			reader.onload = () => {
+				resolve(reader.result as string);
+			};
+		});
 		return res.trim();
 	}
 
-	async function checkCertificate(): Promise<[string, string]> {
-		const certificate = await getFile(document.getElementById('certificate'));
+	async function checkCertificate(certificate: string) {
 		if (!certificate.startsWith(BEGIN_CERTIFICATE) || !certificate.endsWith(END_CERTIFICATE)) {
 			throw 'Invalid ceritifcate: must be in pem format';
 		}
@@ -84,7 +94,7 @@
 		}
 		// signatureAlgorithmName = RSASSA-PKCS1-v1_5
 		// signatureAlgorithmName = 1.2.840.113549.1.1.10 (RSA-PSS)
-		return [parsedCertificate, signatureAlgorithmName];
+		return { parsedCertificate, signatureAlgorithmName };
 	}
 
 	function checkKey(secretKey: string): string {
@@ -120,10 +130,9 @@
 		return JSON.parse(result).key;
 	}
 
-	async function addCertifcateAndKey(data: { name: string; certificate: string; key: string }) {
-		const name = data.name;
+	async function addCertifcateAndKey(name: string, certificate: string, key: string) {
 		if (allKeys[name]) throw 'Certificate name already in use';
-		const [parsedCertificate, signatureAlgorithmName] = await checkCertificate();
+		const { parsedCertificate, signatureAlgorithmName } = await checkCertificate(certificate);
 		const c: CertificatesRecord = {
 			name,
 			value: parsedCertificate,
@@ -135,10 +144,9 @@
 		} catch (e) {
 			throw e;
 		}
-		const k = await getFile(document.getElementById('key'));
-		const sk = await decodeKey(signatureAlgorithmName, k);
+		const sk = await decodeKey(signatureAlgorithmName, key);
 		allKeys[name] = {
-			value: k
+			value: key
 		};
 		if (sk) allKeys[name].zenroomValue = sk;
 		localStorage.setItem('certificateKey', JSON.stringify(allKeys));
@@ -154,7 +162,7 @@
 			</svelte:fragment>
 			<svelte:fragment slot="actions">
 				<Button on:click={() => (showModal = true)}>
-					<Plus></Plus>
+					<Plus />
 					<span class="ml-2"> Add a Key-Certificate Pair </span>
 				</Button>
 			</svelte:fragment>
@@ -179,12 +187,12 @@
 				field="name"
 				options={{ id: 'name', type: 'text', label: 'Insert your certificate name' }}
 			/>
-			<File
+			<FileInput
 				{superform}
 				field="certificate"
 				options={{ id: 'certificate', label: 'Select your certificate' }}
 			/>
-			<File
+			<FileInput
 				{superform}
 				field="key"
 				options={{ id: 'key', type: 'text', label: 'Select your key' }}
