@@ -60,7 +60,7 @@
 		return res.trim();
 	}
 
-	async function checkCertificate(): [string, string] {
+	async function checkCertificate(): Promise<[string, string]> {
 		const certificate = await getFile(document.getElementById('certificate'));
 		if (!certificate.startsWith(BEGIN_CERTIFICATE) || !certificate.endsWith(END_CERTIFICATE)) {
 			throw 'Invalid ceritifcate: must be in pem format';
