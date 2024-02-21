@@ -21,16 +21,18 @@
 		type CertificatesResponse,
 		type CertificatesRecord
 	} from '$lib/pocketbase/types';
+	import { currentUser } from '$lib/pocketbase';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import PortalWrapper from '$lib/components/portalWrapper.svelte';
 	import { Plus, ArrowUpTray } from 'svelte-heros-v2';
 	import DeleteRecord from '$lib/collectionManager/ui/recordActions/deleteRecord.svelte';
 	import { createToggleStore } from '$lib/components/utils/toggleStore';
 	import { nanoid } from 'nanoid';
-	import { readKeyFromLocalStorage, addCertifcateAndKey } from './logic';
-
-	// fucntion to read and write to localstorage
-	const allKeys = JSON.parse(localStorage.getItem('certificateKey') || '{}');
+	import {
+		readKeyFromLocalStorage,
+		addKey,
+		addCertifcateAndKey
+	} from './logic';
 
 	const schema = z.object({
 		name: z.string(),
@@ -44,7 +46,7 @@
 			const { data } = form;
 			const certificate = await readFile(data.certificate as File);
 			const key = await readFile(data.key as File);
-			await addCertifcateAndKey(data.name, certificate, key);
+			await addCertifcateAndKey(data.name, certificate, key, $currentUser!.id);
 		},
 		undefined,
 		{
@@ -94,8 +96,11 @@
 			if (!keyUploadCertificate) return;
 			const key = form.data.key as File;
 			const keyContent = await readFile(key);
-			const certificateName = keyUploadCertificate.name;
-			console.log(keyContent);
+			await addKey(keyUploadCertificate.name,
+				keyUploadCertificate.algorithm,
+				keyContent,
+				false);
+			location.reload();
 		},
 		undefined,
 		{

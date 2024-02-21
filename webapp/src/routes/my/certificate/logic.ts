@@ -1,7 +1,7 @@
 import { fromBER } from 'asn1js';
 import { X509Certificate } from '@peculiar/x509';
 import { zencode_exec } from 'zenroom';
-import { pb, currentUser } from '$lib/pocketbase';
+import { pb } from '$lib/pocketbase';
 
 const converter: Record<string, string> = {
 	ECDSA: `Given I have a 'hex' named 'key'
@@ -72,26 +72,43 @@ async function decodeKey(algorithmName: string, secretKey: string): Promise<stri
 	return JSON.parse(result).key;
 }
 
-export async function addCertifcateAndKey(name: string, certificate: string, key: string) {
+export async function addKey(name: string, algorithm: string, key: string, checkCert: boolean) {
+	if(checkCert) {
+		let certificateFound;
+		try {
+			await pb.collection('certificates').getFirstListItem(`name="${name}"`);
+			certificateFound = true;
+		} catch(e) {
+			certificateFound = false;
+		}
+		if(certificateFound) {
+			throw('Name already in use for certificate');
+		}
+	}
 	const allKeys = readKeyFromLocalStorage();
-	if (allKeys[name]) throw 'Certificate name already in use';
+	if (allKeys[name]) throw 'Name already in use';
+	allKeys[name] = {
+		value: key
+	};
+	const sk = await decodeKey(algorithm, key);
+	if (sk) allKeys[name].zenroomValue = sk;
+	localStorage.setItem('certificateKey', JSON.stringify(allKeys));
+}
+
+export async function addCertifcateAndKey(name: string, certificate: string, key: string, userId: string) {
 	const { parsedCertificate, signatureAlgorithmName } = await checkCertificate(certificate);
+	await addKey(name, signatureAlgorithmName, key, true);
 	const c = {
 		name,
 		value: parsedCertificate,
 		algorithm: signatureAlgorithmName,
-		owner: $currentUser!.id
+		owner: userId
 	};
 	try {
 		await pb.collection('certificates').create(c);
 	} catch (e) {
 		throw e;
 	}
-	const sk = await decodeKey(signatureAlgorithmName, key);
-	allKeys[name] = {
-		value: key
-	};
-	if (sk) allKeys[name].zenroomValue = sk;
-	localStorage.setItem('certificateKey', JSON.stringify(allKeys));
 	location.reload();
 }
+
