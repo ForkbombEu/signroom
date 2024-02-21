@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, Heading, Modal } from 'flowbite-svelte';
+	import { Badge, Button, Heading, Modal, TableBodyCell, TableHeadCell } from 'flowbite-svelte';
 	import {
 		Form,
 		createForm,
@@ -27,8 +27,10 @@
 	} from '$lib/pocketbase/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import PortalWrapper from '$lib/components/portalWrapper.svelte';
-	import { Plus } from 'svelte-heros-v2';
+	import { Plus, ArrowUpTray } from 'svelte-heros-v2';
 	import DeleteRecord from '$lib/collectionManager/ui/recordActions/deleteRecord.svelte';
+	import { createToggleStore } from '$lib/components/utils/toggleStore';
+	import { nanoid } from 'nanoid';
 
 	//
 
@@ -63,6 +65,7 @@
 		},
 		undefined,
 		{
+			id: nanoid(5),
 			dataType: 'form'
 		}
 	);
@@ -157,10 +160,37 @@
 		console.log(certificate);
 	}
 
+	function checkCertificateKeyInLocalStorage(ceritifcate: CertificatesRecord): boolean {
+		return Math.random() > 0.5;
+	}
+
 	//
 
 	const recordType = createTypeProp<CertificatesResponse>();
+
 	let showModal = false;
+
+	/* Upload key modal */
+
+	let keyUploadModal = createToggleStore(false);
+
+	const keyUploadFormSchema = z.object({
+		key: zodFile()
+	});
+
+	const keyUploadForm = createForm(
+		keyUploadFormSchema,
+		async ({ form }) => {
+			const key = form.data.key as File;
+			const keyContent = await readFile(key);
+			console.log(keyContent);
+		},
+		undefined,
+		{
+			id: nanoid(5),
+			dataType: 'form'
+		}
+	);
 </script>
 
 <div class="p-4 space-y-4 border-slate-200 rounded-lg">
@@ -184,6 +214,28 @@
 			<svelte:fragment slot="emptyState">
 				<CollectionEmptyState hideCreateButton />
 			</svelte:fragment>
+
+			<svelte:fragment slot="header">
+				<TableHeadCell>Key status</TableHeadCell>
+			</svelte:fragment>
+			<svelte:fragment slot="row" let:record>
+				<!-- {@const keyExists = checkCertificateKeyInLocalStorage(record)} -->
+				{@const keyExists = false}
+				<TableBodyCell>
+					{#if keyExists}
+						<Badge color="green">Available</Badge>
+					{:else}
+						<div class="flex items-center gap-2">
+							<Badge color="red">Missing</Badge>
+							<Button size="xs" color="alternative" on:click={keyUploadModal.on}>
+								<ArrowUpTray size="16"></ArrowUpTray>
+								<span class="ml-1.5">Load key</span>
+							</Button>
+						</div>
+					{/if}
+				</TableBodyCell>
+			</svelte:fragment>
+
 			<svelte:fragment slot="actions" let:record>
 				<DeleteRecord
 					{record}
@@ -202,21 +254,27 @@
 			<Input
 				{superform}
 				field="name"
-				options={{ id: 'name', type: 'text', label: 'Insert your certificate name' }}
+				options={{ id: 'name', label: 'Insert your certificate name' }}
 			/>
 			<FileInput
 				{superform}
 				field="certificate"
 				options={{ id: 'certificate', label: 'Select your certificate' }}
 			/>
-			<FileInput
-				{superform}
-				field="key"
-				options={{ id: 'key', type: 'text', label: 'Select your key' }}
-			/>
+			<FileInput {superform} field="key" options={{ id: 'key', label: 'Select your key' }} />
 			<FormError />
 			<dir class="flex justify-end">
 				<SubmitButton>Submit certificate and key</SubmitButton>
+			</dir>
+		</Form>
+	</Modal>
+
+	<Modal bind:open={$keyUploadModal} size="md" title="Load key" placement="center">
+		<Form superform={keyUploadForm}>
+			<FileInput superform={keyUploadForm} field="key" options={{ label: 'Select your key' }} />
+			<FormError />
+			<dir class="flex justify-end">
+				<SubmitButton>Submit key</SubmitButton>
 			</dir>
 		</Form>
 	</Modal>
