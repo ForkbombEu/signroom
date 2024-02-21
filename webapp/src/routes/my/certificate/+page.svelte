@@ -31,7 +31,8 @@
 	import {
 		readKeyFromLocalStorage,
 		addKey,
-		addCertifcateAndKey
+		addCertifcateAndKey,
+		addAutosingedCertificateAndKey
 	} from './logic';
 
 	const schema = z.object({
@@ -47,6 +48,10 @@
 			const certificate = await readFile(data.certificate as File);
 			const key = await readFile(data.key as File);
 			await addCertifcateAndKey(data.name, certificate, key, $currentUser!.id);
+			delete data.name;
+			delete data.key;
+			delete data.certificate;
+			showModal = false;
 		},
 		undefined,
 		{
@@ -102,7 +107,32 @@
 				keyUploadCertificate.algorithm,
 				keyContent,
 				false);
-			location.reload();
+			delete form.data.key;
+			keyUploadModal = createToggleStore(false);
+		},
+		undefined,
+		{
+			id: nanoid(5),
+			dataType: 'form'
+		}
+	);
+
+	//
+
+	/* Create autosigned certificate modal */
+
+	let showAutosignedModal = false;
+
+	const autosignedCertFormSchema = z.object({
+		name: z.string()
+	});
+	const autosignedCertForm = createForm(
+		autosignedCertFormSchema,
+		async ({ form }) => {
+			const { data } = form;
+			await addAutosingedCertificateAndKey(data.name, $currentUser!.id);
+			delete data.name;
+			showAutosignedModal = false;
 		},
 		undefined,
 		{
@@ -131,7 +161,18 @@
 			hideActions={['select', 'edit', 'share', 'delete']}
 		>
 			<svelte:fragment slot="emptyState">
-				<CollectionEmptyState hideCreateButton />
+				<CollectionEmptyState
+					title = "No certificate here"
+					description = "Start by creating an autosigned certificate"
+					hideCreateButton
+					>
+					<svelte:fragment slot="actions">
+						<Button color="alternative" on:click={() => (showAutosignedModal = true)}>
+							<Plus />
+							<span class="ml-2"> Generate an autosigned certificate </span>
+						</Button>
+					</svelte:fragment>
+				</CollectionEmptyState>
 			</svelte:fragment>
 
 			<svelte:fragment slot="header">
@@ -200,6 +241,20 @@
 			<FormError />
 			<dir class="flex justify-end">
 				<SubmitButton>Submit key</SubmitButton>
+			</dir>
+		</Form>
+	</Modal>
+
+	<Modal bind:open={showAutosignedModal} size="md" title="Autosigned certificate" placement="center">
+		<Form superform={autosignedCertForm}>
+			<Input
+				superform={autosignedCertForm}
+				field="name"
+				options={{ id: 'name', label: 'Insert the  certificate name' }}
+			/>
+			<FormError />
+			<dir class="flex justify-end">
+				<SubmitButton>Submit name</SubmitButton>
 			</dir>
 		</Form>
 	</Modal>

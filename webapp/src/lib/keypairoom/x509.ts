@@ -26,7 +26,7 @@ function url64ToBase64(input: string): string {
 	return input;
 }
 
-export async function generateKeyAndCertificate(userId): void {
+export async function generateKeyAndCertificate(name: string, userId: string, allKeys: Record<string, any>): void {
 	// generating keypair
 	const keyPair = await crypto.subtle.generateKey(ALGORITHM, true, ["sign", "verify"]);
 	// storing the sk in local storage
@@ -35,12 +35,11 @@ export async function generateKeyAndCertificate(userId): void {
 	const completeKey = '-----BEGIN EC PRIVATE KEY-----\n'+sk_b64+'\n-----END EC PRIVATE KEY-----'
 	// raw key to be used in zenroom
 	const sk_jwk = await crypto.subtle.exportKey("jwk", keyPair.privateKey);
-	const key = {}
-	key[CERTIFICATE_NAME] = {
+	allKeys[name] = {
 		value: completeKey,
 		zenroomValue: url64ToBase64(sk_jwk.d)
 	}
-	localStorage.setItem(CERTIFICATE_KEY, JSON.stringify(key));
+	localStorage.setItem(CERTIFICATE_KEY, JSON.stringify(allKeys));
 	// compute date for certificate,
 	// valid from yesterday for an year
 	var yesterday = new Date();
@@ -64,7 +63,7 @@ export async function generateKeyAndCertificate(userId): void {
 	});
 	const parsedCert = cert.toString("pem").split('\n').slice(1, -1).join('');
 	const c: CertificatesRecord = {
-		name: CERTIFICATE_NAME,
+		name,
 		value: parsedCert,
 		algorithm: 'ECDSA',
 		owner: userId

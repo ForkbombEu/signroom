@@ -2,6 +2,7 @@ import { fromBER } from 'asn1js';
 import { X509Certificate } from '@peculiar/x509';
 import { zencode_exec } from 'zenroom';
 import { pb } from '$lib/pocketbase';
+import { generateKeyAndCertificate } from '$lib/keypairoom/x509'
 
 const converter: Record<string, string> = {
 	ECDSA: `Given I have a 'hex' named 'key'
@@ -96,7 +97,7 @@ async function decodeKey(algorithmName: string, secretKey: string): Promise<stri
 	return JSON.parse(result).key;
 }
 
-export async function addKey(name: string, algorithm: string, key: string, checkCert: boolean) {
+async function freeName(name: string, allKeys: Record<string, any>, checkCert: boolean) {
 	if(checkCert) {
 		let certificateFound;
 		try {
@@ -109,8 +110,12 @@ export async function addKey(name: string, algorithm: string, key: string, check
 			throw('Name already in use for certificate');
 		}
 	}
-	const allKeys = readKeyFromLocalStorage();
 	if (allKeys[name]) throw 'Name already in use';
+}
+
+export async function addKey(name: string, algorithm: string, key: string, checkCert: boolean) {
+	const allKeys = readKeyFromLocalStorage();
+	await freeName(name, allKeys, checkCert);
 	allKeys[name] = {
 		value: key
 	};
@@ -133,6 +138,10 @@ export async function addCertifcateAndKey(name: string, certificate: string, key
 	} catch (e) {
 		throw e;
 	}
-	location.reload();
 }
 
+export async function addAutosingedCertificateAndKey(name: string, userId: string) {
+	const allKeys = readKeyFromLocalStorage();
+	await freeName(name, allKeys, true);
+	await generateKeyAndCertificate(name, userId, allKeys);
+}
