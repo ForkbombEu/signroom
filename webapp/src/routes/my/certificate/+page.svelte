@@ -125,7 +125,7 @@
 			name,
 			value: parsedCertificate,
 			algorithm: signatureAlgorithmName,
-			owner: $currentUser.id
+			owner: $currentUser!.id
 		};
 		try {
 			await pb.collection('certificates').create(c);
