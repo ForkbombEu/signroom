@@ -153,7 +153,9 @@
 		location.reload();
 	}
 
-	function handleDelete() {}
+	function onCertificateDelete(certificate: CertificatesResponse) {
+		console.log(certificate);
+	}
 
 	//
 
@@ -186,7 +188,7 @@
 				<DeleteRecord
 					{record}
 					on:delete={(e) => {
-						console.log(e.detail.record);
+						onCertificateDelete(e.detail.record);
 					}}
 				/>
 			</svelte:fragment>
