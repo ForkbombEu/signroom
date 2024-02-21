@@ -14,7 +14,7 @@
 	import { Collections, type CertificatesResponse } from '$lib/pocketbase/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
 
-	const recordType = createTypeProp<certificateResponse>();
+	const recordType = createTypeProp<CertificatesResponse>();
 
 	let showModal: boolean = false;
 	const converter: Record<string, string> = {
