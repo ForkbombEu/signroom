@@ -57,9 +57,9 @@
 				{@const label = fieldsLabels[field] ?? field}
 				<RecordsTableHead field={label} />
 			{/each}
-			{#if $$slots.default}
-				<TableHeadCell />
-			{/if}
+
+			<slot name="header" />
+
 			{#if !hasNoActionColumn}
 				<TableHeadCell>Actions</TableHeadCell>
 			{/if}
@@ -78,11 +78,9 @@
 							<FieldComponent {record} {field} {component} />
 						</TableBodyCell>
 					{/each}
-					{#if $$slots.default}
-						<TableBodyCell>
-							<slot {record} />
-						</TableBodyCell>
-					{/if}
+
+					<slot name="row" {record} />
+
 					{#if !hasNoActionColumn}
 						<TableBodyCell>
 							<div class="flex items-center space-x-2">
