@@ -58,6 +58,10 @@
 				<RecordsTableHead field={label} />
 			{/each}
 
+			{#if $$slots.default}
+				<TableHeadCell />
+			{/if}
+
 			<slot name="header" />
 
 			{#if !hasNoActionColumn}
@@ -79,7 +83,13 @@
 						</TableBodyCell>
 					{/each}
 
-					<slot name="row" {record} />
+					{#if $$slots.default}
+						<TableBodyCell>
+							<slot {record} />
+						</TableBodyCell>
+					{/if}
+
+					<slot name="row" />
 
 					{#if !hasNoActionColumn}
 						<TableBodyCell>
