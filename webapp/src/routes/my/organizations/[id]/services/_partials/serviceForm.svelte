@@ -37,7 +37,6 @@
 
 	export let organizationId: string;
 	export let initialData: ServicesResponse | undefined = undefined;
-	export let mode: 'create' | 'edit' = 'create';
 
 	const serviceSchema = fieldsSchemaToZod(getCollectionSchema(Collections.Services)!.schema);
 
@@ -253,7 +252,7 @@
 		fieldsSettings={{
 			hide: { organization: organizationId },
 			components: {
-				schema: createFieldComponent(JSONSchemaInput, { mode })
+				schema: createFieldComponent(JSONSchemaInput)
 			}
 		}}
 		on:success={(e) => {
