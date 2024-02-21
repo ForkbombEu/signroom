@@ -19,8 +19,11 @@
 			<Heading tag="h4">{title}</Heading>
 			<P class="w-fit text-gray-400 font-medium">{description}</P>
 		</div>
-		{#if !hideCreateButton}
-			<CreateRecord />
-		{/if}
+		<div class="flex space-x-2 items-center">
+			{#if !hideCreateButton}
+			  <CreateRecord />
+			{/if}
+			<slot name="actions" />
+		</div>
 	</div>
 </div>
