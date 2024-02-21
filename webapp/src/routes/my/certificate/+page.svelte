@@ -27,7 +27,7 @@
 	import DeleteRecord from '$lib/collectionManager/ui/recordActions/deleteRecord.svelte';
 	import { createToggleStore } from '$lib/components/utils/toggleStore';
 	import { nanoid } from 'nanoid';
-	import { readKeyFromLocalStorage, addCertifcateAndKey } from './logic.ts';
+	import { readKeyFromLocalStorage, addCertifcateAndKey } from './logic';
 
 	// fucntion to read and write to localstorage
 	const allKeys = JSON.parse(localStorage.getItem('certificateKey') || '{}');
