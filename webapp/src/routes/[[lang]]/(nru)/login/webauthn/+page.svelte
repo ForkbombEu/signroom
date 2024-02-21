@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { goto } from '$lib/i18n';
 	import { loginUser } from '$lib/webauthn/index';
 	import { z } from 'zod';
 

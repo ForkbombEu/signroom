@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { pb } from '$lib/pocketbase';
 	import { Collections, OrgJoinRequestsStatusOptions } from '$lib/pocketbase/types';
-	import { goto } from '$app/navigation';
+	import { goto } from '$lib/i18n';
 	import { z } from 'zod';
 
 	import { A, Heading, Hr, P } from 'flowbite-svelte';
@@ -37,8 +37,8 @@
 				status: OrgJoinRequestsStatusOptions.pending,
 				reminders: 0
 			});
-			await goto('/keypairoom?joined=true')
-			return
+			await goto('/keypairoom?joined=true');
+			return;
 		}
 
 		window.location.assign(`/my?${welcomeSearchParam}`);

@@ -15,7 +15,7 @@
 	import { welcomeSearchParamKey } from '$lib/utils/constants.js';
 	import { appTitle } from '$lib/strings.js';
 	import { page } from '$app/stores';
-	import { goto } from '$app/navigation';
+	import { goto } from '$lib/i18n';
 
 	// Components
 	import { A, Alert, Button, Heading, Hr, P } from 'flowbite-svelte';

@@ -21,8 +21,7 @@
 		createFormData,
 		Select
 	} from '$lib/forms';
-	import { Button, Drawer, Heading, Hr, type SelectOptionType } from 'flowbite-svelte';
-	import { Plus } from 'svelte-heros-v2';
+	import { Drawer, Heading, Hr } from 'flowbite-svelte';
 	import { sineIn } from 'svelte/easing';
 	import RecordForm from '$lib/recordForm/recordForm.svelte';
 	import { createTypeProp } from '$lib/utils/typeProp.js';
@@ -30,7 +29,7 @@
 	import { writable } from 'svelte/store';
 	import type { ComponentProps } from 'svelte';
 	import { pb } from '$lib/pocketbase/index.js';
-	import { goto } from '$app/navigation';
+	import { goto } from '$lib/i18n';
 	import { createFieldComponent } from '$lib/recordForm/fieldSchemaToInput.svelte';
 	import JSONSchemaInput from './JSONSchemaInput.svelte';
 	import FormError from '$lib/forms/formError.svelte';

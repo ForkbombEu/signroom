@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { currentUser } from '$lib/pocketbase';
-	import { goto } from '$app/navigation';
+	import { goto } from '$lib/i18n';
 
 	import {
 		UIShell,
