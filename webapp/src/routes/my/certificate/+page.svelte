@@ -11,7 +11,11 @@
 		CollectionManagerHeader,
 		CollectionTable
 	} from '$lib/collectionManager';
-	import { Collections, type CertificatesResponse } from '$lib/pocketbase/types';
+	import {
+		Collections,
+		type CertificatesResponse,
+		type CertificatesRecord
+	} from '$lib/pocketbase/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
 
 	const recordType = createTypeProp<CertificatesResponse>();
