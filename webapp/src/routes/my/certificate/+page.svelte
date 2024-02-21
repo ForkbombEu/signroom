@@ -219,8 +219,7 @@
 				<TableHeadCell>Key status</TableHeadCell>
 			</svelte:fragment>
 			<svelte:fragment slot="row" let:record>
-				<!-- {@const keyExists = checkCertificateKeyInLocalStorage(record)} -->
-				{@const keyExists = false}
+				{@const keyExists = checkCertificateKeyInLocalStorage(record)}
 				<TableBodyCell>
 					{#if keyExists}
 						<Badge color="green">Available</Badge>

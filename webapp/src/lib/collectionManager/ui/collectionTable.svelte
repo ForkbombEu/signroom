@@ -89,7 +89,7 @@
 						</TableBodyCell>
 					{/if}
 
-					<slot name="row" />
+					<slot name="row" {record} />
 
 					{#if !hasNoActionColumn}
 						<TableBodyCell>
