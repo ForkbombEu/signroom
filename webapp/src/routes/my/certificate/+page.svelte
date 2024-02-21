@@ -67,7 +67,9 @@
 	}
 
 	function onCertificateDelete(certificate: CertificatesResponse) {
-		console.log(certificate);
+		const allKeys = readKeyFromLocalStorage();
+		delete allKeys[certificate.name];
+		localStorage.setItem('certificateKey', JSON.stringify(allKeys));
 	}
 
 	function checkCertificateKeyInLocalStorage(certificate: CertificatesRecord): boolean {
