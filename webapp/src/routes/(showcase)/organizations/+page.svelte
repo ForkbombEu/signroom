@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import CollectionManager from '$lib/collectionManager/collectionManager.svelte';
-	import CollectionSearch from '$lib/collectionManager/ui/collectionSearch.svelte';
+	import { CollectionManager, CollectionSearch, Pagination } from '$lib/collectionManager';
 	import { pb } from '$lib/pocketbase/index.js';
-	import { Collections, type OrganizationsRecord } from '$lib/pocketbase/types.js';
+	import { Collections, type OrganizationsResponse } from '$lib/pocketbase/types.js';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import clsx from 'clsx';
 	import { Avatar, Button, Heading, P, Select, Span } from 'flowbite-svelte';
@@ -11,7 +10,7 @@
 
 	//
 
-	const recordType = createTypeProp<OrganizationsRecord>();
+	const recordType = createTypeProp<OrganizationsResponse>();
 </script>
 
 <Section>
@@ -70,6 +69,7 @@
 						</div>
 					</div>
 				{/each}
+				<Pagination />
 			</CollectionManager>
 		</div>
 	</div>
