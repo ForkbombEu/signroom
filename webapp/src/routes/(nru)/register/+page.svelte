@@ -16,6 +16,7 @@
 
 	const schema = z
 		.object({
+			username: z.string(),
 			email: z.string().email(),
 			password: z.string().min(8),
 			passwordConfirm: z.string().min(8),
@@ -37,8 +38,8 @@
 				status: OrgJoinRequestsStatusOptions.pending,
 				reminders: 0
 			});
-			await goto('/keypairoom?joined=true')
-			return
+			await goto('/keypairoom?joined=true');
+			return;
 		}
 
 		window.location.assign(`/my?${welcomeSearchParam}`);
@@ -55,6 +56,16 @@
 			type: 'email',
 			label: 'Your email',
 			placeholder: 'name@example.org'
+		}}
+	/>
+
+	<Input
+		{superform}
+		field="username"
+		options={{
+			type: 'text',
+			label: 'Choose a public username',
+			placeholder: 'John Doe'
 		}}
 	/>
 
