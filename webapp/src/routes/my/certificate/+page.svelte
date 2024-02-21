@@ -23,7 +23,7 @@
 
 	const recordType = createTypeProp<CertificatesResponse>();
 
-	let showModal: boolean = false;
+	let showModal: boolean = true;
 	const converter: Record<string, string> = {
 		ECDSA: `Given I have a 'hex' named 'key'
 		Then print the 'key' as 'base64'`,
@@ -190,7 +190,9 @@
 				options={{ id: 'key', type: 'text', label: 'Select your key' }}
 			/>
 			<FormError />
-			<SubmitButton>Submit certificate and key</SubmitButton>
+			<dir class="flex justify-end">
+				<SubmitButton>Submit certificate and key</SubmitButton>
+			</dir>
 		</Form>
 	</Modal>
 </PortalWrapper>
