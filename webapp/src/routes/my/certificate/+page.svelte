@@ -120,7 +120,7 @@
 	async function addCertifcateAndKey(data: { name: string; certificate: string; key: string }) {
 		const name = data.name;
 		if (allKeys[name]) throw 'Certificate name already in use';
-		const [parsedCertificate, signatureAlgorithmName] = await checkCertificate(certificate);
+		const [parsedCertificate, signatureAlgorithmName] = await checkCertificate();
 		const c: CertificatesRecord = {
 			name,
 			value: parsedCertificate,
