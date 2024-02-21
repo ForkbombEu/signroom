@@ -55,7 +55,7 @@
 				};
 			});
 		} catch (e) {
-			trhow(e);
+			throw e;
 		}
 		return res.trim();
 	}
