@@ -45,13 +45,13 @@
 
 	async function getFile(f) {
 		var file = f.files[0];
-		let res;
+		let res: string;
 		try {
 			res = await new Promise((resolve, reject) => {
 				const reader = new FileReader();
 				reader.readAsText(file);
 				reader.onload = () => {
-					resolve(reader.result);
+					resolve(reader.result as string);
 				};
 			});
 		} catch (e) {
