@@ -29,8 +29,7 @@ export const links: SidebarLink[] = [
 			},
 			{
 				label: 'Multisignatures',
-				disabled: true,
-				href: '/'
+				href: '/my/multisignatures'
 			}
 		]
 	},
