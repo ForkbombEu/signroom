@@ -50,7 +50,9 @@
 		image={`${assets}/multisignatures/multisignature-step-1.svg`}
 	>
 		<svelte:fragment slot="bottom">
-			<Button><span class="mr-2">Start setup</span><ArrowRight /></Button>
+			<Button href="/my/multisignatures/create/setup">
+				<span class="mr-2">Start setup</span><ArrowRight />
+			</Button>
 		</svelte:fragment>
 	</SideCard>
 </div>
