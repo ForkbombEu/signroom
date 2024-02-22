@@ -26,11 +26,9 @@
 </script>
 
 <div class="flex justify-between items-center mb-4">
-	{#if $$slots.title}
-		<slot name="title" />
-	{:else}
+	<slot name="title">
 		<Heading tag={headingTag}>{collection}</Heading>
-	{/if}
+	</slot>
 	{#if description}
 		<P class="text-slate-600 pt-6">{description}</P>
 	{/if}
