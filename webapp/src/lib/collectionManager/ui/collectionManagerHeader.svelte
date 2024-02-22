@@ -51,7 +51,7 @@
 				</Button>
 			</div>
 		{:else}
-			<div class="flex space-x-2 items-center">
+			<div class="flex gap-3 items-center">
 				{#if !hideCreateButton}
 					<CreateRecord />
 				{/if}
