@@ -11,16 +11,20 @@
 	<div class="space-y-8">
 		<div class="p-6">
 			<SectionTitle title="Create multisignature">
-				The Reflow multisignature employs homomorphic cryptography, allowing invited participants to
-				cryptographically sign a data object. Our cryptographic flow prioritizes privacy-by-design
-				and GDPR compliance.
+				<p class="text-gray-500" slot="description">
+					The Reflow multisignature employs homomorphic cryptography, allowing invited participants
+					to cryptographically sign a data object. Our cryptographic flow prioritizes
+					privacy-by-design and GDPR compliance.
+				</p>
 			</SectionTitle>
 		</div>
 
 		<Card class="p-6 space-y-8">
-			<SectionTitle title="Requirements for Multisignature" tag="h5">
-				Before proceeding, ensure you have the following:
-			</SectionTitle>
+			<SectionTitle
+				tag="h5"
+				title="Requirements for Multisignature"
+				description="Before proceeding, ensure you have the following:"
+			/>
 
 			<div class="space-y-4">
 				<QuickAction

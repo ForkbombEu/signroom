@@ -14,10 +14,11 @@
 
 <div class="space-y-8">
 	<BackgroundCard class="p-6">
-		<SectionTitle title="Quick actions">
-			Perform essential tasks efficiently and effortlessly, empowering you to sign, verify, and
-			manage documents with ease.
-		</SectionTitle>
+		<SectionTitle
+			title="Quick actions "
+			description="Perform essential tasks efficiently and effortlessly, empowering you to sign, verify, and
+		manage documents with ease."
+		/>
 
 		{#await links}
 			<p>Loading...</p>
@@ -45,10 +46,11 @@
 	</BackgroundCard>
 
 	<BackgroundCard class="p-6">
-		<SectionTitle title="What's new">
-			Stay up to date with the latest developments and insights in the world of cryptography and
-			digital signatures.
-		</SectionTitle>
+		<SectionTitle
+			title="What's new"
+			description="Stay up to date with the latest developments and insights in the world of cryptography and
+		digital signatures."
+		/>
 
 		<BlogBodyWrapper divClass="grid gap-8 grid-cols-2 lg:grid-cols-2 py-10 ">
 			{#await news}

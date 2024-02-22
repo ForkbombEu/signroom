@@ -8,16 +8,21 @@
 	export let description: string | undefined = undefined;
 	export let hideLine = false;
 
-	$: hasDescription = $$slots.default || description;
+	$: hasDescription = $$slots.description || description;
 	$: headingClass = clsx({ '!mb-4': hasDescription || !hideLine });
 </script>
 
 <div>
-	<Heading {tag} class={headingClass}>{title}</Heading>
+	<div class="flex justify-between">
+		<Heading {tag} class={headingClass}>{title}</Heading>
+		<slot name="right" />
+	</div>
 	{#if !hideLine}
 		<Hr hrClass="!m-0 !mb-2" />
 	{/if}
 	{#if hasDescription}
-		<p class="text-gray-500"><slot>{description}</slot></p>
+		<slot name="description">
+			<p class="text-gray-500">{description}</p>
+		</slot>
 	{/if}
 </div>
