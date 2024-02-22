@@ -4,12 +4,18 @@
 		CollectionManagerHeader,
 		CollectionTable
 	} from '$lib/collectionManager';
-	import { Collections, type IssuersResponse } from '$lib/pocketbase/types';
+	import {
+		Collections,
+		type CoconutCredentialIssuersResponse,
+		type IssuersResponse
+	} from '$lib/pocketbase/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { Heading } from 'flowbite-svelte';
 
 	export let data;
 	const recordType = createTypeProp<IssuersResponse>();
+
+	const coconutRecordType = createTypeProp<CoconutCredentialIssuersResponse>();
 </script>
 
 <div class="space-y-10">
@@ -69,6 +75,26 @@
 				{records}
 				fields={['name', 'endpoint']}
 				hideActions={['share', 'delete', 'select']}
+			/>
+		</div>
+	</CollectionManager>
+
+	<CollectionManager
+		recordType={coconutRecordType}
+		collection={Collections.CoconutCredentialIssuers}
+		formSettings={{
+			hide: { organization: data.organization.id }
+		}}
+		let:records
+	>
+		<div>
+			<CollectionManagerHeader>
+				<Heading slot="title" tag="h4">Coconut credential issuers</Heading>
+			</CollectionManagerHeader>
+			<CollectionTable
+				{records}
+				fields={['name', 'endpoint', 'public']}
+				hideActions={['share', 'select']}
 			/>
 		</div>
 	</CollectionManager>
