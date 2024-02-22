@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	import type { LabelOption } from './types';
+	import type { HelpTextOption, LabelOption } from './types';
 
 	import type { HTMLInputAttributes } from 'svelte/elements';
 
@@ -8,7 +8,8 @@
 	} & {
 		options?: string[];
 		size?: 'sm' | 'lg' | 'md' | undefined;
-	} & LabelOption;
+	} & LabelOption &
+		HelpTextOption;
 </script>
 
 <script lang="ts">
