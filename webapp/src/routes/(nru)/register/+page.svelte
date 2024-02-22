@@ -64,8 +64,9 @@
 		field="username"
 		options={{
 			type: 'text',
-			label: 'Choose a public username',
-			placeholder: 'John Doe'
+			label: 'Full name',
+			placeholder: 'John Doe',
+			helpText: 'Organizations and other users will identify you by your name.'
 		}}
 	/>
 
