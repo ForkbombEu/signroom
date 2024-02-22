@@ -3,8 +3,9 @@
 	import Card from '$lib/components/card.svelte';
 	import QuickAction from '$lib/components/quickAction.svelte';
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
-	import { Button, Heading, Hr } from 'flowbite-svelte';
+	import { Button, Heading } from 'flowbite-svelte';
 	import { ArrowRight } from 'svelte-heros-v2';
+	import SideCard from '$lib/components/sideCard.svelte';
 </script>
 
 <div class="flex items-start gap-8">
@@ -43,19 +44,13 @@
 		</Card>
 	</div>
 
-	<Card class="p-6 w-[300px] shrink-0 space-y-8">
-		<img
-			class="border rounded-xl overflow-hidden bg-gray-100"
-			src={`${assets}/multisignatures/multisignature-step-1.svg`}
-			alt=""
-		/>
-		<div class="space-y-2">
-			<Heading tag="h6">Multisignature setup</Heading>
-			<p>
-				Successful completion of the multisignature process requires signatures from all
-				participants
-			</p>
-		</div>
-		<Button><span class="mr-2">Start setup</span><ArrowRight /></Button>
-	</Card>
+	<SideCard
+		title="Multisignature setup"
+		description="Successful completion of the multisignature process requires signatures from all participants"
+		image={`${assets}/multisignatures/multisignature-step-1.svg`}
+	>
+		<svelte:fragment slot="bottom">
+			<Button><span class="mr-2">Start setup</span><ArrowRight /></Button>
+		</svelte:fragment>
+	</SideCard>
 </div>
