@@ -9,7 +9,7 @@
 	import type { Collections } from '$lib/pocketbase/types';
 	import FieldWrapper from './fieldParts/fieldWrapper.svelte';
 	import { createTypeProp } from '$lib/utils/typeProp';
-	import type { LabelOption } from './types';
+	import type { HelpTextOption, LabelOption } from './types';
 	import type { PBResponse } from '$lib/utils/types';
 
 	//
@@ -21,7 +21,8 @@
 	type T = $$Generic<AnyZodObject>;
 	export let superform: SuperForm<ZodValidation<T>, any>;
 	export let field: FormPathLeaves<z.infer<T>>;
-	export let options: Partial<RecordsManagerOptions<RecordGeneric>> & LabelOption = {};
+	export let options: Partial<RecordsManagerOptions<RecordGeneric>> & LabelOption & HelpTextOption =
+		{};
 	export let collection: string | Collections;
 
 	//
