@@ -1,0 +1,136 @@
+<script lang="ts">
+	import {
+		Form,
+		createForm,
+		SubmitButton,
+		FormError,
+		Input,
+		Relations,
+		Textarea
+	} from '$lib/forms';
+
+	import { assets } from '$app/paths';
+	import Card from '$lib/components/card.svelte';
+	import SectionTitle from '$lib/components/sectionTitle.svelte';
+	import { ArrowRight } from 'svelte-heros-v2';
+	import SideCard from '$lib/components/sideCard.svelte';
+	import { multisignatureFormData, setupSchema } from '../logic';
+	import { Collections, type CoconutCredentialIssuersResponse } from '$lib/pocketbase/types';
+	import { createTypeProp } from '$lib/utils/typeProp';
+	import { Fileupload } from 'flowbite-svelte';
+	import FieldWrapper from '$lib/forms/fields/fieldParts/fieldWrapper.svelte';
+	import { goto } from '$app/navigation';
+
+	const superform = createForm(
+		setupSchema,
+		({ form }) => {
+			// goto()
+		},
+		$multisignatureFormData
+	);
+
+	const { form, errors } = superform;
+	$: multisignatureFormData.update((data) => ({ ...data, ...$form }));
+
+	const credentialIssuerType = createTypeProp<CoconutCredentialIssuersResponse>();
+</script>
+
+<Form {superform}>
+	<div class="flex items-start gap-8">
+		<div class="space-y-8">
+			<div class="p-6">
+				<SectionTitle
+					title="Setup multisignature content"
+					description="This page guides users through a three-step process to create a multi-signature."
+				/>
+			</div>
+
+			<Card class="p-6 space-y-8">
+				<SectionTitle tag="h5" title="Name" />
+				<Input
+					{superform}
+					field="name"
+					options={{
+						label: 'Signature name',
+						placeholder: 'Enter the name of the multi-signature',
+						helpText: 'Provide a descriptive name for the multi-signature'
+					}}
+				/>
+			</Card>
+
+			<Card class="p-6 space-y-8">
+				<SectionTitle
+					tag="h5"
+					title="Credential issuer"
+					description="Choose the issuer responsible for generating cryptographic signatures."
+				/>
+				<Relations
+					{superform}
+					field="credentialIssuer"
+					collection={Collections.CoconutCredentialIssuers}
+					recordType={credentialIssuerType}
+					options={{
+						label: 'Select zero knowledge proof (Coconut) credential issuer:',
+						inputMode: 'select',
+						displayFields: ['name', 'endpoint']
+					}}
+				/>
+			</Card>
+
+			<Card class="p-6 space-y-8">
+				<SectionTitle tag="h5" title="Signature content / Reflow seal" />
+				<Textarea
+					{superform}
+					field="contentJSON"
+					options={{
+						label: 'Paste JSON:',
+						class: 'font-mono',
+						placeholder: '// Paste here ...',
+						helpText: 'Input the JSON data representing the signature content.'
+					}}
+				/>
+
+				<div class="opacity-40">
+					<FieldWrapper
+						field=""
+						label="Upload document(s) to sign:"
+						helpText="Homomorphic multisignature for documents (upcoming) "
+					>
+						<Fileupload />
+					</FieldWrapper>
+				</div>
+			</Card>
+
+			<Card class="p-6 space-y-8">
+				<SectionTitle tag="h5" title="Settings" />
+				<Input
+					{superform}
+					field="sealExpirationDate"
+					options={{
+						label: 'Signature name',
+						placeholder: 'Enter a date',
+						helpText: 'Date must be formatted as DD-MM-YYYY'
+					}}
+				/>
+			</Card>
+		</div>
+
+		<SideCard
+			title="Setup content"
+			description="In the first step, users set up the content for the multi-signature by providing necessary details."
+			image={`${assets}/multisignatures/multisignature-step-1.svg`}
+		>
+			<svelte:fragment slot="top">
+				<SectionTitle title="Step 1 of 3" tag="h6" />
+			</svelte:fragment>
+			<svelte:fragment slot="bottom">
+				<pre class="text-xs">{JSON.stringify($form, null, 2)}</pre>
+				<pre class="text-xs">{JSON.stringify($errors, null, 2)}</pre>
+				<FormError />
+				<SubmitButton>
+					<span class="mr-2">Confirm content</span><ArrowRight />
+				</SubmitButton>
+			</svelte:fragment>
+		</SideCard>
+	</div>
+</Form>
