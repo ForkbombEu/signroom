@@ -10,6 +10,7 @@
 
 	$: hasDescription = $$slots.description || description;
 	$: headingClass = clsx({ '!mb-4': hasDescription || !hideLine });
+	$: hrClass = clsx('!m-0', { '!mb-2': hasDescription });
 </script>
 
 <div>
@@ -18,7 +19,7 @@
 		<slot name="right" />
 	</div>
 	{#if !hideLine}
-		<Hr hrClass="!m-0 !mb-2" />
+		<Hr {hrClass} />
 	{/if}
 	{#if hasDescription}
 		<slot name="description">
