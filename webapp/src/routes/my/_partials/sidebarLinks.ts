@@ -47,6 +47,10 @@ export const links: SidebarLink[] = [
 				label: 'My DID',
 				href: didUrl
 			},
+			{
+				label: 'My Certificates',
+				href: '/my/certificates'
+			},
 			{ label: 'My Verifiable Credentials', disabled: true, href: '/' }
 		]
 	},
