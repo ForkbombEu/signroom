@@ -25,7 +25,9 @@
 			<Button color="alternative" href="/my/multisignatures/requests">
 				<Eye /><span class="ml-2">View requests</span>
 			</Button>
-			<Button><Plus /><span>Create a new multisignature</span></Button>
+			<Button href="/my/multisignatures/create">
+				<Plus /><span>Create a new multisignature</span>
+			</Button>
 		</svelte:fragment>
 	</CollectionManagerHeader>
 	<CollectionTable {records}>

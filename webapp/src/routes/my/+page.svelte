@@ -17,6 +17,7 @@
 	<p>Loading...</p>
 {:then links}
 	{#each links as link}
+		<!-- TODO - Port quick actions component here  -->
 		<a
 			href={link.href}
 			class="rounded-lg border-2 border-slate-400 p-3 hover:border-primary-500 group flex items-center cursor-pointer"
