@@ -7,7 +7,7 @@
 	import { currentUser } from '$lib/pocketbase';
 
 	import { Collections, type WebauthnCredentialsResponse } from '$lib/pocketbase/types';
-	import { CollectionManager, DeleteRecord, EditRecord } from '$lib/collectionManager';
+	import { CollectionManager, DeleteRecord, EditRecord, Pagination } from '$lib/collectionManager';
 
 	import { InformationCircle, Plus } from 'svelte-heros-v2';
 	import { Alert, Button, Card, Heading, P, Spinner } from 'flowbite-svelte';
@@ -43,6 +43,7 @@
 				</div>
 			</Card>
 		{/each}
+		<Pagination />
 	</div>
 </CollectionManager>
 

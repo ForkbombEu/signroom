@@ -7,7 +7,12 @@
 		type SignaturesRecord,
 		type SignaturesResponse
 	} from '$lib/pocketbase/types';
-	import { CollectionManager, CollectionManagerHeader, RecordCard } from '$lib/collectionManager';
+	import {
+		CollectionManager,
+		CollectionManagerHeader,
+		Pagination,
+		RecordCard
+	} from '$lib/collectionManager';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { Heading } from 'flowbite-svelte';
 
@@ -33,6 +38,7 @@
 				<Heading tag="h4">My folders</Heading>
 			</svelte:fragment>
 		</CollectionManagerHeader>
+
 		<div class="space-y-4">
 			<div class="gap-4 grid grid-cols-1 md:grid-cols-2">
 				{#each records as record}
@@ -54,5 +60,6 @@
 				{/each}
 			</div>
 		</div>
+		<Pagination />
 	</CollectionManager>
 </div>
