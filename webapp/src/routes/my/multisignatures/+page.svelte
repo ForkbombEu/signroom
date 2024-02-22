@@ -8,7 +8,7 @@
 	} from '$lib/collectionManager';
 	import { createTypeProp } from '$lib/utils/typeProp';
 
-	import { Plus } from 'svelte-heros-v2';
+	import { Eye, Plus } from 'svelte-heros-v2';
 	import { Button, Heading } from 'flowbite-svelte';
 
 	//
@@ -22,6 +22,9 @@
 			<Heading tag="h3">Multisignatures</Heading>
 		</svelte:fragment>
 		<svelte:fragment slot="actions">
+			<Button color="alternative" href="/my/multisignatures/requests">
+				<Eye /><span class="ml-2">View requests</span>
+			</Button>
 			<Button><Plus /><span>Create a new multisignature</span></Button>
 		</svelte:fragment>
 	</CollectionManagerHeader>
