@@ -1,6 +1,5 @@
-import { resolveRoute } from '$lib/i18n';
+import { redirect } from '$lib/i18n';
 import { OrgRoles, verifyRole } from '$lib/rbac/index.js';
-import { redirect } from '@sveltejs/kit';
 
 export const load = async ({ parent, params, fetch, url }) => {
 	const { organization } = await parent();
@@ -11,9 +10,9 @@ export const load = async ({ parent, params, fetch, url }) => {
 		try {
 			await verifyRole(organization.id, [OrgRoles.ADMIN], fetch);
 		} catch (e) {
-			throw redirect(303, resolveRoute(`/my/organizations/${params.id}`, url));
+			throw redirect(url, `/my/organizations/${params.id}`);
 		}
-		throw redirect(303, resolveRoute(`${url.pathname}/members`, url));
+		throw redirect(url, `${url.pathname}/members`);
 	}
-	throw redirect(303, resolveRoute(`${url.pathname}/general`, url));
+	throw redirect(url, `${url.pathname}/general`);
 };
