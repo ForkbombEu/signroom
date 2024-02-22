@@ -18,6 +18,6 @@
 		<Hr hrClass="!m-0 !mb-2" />
 	{/if}
 	{#if hasDescription}
-		<p><slot>{description}</slot></p>
+		<p class="text-gray-500"><slot>{description}</slot></p>
 	{/if}
 </div>
