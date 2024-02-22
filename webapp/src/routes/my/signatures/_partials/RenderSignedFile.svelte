@@ -50,7 +50,7 @@
 			<AccordionItem open={!!result}>
 				<span slot="header">Validation data</span>
 				<div class="overflow-x-scroll w-full h-max">
-					<pre>{JSON.stringify(result, null, 2)}</pre>
+					<pre>{JSON.stringify(result.DetailedReport.BasicBuildingBlocks[0].Conclusion, null, 2)}</pre>
 				</div>
 			</AccordionItem>
 		{/if}
