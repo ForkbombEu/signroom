@@ -10,6 +10,7 @@
 	import { ProtectedOrgLayout } from '$lib/rbac';
 	import Breadcrumbs, { type BreadcrumbRenamer } from '$lib/components/Breadcrumbs.svelte';
 	import { Hr } from 'flowbite-svelte';
+	import Card from '$lib/components/card.svelte';
 
 	//
 
@@ -43,10 +44,12 @@
 
 <!--  -->
 
-<ProtectedOrgLayout orgId={data.organization.id}>
-	<Breadcrumbs renamers={breadcrumbRenamers} />
+<Card class="p-8">
+	<ProtectedOrgLayout orgId={data.organization.id}>
+		<Breadcrumbs renamers={breadcrumbRenamers} />
 
-	<Hr />
+		<Hr />
 
-	<slot />
-</ProtectedOrgLayout>
+		<slot />
+	</ProtectedOrgLayout>
+</Card>

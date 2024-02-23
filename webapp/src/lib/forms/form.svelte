@@ -1,4 +1,6 @@
 <script lang="ts" context="module">
+	import Error from '../../routes/+error.svelte';
+
 	import { getContext } from 'svelte';
 	import { normalizeError, type ClientResponseErrorData } from '$lib/errorHandling';
 	import type { AnyZodObject, ZodEffects } from 'zod';
@@ -48,7 +50,7 @@
 			dataType: 'json',
 			onUpdate: async (input) => {
 				try {
-					await submitFunction(input);
+					if (input.form.valid) await submitFunction(input);
 				} catch (e) {
 					let error = normalizeError(e);
 					for (const [key, value] of Object.entries(error.data)) {

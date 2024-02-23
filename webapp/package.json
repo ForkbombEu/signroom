@@ -91,6 +91,7 @@
 		"pocketbase": "^0.18.0",
 		"svelte-boring-avatars": "^1.2.4",
 		"svelte-heros": "^5.1.0",
+		"svelte-persisted-store": "^0.9.1",
 		"xml-formatter": "^3.5.0",
 		"zenroom": "^4.12.0"
 	}
