@@ -19,14 +19,17 @@
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { Fileupload } from 'flowbite-svelte';
 	import FieldWrapper from '$lib/forms/fields/fieldParts/fieldWrapper.svelte';
-	import { goto } from '$app/navigation';
+	import { goto } from '$lib/i18n';
 
 	const superform = createForm(
 		setupSchema,
 		({ form }) => {
 			// goto()
 		},
-		$multisignatureFormData
+		$multisignatureFormData,
+		{
+			validationMethod: 'onblur'
+		}
 	);
 
 	const { form, errors } = superform;
