@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { goto } from '$lib/i18n';
-	import CollectionManager from '$lib/collectionManager/collectionManager.svelte';
-	import CollectionSearch from '$lib/collectionManager/ui/collectionSearch.svelte';
+	import { CollectionManager, CollectionSearch, Pagination } from '$lib/collectionManager';
 	import { pb } from '$lib/pocketbase/index.js';
 	import { Collections, type OrganizationsResponse } from '$lib/pocketbase/types.js';
 	import { createTypeProp } from '$lib/utils/typeProp';
@@ -70,6 +69,7 @@
 						</div>
 					</div>
 				{/each}
+				<Pagination />
 			</CollectionManager>
 		</div>
 	</div>

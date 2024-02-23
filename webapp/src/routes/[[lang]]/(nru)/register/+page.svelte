@@ -16,6 +16,7 @@
 
 	const schema = z
 		.object({
+			username: z.string(),
 			email: z.string().email(),
 			password: z.string().min(8),
 			passwordConfirm: z.string().min(8),
@@ -55,6 +56,17 @@
 			type: 'email',
 			label: 'Your email',
 			placeholder: 'name@example.org'
+		}}
+	/>
+
+	<Input
+		{superform}
+		field="username"
+		options={{
+			type: 'text',
+			label: 'Full name',
+			placeholder: 'John Doe',
+			helpText: 'Organizations and other users will identify you by your name.'
 		}}
 	/>
 

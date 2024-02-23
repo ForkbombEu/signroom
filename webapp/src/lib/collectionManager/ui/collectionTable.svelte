@@ -18,6 +18,7 @@
 		Checkbox
 	} from 'flowbite-svelte';
 	import RecordsTableHead from './collectionTableHeader.svelte';
+	import Pagination from './pagination.svelte';
 
 	//
 
@@ -103,4 +104,7 @@
 			{/each}
 		</TableBody>
 	</Table>
+	<div class="pt-6">
+		<Pagination />
+	</div>
 {/if}

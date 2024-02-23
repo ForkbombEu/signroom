@@ -14,7 +14,8 @@
 	export let data;
 	$: organization = data.organization;
 
-	const recordType = createTypeProp<OrgAuthorizationsResponse<{ user: UsersResponse; role: OrgRolesResponse }>>();
+	const recordType =
+		createTypeProp<OrgAuthorizationsResponse<{ user: UsersResponse; role: OrgRolesResponse }>>();
 </script>
 
 <CollectionManager
@@ -24,7 +25,7 @@
 		hide: { organization: organization.id },
 		relations: {
 			role: { inputMode: 'select', displayFields: ['name'] },
-			user: { displayFields: ['email'] }
+			user: { displayFields: ['username'] }
 		}
 	}}
 	editFormSettings={{
