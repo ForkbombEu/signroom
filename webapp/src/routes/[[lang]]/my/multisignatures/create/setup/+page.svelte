@@ -23,16 +23,14 @@
 
 	const superform = createForm(
 		setupSchema,
-		({ form }) => {
-			// goto()
-		},
+		() => goto('/my/multisignatures/create/participants'),
 		$multisignatureFormData,
 		{
 			validationMethod: 'onblur'
 		}
 	);
 
-	const { form, errors } = superform;
+	const { form } = superform;
 	$: multisignatureFormData.update((data) => ({ ...data, ...$form }));
 
 	const credentialIssuerType = createTypeProp<CoconutCredentialIssuersResponse>();
@@ -134,8 +132,6 @@
 				<SectionTitle title="Step 1 of 3" tag="h6" />
 			</svelte:fragment>
 			<svelte:fragment slot="bottom">
-				<pre class="text-xs">{JSON.stringify($form, null, 2)}</pre>
-				<pre class="text-xs">{JSON.stringify($errors, null, 2)}</pre>
 				<FormError />
 				<SubmitButton>
 					<span class="mr-2">Confirm content</span><ArrowRight />
