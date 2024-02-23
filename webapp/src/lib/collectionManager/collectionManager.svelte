@@ -72,7 +72,7 @@
 	export let initialQueryParams: RecordFullListOptions = {};
 	export let subscribe: string[] = [];
 
-	export let perPage = 5;
+	export let perPage = 25;
 	export let disablePagination = false;
 
 	/* Data load */

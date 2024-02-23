@@ -1,0 +1,15 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"start": "Inizio",
+	"my_folders": "Cartelle",
+	"my_signatures": "Fime",
+	"validate_signatures": "Valida firme",
+	"multisignatures": "Multifirme",
+	"notifications": "Notifiche",
+	"identity": "Identità",
+	"my_DID": "Il mio DID",
+	"my_verifiable_credentials": "Le mie Verifiable Credentials",
+	"organizations": "Organizzazioni",
+	"signatures": "Firme",
+	"hello": "Ciao"
+}

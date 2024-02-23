@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { goto } from '$lib/i18n';
 	import { Pagination } from 'flowbite-svelte';
 	import { getRecordsManagerContext } from '../collectionManager.svelte';
 
