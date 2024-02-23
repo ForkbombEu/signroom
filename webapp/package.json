@@ -31,7 +31,7 @@
 		"definitions": "pnpm types && pnpm schema && pnpm features && pnpm roles",
 		"serve": "pnpm build && pnpm preview --host",
 		"postinstall": "pnpm paraglide",
-		"paraglide":"paraglide-js compile --project ./project.inlang"
+		"paraglide": "paraglide-js compile --project ./project.inlang"
 	},
 	"devDependencies": {
 		"@inlang/paraglide-js": "1.2.5",
@@ -80,6 +80,7 @@
 		"classnames": "^2.3.2",
 		"clsx": "^2.0.0",
 		"dayjs": "^1.11.9",
+		"effect": "^2.4.0",
 		"execa": "^8.0.1",
 		"flowbite": "^1.8.1",
 		"flowbite-svelte": "^0.44.18",
