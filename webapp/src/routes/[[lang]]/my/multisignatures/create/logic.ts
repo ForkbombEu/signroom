@@ -1,5 +1,20 @@
 import { z } from 'zod';
 import { persisted } from 'svelte-persisted-store';
+import {
+	Collections,
+	MultisignatureSealsStatusOptions,
+	type MultisignatureSealsRecord,
+	type MultisignatureSealsResponse,
+	type MultisignaturesRecord,
+	type MultisignaturesResponse
+} from '$lib/pocketbase/types';
+import { pb } from '$lib/pocketbase';
+import type { ClientResponseError } from 'pocketbase';
+
+import { Effect, pipe } from 'effect';
+import * as A from 'effect/ReadonlyArray';
+
+//
 
 export const setupSchema = z.object({
 	name: z.string(),
@@ -8,11 +23,90 @@ export const setupSchema = z.object({
 	sealExpirationDate: z.string().regex(/^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-(19|20)\d\d$/)
 });
 
-export type MultisignatureFormData = z.infer<typeof setupSchema>;
+export const participantsSchema = z.object({
+	participants: z.array(z.string()).min(1)
+});
+
+export const ownerSchema = z.object({
+	owner: z.string()
+});
+
+export const multisignatureFormDataSchema = setupSchema
+	.merge(participantsSchema)
+	.merge(ownerSchema);
+
+//
+
+export type MultisignatureFormData = z.infer<typeof multisignatureFormDataSchema>;
 
 export const multisignatureFormData = persisted<MultisignatureFormData>('multisignatureFormData', {
 	name: '',
 	credentialIssuer: '',
 	contentJSON: '',
-	sealExpirationDate: ''
+	sealExpirationDate: '',
+	participants: [],
+	owner: ''
 });
+
+//
+
+export async function createMultisignatureAndSeals(data: MultisignatureFormData) {
+	const o = await Effect.runPromise(createMultisignature(data));
+}
+
+function createMultisignature(
+	data: MultisignatureFormData
+): Effect.Effect<MultisignaturesResponse, ClientResponseError, never> {
+	return Effect.tryPromise({
+		try: async () => {
+			const { owner, name, credentialIssuer, contentJSON } = data;
+
+			const multisignatureData: MultisignaturesRecord = {
+				owner,
+				name,
+				coconut_credential_issuer: credentialIssuer,
+				content_json: contentJSON
+			};
+
+			const multisignature = await pb
+				.collection(Collections.Multisignatures)
+				.create<MultisignaturesResponse>(multisignatureData);
+
+			return multisignature;
+		},
+		catch: (e) => {
+			return e as ClientResponseError;
+		}
+	});
+}
+
+function createMultisignatureSeal(
+	data: MultisignatureSealsRecord
+): Effect.Effect<MultisignatureSealsResponse, ClientResponseError, never> {
+	return Effect.tryPromise({
+		try: async () => {
+			return await pb
+				.collection(Collections.Multisignatures)
+				.create<MultisignatureSealsResponse>(data);
+		},
+
+		catch: (e) => {
+			return e as ClientResponseError;
+		}
+	});
+}
+
+function createMultisignatureSeals(multisignatureId: string, data: MultisignatureFormData) {
+	return pipe(
+		data.participants,
+		A.map((id) =>
+			createMultisignatureSeal({
+				owner: id,
+				multisignature: multisignatureId,
+				status: MultisignatureSealsStatusOptions.pending,
+				signature_deadline: new Date(data.sealExpirationDate).toISOString()
+			})
+		),
+		Effect.all
+	);
+}

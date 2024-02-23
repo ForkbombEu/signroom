@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { z } from 'zod';
-	import type { FormPathLeaves, ZodValidation } from 'sveltekit-superforms';
+	import type { FormPath, FormPathLeaves, ZodValidation } from 'sveltekit-superforms';
 	import { formFieldProxy, type SuperForm } from 'sveltekit-superforms/client';
 
 	import RecordsManager, {
@@ -20,7 +20,7 @@
 
 	type T = $$Generic<AnyZodObject>;
 	export let superform: SuperForm<ZodValidation<T>, any>;
-	export let field: FormPathLeaves<z.infer<T>>;
+	export let field: FormPathLeaves<z.infer<T>> | FormPath<z.infer<T>>;
 	export let options: Partial<RecordsManagerOptions<RecordGeneric>> & LabelOption & HelpTextOption =
 		{};
 	export let collection: string | Collections;
