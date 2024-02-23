@@ -106,15 +106,22 @@
 
 			<Card class="p-6 space-y-8">
 				<SectionTitle tag="h5" title="Settings" />
-				<Input
-					{superform}
-					field="sealExpirationDate"
-					options={{
-						label: 'Signature name',
-						placeholder: 'Enter a date',
-						helpText: 'Date must be formatted as DD-MM-YYYY'
-					}}
-				/>
+				<div class="space-y-4">
+					<Input
+						{superform}
+						field="sealExpirationDate"
+						options={{
+							label: 'Deadline for signing',
+							placeholder: 'Enter a date',
+							helpText: 'Date must be formatted as DD-MM-YYYY'
+						}}
+					/>
+					<ul class="list-disc pl-4 text-sm text-gray-700">
+						<li>For success, all participants must sign the Reflow seal before the expiry date.</li>
+						<li>Failure occurs if not all signatures are collected by the expiry date.</li>
+						<li>Both success and failure will be communicated to invitees and the organizer</li>
+					</ul>
+				</div>
 			</Card>
 		</div>
 
