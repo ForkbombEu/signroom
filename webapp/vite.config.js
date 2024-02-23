@@ -1,11 +1,14 @@
 import { sveltekit } from '@sveltejs/kit/vite';
+import { paraglide } from '@inlang/paraglide-js-adapter-sveltekit/vite';
+import { defineConfig } from 'vite';
 
-/** @type {import('vite').UserConfig} */
-const config = {
-	plugins: [sveltekit()],
-	test: {
-		include: ['src/**/*.{test,spec}.{js,ts}']
-	}
-};
-
-export default config;
+export default defineConfig({
+	plugins: [
+		sveltekit(),
+		paraglide({
+			project: './project.inlang',
+			outdir: './src/paraglide'
+		})
+	],
+	test: { include: ['src/**/*.{test,spec}.{js,ts}'] }
+});
