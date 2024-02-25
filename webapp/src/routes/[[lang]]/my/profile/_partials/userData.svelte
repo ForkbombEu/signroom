@@ -4,6 +4,7 @@
 	import UserDataForm from './userDataForm.svelte';
 	import { Pencil, XMark } from 'svelte-heros-v2';
 	import UserAvatar from '$lib/components/userAvatar.svelte';
+	import { m } from '$lib/i18n';
 
 
 	let edit = false;
@@ -33,10 +34,10 @@
 		<Button color="alternative" on:click={toggleEdit}>
 			{#if !edit}
 				<Pencil size="20" />
-				<span class="ml-2">Edit profile</span>
+				<span class="ml-2">{m.Edit_profile()}</span>
 			{:else}
 				<XMark size="20" />
-				<span class="ml-2">Cancel</span>
+				<span class="ml-2">{m.Cancel()}</span>
 			{/if}
 		</Button>
 	</div>

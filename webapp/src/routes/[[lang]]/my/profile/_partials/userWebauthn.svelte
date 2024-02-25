@@ -8,6 +8,7 @@
 
 	import { Collections, type WebauthnCredentialsResponse } from '$lib/pocketbase/types';
 	import { CollectionManager, DeleteRecord, EditRecord, Pagination } from '$lib/collectionManager';
+	import { m } from '$lib/i18n';
 
 	import { InformationCircle, Plus } from 'svelte-heros-v2';
 	import { Alert, Button, Card, Heading, P, Spinner } from 'flowbite-svelte';
@@ -19,8 +20,8 @@
 	const userEmailAddress = $currentUser?.email!;
 </script>
 
-<Heading tag="h6">Your devices</Heading>
-<P color="gray" size="sm">Manage the devices you use to login.</P>
+<Heading tag="h6">{m.Your_devices()}</Heading>
+<P color="gray" size="sm">{m.Manage_the_devices_you_use_to_login_()}</P>
 
 <CollectionManager
 	{recordType}
@@ -50,7 +51,7 @@
 {#await platformAuthenticatorAvailable}
 	<div class="flex flex-col items-center">
 		<Spinner />
-		<P>Checking your device</P>
+		<P>{m.Checking_your_device()}</P>
 	</div>
 {:then response}
 	{#if !response || !isWebauthnSupported()}
@@ -59,8 +60,7 @@
 				<InformationCircle />
 			</svelte:fragment>
 			<span>
-				Your device does not have integrated Webauthn support. An external authenticator is
-				required.
+				{m.Your_device_does_not_have_integrated_Webauthn_support_An_external_authenticator_is_required_()}
 			</span>
 		</Alert>
 	{/if}
@@ -73,6 +73,6 @@
 			registerUser(userEmailAddress, navigator.userAgent);
 		}}
 	>
-		<Plus size="20" class="mr-1" /> Add a device
+		<Plus size="20" class="mr-1" /> {m.Add_a_device()}
 	</Button>
 </div>

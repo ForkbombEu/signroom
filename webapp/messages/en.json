@@ -114,5 +114,19 @@
 	"Original_file": "Original file",
 	"Signed_file": "Signed file",
 	"Preview": "Preview",
-	"Signed": "Signed"
+	"Signed": "Signed",
+	"Edit_profile": "Edit profile",
+	"Cancel": "Cancel",
+	"Show_email_to_other_users": "Show email to other users",
+	"Update_profile": "Update profile",
+	"Username": "Username",
+	"email": "email",
+	"You_have_no_keys_yet_": "You have no keys yet.",
+	"Generate_new_keys": "Generate new keys",
+	"Your_keys": "Your keys",
+	"Checking_your_device": "Checking your device",
+	"Your_device_does_not_have_integrated_Webauthn_support_An_external_authenticator_is_required_": "Your device does not have integrated Webauthn support. An external authenticator is\n\t\t\t\trequired.",
+	"Add_a_device": "Add a device",
+	"Your_devices": "Your devices",
+	"Manage_the_devices_you_use_to_login_": "Manage the devices you use to login."
 }
