@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { pb } from '$lib/pocketbase';
 	import { Collections, OrgJoinRequestsStatusOptions } from '$lib/pocketbase/types';
-	import { goto } from '$lib/i18n';
+	import { goto, m } from '$lib/i18n';
 	import { z } from 'zod';
 
 	import { A, Heading, Hr, P } from 'flowbite-svelte';
@@ -22,7 +22,7 @@
 			passwordConfirm: z.string().min(8),
 			acceptTerms: z.boolean()
 		})
-		.refine((data) => data.password === data.passwordConfirm, 'PASSWORDS_DO_NOT_MATCH');
+		.refine((data) => data.password === data.passwordConfirm, m.PASSWORDS_DO_NOT_MATCH());
 
 	const superform = createForm(schema, async ({ form }) => {
 		const { data } = form;
@@ -54,8 +54,8 @@
 		field="email"
 		options={{
 			type: 'email',
-			label: 'Your email',
-			placeholder: 'name@example.org'
+			label: m.Your_email(),
+			placeholder: m.namefoundation_org()
 		}}
 	/>
 
@@ -64,9 +64,9 @@
 		field="username"
 		options={{
 			type: 'text',
-			label: 'Full name',
-			placeholder: 'John Doe',
-			helpText: 'Organizations and other users will identify you by your name.'
+			label: m.Full_name(),
+			placeholder: m.John_Doe(),
+			helpText: m.Organizations_and_other_users_will_identify_you_by_your_name_()
 		}}
 	/>
 
@@ -75,7 +75,7 @@
 		field="password"
 		options={{
 			type: 'password',
-			label: 'Your password',
+			label: m.Your_password(),
 			placeholder: '•••••'
 		}}
 	/>
@@ -85,26 +85,26 @@
 		field="passwordConfirm"
 		options={{
 			type: 'password',
-			label: 'Confirm password',
+			label: m.Confirm_password(),
 			placeholder: '•••••'
 		}}
 	/>
 
 	<Checkbox {superform} field="acceptTerms">
-		I accept the<A class="ml-1" href="/">Terms and Conditions</A>
+		{m.I_accept_the()}<A class="ml-1" href="/">{m.Terms_and_Conditions()}</A>
 	</Checkbox>
 
 	<FormError />
 
 	<div class="flex justify-end">
-		<SubmitButton>Create an account</SubmitButton>
+		<SubmitButton>{m.Create_an_account()}</SubmitButton>
 	</div>
 </Form>
 
 <div class="flex flex-col items-center gap-4">
 	<Hr />
 	<P color="text-gray-500 dark:text-gray-400" size="sm">
-		Already have an account?
-		<A href="/login">Login here</A>
+		{m.Already_have_an_account()}
+		<A href="/login">{m.Login_here()}</A>
 	</P>
 </div>

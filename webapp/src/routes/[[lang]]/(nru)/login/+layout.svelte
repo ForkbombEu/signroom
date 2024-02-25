@@ -1,5 +1,6 @@
 <script lang="ts" context="module">
 	import { writable } from 'svelte/store';
+	import { m } from '$lib/i18n';
 	export const currentEmail = writable('');
 </script>
 
@@ -12,19 +13,19 @@
 	const modes: Link[] = [
 		{
 			href: '/login',
-			text: 'Email and password'
+			text: m.Email_and_password()
 		},
 		{
 			href: '/login/webauthn',
-			text: 'Webauthn'
+			text: m.Webauthn()
 		}
 	];
 </script>
 
-<Heading tag="h4">Log in</Heading>
+<Heading tag="h4">{m.Log_in()}</Heading>
 {#if $featureFlags.WEBAUTHN}
 	<div class="space-y-2">
-		<P size="sm" color="text-gray-500">Choose your authentication method</P>
+		<P size="sm" color="text-gray-500">{m.Choose_your_authentication_method()}</P>
 		<ButtonGroup class="w-full">
 			{#each modes as { href, text }}
 				{@const isActive = $page.url.pathname === href}
@@ -41,7 +42,7 @@
 <div class="flex flex-col items-center gap-4">
 	<Hr />
 	<P color="text-gray-500 dark:text-gray-400" size="sm">
-		Don't have an account?
-		<A href="/register">Register here</A>
+		{m.Dont_have_an_account()}
+		<A href="/register">{m.Register_here()}</A>
 	</P>
 </div>
