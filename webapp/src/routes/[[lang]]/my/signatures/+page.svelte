@@ -1,8 +1,9 @@
 <script lang="ts" context="module">
+	import { m } from '$lib/i18n';
 	const toasts = {
-		add: '✅ Signature shared successfully',
-		remove: '✅ Signature unshared successfully',
-		signed: '✅ Document signed successfully'
+		add: m._Signature_shared_successfully(),
+		remove: m._Signature_unshared_successfully(),
+		signed: m._Document_signed_successfully()
 	};
 	export type ToastContent = keyof typeof toasts;
 </script>
@@ -105,11 +106,11 @@
 								openShareModal(record);
 							}}
 						>
-							<Share size="12" class="mr-1" />SHARE
+							<Share size="12" class="mr-1" />{m.SHARE()}
 						</Button>
 						<EditRecord {record} let:openModal>
 							<Button class="!p-2 rounded-r-lg" color="alternative" size="xs" on:click={openModal}>
-								<Pencil size="12" class="mr-1" />EDIT
+								<Pencil size="12" class="mr-1" />{m.EDIT()}
 							</Button>
 						</EditRecord>
 					</ButtonGroup>

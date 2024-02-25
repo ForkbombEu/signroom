@@ -2,6 +2,7 @@
 	import { currentUser } from '$lib/pocketbase';
 	import type { SignaturesResponse } from '$lib/pocketbase/types';
 	import { Badge } from 'flowbite-svelte';
+	import { m } from '$lib/i18n';
 
 	export let value: string;
 	export let record: SignaturesResponse;
@@ -11,5 +12,5 @@
 </script>
 
 {#if !isOwned}
-	<Badge color="blue">shared</Badge>
+	<Badge color="blue">{m.shared()}</Badge>
 {/if}

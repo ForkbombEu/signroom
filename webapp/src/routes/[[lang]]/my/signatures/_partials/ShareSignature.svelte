@@ -19,6 +19,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import type { PBResponse } from '$lib/utils/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
+	import { m } from '$lib/i18n';
 
 	export let open = false;
 	export let record: SignaturesResponse;
@@ -99,22 +100,22 @@
 						<div class="absolute left-0 bottom-0">
 							<Button color="red" outline on:click={toggleRemoveAccess}>
 								<Trash size="20" />
-								<span class="ml-2"> Remove access </span>
+								<span class="ml-2"> {m.Remove_access()} </span>
 							</Button>
 						</div>
 					{/if}
 				{:else if removeLoading}
 					<Spinner />
 				{:else}
-					<P>Are you sure you want to remove all access to the signature?</P>
+					<P>{m.Are_you_sure_you_want_to_remove_all_access_to_the_signature()}</P>
 					<div class="flex justify-between mt-4">
 						<Button class="space-x-2" color="alternative" on:click={toggleRemoveAccess}>
 							<ArrowLeft size="20" />
-							<span class="ml-2"> Undo </span>
+							<span class="ml-2"> {m.Undo()} </span>
 						</Button>
 						<Button class="space-x-2" color="red" on:click={removeAuthorization}>
 							<Trash size="20" />
-							<span class="ml-2"> Yes, remove access </span>
+							<span class="ml-2"> {m.Yes_remove_access()} </span>
 						</Button>
 					</div>
 				{/if}

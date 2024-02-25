@@ -12,6 +12,7 @@
 	import { DocumentArrowDown, Eye, LockClosed } from 'svelte-heros-v2';
 	import { pb } from '$lib/pocketbase';
 	import RenderSignedFile from './RenderSignedFile.svelte';
+	import { m } from '$lib/i18n';
 
 	export let record: SignaturesResponse;
 	export let value: any;
@@ -44,26 +45,26 @@
 		<span>
 			<DocumentArrowDown size="20" />
 		</span>
-		<span class="truncate">Original file</span>
+		<span class="truncate">{m.Original_file()}</span>
 	</A>
 
 	<A class="gap-1" slot="downloadButton" href={downloadUrl} download={downloadName}>
 		<span>
 			<LockClosed size="20" />
 		</span>
-		<span class="truncate">Signed file</span>
+		<span class="truncate">{m.Signed_file()}</span>
 	</A>
 	<A slot="showButton">
 		<button on:click={handleOpen} class="flex items-center">
 			<span>
 				<Eye size="20" class="mr-1" />
 			</span>
-			<span class="truncate">Preview</span>
+			<span class="truncate">{m.Preview()}</span>
 		</button>
 	</A>
 </div>
 <div class="fixed z-50">
-	<Modal bind:open title={`${record.title} – Signed`} size="md">
+	<Modal bind:open title={`${record.title} – ${m.Signed()}`} size="md">
 		<div class="w-full">
 			<RenderSignedFile {type} signedFile={signedFile} />
 		</div>
