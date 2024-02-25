@@ -7,6 +7,7 @@
 	import clsx from 'clsx';
 	import { Avatar, Button, Heading, P, Select, Span } from 'flowbite-svelte';
 	import { HeroHeader, Section } from 'flowbite-svelte-blocks';
+	import { m } from '$lib/i18n';
 
 	//
 
@@ -19,12 +20,12 @@
 		pClass="max-w-2xl mb-6 font-light lg:mb-8 lg:text-3xl dark:text-gray-400"
 	>
 		<svelte:fragment slot="h1">
-			Join multiple trusted
+			{m.Join_multiple_trusted()}
 			<Span
 				gradient
 				gradientClass="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-purple-500"
-				class="text-primary-700">organizations</Span
-			>, with one account.
+				class="text-primary-700">{m.organizations()}</Span
+			>{m._with_one_account_()}
 		</svelte:fragment>
 	</HeroHeader>
 </Section>
@@ -64,7 +65,7 @@
 									goto(`/register?join=${org.id}`);
 								}}
 							>
-								Join
+								{m.Join()}
 							</Button>
 						</div>
 					</div>

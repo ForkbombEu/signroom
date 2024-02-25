@@ -2,6 +2,8 @@
 	import { appTitle } from '$lib/strings';
 	import { Button, NavBrand, NavHamburger, NavLi, NavUl, Navbar } from 'flowbite-svelte';
 	import { ArrowRight } from 'svelte-heros-v2';
+	import { m } from '$lib/i18n';
+
 </script>
 
 <div class="flex flex-col gap-20">
@@ -14,9 +16,9 @@
 				</span>
 			</NavBrand>
 			<div class="flex items-center lg:order-2">
-				<a href="/login">Log In</a>
+				<a href="/login">{m.Log_In()}</a>
 				<Button class="ml-4 inline-flex items-center justify-center mr-3" href="/register">
-					Register <ArrowRight size="18" class="ml-2 -mr-1" />
+					{m.Register()} <ArrowRight size="18" class="ml-2 -mr-1" />
 				</Button>
 				<NavHamburger
 					on:click={toggle}
@@ -30,8 +32,8 @@
 				activeClass="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500"
 				nonActiveClass="text-gray-500 hover:text-primary-700 dark:text-gray-400 dark:hover:text-primary-300"
 			>
-				<NavLi href="/" active={true}>Signatures</NavLi>
-				<NavLi href="#contact">Contact</NavLi>
+				<NavLi href="/" active={true}>{m.Signatures()}</NavLi>
+				<NavLi href="#contact">{m.Contact()}</NavLi>
 			</NavUl>
 		</Navbar>
 	</header>

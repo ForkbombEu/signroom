@@ -41,5 +41,12 @@
 	"Reset_password": "Reset password",
 	"Please_enter_here_a_new_password_": "Please enter here a new password.",
 	"New_password": "New password",
-	"Password_reset_successfully": "Password reset successfully!"
+	"Password_reset_successfully": "Password reset successfully!",
+	"Join_multiple_trusted": "Join multiple trusted",
+	"_with_one_account_": ", with one account.",
+	"Join": "Join",
+	"Log_In": "Log In",
+	"Register": "Register",
+	"Signatures": "Signatures",
+	"Contact": "Contact"
 }
