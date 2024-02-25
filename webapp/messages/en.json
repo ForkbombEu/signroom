@@ -77,5 +77,9 @@
 	"Keypair_creation_successful": "Keypair creation successful!",
 	"Please_store_this_in_a_safe_place_to_recover_your_account_in_the_future_this_passphrase_will_be_shown_only_one_time": "Please store this in a safe place to recover your account in the future, this passphrase will\n\t\t\tbe shown only one time!",
 	"Copy_seed": "Copy seed",
-	"Go_to_Dashboard": "Go to Dashboard"
+	"Go_to_Dashboard": "Go to Dashboard",
+	"Your_DID": "Your DID",
+	"add_signature": "add signature",
+	"signature": "signature",
+	"My_folders": "My folders"
 }

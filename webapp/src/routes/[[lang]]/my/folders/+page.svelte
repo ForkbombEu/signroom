@@ -15,6 +15,7 @@
 	} from '$lib/collectionManager';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { Heading } from 'flowbite-svelte';
+	import { m } from '$lib/i18n';
 
 	const expandQuery = 'signatures(folder)';
 
@@ -35,7 +36,7 @@
 	>
 		<CollectionManagerHeader>
 			<svelte:fragment slot="title">
-				<Heading tag="h4">My folders</Heading>
+				<Heading tag="h4">{m.My_folders()}</Heading>
 			</svelte:fragment>
 		</CollectionManagerHeader>
 
@@ -49,9 +50,9 @@
 								<a class="text-primary-500 underline" href={`/my/signatures?folder=${record.id}`}>
 									{#if expand}
 										{expand.length}
-										{expand.length > 1 ? 'signatures' : 'signature'}
+										{expand.length > 1 ? m.signatures() : m.signature()}
 									{:else}
-										add signature
+										{m.add_signature()}
 									{/if}
 								</a>
 							</div>
