@@ -16,7 +16,7 @@
 	} from '$lib/pocketbase/types';
 	import { OrgRoles } from '$lib/rbac/roles.js';
 	import { createTypeProp } from '$lib/utils/typeProp.js';
-	import type { PBResponse } from '$lib/utils/types.js';
+	import { m } from '$lib/i18n';
 	import { Button, Heading } from 'flowbite-svelte';
 	import { ArrowUturnLeft, Check, UserGroup, XMark } from 'svelte-heros-v2';
 	import User from './_partials/user.svelte';
@@ -76,7 +76,7 @@
 		<div>
 			<CollectionManagerHeader hideCreateButton>
 				<svelte:fragment slot="title">
-					<Heading tag="h5">Manage pending join requests</Heading>
+					<Heading tag="h5">{m.Manage_pending_join_requests()}</Heading>
 				</svelte:fragment>
 			</CollectionManagerHeader>
 			<CollectionTable
@@ -89,7 +89,7 @@
 					<CollectionEmptyState
 						hideCreateButton
 						description=""
-						title="No join requests"
+						title={m.No_join_requests()}
 						icon={UserGroup}
 					/>
 				</svelte:fragment>
@@ -102,7 +102,7 @@
 						}}
 					>
 						<Check size="20" />
-						<span class="ml-1"> Accept </span>
+						<span class="ml-1"> {m.Accept()} </span>
 					</Button>
 					<Button
 						size="sm"
@@ -112,7 +112,7 @@
 						}}
 					>
 						<XMark size="20" />
-						<span class="ml-1"> Reject </span>
+						<span class="ml-1"> {m.Reject()} </span>
 					</Button>
 				</svelte:fragment>
 			</CollectionTable>
@@ -121,7 +121,7 @@
 		<div>
 			<CollectionManagerHeader hideCreateButton>
 				<svelte:fragment slot="title">
-					<Heading tag="h5">Rejected requests</Heading>
+					<Heading tag="h5">{m.Rejected_requests()}</Heading>
 				</svelte:fragment>
 			</CollectionManagerHeader>
 			<CollectionTable
@@ -133,7 +133,7 @@
 					<CollectionEmptyState
 						hideCreateButton
 						description=""
-						title="No rejected requests"
+						title={m.No_rejected_requests()}
 						icon={UserGroup}
 					/>
 				</svelte:fragment>
@@ -146,7 +146,7 @@
 						}}
 					>
 						<ArrowUturnLeft size="20" />
-						<span class="ml-1"> Move to pending </span>
+						<span class="ml-1"> {m.Move_to_pending()} </span>
 					</Button>
 				</svelte:fragment>
 			</CollectionTable>

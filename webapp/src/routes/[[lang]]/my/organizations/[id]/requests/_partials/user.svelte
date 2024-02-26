@@ -1,15 +1,9 @@
 <script lang="ts">
-	import type { OrgJoinRequestsRecord, UsersResponse } from '$lib/pocketbase/types';
-	import type { PBResponse } from '$lib/utils/types';
+	import type { OrgJoinRequestsResponse, UsersResponse } from '$lib/pocketbase/types';
 	import { Avatar } from 'flowbite-svelte';
 
 	export let value: any;
-	export let record: PBResponse<
-		OrgJoinRequestsRecord,
-		{
-			user: UsersResponse;
-		}
-	>;
+	export let record: OrgJoinRequestsResponse<{ user: UsersResponse }>
 	value;
 	const { emailVisibility, username, email, avatar } = record.expand!.user;
 </script>

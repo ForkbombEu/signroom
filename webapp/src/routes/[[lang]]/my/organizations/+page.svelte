@@ -7,6 +7,7 @@
 	import { pb } from '$lib/pocketbase/index.js';
 	import { Collections } from '$lib/pocketbase/types.js';
 	import { invalidateAll } from '$app/navigation';
+	import { m } from '$lib/i18n';
 
 	export let data;
 	$: authorizations = data.authorizations;
@@ -21,15 +22,15 @@
 </script>
 
 <div class="flex justify-between items-center mb-6">
-	<Heading tag="h5">Your organizations</Heading>
+	<Heading tag="h5">{m.Your_organizations()}</Heading>
 	<div class="flex justify-end gap-2">
 		<Button size="sm" color="alternative" class="!px-4 shrink-0" href="/my/organizations/join">
 			<UserPlus size="20" />
-			<span class="ml-1"> Join an organization </span>
+			<span class="ml-1"> {m.Join_an_organization()} </span>
 		</Button>
 		<Button size="sm" color="alternative" class="!px-4 shrink-0" href="/my/organizations/create">
 			<Plus size="20" />
-			<span class="ml-1"> Create a new organization </span>
+			<span class="ml-1"> {m.Create_a_new_organization()} </span>
 		</Button>
 	</div>
 </div>
@@ -37,7 +38,7 @@
 <div class="border rounded-lg divide-y">
 	{#if authorizations}
 		{#if authorizations.length == 0}
-			<div class="p-4 text-gray-600">No organizations found. Create one!</div>
+			<div class="p-4 text-gray-600">{m.No_organizations_found_Create_one()}</div>
 		{:else}
 			{#each authorizations as a}
 				{@const org = a.expand.organization}
@@ -56,7 +57,7 @@
 							color="alternative"
 							href={`/my/organizations/${org.id}/settings`}
 						>
-							Settings
+							{m.Settings()}
 						</Button>
 					</ProtectedOrgUI>
 				</div>
@@ -67,13 +68,13 @@
 
 {#if orgJoinRequests.length}
 	<div class="mt-8 space-y-4">
-		<Heading tag="h5">Your join requests</Heading>
+		<Heading tag="h5">{m.Your_join_requests()}</Heading>
 		<div class="border rounded-lg divide-y">
 			{#each orgJoinRequests as request}
 				<div class="flex items-center justify-between space-x-4 py-3 px-4">
 					<div class="flex space-x-2">
 						<P>{request.expand?.organization.name}</P>
-						<Badge large color="yellow">Pending</Badge>
+						<Badge large color="yellow">{m.Pending()}</Badge>
 					</div>
 					<Button
 						color="alternative"
@@ -82,7 +83,7 @@
 							deleteJoinRequest(request.id);
 						}}
 					>
-						Undo request
+						{m.Undo_request()}
 					</Button>
 				</div>
 			{/each}

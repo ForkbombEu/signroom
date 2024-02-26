@@ -6,6 +6,8 @@
 	import { Button, Heading, Hr, Spinner } from 'flowbite-svelte';
 	import { ArrowDownTray } from 'svelte-heros-v2';
 	import { generateQr } from '$lib/qrcode';
+	import { m } from '$lib/i18n';
+
 
 	//
 
@@ -47,13 +49,13 @@
 			{:else}
 				<ArrowDownTray />
 			{/if}
-			<span class="ml-2"> Download credential issuer </span>
+			<span class="ml-2"> {m.Download_credential_issuer()} </span>
 		</Button>
 	</div>
 
 	<Hr />
 
-	<Heading tag="h4">Edit service</Heading>
+	<Heading tag="h4">{m.Edit_service()}</Heading>
 	<ServiceForm organizationId={data.organization.id} initialData={data.service} mode="edit" />
 
 	<Hr />
@@ -61,7 +63,7 @@
 	{#await qr()}
 		<Hr />
 	{:then qr}
-		<Heading tag="h4">Service Qr Code</Heading>
+		<Heading tag="h4">{m.Service_Qr_Code()}</Heading>
 		<div class="flex justify-around">
 			<img src={qr.result.qrcode} alt="Service QR Code" />
 		</div>
@@ -71,7 +73,7 @@
 
 	<Hr />
 
-	<Heading tag="h4">Service preview</Heading>
+	<Heading tag="h4">{m.Service_preview()}</Heading>
 	<div class="max-h-96 overflow-scroll border rounded-lg p-4">
 		<pre>{JSON.stringify(data.service, null, 2)}</pre>
 	</div>

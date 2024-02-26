@@ -33,6 +33,7 @@
 	import { createFieldComponent } from '$lib/recordForm/fieldSchemaToInput.svelte';
 	import JSONSchemaInput from './JSONSchemaInput.svelte';
 	import FormError from '$lib/forms/formError.svelte';
+	import { m } from '$lib/i18n';
 
 	export let organizationId: string;
 	export let initialData: ServicesResponse | undefined = undefined;
@@ -95,7 +96,7 @@
 
 	//
 
-	const submitButtonText = !Boolean(initialData) ? 'Create service' : 'Update service';
+	const submitButtonText = !Boolean(initialData) ? m.Create_service() : m.Update_service();
 
 	const credentialTypeOptions: string[] = Object.values(ServicesCredentialTypeOptions);
 
@@ -105,24 +106,24 @@
 </script>
 
 <Form {superform} showRequiredIndicator>
-	<Heading tag="h5">Main info</Heading>
+	<Heading tag="h5">{m.Main_info()}</Heading>
 
 	<Input
 		field="name"
-		options={{ placeholder: 'Service name', label: 'Service name' }}
+		options={{ placeholder: m.Service_name(), label: m.Service_name() }}
 		{superform}
 	/>
 
 	<Textarea
 		field="description"
-		options={{ placeholder: 'Service description', label: 'Service description' }}
+		options={{ placeholder: m.Service_description(), label: m.Service_description() }}
 		{superform}
 	/>
 
 	<Select
 		{superform}
 		field="credential_type"
-		options={{ label: 'Select credential cryptography type', options: credentialTypeOptions }}
+		options={{ label: m.Select_credential_cryptography_type(), options: credentialTypeOptions }}
 	/>
 
 	<div>
@@ -130,24 +131,18 @@
 			collection={Collections.Templates}
 			field="templates"
 			options={{
-				label: 'Select one or more templates for this service',
+				label: m.Select_one_or_more_templates_for_this_service(),
 				inputMode: 'select',
 				displayFields: ['name'],
 				multiple: true
 			}}
 			{superform}
 		/>
-		<!-- <div class="flex justify-end pt-4">
-			<Button color="alternative" size="xs" on:click={toggleTemplateDrawer}>
-				<Plus size="16" />
-				<span class="ml-1">Add template</span>
-			</Button>
-		</div> -->
 	</div>
 
 	<Hr />
 
-	<Heading tag="h5">Servers</Heading>
+	<Heading tag="h5">{m.Servers()}</Heading>
 
 	<div>
 		<Relations
@@ -157,16 +152,10 @@
 			options={{
 				inputMode: 'select',
 				displayFields: ['name', 'endpoint'],
-				label: 'Select a credential issuer'
+				label: m.Select_a_credential_issuer()
 			}}
 			{superform}
 		/>
-		<!-- <div class="flex justify-end pt-4">
-			<Button color="alternative" size="xs" on:click={toggleIssuerDrawer}>
-				<Plus size="16" />
-				<span class="ml-1">Add issuer</span>
-			</Button>
-		</div> -->
 	</div>
 
 	<div>
@@ -177,16 +166,10 @@
 			options={{
 				inputMode: 'select',
 				displayFields: ['name', 'endpoint'],
-				label: 'Select an authorization service'
+				label: m.Select_an_authorization_service()
 			}}
 			{superform}
 		/>
-		<!-- <div class="flex justify-end pt-4">
-			<Button color="alternative" size="xs" on:click={toggleIssuerDrawer}>
-				<Plus size="16" />
-				<span class="ml-1">Add issuer</span>
-			</Button>
-		</div> -->
 	</div>
 
 	<div>
@@ -197,24 +180,18 @@
 			options={{
 				inputMode: 'select',
 				displayFields: ['name', 'endpoint'],
-				label: 'Select a relying party'
+				label: m.Select_a_relying_party()
 			}}
 			{superform}
 		/>
-		<!-- <div class="flex justify-end pt-4">
-			<Button color="alternative" size="xs" on:click={toggleIssuerDrawer}>
-				<Plus size="16" />
-				<span class="ml-1">Add relying party</span>
-			</Button>
-		</div> -->
 	</div>
 
 	<Hr />
 
 	<Heading tag="h5">Options</Heading>
 
-	<Checkbox field="add_ons" {superform}>Use add-ons</Checkbox>
-	<Checkbox field="published" {superform}>Published</Checkbox>
+	<Checkbox field="add_ons" {superform}>{m.Use_addons()}</Checkbox>
+	<Checkbox field="published" {superform}>{m.Published()}</Checkbox>
 
 	<Hr />
 
@@ -227,7 +204,7 @@
 
 <Drawer bind:hidden={$hideIssuerDrawer} {...drawerProps}>
 	<div class="flex justify-between items-center">
-		<Heading tag="h5">Create new Issuer</Heading>
+		<Heading tag="h5">{m.Create_new_Issuer()}</Heading>
 		<IconButton on:click={toggleIssuerDrawer}></IconButton>
 	</div>
 	<RecordForm
@@ -242,7 +219,7 @@
 
 <Drawer bind:hidden={$hideTemplateDrawer} {...drawerProps}>
 	<div class="flex justify-between items-center">
-		<Heading tag="h5">Create new Template</Heading>
+		<Heading tag="h5">{m.Create_new_Template()}</Heading>
 		<IconButton on:click={toggleTemplateDrawer}></IconButton>
 	</div>
 	<RecordForm

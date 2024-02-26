@@ -3,6 +3,7 @@
 	import { RecordForm } from '$lib/recordForm';
 	import { Collections, type OrganizationsResponse } from '$lib/pocketbase/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
+	import { m } from '$lib/i18n';
 
 	const recordType = createTypeProp<OrganizationsResponse>();
 
@@ -12,19 +13,19 @@
 </script>
 
 <div class="space-y-8">
-	<A href="/my/organizations">← My organizations</A>
-	<Heading tag="h4">Create an organization</Heading>
+	<A href="/my/organizations">← {m.My_organizations()}</A>
+	<Heading tag="h4">{m.Create_an_organization()}</Heading>
 	<RecordForm
 		{recordType}
 		collection={Collections.Organizations}
 		fieldsSettings={{
 			labels: {
-				name: 'Organization name',
-				description: 'Short description',
-				avatar: 'Avatar'
+				name: m.Organization_name(),
+				description: m.Short_description(),
+				avatar: m.Avatar()
 			}
 		}}
-		submitButtonText="Create organization"
+		submitButtonText={m.Create_organization()}
 		on:success={handleSuccess}
 	/>
 </div>

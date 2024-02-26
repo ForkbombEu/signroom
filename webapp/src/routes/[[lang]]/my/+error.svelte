@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { A, Heading, P } from 'flowbite-svelte';
+	import { m } from '$lib/i18n';
+
 	const status = $page.status;
 	const title = status === 404 ? 'Not Found' : 'Internal Error';
 	const image = status === 404 ? '/404-computer.svg' : '/500.svg';
@@ -17,12 +19,12 @@
 		<Heading tag="h3" class="text-primary-600">{status} {title}</Heading>
 		<Heading tag="h2">{message}</Heading>
 		<div class="w-full pt-8">
-			<P class="text-gray-400">Here are some Helpful link:</P>
+			<P class="text-gray-400">{m.Here_are_some_Helpful_link()}</P>
 			<ul class="flex gap-2">
-				<li><A href="/">Home</A></li>
-				<li><A href="/login">Login</A></li>
-				<li><A href="/register">Register</A></li>
-				<li><A href="/my">My</A></li>
+				<li><A href="/">{m.Home()}</A></li>
+				<li><A href="/login">{m.Login()}</A></li>
+				<li><A href="/register">{m.Register()}</A></li>
+				<li><A href="/my">{m.My()}</A></li>
 			</ul>
 		</div>
 	</div>

@@ -1,5 +1,4 @@
 import type { ServicesRecord } from '$lib/pocketbase/types';
-import { zencode_exec } from 'zenroom';
 //@ts-ignore
 import { Slangroom } from '@slangroom/core';
 //@ts-ignore

@@ -4,6 +4,7 @@
 	import RenderSignedFile from '../signatures/_partials/RenderSignedFile.svelte';
 	import { SignaturesTypeOptions } from '$lib/pocketbase/types';
 	import type { SignedFile } from '../signatures/_partials/Files.svelte';
+	import { m } from '$lib/i18n';
 
 	type SignatureFile = {
 		type: SignaturesTypeOptions;
@@ -53,7 +54,7 @@
 </script>
 
 <div class="p-4">
-	<TitleDescription title="Validate" description="Upload a signature file and verify autenticity" />
+	<TitleDescription title={m.Validate()} description={m.Upload_a_signature_file_and_verify_autenticity()} />
 	<br />
 	<Dropzone
 		id="dropzone"
@@ -80,20 +81,20 @@
 			/></svg
 		>
 		<p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-			<span class="font-semibold">Click to upload</span> or drag and drop
+			<span class="font-semibold">{m.Click_to_upload()}</span> {m.or_drag_and_drop()}
 		</p>
-		<p class="text-xs text-gray-500 dark:text-gray-400">JSON signature downloaded from signroom</p>
+		<p class="text-xs text-gray-500 dark:text-gray-400">{m.JSON_signature_downloaded_from_signroom()}</p>
 	</Dropzone>
 	{#if file}
 		<div class="flex gap-8">
 			<P>{name}</P>
-			<Helper helperClass="text-green-500">FILE VALID</Helper>
+			<Helper helperClass="text-green-500">{m.FILE_VALID()}</Helper>
 		</div>
 		<RenderSignedFile signedFile={file.signedFile} type={file.type} leftButton />
 	{/if}
 	{#if hasErrors}
 		<div class="space-y-1">
-			<Helper helperClass="text-red-500">FILE REJECTED</Helper>
+			<Helper helperClass="text-red-500">{m.FILE_REJECTED()}</Helper>
 		</div>
 	{/if}
 </div>

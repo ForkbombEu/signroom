@@ -4,6 +4,7 @@
 	import { RecordForm } from '$lib/recordForm';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { Heading } from 'flowbite-svelte';
+	import { m } from '$lib/i18n';
 
 	//
 
@@ -13,12 +14,12 @@
 	const recordType = createTypeProp<OrganizationsResponse>();
 </script>
 
-<Heading tag="h6" class="mb-6">Manage your organization public info</Heading>
+<Heading tag="h6" class="mb-6">{m.Manage_your_organization_public_info()}</Heading>
 <RecordForm
 	{recordType}
 	collection={Collections.Organizations}
 	recordId={organization.id}
 	initialData={organization}
-	submitButtonText="Save changes"
+	submitButtonText={m.Save_changes()}
 	on:success={invalidateAll}
 />

@@ -17,10 +17,7 @@
 		DropdownDivider,
 		DropdownHeader,
 		DropdownItem,
-		Heading,
 		Hr,
-		P,
-		SidebarCta,
 		SidebarGroup,
 		SidebarItem
 	} from 'flowbite-svelte';
@@ -72,14 +69,14 @@
 						{$currentUser?.email}
 					</span>
 				</DropdownHeader>
-				<DropdownItem href="/my/profile">My profile</DropdownItem>
+				<DropdownItem href="/my/profile">{m.My_profile()}</DropdownItem>
 				<DropdownDivider />
 				<DropdownItem href="/pro" class="flex items-center">
-					<Fire class="text-red-500 mr-2 w-5" /> Go Pro</DropdownItem
+					<Fire class="text-red-500 mr-2 w-5" />{m.Go_Pro()}</DropdownItem
 				>
 				<DropdownDivider />
 				<DropdownItem on:click={() => goto('/my/logout')} class="text-primary-600">
-					Sign out
+					{m.Sign_out()}
 				</DropdownItem>
 			</AvatarMenu>
 		</svelte:fragment>
@@ -105,7 +102,7 @@
 					return createOrganizationLinks(a.expand.organization, isAdmin || isOwner);
 				})}
 				<Hr />
-				<p class="text-gray-500 text-xs font-medium tracking-wide p-4">ORGANIZATIONS</p>
+				<p class="text-gray-500 text-xs font-medium tracking-wide p-4 uppercase">{m.organizations()}</p>
 				<div class="p-3 pt-0">
 					<SidebarLinks {links} />
 				</div>
@@ -114,18 +111,6 @@
 
 		<svelte:fragment slot="bottom">
 			<SidebarGroup class="px-2">
-				<!-- <SidebarCta label="Beta">
-					<p class="mb-3 text-sm text-blue-900 dark:text-blue-400">
-						You are one of the lucky few to try Signroom and all of its feature offerings first
-						before anyone else.
-					</p>
-					<a
-						class="text-sm text-blue-900 underline hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-						href="https://github.com/ForkbombEu/signroom"
-					>
-						Please provide us feedbacks and suggestions for how to make it better.
-					</a>
-				</SidebarCta> -->
 				<SidebarItem
 					label="Settings"
 					href="/my/settings"

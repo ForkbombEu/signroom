@@ -10,6 +10,7 @@
 	} from '$lib/pocketbase/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { Heading, P } from 'flowbite-svelte';
+	import { m } from '$lib/i18n';
 
 	export let data;
 	$: organization = data.organization;
@@ -35,7 +36,7 @@
 	let:records
 >
 	<div class="flex justify-between mb-4 items-center">
-		<Heading tag="h6">Manage members and roles</Heading>
+		<Heading tag="h6">{m.Manage_members_and_roles()}</Heading>
 		<div class="shrink-0">
 			<CreateRecord />
 		</div>

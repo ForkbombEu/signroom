@@ -5,6 +5,8 @@
 	import { Card, Heading } from 'flowbite-svelte';
 	import { BlogBodyWrapper, Section } from 'flowbite-svelte-blocks';
 	import { ArrowTopRightOnSquare, ArrowLongRight } from 'svelte-heros';
+	import { m } from '$lib/i18n';
+	import GridSpinner from '$lib/components/gridSpinner.svelte';
 	let news = pb.collection('posts').getFullList({ filter: 'published=true' });
 	let links = pb.collection('quick_actions').getFullList({ filter: 'published=true' });
 </script>
@@ -14,7 +16,7 @@
 	description="Perform essential tasks efficiently and effortlessly, empowering you to sign, verify, and manage documents with ease."
 />
 {#await links}
-	<p>Loading...</p>
+	<GridSpinner />
 {:then links}
 	{#each links as link}
 		<a
@@ -42,7 +44,7 @@
 
 <BlogBodyWrapper divClass="grid gap-8 grid-cols-2 lg:grid-cols-2 py-10 ">
 	{#await news}
-		<p>loading...</p>
+		<GridSpinner />
 	{:then news}
 		{#each news as n}
 			<Card img={`${PUBLIC_POCKETBASE_URL}api/files/posts/${n.id}/${n.cover}?thumb=0x180`}>
@@ -53,7 +55,7 @@
 					{n.preview}
 				</p>
 				<a href={`/news#${n.id}`} class="inline-flex items-center text-primary-600 hover:underline">
-					Read more
+					{m.Read_more()}
 					<ArrowTopRightOnSquare class="ml-2 w-4" />
 				</a>
 			</Card>

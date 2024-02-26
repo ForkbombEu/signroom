@@ -2,9 +2,11 @@
 	import { goto } from '$lib/i18n';
 	import { loginUser } from '$lib/webauthn/index';
 	import { z } from 'zod';
+	import { m } from '$lib/i18n';
 
 	import { Form, createForm, Input, FormError, SubmitButton } from '$lib/forms';
 	import { currentEmail } from '../+layout.svelte';
+	
 
 	const schema = z.object({
 		email: z.string().email()
@@ -34,14 +36,14 @@
 		options={{
 			id: 'email',
 			type: 'email',
-			label: 'Your email',
-			placeholder: 'name@foundation.org'
+			label: m.Your_email(),
+			placeholder: m.namefoundation_org()
 		}}
 	/>
 
 	<FormError />
 
 	<div class="flex justify-end">
-		<SubmitButton>Log in with webauthn</SubmitButton>
+		<SubmitButton>{m.Log_in_with_webauthn()}</SubmitButton>
 	</div>
 </Form>

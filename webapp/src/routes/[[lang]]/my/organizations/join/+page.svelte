@@ -8,6 +8,7 @@
 		type OrgJoinRequestsRecord,
 		type OrganizationsResponse
 	} from '$lib/pocketbase/types.js';
+	import { m } from '$lib/i18n';
 	import clsx from 'clsx';
 	import { A, Avatar, Button, Heading, Modal, P } from 'flowbite-svelte';
 
@@ -41,8 +42,8 @@
 </script>
 
 <div class="space-y-8">
-	<A href="/my/organizations">← My organizations</A>
-	<Heading tag="h4">Join an organization</Heading>
+	<A href="/my/organizations">← {m.My_organizations()}</A>
+	<Heading tag="h4">{m.Join_an_organization()}</Heading>
 	<div class="space-y-6">
 		{#each organizations as org}
 			{@const avatarUrl = pb.files.getUrl(org, org.avatar)}
@@ -66,10 +67,10 @@
 								selectOrganization(org);
 							}}
 						>
-							Join
+							{m.Join()}
 						</Button>
 					{:else}
-						<Button color="alternative" disabled>Request sent</Button>
+						<Button color="alternative" disabled>{m.Request_sent()}</Button>
 					{/if}
 				</div>
 			</div>
@@ -79,12 +80,12 @@
 
 <PortalWrapper>
 	<Modal
-		title={`Send a request to ${selectedOrganization?.name}`}
+		title={`${m.Send_a_request_to()} ${selectedOrganization?.name}`}
 		open={Boolean(selectedOrganization)}
 	>
-		<P>Please confirm that you want to join this organization.</P>
+		<P>{m.Please_confirm_that_you_want_to_join_this_organization_()}</P>
 		<div class="flex justify-end">
-			<Button on:click={sendJoinRequest}>Send join request</Button>
+			<Button on:click={sendJoinRequest}>{m.Send_join_request()}</Button>
 		</div>
 	</Modal>
 </PortalWrapper>

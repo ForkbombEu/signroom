@@ -3,6 +3,7 @@
 	import { A, Heading, Hr, P, List, Li } from 'flowbite-svelte';
 	import VanityMetric from '$lib/components/vanityMetric.svelte';
 	import { OrgRoles, ProtectedOrgUI } from '$lib/rbac/index.js';
+	import { m } from '$lib/i18n';
 
 	export let data;
 	let { organization, services, requests } = data;
@@ -17,7 +18,7 @@
 
 <div class="flex justify-between">
 	<div class="flex space-x-8">
-		<VanityMetric number={services.length} text="active services" />
+		<VanityMetric number={services.length} text={m.active_services()} />
 
 		<div>
 			<P>Latest services</P>
@@ -34,14 +35,14 @@
 	</div>
 
 	<div>
-		<A href={`${$page.url.pathname}/services`}>→ View all services</A>
+		<A href={`${$page.url.pathname}/services`}>→ {m.View_all_services()}</A>
 	</div>
 </div>
 <ProtectedOrgUI orgId={organization.id} roles={[ADMIN, OWNER]}>
 	<Hr />
 	
 	<div class="flex justify-between items-start">
-		<VanityMetric number={requests.length} text="Join requests" />
-		<A href={`${$page.url.pathname}/requests`}>→ Manage join requests</A>
+		<VanityMetric number={requests.length} text={m.Join_requests()} />
+		<A href={`${$page.url.pathname}/requests`}>→ {m.Manage_join_requests()}</A>
 	</div>
 </ProtectedOrgUI>
