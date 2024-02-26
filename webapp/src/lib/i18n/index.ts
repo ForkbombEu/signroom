@@ -23,6 +23,8 @@ type StatusCode = Parameters<typeof sveltekitRedirect>['0'];
 type RedirectOptions = { statusCode: StatusCode };
 export const redirect = (fromUrl: URL, toRoute: string, options: Partial<RedirectOptions> = {}) => {
 	const { statusCode = 303 } = options;
+	const regex = /\/[a-zA-Z]{2}\//;
+	const hasLang = toRoute.match(regex);
 	const toUrl = resolveRoute(toRoute, fromUrl);
-	return sveltekitRedirect(statusCode, toUrl);
+	return sveltekitRedirect(statusCode, hasLang ? toRoute : toUrl);
 };
