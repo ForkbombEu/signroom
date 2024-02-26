@@ -6,6 +6,7 @@
 	import { page } from '$app/stores';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import IconButton from '$lib/components/iconButton.svelte';
+	import { m } from '$lib/i18n';
 
 	export let data;
 	let { organization } = data;
@@ -16,10 +17,10 @@
 </script>
 
 <div class="flex justify-between items-center mb-4">
-	<Heading tag="h4">Services</Heading>
+	<Heading tag="h4">{m.Services()}</Heading>
 	<Button href={`${$page.url.pathname}/create`} color="alternative" class="shrink-0">
 		<Plus size="20" />
-		<span class="ml-1">Create new service</span>
+		<span class="ml-1">{m.Create_new_service()}</span>
 	</Button>
 </div>
 <CollectionManager
@@ -33,8 +34,8 @@
 	<CollectionTable fields={['name', 'organization']} {records} hideActions={['edit', 'share']}>
 		<svelte:fragment slot="emptyState">
 			<CollectionEmptyState
-				title="No services"
-				description="You can create a new service by pushing the button placed on the top right."
+				title={m.No_services()}
+				description={m.You_can_create_a_new_service_by_pushing_the_button_placed_on_the_top_right_()}
 				hideCreateButton
 				></CollectionEmptyState>
 		</svelte:fragment>

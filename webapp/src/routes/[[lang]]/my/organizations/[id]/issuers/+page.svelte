@@ -7,6 +7,7 @@
 	import { Collections, type IssuersResponse } from '$lib/pocketbase/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { Heading } from 'flowbite-svelte';
+	import { m } from '$lib/i18n';
 
 	export let data;
 	const recordType = createTypeProp<IssuersResponse>();
@@ -23,7 +24,7 @@
 	>
 		<div>
 			<CollectionManagerHeader>
-				<Heading slot="title" tag="h4">Credential issuers</Heading>
+				<Heading slot="title" tag="h4">{m.Credential_issuers()}</Heading>
 			</CollectionManagerHeader>
 			<CollectionTable
 				{records}
@@ -43,7 +44,7 @@
 	>
 		<div>
 			<CollectionManagerHeader>
-				<Heading slot="title" tag="h4">Authorization servers</Heading>
+				<Heading slot="title" tag="h4">{m.Authorization_servers()}</Heading>
 			</CollectionManagerHeader>
 			<CollectionTable
 				{records}
@@ -63,7 +64,7 @@
 	>
 		<div>
 			<CollectionManagerHeader>
-				<Heading slot="title" tag="h4">Relying parties</Heading>
+				<Heading slot="title" tag="h4">{m.Relying_parties()}</Heading>
 			</CollectionManagerHeader>
 			<CollectionTable
 				{records}

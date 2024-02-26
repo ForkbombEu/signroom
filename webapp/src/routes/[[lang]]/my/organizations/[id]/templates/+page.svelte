@@ -10,6 +10,7 @@
 	import { Heading } from 'flowbite-svelte';
 	import JSONSchemaInput from '../services/_partials/JSONSchemaInput.svelte';
 	import Textarea from '$lib/forms/fields/textarea.svelte';
+	import { m } from '$lib/i18n';
 
 	export let data;
 	let { organization } = data;
@@ -28,7 +29,7 @@
 		components: {
 			schema: createFieldComponent(JSONSchemaInput),
 			description: createFieldComponent(Textarea, {
-				options: { placeholder: 'Enter a description for the schema' }
+				options: { placeholder: m.Enter_a_description_for_the_schema() }
 			})
 		}
 	}}
@@ -36,7 +37,7 @@
 >
 	<pre>{JSON.stringify(records, null, 2)}</pre>
 	<CollectionManagerHeader>
-		<Heading slot="title" tag="h4">Services templates</Heading>
+		<Heading slot="title" tag="h4">{m.Services_templates()}</Heading>
 	</CollectionManagerHeader>
 	<CollectionTable {records} fields={['name']} hideActions={['share', 'delete', 'select']} />
 </CollectionManager>

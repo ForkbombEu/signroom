@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { ProtectedOrgLayout, ProtectedOrgUI, OrgRoles } from '$lib/rbac';
 	import { Button, ButtonGroup, P } from 'flowbite-svelte';
+	import { m } from '$lib/i18n';
 
 	export let data;
 	$: organization = data.organization;
@@ -14,12 +15,12 @@
 <div class="flex justify-end items-center">
 	<ProtectedOrgUI orgId={organization.id} roles={[OWNER, ADMIN]}>
 		<div class="flex justify-end items-center space-x-4">
-			<P color="text-gray-600" size="sm">Settings</P>
+			<P color="text-gray-600" size="sm">{m.Settings()}</P>
 			<ButtonGroup>
 				<ProtectedOrgUI orgId={organization.id} roles={[OWNER]}>
-					<Button href={href('/settings/general')}>General</Button>
+					<Button href={href('/settings/general')}>{m.General()}</Button>
 				</ProtectedOrgUI>
-				<Button href={href('/settings/members')}>Members</Button>
+				<Button href={href('/settings/members')}>{m.Members()}</Button>
 			</ButtonGroup>
 		</div>
 	</ProtectedOrgUI>
