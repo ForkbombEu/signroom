@@ -1,4 +1,17 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"start": "Start"
+	"start": "Start",
+	"my_folders": "Mapper",
+	"my_signatures": "Signaturer",
+	"validate_signatures": "Validere signaturer",
+	"multisignatures": "Multisignaturer",
+	"notifications": "Meddelelser",
+	"identity": "Identitet",
+	"my_DID": "Min DID",
+	"my_verifiable_credentials": "Mine Verifiable Credentials",
+	"organizations": "Organisationer",
+	"signatures": "Signaturer",
+	"hello": "Hej",
+	"Forgot_password": "Glemt kodeord?",
+	"Please_enter_here_your_email_to_recover_your_password_": "Indtast venligst din e-mail her for at ændre din adgangskode."
 }

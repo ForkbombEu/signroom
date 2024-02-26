@@ -12,5 +12,6 @@
 	"organizations": "Organizzazioni",
 	"signatures": "Firme",
 	"hello": "Ciao",
-	"Forgot_password": "Ha dimenticato la password?"
+	"Forgot_password": "Hai dimenticato la password?",
+	"Please_enter_here_your_email_to_recover_your_password_": "Inserisci qui la tua email per modificare la password."
 }

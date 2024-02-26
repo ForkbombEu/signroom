@@ -1,4 +1,17 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"start": "Começar"
+	"start": "Começar",
+	"my_folders": "Pastas",
+	"my_signatures": "Assinaturas",
+	"validate_signatures": "Validar assinaturas",
+	"multisignatures": "Multiassinaturas",
+	"notifications": "Notificações",
+	"identity": "Identidade",
+	"my_DID": "Meu DID",
+	"my_verifiable_credentials": "Minhas Verifiable Credentials",
+	"organizations": "Organizações",
+	"signatures": "Assinaturas",
+	"hello": "Olá",
+	"Forgot_password": "Esqueceu sua senha?",
+	"Please_enter_here_your_email_to_recover_your_password_": "Por favor insira aqui seu e-mail para alterar sua senha."
 }
