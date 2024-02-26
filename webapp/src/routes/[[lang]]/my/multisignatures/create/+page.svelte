@@ -32,10 +32,10 @@
 					title="Coconut Issuer"
 					content="An entity responsible for issuing Coconut credentials is required for multi-signature."
 				/>
-				<QuickAction
+				<!-- <QuickAction
 					title="Croupier"
 					content="The Croupier aggregates signatures from participants during the multi-signature process."
-				/>
+				/> -->
 				<QuickAction
 					title="Participant Account and DID"
 					content="Users must have already an account and DID on the platform to be invited to sign."
