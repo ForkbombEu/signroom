@@ -11,5 +11,6 @@
 	"my_verifiable_credentials": "Le mie Verifiable Credentials",
 	"organizations": "Organizzazioni",
 	"signatures": "Firme",
-	"hello": "Ciao"
+	"hello": "Ciao",
+	"Forgot_password": "Ha dimenticato la password?"
 }
