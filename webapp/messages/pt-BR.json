@@ -13,5 +13,18 @@
 	"signatures": "Assinaturas",
 	"hello": "Olá",
 	"Forgot_password": "Esqueceu sua senha?",
-	"Please_enter_here_your_email_to_recover_your_password_": "Por favor insira aqui seu e-mail para alterar sua senha."
+	"Please_enter_here_your_email_to_recover_your_password_": "Por favor insira aqui seu e-mail para redefinir sua senha.",
+	"Your_email": "Seu email",
+	"Recover_password": "Redefinir senha",
+	"Reset_email_sent_successfully": "E-mail de redefinição de senha enviado com sucesso!",
+	"Please_click_the_link_in_the_email_to_reset_your_password_": "Clique no link do e-mail para redefinir sua senha.",
+	"Log_in_with_webauthn": "Faça login com Webauthn",
+	"Choose_your_authentication_method": "Escolha seu método de autenticação",
+	"Email_and_password": "E-mail e senha",
+	"Dont_have_an_account": "Não tem uma conta?",
+	"Register_here": "Registre-se aqui",
+	"Log_in": "Conecte-se",
+	"Your_password": "Sua senha",
+	"Full_name": "Seu nome",
+	"Organizations_and_other_users_will_identify_you_by_your_name_": "Organizações e outros usuários irão identificá-lo pelo seu nome."
 }

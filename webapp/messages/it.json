@@ -13,5 +13,18 @@
 	"signatures": "Firme",
 	"hello": "Ciao",
 	"Forgot_password": "Hai dimenticato la password?",
-	"Please_enter_here_your_email_to_recover_your_password_": "Inserisci qui la tua email per modificare la password."
+	"Please_enter_here_your_email_to_recover_your_password_": "Inserisci qui la tua email per reimpostare la password.",
+	"Your_email": "La tua email",
+	"Recover_password": "Resetta la password",
+	"Reset_email_sent_successfully": "E-mail di reimpostazione della password inviata con successo!",
+	"Please_click_the_link_in_the_email_to_reset_your_password_": "Fare clic sul collegamento nell'e-mail per reimpostare la password.",
+	"Log_in_with_webauthn": "Accedi con Webauthn",
+	"Choose_your_authentication_method": "Scegli il tuo metodo di autenticazione",
+	"Email_and_password": "E-mail e password",
+	"Dont_have_an_account": "Non hai un account?",
+	"Register_here": "Registrati qui",
+	"Log_in": "Login",
+	"Your_password": "La tua password",
+	"Full_name": "Il tuo nome",
+	"Organizations_and_other_users_will_identify_you_by_your_name_": "Organizzazioni e altri utenti ti identificheranno con il tuo nome."
 }

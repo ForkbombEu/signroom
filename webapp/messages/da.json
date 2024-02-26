@@ -13,5 +13,18 @@
 	"signatures": "Signaturer",
 	"hello": "Hej",
 	"Forgot_password": "Glemt kodeord?",
-	"Please_enter_here_your_email_to_recover_your_password_": "Indtast venligst din e-mail her for at ændre din adgangskode."
+	"Please_enter_here_your_email_to_recover_your_password_": "Indtast venligst din e-mail her for at nulstille din adgangskode.",
+	"Your_email": "Din email",
+	"Recover_password": "Nulstille kodeord",
+	"Reset_email_sent_successfully": "E-mail til nulstilling af adgangskode blev sendt!",
+	"Please_click_the_link_in_the_email_to_reset_your_password_": "Klik på linket i e-mailen for at nulstille din adgangskode.",
+	"Log_in_with_webauthn": "Log ind med Webauthn",
+	"Choose_your_authentication_method": "Vælg din godkendelsesmetode",
+	"Email_and_password": "E-mail og adgangskode",
+	"Dont_have_an_account": "Har du ikke en konto?",
+	"Register_here": "Tilmeld dig her",
+	"Log_in": "Log på",
+	"Your_password": "Dit kodeord",
+	"Full_name": "Dit navn",
+	"Organizations_and_other_users_will_identify_you_by_your_name_": "Organisationer og andre brugere vil identificere dig ved dit navn."
 }
