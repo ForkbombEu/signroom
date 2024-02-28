@@ -36,7 +36,7 @@
 					inputMode: 'select'
 				},
 				relation_single: { displayFields: ['name'], inputMode: 'search' },
-				owner: { displayFields: ['name', 'username', 'email'], inputMode: 'search' }
+				owner: { displayFields: ['name', 'email'], inputMode: 'search' }
 			},
 			hide: { owner: $currentUser?.id },
 			labels: {

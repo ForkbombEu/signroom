@@ -21,7 +21,6 @@ export function getCollectionFieldNames(collection: string | Collections): strin
 	const fieldNames: string[] = [];
 
 	if (collection == '_pb_users_auth_' || collection == Collections.Users) {
-		fieldNames.push('username');
 		fieldNames.push('email');
 	}
 
