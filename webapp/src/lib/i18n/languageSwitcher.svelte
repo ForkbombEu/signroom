@@ -10,7 +10,11 @@
 
 	const languageEmoji: Record<AvailableLanguageTag, string> = {
 		en: '🇬🇧',
-		it: '🇮🇹'
+		it: '🇮🇹',
+		de: '🇩🇪',
+		fr: '🇫🇷',
+		da: '🇩🇰',
+		"pt-BR": '🇧🇷' 
 	};
 </script>
 
