@@ -16,7 +16,7 @@
 
 	const schema = z
 		.object({
-			username: z.string(),
+			name: z.string(),
 			email: z.string().email(),
 			password: z.string().min(8),
 			passwordConfirm: z.string().min(8),
@@ -61,7 +61,7 @@
 
 	<Input
 		{superform}
-		field="username"
+		field="name"
 		options={{
 			type: 'text',
 			label: m.Full_name(),
