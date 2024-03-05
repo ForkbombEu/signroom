@@ -1,8 +1,6 @@
-//@ts-ignore
 import { Slangroom } from '@slangroom/core';
-//@ts-ignore
 import { qrcode } from '@slangroom/qrcode';
-import type { Service } from '../../routes/my/organizations/[id]/services/[serviceId]/+page';
+import type { Service } from '../../routes/[[lang]]/my/organizations/[id]/services/[serviceId]/+page';
 
 const slangroom = new Slangroom(qrcode);
 

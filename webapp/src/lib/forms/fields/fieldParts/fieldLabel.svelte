@@ -7,7 +7,7 @@
 	import { capitalizeFirstLetter } from '$lib/utils/strings';
 
 	export let field: string;
-	export let text = '';
+	export let text: string | null | undefined = undefined;
 	if (!text) text = capitalizeFirstLetter(field);
 
 	const { superform } = getFormContext();
