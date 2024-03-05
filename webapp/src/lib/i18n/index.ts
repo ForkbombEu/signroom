@@ -6,6 +6,7 @@ import { redirect as sveltekitRedirect } from '@sveltejs/kit';
 
 import * as m from '$paraglide/messages';
 import * as runtime from '$paraglide/runtime';
+import { languageTag } from '$paraglide/runtime';
 
 //
 
@@ -23,6 +24,7 @@ type StatusCode = Parameters<typeof sveltekitRedirect>['0'];
 type RedirectOptions = { statusCode: StatusCode };
 export const redirect = (fromUrl: URL, toRoute: string, options: Partial<RedirectOptions> = {}) => {
 	const { statusCode = 303 } = options;
+	const hasLang = toRoute.includes('/' + languageTag() + '/');
 	const toUrl = resolveRoute(toRoute, fromUrl);
-	return sveltekitRedirect(statusCode, toUrl);
+	return sveltekitRedirect(statusCode, hasLang ? toRoute : toUrl);
 };
