@@ -64,7 +64,7 @@
 	{#await qr()}
 		<Hr />
 	{:then qr}
-		{@const qrimg:string = qr.result.qrcode}
+		{@const qrimg = qr.result.qrcode}
 		<div class="flex justify-between">
 			<Heading tag="h4">{m.Service_Qr_Code()}</Heading>
 			<CopyImageButton imageSrc={qrimg} />
