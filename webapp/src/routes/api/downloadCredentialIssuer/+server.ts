@@ -11,7 +11,8 @@ import {
 	getZipEntry,
 	mergeObjectSchemas,
 	DEFAULT_LOCALE,
-	mergeObjectSchemasIntoCredentialSubject
+	mergeObjectSchemasIntoCredentialSubject,
+	updateZipFileContent
 } from './utils';
 import { nanoid } from 'nanoid';
 
@@ -72,70 +73,66 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 };
 
 function updateCredentialIssuerWellKnown(zip: AdmZip, data: RequestBody, locale = DEFAULT_LOCALE) {
-	const CREDENTIAL_ISSUER_WELL_KNOWN_PATH =
-		'public/credential_issuer/.well-known/openid-credential-issuer';
+	updateZipFileContent(
+		zip,
+		'public/credential_issuer/.well-known/openid-credential-issuer',
 
-	const wellKnownEntry = getZipEntry(zip, CREDENTIAL_ISSUER_WELL_KNOWN_PATH);
-	if (!wellKnownEntry) throw new Error('Credential Issuer .well-known not found');
+		(content) =>
+			pipe(
+				content,
 
-	const credentialSubject = mergeObjectSchemasIntoCredentialSubject(data.templates, locale);
+				S.replaceAll('https://issuer1.zenswarm.forkbomb.eu', data.credential_issuer_url),
+				S.replace('https://authz-server1.zenswarm.forkbomb.eu', data.authorization_server),
+				S.replace('DIDroom_Issuer1', data.credential_issuer_name),
+				S.replace('Above_18_example', data.credential_name),
+				S.replace('Identity', data.credential_name),
 
-	const wellKnownContent = pipe(
-		wellKnownEntry.getData().toString(),
+				JSON.parse,
 
-		S.replaceAll('https://issuer1.zenswarm.forkbomb.eu', data.credential_issuer_url),
-		S.replace('https://authz-server1.zenswarm.forkbomb.eu', data.authorization_server),
-		S.replace('DIDroom_Issuer1', data.credential_issuer_name),
-		S.replace('Above_18_example', data.credential_name),
-		S.replace('Identity', data.credential_name),
+				_fp.update('credential_configurations_supported', (v: unknown[]) => v.slice(undefined, 1)),
+				// Keeps only the first example
 
-		JSON.parse,
+				_fp.set(
+					'credential_configurations_supported[0].credential_definition.credentialSubject',
+					mergeObjectSchemasIntoCredentialSubject(data.templates, locale)
+				),
 
-		_fp.update('credential_configurations_supported', (v: unknown[]) => v.slice(undefined, 1)),
-		// Keeps only the first example
-
-		_fp.set(
-			'credential_configurations_supported[0].credential_definition.credentialSubject',
-			credentialSubject
-		),
-
-		(json) => JSON.stringify(json, null, 4)
+				(json) => JSON.stringify(json, null, 4)
+			)
 	);
-
-	editZipEntry(zip, wellKnownEntry, wellKnownContent);
 }
 
 function updateCredentialKeysJson(zip: AdmZip, data: RequestBody, locale = DEFAULT_LOCALE) {
-	const CREDENTIAL_KEYS_PATH = 'credential_issuer/credential.keys.json';
+	updateZipFileContent(
+		zip,
+		'credential_issuer/credential.keys.json',
 
-	const credentialKeys = getZipEntry(zip, CREDENTIAL_KEYS_PATH);
-	if (!credentialKeys) throw new Error('Credential Issuer .well-known not found');
+		(content) =>
+			pipe(
+				content,
 
-	const credentialSubject = mergeObjectSchemasIntoCredentialSubject(data.templates, locale);
+				S.replaceAll('http://issuer.example.org', data.credential_issuer_url),
 
-	const wellKnownContent = pipe(
-		credentialKeys.getData().toString(),
+				JSON.parse,
 
-		S.replaceAll('http://issuer.example.org', data.credential_issuer_url),
+				_fp.set(
+					'supported_selective_disclosure.credentials_supported[0].credentialSubject',
+					mergeObjectSchemasIntoCredentialSubject(data.templates, locale)
+				),
 
-		JSON.parse,
+				_fp.set(
+					'supported_selective_disclosure.credentials_supported[0].display[0].name',
+					data.credential_name
+				),
 
-		_fp.set(
-			'supported_selective_disclosure.credentials_supported[0].credentialSubject',
-			credentialSubject
-		),
+				_fp.set(
+					'supported_selective_disclosure.credentials_supported[0].display[0].locale',
+					locale
+				),
 
-		_fp.set(
-			'supported_selective_disclosure.credentials_supported[0].display[0].name',
-			data.credential_name
-		),
+				_fp.set('id', nanoid()),
 
-		_fp.set('supported_selective_disclosure.credentials_supported[0].display[0].locale', locale),
-
-		_fp.set('id', nanoid()),
-
-		(json) => JSON.stringify(json, null, 4)
+				(json) => JSON.stringify(json, null, 4)
+			)
 	);
-
-	editZipEntry(zip, credentialKeys, wellKnownContent);
 }

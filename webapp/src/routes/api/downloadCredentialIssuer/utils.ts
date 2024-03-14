@@ -17,6 +17,17 @@ export function editZipEntry(zip: AdmZip, entry: AdmZip.IZipEntry, content: stri
 	zip.updateFile(entry, Buffer.from(content));
 }
 
+export function updateZipFileContent(
+	zip: AdmZip,
+	pathFragment: string,
+	updater: (content: string) => string
+) {
+	const zipEntry = getZipEntry(zip, pathFragment);
+	if (!zipEntry) throw new Error(`Zip: Not found: ${pathFragment}`);
+	const newContent = updater(zipEntry.getData().toString());
+	editZipEntry(zip, zipEntry, newContent);
+}
+
 //
 
 export function mergeObjectSchemas(schemas: ObjectSchema[]): ObjectSchema {
