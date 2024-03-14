@@ -7,7 +7,7 @@
 	import { Collections, type TemplatesResponse } from '$lib/pocketbase/types';
 	import { createFieldComponent } from '$lib/recordForm/fieldSchemaToInput.svelte';
 	import { createTypeProp } from '$lib/utils/typeProp';
-	import { Heading, TableBodyCell as Td } from 'flowbite-svelte';
+	import { Heading } from 'flowbite-svelte';
 	import JSONSchemaInput from '../services/_partials/JSONSchemaInput.svelte';
 	import Textarea from '$lib/forms/fields/textarea.svelte';
 	import { m } from '$lib/i18n';

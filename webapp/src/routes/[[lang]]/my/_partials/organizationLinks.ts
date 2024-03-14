@@ -20,7 +20,7 @@ export const createOrganizationLinks = (
 		},
 		{
 			label: m.Credential_templates(),
-			href: base('/templates')
+			href: base('/credential-templates')
 		},
 		{
 			label: m.Microservices(),
