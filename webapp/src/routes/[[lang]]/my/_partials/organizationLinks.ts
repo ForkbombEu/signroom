@@ -16,15 +16,15 @@ export const createOrganizationLinks = (
 		},
 		{
 			label: m.Credential_issuances(),
-			href: base('/services')
+			href: base('/credential-issuances')
 		},
 		{
 			label: m.Credential_templates(),
-			href: base('/templates')
+			href: base('/credential-templates')
 		},
 		{
 			label: m.Microservices(),
-			href: base('/issuers')
+			href: base('/microservices')
 		}
 	];
 
@@ -36,7 +36,7 @@ export const createOrganizationLinks = (
 
 		subLinks.push({
 			label: m.Membership_requests(),
-			href: base('/requests')
+			href: base('/membership-requests')
 		});
 	}
 
