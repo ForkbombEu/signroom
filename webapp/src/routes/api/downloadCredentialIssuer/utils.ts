@@ -1,6 +1,11 @@
 import type { ObjectSchema } from '$lib/jsonSchema/types';
 import type AdmZip from 'adm-zip';
 import { nanoid } from 'nanoid';
+import _ from 'lodash';
+
+//
+
+export const DEFAULT_LOCALE = 'en-US';
 
 //
 
@@ -26,11 +31,19 @@ export function mergeObjectSchemas(schemas: ObjectSchema[]): ObjectSchema {
 	return mergedSchema;
 }
 
+export function mergeObjectSchemasIntoCredentialSubject(
+	schemas: ObjectSchema[],
+	locale = DEFAULT_LOCALE
+): CredentialSubject {
+	const subjects = schemas.map((s) => objectSchemaToCredentialSubject(s, locale));
+	return _.merge(subjects[0], ...subjects.slice(1));
+}
+
 //
 
 export function objectSchemaToCredentialSubject(
 	schema: ObjectSchema,
-	locale: string = 'en-US'
+	locale = DEFAULT_LOCALE
 ): CredentialSubject {
 	let credentialSubject: CredentialSubject = {};
 
