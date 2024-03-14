@@ -9,7 +9,7 @@
 	let { organization, services, requests } = data;
 	const { OWNER, ADMIN } = OrgRoles;
 
-	$: servicesInView = services.slice(0, 4);
+	$: issuancesInView = services.slice(0, 4);
 </script>
 
 <Heading tag="h3">{organization.name}</Heading>
@@ -18,31 +18,34 @@
 
 <div class="flex justify-between">
 	<div class="flex space-x-8">
-		<VanityMetric number={services.length} text={m.active_services()} />
+		<VanityMetric number={services.length} text={m.active_credential_issuances()} />
 
-		<div>
-			<P>Latest services</P>
-			{#if servicesInView.length}
-				<List>
-					{#each servicesInView as s}
-						<Li>
-							<A href={`${$page.url.pathname}/services/${s.id}`}>{s.name}</A>
-						</Li>
-					{/each}
-				</List>
-			{/if}
-		</div>
+		{#if issuancesInView.length}
+			<div>
+				<P>{m.Latest_credential_issuances()}</P>
+				{#if issuancesInView.length}
+					<List>
+						{#each issuancesInView as issuance}
+							<Li>
+								<A href={`${$page.url.pathname}/services/${issuance.id}`}>{issuance.name}</A>
+							</Li>
+						{/each}
+					</List>
+				{/if}
+			</div>
+		{/if}
 	</div>
 
 	<div>
-		<A href={`${$page.url.pathname}/services`}>→ {m.View_all_services()}</A>
+		<A href={`${$page.url.pathname}/services`}>→ {m.View_all_credential_issuances()}</A>
 	</div>
 </div>
+
 <ProtectedOrgUI orgId={organization.id} roles={[ADMIN, OWNER]}>
 	<Hr />
-	
+
 	<div class="flex justify-between items-start">
-		<VanityMetric number={requests.length} text={m.Join_requests()} />
-		<A href={`${$page.url.pathname}/requests`}>→ {m.Manage_join_requests()}</A>
+		<VanityMetric number={requests.length} text={m.Membership_requests()} />
+		<A href={`${$page.url.pathname}/requests`}>→ {m.Manage_membership_requests()}</A>
 	</div>
 </ProtectedOrgUI>

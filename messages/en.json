@@ -193,16 +193,5 @@
 	"active_services": "active services",
 	"Credential_issuance": "Credential issuance",
 	"Credential_issuance_QR": "Credential issuance QR",
-	"Templates": "Templates",
-	"Microservices": "Microservices",
-	"Credential_issuances": "Credential issuances",
-	"Organization_settings": "Organization settings",
-	"Membership_requests": "Membership requests",
-	"Credential_templates": "Credential templates",
-	"active_credential_issuances": "active credential issuances",
-	"Latest_credential_issuances": "Latest credential issuances",
-	"View_all_credential_issuances": "View all credential issuances",
-	"Manage_membership_requests": "Manage membership requests",
-	"Create_a_new_credential_issuance": "Create a new credential issuance",
-	"No_credential_issuances": "No credential issuances"
+	"Templates": "Templates"
 }
