@@ -6,6 +6,7 @@ import _ from 'lodash';
 import type { ObjectSchema } from '$lib/jsonSchema/types';
 import { nanoid } from 'nanoid';
 import { requestBodySchema } from '.';
+import { editZipEntry, getZipEntry, mergeObjectSchemas } from './utils';
 
 //
 
@@ -103,23 +104,3 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 		});
 	}
 };
-
-function getZipEntry(zip: AdmZip, entryPathFragment: string) {
-	return zip.getEntries().find((entry) => entry.entryName.includes(entryPathFragment));
-}
-
-function editZipEntry(zip: AdmZip, entry: AdmZip.IZipEntry, content: string) {
-	zip.updateFile(entry, Buffer.from(content));
-}
-
-function mergeObjectSchemas(schemas: ObjectSchema[]): ObjectSchema {
-	if (schemas.length === 1) return schemas[0];
-
-	const mergedSchema: ObjectSchema = { type: 'object', properties: {}, required: [] };
-	for (const schema of schemas) {
-		const id = nanoid(5);
-		mergedSchema.properties[id] = schema;
-		mergedSchema.required?.push(id);
-	}
-	return mergedSchema;
-}
