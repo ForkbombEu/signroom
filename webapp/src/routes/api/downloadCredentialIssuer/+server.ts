@@ -27,14 +27,6 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 	try {
 		const body = requestBodySchema.parse(await request.json());
 
-		const {
-			credential_issuer_url,
-			credential_issuer_name,
-			credential_name,
-			authorization_server,
-			templates
-		} = body;
-
 		/* Zip reading */
 
 		const zipResponse = await fetch(DIDROOM_MICROSERVICES_URL);
@@ -45,16 +37,7 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 
 		updateCredentialIssuerWellKnown(zip, body, DEFAULT_LOCALE);
 		updateCredentialKeysJson(zip, body, DEFAULT_LOCALE);
-
-		/* create.schema.json */
-
-		const CREATE_SCHEMA_JSON_FILE_NAME = 'create.schema.json';
-		const createSchemaJsonEntry = getZipEntry(zip, CREATE_SCHEMA_JSON_FILE_NAME);
-
-		if (createSchemaJsonEntry) {
-			const schema = mergeObjectSchemas(templates);
-			editZipEntry(zip, createSchemaJsonEntry, JSON.stringify(schema, null, 2));
-		}
+		updateCreateSchemaJson(zip, body.templates);
 
 		/* */
 
@@ -134,5 +117,14 @@ function updateCredentialKeysJson(zip: AdmZip, data: RequestBody, locale = DEFAU
 
 				(json) => JSON.stringify(json, null, 4)
 			)
+	);
+}
+
+function updateCreateSchemaJson(zip: AdmZip, templates: RequestBody['templates']) {
+	updateZipFileContent(
+		zip,
+		'credential_issuer/create.schema.json',
+
+		() => pipe(templates, mergeObjectSchemas, (data) => JSON.stringify(data, null, 4))
 	);
 }
