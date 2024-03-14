@@ -1,15 +1,17 @@
+import { String as S, pipe } from 'effect';
+import _ from 'lodash';
+import _fp from 'lodash/fp';
+
 import type { RequestHandler } from '@sveltejs/kit';
 import AdmZip from 'adm-zip';
-import * as credentialIssuer from '$lib/credentialIssuer';
 import * as credentialKeys from './credential.keys';
-import _ from 'lodash';
 import { requestBodySchema, type RequestBody } from '.';
 import {
 	editZipEntry,
 	getZipEntry,
 	mergeObjectSchemas,
-	objectSchemaToCredentialSubject,
-	type CredentialSubject
+	DEFAULT_LOCALE,
+	mergeObjectSchemasIntoCredentialSubject
 } from './utils';
 
 //
@@ -37,33 +39,9 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 		const buffer = Buffer.from(await zipResponse.arrayBuffer());
 		const zip = new AdmZip(buffer);
 
-		/* Credential subject */
+		/* Transforming files */
 
-		// TODO - Get locale from user
-		const credentialSubject: CredentialSubject = _.merge(
-			templates.map((t) => objectSchemaToCredentialSubject(t, 'en-US'))
-		);
-
-		/* Credential issuer metadata update */
-
-		const CREDENTIAL_ISSUER_METADATA_FILE_NAME = 'openid-credential-issuer';
-
-		const credentialIssuerMetadataEntry = getZipEntry(zip, CREDENTIAL_ISSUER_METADATA_FILE_NAME);
-		if (!credentialIssuerMetadataEntry) throw new Error('Credential Issuer .well-known not found');
-
-		const credentialIssuerMetadata = credentialIssuer.template({
-			credential_issuer_url,
-			credential_issuer_name,
-			credential_name,
-			authorization_server,
-			credentialSubject
-		});
-
-		editZipEntry(
-			zip,
-			credentialIssuerMetadataEntry,
-			JSON.stringify(credentialIssuerMetadata, null, 4)
-		);
+		updateCredentialIssuerWellKnown(zip, body, DEFAULT_LOCALE);
 
 		/* credential.keys.json */
 
@@ -75,7 +53,7 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 		const template = credentialKeys.template({
 			id: 'sadkjhaskjldh',
 			issuerUrl: credential_issuer_url,
-			credentialSubject
+			credentialSubject: mergeObjectSchemasIntoCredentialSubject(templates)
 		});
 
 		editZipEntry(zip, credentialKeysJsonEntry, JSON.stringify(template, null, 4));
@@ -105,3 +83,37 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 		});
 	}
 };
+
+function updateCredentialIssuerWellKnown(zip: AdmZip, data: RequestBody, locale = DEFAULT_LOCALE) {
+	const CREDENTIAL_ISSUER_WELL_KNOWN_PATH =
+		'public/credential_issuer/.well-known/openid-credential-issuer';
+
+	const wellKnownEntry = getZipEntry(zip, CREDENTIAL_ISSUER_WELL_KNOWN_PATH);
+	if (!wellKnownEntry) throw new Error('Credential Issuer .well-known not found');
+
+	const credentialSubject = mergeObjectSchemasIntoCredentialSubject(data.templates, locale);
+
+	const wellKnownContent = pipe(
+		wellKnownEntry.getData().toString(),
+
+		S.replaceAll('https://issuer1.zenswarm.forkbomb.eu', data.credential_issuer_url),
+		S.replace('https://authz-server1.zenswarm.forkbomb.eu', data.authorization_server),
+		S.replace('DIDroom_Issuer1', data.credential_issuer_name),
+		S.replace('Above_18_example', data.credential_name),
+		S.replace('Identity', data.credential_name),
+
+		JSON.parse,
+
+		_fp.update('credential_configurations_supported', (v: unknown[]) => v.slice(undefined, 1)),
+		// Keeps only the first example
+
+		_fp.set(
+			'credential_configurations_supported[0].credential_definition.credentialSubject',
+			credentialSubject
+		),
+
+		(json) => JSON.stringify(json, null, 4)
+	);
+
+	editZipEntry(zip, wellKnownEntry, wellKnownContent);
+}
