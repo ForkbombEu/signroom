@@ -51,9 +51,9 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 			credentialSubject
 		});
 
-		editZipFile(
+		editZipEntry(
 			zip,
-			CREDENTIAL_ISSUER_METADATA_FILE_NAME,
+			credentialIssuerMetadataEntry,
 			JSON.stringify(credentialIssuerMetadata, null, 4)
 		);
 
@@ -75,7 +75,7 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 				credentialSubject
 			});
 
-			editZipFile(zip, CREDENTIAL_KEYS_FILE_NAME, JSON.stringify(template, null, 4));
+			editZipEntry(zip, credentialKeysJsonEntry, JSON.stringify(template, null, 4));
 		}
 
 		/* create.schema.json */
@@ -85,7 +85,7 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 
 		if (createSchemaJsonEntry) {
 			const schema = mergeObjectSchemas(templates);
-			editZipFile(zip, CREATE_SCHEMA_JSON_FILE_NAME, JSON.stringify(schema, null, 2));
+			editZipEntry(zip, createSchemaJsonEntry, JSON.stringify(schema, null, 2));
 		}
 
 		/* */
@@ -108,9 +108,7 @@ function getZipEntry(zip: AdmZip, entryPathFragment: string) {
 	return zip.getEntries().find((entry) => entry.entryName.includes(entryPathFragment));
 }
 
-function editZipFile(zip: AdmZip, entryName: string, content: string) {
-	const entry = zip.getEntries().find((entry) => entry.name === entryName);
-	if (!entry) return;
+function editZipEntry(zip: AdmZip, entry: AdmZip.IZipEntry, content: string) {
 	zip.updateFile(entry, Buffer.from(content));
 }
 
