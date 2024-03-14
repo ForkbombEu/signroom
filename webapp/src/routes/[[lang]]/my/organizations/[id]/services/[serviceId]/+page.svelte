@@ -57,7 +57,7 @@
 
 <div class="space-y-8">
 	<div>
-		<P>Credential issuance</P>
+		<P>{m.Credential_issuance()}</P>
 		<Heading tag="h2">{service.name}</Heading>
 	</div>
 
@@ -80,7 +80,7 @@
 
 	<Hr />
 
-	<Heading tag="h4">Credential issuance QR</Heading>
+	<Heading tag="h4">{m.Credential_issuance_QR()}</Heading>
 
 	<div>
 		{#await generateCredentialIssuanceQr()}

@@ -99,10 +99,12 @@
 					const userRole = a.expand.role.name;
 					const isOwner = userRole == OrgRoles.OWNER;
 					const isAdmin = userRole == OrgRoles.ADMIN;
-					return createOrganizationLinks(a.expand.organization, isAdmin || isOwner);
+					return createOrganizationLinks(a.expand.organization, m, isAdmin || isOwner);
 				})}
 				<Hr />
-				<p class="text-gray-500 text-xs font-medium tracking-wide p-4 uppercase">{m.organizations()}</p>
+				<p class="text-gray-500 text-xs font-medium tracking-wide p-4 uppercase">
+					{m.organizations()}
+				</p>
 				<div class="p-3 pt-0">
 					<SidebarLinks {links} />
 				</div>

@@ -1,34 +1,43 @@
 import type { SidebarLink } from '$lib/layout';
 import type { OrganizationsResponse } from '$lib/pocketbase/types';
+import type { m as messages } from '$lib/i18n';
 
 export const createOrganizationLinks = (
 	org: OrganizationsResponse,
+	m: typeof messages,
 	isAdminOrOwner = false
 ): SidebarLink[] => {
 	const base = (path = '') => `/my/organizations/${org.id}${path}`;
 
 	const subLinks: SidebarLink[] = [
 		{
-			label: 'Home',
+			label: m.Home(),
 			href: base()
 		},
 		{
-			label: 'Services',
+			label: m.Credential_issuances(),
 			href: base('/services')
 		},
 		{
-			label: 'Templates',
+			label: m.Credential_templates(),
 			href: base('/templates')
 		},
 		{
-			label: 'Servers',
+			label: m.Microservices(),
 			href: base('/issuers')
 		}
 	];
 
 	if (isAdminOrOwner) {
-		subLinks.push({ label: 'Settings', href: base('/settings') });
-		subLinks.push({ label: 'Requests', href: base('/requests') });
+		subLinks.push({
+			label: m.Organization_settings(),
+			href: base('/settings')
+		});
+
+		subLinks.push({
+			label: m.Membership_requests(),
+			href: base('/requests')
+		});
 	}
 
 	return [
