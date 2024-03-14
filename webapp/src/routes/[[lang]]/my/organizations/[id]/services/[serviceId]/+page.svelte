@@ -8,6 +8,8 @@
 	import { ArrowDownTray } from 'svelte-heros-v2';
 	import { generateQr } from '$lib/qrcode';
 	import { m } from '$lib/i18n';
+	import type { ObjectSchema } from '$lib/jsonSchema/types';
+
 
 	//
 
@@ -24,7 +26,11 @@
 		const response = await request({
 			credential_name: service.name,
 			credential_issuer_name: organization.name,
-			templates: service.expand?.templates.map((t) => t.schema) ?? [],
+			// TODO - Improve type safety for all these values
+			// - [expand] is by pb default [optional], but we are 100% sure it exists
+			// - [t.schema] is by pb default [unknown], but we should be 100% sure that is a json object schema
+			// I think this should be addressed in the load function
+			templates: service.expand?.templates.map((t) => t.schema as ObjectSchema) ?? [],
 			authorization_server: service.expand?.authorization_server.endpoint!,
 			credential_issuer_url: service.expand?.issuer.endpoint!
 		});

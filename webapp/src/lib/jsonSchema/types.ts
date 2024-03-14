@@ -16,6 +16,7 @@ export type JSONType = (typeof _jsonTypes)[number];
 export interface BaseSchema<T extends JSONType> {
 	type: T;
 	description?: string;
+	title?: string;
 	enum?: unknown[];
 }
 

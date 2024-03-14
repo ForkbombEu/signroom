@@ -38,6 +38,9 @@ dependencies:
   dayjs:
     specifier: ^1.11.9
     version: 1.11.9
+  effect:
+    specifier: ^2.4.6
+    version: 2.4.6
   execa:
     specifier: ^8.0.1
     version: 8.0.1
@@ -2231,8 +2234,8 @@ packages:
       safe-buffer: 5.2.1
     dev: true
 
-  /effect@2.3.8:
-    resolution: {integrity: sha512-jLPRJp1f85HwIu2eP1BFJGF2La0wS8xfqYNSJsTKDlCemyDSGMbtHvtEGKJCB0TQg+CK+DxJAvWOHloTGqMa9w==}
+  /effect@2.4.6:
+    resolution: {integrity: sha512-gaZC+aopWvS67SX8RFT3mirabjpVBk5qshj/Z3IKW35DjzpQ8WhAE7VWwfBBWWMBuQ/B0RsbzKR8YGN2AivIgQ==}
     dev: false
 
   /electron-to-chromium@1.4.551:
@@ -4750,7 +4753,7 @@ packages:
       '@sinclair/typebox': 0.32.14
       ajv: 8.12.0
       ajv-formats: 2.1.1(ajv@8.12.0)
-      effect: 2.3.8
+      effect: 2.4.6
       nanoid: 5.0.2
       svelte: 4.2.0
       svelte-heros-v2: 0.10.12(svelte@4.2.0)
