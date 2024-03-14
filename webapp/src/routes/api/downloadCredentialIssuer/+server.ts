@@ -13,6 +13,7 @@ import {
 	DEFAULT_LOCALE,
 	mergeObjectSchemasIntoCredentialSubject
 } from './utils';
+import { nanoid } from 'nanoid';
 
 //
 
@@ -42,21 +43,7 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 		/* Transforming files */
 
 		updateCredentialIssuerWellKnown(zip, body, DEFAULT_LOCALE);
-
-		/* credential.keys.json */
-
-		const CREDENTIAL_KEYS_FILE_NAME = 'credential.keys.json';
-
-		const credentialKeysJsonEntry = getZipEntry(zip, CREDENTIAL_KEYS_FILE_NAME);
-		if (!credentialKeysJsonEntry) throw new Error(`${CREDENTIAL_KEYS_FILE_NAME} not found`);
-
-		const template = credentialKeys.template({
-			id: 'sadkjhaskjldh',
-			issuerUrl: credential_issuer_url,
-			credentialSubject: mergeObjectSchemasIntoCredentialSubject(templates)
-		});
-
-		editZipEntry(zip, credentialKeysJsonEntry, JSON.stringify(template, null, 4));
+		updateCredentialKeysJson(zip, body, DEFAULT_LOCALE);
 
 		/* create.schema.json */
 
@@ -116,4 +103,39 @@ function updateCredentialIssuerWellKnown(zip: AdmZip, data: RequestBody, locale 
 	);
 
 	editZipEntry(zip, wellKnownEntry, wellKnownContent);
+}
+
+function updateCredentialKeysJson(zip: AdmZip, data: RequestBody, locale = DEFAULT_LOCALE) {
+	const CREDENTIAL_KEYS_PATH = 'credential_issuer/credential.keys.json';
+
+	const credentialKeys = getZipEntry(zip, CREDENTIAL_KEYS_PATH);
+	if (!credentialKeys) throw new Error('Credential Issuer .well-known not found');
+
+	const credentialSubject = mergeObjectSchemasIntoCredentialSubject(data.templates, locale);
+
+	const wellKnownContent = pipe(
+		credentialKeys.getData().toString(),
+
+		S.replaceAll('http://issuer.example.org', data.credential_issuer_url),
+
+		JSON.parse,
+
+		_fp.set(
+			'supported_selective_disclosure.credentials_supported[0].credentialSubject',
+			credentialSubject
+		),
+
+		_fp.set(
+			'supported_selective_disclosure.credentials_supported[0].display[0].name',
+			data.credential_name
+		),
+
+		_fp.set('supported_selective_disclosure.credentials_supported[0].display[0].locale', locale),
+
+		_fp.set('id', nanoid()),
+
+		(json) => JSON.stringify(json, null, 4)
+	);
+
+	editZipEntry(zip, credentialKeys, wellKnownContent);
 }
