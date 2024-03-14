@@ -24,7 +24,7 @@ export const createOrganizationLinks = (
 		},
 		{
 			label: m.Microservices(),
-			href: base('/issuers')
+			href: base('/microservices')
 		}
 	];
 
