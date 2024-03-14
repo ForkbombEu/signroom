@@ -4,11 +4,10 @@
 	import CopyImageButton from '$lib/components/copyImageButton.svelte';
 
 	import ServiceForm from '../_partials/serviceForm.svelte';
-	import { Button, Heading, Hr, Spinner } from 'flowbite-svelte';
+	import { Button, Heading, Hr, P, Spinner } from 'flowbite-svelte';
 	import { ArrowDownTray } from 'svelte-heros-v2';
 	import { generateQr } from '$lib/qrcode';
 	import { m } from '$lib/i18n';
-
 
 	//
 
@@ -37,12 +36,34 @@
 
 		loading = false;
 	}
-	const qr = async () => await generateQr(service);
+
+	//
+
+	async function generateCredentialIssuanceQr() {
+		const { result } = await generateQr(
+			JSON.stringify({
+				id: service.id,
+				authorization_server: service.expand?.authorization_server.endpoint,
+				issuer: service.expand?.issuer.endpoint,
+				relying_party: service.expand?.relying_party.endpoint
+			})
+		);
+		return result.qrcode as string;
+	}
 </script>
 
 <div class="space-y-8">
-	<div class="flex justify-end">
-		<Button color="alternative" on:click={downloadCredentialIssuer}>
+	<div>
+		<P>Credential issuance</P>
+		<Heading tag="h2">{service.name}</Heading>
+	</div>
+
+	<Hr />
+
+	<div class="flex justify-between items-center">
+		<Heading tag="h4">Credential issuance server</Heading>
+
+		<Button color="alternative" on:click={downloadCredentialIssuer} class="shrink-0">
 			{#if loading}
 				<div class="mr-2">
 					<Spinner size="6"></Spinner>
@@ -56,28 +77,23 @@
 
 	<Hr />
 
-	<Heading tag="h4">{m.Edit_service()}</Heading>
-	<ServiceForm organizationId={data.organization.id} initialData={data.service} mode="edit" />
+	<Heading tag="h4">Credential issuance QR</Heading>
 
-	<Hr />
-
-	{#await qr()}
-		<Hr />
-	{:then qr}
-		{@const qrimg = qr.result.qrcode}
-		<div class="flex justify-between">
-			<Heading tag="h4">{m.Service_Qr_Code()}</Heading>
-			<CopyImageButton imageSrc={qrimg} />
-		</div>
-			<img src={qrimg} alt={m.Service_Qr_Code()} />
-	{:catch error}
-		<p class="text-red-500">{JSON.stringify(error)}</p>
-	{/await}
-
-	<Hr />
-
-	<Heading tag="h4">{m.Service_preview()}</Heading>
-	<div class="max-h-96 overflow-scroll border rounded-lg p-4">
-		<pre>{JSON.stringify(data.service, null, 2)}</pre>
+	<div>
+		{#await generateCredentialIssuanceQr()}
+			<Spinner />
+		{:then qrimg}
+			<div class="flex gap-4 items-start">
+				<img src={qrimg} alt={m.Service_Qr_Code()} class="border rounded-lg" />
+				<CopyImageButton imageSrc={qrimg}>Copy QR code</CopyImageButton>
+			</div>
+		{:catch error}
+			<p class="text-red-500">{JSON.stringify(error)}</p>
+		{/await}
 	</div>
+
+	<Hr />
+
+	<Heading tag="h4">{m.Edit_service()}</Heading>
+	<ServiceForm organizationId={data.organization.id} initialData={data.service} />
 </div>

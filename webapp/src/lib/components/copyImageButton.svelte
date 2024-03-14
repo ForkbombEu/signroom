@@ -13,7 +13,6 @@
 
 		const responsePromise = await fetch(img.src);
 		const blob = await responsePromise.blob();
-		console.log(blob, responsePromise)
 		try {
 			await navigator.clipboard.write([
 				new ClipboardItem({
