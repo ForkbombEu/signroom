@@ -3,17 +3,17 @@ import type AdmZip from 'adm-zip';
 import { nanoid } from 'nanoid';
 import _ from 'lodash';
 
-//
+/* Locales */
 
 export const DEFAULT_LOCALE = 'en-US';
 
-//
+/* Zip handling */
 
-export function getZipEntry(zip: AdmZip, entryPathFragment: string) {
+function getZipEntry(zip: AdmZip, entryPathFragment: string) {
 	return zip.getEntries().find((entry) => entry.entryName.includes(entryPathFragment));
 }
 
-export function editZipEntry(zip: AdmZip, entry: AdmZip.IZipEntry, content: string) {
+function editZipEntry(zip: AdmZip, entry: AdmZip.IZipEntry, content: string) {
 	zip.updateFile(entry, Buffer.from(content));
 }
 
@@ -28,7 +28,7 @@ export function updateZipFileContent(
 	editZipEntry(zip, zipEntry, newContent);
 }
 
-//
+/* Object schemas handling */
 
 export function mergeObjectSchemas(schemas: ObjectSchema[]): ObjectSchema {
 	if (schemas.length === 1) return schemas[0];
@@ -50,7 +50,7 @@ export function mergeObjectSchemasIntoCredentialSubject(
 	return _.merge(subjects[0], ...subjects.slice(1));
 }
 
-//
+/* JSON Schema to CredentialSubject conversion */
 
 export function objectSchemaToCredentialSubject(
 	schema: ObjectSchema,
