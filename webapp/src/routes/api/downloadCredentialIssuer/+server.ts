@@ -20,7 +20,7 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 		const zip = await fetchZipFile(fetch);
 
 		updateCredentialIssuerWellKnown(zip, body, DEFAULT_LOCALE);
-		updateCredentialKeysJson(zip, body, DEFAULT_LOCALE);
+		updateCredentialKeysJson(zip, body, nanoid(), DEFAULT_LOCALE);
 		updateCreateSchemaJson(zip, body.templates);
 
 		return zipResponse(zip);
@@ -99,7 +99,12 @@ function updateCredentialIssuerWellKnown(zip: AdmZip, data: RequestBody, locale 
 	);
 }
 
-function updateCredentialKeysJson(zip: AdmZip, data: RequestBody, locale = DEFAULT_LOCALE) {
+function updateCredentialKeysJson(
+	zip: AdmZip,
+	data: RequestBody,
+	id: string,
+	locale = DEFAULT_LOCALE
+) {
 	updateZipFileContent(
 		zip,
 		'credential_issuer/credential.keys.json',
@@ -119,7 +124,7 @@ function updateCredentialKeysJson(zip: AdmZip, data: RequestBody, locale = DEFAU
 					data.credential_name
 				),
 				_.set('supported_selective_disclosure.credentials_supported[0].display[0].locale', locale),
-				_.set('id', nanoid()),
+				_.set('id', id),
 
 				(json) => JSON.stringify(json, null, 4)
 			)
