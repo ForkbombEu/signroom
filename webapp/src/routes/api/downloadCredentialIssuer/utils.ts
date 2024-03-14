@@ -66,7 +66,7 @@ export function objectSchemaToCredentialSubject(
 		}
 		//
 		else if (property.type === 'object') {
-			credentialSubject[propertyName] = objectSchemaToCredentialSubject(property);
+			credentialSubject[propertyName] = objectSchemaToCredentialSubject(property, locale);
 		}
 		//
 		else {
