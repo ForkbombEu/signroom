@@ -35,32 +35,34 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 		/* Credential issuer metadata update */
 
 		const CREDENTIAL_ISSUER_METADATA_FILE_NAME = 'openid-credential-issuer';
+
 		const credentialIssuerMetadataEntry = getFile(zip, CREDENTIAL_ISSUER_METADATA_FILE_NAME);
+		if (!credentialIssuerMetadataEntry) throw new Error('Credential Issuer .well-known not found');
 
-		if (credentialIssuerMetadataEntry) {
-			const credentialSubject = _.merge(
-				templates.map((t) => credentialIssuer.objectSchemaToCredentialSubject(t))
-			);
+		const credentialSubject = _.merge(
+			templates.map((t) => credentialIssuer.objectSchemaToCredentialSubject(t))
+		);
 
-			const credentialIssuerMetadata = credentialIssuer.template({
-				credential_issuer_url,
-				credential_issuer_name,
-				credential_name,
-				authorization_server,
-				credentialSubject
-			});
+		const credentialIssuerMetadata = credentialIssuer.template({
+			credential_issuer_url,
+			credential_issuer_name,
+			credential_name,
+			authorization_server,
+			credentialSubject
+		});
 
-			editFile(
-				zip,
-				CREDENTIAL_ISSUER_METADATA_FILE_NAME,
-				JSON.stringify(credentialIssuerMetadata, null, 4)
-			);
-		}
+		editFile(
+			zip,
+			CREDENTIAL_ISSUER_METADATA_FILE_NAME,
+			JSON.stringify(credentialIssuerMetadata, null, 4)
+		);
 
 		/* credential.keys.json */
 
 		const CREDENTIAL_KEYS_FILE_NAME = 'credential.keys.json';
+
 		const credentialKeysJsonEntry = getFile(zip, CREDENTIAL_KEYS_FILE_NAME);
+		if (!credentialKeysJsonEntry) throw new Error(`${CREDENTIAL_KEYS_FILE_NAME} not found`);
 
 		if (credentialKeysJsonEntry) {
 			const credentialSubject = _.merge(
