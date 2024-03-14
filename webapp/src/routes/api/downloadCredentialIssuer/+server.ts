@@ -1,11 +1,11 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import AdmZip from 'adm-zip';
-import type { RequestBody } from '.';
 import * as credentialIssuer from '$lib/credentialIssuer';
 import * as credentialKeys from './credential.keys';
 import _ from 'lodash';
 import type { ObjectSchema } from '$lib/jsonSchema/types';
 import { nanoid } from 'nanoid';
+import { requestBodySchema } from '.';
 
 //
 
@@ -16,7 +16,8 @@ const DIDROOM_MICROSERVICES_URL =
 
 export const POST: RequestHandler = async ({ fetch, request }) => {
 	try {
-		const body = (await request.json()) as RequestBody;
+		const body = requestBodySchema.parse(await request.json());
+
 		const {
 			credential_issuer_url,
 			credential_issuer_name,
@@ -38,9 +39,7 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 
 		if (credentialIssuerMetadataEntry) {
 			const credentialSubject = _.merge(
-				templates
-					.map((t) => JSON.parse(t))
-					.map((t) => credentialIssuer.objectSchemaToCredentialSubject(t))
+				templates.map((t) => credentialIssuer.objectSchemaToCredentialSubject(t))
 			);
 
 			const credentialIssuerMetadata = credentialIssuer.template({
@@ -65,9 +64,7 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 
 		if (credentialKeysJsonEntry) {
 			const credentialSubject = _.merge(
-				templates
-					.map((t) => JSON.parse(t))
-					.map((t) => credentialKeys.objectSchemaToCredentialSubject(t))
+				templates.map((t) => credentialKeys.objectSchemaToCredentialSubject(t))
 			);
 
 			const template = credentialKeys.template({
@@ -85,7 +82,7 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 		const createSchemaJsonEntry = getFile(zip, CREATE_SCHEMA_JSON_FILE_NAME);
 
 		if (createSchemaJsonEntry) {
-			const schema = mergeObjectSchemas(templates.map((t) => JSON.parse(t)));
+			const schema = mergeObjectSchemas(templates);
 			editFile(zip, CREATE_SCHEMA_JSON_FILE_NAME, JSON.stringify(schema, null, 2));
 		}
 
