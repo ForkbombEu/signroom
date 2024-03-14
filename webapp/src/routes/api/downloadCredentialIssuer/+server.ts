@@ -1,14 +1,10 @@
 import { String as S, pipe } from 'effect';
-import _ from 'lodash';
-import _fp from 'lodash/fp';
+import _ from 'lodash/fp';
 
 import type { RequestHandler } from '@sveltejs/kit';
 import AdmZip from 'adm-zip';
-import * as credentialKeys from './credential.keys';
 import { requestBodySchema, type RequestBody } from '.';
 import {
-	editZipEntry,
-	getZipEntry,
 	mergeObjectSchemas,
 	DEFAULT_LOCALE,
 	mergeObjectSchemasIntoCredentialSubject,
@@ -18,42 +14,52 @@ import { nanoid } from 'nanoid';
 
 //
 
-const DIDROOM_MICROSERVICES_URL =
-	'https://github.com/ForkbombEu/DIDroom_microservices/archive/refs/heads/main.zip';
-
-//
-
 export const POST: RequestHandler = async ({ fetch, request }) => {
 	try {
-		const body = requestBodySchema.parse(await request.json());
-
-		/* Zip reading */
-
-		const zipResponse = await fetch(DIDROOM_MICROSERVICES_URL);
-		const buffer = Buffer.from(await zipResponse.arrayBuffer());
-		const zip = new AdmZip(buffer);
-
-		/* Transforming files */
+		const body = await parseRequestBody(request);
+		const zip = await fetchZipFile(fetch);
 
 		updateCredentialIssuerWellKnown(zip, body, DEFAULT_LOCALE);
 		updateCredentialKeysJson(zip, body, DEFAULT_LOCALE);
 		updateCreateSchemaJson(zip, body.templates);
 
-		/* */
-
-		return new Response(zip.toBuffer(), {
-			status: 200,
-			headers: {
-				'Content-Type': 'application/octet-stream'
-			}
-		});
+		return zipResponse(zip);
 	} catch (e) {
 		console.log(e);
-		return new Response((e as Error)?.message ?? 'Internal Server Error', {
-			status: 500
-		});
+		return errorResponse(e);
 	}
 };
+
+//
+
+async function parseRequestBody(request: Request): Promise<RequestBody> {
+	return requestBodySchema.parse(await request.json());
+}
+
+async function fetchZipFile(fetchFn = fetch): Promise<AdmZip> {
+	const DIDROOM_MICROSERVICES_URL =
+		'https://github.com/ForkbombEu/DIDroom_microservices/archive/refs/heads/main.zip';
+	const zipResponse = await fetchFn(DIDROOM_MICROSERVICES_URL);
+	const buffer = Buffer.from(await zipResponse.arrayBuffer());
+	return new AdmZip(buffer);
+}
+
+function zipResponse(zip: AdmZip): Response {
+	return new Response(zip.toBuffer(), {
+		status: 200,
+		headers: {
+			'Content-Type': 'application/octet-stream'
+		}
+	});
+}
+
+function errorResponse(e: unknown) {
+	return new Response(e instanceof Error ? e.message : 'Internal Server Error', {
+		status: 500
+	});
+}
+
+//
 
 function updateCredentialIssuerWellKnown(zip: AdmZip, data: RequestBody, locale = DEFAULT_LOCALE) {
 	updateZipFileContent(
@@ -63,7 +69,6 @@ function updateCredentialIssuerWellKnown(zip: AdmZip, data: RequestBody, locale 
 		(content) =>
 			pipe(
 				content,
-
 				S.replaceAll('https://issuer1.zenswarm.forkbomb.eu', data.credential_issuer_url),
 				S.replace('https://authz-server1.zenswarm.forkbomb.eu', data.authorization_server),
 				S.replace('DIDroom_Issuer1', data.credential_issuer_name),
@@ -71,11 +76,8 @@ function updateCredentialIssuerWellKnown(zip: AdmZip, data: RequestBody, locale 
 				S.replace('Identity', data.credential_name),
 
 				JSON.parse,
-
-				_fp.update('credential_configurations_supported', (v: unknown[]) => v.slice(undefined, 1)),
-				// Keeps only the first example
-
-				_fp.set(
+				_.update('credential_configurations_supported', (v: unknown[]) => v.slice(undefined, 1)), // Keeps only the first example
+				_.set(
 					'credential_configurations_supported[0].credential_definition.credentialSubject',
 					mergeObjectSchemasIntoCredentialSubject(data.templates, locale)
 				),
@@ -93,27 +95,19 @@ function updateCredentialKeysJson(zip: AdmZip, data: RequestBody, locale = DEFAU
 		(content) =>
 			pipe(
 				content,
-
 				S.replaceAll('http://issuer.example.org', data.credential_issuer_url),
 
 				JSON.parse,
-
-				_fp.set(
+				_.set(
 					'supported_selective_disclosure.credentials_supported[0].credentialSubject',
 					mergeObjectSchemasIntoCredentialSubject(data.templates, locale)
 				),
-
-				_fp.set(
+				_.set(
 					'supported_selective_disclosure.credentials_supported[0].display[0].name',
 					data.credential_name
 				),
-
-				_fp.set(
-					'supported_selective_disclosure.credentials_supported[0].display[0].locale',
-					locale
-				),
-
-				_fp.set('id', nanoid()),
+				_.set('supported_selective_disclosure.credentials_supported[0].display[0].locale', locale),
+				_.set('id', nanoid()),
 
 				(json) => JSON.stringify(json, null, 4)
 			)
