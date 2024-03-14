@@ -105,6 +105,8 @@ function updateCredentialKeysJson(
 	id: string,
 	locale = DEFAULT_LOCALE
 ) {
+	const credentialSubject = mergeObjectSchemasIntoCredentialSubject(data.templates, locale);
+
 	updateZipFileContent(
 		zip,
 		'credential_issuer/credential.keys.json',
@@ -117,13 +119,24 @@ function updateCredentialKeysJson(
 				JSON.parse,
 				_.set(
 					'supported_selective_disclosure.credentials_supported[0].credentialSubject',
-					mergeObjectSchemasIntoCredentialSubject(data.templates, locale)
+					credentialSubject
 				),
 				_.set(
 					'supported_selective_disclosure.credentials_supported[0].display[0].name',
 					data.credential_name
 				),
 				_.set('supported_selective_disclosure.credentials_supported[0].display[0].locale', locale),
+				_.set('supported_selective_disclosure.credentials_supported[0].id', id),
+				_.set(
+					'supported_selective_disclosure.credentials_supported[0].order',
+					Object.keys(credentialSubject)
+				),
+				_.set(
+					'supported_selective_disclosure.credentials_supported[0].types[1]',
+					data.credential_name
+				),
+				_.set('supported_selective_disclosure.scopes_supported[1]', data.credential_name),
+				_.set('object', {}),
 				_.set('id', id),
 
 				(json) => JSON.stringify(json, null, 4)
