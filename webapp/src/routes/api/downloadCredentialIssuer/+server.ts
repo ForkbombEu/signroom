@@ -39,8 +39,9 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 
 		/* Credential subject */
 
+		// TODO - Get locale from user
 		const credentialSubject: CredentialSubject = _.merge(
-			templates.map((t) => objectSchemaToCredentialSubject(t))
+			templates.map((t) => objectSchemaToCredentialSubject(t, 'en-US'))
 		);
 
 		/* Credential issuer metadata update */
