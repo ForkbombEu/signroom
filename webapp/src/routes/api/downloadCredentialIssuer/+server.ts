@@ -36,7 +36,7 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 
 		const CREDENTIAL_ISSUER_METADATA_FILE_NAME = 'openid-credential-issuer';
 
-		const credentialIssuerMetadataEntry = getZipFile(zip, CREDENTIAL_ISSUER_METADATA_FILE_NAME);
+		const credentialIssuerMetadataEntry = getZipEntry(zip, CREDENTIAL_ISSUER_METADATA_FILE_NAME);
 		if (!credentialIssuerMetadataEntry) throw new Error('Credential Issuer .well-known not found');
 
 		const credentialSubject = _.merge(
@@ -61,7 +61,7 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 
 		const CREDENTIAL_KEYS_FILE_NAME = 'credential.keys.json';
 
-		const credentialKeysJsonEntry = getZipFile(zip, CREDENTIAL_KEYS_FILE_NAME);
+		const credentialKeysJsonEntry = getZipEntry(zip, CREDENTIAL_KEYS_FILE_NAME);
 		if (!credentialKeysJsonEntry) throw new Error(`${CREDENTIAL_KEYS_FILE_NAME} not found`);
 
 		if (credentialKeysJsonEntry) {
@@ -81,7 +81,7 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 		/* create.schema.json */
 
 		const CREATE_SCHEMA_JSON_FILE_NAME = 'create.schema.json';
-		const createSchemaJsonEntry = getZipFile(zip, CREATE_SCHEMA_JSON_FILE_NAME);
+		const createSchemaJsonEntry = getZipEntry(zip, CREATE_SCHEMA_JSON_FILE_NAME);
 
 		if (createSchemaJsonEntry) {
 			const schema = mergeObjectSchemas(templates);
@@ -104,8 +104,8 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 	}
 };
 
-function getZipFile(zip: AdmZip, entryName: string) {
-	return zip.getEntries().find((entry) => entry.name === entryName);
+function getZipEntry(zip: AdmZip, entryPathFragment: string) {
+	return zip.getEntries().find((entry) => entry.entryName.includes(entryPathFragment));
 }
 
 function editZipFile(zip: AdmZip, entryName: string, content: string) {
