@@ -6,7 +6,12 @@ import _ from 'lodash';
 import type { ObjectSchema } from '$lib/jsonSchema/types';
 import { nanoid } from 'nanoid';
 import { requestBodySchema } from '.';
-import { editZipEntry, getZipEntry, mergeObjectSchemas } from './utils';
+import {
+	editZipEntry,
+	getZipEntry,
+	mergeObjectSchemas,
+	objectSchemaToCredentialSubject
+} from './utils';
 
 //
 
@@ -33,16 +38,17 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 		const buffer = Buffer.from(await zipResponse.arrayBuffer());
 		const zip = new AdmZip(buffer);
 
+		/* Credential subject */
+
+		// TODO - Fit locale somewhere
+		const credentialSubject = _.merge(templates.map((t) => objectSchemaToCredentialSubject(t)));
+
 		/* Credential issuer metadata update */
 
 		const CREDENTIAL_ISSUER_METADATA_FILE_NAME = 'openid-credential-issuer';
 
 		const credentialIssuerMetadataEntry = getZipEntry(zip, CREDENTIAL_ISSUER_METADATA_FILE_NAME);
 		if (!credentialIssuerMetadataEntry) throw new Error('Credential Issuer .well-known not found');
-
-		const credentialSubject = _.merge(
-			templates.map((t) => credentialIssuer.objectSchemaToCredentialSubject(t))
-		);
 
 		const credentialIssuerMetadata = credentialIssuer.template({
 			credential_issuer_url,
@@ -65,19 +71,13 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 		const credentialKeysJsonEntry = getZipEntry(zip, CREDENTIAL_KEYS_FILE_NAME);
 		if (!credentialKeysJsonEntry) throw new Error(`${CREDENTIAL_KEYS_FILE_NAME} not found`);
 
-		if (credentialKeysJsonEntry) {
-			const credentialSubject = _.merge(
-				templates.map((t) => credentialKeys.objectSchemaToCredentialSubject(t))
-			);
+		const template = credentialKeys.template({
+			id: 'sadkjhaskjldh',
+			issuerUrl: credential_issuer_url,
+			credentialSubject
+		});
 
-			const template = credentialKeys.template({
-				id: 'sadkjhaskjldh',
-				issuerUrl: credential_issuer_url,
-				credentialSubject
-			});
-
-			editZipEntry(zip, credentialKeysJsonEntry, JSON.stringify(template, null, 4));
-		}
+		editZipEntry(zip, credentialKeysJsonEntry, JSON.stringify(template, null, 4));
 
 		/* create.schema.json */
 

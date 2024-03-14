@@ -12,6 +12,8 @@ export function editZipEntry(zip: AdmZip, entry: AdmZip.IZipEntry, content: stri
 	zip.updateFile(entry, Buffer.from(content));
 }
 
+//
+
 export function mergeObjectSchemas(schemas: ObjectSchema[]): ObjectSchema {
 	if (schemas.length === 1) return schemas[0];
 
@@ -23,3 +25,43 @@ export function mergeObjectSchemas(schemas: ObjectSchema[]): ObjectSchema {
 	}
 	return mergedSchema;
 }
+
+//
+
+export function objectSchemaToCredentialSubject(
+	schema: ObjectSchema,
+	locale: string = 'en-US'
+): CredentialSubject {
+	let credentialSubject: CredentialSubject = {};
+
+	for (const [propertyName, property] of Object.entries(schema.properties)) {
+		if (property.type != 'object' && property.type != 'array') {
+			credentialSubject[propertyName] = {
+				mandatory: Boolean(schema.required?.includes(propertyName)),
+				display: [{ locale, name: propertyName }]
+			} satisfies CredentialSubjectProperty;
+		}
+		//
+		else if (property.type === 'object') {
+			credentialSubject = { ...credentialSubject, ...objectSchemaToCredentialSubject(property) };
+		}
+		//
+		else {
+			console.log(`Property not handled:`);
+			console.log(JSON.stringify(property, null, 2));
+		}
+	}
+	return credentialSubject;
+}
+
+type CredentialSubject = Record<string, CredentialSubjectProperty>;
+
+type CredentialSubjectProperty = {
+	mandatory?: boolean;
+	display?: DisplayProperties[];
+};
+
+type DisplayProperties = {
+	name: string;
+	locale: string;
+};
