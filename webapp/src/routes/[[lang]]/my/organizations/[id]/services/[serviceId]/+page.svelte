@@ -10,7 +10,6 @@
 	import { m } from '$lib/i18n';
 	import type { ObjectSchema } from '$lib/jsonSchema/types';
 
-
 	//
 
 	export let data;
@@ -48,10 +47,8 @@
 	async function generateCredentialIssuanceQr() {
 		const { result } = await generateQr(
 			JSON.stringify({
-				id: service.id,
-				authorization_server: service.expand?.authorization_server.endpoint,
-				issuer: service.expand?.issuer.endpoint,
-				relying_party: service.expand?.relying_party.endpoint
+				credential_configuration_ids: [service.name],
+				credential_issuer: `${service.expand?.issuer.endpoint}/credential_issuer`
 			})
 		);
 		return result.qrcode as string;
