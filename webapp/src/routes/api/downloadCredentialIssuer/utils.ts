@@ -43,7 +43,7 @@ export function mergeObjectSchemasIntoCredentialSubject(
 	locale = DEFAULT_LOCALE
 ): CredentialSubject {
 	const subjects = schemas.map((s) => objectSchemaToCredentialSubject(s, locale));
-	return _.merge(subjects[0], ...subjects.slice(1));
+	return _.merge({}, ...subjects);
 }
 
 /* JSON Schema to CredentialSubject conversion */
