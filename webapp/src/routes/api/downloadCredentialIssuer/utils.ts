@@ -46,7 +46,7 @@ export function objectSchemaToCredentialSubject(
 		}
 		//
 		else if (property.type === 'object') {
-			credentialSubject = { ...credentialSubject, ...objectSchemaToCredentialSubject(property) };
+			credentialSubject[propertyName] = objectSchemaToCredentialSubject(property);
 		}
 		//
 		else {
@@ -57,7 +57,11 @@ export function objectSchemaToCredentialSubject(
 	return credentialSubject;
 }
 
-type CredentialSubject = Record<string, CredentialSubjectProperty>;
+// https://openid.github.io/OpenID4VCI/openid-4-verifiable-credential-issuance-wg-draft.html#name-credential-issuer-metadata-2
+
+type CredentialSubject = {
+	[key: string]: CredentialSubject | CredentialSubjectProperty;
+};
 
 type CredentialSubjectProperty = {
 	mandatory?: boolean;
