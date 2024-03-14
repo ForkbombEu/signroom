@@ -31,15 +31,11 @@ export function updateZipFileContent(
 /* Object schemas handling */
 
 export function mergeObjectSchemas(schemas: ObjectSchema[]): ObjectSchema {
-	if (schemas.length === 1) return schemas[0];
-
-	const mergedSchema: ObjectSchema = { type: 'object', properties: {}, required: [] };
-	for (const schema of schemas) {
-		const id = nanoid(5);
-		mergedSchema.properties[id] = schema;
-		mergedSchema.required?.push(id);
-	}
-	return mergedSchema;
+	return {
+		type: 'object',
+		properties: _.merge({}, ...schemas.map((s) => s.properties)),
+		required: _.merge([], ...schemas.map((s) => s.required))
+	};
 }
 
 export function mergeObjectSchemasIntoCredentialSubject(
