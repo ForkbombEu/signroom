@@ -36,7 +36,7 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 
 		const CREDENTIAL_ISSUER_METADATA_FILE_NAME = 'openid-credential-issuer';
 
-		const credentialIssuerMetadataEntry = getFile(zip, CREDENTIAL_ISSUER_METADATA_FILE_NAME);
+		const credentialIssuerMetadataEntry = getZipFile(zip, CREDENTIAL_ISSUER_METADATA_FILE_NAME);
 		if (!credentialIssuerMetadataEntry) throw new Error('Credential Issuer .well-known not found');
 
 		const credentialSubject = _.merge(
@@ -51,7 +51,7 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 			credentialSubject
 		});
 
-		editFile(
+		editZipFile(
 			zip,
 			CREDENTIAL_ISSUER_METADATA_FILE_NAME,
 			JSON.stringify(credentialIssuerMetadata, null, 4)
@@ -61,7 +61,7 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 
 		const CREDENTIAL_KEYS_FILE_NAME = 'credential.keys.json';
 
-		const credentialKeysJsonEntry = getFile(zip, CREDENTIAL_KEYS_FILE_NAME);
+		const credentialKeysJsonEntry = getZipFile(zip, CREDENTIAL_KEYS_FILE_NAME);
 		if (!credentialKeysJsonEntry) throw new Error(`${CREDENTIAL_KEYS_FILE_NAME} not found`);
 
 		if (credentialKeysJsonEntry) {
@@ -75,17 +75,17 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 				credentialSubject
 			});
 
-			editFile(zip, CREDENTIAL_KEYS_FILE_NAME, JSON.stringify(template, null, 4));
+			editZipFile(zip, CREDENTIAL_KEYS_FILE_NAME, JSON.stringify(template, null, 4));
 		}
 
 		/* create.schema.json */
 
 		const CREATE_SCHEMA_JSON_FILE_NAME = 'create.schema.json';
-		const createSchemaJsonEntry = getFile(zip, CREATE_SCHEMA_JSON_FILE_NAME);
+		const createSchemaJsonEntry = getZipFile(zip, CREATE_SCHEMA_JSON_FILE_NAME);
 
 		if (createSchemaJsonEntry) {
 			const schema = mergeObjectSchemas(templates);
-			editFile(zip, CREATE_SCHEMA_JSON_FILE_NAME, JSON.stringify(schema, null, 2));
+			editZipFile(zip, CREATE_SCHEMA_JSON_FILE_NAME, JSON.stringify(schema, null, 2));
 		}
 
 		/* */
@@ -104,11 +104,11 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 	}
 };
 
-function getFile(zip: AdmZip, entryName: string) {
+function getZipFile(zip: AdmZip, entryName: string) {
 	return zip.getEntries().find((entry) => entry.name === entryName);
 }
 
-function editFile(zip: AdmZip, entryName: string, content: string) {
+function editZipFile(zip: AdmZip, entryName: string, content: string) {
 	const entry = zip.getEntries().find((entry) => entry.name === entryName);
 	if (!entry) return;
 	zip.updateFile(entry, Buffer.from(content));
