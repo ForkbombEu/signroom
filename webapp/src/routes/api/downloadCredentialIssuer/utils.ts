@@ -1,6 +1,5 @@
 import type { ObjectSchema } from '$lib/jsonSchema/types';
 import type AdmZip from 'adm-zip';
-import { nanoid } from 'nanoid';
 import _ from 'lodash';
 
 /* Locales */
@@ -86,6 +85,7 @@ export type CredentialSubject = {
 type CredentialSubjectProperty = {
 	mandatory?: boolean;
 	display?: DisplayProperties[];
+	// TODO - Handle "type" property if necessary
 };
 
 type DisplayProperties = {
