@@ -10,9 +10,7 @@
 		type OrgJoinRequestsRecord,
 		type UsersResponse,
 		type OrgAuthorizationsRecord,
-
 		type OrgJoinRequestsResponse
-
 	} from '$lib/pocketbase/types';
 	import { OrgRoles } from '$lib/rbac/roles.js';
 	import { createTypeProp } from '$lib/utils/typeProp.js';
@@ -83,7 +81,7 @@
 				records={pendingRequests}
 				fields={['user', 'status']}
 				hideActions={['edit', 'share', 'select']}
-				fieldsComponents={{"user":User}}
+				fieldsComponents={{ user: User }}
 			>
 				<svelte:fragment slot="emptyState">
 					<CollectionEmptyState

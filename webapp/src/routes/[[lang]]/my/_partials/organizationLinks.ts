@@ -36,7 +36,7 @@ export const createOrganizationLinks = (
 
 		subLinks.push({
 			label: m.Membership_requests(),
-			href: base('/requests')
+			href: base('/membership-requests')
 		});
 	}
 

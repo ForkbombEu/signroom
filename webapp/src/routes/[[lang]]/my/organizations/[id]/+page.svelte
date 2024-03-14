@@ -46,6 +46,6 @@
 
 	<div class="flex justify-between items-start">
 		<VanityMetric number={requests.length} text={m.Membership_requests()} />
-		<A href={`${$page.url.pathname}/requests`}>→ {m.Manage_membership_requests()}</A>
+		<A href={`${$page.url.pathname}/membership-requests`}>→ {m.Manage_membership_requests()}</A>
 	</div>
 </ProtectedOrgUI>
