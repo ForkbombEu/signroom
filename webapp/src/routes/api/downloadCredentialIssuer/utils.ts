@@ -59,7 +59,7 @@ export function objectSchemaToCredentialSubject(
 
 // https://openid.github.io/OpenID4VCI/openid-4-verifiable-credential-issuance-wg-draft.html#name-credential-issuer-metadata-2
 
-type CredentialSubject = {
+export type CredentialSubject = {
 	[key: string]: CredentialSubject | CredentialSubjectProperty;
 };
 

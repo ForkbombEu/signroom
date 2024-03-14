@@ -1,12 +1,4 @@
-import type { ObjectSchema } from '$lib/jsonSchema/types';
-
-type CredentialSubjectItem = {
-	display: Array<{ locale: string; name: string }>;
-};
-
-type CredentialSubject = {
-	[key: string]: CredentialSubjectItem;
-};
+import type { CredentialSubject } from './utils';
 
 type CredentialKeysJSONTemplateProps = {
 	id: string;
@@ -78,25 +70,4 @@ export function template(props: CredentialKeysJSONTemplateProps) {
 			es256: 'XdjAYj+RY95+uyYMI8fR3+fmP5LyQaN54vyTTVKxZyA='
 		}
 	};
-}
-
-export function objectSchemaToCredentialSubject(
-	schema: ObjectSchema,
-	locale: string = 'en-US'
-): CredentialSubject {
-	let credentialSubject: CredentialSubject = {};
-
-	for (const [propertyName, property] of Object.entries(schema.properties)) {
-		if (property.type != 'object' && property.type != 'array') {
-			credentialSubject[propertyName] = {
-				display: [{ locale, name: propertyName }]
-			} satisfies CredentialSubjectItem;
-		} else if (property.type === 'object') {
-			credentialSubject = { ...credentialSubject, ...objectSchemaToCredentialSubject(property) };
-		} else {
-			console.log(`Property not handled:`);
-			console.log(JSON.stringify(property, null, 2));
-		}
-	}
-	return credentialSubject;
 }

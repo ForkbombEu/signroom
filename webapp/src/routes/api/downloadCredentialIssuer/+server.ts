@@ -3,14 +3,13 @@ import AdmZip from 'adm-zip';
 import * as credentialIssuer from '$lib/credentialIssuer';
 import * as credentialKeys from './credential.keys';
 import _ from 'lodash';
-import type { ObjectSchema } from '$lib/jsonSchema/types';
-import { nanoid } from 'nanoid';
-import { requestBodySchema } from '.';
+import { requestBodySchema, type RequestBody } from '.';
 import {
 	editZipEntry,
 	getZipEntry,
 	mergeObjectSchemas,
-	objectSchemaToCredentialSubject
+	objectSchemaToCredentialSubject,
+	type CredentialSubject
 } from './utils';
 
 //
@@ -40,8 +39,9 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 
 		/* Credential subject */
 
-		// TODO - Fit locale somewhere
-		const credentialSubject = _.merge(templates.map((t) => objectSchemaToCredentialSubject(t)));
+		const credentialSubject: CredentialSubject = _.merge(
+			templates.map((t) => objectSchemaToCredentialSubject(t))
+		);
 
 		/* Credential issuer metadata update */
 
