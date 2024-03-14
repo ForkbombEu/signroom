@@ -27,7 +27,9 @@
 					<List>
 						{#each issuancesInView as issuance}
 							<Li>
-								<A href={`${$page.url.pathname}/services/${issuance.id}`}>{issuance.name}</A>
+								<A href={`${$page.url.pathname}/credential-issuances/${issuance.id}`}>
+									{issuance.name}
+								</A>
 							</Li>
 						{/each}
 					</List>
@@ -37,7 +39,7 @@
 	</div>
 
 	<div>
-		<A href={`${$page.url.pathname}/services`}>→ {m.View_all_credential_issuances()}</A>
+		<A href={`${$page.url.pathname}/credential-issuances`}>→ {m.View_all_credential_issuances()}</A>
 	</div>
 </div>
 

@@ -16,7 +16,7 @@ export const createOrganizationLinks = (
 		},
 		{
 			label: m.Credential_issuances(),
-			href: base('/services')
+			href: base('/credential-issuances')
 		},
 		{
 			label: m.Credential_templates(),

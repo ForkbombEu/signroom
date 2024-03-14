@@ -50,7 +50,7 @@
 			} else {
 				record = await pb.collection(Collections.Services).create<ServicesResponse>(formData);
 			}
-			await goto(`/my/organizations/${organizationId}/services/${record.id}`);
+			await goto(`/my/organizations/${organizationId}/credential-issuances/${record.id}`);
 		},
 		{
 			organization: organizationId,
