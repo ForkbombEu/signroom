@@ -35,11 +35,14 @@ export function objectSchemaToCredentialSubject(
 	let credentialSubject: CredentialSubject = {};
 
 	for (const [propertyName, property] of Object.entries(schema.properties)) {
+		//
 		if (property.type != 'object' && property.type != 'array') {
-			credentialSubject[propertyName] = {
+			//
+			const prop: CredentialSubjectProperty = {
 				mandatory: Boolean(schema.required?.includes(propertyName)),
-				display: [{ locale, name: propertyName }]
-			} satisfies CredentialSubjectProperty;
+				display: [{ locale, name: property.title ?? propertyName }]
+			};
+			credentialSubject[propertyName] = prop;
 		}
 		//
 		else if (property.type === 'object') {
