@@ -21,8 +21,6 @@ export type Service = ServicesResponse<{
 }>;
 
 export const load = async ({ params, fetch }) => {
-	const { serviceId } = params;
-
 	const expand = [
 		templatesExpand,
 		authorizationServerExpand,
@@ -32,6 +30,6 @@ export const load = async ({ params, fetch }) => {
 
 	const service = await pb
 		.collection(Collections.Services)
-		.getOne<Service>(serviceId, { expand, fetch });
+		.getOne<Service>(params.issuance_id, { expand, fetch });
 	return { service };
 };
