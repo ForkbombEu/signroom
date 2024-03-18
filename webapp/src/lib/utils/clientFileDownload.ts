@@ -11,3 +11,13 @@ export function downloadBlob(blob: Blob, fileName: string) {
 
 	URL.revokeObjectURL(url);
 }
+
+export async function imageSrcToBlob(src: string) {
+	const img = new Image();
+	img.src = src;
+
+	const responsePromise = await fetch(img.src);
+	const blob = await responsePromise.blob();
+
+	return blob;
+}

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { request } from '@api/downloadCredentialIssuer';
-	import { downloadBlob } from '$lib/utils/clientFileDownload';
+	import { downloadBlob, imageSrcToBlob } from '$lib/utils/clientFileDownload';
 	import CopyImageButton from '$lib/components/copyImageButton.svelte';
 
 	import ServiceForm from '../_partials/serviceForm.svelte';
@@ -53,6 +53,11 @@
 		);
 		return result.qrcode as string;
 	}
+
+	async function downloadCredentialIssuanceQr(src: string) {
+		const imgBlob = await imageSrcToBlob(src);
+		downloadBlob(imgBlob, `credential-issuance-qr.png`);
+	}
 </script>
 
 <div class="space-y-8">
@@ -90,7 +95,13 @@
 				<img src={qrimg} alt={m.Service_Qr_Code()} class="border rounded-lg" />
 				<div class="flex flex-col gap-2">
 					<CopyImageButton imageSrc={qrimg}>Copy QR code</CopyImageButton>
-					<Button color="alternative" size="sm">
+					<Button
+						color="alternative"
+						size="sm"
+						on:click={() => {
+							downloadCredentialIssuanceQr(qrimg);
+						}}
+					>
 						<ArrowDownTray />
 						<span class="ml-2">Download QR code</span>
 					</Button>
