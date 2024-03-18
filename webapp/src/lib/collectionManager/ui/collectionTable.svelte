@@ -59,7 +59,9 @@
 				<RecordsTableHead field={label} />
 			{/each}
 			{#if $$slots.default}
-				<TableHeadCell />
+				<slot name="header">
+					<TableHeadCell />
+				</slot>
 			{/if}
 			{#if !hasNoActionColumn}
 				<TableHeadCell>Actions</TableHeadCell>
