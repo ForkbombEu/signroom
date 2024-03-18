@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { imageSrcToBlob } from '$lib/utils/clientFileDownload';
 	import { Button } from 'flowbite-svelte';
 	import { ClipboardDocument } from 'svelte-heros-v2';
 
@@ -8,12 +9,9 @@
 	let isCopied = false;
 
 	async function copyImage() {
-		const img = new Image();
-		img.src = imageSrc;
-
-		const responsePromise = await fetch(img.src);
-		const blob = await responsePromise.blob();
 		try {
+			const blob = imageSrcToBlob(imageSrc);
+
 			await navigator.clipboard.write([
 				new ClipboardItem({
 					'image/png': blob
