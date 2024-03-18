@@ -3,4 +3,4 @@
 	export let data;
 </script>
 
-<ServiceForm organizationId={data.organization.id} mode="create" />
+<ServiceForm organizationId={data.organization.id} />
