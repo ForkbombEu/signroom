@@ -81,6 +81,8 @@
 						{/each}
 					</ul>
 				</div>
+			{:else}
+				<p class="text-gray-300">Template parsing error</p>
 			{/if}
 		</svelte:fragment>
 	</CollectionTable>
