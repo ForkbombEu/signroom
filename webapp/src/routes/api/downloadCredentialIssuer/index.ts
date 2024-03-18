@@ -1,18 +1,7 @@
-import type { ObjectSchema } from '$lib/jsonSchema/types';
+import { objectSchemaValidator } from '$lib/jsonSchema/types';
 import { z } from 'zod';
 
 //
-
-export const objectSchemaValidator = z.custom<ObjectSchema>(
-	(value) =>
-		z
-			.object({
-				type: z.literal('object'),
-				properties: z.record(z.string(), z.unknown()),
-				required: z.array(z.string()).optional()
-			})
-			.safeParse(value).success
-);
 
 export const requestBodySchema = z.object({
 	credential_issuer_url: z.string().url(),
