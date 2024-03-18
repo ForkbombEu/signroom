@@ -28,15 +28,19 @@
 			console.error(err);
 		}
 	}
+
+	const isCopyingSupported = Boolean(window.ClipboardItem);
 </script>
 
-<Button on:click={copyImage} color="alternative">
-	{#if !isCopied}
-		<ClipboardDocument size="20" />
-		<span class="ml-2">
-			<slot />
-		</span>
-	{:else}
-		<span class="whitespace-nowrap">✅ Copied!</span>
-	{/if}
-</Button>
+{#if isCopyingSupported}
+	<Button on:click={copyImage} color="alternative">
+		{#if !isCopied}
+			<ClipboardDocument size="20" />
+			<span class="ml-2">
+				<slot />
+			</span>
+		{:else}
+			<span class="whitespace-nowrap">✅ Copied!</span>
+		{/if}
+	</Button>
+{/if}
