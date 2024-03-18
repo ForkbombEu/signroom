@@ -13,7 +13,10 @@
 	import { m } from '$lib/i18n';
 
 	import { objectSchemaValidator } from '$lib/jsonSchema/types';
-	import { objectSchemaToCredentialSubject } from '@api/downloadCredentialIssuer/utils';
+	import {
+		objectSchemaToCredentialSubject,
+		flattenCredentialSubjectProperties
+	} from '@api/downloadCredentialIssuer/utils';
 
 	//
 
@@ -24,10 +27,11 @@
 
 	//
 
-	function getTemplateCredentialSubject(schema: any) {
+	function getTemplatePropertyList(schema: any) {
 		try {
 			const objectSchema = objectSchemaValidator.parse(schema);
-			return objectSchemaToCredentialSubject(objectSchema);
+			const credentialSubject = objectSchemaToCredentialSubject(objectSchema);
+			return flattenCredentialSubjectProperties(credentialSubject);
 		} catch (e) {
 			return undefined;
 		}
@@ -63,11 +67,11 @@
 		</svelte:fragment>
 
 		<svelte:fragment let:record>
-			{@const credentialSubject = getTemplateCredentialSubject(record.schema)}
-			{#if credentialSubject}
-				<div class="max-h-[200px] overflow-scroll bg-gray-100 p-3 rounded-lg font-mono">
+			{@const propertyList = getTemplatePropertyList(record.schema)}
+			{#if propertyList}
+				<div class="max-h-[200px] overflow-scroll rounded-lg font-mono">
 					<ul class="list-disc list-inside">
-						{#each Object.entries(credentialSubject) as [propertyName, property]}
+						{#each propertyList as [propertyName, property]}
 							<li>
 								{propertyName}
 								{#if property.mandatory}
