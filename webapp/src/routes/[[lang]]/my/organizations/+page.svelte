@@ -8,6 +8,7 @@
 	import { Collections } from '$lib/pocketbase/types.js';
 	import { invalidateAll } from '$app/navigation';
 	import { m } from '$lib/i18n';
+	import SectionTitle from '$lib/components/sectionTitle.svelte';
 
 	export let data;
 	$: authorizations = data.authorizations;
@@ -20,6 +21,10 @@
 		invalidateAll();
 	}
 </script>
+
+<div class="mb-8">
+	<SectionTitle title={m.My_organizations()} description={m.organzations_page_description()} />
+</div>
 
 <div class="flex justify-between items-center mb-6">
 	<Heading tag="h5">{m.Your_organizations()}</Heading>
