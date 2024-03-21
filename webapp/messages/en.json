@@ -204,5 +204,9 @@
 	"View_all_credential_issuances": "View all credential issuances",
 	"Manage_membership_requests": "Manage membership requests",
 	"Create_a_new_credential_issuance": "Create a new credential issuance",
-	"No_credential_issuances": "No credential issuances"
+	"No_credential_issuances": "No credential issuances",
+	"Quick_actions": "Quick actions",
+	"quick_actions_description": "Perform essential tasks efficiently and effortlessly, empowering you to sign, verify, and manage documents with ease.",
+	"news_section_title": "What's new",
+	"news_section_description": "Stay up to date with the latest developments and insights in the world of cryptography and digital signatures."
 }

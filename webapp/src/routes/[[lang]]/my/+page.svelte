@@ -11,10 +11,8 @@
 	let links = pb.collection('quick_actions').getFullList({ filter: 'published=true' });
 </script>
 
-<TitleDescription
-	title="Quick actions"
-	description="Perform essential tasks efficiently and effortlessly, empowering you to sign, verify, and manage documents with ease."
-/>
+<TitleDescription title={m.Quick_actions()} description={m.quick_actions_description()} />
+
 {#await links}
 	<GridSpinner />
 {:then links}
@@ -38,8 +36,8 @@
 
 <TitleDescription
 	containerClass="pt-10"
-	title="What's new"
-	description="Stay up to date with the latest developments and insights in the world of cryptography and digital signatures."
+	title={m.news_section_title()}
+	description={m.news_section_description()}
 />
 
 <BlogBodyWrapper divClass="grid gap-8 grid-cols-2 lg:grid-cols-2 py-10 ">
