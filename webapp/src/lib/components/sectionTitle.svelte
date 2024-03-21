@@ -9,13 +9,17 @@
 	export let hideLine = false;
 
 	$: hasDescription = $$slots.description || description;
-	$: headingClass = clsx({ '!mb-4': hasDescription || !hideLine });
+
+	$: headingClass = clsx('flex justify-between items-center', {
+		'!mb-2': hasDescription || !hideLine
+	});
+
 	$: hrClass = clsx('!m-0', { '!mb-2': hasDescription });
 </script>
 
 <div>
-	<div class="flex justify-between">
-		<Heading {tag} class={headingClass}>{title}</Heading>
+	<div class={headingClass}>
+		<Heading {tag}>{title}</Heading>
 		<slot name="right" />
 	</div>
 	{#if !hideLine}
