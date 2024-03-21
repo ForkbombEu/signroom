@@ -3,7 +3,7 @@
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { getRecordsManagerContext } from '../../collectionManager.svelte';
 	import type { PBResponse } from '$lib/utils/types';
-	
+
 	import { RecordForm } from '$lib/recordForm';
 	import { Button, Modal } from 'flowbite-svelte';
 	import PortalWrapper from '$lib/components/portalWrapper.svelte';
@@ -39,10 +39,12 @@
 	}
 </script>
 
-<slot {openModal}>
-	<Button color="alternative" on:click={openModal}>
+<slot name="button" {openModal}>
+	<Button class="shrink-0" color="alternative" on:click={openModal}>
 		<Plus size="20" />
-		<span class="ml-1">Add entry</span>
+		<span class="ml-1">
+			<slot>Add entry</slot>
+		</span>
 	</Button>
 </slot>
 

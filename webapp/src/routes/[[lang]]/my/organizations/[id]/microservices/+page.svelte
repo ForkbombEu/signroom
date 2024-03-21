@@ -8,6 +8,8 @@
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { Heading } from 'flowbite-svelte';
 	import { m } from '$lib/i18n';
+	import SectionTitle from '$lib/components/sectionTitle.svelte';
+	import CreateRecord from '$lib/collectionManager/ui/recordActions/createRecord.svelte';
 
 	export let data;
 	const recordType = createTypeProp<IssuersResponse>();
@@ -22,10 +24,10 @@
 		}}
 		let:records
 	>
-		<div>
-			<CollectionManagerHeader>
-				<Heading slot="title" tag="h4">{m.Credential_issuers()}</Heading>
-			</CollectionManagerHeader>
+		<div class="space-y-8">
+			<SectionTitle title={m.Credential_issuers()} description={m.credential_issuer_description()}>
+				<CreateRecord slot="right">{m.Add_new()}</CreateRecord>
+			</SectionTitle>
 			<CollectionTable
 				{records}
 				fields={['name', 'endpoint']}
@@ -42,10 +44,13 @@
 		}}
 		let:records
 	>
-		<div>
-			<CollectionManagerHeader>
-				<Heading slot="title" tag="h4">{m.Authorization_servers()}</Heading>
-			</CollectionManagerHeader>
+		<div class="space-y-8">
+			<SectionTitle
+				title={m.Authorization_servers()}
+				description={m.authorization_server_description()}
+			>
+				<CreateRecord slot="right">{m.Add_new()}</CreateRecord>
+			</SectionTitle>
 			<CollectionTable
 				{records}
 				fields={['name', 'endpoint']}
@@ -62,10 +67,10 @@
 		}}
 		let:records
 	>
-		<div>
-			<CollectionManagerHeader>
-				<Heading slot="title" tag="h4">{m.Relying_parties()}</Heading>
-			</CollectionManagerHeader>
+		<div class="space-y-8">
+			<SectionTitle title={m.Relying_parties()} description={m.relying_party_description()}>
+				<CreateRecord slot="right">{m.Add_new()}</CreateRecord>
+			</SectionTitle>
 			<CollectionTable
 				{records}
 				fields={['name', 'endpoint']}

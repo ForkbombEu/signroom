@@ -96,7 +96,9 @@
 
 	//
 
-	const submitButtonText = !Boolean(initialData) ? m.Create_service() : m.Update_service();
+	const submitButtonText = !Boolean(initialData)
+		? m.Create_issuance_flow()
+		: m.Update_issuance_flow();
 
 	const credentialTypeOptions: string[] = Object.values(ServicesCredentialTypeOptions);
 
