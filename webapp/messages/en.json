@@ -204,5 +204,6 @@
 	"View_all_credential_issuances": "View all credential issuances",
 	"Manage_membership_requests": "Manage membership requests",
 	"Create_a_new_credential_issuance": "Create a new credential issuance",
-	"No_credential_issuances": "No credential issuances"
+	"No_credential_issuances": "No credential issuances",
+	"Template_parsing_error": "Template parsing error"
 }
