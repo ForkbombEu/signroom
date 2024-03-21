@@ -209,5 +209,9 @@
 	"quick_actions_description": "Perform essential tasks efficiently and effortlessly, empowering you to sign, verify, and manage documents with ease.",
 	"news_section_title": "What's new",
 	"news_section_description": "Stay up to date with the latest developments and insights in the world of cryptography and digital signatures.",
-	"organzations_page_description": "This page serves as a centralized hub for managing your organizational memberships and activities."
+	"organzations_page_description": "This page serves as a centralized hub for managing your organizational memberships and activities.",
+	"credential_issuer_description": "The issuer ensures the authenticity and integrity of the credentials it issues, through cryptographic methods.",
+	"authorization_server_description": "An authorization server is a component of an OAuth 2.0 or OpenID Connect system responsible for managing access control and authorization decisions.",
+	"relying_party_description": "The relying party verifies the authenticity and validity of a user's credentials during authentication or authorization processes.",
+	"Add_new": "Add new"
 }
