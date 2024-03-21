@@ -1,6 +1,7 @@
 import type { ObjectSchema } from '$lib/jsonSchema/types';
 import type AdmZip from 'adm-zip';
 import _ from 'lodash';
+import z from 'zod';
 
 /* Locales */
 
@@ -82,13 +83,54 @@ export type CredentialSubject = {
 	[key: string]: CredentialSubject | CredentialSubjectProperty;
 };
 
-type CredentialSubjectProperty = {
-	mandatory?: boolean;
-	display?: DisplayProperties[];
-	// TODO - Handle "type" property if necessary
-};
+const DisplayPropertiesSchema = z.object({
+	name: z.string(),
+	locale: z.string()
+});
 
 type DisplayProperties = {
 	name: string;
 	locale: string;
 };
+
+const CredentialSubjectPropertySchema = z.object({
+	mandatory: z.boolean(),
+	display: z.array(DisplayPropertiesSchema).optional()
+});
+
+export type CredentialSubjectProperty = {
+	mandatory?: boolean;
+	display?: DisplayProperties[];
+	// TODO - Handle "type" property if necessary
+};
+
+//
+
+function checkCredentialSubjectProperty(data: any): data is CredentialSubjectProperty {
+	return CredentialSubjectPropertySchema.safeParse(data).success;
+}
+
+export function flattenCredentialSubjectProperties(
+	credentialSubject: CredentialSubject
+): [string, CredentialSubjectProperty][] {
+	let propertyList: [string, CredentialSubjectProperty][] = [];
+
+	Object.entries(credentialSubject).forEach(([propertyName, property]) => {
+		if (checkCredentialSubjectProperty(property)) {
+			propertyList.push([propertyName, property]);
+		}
+		//
+		else {
+			const nestedProperties = flattenCredentialSubjectProperties(property).map(
+				([nestedPropertyName, nestedProperty]) =>
+					[`${propertyName}.${nestedPropertyName}`, nestedProperty] as [
+						string,
+						CredentialSubjectProperty
+					]
+			);
+			propertyList = [...propertyList, ...nestedProperties];
+		}
+	});
+
+	return propertyList;
+}
