@@ -213,5 +213,7 @@
 	"credential_issuer_description": "The issuer ensures the authenticity and integrity of the credentials it issues, through cryptographic methods.",
 	"authorization_server_description": "An authorization server is a component of an OAuth 2.0 or OpenID Connect system responsible for managing access control and authorization decisions.",
 	"relying_party_description": "The relying party verifies the authenticity and validity of a user's credentials during authentication or authorization processes.",
-	"Add_new": "Add new"
+	"Add_new": "Add new",
+	"Create_issuance_flow": "Create issuance flow",
+	"Update_issuance_flow": "Update issuance flow"
 }
