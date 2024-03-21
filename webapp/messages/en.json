@@ -215,5 +215,6 @@
 	"relying_party_description": "The relying party verifies the authenticity and validity of a user's credentials during authentication or authorization processes.",
 	"Add_new": "Add new",
 	"Create_issuance_flow": "Create issuance flow",
-	"Update_issuance_flow": "Update issuance flow"
+	"Update_issuance_flow": "Update issuance flow",
+	"Template_parsing_error": "Template parsing error"
 }
