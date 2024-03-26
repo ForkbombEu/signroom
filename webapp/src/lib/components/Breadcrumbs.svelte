@@ -5,13 +5,14 @@
 	export type Breadcrumb = Link;
 	export type Breadcrumbs = Link[];
 
-	export type BreadcrumbRenamer = {
-		sveltekitFolder: string;
-		newText: ((chunk: string) => Promise<string> | string) | string;
+	export type BreadcrumbParamRenamer = {
+		param: string;
+		renamer: (chunk: string) => Promise<string>;
 	};
 </script>
 
 <script lang="ts">
+	import { Effect, pipe, ReadonlyArray as A } from 'effect';
 	import { Breadcrumb as BreadcrumbComponent, BreadcrumbItem } from 'flowbite-svelte';
 	import { page } from '$app/stores';
 
@@ -19,21 +20,20 @@
 
 	// export let items: Link[] = [];
 	// export let homeIcon: any = undefined;
-	export let renamers: BreadcrumbRenamer[] = [];
+	export let paramRenamers: BreadcrumbParamRenamer[] = [];
 	export let exclude: string[] = [];
 
 	//
 
-	$: breadcrumbsPromise = calcBreadcrumbs($page, renamers, exclude);
+	$: breadcrumbsPromise = calcBreadcrumbs($page, paramRenamers, exclude);
 
 	async function calcBreadcrumbs(
 		page: Page,
-		renamers: BreadcrumbRenamer[],
+		renamers: BreadcrumbParamRenamer[],
 		exclude: string[]
 	): Promise<Breadcrumbs> {
 		const base = calcPageBreadcrumbs(page);
-		const sveltekitRouteChunkList = getPathChunkList(page.route.id!);
-		const renamed = await runRenamers(base, sveltekitRouteChunkList, renamers);
+		const renamed = await runParamRenamers(base, page, renamers);
 		const removed = removeBreadcrumbFromList(renamed, exclude);
 		return removed;
 	}
@@ -67,45 +67,38 @@
 
 	/* Renaming */
 
-	async function runRenamers(
+	async function runParamRenamers(
 		breadcrumbs: Breadcrumbs,
-		sveltekitRouteChunkList: string[],
-		renamers: BreadcrumbRenamer[]
+		page: Page,
+		paramRenamers: BreadcrumbParamRenamer[]
 	): Promise<Breadcrumbs> {
 		let newBreadcrumbs: Breadcrumbs = breadcrumbs;
-		for (const renamer of renamers) {
-			newBreadcrumbs = await runRenamer(newBreadcrumbs, sveltekitRouteChunkList, renamer);
+		for (const renamer of paramRenamers) {
+			newBreadcrumbs = await runParamRenamer(newBreadcrumbs, page, renamer);
 		}
 		return newBreadcrumbs;
 	}
 
-	async function runRenamer(
+	function runParamRenamer(
 		breadcrumbs: Breadcrumbs,
-		sveltekitRouteChunkList: string[],
-		renamer: BreadcrumbRenamer
+		page: Page,
+		paramRenamer: BreadcrumbParamRenamer
 	): Promise<Breadcrumbs> {
-		if (breadcrumbs.length != sveltekitRouteChunkList.length) return breadcrumbs;
-		const { newText, sveltekitFolder } = renamer;
-
-		const sveltekitChunkIndex = sveltekitRouteChunkList.indexOf(sveltekitFolder);
-		if (sveltekitChunkIndex === -1) return breadcrumbs;
-
-		const oldBreadcrumbText = breadcrumbs[sveltekitChunkIndex].text;
-
-		const finalText = await evaluateRenamerNewText(oldBreadcrumbText, renamer.newText);
-		return renameLinkInList(breadcrumbs, oldBreadcrumbText, finalText);
-	}
-
-	async function evaluateRenamerNewText(
-		oldText: string,
-		newText: BreadcrumbRenamer['newText']
-	): Promise<string> {
-		try {
-			if (typeof newText == 'string') return newText;
-			else return await newText(oldText);
-		} catch (e) {
-			return oldText;
-		}
+		return pipe(
+			Effect.fromNullable(page.params[paramRenamer.param]),
+			Effect.flatMap((paramValue) =>
+				Effect.fromNullable(breadcrumbs.find((b) => b.text == paramValue))
+			),
+			Effect.flatMap((oldBreadcrumb) =>
+				pipe(
+					Effect.tryPromise(() => paramRenamer.renamer(oldBreadcrumb.text)),
+					Effect.orElseSucceed(() => oldBreadcrumb.text),
+					Effect.map((newText) => renameLinkInList(breadcrumbs, oldBreadcrumb.text, newText))
+				)
+			),
+			Effect.orElseSucceed(() => breadcrumbs),
+			Effect.runPromise
+		);
 	}
 
 	function renameLinkInList(linkList: Link[], oldText: string, newText: string): Link[] {

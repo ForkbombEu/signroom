@@ -8,7 +8,7 @@
 
 	// Components
 	import { ProtectedOrgLayout } from '$lib/rbac';
-	import Breadcrumbs, { type BreadcrumbRenamer } from '$lib/components/Breadcrumbs.svelte';
+	import Breadcrumbs, { type BreadcrumbParamRenamer } from '$lib/components/Breadcrumbs.svelte';
 	import { Hr } from 'flowbite-svelte';
 
 	//
@@ -17,14 +17,14 @@
 
 	//
 
-	const breadcrumbRenamers: BreadcrumbRenamer[] = [
+	const breadcrumbParamRenamers: BreadcrumbParamRenamer[] = [
 		{
-			sveltekitFolder: '[id]',
-			newText: getOrganizationNameById
+			param: 'id',
+			renamer: getOrganizationNameById
 		},
 		{
-			sveltekitFolder: '[serviceId]',
-			newText: getServiceNameById
+			param: 'issuance_id',
+			renamer: getServiceNameById
 		}
 	];
 
@@ -44,7 +44,7 @@
 <!--  -->
 
 <ProtectedOrgLayout orgId={data.organization.id}>
-	<Breadcrumbs renamers={breadcrumbRenamers} />
+	<Breadcrumbs paramRenamers={breadcrumbParamRenamers} />
 
 	<Hr />
 
