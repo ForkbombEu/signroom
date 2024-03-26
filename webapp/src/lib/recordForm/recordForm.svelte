@@ -112,7 +112,10 @@
 				}
 				dispatch('success', { record });
 			},
-			mockedData
+			mockedData,
+			{
+				dataType: 'form'
+			}
 		);
 	}
 

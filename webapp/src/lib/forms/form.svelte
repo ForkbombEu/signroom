@@ -122,13 +122,15 @@
 	export let showRequiredIndicator = false;
 	export let className = 'space-y-8';
 
+	let enctype = superform.options.dataType == 'form' ? 'multipart/form-data' : undefined;
+
 	//
 
 	const { enhance, delayed } = superform;
 	setContext<FormContext<T>>(FORM_KEY, { superform, showRequiredIndicator });
 </script>
 
-<form class={className} method="post" use:enhance>
+<form class={className} method="post" use:enhance {enctype}>
 	<slot />
 </form>
 
