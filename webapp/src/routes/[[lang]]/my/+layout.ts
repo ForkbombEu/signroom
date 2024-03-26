@@ -42,7 +42,8 @@ export const load = async ({ url, fetch }) => {
 			.getFullList<Authorizations>({
 				filter: `user = "${pb.authStore.model!.id}"`,
 				expand: 'organization,role',
-				fetch
+				fetch,
+				requestKey: null
 			});
 
 		return { authorizations };
