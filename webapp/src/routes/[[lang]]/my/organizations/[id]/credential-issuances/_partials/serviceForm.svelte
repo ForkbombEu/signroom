@@ -7,7 +7,8 @@
 		type ServicesResponse,
 		type TemplatesResponse,
 		type AuthorizationServersResponse,
-		type RelyingPartiesResponse
+		type RelyingPartiesResponse,
+		type ServicesRecord
 	} from '$lib/pocketbase/types.js';
 	import { fieldsSchemaToZod } from '$lib/pocketbaseToZod/index.js';
 	import {
@@ -38,7 +39,8 @@
 	import ImagePreview from '$lib/components/imagePreview.svelte';
 
 	export let organizationId: string;
-	export let initialData: ServicesResponse | undefined = undefined;
+	export let serviceId: string | undefined = undefined;
+	export let initialData: Partial<ServicesRecord> | undefined = undefined;
 
 	const serviceSchema = fieldsSchemaToZod(getCollectionSchema(Collections.Services)!.schema);
 
@@ -47,8 +49,8 @@
 		async (e) => {
 			const formData = createFormData(e.form.data);
 			let record;
-			if (Boolean(initialData)) {
-				record = await pb.collection(Collections.Services).update(initialData!.id, formData);
+			if (serviceId) {
+				record = await pb.collection(Collections.Services).update(serviceId, formData);
 			} else {
 				record = await pb.collection(Collections.Services).create<ServicesResponse>(formData);
 			}
@@ -98,7 +100,7 @@
 
 	//
 
-	const submitButtonText = !Boolean(initialData)
+	const submitButtonText = !Boolean(serviceId)
 		? m.Create_issuance_flow()
 		: m.Update_issuance_flow();
 
