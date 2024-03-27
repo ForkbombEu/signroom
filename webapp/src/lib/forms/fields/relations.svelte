@@ -31,7 +31,7 @@
 	const { value } = formFieldProxy(superform, field as string);
 	if (!options.name) options.name = field;
 
-	$: if (Array.isArray($value) && $value.length > 0) validate($value as any);
+	$: if (Array.isArray($value) && $value.length > 0) validate(field, $value as any);
 </script>
 
 <FieldWrapper {field} label={options.label}>
