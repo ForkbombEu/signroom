@@ -216,5 +216,10 @@
 	"Add_new": "Add new",
 	"Create_issuance_flow": "Create issuance flow",
 	"Update_issuance_flow": "Update issuance flow",
-	"Template_parsing_error": "Template parsing error"
+	"Template_parsing_error": "Template parsing error",
+	"Credential_issuer": "Credential issuer",
+	"Authorization_server": "Authorization server",
+	"External_verification_code": "External verification code",
+	"External_verification_data": "External verification data",
+	"Select_an_authorization_server": "Select an authorization server"
 }
