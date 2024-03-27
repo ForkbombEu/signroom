@@ -92,10 +92,10 @@ function fieldSchemaToZod(fieldschema: FieldSchema) {
 	}
 
 	if (!fieldschema.required) {
-		zodSchema = zodSchema.nullish();
-
 		// Extra check for url: https://github.com/colinhacks/zod/discussions/1254
 		if (fieldschema.type == FieldType.URL) zodSchema = zodSchema.or(z.literal(''));
+
+		zodSchema = zodSchema.nullish();
 	}
 
 	if (!isArrayField(fieldschema)) return zodSchema;
