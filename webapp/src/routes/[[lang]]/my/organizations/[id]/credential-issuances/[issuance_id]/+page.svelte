@@ -115,5 +115,9 @@
 	<Hr />
 
 	<Heading tag="h4">{m.Edit_service()}</Heading>
-	<ServiceForm organizationId={data.organization.id} initialData={data.service} />
+	<ServiceForm
+		organizationId={data.organization.id}
+		initialData={data.service}
+		serviceId={data.service.id}
+	/>
 </div>

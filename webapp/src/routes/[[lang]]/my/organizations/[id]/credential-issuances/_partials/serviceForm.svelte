@@ -7,7 +7,8 @@
 		type ServicesResponse,
 		type TemplatesResponse,
 		type AuthorizationServersResponse,
-		type RelyingPartiesResponse
+		type RelyingPartiesResponse,
+		type ServicesRecord
 	} from '$lib/pocketbase/types.js';
 	import { fieldsSchemaToZod } from '$lib/pocketbaseToZod/index.js';
 	import {
@@ -38,7 +39,8 @@
 	import ImagePreview from '$lib/components/imagePreview.svelte';
 
 	export let organizationId: string;
-	export let initialData: ServicesResponse | undefined = undefined;
+	export let serviceId: string | undefined = undefined;
+	export let initialData: Partial<ServicesRecord> | undefined = undefined;
 
 	const serviceSchema = fieldsSchemaToZod(getCollectionSchema(Collections.Services)!.schema);
 
@@ -47,8 +49,8 @@
 		async (e) => {
 			const formData = createFormData(e.form.data);
 			let record;
-			if (Boolean(initialData)) {
-				record = await pb.collection(Collections.Services).update(initialData!.id, formData);
+			if (serviceId) {
+				record = await pb.collection(Collections.Services).update(serviceId, formData);
 			} else {
 				record = await pb.collection(Collections.Services).create<ServicesResponse>(formData);
 			}
@@ -98,7 +100,7 @@
 
 	//
 
-	const submitButtonText = !Boolean(initialData)
+	const submitButtonText = !Boolean(serviceId)
 		? m.Create_issuance_flow()
 		: m.Update_issuance_flow();
 
@@ -106,7 +108,6 @@
 
 	const issuersType = createTypeProp<IssuersResponse>();
 	const authorizationServersType = createTypeProp<AuthorizationServersResponse>();
-	const relyingPartiesType = createTypeProp<RelyingPartiesResponse>();
 
 	//
 
@@ -124,7 +125,7 @@
 	}
 </script>
 
-<Form {superform} showRequiredIndicator>
+<Form {superform} showRequiredIndicator className="space-y-10">
 	<Heading tag="h5">{m.Main_info()}</Heading>
 
 	<Input
@@ -139,11 +140,29 @@
 		{superform}
 	/>
 
+	<Hr />
+
+	<Heading tag="h5">Credential info</Heading>
+
 	<Select
 		{superform}
 		field="credential_type"
 		options={{ label: m.Select_credential_cryptography_type(), options: credentialTypeOptions }}
 	/>
+
+	<div>
+		<Relations
+			collection={Collections.Templates}
+			field="templates"
+			options={{
+				label: m.Select_one_or_more_templates_for_this_service(),
+				inputMode: 'select',
+				displayFields: ['name'],
+				multiple: true
+			}}
+			{superform}
+		/>
+	</div>
 
 	<div class="flex items-start gap-8">
 		<div class="grow">
@@ -161,20 +180,6 @@
 			<P>Preview</P>
 			<ImagePreview src={$form.logo} alt={m.Credential_logo_URL()} />
 		</div>
-	</div>
-
-	<div>
-		<Relations
-			collection={Collections.Templates}
-			field="templates"
-			options={{
-				label: m.Select_one_or_more_templates_for_this_service(),
-				inputMode: 'select',
-				displayFields: ['name'],
-				multiple: true
-			}}
-			{superform}
-		/>
 	</div>
 
 	<Hr />
@@ -214,20 +219,28 @@
 	</div>
 
 	<div class="flex gap-10">
-		<div class="grow space-y-6 font-mono">
+		<div class="grow space-y-6">
 			<Textarea
 				field="external_verification_code"
-				options={{ placeholder: 'Given I send ...', label: m.External_verification_code() }}
+				options={{
+					placeholder: 'Given I send ...',
+					label: m.External_verification_code(),
+					class: 'font-mono'
+				}}
 				{superform}
 			/>
 
 			<Textarea
 				field="external_verification_data"
-				options={{ placeholder: '{\n  ...\n}', label: m.External_verification_data() }}
+				options={{
+					placeholder: '{\n  ...\n}',
+					label: m.External_verification_data(),
+					class: 'font-mono'
+				}}
 				{superform}
 			/>
 		</div>
-		<div class="font-mono gap-6 flex flex-col justify-stretch">
+		<div class=" gap-6 flex flex-col justify-stretch">
 			<div class="space-y-2">
 				<p class="text-sm">Load example code</p>
 				<Hr hrClass="m-0" />
