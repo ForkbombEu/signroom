@@ -123,7 +123,7 @@
 	}
 </script>
 
-<Form {superform} showRequiredIndicator>
+<Form {superform} showRequiredIndicator className="space-y-10">
 	<Heading tag="h5">{m.Main_info()}</Heading>
 
 	<Input
@@ -138,11 +138,29 @@
 		{superform}
 	/>
 
+	<Hr />
+
+	<Heading tag="h5">Credential info</Heading>
+
 	<Select
 		{superform}
 		field="credential_type"
 		options={{ label: m.Select_credential_cryptography_type(), options: credentialTypeOptions }}
 	/>
+
+	<div>
+		<Relations
+			collection={Collections.Templates}
+			field="templates"
+			options={{
+				label: m.Select_one_or_more_templates_for_this_service(),
+				inputMode: 'select',
+				displayFields: ['name'],
+				multiple: true
+			}}
+			{superform}
+		/>
+	</div>
 
 	<div class="flex items-start gap-8">
 		<div class="grow">
@@ -160,20 +178,6 @@
 			<P>Preview</P>
 			<ImagePreview src={$form.logo} alt={m.Credential_logo_URL()} />
 		</div>
-	</div>
-
-	<div>
-		<Relations
-			collection={Collections.Templates}
-			field="templates"
-			options={{
-				label: m.Select_one_or_more_templates_for_this_service(),
-				inputMode: 'select',
-				displayFields: ['name'],
-				multiple: true
-			}}
-			{superform}
-		/>
 	</div>
 
 	<Hr />
