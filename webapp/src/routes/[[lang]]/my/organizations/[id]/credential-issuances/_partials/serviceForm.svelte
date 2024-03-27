@@ -21,7 +21,7 @@
 		createFormData,
 		Select
 	} from '$lib/forms';
-	import { Drawer, Heading, Hr, Button } from 'flowbite-svelte';
+	import { Drawer, Heading, Hr, Button, P } from 'flowbite-svelte';
 	import { sineIn } from 'svelte/easing';
 	import RecordForm from '$lib/recordForm/recordForm.svelte';
 	import { createTypeProp } from '$lib/utils/typeProp.js';
@@ -35,6 +35,7 @@
 	import FormError from '$lib/forms/formError.svelte';
 	import { m } from '$lib/i18n';
 	import { XMark } from 'svelte-heros-v2';
+	import ImagePreview from '$lib/components/imagePreview.svelte';
 
 	export let organizationId: string;
 	export let initialData: ServicesResponse | undefined = undefined;
@@ -143,6 +144,24 @@
 		field="credential_type"
 		options={{ label: m.Select_credential_cryptography_type(), options: credentialTypeOptions }}
 	/>
+
+	<div class="flex items-start gap-8">
+		<div class="grow">
+			<Input
+				field="logo"
+				options={{
+					placeholder: 'https://website.org/image.png',
+					label: m.Credential_logo_URL(),
+					type: 'url'
+				}}
+				{superform}
+			/>
+		</div>
+		<div class="flex items-center gap-4">
+			<P>Preview</P>
+			<ImagePreview src={$form.logo} alt={m.Credential_logo_URL()} />
+		</div>
+	</div>
 
 	<div>
 		<Relations
