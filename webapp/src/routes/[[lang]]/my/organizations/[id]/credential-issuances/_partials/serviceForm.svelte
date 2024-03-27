@@ -243,22 +243,6 @@
 
 	<Hr />
 
-	<div>
-		<Relations
-			recordType={relyingPartiesType}
-			collection={Collections.RelyingParties}
-			field="relying_party"
-			options={{
-				inputMode: 'select',
-				displayFields: ['name', 'endpoint'],
-				label: m.Select_a_relying_party()
-			}}
-			{superform}
-		/>
-	</div>
-
-	<Hr />
-
 	<Heading tag="h5">Options</Heading>
 
 	<Checkbox field="add_ons" {superform}>{m.Use_addons()}</Checkbox>
