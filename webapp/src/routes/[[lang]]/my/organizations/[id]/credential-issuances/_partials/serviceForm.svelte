@@ -21,7 +21,7 @@
 		createFormData,
 		Select
 	} from '$lib/forms';
-	import { Drawer, Heading, Hr, P } from 'flowbite-svelte';
+	import { Drawer, Heading, Hr, Button, P } from 'flowbite-svelte';
 	import { sineIn } from 'svelte/easing';
 	import RecordForm from '$lib/recordForm/recordForm.svelte';
 	import { createTypeProp } from '$lib/utils/typeProp.js';
@@ -34,6 +34,7 @@
 	import JSONSchemaInput from './JSONSchemaInput.svelte';
 	import FormError from '$lib/forms/formError.svelte';
 	import { m } from '$lib/i18n';
+	import { XMark } from 'svelte-heros-v2';
 	import ImagePreview from '$lib/components/imagePreview.svelte';
 
 	export let organizationId: string;
@@ -106,6 +107,21 @@
 	const issuersType = createTypeProp<IssuersResponse>();
 	const authorizationServersType = createTypeProp<AuthorizationServersResponse>();
 	const relyingPartiesType = createTypeProp<RelyingPartiesResponse>();
+
+	//
+
+	function setCodeSamples(zencode: string | undefined, data: string | undefined) {
+		$form['external_verification_code'] = zencode;
+		$form['external_verification_data'] = data;
+	}
+
+	function clearCode() {
+		setCodeSamples(undefined, undefined);
+	}
+
+	function loadCodeSample1() {
+		setCodeSamples(`Given nothing\nThen print the string 'yes'`, `{\n  "myKey": "myValue"\n}`);
+	}
 </script>
 
 <Form {superform} showRequiredIndicator>
@@ -163,7 +179,7 @@
 
 	<Hr />
 
-	<Heading tag="h5">{m.Servers()}</Heading>
+	<Heading tag="h5">{m.Credential_issuer()}</Heading>
 
 	<div>
 		<Relations
@@ -179,6 +195,10 @@
 		/>
 	</div>
 
+	<Hr />
+
+	<Heading tag="h5">{m.Authorization_server()}</Heading>
+
 	<div>
 		<Relations
 			recordType={authorizationServersType}
@@ -192,6 +212,36 @@
 			{superform}
 		/>
 	</div>
+
+	<div class="flex gap-10">
+		<div class="grow space-y-6 font-mono">
+			<Textarea
+				field="external_verification_code"
+				options={{ placeholder: 'Given I send ...', label: m.External_verification_code() }}
+				{superform}
+			/>
+
+			<Textarea
+				field="external_verification_data"
+				options={{ placeholder: '{\n  ...\n}', label: m.External_verification_data() }}
+				{superform}
+			/>
+		</div>
+		<div class="font-mono gap-6 flex flex-col justify-stretch">
+			<div class="space-y-2">
+				<p class="text-sm">Load example code</p>
+				<Hr hrClass="m-0" />
+			</div>
+			<Button color="alternative" on:click={loadCodeSample1}>Example 1</Button>
+			<Hr hrClass="m-0" />
+			<Button color="alternative" on:click={clearCode}>
+				<XMark size="20"></XMark>
+				<span class="ml-2"> Clear code </span>
+			</Button>
+		</div>
+	</div>
+
+	<Hr />
 
 	<div>
 		<Relations
