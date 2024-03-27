@@ -216,5 +216,6 @@
 	"Add_new": "Add new",
 	"Create_issuance_flow": "Create issuance flow",
 	"Update_issuance_flow": "Update issuance flow",
-	"Template_parsing_error": "Template parsing error"
+	"Template_parsing_error": "Template parsing error",
+	"Credential_logo_URL": "Credential logo URL"
 }

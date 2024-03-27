@@ -15,7 +15,10 @@ const FieldTypeToZod = {
 	[FieldType.SELECT]: z.string(),
 	[FieldType.RELATION]: z.string(),
 	[FieldType.JSON]: z.string(),
-	[FieldType.URL]: z.string().url()
+	[FieldType.URL]: z
+		.string()
+		.url()
+		.regex(/^(http:\/\/|https:\/\/).+$/, 'Must be an HTTP or HTTPS URL')
 };
 
 type FieldOptions = Record<string, unknown>;
@@ -88,7 +91,12 @@ function fieldSchemaToZod(fieldschema: FieldSchema) {
 		if (fieldOptions[key]) zodSchema = refiner(zodSchema, fieldOptions);
 	}
 
-	if (!fieldschema.required) zodSchema = zodSchema.nullish();
+	if (!fieldschema.required) {
+		zodSchema = zodSchema.nullish();
+
+		// Extra check for url: https://github.com/colinhacks/zod/discussions/1254
+		if (fieldschema.type == FieldType.URL) zodSchema = zodSchema.or(z.literal(''));
+	}
 
 	if (!isArrayField(fieldschema)) return zodSchema;
 	else {
