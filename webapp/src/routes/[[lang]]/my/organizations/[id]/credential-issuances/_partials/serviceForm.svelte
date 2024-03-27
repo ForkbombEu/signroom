@@ -106,7 +106,6 @@
 
 	const issuersType = createTypeProp<IssuersResponse>();
 	const authorizationServersType = createTypeProp<AuthorizationServersResponse>();
-	const relyingPartiesType = createTypeProp<RelyingPartiesResponse>();
 
 	//
 
@@ -214,20 +213,28 @@
 	</div>
 
 	<div class="flex gap-10">
-		<div class="grow space-y-6 font-mono">
+		<div class="grow space-y-6">
 			<Textarea
 				field="external_verification_code"
-				options={{ placeholder: 'Given I send ...', label: m.External_verification_code() }}
+				options={{
+					placeholder: 'Given I send ...',
+					label: m.External_verification_code(),
+					class: 'font-mono'
+				}}
 				{superform}
 			/>
 
 			<Textarea
 				field="external_verification_data"
-				options={{ placeholder: '{\n  ...\n}', label: m.External_verification_data() }}
+				options={{
+					placeholder: '{\n  ...\n}',
+					label: m.External_verification_data(),
+					class: 'font-mono'
+				}}
 				{superform}
 			/>
 		</div>
-		<div class="font-mono gap-6 flex flex-col justify-stretch">
+		<div class=" gap-6 flex flex-col justify-stretch">
 			<div class="space-y-2">
 				<p class="text-sm">Load example code</p>
 				<Hr hrClass="m-0" />
