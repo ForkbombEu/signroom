@@ -7,7 +7,8 @@
 		type ServicesResponse,
 		type TemplatesResponse,
 		type AuthorizationServersResponse,
-		type RelyingPartiesResponse
+		type RelyingPartiesResponse,
+		type ServicesRecord
 	} from '$lib/pocketbase/types.js';
 	import { fieldsSchemaToZod } from '$lib/pocketbaseToZod/index.js';
 	import {
@@ -21,7 +22,7 @@
 		createFormData,
 		Select
 	} from '$lib/forms';
-	import { Drawer, Heading, Hr } from 'flowbite-svelte';
+	import { Drawer, Heading, Hr, Button, P } from 'flowbite-svelte';
 	import { sineIn } from 'svelte/easing';
 	import RecordForm from '$lib/recordForm/recordForm.svelte';
 	import { createTypeProp } from '$lib/utils/typeProp.js';
@@ -34,9 +35,12 @@
 	import JSONSchemaInput from './JSONSchemaInput.svelte';
 	import FormError from '$lib/forms/formError.svelte';
 	import { m } from '$lib/i18n';
+	import { XMark } from 'svelte-heros-v2';
+	import ImagePreview from '$lib/components/imagePreview.svelte';
 
 	export let organizationId: string;
-	export let initialData: ServicesResponse | undefined = undefined;
+	export let serviceId: string | undefined = undefined;
+	export let initialData: Partial<ServicesRecord> | undefined = undefined;
 
 	const serviceSchema = fieldsSchemaToZod(getCollectionSchema(Collections.Services)!.schema);
 
@@ -45,8 +49,8 @@
 		async (e) => {
 			const formData = createFormData(e.form.data);
 			let record;
-			if (Boolean(initialData)) {
-				record = await pb.collection(Collections.Services).update(initialData!.id, formData);
+			if (serviceId) {
+				record = await pb.collection(Collections.Services).update(serviceId, formData);
 			} else {
 				record = await pb.collection(Collections.Services).create<ServicesResponse>(formData);
 			}
@@ -96,7 +100,7 @@
 
 	//
 
-	const submitButtonText = !Boolean(initialData)
+	const submitButtonText = !Boolean(serviceId)
 		? m.Create_issuance_flow()
 		: m.Update_issuance_flow();
 
@@ -104,10 +108,24 @@
 
 	const issuersType = createTypeProp<IssuersResponse>();
 	const authorizationServersType = createTypeProp<AuthorizationServersResponse>();
-	const relyingPartiesType = createTypeProp<RelyingPartiesResponse>();
+
+	//
+
+	function setCodeSamples(zencode: string | undefined, data: string | undefined) {
+		$form['external_verification_code'] = zencode;
+		$form['external_verification_data'] = data;
+	}
+
+	function clearCode() {
+		setCodeSamples(undefined, undefined);
+	}
+
+	function loadCodeSample1() {
+		setCodeSamples(`Given nothing\nThen print the string 'yes'`, `{\n  "myKey": "myValue"\n}`);
+	}
 </script>
 
-<Form {superform} showRequiredIndicator>
+<Form {superform} showRequiredIndicator className="space-y-10">
 	<Heading tag="h5">{m.Main_info()}</Heading>
 
 	<Input
@@ -121,6 +139,10 @@
 		options={{ placeholder: m.Service_description(), label: m.Service_description() }}
 		{superform}
 	/>
+
+	<Hr />
+
+	<Heading tag="h5">Credential info</Heading>
 
 	<Select
 		{superform}
@@ -142,9 +164,27 @@
 		/>
 	</div>
 
+	<div class="flex items-start gap-8">
+		<div class="grow">
+			<Input
+				field="logo"
+				options={{
+					placeholder: 'https://website.org/image.png',
+					label: m.Credential_logo_URL(),
+					type: 'url'
+				}}
+				{superform}
+			/>
+		</div>
+		<div class="flex items-center gap-4">
+			<P>Preview</P>
+			<ImagePreview src={$form.logo} alt={m.Credential_logo_URL()} />
+		</div>
+	</div>
+
 	<Hr />
 
-	<Heading tag="h5">{m.Servers()}</Heading>
+	<Heading tag="h5">{m.Credential_issuer()}</Heading>
 
 	<div>
 		<Relations
@@ -160,6 +200,10 @@
 		/>
 	</div>
 
+	<Hr />
+
+	<Heading tag="h5">{m.Authorization_server()}</Heading>
+
 	<div>
 		<Relations
 			recordType={authorizationServersType}
@@ -174,18 +218,40 @@
 		/>
 	</div>
 
-	<div>
-		<Relations
-			recordType={relyingPartiesType}
-			collection={Collections.RelyingParties}
-			field="relying_party"
-			options={{
-				inputMode: 'select',
-				displayFields: ['name', 'endpoint'],
-				label: m.Select_a_relying_party()
-			}}
-			{superform}
-		/>
+	<div class="flex gap-10">
+		<div class="grow space-y-6">
+			<Textarea
+				field="external_verification_code"
+				options={{
+					placeholder: 'Given I send ...',
+					label: m.External_verification_code(),
+					class: 'font-mono'
+				}}
+				{superform}
+			/>
+
+			<Textarea
+				field="external_verification_data"
+				options={{
+					placeholder: '{\n  ...\n}',
+					label: m.External_verification_data(),
+					class: 'font-mono'
+				}}
+				{superform}
+			/>
+		</div>
+		<div class=" gap-6 flex flex-col justify-stretch">
+			<div class="space-y-2">
+				<p class="text-sm">Load example code</p>
+				<Hr hrClass="m-0" />
+			</div>
+			<Button color="alternative" on:click={loadCodeSample1}>Example 1</Button>
+			<Hr hrClass="m-0" />
+			<Button color="alternative" on:click={clearCode}>
+				<XMark size="20"></XMark>
+				<span class="ml-2"> Clear code </span>
+			</Button>
+		</div>
 	</div>
 
 	<Hr />
