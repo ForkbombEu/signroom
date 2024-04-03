@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-ARG GOVER=1.20
+ARG GOVER=1.21
 ARG ALP_VER=3.18.0
 FROM golang:$GOVER-alpine AS builder
 ENV GONOPROXY=

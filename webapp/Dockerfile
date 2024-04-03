@@ -9,7 +9,7 @@ WORKDIR /build
 COPY ./webapp/ .
 RUN rm -rf zenflows-crypto
 RUN git init
-RUN git submodule add https://github.com/interfacerproject/zenflows-crypto zenflows-crypto
+RUN git submodule add -f https://github.com/interfacerproject/zenflows-crypto zenflows-crypto
 
 
 EXPOSE $NODE_PORT
