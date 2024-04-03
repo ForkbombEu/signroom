@@ -8,8 +8,10 @@
 
 	// Components
 	import { ProtectedOrgLayout } from '$lib/rbac';
-	import Breadcrumbs, { type BreadcrumbRenamer } from '$lib/components/Breadcrumbs.svelte';
+	import Breadcrumbs, { type BreadcrumbsOptions } from '$lib/components/Breadcrumbs.svelte';
 	import { Hr } from 'flowbite-svelte';
+
+	import { m } from '$lib/i18n';
 
 	//
 
@@ -17,16 +19,16 @@
 
 	//
 
-	const breadcrumbRenamers: BreadcrumbRenamer[] = [
-		{
-			sveltekitFolder: '[id]',
-			newText: getOrganizationNameById
+	const breadcrumbsOptions: BreadcrumbsOptions = {
+		renamers: {
+			'[id]': getOrganizationNameById,
+			'[issuance_id]': getServiceNameById,
+			organizations: () => m.organizations(),
+			'credential-issuances': () => m.Credential_issuances(),
+			my: () => m.My()
 		},
-		{
-			sveltekitFolder: '[serviceId]',
-			newText: getServiceNameById
-		}
-	];
+		exclude: ['[[lang]]']
+	};
 
 	async function getServiceNameById(id: string): Promise<string> {
 		const service = await pb.collection(Collections.Services).getOne<ServicesResponse>(id);
@@ -44,7 +46,7 @@
 <!--  -->
 
 <ProtectedOrgLayout orgId={data.organization.id}>
-	<Breadcrumbs renamers={breadcrumbRenamers} />
+	<Breadcrumbs options={breadcrumbsOptions} />
 
 	<Hr />
 
