@@ -14,12 +14,12 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-ARG GOVER=1.21
+ARG GOVER=1.22
 ARG ALP_VER=3.18.0
 FROM golang:$GOVER-alpine AS builder
 ENV GONOPROXY=
 
-RUN apk add --no-cache git
+RUN apk add --no-cache git wget
 
 WORKDIR /app
 
@@ -29,8 +29,8 @@ COPY ./admin/ .
 RUN git init
 RUN rm -rf zencode/zenflows-crypto
 RUN git submodule add https://github.com/interfacerproject/zenflows-crypto zencode/zenflows-crypto
-
 RUN ENABLE_CGO=0 go build -o pb .
+
 
 FROM alpine:$ALP_VER
 
@@ -39,6 +39,8 @@ ARG USER=app
 RUN wget https://github.com/dyne/zenroom/releases/latest/download/zenroom -O zenroom \
         && chmod a+x zenroom \
         && cp zenroom /usr/local/bin/
+RUN wget  -P /usr/local/bin https://github.com/dyne/zenroom/releases/latest/download/zencode-exec
+RUN chmod +x /usr/local/bin/zencode-exec
 
 RUN addgroup --system "$USER" && adduser --system --ingroup "$USER" "$USER" && \
       install -d -m 0755 -o "$USER" -g "$USER" /log

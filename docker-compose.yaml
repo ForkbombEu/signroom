@@ -53,3 +53,5 @@ services:
         source: ./admin/pb_data
         target: /admin/pb_data
     network_mode: "host"
+    healthcheck:
+      test: wget -nv -t1 --spider 'http://localhost:4173/' || exit 1
