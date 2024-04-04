@@ -12,6 +12,7 @@ jobs:
       - run: docker compose up --wait
       - name: 📨 Setup playwright
         run: |
+          npm install -g pnpm
           npx playwright install --with-deps
           pnpm build
           pnpm exec playwright test
