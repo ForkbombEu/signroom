@@ -137,6 +137,8 @@
 	</Sidebar>
 
 	<MainContent>
-		<slot />
+		<div class="bg-[url('/bg.png')] bg-cover min-h-screen overflow-auto">
+			<slot />
+		</div>
 	</MainContent>
 </UIShell>
