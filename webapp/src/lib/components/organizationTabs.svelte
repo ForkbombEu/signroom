@@ -5,36 +5,40 @@
 
 	export let organizationId: string;
 
-	const base = (path = '') => `/my/organizations/${organizationId}${path}`;
+	$: tabs = createOrganizationLinks(organizationId);
 
-	let tabs: NavigationTab[] = [
-		{
-			label: m.Home(),
-			href: base(),
-			icon: Home,
-			activeForSubpages: false
-		},
-		{
-			label: m.Credential_issuances(),
-			href: base('/credential-issuances'),
-			icon: Fire
-		},
-		{
-			label: m.Microservices(),
-			href: base('/microservices'),
-			icon: GlobeAlt
-		},
-		{
-			label: m.Members(),
-			href: base('/settings/members'),
-			icon: Users
-		},
-		{
-			label: m.Settings(),
-			href: base('/settings'),
-			icon: Cog
-		}
-	];
+	function createOrganizationLinks(organizationId: string): NavigationTab[] {
+		const base = (path = '') => `/my/organizations/${organizationId}${path}`;
+
+		return [
+			{
+				label: m.Home(),
+				href: base(),
+				icon: Home,
+				activeForSubpages: false
+			},
+			{
+				label: m.Credential_issuances(),
+				href: base('/credential-issuances'),
+				icon: Fire
+			},
+			{
+				label: m.Microservices(),
+				href: base('/microservices'),
+				icon: GlobeAlt
+			},
+			{
+				label: m.Members(),
+				href: base('/settings/members'),
+				icon: Users
+			},
+			{
+				label: m.Settings(),
+				href: base('/settings'),
+				icon: Cog
+			}
+		];
+	}
 </script>
 
 <NavigationTabs {tabs}></NavigationTabs>
