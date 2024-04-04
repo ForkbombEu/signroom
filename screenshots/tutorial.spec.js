@@ -60,5 +60,3 @@ test('Register a user', async ({ page, context }) => {
   saveVideoTutorial(page, context, 'registration');
 });
 
-
-  
