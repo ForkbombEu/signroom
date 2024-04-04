@@ -17,6 +17,11 @@ export const saveVideoTutorial = async (page, context, videoTitle) => {
 	}
 }
 
+test('make all the screenshots', async ({ page }) => {
+  await page.goto('/register')
+  await page.screenshot({ path: 'screens/register.png', fullPage: true });
+});
+
 test('how to setup did on pb', async ({ page, context }) => {
   await page.goto('http://localhost:8090/_/');
   await page.goto('http://localhost:8090/_/#/login');

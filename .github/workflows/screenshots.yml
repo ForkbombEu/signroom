@@ -24,5 +24,6 @@ jobs:
           git config --global user.name 'Puria Nafisi Azizi'
           git config --global user.email 'puria@dyne.org'
           git add ./screenshots/videos
+          git add ./screenshots/screens
           git commit -m "chore: Update screenshots"
           git push
