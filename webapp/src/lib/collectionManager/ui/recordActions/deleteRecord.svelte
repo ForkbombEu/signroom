@@ -20,17 +20,17 @@
 	}
 
 	let open = false;
+
+	function openModal() {
+		open = true;
+	}
 </script>
 
-<Button
-	class="!p-2"
-	color="alternative"
-	on:click={() => {
-		open = true;
-	}}
->
-	<Trash size="20" />
-</Button>
+<slot {openModal}>
+	<Button class="!p-2" color="alternative" on:click={openModal}>
+		<Trash size="20" />
+	</Button>
+</slot>
 
 <PortalWrapper>
 	<Modal bind:open title="Delete record" size="xs">
