@@ -18,7 +18,7 @@
 				activeForSubpages: false
 			},
 			{
-				label: m.Credential_issuances(),
+				label: m.Issuance_flows(),
 				href: base('/credential-issuances'),
 				icon: Fire
 			},

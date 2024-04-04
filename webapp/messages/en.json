@@ -230,5 +230,9 @@
 	"new_membership_requests": "new membership requests",
 	"Manage": "Manage",
 	"Add_new_member": "Add new member",
-	"You": "You"
+	"You": "You",
+	"New_issuance_flow": "New issuance flow",
+	"Active": "Active",
+	"View": "View",
+	"Edit": "Edit"
 }

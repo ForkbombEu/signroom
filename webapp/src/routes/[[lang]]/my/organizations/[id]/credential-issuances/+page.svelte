@@ -1,62 +1,87 @@
 <script lang="ts">
 	import { Collections, type ServicesResponse } from '$lib/pocketbase/types';
-	import { CollectionEmptyState, CollectionManager, CollectionTable } from '$lib/collectionManager';
-	import { Eye, Plus } from 'svelte-heros-v2';
-	import { Button, Heading, A } from 'flowbite-svelte';
+	import { CollectionManager } from '$lib/collectionManager';
+	import { Plus, ArrowRight, Eye, Pencil } from 'svelte-heros-v2';
+	import { Button, Badge } from 'flowbite-svelte';
 	import { page } from '$app/stores';
 	import { createTypeProp } from '$lib/utils/typeProp';
-	import IconButton from '$lib/components/iconButton.svelte';
 	import { m } from '$lib/i18n';
 	import OrganizationLayout from '$lib/components/organizationLayout.svelte';
+	import PageCard from '$lib/components/pageCard.svelte';
+	import SectionTitle from '$lib/components/sectionTitle.svelte';
+	import PlainCard from '$lib/components/plainCard.svelte';
+	import { c } from '$lib/utils/strings.js';
+	import ImagePreview from '$lib/components/imagePreview.svelte';
 
 	export let data;
 	let { organization } = data;
 
-	let createIssuanceHref = `${$page.url.pathname}/create`;
-
 	const recordType = createTypeProp<ServicesResponse>();
 
-	const serviceUrl = (id: string) => `${$page.url.pathname}/${id}`;
+	$: createIssuanceUrl = `${$page.url.pathname}/create`;
+	$: templatesUrl = `/my/organizations/${organization.id}/credential-templates`;
+	$: serviceUrl = (id: string) => `${$page.url.pathname}/${id}`;
 </script>
 
 <OrganizationLayout org={data.organization}>
-	<CollectionManager
-		{recordType}
-		collection={Collections.Services}
-		let:records
-		initialQueryParams={{
-			filter: `organization.id = '${organization.id}'`
-		}}
-	>
-		<div class="flex justify-between items-center mb-8">
-			<Heading tag="h4">{m.Credential_issuances()}</Heading>
-			{#if records.length > 0}
-				<Button href={createIssuanceHref} color="alternative" class="shrink-0">
-					<Plus size="20" />
-					<span class="ml-1">{m.Create_a_new_credential_issuance()}</span>
-				</Button>
-			{/if}
-		</div>
-
-		<CollectionTable
-			fields={['name', 'organization']}
-			{records}
-			hideActions={['edit', 'share', 'select']}
+	<PageCard>
+		<CollectionManager
+			{recordType}
+			collection={Collections.Services}
+			let:records
+			initialQueryParams={{
+				filter: `organization.id = '${organization.id}'`
+			}}
 		>
-			<svelte:fragment slot="emptyState">
-				<CollectionEmptyState title={m.No_credential_issuances()} hideCreateButton>
-					<svelte:fragment slot="bottom">
-						<Button href={createIssuanceHref} color="alternative">
-							<Plus size="20" />
-							<span class="ml-1">{m.Create_a_new_credential_issuance()}</span>
+			<SectionTitle title={m.Issuance_flows()}>
+				<svelte:fragment slot="right">
+					<div class="flex gap-2">
+						<Button href={templatesUrl} outline class="shrink-0">
+							{m.Credential_templates()}
+							<ArrowRight size="20" class="ml-1" />
 						</Button>
-					</svelte:fragment>
-				</CollectionEmptyState>
-			</svelte:fragment>
+						<Button href={createIssuanceUrl} class="shrink-0">
+							{m.New_issuance_flow()}
+							<Plus size="20" class="ml-1" />
+						</Button>
+					</div>
+				</svelte:fragment>
+			</SectionTitle>
 
-			<svelte:fragment slot="actions" let:record>
-				<IconButton size="sm" icon={Eye} border href={serviceUrl(record.id)} />
-			</svelte:fragment>
-		</CollectionTable>
-	</CollectionManager>
+			{#if records.length > 0}
+				<div class="space-y-4">
+					{#each records as record}
+						<PlainCard>
+							<div class="flex items-center gap-4">
+								<ImagePreview src={record.logo} size="w-[50px] h-[50px]" hideHelpText
+								></ImagePreview>
+								<div>
+									<div class="flex gap-2 items-center">
+										<p class="text-primary-700 font-semibold">{c(record.name)}</p>
+										<Badge color="green">{m.Active()}</Badge>
+									</div>
+									{#if record.description}
+										<p class="text-sm text-gray-500">{record.description}</p>
+									{/if}
+								</div>
+							</div>
+
+							<svelte:fragment slot="right">
+								<div class="space-x-1">
+									<Button outline size="sm">
+										{m.View()}
+										<Eye size="20" class="ml-2" />
+									</Button>
+									<Button outline size="sm">
+										{m.Edit()}
+										<Pencil size="20" class="ml-2" />
+									</Button>
+								</div>
+							</svelte:fragment>
+						</PlainCard>
+					{/each}
+				</div>
+			{/if}
+		</CollectionManager>
+	</PageCard>
 </OrganizationLayout>

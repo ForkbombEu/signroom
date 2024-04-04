@@ -4,6 +4,7 @@
 	export let src: string | undefined = undefined;
 	export let alt = 'Image preview';
 	export let size = 'h-[70px] w-[70px]';
+	export let hideHelpText = false;
 
 	$: divClass = clsx(
 		size,
@@ -27,8 +28,10 @@
 			<img class="w-full" {src} {alt} />
 		{:else}
 			<div class="text-xs text-center leading-[0.9rem] text-gray-400">
-				<p>No</p>
-				<p>Image</p>
+				{#if !hideHelpText}
+					<p>No</p>
+					<p>Image</p>
+				{/if}
 			</div>
 		{/if}
 	{/await}

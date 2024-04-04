@@ -19,7 +19,9 @@
 
 <div>
 	<div class={headingClass}>
-		<Heading {tag}>{title}</Heading>
+		<div class="w-fit">
+			<Heading {tag}>{title}</Heading>
+		</div>
 		<slot name="right" />
 	</div>
 	{#if !hideLine}
