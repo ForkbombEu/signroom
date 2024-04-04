@@ -7,6 +7,7 @@
 	import { Breadcrumb as BreadcrumbComponent, BreadcrumbItem } from 'flowbite-svelte';
 	import { page } from '$app/stores';
 	import { calcBreadcrumbs } from './Breadcrumbs';
+	import type { Link } from '$lib/utils/types';
 
 	//
 
@@ -16,14 +17,13 @@
 
 	//
 
-	$: breadcrumbsPromise = calcBreadcrumbs($page, options);
+	let breadcrumbs: Link[] = [];
+	$: calcBreadcrumbs($page, options).then((newBreadcrumbs) => (breadcrumbs = newBreadcrumbs));
 </script>
 
-{#await breadcrumbsPromise then breadcrumbs}
-	<BreadcrumbComponent aria-label="breadcrumb">
-		{#each breadcrumbs as { href, text }, i}
-			{@const isHomeBreadcrumb = i == 0}
-			<BreadcrumbItem home={isHomeBreadcrumb} {href}>{text}</BreadcrumbItem>
-		{/each}
-	</BreadcrumbComponent>
-{/await}
+<BreadcrumbComponent aria-label="breadcrumb">
+	{#each breadcrumbs as { href, text }, i}
+		{@const isHomeBreadcrumb = i == 0}
+		<BreadcrumbItem home={isHomeBreadcrumb} {href}>{text}</BreadcrumbItem>
+	{/each}
+</BreadcrumbComponent>
