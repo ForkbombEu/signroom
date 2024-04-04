@@ -222,5 +222,11 @@
 	"Authorization_server": "Authorization server",
 	"External_verification_code": "External verification code",
 	"External_verification_data": "External verification data",
-	"Select_an_authorization_server": "Select an authorization server"
+	"Select_an_authorization_server": "Select an authorization server",
+	"Issuance_flows": "Issuance flows",
+	"active_flow": "active flow",
+	"active_flows": "active flows",
+	"new_membership_request": "new membership request",
+	"new_membership_requests": "new membership requests",
+	"Manage": "Manage"
 }
