@@ -1,0 +1,25 @@
+name: Create screenshots
+on:
+  pull_request:
+    branches: [ "main" ]
+permissions:
+  contents: write
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker compose up --wait
+      - name: 📨 Setup playwright
+        run: |
+          npx playwright install --with-deps
+          pnpm build
+          pnpm exec playwright test
+        working-directory: ./screenshots
+      - name: Commit screenshots assets
+        run: |
+          git config --global user.name 'Puria Nafisi Azizi'
+          git config --global user.email 'puria@dyne.org'
+          git add ./screenshots/videos
+          git commit -m "chore: Update screenshots"
+          git push
