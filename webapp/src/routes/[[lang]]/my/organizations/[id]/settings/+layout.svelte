@@ -2,6 +2,7 @@
 	import { ProtectedOrgLayout, ProtectedOrgUI, OrgRoles } from '$lib/rbac';
 	import { Button, ButtonGroup, P } from 'flowbite-svelte';
 	import { m } from '$lib/i18n';
+	import OrganizationLayout from '$lib/components/organizationLayout.svelte';
 
 	export let data;
 	$: organization = data.organization;
@@ -12,20 +13,22 @@
 
 <!--  -->
 
-<div class="flex justify-end items-center">
-	<ProtectedOrgUI orgId={organization.id} roles={[OWNER, ADMIN]}>
-		<div class="flex justify-end items-center space-x-4">
-			<P color="text-gray-600" size="sm">{m.Settings()}</P>
-			<ButtonGroup>
-				<ProtectedOrgUI orgId={organization.id} roles={[OWNER]}>
-					<Button href={href('/settings/general')}>{m.General()}</Button>
-				</ProtectedOrgUI>
-				<Button href={href('/settings/members')}>{m.Members()}</Button>
-			</ButtonGroup>
-		</div>
-	</ProtectedOrgUI>
-</div>
+<OrganizationLayout org={data.organization}>
+	<div class="flex justify-end items-center">
+		<ProtectedOrgUI orgId={organization.id} roles={[OWNER, ADMIN]}>
+			<div class="flex justify-end items-center space-x-4">
+				<P color="text-gray-600" size="sm">{m.Settings()}</P>
+				<ButtonGroup>
+					<ProtectedOrgUI orgId={organization.id} roles={[OWNER]}>
+						<Button href={href('/settings/general')}>{m.General()}</Button>
+					</ProtectedOrgUI>
+					<Button href={href('/settings/members')}>{m.Members()}</Button>
+				</ButtonGroup>
+			</div>
+		</ProtectedOrgUI>
+	</div>
 
-<ProtectedOrgLayout orgId={organization.id}>
-	<slot />
-</ProtectedOrgLayout>
+	<ProtectedOrgLayout orgId={organization.id}>
+		<slot />
+	</ProtectedOrgLayout>
+</OrganizationLayout>
