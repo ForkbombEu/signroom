@@ -5,6 +5,7 @@
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { Heading } from 'flowbite-svelte';
 	import { m } from '$lib/i18n';
+	import OrganizationLayout from '$lib/components/organizationLayout.svelte';
 
 	//
 

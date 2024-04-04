@@ -17,6 +17,7 @@
 		objectSchemaToCredentialSubject,
 		flattenCredentialSubjectProperties
 	} from '@api/downloadCredentialIssuer/utils';
+	import OrganizationLayout from '$lib/components/organizationLayout.svelte';
 
 	//
 
@@ -38,52 +39,58 @@
 	}
 </script>
 
-<CollectionManager
-	{recordType}
-	collection={Collections.Templates}
-	initialQueryParams={{
-		filter: `organization.id = '${organization.id}'`
-	}}
-	formSettings={{
-		hide: { organization: organization.id },
-		components: {
-			schema: createFieldComponent(JSONSchemaInput),
-			description: createFieldComponent(Textarea, {
-				options: { placeholder: m.Enter_a_description_for_the_schema() }
-			})
-		}
-	}}
-	let:records
->
-	<CollectionManagerHeader>
-		<div slot="title" class="space-y-1">
-			<Heading tag="h4">{m.Credential_templates()}</Heading>
-		</div>
-	</CollectionManagerHeader>
+<OrganizationLayout org={data.organization}>
+	<CollectionManager
+		{recordType}
+		collection={Collections.Templates}
+		initialQueryParams={{
+			filter: `organization.id = '${organization.id}'`
+		}}
+		formSettings={{
+			hide: { organization: organization.id },
+			components: {
+				schema: createFieldComponent(JSONSchemaInput),
+				description: createFieldComponent(Textarea, {
+					options: { placeholder: m.Enter_a_description_for_the_schema() }
+				})
+			}
+		}}
+		let:records
+	>
+		<CollectionManagerHeader>
+			<div slot="title" class="space-y-1">
+				<Heading tag="h4">{m.Credential_templates()}</Heading>
+			</div>
+		</CollectionManagerHeader>
 
-	<CollectionTable {records} fields={['name']} hideActions={['share', 'delete', 'select', 'edit']}>
-		<svelte:fragment slot="header">
-			<TableHeadCell>Properties</TableHeadCell>
-		</svelte:fragment>
+		<CollectionTable
+			{records}
+			fields={['name']}
+			hideActions={['share', 'delete', 'select', 'edit']}
+		>
+			<svelte:fragment slot="header">
+				<TableHeadCell>Properties</TableHeadCell>
+			</svelte:fragment>
 
-		<svelte:fragment let:record>
-			{@const propertyList = getTemplatePropertyList(record.schema)}
-			{#if propertyList}
-				<div class="max-h-[200px] overflow-scroll rounded-lg font-mono">
-					<ul class="list-disc list-inside">
-						{#each propertyList as [propertyName, property]}
-							<li>
-								{propertyName}
-								{#if property.mandatory}
-									<span class="text-gray-300">[required]</span>
-								{/if}
-							</li>
-						{/each}
-					</ul>
-				</div>
-			{:else}
-				<p class="text-gray-300">Template parsing error</p>
-			{/if}
-		</svelte:fragment>
-	</CollectionTable>
-</CollectionManager>
+			<svelte:fragment let:record>
+				{@const propertyList = getTemplatePropertyList(record.schema)}
+				{#if propertyList}
+					<div class="max-h-[200px] overflow-scroll rounded-lg font-mono">
+						<ul class="list-disc list-inside">
+							{#each propertyList as [propertyName, property]}
+								<li>
+									{propertyName}
+									{#if property.mandatory}
+										<span class="text-gray-300">[required]</span>
+									{/if}
+								</li>
+							{/each}
+						</ul>
+					</div>
+				{:else}
+					<p class="text-gray-300">Template parsing error</p>
+				{/if}
+			</svelte:fragment>
+		</CollectionTable>
+	</CollectionManager>
+</OrganizationLayout>
