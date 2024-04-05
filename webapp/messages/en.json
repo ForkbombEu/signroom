@@ -241,5 +241,9 @@
 	"Back_to_my_organizations": "Back to My Organizations",
 	"No_available_organizations_found": "No available organizations found",
 	"You_havent_added_any_organizations_yet_": "You haven't added any organizations yet.",
-	"Your_membership_requests": "Your membership requests"
+	"Your_membership_requests": "Your membership requests",
+	"Delete": "Delete",
+	"Pending_membership_requests": "Pending membership requests",
+	"Decline": "Decline",
+	"No_new_membership_requests": "No new membership requests"
 }

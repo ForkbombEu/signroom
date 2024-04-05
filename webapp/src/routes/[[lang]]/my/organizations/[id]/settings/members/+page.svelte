@@ -22,6 +22,8 @@
 	import { c } from '$lib/utils/strings.js';
 	import EditRecord from '$lib/collectionManager/ui/recordActions/editRecord.svelte';
 	import DeleteRecord from '$lib/collectionManager/ui/recordActions/deleteRecord.svelte';
+	import MembershipRequests from './_partials/membershipRequests.svelte';
+	import { getUserDisplayName } from '$lib/utils/pb';
 
 	//
 
@@ -34,11 +36,11 @@
 	}>;
 
 	const recordType = createTypeProp<AuthorizationWithUser>();
-
-	function getUserDisplayName(user: UsersResponse) {
-		return user.name ? user.name : user.username ? user.username : user.email;
-	}
 </script>
+
+<PageCard>
+	<MembershipRequests {organization} />
+</PageCard>
 
 <PageCard>
 	<CollectionManager
@@ -68,45 +70,47 @@
 			</CreateRecord>
 		</SectionTitle>
 
-		{#each records as record}
-			{@const user = record.expand?.user}
-			{@const role = record.expand?.role}
-			{#if user && role}
-				<PlainCard>
-					<div class="flex items-center gap-4">
-						<UserAvatar size="md" {user}></UserAvatar>
-						<p>
-							{getUserDisplayName(user)}
-						</p>
-						<div class="flex gap-2">
-							{#if user.id == $currentUser?.id}
-								<Badge color="dark">{m.You()}</Badge>
-							{/if}
-							{#if role.name != OrgRoles.MEMBER}
-								<Badge color="dark">{c(role.name)}</Badge>
-							{/if}
+		<div class="space-y-4">
+			{#each records as record}
+				{@const user = record.expand?.user}
+				{@const role = record.expand?.role}
+				{#if user && role}
+					<PlainCard>
+						<div class="flex items-center gap-4">
+							<UserAvatar size="md" {user}></UserAvatar>
+							<p>
+								{getUserDisplayName(user)}
+							</p>
+							<div class="flex gap-2">
+								{#if user.id == $currentUser?.id}
+									<Badge color="dark">{m.You()}</Badge>
+								{/if}
+								{#if role.name != OrgRoles.MEMBER}
+									<Badge color="dark">{c(role.name)}</Badge>
+								{/if}
+							</div>
 						</div>
-					</div>
 
-					<svelte:fragment slot="right">
-						<div class="space-x-1">
-							<EditRecord {record} let:openModal>
-								<Button outline color="primary" size="sm" on:click={openModal}>
-									Edit role
-									<Pencil size="20" class="ml-2"></Pencil>
-								</Button>
-							</EditRecord>
+						<svelte:fragment slot="right">
+							<div class="space-x-1">
+								<EditRecord {record} let:openModal>
+									<Button outline color="primary" size="sm" on:click={openModal}>
+										Edit role
+										<Pencil size="20" class="ml-2"></Pencil>
+									</Button>
+								</EditRecord>
 
-							<DeleteRecord {record} let:openModal>
-								<Button outline color="primary" size="sm" on:click={openModal}>
-									Remove
-									<XMark size="20" class="ml-2"></XMark>
-								</Button>
-							</DeleteRecord>
-						</div>
-					</svelte:fragment>
-				</PlainCard>
-			{/if}
-		{/each}
+								<DeleteRecord {record} let:openModal>
+									<Button outline color="primary" size="sm" on:click={openModal}>
+										Remove
+										<XMark size="20" class="ml-2"></XMark>
+									</Button>
+								</DeleteRecord>
+							</div>
+						</svelte:fragment>
+					</PlainCard>
+				{/if}
+			{/each}
+		</div>
 	</CollectionManager>
 </PageCard>
