@@ -20,7 +20,7 @@
 
 	$: createIssuanceUrl = `${$page.url.pathname}/create`;
 	$: templatesUrl = `/my/organizations/${organization.id}/credential-templates`;
-	$: serviceUrl = (id: string) => `${$page.url.pathname}/${id}`;
+	$: issuanceFlowUrl = (id: string) => `${$page.url.pathname}/${id}`;
 </script>
 
 <OrganizationLayout org={data.organization}>
@@ -33,7 +33,7 @@
 				filter: `organization.id = '${organization.id}'`
 			}}
 		>
-			<SectionTitle title={m.Issuance_flows()}>
+			<SectionTitle tag="h5" title={m.Issuance_flows()}>
 				<svelte:fragment slot="right">
 					<div class="flex gap-2">
 						<Button href={templatesUrl} outline class="shrink-0">
@@ -68,11 +68,11 @@
 
 							<svelte:fragment slot="right">
 								<div class="space-x-1">
-									<Button outline size="sm">
+									<Button outline size="sm" href={issuanceFlowUrl(record.id)}>
 										{m.View()}
 										<Eye size="20" class="ml-2" />
 									</Button>
-									<Button outline size="sm">
+									<Button outline size="sm" href={issuanceFlowUrl(record.id)}>
 										{m.Edit()}
 										<Pencil size="20" class="ml-2" />
 									</Button>
