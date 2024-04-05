@@ -101,6 +101,9 @@ onRecordAfterUpdateRequest((e) => {
         });
 
         $app.newMailClient().send(message);
+
+        // Deleting orgJoinRequest record once all has been done
+        $app.dao().deleteRecord(e.record);
     } catch (e) {
         console.log(e);
         console.log(JSON.stringify(e));
