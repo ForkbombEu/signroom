@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { OrgRoles } from '$lib/rbac';
-	import { Heading, Button, A, P, Badge } from 'flowbite-svelte';
-	import { Plus, UserPlus, Cog } from 'svelte-heros-v2';
+	import { Heading, Button, A, P, Badge, Avatar } from 'flowbite-svelte';
+	import { Plus, UserPlus, Cog, PuzzlePiece, ArrowUturnLeft } from 'svelte-heros-v2';
 	import { c } from '$lib/utils/strings.js';
 	import { pb } from '$lib/pocketbase/index.js';
 	import { Collections } from '$lib/pocketbase/types.js';
@@ -12,7 +12,7 @@
 	import PageTop from '$lib/components/pageTop.svelte';
 	import Icon from '$lib/components/icon.svelte';
 	import PageContent from '$lib/components/pageContent.svelte';
-	import { CollectionEmptyState } from '$lib/collectionManager';
+	import EmptyState from '$lib/components/emptyState.svelte';
 	import PlainCard from '$lib/components/plainCard.svelte';
 
 	export let data;
@@ -32,6 +32,41 @@
 </PageTop>
 
 <PageContent>
+	{#if orgJoinRequests.length}
+		<PageCard>
+			<SectionTitle tag="h5" title={m.Your_membership_requests()}></SectionTitle>
+
+			<div class="space-y-4">
+				{#each orgJoinRequests as request}
+					{@const organization = request.expand?.organization}
+					{#if organization}
+						{@const avatarUrl = pb.files.getUrl(organization, organization.avatar)}
+						<PlainCard>
+							<Avatar slot="left" src={avatarUrl}></Avatar>
+
+							<div class="flex items-center space-x-2">
+								<P>{request.expand?.organization.name}</P>
+								<Badge color="yellow">{m.Pending()}</Badge>
+							</div>
+
+							<Button
+								slot="right"
+								outline
+								size="sm"
+								on:click={() => {
+									deleteJoinRequest(request.id);
+								}}
+							>
+								{m.Undo_request()}
+								<Icon src={ArrowUturnLeft} ml></Icon>
+							</Button>
+						</PlainCard>
+					{/if}
+				{/each}
+			</div>
+		</PageCard>
+	{/if}
+
 	<PageCard>
 		<SectionTitle tag="h5" title={m.Your_organizations()}>
 			<div slot="right" class="flex justify-end gap-2">
@@ -49,11 +84,12 @@
 		<div class="space-y-4">
 			{#if authorizations}
 				{#if authorizations.length == 0}
-					<CollectionEmptyState title={m.No_organizations_found_Create_one()} hideCreateButton />
+					<EmptyState title={m.You_havent_added_any_organizations_yet_()} icon={PuzzlePiece} />
 				{:else}
 					{#each authorizations as a}
 						{@const org = a.expand.organization}
 						{@const role = a.expand.role}
+
 						<PlainCard let:Title let:Description>
 							<div class="flex items-center gap-2">
 								<Title>
@@ -85,30 +121,5 @@
 				{/if}
 			{/if}
 		</div>
-
-		{#if orgJoinRequests.length}
-			<div class="mt-8 space-y-4">
-				<Heading tag="h5">{m.Your_join_requests()}</Heading>
-				<div class="border rounded-lg divide-y">
-					{#each orgJoinRequests as request}
-						<div class="flex items-center justify-between space-x-4 py-3 px-4">
-							<div class="flex space-x-2">
-								<P>{request.expand?.organization.name}</P>
-								<Badge large color="yellow">{m.Pending()}</Badge>
-							</div>
-							<Button
-								color="alternative"
-								size="sm"
-								on:click={() => {
-									deleteJoinRequest(request.id);
-								}}
-							>
-								{m.Undo_request()}
-							</Button>
-						</div>
-					{/each}
-				</div>
-			</div>
-		{/if}
 	</PageCard>
 </PageContent>
