@@ -16,14 +16,16 @@
 	const recordType = createTypeProp<OrganizationsResponse>();
 </script>
 
-<PageCard>
-	<Heading tag="h6" class="mb-6">{m.Manage_your_organization_public_info()}</Heading>
-	<RecordForm
-		{recordType}
-		collection={Collections.Organizations}
-		recordId={organization.id}
-		initialData={organization}
-		submitButtonText={m.Save_changes()}
-		on:success={invalidateAll}
-	/>
-</PageCard>
+<OrganizationLayout org={organization}>
+	<PageCard>
+		<Heading tag="h6" class="mb-6">{m.Manage_your_organization_public_info()}</Heading>
+		<RecordForm
+			{recordType}
+			collection={Collections.Organizations}
+			recordId={organization.id}
+			initialData={organization}
+			submitButtonText={m.Save_changes()}
+			on:success={invalidateAll}
+		/>
+	</PageCard>
+</OrganizationLayout>
