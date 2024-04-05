@@ -38,7 +38,7 @@
 </script>
 
 <UIShell {sidebarLayoutBreakpoint}>
-	<Topbar slot="top" let:sidebarLayoutMode>
+	<!-- <Topbar slot="top" let:sidebarLayoutMode>
 		<svelte:fragment slot="left">
 			<div class="flex space-x-2">
 				<HamburgerButton />
@@ -80,7 +80,7 @@
 				</DropdownItem>
 			</AvatarMenu>
 		</svelte:fragment>
-	</Topbar>
+	</Topbar> -->
 
 	<Sidebar>
 		<svelte:fragment slot="top">
