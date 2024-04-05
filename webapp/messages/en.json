@@ -236,5 +236,6 @@
 	"View": "View",
 	"Edit": "Edit",
 	"Back_to_issuance_flows": "Back to issuance flows",
-	"New_credential_template": "New credential template"
+	"New_credential_template": "New credential template",
+	"Endpoint": "Endpoint"
 }
