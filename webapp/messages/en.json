@@ -234,5 +234,7 @@
 	"New_issuance_flow": "New issuance flow",
 	"Active": "Active",
 	"View": "View",
-	"Edit": "Edit"
+	"Edit": "Edit",
+	"Back_to_issuance_flows": "Back to issuance flows",
+	"New_credential_template": "New credential template"
 }
