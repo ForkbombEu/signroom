@@ -20,7 +20,8 @@
 
 	$: createIssuanceUrl = `${$page.url.pathname}/create`;
 	$: templatesUrl = `/my/organizations/${organization.id}/credential-templates`;
-	$: issuanceFlowUrl = (id: string) => `${$page.url.pathname}/${id}`;
+	$: issuanceFlowUrl = (id: string, edit = false) =>
+		`${$page.url.pathname}/${id}${edit ? '/edit' : ''}`;
 </script>
 
 <OrganizationLayout org={data.organization}>
@@ -72,7 +73,7 @@
 										{m.View()}
 										<Eye size="20" class="ml-2" />
 									</Button>
-									<Button outline size="sm" href={issuanceFlowUrl(record.id)}>
+									<Button outline size="sm" href={issuanceFlowUrl(record.id, true)}>
 										{m.Edit()}
 										<Pencil size="20" class="ml-2" />
 									</Button>

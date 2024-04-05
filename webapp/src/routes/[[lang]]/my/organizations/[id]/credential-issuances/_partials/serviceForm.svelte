@@ -37,6 +37,7 @@
 	import { m } from '$lib/i18n';
 	import { XMark } from 'svelte-heros-v2';
 	import ImagePreview from '$lib/components/imagePreview.svelte';
+	import PageCard from '$lib/components/pageCard.svelte';
 
 	export let organizationId: string;
 	export let serviceId: string | undefined = undefined;
@@ -126,148 +127,150 @@
 </script>
 
 <Form {superform} showRequiredIndicator className="space-y-10">
-	<Heading tag="h5">{m.Main_info()}</Heading>
+	<PageCard>
+		<Heading tag="h5">{m.Main_info()}</Heading>
 
-	<Input
-		field="name"
-		options={{ placeholder: m.Service_name(), label: m.Service_name() }}
-		{superform}
-	/>
-
-	<Textarea
-		field="description"
-		options={{ placeholder: m.Service_description(), label: m.Service_description() }}
-		{superform}
-	/>
-
-	<Hr />
-
-	<Heading tag="h5">Credential info</Heading>
-
-	<Select
-		{superform}
-		field="credential_type"
-		options={{ label: m.Select_credential_cryptography_type(), options: credentialTypeOptions }}
-	/>
-
-	<div>
-		<Relations
-			collection={Collections.Templates}
-			field="templates"
-			options={{
-				label: m.Select_one_or_more_templates_for_this_service(),
-				inputMode: 'select',
-				displayFields: ['name'],
-				multiple: true
-			}}
+		<Input
+			field="name"
+			options={{ placeholder: m.Service_name(), label: m.Service_name() }}
 			{superform}
 		/>
-	</div>
 
-	<div class="flex items-start gap-8">
-		<div class="grow">
-			<Input
-				field="logo"
+		<Textarea
+			field="description"
+			options={{ placeholder: m.Service_description(), label: m.Service_description() }}
+			{superform}
+		/>
+	</PageCard>
+
+	<PageCard>
+		<Heading tag="h5">Credential info</Heading>
+
+		<Select
+			{superform}
+			field="credential_type"
+			options={{ label: m.Select_credential_cryptography_type(), options: credentialTypeOptions }}
+		/>
+
+		<div>
+			<Relations
+				collection={Collections.Templates}
+				field="templates"
 				options={{
-					placeholder: 'https://website.org/image.png',
-					label: m.Credential_logo_URL(),
-					type: 'url'
+					label: m.Select_one_or_more_templates_for_this_service(),
+					inputMode: 'select',
+					displayFields: ['name'],
+					multiple: true
 				}}
 				{superform}
 			/>
 		</div>
-		<div class="flex items-center gap-4">
-			<P>Preview</P>
-			<ImagePreview src={$form.logo} alt={m.Credential_logo_URL()} />
-		</div>
-	</div>
 
-	<Hr />
-
-	<Heading tag="h5">{m.Credential_issuer()}</Heading>
-
-	<div>
-		<Relations
-			recordType={issuersType}
-			collection={Collections.Issuers}
-			field="issuer"
-			options={{
-				inputMode: 'select',
-				displayFields: ['name', 'endpoint'],
-				label: m.Select_a_credential_issuer()
-			}}
-			{superform}
-		/>
-	</div>
-
-	<Hr />
-
-	<Heading tag="h5">{m.Authorization_server()}</Heading>
-
-	<div>
-		<Relations
-			recordType={authorizationServersType}
-			collection={Collections.AuthorizationServers}
-			field="authorization_server"
-			options={{
-				inputMode: 'select',
-				displayFields: ['name', 'endpoint'],
-				label: m.Select_an_authorization_service()
-			}}
-			{superform}
-		/>
-	</div>
-
-	<div class="flex gap-10">
-		<div class="grow space-y-6">
-			<Textarea
-				field="external_verification_code"
-				options={{
-					placeholder: 'Given I send ...',
-					label: m.External_verification_code(),
-					class: 'font-mono'
-				}}
-				{superform}
-			/>
-
-			<Textarea
-				field="external_verification_data"
-				options={{
-					placeholder: '{\n  ...\n}',
-					label: m.External_verification_data(),
-					class: 'font-mono'
-				}}
-				{superform}
-			/>
-		</div>
-		<div class=" gap-6 flex flex-col justify-stretch">
-			<div class="space-y-2">
-				<p class="text-sm">Load example code</p>
-				<Hr hrClass="m-0" />
+		<div class="flex items-start gap-8">
+			<div class="grow">
+				<Input
+					field="logo"
+					options={{
+						placeholder: 'https://website.org/image.png',
+						label: m.Credential_logo_URL(),
+						type: 'url'
+					}}
+					{superform}
+				/>
 			</div>
-			<Button color="alternative" on:click={loadCodeSample1}>Example 1</Button>
-			<Hr hrClass="m-0" />
-			<Button color="alternative" on:click={clearCode}>
-				<XMark size="20"></XMark>
-				<span class="ml-2"> Clear code </span>
-			</Button>
+			<div class="flex items-center gap-4">
+				<P>Preview</P>
+				<ImagePreview src={$form.logo} alt={m.Credential_logo_URL()} />
+			</div>
 		</div>
-	</div>
+	</PageCard>
 
-	<Hr />
+	<PageCard>
+		<Heading tag="h5">{m.Credential_issuer()}</Heading>
 
-	<Heading tag="h5">Options</Heading>
+		<div>
+			<Relations
+				recordType={issuersType}
+				collection={Collections.Issuers}
+				field="issuer"
+				options={{
+					inputMode: 'select',
+					displayFields: ['name', 'endpoint'],
+					label: m.Select_a_credential_issuer()
+				}}
+				{superform}
+			/>
+		</div>
 
-	<Checkbox field="add_ons" {superform}>{m.Use_addons()}</Checkbox>
-	<Checkbox field="published" {superform}>{m.Published()}</Checkbox>
+		<Hr />
 
-	<Hr />
+		<Heading tag="h5">{m.Authorization_server()}</Heading>
 
-	<FormError />
+		<div>
+			<Relations
+				recordType={authorizationServersType}
+				collection={Collections.AuthorizationServers}
+				field="authorization_server"
+				options={{
+					inputMode: 'select',
+					displayFields: ['name', 'endpoint'],
+					label: m.Select_an_authorization_service()
+				}}
+				{superform}
+			/>
+		</div>
 
-	<div class="flex justify-end">
-		<SubmitButton>{submitButtonText}</SubmitButton>
-	</div>
+		<div class="flex gap-10">
+			<div class="grow space-y-6">
+				<Textarea
+					field="external_verification_code"
+					options={{
+						placeholder: 'Given I send ...',
+						label: m.External_verification_code(),
+						class: 'font-mono'
+					}}
+					{superform}
+				/>
+
+				<Textarea
+					field="external_verification_data"
+					options={{
+						placeholder: '{\n  ...\n}',
+						label: m.External_verification_data(),
+						class: 'font-mono'
+					}}
+					{superform}
+				/>
+			</div>
+			<div class=" gap-6 flex flex-col justify-stretch">
+				<div class="space-y-2">
+					<p class="text-sm">Load example code</p>
+					<Hr hrClass="m-0" />
+				</div>
+				<Button color="alternative" on:click={loadCodeSample1}>Example 1</Button>
+				<Hr hrClass="m-0" />
+				<Button color="alternative" on:click={clearCode}>
+					<XMark size="20"></XMark>
+					<span class="ml-2"> Clear code </span>
+				</Button>
+			</div>
+		</div>
+	</PageCard>
+
+	<PageCard>
+		<Heading tag="h5">Options</Heading>
+
+		<Checkbox field="add_ons" {superform}>{m.Use_addons()}</Checkbox>
+		<Checkbox field="published" {superform}>{m.Published()}</Checkbox>
+	</PageCard>
+
+	<PageCard>
+		<FormError />
+
+		<div class="flex justify-end">
+			<SubmitButton>{submitButtonText}</SubmitButton>
+		</div>
+	</PageCard>
 </Form>
 
 <Drawer bind:hidden={$hideIssuerDrawer} {...drawerProps}>
