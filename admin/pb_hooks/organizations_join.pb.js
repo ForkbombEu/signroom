@@ -17,7 +17,7 @@ onRecordAfterCreateRequest((e) => {
         const organization = e.record.expandedOne("organization");
         const organizationId = organization.getId();
         const organizationName = organization.get("name");
-        const acceptanceLink = `<a href="${basePath}my/organizations/${organizationId}/settings/members">Manage organization pending requestes</a>`;
+        const acceptanceLink = `<a href="${basePath}my/organizations/${organizationId}/members">Manage organization pending requestes</a>`;
 
         const recipients = $app
             .dao()
