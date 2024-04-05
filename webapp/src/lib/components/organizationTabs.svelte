@@ -29,7 +29,7 @@
 			},
 			{
 				label: m.Members(),
-				href: base('/settings/members'),
+				href: base('/members'),
 				icon: Users
 			},
 			{
