@@ -26,6 +26,8 @@
 </script>
 
 <script lang="ts">
+	import type { FormSettings } from '$lib/forms/form.svelte';
+
 	import { createEventDispatcher } from 'svelte';
 	import { pb } from '$lib/pocketbase';
 	import type { Collections } from '$lib/pocketbase/types';
@@ -59,6 +61,8 @@
 
 	export let fieldsSettings: Partial<FieldsSettings<RecordGeneric>> = {};
 	let { order = [], exclude = [], hide, labels, components, relations } = fieldsSettings;
+
+	export let formSettings: Partial<FormSettings> = {};
 
 	export let submitButtonText = '';
 
@@ -114,7 +118,8 @@
 			},
 			mockedData,
 			{
-				dataType: 'form'
+				dataType: 'form',
+				...formSettings
 			}
 		);
 	}
