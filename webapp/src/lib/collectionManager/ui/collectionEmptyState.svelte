@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { Heading, P } from 'flowbite-svelte';
 	import { CreateRecord } from './recordActions';
 	import { FolderOpen } from 'svelte-heros-v2';
 	import type { IconComponent } from '$lib/utils/types';
+
+	import EmptyState from '$lib/components/emptyState.svelte';
 
 	export let title = 'No records here!';
 	export let description = 'Start by adding a record to this collection.';
@@ -10,24 +11,13 @@
 	export let hideCreateButton: boolean = false;
 </script>
 
-<div class="w-full p-10 text-center border-2 rounded-lg">
-	<div class="flex flex-col items-center justify-center space-y-4">
-		<div class="shrink-0 rounded-full flex items-center justify-center text-gray-300">
-			<svelte:component this={icon} size="160px" />
-		</div>
-
-		<div class="flex flex-col items-center justify-center pb-3">
-			<Heading tag="h4"><span class="text-gray-400 font-semibold">{title}</span></Heading>
-
-			<slot name="description">
-				<P class="w-fit text-gray-400 font-medium">{description}</P>
-			</slot>
-		</div>
-
-		<slot name="bottom">
-			{#if !hideCreateButton}
+<EmptyState {icon} {title} {description}>
+	<slot />
+	<slot name="bottom" slot="bottom">
+		{#if !hideCreateButton}
+			<div class="mt-6">
 				<CreateRecord />
-			{/if}
-		</slot>
-	</div>
-</div>
+			</div>
+		{/if}
+	</slot>
+</EmptyState>

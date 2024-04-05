@@ -8,7 +8,7 @@
 	import forge from 'node-forge';
 	import { pb } from '$lib/pocketbase';
 	import SignaturesFoldersHead from './signaturesFoldersHead.svelte';
-	import type { ToastContent } from '../../routes/my/signatures/+page.svelte';
+	import type { ToastContent } from '../../routes/[[lang]]/my/signatures/+page.svelte';
 
 	export let folderId: string | null = null;
 	export let trigger: (toast: ToastContent) => void;

@@ -19,7 +19,9 @@
 
 <div>
 	<div class={headingClass}>
-		<Heading {tag}>{title}</Heading>
+		<div class="w-fit">
+			<Heading {tag}>{title}</Heading>
+		</div>
 		<slot name="right" />
 	</div>
 	{#if !hideLine}
@@ -27,7 +29,7 @@
 	{/if}
 	{#if hasDescription}
 		<slot name="description">
-			<p class="text-gray-500">{description}</p>
+			<p class="text-gray-500 text-sm">{description}</p>
 		</slot>
 	{/if}
 </div>

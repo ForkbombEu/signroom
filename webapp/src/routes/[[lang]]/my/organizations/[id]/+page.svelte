@@ -1,53 +1,58 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { A, Heading, Hr, P, List, Li } from 'flowbite-svelte';
-	import VanityMetric from '$lib/components/vanityMetric.svelte';
+	import { A, P, Button } from 'flowbite-svelte';
 	import { OrgRoles, ProtectedOrgUI } from '$lib/rbac/index.js';
 	import { m } from '$lib/i18n';
 
+	import OrganizationLayout from '$lib/components/organizationLayout.svelte';
+	import PageCard from '$lib/components/pageCard.svelte';
+	import SectionTitle from '$lib/components/sectionTitle.svelte';
+	import { ArrowRight } from 'svelte-heros-v2';
+
 	export let data;
 	let { organization, services, requests } = data;
+
 	const { OWNER, ADMIN } = OrgRoles;
 
 	$: issuancesInView = services.slice(0, 4);
+	$: flowsCount = issuancesInView.length;
+	$: requestsCount = requests.length;
+
+	$: base = (path: string) => `${$page.url.pathname}${path}`;
 </script>
 
-<Heading tag="h3">{organization.name}</Heading>
+<OrganizationLayout org={data.organization}>
+	<div class="flex gap-4">
+		<PageCard class="grow">
+			<SectionTitle tag="h5" title={m.Issuance_flows()}></SectionTitle>
 
-<Hr />
-
-<div class="flex justify-between">
-	<div class="flex space-x-8">
-		<VanityMetric number={services.length} text={m.active_credential_issuances()} />
-
-		{#if issuancesInView.length}
-			<div>
-				<P>{m.Latest_credential_issuances()}</P>
-				{#if issuancesInView.length}
-					<List>
-						{#each issuancesInView as issuance}
-							<Li>
-								<A href={`${$page.url.pathname}/credential-issuances/${issuance.id}`}>
-									{issuance.name}
-								</A>
-							</Li>
-						{/each}
-					</List>
-				{/if}
+			<div class="flex flex-col gap-2 justify-center items-center mt-8 border rounded-lg h-60">
+				<P class="font-semibold text-primary-700">
+					{flowsCount}
+					{flowsCount == 1 ? m.active_flow() : m.active_flows()}
+				</P>
+				<Button outline href={base('/credential-issuances')}>
+					<ArrowRight class="mr-2" size="20" />
+					{m.Manage()}
+				</Button>
 			</div>
-		{/if}
-	</div>
+		</PageCard>
 
-	<div>
-		<A href={`${$page.url.pathname}/credential-issuances`}>→ {m.View_all_credential_issuances()}</A>
-	</div>
-</div>
+		<ProtectedOrgUI orgId={organization.id} roles={[ADMIN, OWNER]}>
+			<PageCard class="grow">
+				<SectionTitle tag="h5" title={m.Membership_requests()}></SectionTitle>
 
-<ProtectedOrgUI orgId={organization.id} roles={[ADMIN, OWNER]}>
-	<Hr />
-
-	<div class="flex justify-between items-start">
-		<VanityMetric number={requests.length} text={m.Membership_requests()} />
-		<A href={`${$page.url.pathname}/membership-requests`}>→ {m.Manage_membership_requests()}</A>
+				<div class="flex flex-col gap-2 justify-center items-center mt-8 border rounded-lg h-60">
+					<P class="font-semibold text-primary-700">
+						{requestsCount}
+						{requestsCount == 1 ? m.new_membership_request() : m.new_membership_requests()}</P
+					>
+					<Button outline href={base('/membership-requests')}>
+						<ArrowRight class="mr-2" size="20" />
+						{m.Manage()}
+					</Button>
+				</div>
+			</PageCard>
+		</ProtectedOrgUI>
 	</div>
-</ProtectedOrgUI>
+</OrganizationLayout>
