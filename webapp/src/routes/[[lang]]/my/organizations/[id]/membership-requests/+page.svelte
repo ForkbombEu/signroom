@@ -18,6 +18,9 @@
 	import { Button, Heading } from 'flowbite-svelte';
 	import { ArrowUturnLeft, Check, UserGroup, XMark } from 'svelte-heros-v2';
 	import User from './_partials/user.svelte';
+	import PageCard from '$lib/components/pageCard.svelte';
+	import PageTop from '$lib/components/pageTop.svelte';
+	import PageContent from '$lib/components/pageContent.svelte';
 
 	export let data;
 	$: organization = data.organization;
@@ -58,96 +61,100 @@
 	}
 </script>
 
-<div class="space-y-8">
-	<CollectionManager
-		collection={Collections.OrgJoinRequests}
-		initialQueryParams={{
-			filter: `organization.id = "${organization.id}"`,
-			expand: 'user'
-		}}
-		{recordType}
-		let:records
-	>
-		{@const pendingRequests = records.filter((r) => r.status == pending)}
-		{@const rejectedRequests = records.filter((r) => r.status == rejected)}
+<PageTop></PageTop>
 
-		<div>
-			<CollectionManagerHeader hideCreateButton>
-				<svelte:fragment slot="title">
-					<Heading tag="h5">{m.Manage_pending_join_requests()}</Heading>
-				</svelte:fragment>
-			</CollectionManagerHeader>
-			<CollectionTable
-				records={pendingRequests}
-				fields={['user', 'status']}
-				hideActions={['edit', 'share', 'select']}
-				fieldsComponents={{ user: User }}
-			>
-				<svelte:fragment slot="emptyState">
-					<CollectionEmptyState
-						hideCreateButton
-						description=""
-						title={m.No_join_requests()}
-						icon={UserGroup}
-					/>
-				</svelte:fragment>
-				<svelte:fragment slot="actions" let:record>
-					<Button
-						size="sm"
-						color="alternative"
-						on:click={() => {
-							acceptRequest(record);
-						}}
-					>
-						<Check size="20" />
-						<span class="ml-1"> {m.Accept()} </span>
-					</Button>
-					<Button
-						size="sm"
-						color="alternative"
-						on:click={() => {
-							rejectRequest(record);
-						}}
-					>
-						<XMark size="20" />
-						<span class="ml-1"> {m.Reject()} </span>
-					</Button>
-				</svelte:fragment>
-			</CollectionTable>
-		</div>
+<PageContent>
+	<PageCard>
+		<CollectionManager
+			collection={Collections.OrgJoinRequests}
+			initialQueryParams={{
+				filter: `organization.id = "${organization.id}"`,
+				expand: 'user'
+			}}
+			{recordType}
+			let:records
+		>
+			{@const pendingRequests = records.filter((r) => r.status == pending)}
+			{@const rejectedRequests = records.filter((r) => r.status == rejected)}
 
-		<div>
-			<CollectionManagerHeader hideCreateButton>
-				<svelte:fragment slot="title">
-					<Heading tag="h5">{m.Rejected_requests()}</Heading>
-				</svelte:fragment>
-			</CollectionManagerHeader>
-			<CollectionTable
-				records={rejectedRequests}
-				fields={['user', 'status']}
-				hideActions={['edit', 'share', 'select']}
-			>
-				<svelte:fragment slot="emptyState">
-					<CollectionEmptyState
-						hideCreateButton
-						description=""
-						title={m.No_rejected_requests()}
-						icon={UserGroup}
-					/>
-				</svelte:fragment>
-				<svelte:fragment slot="actions" let:record>
-					<Button
-						size="sm"
-						color="alternative"
-						on:click={() => {
-							appendRequest(record);
-						}}
-					>
-						<ArrowUturnLeft size="20" />
-						<span class="ml-1"> {m.Move_to_pending()} </span>
-					</Button>
-				</svelte:fragment>
-			</CollectionTable>
-		</div>
-	</CollectionManager>
-</div>
+			<div>
+				<CollectionManagerHeader hideCreateButton>
+					<svelte:fragment slot="title">
+						<Heading tag="h5">{m.Manage_pending_join_requests()}</Heading>
+					</svelte:fragment>
+				</CollectionManagerHeader>
+				<CollectionTable
+					records={pendingRequests}
+					fields={['user', 'status']}
+					hideActions={['edit', 'share', 'select']}
+					fieldsComponents={{ user: User }}
+				>
+					<svelte:fragment slot="emptyState">
+						<CollectionEmptyState
+							hideCreateButton
+							description=""
+							title={m.No_join_requests()}
+							icon={UserGroup}
+						/>
+					</svelte:fragment>
+					<svelte:fragment slot="actions" let:record>
+						<Button
+							size="sm"
+							color="alternative"
+							on:click={() => {
+								acceptRequest(record);
+							}}
+						>
+							<Check size="20" />
+							<span class="ml-1"> {m.Accept()} </span>
+						</Button>
+						<Button
+							size="sm"
+							color="alternative"
+							on:click={() => {
+								rejectRequest(record);
+							}}
+						>
+							<XMark size="20" />
+							<span class="ml-1"> {m.Reject()} </span>
+						</Button>
+					</svelte:fragment>
+				</CollectionTable>
+			</div>
+
+			<div>
+				<CollectionManagerHeader hideCreateButton>
+					<svelte:fragment slot="title">
+						<Heading tag="h5">{m.Rejected_requests()}</Heading>
+					</svelte:fragment>
+				</CollectionManagerHeader>
+				<CollectionTable
+					records={rejectedRequests}
+					fields={['user', 'status']}
+					hideActions={['edit', 'share', 'select']}
+				>
+					<svelte:fragment slot="emptyState">
+						<CollectionEmptyState
+							hideCreateButton
+							description=""
+							title={m.No_rejected_requests()}
+							icon={UserGroup}
+						/>
+					</svelte:fragment>
+					<svelte:fragment slot="actions" let:record>
+						<Button
+							size="sm"
+							color="alternative"
+							on:click={() => {
+								appendRequest(record);
+							}}
+						>
+							<ArrowUturnLeft size="20" />
+							<span class="ml-1"> {m.Move_to_pending()} </span>
+						</Button>
+					</svelte:fragment>
+				</CollectionTable>
+			</div>
+		</CollectionManager>
+	</PageCard>
+</PageContent>
