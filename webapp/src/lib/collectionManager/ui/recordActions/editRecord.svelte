@@ -1,4 +1,6 @@
 <script lang="ts">
+	import type { FormSettings } from '$lib/forms/form.svelte';
+
 	import { createTypeProp } from '$lib/utils/typeProp';
 
 	import type { PBResponse } from '$lib/utils/types';
@@ -16,6 +18,7 @@
 	recordType;
 
 	export let record: RecordGeneric;
+	export let formSettings: Partial<FormSettings> = {};
 
 	//
 
@@ -50,6 +53,7 @@
 				collection={record.collectionId}
 				recordId={record.id}
 				initialData={record}
+				{formSettings}
 				{fieldsSettings}
 				on:success={async () => {
 					await loadRecords();
