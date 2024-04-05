@@ -1,21 +1,18 @@
 <script lang="ts" context="module">
-	export type NavigationTabProps = {
-		label: string;
-		href: string;
-		icon?: IconComponent;
+	export interface NavigationTabProps extends LinkWithIcon {
 		activeForSubpages?: boolean;
-	};
+	}
 </script>
 
 <script lang="ts">
 	import { page } from '$app/stores';
-	import type { IconComponent } from '$lib/utils/types';
+	import type { IconComponent, LinkWithIcon } from '$lib/utils/types';
 	import type { Page } from '@sveltejs/kit';
 	import clsx from 'clsx';
 	import { resolveRoute } from '$lib/i18n';
 
 	export let props: NavigationTabProps;
-	let { href, icon, label, activeForSubpages = true } = props;
+	let { href, icon, text, activeForSubpages = true } = props;
 
 	//
 
@@ -46,5 +43,5 @@
 			<svelte:component this={icon} size="20"></svelte:component>
 		</div>
 	{/if}
-	{label}
+	{text}
 </a>

@@ -33,10 +33,12 @@
 					<slot name="top" />
 				</div>
 			{/if}
+
 			<div class="h-0 grow overflow-y-auto">
 				<slot />
 			</div>
-			<div class="shrink-0">
+
+			<div class="shrink-0 border-t dark:border-t-gray-700 p-3">
 				<slot name="bottom" />
 			</div>
 		</div>

@@ -28,6 +28,7 @@
 	collection={Collections.WebauthnCredentials}
 	let:records
 	editFormSettings={{ exclude: ['user', 'credential'] }}
+	hideEmptyState
 >
 	<div class="space-y-2 py-4">
 		{#each records as record}
@@ -73,6 +74,7 @@
 			registerUser(userEmailAddress, navigator.userAgent);
 		}}
 	>
-		<Plus size="20" class="mr-1" /> {m.Add_a_device()}
+		<Plus size="20" class="mr-1" />
+		{m.Add_a_device()}
 	</Button>
 </div>

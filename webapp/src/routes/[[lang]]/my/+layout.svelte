@@ -14,6 +14,7 @@
 		SidebarCloseButton
 	} from '$lib/layout';
 	import {
+		Dropdown,
 		DropdownDivider,
 		DropdownHeader,
 		DropdownItem,
@@ -21,13 +22,24 @@
 		SidebarGroup,
 		SidebarItem
 	} from 'flowbite-svelte';
-	import DIDButton from '$lib/components/DIDButton.svelte';
-	import { Fire, Lifebuoy, UserCircle, WrenchScrewdriver } from 'svelte-heros-v2';
-	import { createSidebarLinks } from './_partials/sidebarLinks';
-	import { createOrganizationLinks } from './_partials/organizationLinks';
+	import {
+		CheckCircle,
+		Home,
+		InboxArrowDown,
+		QuestionMarkCircle,
+		RectangleStack,
+		Users
+	} from 'svelte-heros-v2';
+	import {
+		createOrganizationLinks,
+		createOrganizationSidebarLinks
+	} from '$lib/utils/organizations.js';
 	import { OrgRoles } from '$lib/rbac';
 	import LanguageSwitcher from '$lib/i18n/languageSwitcher.svelte';
 	import { m } from '$lib/i18n';
+	import UserAvatar from '$lib/components/userAvatar.svelte';
+	import { getUserDisplayName } from '$lib/utils/pb';
+	import Icon from '$lib/components/icon.svelte';
 
 	//
 
@@ -91,49 +103,114 @@
 		</svelte:fragment>
 
 		<div class="space-y-0">
-			<div class="p-3">
-				<SidebarLinks links={createSidebarLinks(m)} />
-			</div>
-			{#if authorizations}
-				{@const links = authorizations.flatMap((a) => {
-					const userRole = a.expand.role.name;
-					const isOwner = userRole == OrgRoles.OWNER;
-					const isAdmin = userRole == OrgRoles.ADMIN;
-					return createOrganizationLinks(a.expand.organization, m, isAdmin || isOwner);
-				})}
-				<Hr />
-				<p class="text-gray-500 text-xs font-medium tracking-wide p-4 uppercase">
-					{m.organizations()}
-				</p>
-				<div class="p-3 pt-0">
-					<SidebarLinks {links} />
+			<SidebarGroup>
+				<div class="p-3">
+					<SidebarLinks
+						links={[
+							{
+								text: m.Home(),
+								href: '/my',
+								icon: Home
+							},
+							{
+								text: m.notifications(),
+								icon: InboxArrowDown,
+								href: '/my/notifications',
+								disabled: true
+							}
+						]}
+					/>
 				</div>
-			{/if}
+			</SidebarGroup>
+
+			<Hr />
+
+			<p class="text-gray-500 text-xs font-medium tracking-wide p-4 uppercase">
+				{m.signatures()}
+			</p>
+
+			<SidebarGroup>
+				<div class="p-3 pt-0">
+					<SidebarLinks
+						links={[
+							{
+								text: m.my_signatures(),
+								href: '/my/signatures',
+								icon: RectangleStack
+							},
+							{
+								text: m.multisignatures(),
+								disabled: true,
+								href: '/my/multisignatures',
+								icon: Users
+							},
+							{
+								text: m.validate_signatures(),
+								href: '/my/validate',
+								icon: CheckCircle
+							}
+						]}
+					/>
+				</div>
+			</SidebarGroup>
+
+			<Hr />
+
+			<p class="text-gray-500 text-xs font-medium tracking-wide p-4 uppercase">
+				{m.organizations()}
+			</p>
+
+			<SidebarGroup>
+				<div class="p-3 pt-0 space-y-2">
+					<SidebarLinks
+						links={[
+							{
+								text: m.My_organizations(),
+								href: '/my/organizations',
+								icon: RectangleStack
+							}
+						]}
+					/>
+					{#if authorizations}
+						{@const links = authorizations.flatMap((a) => {
+							const userRole = a.expand.role.name;
+							const isOwner = userRole == OrgRoles.OWNER;
+							const isAdmin = userRole == OrgRoles.ADMIN;
+							return createOrganizationSidebarLinks(a.expand.organization, m, isAdmin || isOwner);
+						})}
+						<SidebarLinks {links} />
+					{/if}
+				</div>
+			</SidebarGroup>
 		</div>
 
 		<svelte:fragment slot="bottom">
-			<SidebarGroup class="px-2">
-				<SidebarItem
-					label="Settings"
-					href="/my/settings"
-					class="opacity-20 hover:bg-transparent cursor-default"
-				>
+			<SidebarGroup>
+				<SidebarItem label="Help" disabled>
 					<svelte:fragment slot="icon">
-						<WrenchScrewdriver />
+						<QuestionMarkCircle />
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem label="Profile" href="/my/profile">
-					<svelte:fragment slot="icon">
-						<UserCircle />
-					</svelte:fragment>
-				</SidebarItem>
-				<SidebarItem label="Help" class="opacity-20 hover:bg-transparent cursor-default">
-					<svelte:fragment slot="icon">
-						<Lifebuoy />
-					</svelte:fragment>
-				</SidebarItem>
-			</SidebarGroup></svelte:fragment
-		>
+
+				{#if $currentUser}
+					{@const id = 'menu-trigger'}
+					{@const idSelector = `#${id}`}
+					<SidebarItem
+						label={getUserDisplayName($currentUser)}
+						on:click={() => {
+							console.log('ok');
+						}}
+						{id}
+					>
+						<svelte:fragment slot="icon">
+							<UserAvatar size="sm" />
+						</svelte:fragment>
+					</SidebarItem>
+
+					<Dropdown placement="top" triggeredBy={idSelector}>ciao</Dropdown>
+				{/if}
+			</SidebarGroup>
+		</svelte:fragment>
 	</Sidebar>
 
 	<MainContent>
