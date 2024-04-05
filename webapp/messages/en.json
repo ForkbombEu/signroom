@@ -237,5 +237,9 @@
 	"Edit": "Edit",
 	"Back_to_issuance_flows": "Back to issuance flows",
 	"New_credential_template": "New credential template",
-	"Endpoint": "Endpoint"
+	"Endpoint": "Endpoint",
+	"Back_to_my_organizations": "Back to My Organizations",
+	"No_available_organizations_found": "No available organizations found",
+	"You_havent_added_any_organizations_yet_": "You haven't added any organizations yet.",
+	"Your_membership_requests": "Your membership requests"
 }

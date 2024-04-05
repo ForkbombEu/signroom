@@ -195,6 +195,12 @@
 	</div>
 {:then}
 	<slot {records} {loadRecords} />
+
+	{#if records.length === 0}
+		<slot name="emptyState">
+			<CollectionEmptyState />
+		</slot>
+	{/if}
 {:catch}
 	<CollectionEmptyState
 		icon={ExclamationTriangle}
