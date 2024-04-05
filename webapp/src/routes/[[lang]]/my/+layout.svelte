@@ -82,7 +82,7 @@
 		</svelte:fragment>
 	</Topbar> -->
 
-	<Sidebar>
+	<Sidebar darkMode>
 		<svelte:fragment slot="top">
 			<div class="flex items-center p-3">
 				<Logo />

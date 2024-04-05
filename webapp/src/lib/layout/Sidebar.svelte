@@ -12,6 +12,7 @@
 	const { sidebarLayoutMode } = getUIShellContext();
 
 	export let width = 'w-60';
+	export let darkMode = false;
 
 	$: comp = $sidebarLayoutMode == 'drawer' ? SidebarDrawerContainer : SidebarDefaultContainer;
 	$: activeUrl = $page.url.pathname;
@@ -19,9 +20,9 @@
 		'flex items-center p-2 text-base font-normal text-gray-900 bg-gray-200 dark:bg-gray-700 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700';
 </script>
 
-<svelte:component this={comp} {width}>
+<svelte:component this={comp} {width} {darkMode}>
 	<Sidebar
-		class="flex flex-col grow bg-white border-r"
+		class="flex flex-col grow bg-white dark:bg-gray-800 border-r"
 		asideClass={width}
 		{activeUrl}
 		{activeClass}
