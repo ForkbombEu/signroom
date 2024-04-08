@@ -258,5 +258,19 @@
 	"Edit_issuance_flow": "Edit issuance flow",
 	"Property_ID": "Property ID",
 	"Display_name": "Display name",
-	"Required": "Required"
+	"Required": "Required",
+	"Basic_info": "Basic info",
+	"template_form_basic_info_description": "Template form basic info description",
+	"template_form_name_placeholder": "Template form name placeholder",
+	"template_form_description_placeholder": "Template form description placeholder",
+	"Attributes_needed": "Attributes needed",
+	"attributes_needed_description": "attributes needed description",
+	"Form_structure": "Form structure",
+	"form_structure_description": "form structure description",
+	"Custom_code": "Custom code",
+	"custom_code_description": "Custom code description",
+	"select_code_sample": "Select code sample",
+	"Allow_extra_attributes": "Allow extra attributes",
+	"Create_template": "Create template",
+	"Update_template": "Update template"
 }
