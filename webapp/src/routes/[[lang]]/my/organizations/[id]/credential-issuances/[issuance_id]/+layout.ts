@@ -4,28 +4,32 @@ import {
 	type AuthorizationServersResponse,
 	type ServicesResponse,
 	type TemplatesResponse,
-	type IssuersResponse,
-	type RelyingPartiesResponse
+	type IssuersResponse
 } from '$lib/pocketbase/types.js';
 
-const templatesExpand = 'templates';
+//
+
+const credentialTemplateExpand = 'credential_template';
+const authorizationTemplateExpand = 'authorization_template';
+
+const credentialIssuerExpand = 'credential_issuer';
 const authorizationServerExpand = 'authorization_server';
-const credentialIssuerExpand = 'issuer';
-const relyingPartyExpand = 'relying_party';
+
+//
 
 export type Service = ServicesResponse<{
-	[templatesExpand]: TemplatesResponse[];
-	[authorizationServerExpand]: AuthorizationServersResponse;
+	[credentialTemplateExpand]: TemplatesResponse;
+	[authorizationTemplateExpand]: TemplatesResponse;
 	[credentialIssuerExpand]: IssuersResponse;
-	[relyingPartyExpand]: RelyingPartiesResponse;
+	[authorizationServerExpand]: AuthorizationServersResponse;
 }>;
 
 export const load = async ({ params, fetch }) => {
 	const expand = [
-		templatesExpand,
+		credentialTemplateExpand,
+		authorizationTemplateExpand,
 		authorizationServerExpand,
-		credentialIssuerExpand,
-		relyingPartyExpand
+		credentialIssuerExpand
 	].join(', ');
 
 	const service = await pb

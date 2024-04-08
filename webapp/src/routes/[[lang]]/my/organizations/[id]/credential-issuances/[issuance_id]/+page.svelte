@@ -19,13 +19,15 @@
 		objectSchemaToCredentialSubject,
 		DEFAULT_LOCALE
 	} from '@api/downloadCredentialIssuer/utils.js';
-	import { pipe } from 'effect';
+	import { pipe, ReadonlyArray as A, flow } from 'effect';
+	import type { TemplatesResponse } from '$lib/pocketbase/types.js';
 
 	//
 
 	export let data;
 	let { service, organization } = data;
-	let { templates, issuer, authorization_server } = service.expand!;
+	let { credential_issuer, credential_template, authorization_server, authorization_template } =
+		service.expand!;
 
 	//
 
@@ -35,15 +37,16 @@
 		loading = true;
 
 		const response = await request({
-			credential_name: service.name,
-			credential_issuer_name: organization.name,
-			// TODO - Improve type safety for all these values
-			// - [expand] is by pb default [optional], but we are 100% sure it exists
-			// - [t.schema] is by pb default [unknown], but we should be 100% sure that is a json object schema
-			// I think this should be addressed in the load function
-			templates: service.expand?.templates.map((t) => t.schema as ObjectSchema) ?? [],
-			authorization_server: service.expand?.authorization_server.endpoint!,
-			credential_issuer_url: service.expand?.issuer.endpoint!
+			credential_display_name: service.display_name,
+			credential_type_name: service.type_name,
+			credential_issuer_name: credential_issuer.name,
+			credential_description: service.description,
+			credential_template: credential_template.schema as ObjectSchema,
+			authorization_data_template: authorization_template.schema as ObjectSchema,
+			authorization_form_template: authorization_template.schema_secondary as ObjectSchema,
+			credential_issuer_url: credential_issuer.endpoint,
+			authorization_server_url: authorization_server.endpoint,
+			credential_logo: service.logo
 		});
 
 		if (response.ok) {
@@ -59,8 +62,8 @@
 	async function generateCredentialIssuanceQr() {
 		const { result } = await generateQr(
 			JSON.stringify({
-				credential_configuration_ids: [service.name],
-				credential_issuer: `${service.expand?.issuer.endpoint}/credential_issuer`
+				credential_configuration_ids: [service.type_name],
+				credential_issuer: credential_issuer.endpoint
 			})
 		);
 		return result.qrcode as string;
@@ -73,19 +76,32 @@
 	// 	downloadBlob(imgBlob, `credential-issuance-qr.png`);
 	// }
 
-	let template = templates[0];
+	let templates = [
+		{
+			label: m.Credential_template(),
+			name: credential_template.name,
+			properties: getTemplatePropertyList(credential_template)
+		},
+		{
+			label: m.Authorization_template(),
+			name: authorization_template.name,
+			properties: getTemplatePropertyList(authorization_template)
+		}
+	];
 
-	let templateProperties = pipe(
-		template.schema as ObjectSchema,
-		objectSchemaToCredentialSubject,
-		flattenCredentialSubjectProperties
-	);
+	function getTemplatePropertyList(template: TemplatesResponse) {
+		return pipe(
+			template.schema as ObjectSchema,
+			objectSchemaToCredentialSubject,
+			flattenCredentialSubjectProperties
+		);
+	}
 </script>
 
 <PageTop>
 	<OrganizationBreadcrumbs></OrganizationBreadcrumbs>
 
-	<SectionTitle title={service.name} description={service.description} />
+	<SectionTitle title={service.display_name} description={service.description} />
 </PageTop>
 
 <PageContent>
@@ -119,7 +135,7 @@
 
 				<p>
 					{m.Credential_issuer()}:
-					<span class="text-primary-700">{issuer.endpoint}</span>
+					<span class="text-primary-700">{credential_issuer.endpoint}</span>
 				</p>
 
 				<p>
@@ -127,31 +143,33 @@
 					<span class="text-primary-700">{authorization_server.endpoint}</span>
 				</p>
 
-				<div class="space-y-2">
-					<p>
-						{m.Template()}:
-						<span class="text-primary-700">{template.name}</span>
-					</p>
-					<div class="divide-y bg-gray-50 border rounded-lg">
-						{#each templateProperties as [propertyId, property]}
-							{@const displayName = property.display?.at(0)?.name}
-							<div class="p-4">
-								<p>
-									{m.Property_ID()}: <span class="font-mono text-primary-700">{propertyId}</span>
-								</p>
-								{#if displayName}
+				{#each templates as template}
+					<div class="space-y-2">
+						<p>
+							{template.label}:
+							<span class="text-primary-700">{template.name}</span>
+						</p>
+						<div class="divide-y bg-gray-50 border rounded-lg">
+							{#each template.properties as [propertyId, property]}
+								{@const displayName = property.display?.at(0)?.name}
+								<div class="p-4">
 									<p>
-										{m.Display_name()}:
-										<span class="text-primary-700">{displayName} ({DEFAULT_LOCALE})</span>
+										{m.Property_ID()}: <span class="font-mono text-primary-700">{propertyId}</span>
 									</p>
-								{/if}
-								{#if property.mandatory}
-									<p class="text-primary-700">{m.Required()}</p>
-								{/if}
-							</div>
-						{/each}
+									{#if displayName}
+										<p>
+											{m.Display_name()}:
+											<span class="text-primary-700">{displayName} ({DEFAULT_LOCALE})</span>
+										</p>
+									{/if}
+									{#if property.mandatory}
+										<p class="text-primary-700">{m.Required()}</p>
+									{/if}
+								</div>
+							{/each}
+						</div>
 					</div>
-				</div>
+				{/each}
 			</div>
 		</PageCard>
 
@@ -163,7 +181,7 @@
 					<div
 						class="self-stretch border rounded-lg flex flex-col items-center p-4 bg-gray-50 gap-2"
 					>
-						<p class="font-semibold text-xl">{service.name}</p>
+						<p class="font-semibold text-xl">{service.display_name}</p>
 						<img src={qrimg} alt={m.Service_Qr_Code()} class="rounded-md" />
 					</div>
 

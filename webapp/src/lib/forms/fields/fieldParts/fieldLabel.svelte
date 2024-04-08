@@ -14,7 +14,15 @@
 	const { errors } = formFieldProxy(superform, field);
 </script>
 
-<Label for={field} class="label" color={fieldHasErrors($errors) ? 'red' : 'gray'}>
-	<span>{text}</span>
-	<FieldRequiredIndicator {field} />
+<Label
+	for={field}
+	class="label flex justify-between items-center"
+	color={fieldHasErrors($errors) ? 'red' : 'gray'}
+>
+	<div>
+		<span>{text}</span>
+		<FieldRequiredIndicator {field} />
+	</div>
+
+	<slot name="right" />
 </Label>
