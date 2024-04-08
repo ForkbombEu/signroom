@@ -6,28 +6,38 @@
 	import { m } from '$lib/i18n';
 	import { pb } from '$lib/pocketbase';
 	import { getCollectionSchema } from '$lib/pocketbase/schema';
-	import { Collections, TemplatesTypeOptions, type TemplatesResponse } from '$lib/pocketbase/types';
+	import {
+		Collections,
+		TemplatesTypeOptions,
+		type TemplatesResponse,
+		type TemplatesRecord
+	} from '$lib/pocketbase/types';
 	import { fieldsSchemaToZod } from '$lib/pocketbaseToZod';
 	import { Hr, Label, Select, type SelectOptionType } from 'flowbite-svelte';
 	import JSONSchemaInput from './JSONSchemaInput.svelte';
-	import type { SelectEvents } from 'flowbite-svelte/Select.svelte';
 	import SubmitButton from '$lib/forms/submitButton.svelte';
-	import { Create_template } from '$paraglide/messages';
+	import FormError from '$lib/forms/formError.svelte';
+	import { createEventDispatcher } from 'svelte';
 
 	export let templateId: string | undefined = undefined;
-	export let initialData: Partial<TemplatesResponse> = {};
+	export let initialData: Partial<TemplatesRecord> = {
+		type: TemplatesTypeOptions.issuance
+	};
 
 	let schema = fieldsSchemaToZod(getCollectionSchema(Collections.Templates)!.schema);
+
+	let dispatch = createEventDispatcher<{ success: TemplatesResponse }>();
 
 	let superform = createForm(
 		schema,
 		async (e) => {
-			let record;
+			let record: TemplatesResponse;
 			if (templateId) {
-				record = await pb.collection(Collections.Services).update(templateId, e.form.data);
+				record = await pb.collection(Collections.Templates).update(templateId, e.form.data);
 			} else {
-				record = await pb.collection(Collections.Services).create(e.form.data);
+				record = await pb.collection(Collections.Templates).create(e.form.data);
 			}
+			dispatch('success', record);
 		},
 		initialData,
 		{
@@ -121,31 +131,37 @@
 		</div>
 
 		<div class="flex gap-8">
-			<Textarea
-				field="zencode_script"
-				options={{
-					placeholder: 'Given I send ...',
-					label: 'Zencode',
-					class: 'font-mono'
-				}}
-				{superform}
-			/>
+			<div class="grow">
+				<Textarea
+					field="zencode_script"
+					options={{
+						placeholder: 'Given I send ...',
+						label: 'Zencode',
+						class: 'font-mono'
+					}}
+					{superform}
+				/>
+			</div>
 
-			<Textarea
-				field="zencode_data"
-				options={{
-					placeholder: '{\n  ...\n}',
-					label: 'JSON',
-					class: 'font-mono'
-				}}
-				{superform}
-			/>
+			<div class="grow">
+				<Textarea
+					field="zencode_data"
+					options={{
+						placeholder: '{\n  ...\n}',
+						label: 'JSON',
+						class: 'font-mono'
+					}}
+					{superform}
+				/>
+			</div>
 		</div>
 
 		<Checkbox {superform} field="allow_extra_attributes">{m.Allow_extra_attributes()}</Checkbox>
 	</div>
 
 	<Hr />
+
+	<FormError></FormError>
 
 	<div class="flex justify-end">
 		<SubmitButton>{templateId ? m.Update_template() : m.Create_template()}</SubmitButton>

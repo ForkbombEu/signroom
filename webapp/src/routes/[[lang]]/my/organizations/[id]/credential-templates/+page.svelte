@@ -1,13 +1,14 @@
 <script lang="ts">
+	import { CollectionManager } from '$lib/collectionManager';
 	import {
-		CollectionManager,
-		CollectionManagerHeader,
-		CollectionTable
-	} from '$lib/collectionManager';
-	import { Collections, type TemplatesResponse } from '$lib/pocketbase/types';
+		Collections,
+		TemplatesTypeOptions,
+		type TemplatesResponse,
+		type TemplatesRecord
+	} from '$lib/pocketbase/types';
 	import { createFieldComponent } from '$lib/recordForm/fieldSchemaToInput.svelte';
 	import { createTypeProp } from '$lib/utils/typeProp';
-	import { Button, Heading, P, TableHeadCell } from 'flowbite-svelte';
+	import { Button } from 'flowbite-svelte';
 	import JSONSchemaInput from '../credential-issuances/_partials/JSONSchemaInput.svelte';
 	import Textarea from '$lib/forms/fields/textarea.svelte';
 	import { m } from '$lib/i18n';
@@ -20,12 +21,13 @@
 	import OrganizationLayout from '$lib/components/organizationLayout.svelte';
 	import PageCard from '$lib/components/pageCard.svelte';
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
-	import CreateRecord from '$lib/collectionManager/ui/recordActions/createRecord.svelte';
 	import { ArrowLeft, Eye, Pencil, Plus } from 'svelte-heros-v2';
 	import Icon from '$lib/components/icon.svelte';
 	import PlainCard from '$lib/components/plainCard.svelte';
-	import Description from '$lib/components/table/cells/description.svelte';
-	import EditRecord from '$lib/collectionManager/ui/recordActions/editRecord.svelte';
+	import TemplateForm from './_partials/templateForm.svelte';
+	import PortalWrapper from '$lib/components/portalWrapper.svelte';
+	import Drawer from '$lib/components/drawer.svelte';
+	import { createToggleStore } from '$lib/components/utils/toggleStore';
 
 	//
 
@@ -47,6 +49,13 @@
 			return undefined;
 		}
 	}
+
+	//
+
+	let templateFormId: string | undefined = undefined;
+	let templateFormInitialData: TemplatesRecord | undefined = undefined;
+
+	$: hideDrawer = createToggleStore(true);
 </script>
 
 <OrganizationLayout org={data.organization}>
@@ -75,16 +84,10 @@
 
 			<SectionTitle tag="h5" title={m.Credential_templates()}>
 				<svelte:fragment slot="right">
-					<div class="flex gap-2">
-						<CreateRecord>
-							<svelte:fragment slot="button" let:openModal>
-								<Button on:click={openModal} class="shrink-0">
-									{m.New_credential_template()}
-									<Icon src={Plus} ml />
-								</Button>
-							</svelte:fragment>
-						</CreateRecord>
-					</div>
+					<Button on:click={hideDrawer.off}>
+						{m.New_credential_template()}
+						<Icon src={Plus} ml />
+					</Button>
 				</svelte:fragment>
 			</SectionTitle>
 
@@ -115,12 +118,17 @@
 									<Icon src={Eye} ml></Icon>
 								</Button>
 
-								<EditRecord record={template} let:openModal formSettings={{ dataType: 'json' }}>
-									<Button outline on:click={openModal}>
-										Edit
-										<Icon src={Pencil} ml></Icon>
-									</Button>
-								</EditRecord>
+								<Button
+									outline
+									on:click={() => {
+										templateFormId = template.id;
+										templateFormInitialData = template;
+										hideDrawer.off();
+									}}
+								>
+									Edit
+									<Icon src={Pencil} ml></Icon>
+								</Button>
 							</div>
 						</svelte:fragment>
 					</PlainCard>
@@ -129,3 +137,28 @@
 		</CollectionManager>
 	</PageCard>
 </OrganizationLayout>
+
+<PortalWrapper>
+	<Drawer
+		width="w-[700px]"
+		placement="right"
+		bind:hidden={$hideDrawer}
+		title={m.Create_new_Template()}
+	>
+		<div class="p-8">
+			<TemplateForm
+				templateId={templateFormId}
+				initialData={{
+					organization: organization.id,
+					type: TemplatesTypeOptions.issuance,
+					...templateFormInitialData
+				}}
+				on:success={() => {
+					templateFormId = undefined;
+					templateFormInitialData = undefined;
+					hideDrawer.on();
+				}}
+			/>
+		</div>
+	</Drawer>
+</PortalWrapper>

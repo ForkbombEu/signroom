@@ -51,8 +51,7 @@
 			dataType: 'json',
 			onUpdate: async (input) => {
 				try {
-					if (input.form.valid) await submitFunction(input);
-					else throw new Error('Invalid form');
+					await submitFunction(input);
 				} catch (e) {
 					let error = normalizeError(e);
 					for (const [key, value] of Object.entries(error.data)) {
