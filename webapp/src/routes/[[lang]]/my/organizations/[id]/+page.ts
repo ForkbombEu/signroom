@@ -10,7 +10,7 @@ export const load = async ({ parent, fetch }) => {
 	const { organization } = await parent();
 
 	const services = await pb.collection(Collections.Services).getFullList<ServicesResponse>({
-		filter: `organization.id = '${organization.id}' && published = true`,
+		filter: `organization.id = '${organization.id}' && public = true`,
 		sort: 'updated',
 		fetch
 	});
