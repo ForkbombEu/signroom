@@ -40,6 +40,7 @@
 	import UserAvatar from '$lib/components/userAvatar.svelte';
 	import { getUserDisplayName } from '$lib/utils/pb';
 	import Icon from '$lib/components/icon.svelte';
+	import { page } from '$app/stores';
 
 	//
 
@@ -186,11 +187,11 @@
 
 		<svelte:fragment slot="bottom">
 			<SidebarGroup>
-				<SidebarItem label="Help" disabled>
-					<svelte:fragment slot="icon">
-						<QuestionMarkCircle />
-					</svelte:fragment>
-				</SidebarItem>
+				<SidebarLinks
+					links={[
+						{ text: 'Help', disabled: true, icon: QuestionMarkCircle, href: $page.url.pathname }
+					]}
+				/>
 
 				{#if $currentUser}
 					{@const id = 'menu-trigger'}
