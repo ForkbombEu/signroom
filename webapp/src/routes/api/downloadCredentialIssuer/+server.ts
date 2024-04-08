@@ -20,8 +20,9 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 		const zip = await fetchZipFile(fetch);
 
 		updateCredentialIssuerWellKnown(zip, body, DEFAULT_LOCALE);
+		updateAuthorizationServerWellKnown(zip, body, DEFAULT_LOCALE);
 		updateCredentialKeysJson(zip, body, nanoid(), DEFAULT_LOCALE);
-		updateCreateSchemaJson(zip, body.templates);
+		updateCreateSchemaJson(zip, body.credential_template);
 
 		return zipResponse(zip);
 	} catch (e) {
@@ -70,29 +71,71 @@ function updateCredentialIssuerWellKnown(zip: AdmZip, data: RequestBody, locale 
 			pipe(
 				content,
 
-				S.replaceAll('https://issuer1.zenswarm.forkbomb.eu', data.credential_issuer_url),
-				S.replace('https://authz-server1.zenswarm.forkbomb.eu', data.authorization_server),
-				S.replace('Identity', data.credential_name),
+				S.replaceAll(
+					'https://issuer1.zenswarm.forkbomb.eu/credential_issuer',
+					data.credential_issuer_url
+				),
+				S.replace(
+					'https://authz-server1.zenswarm.forkbomb.eu/authz_server',
+					data.authorization_server_url
+				),
 
 				JSON.parse,
 
 				_.set('display[0].name', {
-					name: data.credential_issuer_name,
+					name: data.organization_name,
 					locale
 				}),
-				_.set('credential_configurations_supported[0].display', {
-					name: data.credential_name,
-					locale
+
+				_.set('credential_configurations_supported[0].display[0]', {
+					name: data.credential_display_name,
+					locale,
+					logo: {
+						url: data.credential_logo,
+						alt_text: `${data.credential_display_name} logo`
+					},
+					background_color: '#12107c',
+					text_color: '#FFFFFF',
+					description: data.credential_description
 				}),
+
 				_.set(
 					'credential_configurations_supported[0].credential_definition.type[0]',
-					data.credential_name
+					data.credential_type_name
 				),
 				_.set(
 					'credential_configurations_supported[0].credential_definition.credentialSubject',
-					mergeObjectSchemasIntoCredentialSubject(data.templates, locale)
+					mergeObjectSchemasIntoCredentialSubject([data.credential_template], locale)
 				),
 				_.update('credential_configurations_supported', (v: unknown[]) => v.slice(undefined, 1)), // Keeps only the first example
+
+				(json) => JSON.stringify(json, null, 4)
+			)
+	);
+}
+
+function updateAuthorizationServerWellKnown(
+	zip: AdmZip,
+	data: RequestBody,
+	locale = DEFAULT_LOCALE
+) {
+	updateZipFileContent(
+		zip,
+		'public/authz_server/.well-known/oauth-authorization-server',
+
+		(content) =>
+			pipe(
+				content,
+
+				S.replaceAll(
+					'https://authz-server1.zenswarm.forkbomb.eu/authz_server',
+					data.authorization_server_url
+				),
+
+				JSON.parse,
+
+				_.set('issuer', data.credential_issuer_url),
+				_.set('scopes_supported', [data.credential_type_name]),
 
 				(json) => JSON.stringify(json, null, 4)
 			)
@@ -105,7 +148,10 @@ function updateCredentialKeysJson(
 	id: string,
 	locale = DEFAULT_LOCALE
 ) {
-	const credentialSubject = mergeObjectSchemasIntoCredentialSubject(data.templates, locale);
+	const credentialSubject = mergeObjectSchemasIntoCredentialSubject(
+		[data.credential_template],
+		locale
+	);
 
 	updateZipFileContent(
 		zip,
@@ -123,7 +169,7 @@ function updateCredentialKeysJson(
 				),
 				_.set(
 					'supported_selective_disclosure.credentials_supported[0].display[0].name',
-					data.credential_name
+					data.credential_display_name
 				),
 				_.set('supported_selective_disclosure.credentials_supported[0].display[0].locale', locale),
 				_.set('supported_selective_disclosure.credentials_supported[0].id', id),
@@ -133,9 +179,9 @@ function updateCredentialKeysJson(
 				),
 				_.set(
 					'supported_selective_disclosure.credentials_supported[0].types[1]',
-					data.credential_name
+					data.credential_type_name
 				),
-				_.set('supported_selective_disclosure.scopes_supported[1]', data.credential_name),
+				_.set('supported_selective_disclosure.scopes_supported[1]', data.credential_type_name),
 				_.set('object', {}),
 				_.set('id', id),
 
@@ -144,11 +190,11 @@ function updateCredentialKeysJson(
 	);
 }
 
-function updateCreateSchemaJson(zip: AdmZip, templates: RequestBody['templates']) {
+function updateCreateSchemaJson(zip: AdmZip, template: RequestBody['credential_template']) {
 	updateZipFileContent(
 		zip,
 		'credential_issuer/create.schema.json',
 
-		() => pipe(templates, mergeObjectSchemas, (data) => JSON.stringify(data, null, 4))
+		() => pipe([template], mergeObjectSchemas, (data) => JSON.stringify(data, null, 4))
 	);
 }

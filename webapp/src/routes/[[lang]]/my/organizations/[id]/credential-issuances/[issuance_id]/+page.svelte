@@ -36,22 +36,23 @@
 	async function downloadCredentialIssuer() {
 		loading = true;
 
-		// const response = await request({
-		// 	credential_name: service.name,
-		// 	credential_issuer_name: organization.name,
-		// 	// TODO - Improve type safety for all these values
-		// 	// - [expand] is by pb default [optional], but we are 100% sure it exists
-		// 	// - [t.schema] is by pb default [unknown], but we should be 100% sure that is a json object schema
-		// 	// I think this should be addressed in the load function
-		// 	templates: service.expand?.,
-		// 	authorization_server: service.expand?.authorization_server.endpoint!,
-		// 	credential_issuer_url: service.expand?.issuer.endpoint!
-		// });
+		const response = await request({
+			credential_display_name: service.display_name,
+			credential_type_name: service.type_name,
+			credential_description: service.description,
+			organization_name: organization.name,
+			credential_template: credential_template.schema as ObjectSchema,
+			authorization_data_template: authorization_template.schema as ObjectSchema,
+			authorization_form_template: authorization_template.schema_secondary as ObjectSchema,
+			credential_issuer_url: credential_issuer.endpoint,
+			authorization_server_url: authorization_server.endpoint,
+			credential_logo: service.logo
+		});
 
-		// if (response.ok) {
-		// 	const blob = new Blob([await response.arrayBuffer()], { type: 'application/zip' });
-		// 	downloadBlob(blob, 'credential-issuer.zip');
-		// }
+		if (response.ok) {
+			const blob = new Blob([await response.arrayBuffer()], { type: 'application/zip' });
+			downloadBlob(blob, 'credential-issuer.zip');
+		}
 
 		loading = false;
 	}
@@ -61,7 +62,7 @@
 	async function generateCredentialIssuanceQr() {
 		const { result } = await generateQr(
 			JSON.stringify({
-				credential_configuration_ids: [service.name],
+				credential_configuration_ids: [service.type_name],
 				credential_issuer: credential_issuer.endpoint
 			})
 		);
@@ -100,7 +101,7 @@
 <PageTop>
 	<OrganizationBreadcrumbs></OrganizationBreadcrumbs>
 
-	<SectionTitle title={service.name} description={service.description} />
+	<SectionTitle title={service.display_name} description={service.description} />
 </PageTop>
 
 <PageContent>
@@ -180,7 +181,7 @@
 					<div
 						class="self-stretch border rounded-lg flex flex-col items-center p-4 bg-gray-50 gap-2"
 					>
-						<p class="font-semibold text-xl">{service.name}</p>
+						<p class="font-semibold text-xl">{service.display_name}</p>
 						<img src={qrimg} alt={m.Service_Qr_Code()} class="rounded-md" />
 					</div>
 

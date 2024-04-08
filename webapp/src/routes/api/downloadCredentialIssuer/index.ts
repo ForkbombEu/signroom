@@ -5,10 +5,15 @@ import { z } from 'zod';
 
 export const requestBodySchema = z.object({
 	credential_issuer_url: z.string().url(),
-	authorization_server: z.string().url(),
-	credential_name: z.string(), // Generate from service name
-	credential_issuer_name: z.string(), // Generate from organization name
-	templates: z.array(objectSchemaValidator) // List of JSON schemas
+	authorization_server_url: z.string().url(),
+	credential_template: objectSchemaValidator,
+	authorization_form_template: objectSchemaValidator,
+	authorization_data_template: objectSchemaValidator,
+	credential_display_name: z.string(),
+	credential_type_name: z.string(),
+	organization_name: z.string(),
+	credential_logo: z.string().url().nullish(),
+	credential_description: z.string()
 });
 
 //
