@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { createRecordLabel } from '$lib/components/records/utils';
+
 	import type { z } from 'zod';
 	import type { FormPathLeaves, ZodValidation } from 'sveltekit-superforms';
 	import { formFieldProxy, type SuperForm } from 'sveltekit-superforms/client';
@@ -35,5 +37,10 @@
 </script>
 
 <FieldWrapper {field} label={options.label}>
-	<RecordsManager {recordType} {collection} bind:value={$value} options={{ ...options }} />
+	<slot slot="labelRight" name="labelRight" />
+	<RecordsManager {recordType} {collection} bind:value={$value} options={{ ...options }} let:record>
+		<slot {record}>
+			{createRecordLabel(record, options.displayFields)}
+		</slot>
+	</RecordsManager>
 </FieldWrapper>

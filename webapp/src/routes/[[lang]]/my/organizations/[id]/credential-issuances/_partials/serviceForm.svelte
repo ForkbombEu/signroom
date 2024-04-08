@@ -1,47 +1,45 @@
 <script lang="ts">
+	import Drawer from '$lib/components/drawer.svelte';
+	import Icon from '$lib/components/icon.svelte';
+	import ImagePreview from '$lib/components/imagePreview.svelte';
+	import PageCard from '$lib/components/pageCard.svelte';
+	import PortalWrapper from '$lib/components/portalWrapper.svelte';
+	import SectionTitle from '$lib/components/sectionTitle.svelte';
+	import { createToggleStore } from '$lib/components/utils/toggleStore';
+	import {
+		Checkbox,
+		Form,
+		Input,
+		Relations,
+		Select,
+		SubmitButton,
+		Textarea,
+		createForm,
+		createFormData
+	} from '$lib/forms';
+	import FormError from '$lib/forms/formError.svelte';
+	import { goto, m } from '$lib/i18n';
+	import { pb } from '$lib/pocketbase/index.js';
 	import { getCollectionSchema } from '$lib/pocketbase/schema/index.js';
 	import {
 		Collections,
-		ServicesCredentialTypeOptions,
-		type IssuersResponse,
-		type ServicesResponse,
-		type TemplatesResponse,
+		ServicesCryptographyOptions,
+		TemplatesTypeOptions,
 		type AuthorizationServersResponse,
-		type RelyingPartiesResponse,
-		type ServicesRecord
+		type IssuersResponse,
+		type ServicesRecord,
+		type ServicesResponse
 	} from '$lib/pocketbase/types.js';
 	import { fieldsSchemaToZod } from '$lib/pocketbaseToZod/index.js';
-	import {
-		Form,
-		createForm,
-		Input,
-		Textarea,
-		SubmitButton,
-		Checkbox,
-		Relations,
-		createFormData,
-		Select
-	} from '$lib/forms';
-	import { Drawer, Heading, Hr, Button, P } from 'flowbite-svelte';
-	import { sineIn } from 'svelte/easing';
-	import RecordForm from '$lib/recordForm/recordForm.svelte';
+	import { RecordForm } from '$lib/recordForm';
 	import { createTypeProp } from '$lib/utils/typeProp.js';
-	import IconButton from '$lib/components/iconButton.svelte';
-	import { writable } from 'svelte/store';
-	import type { ComponentProps } from 'svelte';
-	import { pb } from '$lib/pocketbase/index.js';
-	import { goto } from '$lib/i18n';
-	import { createFieldComponent } from '$lib/recordForm/fieldSchemaToInput.svelte';
-	import JSONSchemaInput from './JSONSchemaInput.svelte';
-	import FormError from '$lib/forms/formError.svelte';
-	import { m } from '$lib/i18n';
-	import { XMark } from 'svelte-heros-v2';
-	import ImagePreview from '$lib/components/imagePreview.svelte';
-	import PageCard from '$lib/components/pageCard.svelte';
+	import { Button, P } from 'flowbite-svelte';
+	import { Plus } from 'svelte-heros-v2';
+	import TemplateForm from '../../credential-templates/_partials/templateForm.svelte';
 
 	export let organizationId: string;
 	export let serviceId: string | undefined = undefined;
-	export let initialData: Partial<ServicesRecord> | undefined = undefined;
+	export let initialData: Partial<ServicesRecord> = {};
 
 	const serviceSchema = fieldsSchemaToZod(getCollectionSchema(Collections.Services)!.schema);
 
@@ -59,45 +57,13 @@
 		},
 		{
 			organization: organizationId,
-			...(Boolean(initialData) && initialData)
+			...initialData
 		}
 	);
 	const { form } = superform;
 
 	const issuerRecordProp = createTypeProp<IssuersResponse>();
-	const templateRecordProp = createTypeProp<TemplatesResponse>();
-
-	//
-
-	function createModalStore(initialValue = false) {
-		const open = writable(initialValue);
-		function toggle() {
-			open.update((v) => !v);
-		}
-		return { ...open, toggle };
-	}
-
-	const hideIssuerDrawer = createModalStore(true);
-	const { toggle: toggleIssuerDrawer } = hideIssuerDrawer;
-
-	const hideTemplateDrawer = createModalStore(true);
-	const { toggle: toggleTemplateDrawer } = hideTemplateDrawer;
-
-	//
-
-	const drawerProps: ComponentProps<Drawer> = {
-		transitionType: 'fly',
-		backdrop: true,
-		activateClickOutside: true,
-		placement: 'right',
-		transitionParams: {
-			x: 320,
-			duration: 200,
-			easing: sineIn
-		},
-		class: '!p-6 !space-y-6',
-		width: 'w-full md:w-4/5 lg:w-3/5'
-	};
+	const authorizationServerTypeProp = createTypeProp<AuthorizationServersResponse>();
 
 	//
 
@@ -105,66 +71,41 @@
 		? m.Create_issuance_flow()
 		: m.Update_issuance_flow();
 
-	const credentialTypeOptions: string[] = Object.values(ServicesCredentialTypeOptions);
+	const credentialTypeOptions: string[] = Object.values(ServicesCryptographyOptions);
 
 	const issuersType = createTypeProp<IssuersResponse>();
 	const authorizationServersType = createTypeProp<AuthorizationServersResponse>();
 
 	//
 
-	function setCodeSamples(zencode: string | undefined, data: string | undefined) {
-		$form['external_verification_code'] = zencode;
-		$form['external_verification_data'] = data;
-	}
-
-	function clearCode() {
-		setCodeSamples(undefined, undefined);
-	}
-
-	function loadCodeSample1() {
-		setCodeSamples(`Given nothing\nThen print the string 'yes'`, `{\n  "myKey": "myValue"\n}`);
-	}
+	let hideCredentialTemplateDrawer = createToggleStore(true);
+	let hideAuthorizationTemplateDrawer = createToggleStore(true);
+	let hideCredentialIssuerDrawer = createToggleStore(true);
+	let hideAuthorizationServerDrawer = createToggleStore(true);
 </script>
 
 <Form {superform} showRequiredIndicator className="space-y-10">
 	<PageCard>
-		<Heading tag="h5">{m.Main_info()}</Heading>
+		<SectionTitle
+			tag="h5"
+			title={m.Basic_info()}
+			description={m.issuance_flow_form_main_info_description()}
+		/>
 
 		<Input
 			field="name"
-			options={{ placeholder: m.Service_name(), label: m.Service_name() }}
+			options={{ label: m.Name(), placeholder: m.Age_verification() }}
 			{superform}
 		/>
 
 		<Textarea
 			field="description"
-			options={{ placeholder: m.Service_description(), label: m.Service_description() }}
+			options={{
+				label: m.Description(),
+				placeholder: m.issuance_flow_form_description_placeholder()
+			}}
 			{superform}
 		/>
-	</PageCard>
-
-	<PageCard>
-		<Heading tag="h5">Credential info</Heading>
-
-		<Select
-			{superform}
-			field="credential_type"
-			options={{ label: m.Select_credential_cryptography_type(), options: credentialTypeOptions }}
-		/>
-
-		<div>
-			<Relations
-				collection={Collections.Templates}
-				field="templates"
-				options={{
-					label: m.Select_one_or_more_templates_for_this_service(),
-					inputMode: 'select',
-					displayFields: ['name'],
-					multiple: true
-				}}
-				{superform}
-			/>
-		</div>
 
 		<div class="flex items-start gap-8">
 			<div class="grow">
@@ -179,32 +120,93 @@
 				/>
 			</div>
 			<div class="flex items-center gap-4">
-				<P>Preview</P>
+				<P>{m.Preview()}</P>
 				<ImagePreview src={$form.logo} alt={m.Credential_logo_URL()} />
 			</div>
 		</div>
 	</PageCard>
 
 	<PageCard>
-		<Heading tag="h5">{m.Credential_issuer()}</Heading>
+		<SectionTitle
+			tag="h5"
+			title={m.Credential_info()}
+			description={m.issuance_flow_form_credential_info_description()}
+		/>
+
+		<Select
+			{superform}
+			field="cryptography"
+			options={{ label: m.Cryptography(), options: credentialTypeOptions }}
+		/>
+
+		<div>
+			<Relations
+				collection={Collections.Templates}
+				field="credential_template"
+				options={{
+					label: m.Credential_template(),
+					inputMode: 'select',
+					displayFields: ['name']
+				}}
+				{superform}
+			>
+				<svelte:fragment slot="labelRight">
+					<Button outline size="xs" on:click={hideCredentialTemplateDrawer.off}>
+						{m.New_credential_template()}
+						<Icon src={Plus} size={16} ml></Icon></Button
+					>
+				</svelte:fragment>
+			</Relations>
+		</div>
+
+		<div>
+			<Relations
+				collection={Collections.Templates}
+				field="authorization_template"
+				options={{
+					label: m.Authorization_template(),
+					inputMode: 'select',
+					displayFields: ['name']
+				}}
+				{superform}
+			>
+				<svelte:fragment slot="labelRight">
+					<Button outline size="xs" on:click={hideAuthorizationTemplateDrawer.off}>
+						{m.New_authorization_template()}
+						<Icon src={Plus} size={16} ml></Icon></Button
+					>
+				</svelte:fragment>
+			</Relations>
+		</div>
+	</PageCard>
+
+	<PageCard>
+		<SectionTitle
+			tag="h5"
+			title={m.Microservices()}
+			description={m.issuance_flow_form_microservices_description()}
+		/>
 
 		<div>
 			<Relations
 				recordType={issuersType}
 				collection={Collections.Issuers}
-				field="issuer"
+				field="credential_issuer"
 				options={{
 					inputMode: 'select',
 					displayFields: ['name', 'endpoint'],
-					label: m.Select_a_credential_issuer()
+					label: m.Credential_issuer()
 				}}
 				{superform}
-			/>
+			>
+				<svelte:fragment slot="labelRight">
+					<Button outline size="xs" on:click={hideCredentialIssuerDrawer.off}>
+						{m.New_credential_issuer()}
+						<Icon src={Plus} size={16} ml></Icon></Button
+					>
+				</svelte:fragment>
+			</Relations>
 		</div>
-
-		<Hr />
-
-		<Heading tag="h5">{m.Authorization_server()}</Heading>
 
 		<div>
 			<Relations
@@ -214,54 +216,32 @@
 				options={{
 					inputMode: 'select',
 					displayFields: ['name', 'endpoint'],
-					label: m.Select_an_authorization_service()
+					label: m.Authorization_server()
 				}}
 				{superform}
-			/>
-		</div>
-
-		<div class="flex gap-10">
-			<div class="grow space-y-6">
-				<Textarea
-					field="external_verification_code"
-					options={{
-						placeholder: 'Given I send ...',
-						label: m.External_verification_code(),
-						class: 'font-mono'
-					}}
-					{superform}
-				/>
-
-				<Textarea
-					field="external_verification_data"
-					options={{
-						placeholder: '{\n  ...\n}',
-						label: m.External_verification_data(),
-						class: 'font-mono'
-					}}
-					{superform}
-				/>
-			</div>
-			<div class=" gap-6 flex flex-col justify-stretch">
-				<div class="space-y-2">
-					<p class="text-sm">Load example code</p>
-					<Hr hrClass="m-0" />
-				</div>
-				<Button color="alternative" on:click={loadCodeSample1}>Example 1</Button>
-				<Hr hrClass="m-0" />
-				<Button color="alternative" on:click={clearCode}>
-					<XMark size="20"></XMark>
-					<span class="ml-2"> Clear code </span>
-				</Button>
-			</div>
+			>
+				<svelte:fragment slot="labelRight">
+					<Button outline size="xs" on:click={hideAuthorizationServerDrawer.off}>
+						{m.New_authorization_server()}
+						<Icon src={Plus} size={16} ml></Icon>
+					</Button>
+				</svelte:fragment>
+			</Relations>
 		</div>
 	</PageCard>
 
 	<PageCard>
-		<Heading tag="h5">Options</Heading>
-
-		<Checkbox field="add_ons" {superform}>{m.Use_addons()}</Checkbox>
-		<Checkbox field="published" {superform}>{m.Published()}</Checkbox>
+		<SectionTitle
+			tag="h5"
+			title={m.Advanced_settings()}
+			description={m.advanced_settings_description()}
+		/>
+		<div class="space-y-4">
+			<Checkbox field="public" {superform}>
+				{m.Is_public()}: {m.is_public_description()}
+			</Checkbox>
+			<Checkbox field="api_available" {superform}>{m.Can_be_requested_via_API()}</Checkbox>
+		</div>
 	</PageCard>
 
 	<PageCard>
@@ -273,38 +253,96 @@
 	</PageCard>
 </Form>
 
-<Drawer bind:hidden={$hideIssuerDrawer} {...drawerProps}>
-	<div class="flex justify-between items-center">
-		<Heading tag="h5">{m.Create_new_Issuer()}</Heading>
-		<IconButton on:click={toggleIssuerDrawer}></IconButton>
-	</div>
-	<RecordForm
-		recordType={issuerRecordProp}
-		collection={Collections.Issuers}
-		on:success={(e) => {
-			$form.issuer = e.detail.record.id;
-			toggleIssuerDrawer();
-		}}
-	/>
-</Drawer>
+<PortalWrapper>
+	<Drawer
+		width="w-[700px]"
+		placement="right"
+		bind:hidden={$hideCredentialTemplateDrawer}
+		title={m.New_credential_template()}
+	>
+		<div class="p-8">
+			<TemplateForm
+				initialData={{
+					organization: organizationId,
+					type: TemplatesTypeOptions.issuance
+				}}
+				on:success={(e) => {
+					$form['credential_template'] = e.detail.id;
+					hideCredentialTemplateDrawer.on();
+				}}
+			/>
+		</div>
+	</Drawer>
+</PortalWrapper>
 
-<Drawer bind:hidden={$hideTemplateDrawer} {...drawerProps}>
-	<div class="flex justify-between items-center">
-		<Heading tag="h5">{m.Create_new_Template()}</Heading>
-		<IconButton on:click={toggleTemplateDrawer}></IconButton>
-	</div>
-	<RecordForm
-		recordType={templateRecordProp}
-		collection={Collections.Templates}
-		fieldsSettings={{
-			hide: { organization: organizationId },
-			components: {
-				schema: createFieldComponent(JSONSchemaInput)
-			}
-		}}
-		on:success={(e) => {
-			$form.templates = [...$form.templates, e.detail.record.id];
-			toggleTemplateDrawer();
-		}}
-	/>
-</Drawer>
+<PortalWrapper>
+	<Drawer
+		width="w-[700px]"
+		placement="right"
+		bind:hidden={$hideAuthorizationTemplateDrawer}
+		title={m.New_authorization_template()}
+	>
+		<div class="p-8">
+			<TemplateForm
+				initialData={{
+					organization: organizationId,
+					type: TemplatesTypeOptions.authorization
+				}}
+				on:success={(e) => {
+					$form['authorization_template'] = e.detail.id;
+					hideAuthorizationTemplateDrawer.on();
+				}}
+			/>
+		</div>
+	</Drawer>
+</PortalWrapper>
+
+<PortalWrapper>
+	<Drawer
+		width="w-[700px]"
+		placement="right"
+		bind:hidden={$hideCredentialIssuerDrawer}
+		title={m.New_credential_issuer()}
+	>
+		<div class="p-8">
+			<RecordForm
+				recordType={issuerRecordProp}
+				collection={Collections.Issuers}
+				fieldsSettings={{
+					hide: {
+						organization: organizationId
+					}
+				}}
+				on:success={(e) => {
+					$form['credential_issuer'] = e.detail.record.id;
+					hideCredentialIssuerDrawer.on();
+				}}
+			/>
+		</div>
+	</Drawer>
+</PortalWrapper>
+
+<PortalWrapper>
+	<Drawer
+		width="w-[700px]"
+		placement="right"
+		bind:hidden={$hideAuthorizationServerDrawer}
+		title={m.New_authorization_server()}
+	>
+		<div class="p-8">
+			<RecordForm
+				recordType={authorizationServerTypeProp}
+				collection={Collections.AuthorizationServers}
+				fieldsSettings={{
+					hide: {
+						organization: organizationId
+					}
+				}}
+				on:success={(e) => {
+					$form['authorization_server'] = e.detail.record.id;
+					hideAuthorizationServerDrawer.on();
+				}}
+			/>
+		</div>
+	</Drawer>
+</PortalWrapper>

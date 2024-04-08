@@ -9,7 +9,9 @@
 </script>
 
 <div class="space-y-2">
-	<FieldLabel {field} text={label} />
+	<FieldLabel {field} text={label}>
+		<slot slot="right" name="labelRight" />
+	</FieldLabel>
 	<slot />
 	<FieldHelpText text={helpText} />
 	<FieldError {field} />
