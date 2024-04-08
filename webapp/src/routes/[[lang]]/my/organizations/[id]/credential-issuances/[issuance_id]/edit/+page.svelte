@@ -3,7 +3,6 @@
 	import PageTop from '$lib/components/pageTop.svelte';
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
 	import { m } from '$lib/i18n';
-	import { ServicesCredentialTypeOptions } from '$lib/pocketbase/types';
 	import { Button } from 'flowbite-svelte';
 	import ServiceForm from '../../_partials/serviceForm.svelte';
 	import Icon from '$lib/components/icon.svelte';
