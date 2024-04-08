@@ -2,7 +2,7 @@
 	import PageContent from '$lib/components/pageContent.svelte';
 	import PageTop from '$lib/components/pageTop.svelte';
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
-	import { m } from '$lib/i18n';
+	import { goto, m } from '$lib/i18n';
 	import { ServicesCryptographyOptions } from '$lib/pocketbase/types';
 	import { Button } from 'flowbite-svelte';
 	import ServiceForm from '../_partials/serviceForm.svelte';
@@ -27,6 +27,9 @@
 		initialData={{
 			cryptography: ServicesCryptographyOptions['sd-jwt'],
 			api_available: true
+		}}
+		on:success={(e) => {
+			goto(`/my/organizations/${data.organization.id}/credential-issuances/${e.detail.record.id}`);
 		}}
 	/>
 </PageContent>

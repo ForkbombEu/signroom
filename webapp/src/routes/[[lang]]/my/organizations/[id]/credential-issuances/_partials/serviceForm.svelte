@@ -36,6 +36,7 @@
 	import { Button, P } from 'flowbite-svelte';
 	import { Plus } from 'svelte-heros-v2';
 	import TemplateForm from '../../credential-templates/_partials/templateForm.svelte';
+	import { createEventDispatcher } from 'svelte';
 
 	export let organizationId: string;
 	export let serviceId: string | undefined = undefined;
@@ -43,17 +44,19 @@
 
 	const serviceSchema = fieldsSchemaToZod(getCollectionSchema(Collections.Services)!.schema);
 
+	const dispatch = createEventDispatcher<{ success: { record: ServicesResponse } }>();
+
 	const superform = createForm(
 		serviceSchema,
 		async (e) => {
 			const formData = createFormData(e.form.data);
-			let record;
+			let record: ServicesResponse;
 			if (serviceId) {
 				record = await pb.collection(Collections.Services).update(serviceId, formData);
 			} else {
 				record = await pb.collection(Collections.Services).create<ServicesResponse>(formData);
 			}
-			await goto(`/my/organizations/${organizationId}/credential-issuances/${record.id}`);
+			dispatch('success', { record });
 		},
 		{
 			organization: organizationId,
