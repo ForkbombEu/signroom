@@ -37,14 +37,21 @@
 	import { Plus } from 'svelte-heros-v2';
 	import TemplateForm from '../../credential-templates/_partials/templateForm.svelte';
 	import { createEventDispatcher } from 'svelte';
+	import slugify from 'slugify';
+
+	//
 
 	export let organizationId: string;
 	export let serviceId: string | undefined = undefined;
 	export let initialData: Partial<ServicesRecord> = {};
 
-	const serviceSchema = fieldsSchemaToZod(getCollectionSchema(Collections.Services)!.schema);
+	//
 
 	const dispatch = createEventDispatcher<{ success: { record: ServicesResponse } }>();
+
+	//
+
+	const serviceSchema = fieldsSchemaToZod(getCollectionSchema(Collections.Services)!.schema);
 
 	const superform = createForm(
 		serviceSchema,
@@ -63,7 +70,22 @@
 			...initialData
 		}
 	);
+
 	const { form } = superform;
+
+	//
+
+	$: slugifyText($form['type_name']);
+
+	function slugifyText(text: string) {
+		$form['type_name'] = slugify(text, {
+			replacement: '_',
+			strict: true,
+			trim: false
+		}).trim();
+	}
+
+	//
 
 	const issuerRecordProp = createTypeProp<IssuersResponse>();
 	const authorizationServerTypeProp = createTypeProp<AuthorizationServersResponse>();
@@ -96,8 +118,17 @@
 		/>
 
 		<Input
-			field="name"
-			options={{ label: m.Name(), placeholder: m.Age_verification() }}
+			field="display_name"
+			options={{ label: m.Display_name(), placeholder: m.Age_verification() }}
+			{superform}
+		/>
+
+		<Input
+			field="type_name"
+			options={{
+				label: m.Type_name(),
+				helpText: m.Use_only_lowercase_and_uppercase_letters_no_spaces()
+			}}
 			{superform}
 		/>
 

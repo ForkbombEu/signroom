@@ -292,5 +292,7 @@
 	"Can_be_requested_via_API": "Can be requested via API",
 	"Is_public": "Is public",
 	"is_public_description": "this credential can be requested by anybody, also outside this organization",
-	"advanced_settings_description": "advanced_settings_description"
+	"advanced_settings_description": "advanced_settings_description",
+	"Type_name": "Type name",
+	"Use_only_lowercase_and_uppercase_letters_no_spaces": "Use only lowercase or uppercase letters, and no spaces."
 }
