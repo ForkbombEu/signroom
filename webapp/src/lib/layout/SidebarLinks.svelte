@@ -35,6 +35,7 @@
 	import type { ComponentProps } from 'svelte';
 	import { page } from '$app/stores';
 	import type { Page } from '@sveltejs/kit';
+	import clsx from 'clsx';
 
 	export let links: SidebarItemProps[];
 
@@ -45,13 +46,15 @@
 			toggleSidebar();
 		}
 	};
-	const disabledClass = (disabled?: boolean) =>
-		disabled ? 'opacity-20 hover:bg-transparent cursor-default pointer-events-none' : undefined;
-	export let activeClass =
-		'flex items-center p-2 pl-11 text-base font-normal text-gray-900 bg-gray-200 dark:bg-gray-700 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700';
 
 	function isDropdownOpen(sidebarGroup: SidebarGroupProps, page: Page) {
 		return sidebarGroup.subLinks.map((l) => l.href).some((l) => page.url.pathname.includes(l));
+	}
+
+	function classes(disabled?: boolean) {
+		return clsx({
+			'opacity-20 hover:bg-transparent cursor-default pointer-events-none': disabled
+		});
 	}
 </script>
 
@@ -60,7 +63,6 @@
 		{@const isOpen = isDropdownOpen(entry, $page)}
 		<SidebarDropdownWrapper
 			label={entry.text}
-			disabled={entry.disabled}
 			ulClass={`${isOpen ? 'bg-gray-600 rounded-md' : ''} space-y-1 pt-2`}
 			class={`${isOpen ? 'bg-gray-600' : ''} space-y-1`}
 			{isOpen}
@@ -78,10 +80,7 @@
 					label={subEntry.text}
 					href={subEntry.href}
 					on:click={() => toggleSidebarHandler()}
-					active={$page.url.pathname === subEntry.href}
-					{activeClass}
-					disabled={subEntry.disabled}
-					class={disabledClass(subEntry.disabled)}
+					class={classes(subEntry.disabled)}
 				/>
 			{/each}
 		</SidebarDropdownWrapper>
@@ -89,9 +88,8 @@
 		<SidebarItem
 			label={entry.text}
 			href={entry.href}
-			disabled={entry.disabled}
 			on:click={() => toggleSidebarHandler()}
-			class={disabledClass(entry.disabled)}
+			class={classes(entry.disabled)}
 		>
 			<svelte:fragment slot="icon">
 				<svelte:component this={entry.icon} />
