@@ -39,8 +39,8 @@
 		const response = await request({
 			credential_display_name: service.display_name,
 			credential_type_name: service.type_name,
+			credential_issuer_name: credential_issuer.name,
 			credential_description: service.description,
-			organization_name: organization.name,
 			credential_template: credential_template.schema as ObjectSchema,
 			authorization_data_template: authorization_template.schema as ObjectSchema,
 			authorization_form_template: authorization_template.schema_secondary as ObjectSchema,

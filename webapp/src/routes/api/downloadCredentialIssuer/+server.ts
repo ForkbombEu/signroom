@@ -73,17 +73,17 @@ function updateCredentialIssuerWellKnown(zip: AdmZip, data: RequestBody, locale 
 
 				S.replaceAll(
 					'https://issuer1.zenswarm.forkbomb.eu/credential_issuer',
-					data.credential_issuer_url
+					cleanUrl(data.credential_issuer_url)
 				),
 				S.replace(
 					'https://authz-server1.zenswarm.forkbomb.eu/authz_server',
-					data.authorization_server_url
+					cleanUrl(data.authorization_server_url)
 				),
 
 				JSON.parse,
 
-				_.set('display[0].name', {
-					name: data.organization_name,
+				_.set('display[0]', {
+					name: data.credential_issuer_name,
 					locale
 				}),
 
@@ -129,12 +129,12 @@ function updateAuthorizationServerWellKnown(
 
 				S.replaceAll(
 					'https://authz-server1.zenswarm.forkbomb.eu/authz_server',
-					data.authorization_server_url
+					cleanUrl(data.authorization_server_url)
 				),
 
 				JSON.parse,
 
-				_.set('issuer', data.credential_issuer_url),
+				_.set('issuer', cleanUrl(data.credential_issuer_url)),
 				_.set('scopes_supported', [data.credential_type_name]),
 
 				(json) => JSON.stringify(json, null, 4)
@@ -160,7 +160,7 @@ function updateCredentialKeysJson(
 		(content) =>
 			pipe(
 				content,
-				S.replaceAll('http://issuer.example.org', data.credential_issuer_url),
+				S.replaceAll('http://issuer.example.org', cleanUrl(data.credential_issuer_url)),
 
 				JSON.parse,
 				_.set(
@@ -197,4 +197,8 @@ function updateCreateSchemaJson(zip: AdmZip, template: RequestBody['credential_t
 
 		() => pipe([template], mergeObjectSchemas, (data) => JSON.stringify(data, null, 4))
 	);
+}
+
+function cleanUrl(url: string) {
+	return url.endsWith('/') ? url.slice(0, -1) : url;
 }
