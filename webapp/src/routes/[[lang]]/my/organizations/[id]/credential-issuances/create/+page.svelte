@@ -29,7 +29,9 @@
 			api_available: true
 		}}
 		on:success={(e) => {
-			goto(`/my/organizations/${data.organization.id}/credential-issuances/${e.detail.record.id}`);
+			window.location.replace(
+				`/my/organizations/${data.organization.id}/credential-issuances/${e.detail.record.id}`
+			);
 		}}
 	/>
 </PageContent>
