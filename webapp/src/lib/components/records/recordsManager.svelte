@@ -138,7 +138,9 @@
 	<ArrayOrItemManager bind:value let:item>
 		{@const record = tempRecords[item]}
 		{#if record}
-			{createRecordLabel(record, displayFields)}
+			<slot {record}>
+				{createRecordLabel(record, displayFields)}
+			</slot>
 		{/if}
 	</ArrayOrItemManager>
 
