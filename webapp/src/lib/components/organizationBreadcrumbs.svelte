@@ -26,7 +26,7 @@
 
 	async function getServiceNameById(id: string): Promise<string> {
 		const service = await pb.collection(Collections.Services).getOne<ServicesResponse>(id);
-		return service.name;
+		return service.display_name;
 	}
 
 	async function getOrganizationNameById(id: string): Promise<string> {

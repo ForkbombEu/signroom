@@ -25,7 +25,7 @@
 		{m.Close_and_discard()}
 	</Button>
 
-	<SectionTitle title={`${m.Edit_issuance_flow()} – ${data.service.name}`} />
+	<SectionTitle title={`${m.Edit_issuance_flow()} – ${data.service.display_name}`} />
 </PageTop>
 
 <PageContent>
