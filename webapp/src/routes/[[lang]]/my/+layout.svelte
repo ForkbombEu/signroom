@@ -1,13 +1,9 @@
 <script lang="ts">
 	import { currentUser } from '$lib/pocketbase';
-	import { goto } from '$lib/i18n';
 
 	import {
 		UIShell,
 		Sidebar,
-		Topbar,
-		HamburgerButton,
-		AvatarMenu,
 		Logo,
 		SidebarLinks,
 		MainContent,
@@ -19,28 +15,29 @@
 		DropdownHeader,
 		DropdownItem,
 		Hr,
-		SidebarGroup,
-		SidebarItem
+		SidebarDropdownWrapper,
+		SidebarGroup
 	} from 'flowbite-svelte';
 	import {
+		ArrowLeftStartOnRectangle,
 		CheckCircle,
+		Fire,
 		Home,
 		InboxArrowDown,
 		QuestionMarkCircle,
 		RectangleStack,
-		Users
+		User,
+		Users,
+		EllipsisHorizontal
 	} from 'svelte-heros-v2';
-	import {
-		createOrganizationLinks,
-		createOrganizationSidebarLinks
-	} from '$lib/utils/organizations.js';
+	import { createOrganizationSidebarLinks } from '$lib/utils/organizations.js';
 	import { OrgRoles } from '$lib/rbac';
-	import LanguageSwitcher from '$lib/i18n/languageSwitcher.svelte';
 	import { m } from '$lib/i18n';
 	import UserAvatar from '$lib/components/userAvatar.svelte';
 	import { getUserDisplayName } from '$lib/utils/pb';
 	import Icon from '$lib/components/icon.svelte';
 	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 
 	//
 
@@ -188,27 +185,53 @@
 		<svelte:fragment slot="bottom">
 			<SidebarGroup>
 				<SidebarLinks
-					links={[
-						{ text: 'Help', disabled: true, icon: QuestionMarkCircle, href: $page.url.pathname }
-					]}
+					links={[{ text: 'Help', disabled: true, icon: QuestionMarkCircle, href: '/help' }]}
 				/>
 
 				{#if $currentUser}
 					{@const id = 'menu-trigger'}
 					{@const idSelector = `#${id}`}
-					<SidebarItem
-						label={getUserDisplayName($currentUser)}
-						on:click={() => {
-							console.log('ok');
-						}}
-						{id}
-					>
+					<SidebarDropdownWrapper label={getUserDisplayName($currentUser)} ulClass="hidden" {id}>
 						<svelte:fragment slot="icon">
 							<UserAvatar size="sm" />
 						</svelte:fragment>
-					</SidebarItem>
 
-					<Dropdown placement="top" triggeredBy={idSelector}>ciao</Dropdown>
+						<svelte:fragment slot="arrowdown">
+							<EllipsisHorizontal />
+						</svelte:fragment>
+						<svelte:fragment slot="arrowup">
+							<EllipsisHorizontal />
+						</svelte:fragment>
+					</SidebarDropdownWrapper>
+
+					<Dropdown triggeredBy={idSelector} class="min-w-[215px]">
+						<DropdownHeader>
+							<span class="block truncate text-xs font-medium text-gray-500">
+								{getUserDisplayName($currentUser)}
+							</span>
+						</DropdownHeader>
+						<DropdownItem href="/my/profile" class="flex">
+							<Icon src={User} mr />
+							{m.My_profile()}
+						</DropdownItem>
+
+						<DropdownDivider />
+
+						<DropdownItem href="/" class="flex cursor-default pointer-events-none opacity-30">
+							<Icon src={Fire} mr class="dark:text-red-400 text-red-700" />
+							{m.Go_Pro()}
+						</DropdownItem>
+
+						<DropdownDivider />
+
+						<DropdownItem
+							on:click={() => goto('/my/logout')}
+							class="flex dark:text-red-400 text-red-700"
+						>
+							<Icon src={ArrowLeftStartOnRectangle} mr />
+							{m.Sign_out()}
+						</DropdownItem>
+					</Dropdown>
 				{/if}
 			</SidebarGroup>
 		</svelte:fragment>
