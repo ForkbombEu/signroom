@@ -289,7 +289,7 @@
 
 <PortalWrapper>
 	<Drawer
-		width="w-[700px]"
+		width="w-[800px]"
 		placement="right"
 		bind:hidden={$hideCredentialTemplateDrawer}
 		title={m.New_credential_template()}
@@ -311,7 +311,7 @@
 
 <PortalWrapper>
 	<Drawer
-		width="w-[700px]"
+		width="w-[800px]"
 		placement="right"
 		bind:hidden={$hideAuthorizationTemplateDrawer}
 		title={m.New_authorization_template()}
