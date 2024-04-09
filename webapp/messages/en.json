@@ -294,7 +294,7 @@
 	"is_public_description": "this credential can be requested by anybody, also outside this organization",
 	"advanced_settings_description": "advanced_settings_description",
 	"Type_name": "Type name",
-	"Use_only_lowercase_and_uppercase_letters_no_spaces": "Use only lowercase or uppercase letters, and no spaces.",
+	"Use_only_lowercase_and_uppercase_letters_no_spaces": "Use only numbers, lowercase or uppercase characters, but no spaces.",
 	"Verification_flows": "Verification flows",
 	"New_verification_flow": "New verification flow",
 	"Verification_templates": "Verification templates",

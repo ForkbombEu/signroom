@@ -97,5 +97,6 @@
 	"New_credential_template": "Ny credentialskabelon",
 	"Template": "Skabelon",
 	"template_form_basic_info_description": "Opret skabeloner til at definere udstedelses- og verifikationsflows: skabeloner indeholder parametre og logik for flowene. Skabeloner vælges i flow-editorerne.  ",
-	"issuance_flow_form_main_info_description": "Udstedelsesflowet definerer, hvornår og hvordan en credential vil blive udstedt, og hvad legitimationsoplysningerne skal indeholde. for at konfigurere et udstedelsesflow skal du vælge kryptografi og det anvendte format, vælge de mikrotjenester, der vil udstede credentialen, og en skabelon for at definere krav, parametre og logikken i udstedelsen."
+	"issuance_flow_form_main_info_description": "Udstedelsesflowet definerer, hvornår og hvordan en credential vil blive udstedt, og hvad legitimationsoplysningerne skal indeholde. for at konfigurere et udstedelsesflow skal du vælge kryptografi og det anvendte format, vælge de mikrotjenester, der vil udstede credentialen, og en skabelon for at definere krav, parametre og logikken i udstedelsen.",
+	"Use_only_lowercase_and_uppercase_letters_no_spaces": "Brug kun tal, små eller store bogstaver, men ingen mellemrum."
 }
