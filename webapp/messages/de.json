@@ -95,5 +95,6 @@
 	"Credential_templates": "Credentialsvorlagen",
 	"Template_parsing_error": "Fehler beim Parsen der Vorlage",
 	"New_credential_template": "Neue Credentialsvorlage",
-	"Template": "Vorlage"
+	"Template": "Vorlage",
+	"template_form_basic_info_description": "Erstellen Sie Vorlagen, um Ausgabe- und Überprüfungsabläufe zu definieren: Vorlagen enthalten Parameter und Logik der Abläufe. Vorlagen werden in den Ablaufeditoren ausgewählt.  "
 }

@@ -95,5 +95,6 @@
 	"Credential_templates": "Modelos de credenciais",
 	"Template_parsing_error": "Erro de análise de modelo",
 	"New_credential_template": "Novo modelo de credencial",
-	"Template": "Modelo"
+	"Template": "Modelo",
+	"template_form_basic_info_description": "Crie templates para definir fluxos de emissão e verificação: os templates contêm parâmetros e lógica dos fluxos. Os modelos são selecionados nos editores de fluxo.  "
 }

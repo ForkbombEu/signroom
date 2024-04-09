@@ -95,5 +95,6 @@
 	"Credential_templates": "Credential skabeloner",
 	"Template_parsing_error": "Skabelonparsingsfejl",
 	"New_credential_template": "Ny credentialskabelon",
-	"Template": "Skabelon"
+	"Template": "Skabelon",
+	"template_form_basic_info_description": "Opret skabeloner til at definere udstedelses- og verifikationsflows: skabeloner indeholder parametre og logik for flowene. Skabeloner vælges i flow-editorerne.  "
 }
