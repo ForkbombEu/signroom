@@ -106,5 +106,6 @@
 	"verification_flow_form_name_placeholder": "Dette navn vises i Verifier-appen",
 	"verification_flow_form_description_placeholder": "Beskriv verifikationsforløbet: Denne beskrivelse vises i Verifier-appen",
 	"verification_flow_form_microservices_description": "Den stolende part er en mikrotjeneste, der modtager en verifiable presentation (eller credential eller zero knowledge proof), verificerer den og returnerer resultatet til verifikatoren. Vælg den pålidelige part, der skal udføre verifikationen.",
+	"verification_flows_description": "Verifikationsflows definerer logikken i verifikationen, den mikrotjeneste (relying part), der udfører verifikationen, samt hvordan verifikationsflowet vil blive præsenteret i Verifier-appen. ",
 	"issuance_flows_description": "Find dine udstedelsesstrømme her: strømmene beskriver, hvordan og hvornår en credential vil blive udstedt, og hvad den vil indeholde."
 }

@@ -321,7 +321,7 @@
 	"templates_description_credential": "templates_description_credential",
 	"templates_description_verification": "templates_description_verification",
 	"templates_description_authorization": "templates_description_authorization",
-	"verification_flows_description": "verification_flows_description",
+	"verification_flows_description": "Verification flows define the logic of the verification, the microservice (relying party) that will perform the verification as well as how the verifcation flow will be presented in the Verifier app. ",
 	"issuance_flows_description": "Find here your issuance flows: the flows describe how and when a credential will be issued and what it will contain.",
 	"templates_description": "templates_description",
 	"pending_membership_requests_description": "pending_membership_requests_description",

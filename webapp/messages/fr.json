@@ -106,5 +106,6 @@
 	"verification_flow_form_name_placeholder": "Ce nom apparaîtra dans l'application Verifier",
 	"verification_flow_form_description_placeholder": "Décrire le flux de vérification : cette description apparaîtra dans l'application Verifier",
 	"verification_flow_form_microservices_description": "La partie utilisatrice est un microservice qui reçoit une verifiable presentation (ou un credential ou une zero knowledge proof), la vérifie et renvoie le résultat au vérificateur. Sélectionnez la partie de confiance qui effectuera la vérification.",
+	"verification_flows_description": "Les flux de vérification définissent la logique de la vérification, le microservice (partie de confiance) qui effectuera la vérification ainsi que la manière dont le flux de vérification sera présenté dans l'application Verifier. ",
 	"issuance_flows_description": "Retrouvez ici vos flux de délivrance : les flux décrivent comment et quand une credential sera délivré et ce qu'il contiendra."
 }
