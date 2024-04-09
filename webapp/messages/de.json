@@ -87,5 +87,6 @@
 	"_Signature_unshared_successfully": "✅ Signatur erfolgreich aufgehoben",
 	"_Document_signed_successfully": "✅ Dokument erfolgreich signiert",
 	"Are_you_sure_you_want_to_remove_all_access_to_the_signature": "Sind Sie sicher, dass Sie jeglichen Zugriff auf die Signatur entfernen möchten?",
-	"Yes_remove_access": "Ja, Zugriff entfernen"
+	"Yes_remove_access": "Ja, Zugriff entfernen",
+	"Select_one_or_more_templates_for_this_service": "Wählen Sie eine oder mehrere Vorlagen für diesen Dienst aus"
 }
