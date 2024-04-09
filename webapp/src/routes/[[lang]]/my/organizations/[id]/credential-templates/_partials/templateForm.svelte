@@ -84,14 +84,7 @@
 
 	//
 
-	const templateTypeOptions: SelectOptionType<TemplatesTypeOptions>[] = Object.entries(
-		TemplatesTypeOptions
-	).map((o) => {
-		return {
-			name: o[0],
-			value: o[1]
-		};
-	});
+	$: type = $form['type'];
 </script>
 
 <Form {superform} className="space-y-12">
@@ -123,7 +116,13 @@
 		<SectionTitle
 			tag="h5"
 			title={m.Attributes_needed()}
-			description={m.attributes_needed_description()}
+			description={type == TemplatesTypeOptions.issuance
+				? m.attributes_needed_description_credential()
+				: type == TemplatesTypeOptions.authorization
+				? m.attributes_needed_description_authorization()
+				: type == TemplatesTypeOptions.verification
+				? m.attributes_needed_description_verification()
+				: ''}
 		/>
 
 		<JSONSchemaInput {superform} field="schema"></JSONSchemaInput>

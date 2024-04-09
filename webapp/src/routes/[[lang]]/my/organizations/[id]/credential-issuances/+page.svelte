@@ -37,7 +37,11 @@
 				filter: `organization.id = '${organization.id}'`
 			}}
 		>
-			<SectionTitle tag="h5" title={m.Issuance_flows()}>
+			<SectionTitle
+				tag="h5"
+				title={m.Issuance_flows()}
+				description={m.issuance_flows_description()}
+			>
 				<svelte:fragment slot="right">
 					<div class="flex gap-2">
 						<Button

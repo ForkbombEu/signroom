@@ -63,7 +63,7 @@
 			initialQueryParams={{ expand: 'user,role', filter: `organization.id="${organization.id}"` }}
 			let:records
 		>
-			<SectionTitle tag="h5" title={m.Members()}>
+			<SectionTitle tag="h5" title={m.Members()} description={m.members_description()}>
 				<CreateRecord {recordType} slot="right">
 					<svelte:fragment slot="button" let:openModal>
 						<Button on:click={openModal} class="shrink-0">

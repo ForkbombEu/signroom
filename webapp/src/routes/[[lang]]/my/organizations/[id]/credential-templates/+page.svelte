@@ -62,6 +62,14 @@
 		m.Templates()
 	);
 
+	$: description = choice(
+		templateFilter,
+		m.templates_description_credential(),
+		m.templates_description_authorization(),
+		m.templates_description_verification(),
+		m.templates_description()
+	);
+
 	$: button = choice(
 		templateFilter,
 		m.New_credential_template(),
@@ -144,11 +152,6 @@
 	let templateFormInitialData: TemplatesRecord | undefined = undefined;
 
 	$: hideDrawer = createToggleStore(true);
-
-	//
-
-	const newTemplateId = 'new-template';
-	const newTemplateIdSelector = `#${newTemplateId}`;
 </script>
 
 <OrganizationLayout org={data.organization}>
@@ -178,7 +181,7 @@
 				</Button>
 			{/if}
 
-			<SectionTitle tag="h5" {title}>
+			<SectionTitle tag="h5" {title} {description}>
 				<svelte:fragment slot="right">
 					<Button id="newTemplate" on:click={hideDrawer.off}>
 						{button}

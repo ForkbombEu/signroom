@@ -24,7 +24,8 @@
 <OrganizationLayout org={data.organization}>
 	<div class="flex gap-4">
 		<PageCard class="grow">
-			<SectionTitle tag="h5" title={m.Issuance_flows()}></SectionTitle>
+			<SectionTitle tag="h5" title={m.Issuance_flows()} description={m.issuance_flows_description()}
+			></SectionTitle>
 
 			<div class="flex flex-col gap-2 justify-center items-center mt-8 border rounded-lg h-60">
 				<P class="font-semibold text-primary-700">
@@ -40,7 +41,11 @@
 
 		<ProtectedOrgUI orgId={organization.id} roles={[ADMIN, OWNER]}>
 			<PageCard class="grow">
-				<SectionTitle tag="h5" title={m.Membership_requests()}></SectionTitle>
+				<SectionTitle
+					tag="h5"
+					title={m.Membership_requests()}
+					description={m.pending_membership_requests_description()}
+				/>
 
 				<div class="flex flex-col gap-2 justify-center items-center mt-8 border rounded-lg h-60">
 					<P class="font-semibold text-primary-700">

@@ -314,5 +314,16 @@
 	"Edit_verification_flow": "Edit verification flow",
 	"Back_to_verification_flows": "Back to verification flows",
 	"Authorization_templates": "Authorization templates",
-	"New_template": "New template"
+	"New_template": "New template",
+	"attributes_needed_description_credential": "attributes_needed_description_credential",
+	"attributes_needed_description_verification": "attributes_needed_description_verification",
+	"attributes_needed_description_authorization": "attributes_needed_description_authorization",
+	"templates_description_credential": "templates_description_credential",
+	"templates_description_verification": "templates_description_verification",
+	"templates_description_authorization": "templates_description_authorization",
+	"verification_flows_description": "verification_flows_description",
+	"issuance_flows_description": "issuance_flows_description",
+	"templates_description": "templates_description",
+	"pending_membership_requests_description": "pending_membership_requests_description",
+	"members_description": "members_description"
 }
