@@ -303,7 +303,7 @@
 	"verification_flow_form_name_placeholder": "This name will appear in the Verifier app",
 	"verification_flow_form_description_placeholder": "Describe the verification flow: this description will appear in the Verifier app",
 	"Verification_info": "Verification info",
-	"verification_info_description": "verification_info_description",
+	"verification_info_description": "Select a verification template for the flow. The template contains the parameters and logic for the verification.",
 	"Verification_template": "Verification template",
 	"New_verification_template": "New verification template",
 	"verification_flow_form_microservices_description": "The relying party is a microservice, that receives a verifiable presentation (or credential, or zero knowledge proof), verifies it, and returns the result to the verifier. Select the relying party that will perform the verification.",

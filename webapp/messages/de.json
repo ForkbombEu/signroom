@@ -105,6 +105,7 @@
 	"verification_flow_form_basic_info_description": "Sie können hier einen Überprüfungsablauf einrichten, indem Sie eine Überprüfungsvorlage und eine vertrauende Partei auswählen.",
 	"verification_flow_form_name_placeholder": "Dieser Name wird in der Verifier-App angezeigt",
 	"verification_flow_form_description_placeholder": "Beschreiben Sie den Verifizierungsablauf: Diese Beschreibung wird in der Verifier-App angezeigt",
+	"verification_info_description": "Wählen Sie eine Überprüfungsvorlage für den Ablauf aus. Die Vorlage enthält die Parameter und die Logik für die Überprüfung.",
 	"verification_flow_form_microservices_description": "Die vertrauende Partei ist ein Mikrodienst, der eine Verifiable-Presentation (oder einen Credential oder einen zero knowledge proof) empfängt, überprüft und das Ergebnis an den Prüfer (Verifier) zurückgibt. Wählen Sie die vertrauende Partei aus, die die Überprüfung durchführen soll.",
 	"verification_flows_description": "Verifizierungsabläufe definieren die Logik der Verifizierung, den Microservice (vertrauende Partei), der die Verifizierung durchführt, sowie die Art und Weise, wie der Verifizierungsablauf in der Verifier-App dargestellt wird. ",
 	"issuance_flows_description": "Hier finden Sie Ihre Ausgabeabläufe: Die Abläufe beschreiben, wie und wann ein Credential ausgestellt wird und was dieser enthalten wird."
