@@ -276,7 +276,7 @@
 	"Credential_template": "Credential template",
 	"New_authorization_template": "New authorization template",
 	"Authorization_template": "Authorization template",
-	"issuance_flow_form_main_info_description": "issuance_flow_form_main_info_description",
+	"issuance_flow_form_main_info_description": "The issuance flow defines when and how a credential will be issued, and what the credential will contain. in order to setup an issuance flow you need to select the cryptography and the format used, select select the microservices that will issue the credential and a template to define the claims, parameters and the logic of the issuance.",
 	"Name": "Name",
 	"Age_verification": "Age verification",
 	"Description": "Description",

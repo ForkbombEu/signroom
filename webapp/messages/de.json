@@ -96,5 +96,6 @@
 	"Template_parsing_error": "Fehler beim Parsen der Vorlage",
 	"New_credential_template": "Neue Credentialsvorlage",
 	"Template": "Vorlage",
-	"template_form_basic_info_description": "Erstellen Sie Vorlagen, um Ausgabe- und Überprüfungsabläufe zu definieren: Vorlagen enthalten Parameter und Logik der Abläufe. Vorlagen werden in den Ablaufeditoren ausgewählt.  "
+	"template_form_basic_info_description": "Erstellen Sie Vorlagen, um Ausgabe- und Überprüfungsabläufe zu definieren: Vorlagen enthalten Parameter und Logik der Abläufe. Vorlagen werden in den Ablaufeditoren ausgewählt.  ",
+	"issuance_flow_form_main_info_description": "Der Ausgabeablauf definiert, wann und wie eine Credential ausgegeben wird und was die Anmeldeinformation enthalten wird. Um einen Ausgabeablauf einzurichten, müssen Sie die verwendete Kryptografie und das verwendete Format auswählen, die Microservices auswählen, die den Credential ausstellen, und eine Vorlage zum Definieren der Ansprüche, Parameter und der Logik der Ausgabe."
 }

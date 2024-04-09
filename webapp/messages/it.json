@@ -96,5 +96,6 @@
 	"Template_parsing_error": "Errore di analisi del modello",
 	"New_credential_template": "Nuovo modello di credenziale",
 	"Template": "Modello",
-	"template_form_basic_info_description": "Creare template per definire i flussi di emissione e verifica: i template contengono parametri e logica dei flussi. I modelli vengono selezionati all'interno degli editor di flusso.  "
+	"template_form_basic_info_description": "Creare template per definire i flussi di emissione e verifica: i template contengono parametri e logica dei flussi. I modelli vengono selezionati all'interno degli editor di flusso.  ",
+	"issuance_flow_form_main_info_description": "Il flusso di emissione definisce quando e come verrà emessa una credenziale e cosa conterrà la credenziale. per impostare un flusso di emissione è necessario selezionare la crittografia e il formato utilizzato, selezionare selezionare i microservizi che emetteranno la credenziale e un template per definire le attestazioni, i parametri e la logica dell'emissione."
 }
