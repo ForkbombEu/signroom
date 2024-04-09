@@ -88,5 +88,12 @@
 	"_Document_signed_successfully": "✅ Documento assinado com sucesso",
 	"Are_you_sure_you_want_to_remove_all_access_to_the_signature": "Tem certeza de que deseja remover todo o acesso à assinatura?",
 	"Yes_remove_access": "Sim, remover acesso",
-	"Select_one_or_more_templates_for_this_service": "Selecione um ou mais modelos para este serviço"
+	"Select_one_or_more_templates_for_this_service": "Selecione um ou mais modelos para este serviço",
+	"Create_new_Template": "Criar novo modelo",
+	"Services_templates": "Modelos de credenciais",
+	"Templates": "Modelos",
+	"Credential_templates": "Modelos de credenciais",
+	"Template_parsing_error": "Erro de análise de modelo",
+	"New_credential_template": "Novo modelo de credencial",
+	"Template": "Modelo"
 }
