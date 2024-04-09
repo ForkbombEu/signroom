@@ -87,5 +87,13 @@
 	"_Signature_unshared_successfully": "✅ Firma annullata con successo",
 	"_Document_signed_successfully": "✅ Documento firmato con successo",
 	"Are_you_sure_you_want_to_remove_all_access_to_the_signature": "Sei sicuro di voler rimuovere ogni accesso alla firma?",
-	"Yes_remove_access": "Sì, rimuovi l'accesso"
+	"Yes_remove_access": "Sì, rimuovi l'accesso",
+	"Select_one_or_more_templates_for_this_service": "Seleziona uno o più modelli per questo servizio",
+	"Create_new_Template": "Crea nuovo modello",
+	"Services_templates": "Modelli di credenziale",
+	"Templates": "Modelli",
+	"Credential_templates": "Modelli di credenziali",
+	"Template_parsing_error": "Errore di analisi del modello",
+	"New_credential_template": "Nuovo modello di credenziale",
+	"Template": "Modello"
 }

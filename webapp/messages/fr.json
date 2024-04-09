@@ -87,5 +87,13 @@
 	"_Signature_unshared_successfully": "✅ Signature non partagée avec succès",
 	"_Document_signed_successfully": "✅ Document signé avec succès",
 	"Are_you_sure_you_want_to_remove_all_access_to_the_signature": "Êtes-vous sûr de vouloir supprimer tout accès à la signature ?",
-	"Yes_remove_access": "Oui, supprimer l'accès"
+	"Yes_remove_access": "Oui, supprimer l'accès",
+	"Select_one_or_more_templates_for_this_service": "Sélectionnez un ou plusieurs modèles pour ce service",
+	"Create_new_Template": "Créer un nouveau modèle",
+	"Services_templates": "Modèles de credential",
+	"Templates": "Modèles",
+	"Credential_templates": "Modèles de credential",
+	"Template_parsing_error": "Erreur d'analyse du modèle",
+	"New_credential_template": "Nouveau modèle de credential",
+	"Template": "Modèle"
 }
