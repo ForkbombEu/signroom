@@ -113,7 +113,7 @@
 
 						<svelte:fragment slot="right">
 							<div class="flex gap-2">
-								<Button outline>
+								<Button outline disabled>
 									View
 									<Icon src={Eye} ml></Icon>
 								</Button>

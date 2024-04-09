@@ -26,6 +26,7 @@
 			initialData={organization}
 			submitButtonText={m.Save_changes()}
 			on:success={invalidateAll}
+			formSettings={{ dataType: 'json' }}
 		/>
 	</PageCard>
 </OrganizationLayout>
