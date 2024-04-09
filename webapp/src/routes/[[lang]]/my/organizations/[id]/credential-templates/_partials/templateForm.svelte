@@ -1,6 +1,6 @@
 <script lang="ts">
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
-	import { Checkbox, Form, createForm } from '$lib/forms';
+	import { Checkbox, Form, createForm, Select as SelectInput } from '$lib/forms';
 	import Input from '$lib/forms/fields/input.svelte';
 	import Textarea from '$lib/forms/fields/textarea.svelte';
 	import { m } from '$lib/i18n';
@@ -13,7 +13,7 @@
 		type TemplatesRecord
 	} from '$lib/pocketbase/types';
 	import { fieldsSchemaToZod } from '$lib/pocketbaseToZod';
-	import { Hr, Label, Select, type SelectOptionType } from 'flowbite-svelte';
+	import { Hr, Label, type SelectOptionType, Select } from 'flowbite-svelte';
 	import JSONSchemaInput from './JSONSchemaInput.svelte';
 	import SubmitButton from '$lib/forms/submitButton.svelte';
 	import FormError from '$lib/forms/formError.svelte';
@@ -81,6 +81,17 @@
 		$form['zencode_script'] = sample.zencode_script;
 		$form['zencode_data'] = sample.zencode_data;
 	}
+
+	//
+
+	const templateTypeOptions: SelectOptionType<TemplatesTypeOptions>[] = Object.entries(
+		TemplatesTypeOptions
+	).map((o) => {
+		return {
+			name: o[0],
+			value: o[1]
+		};
+	});
 </script>
 
 <Form {superform} className="space-y-12">
@@ -90,6 +101,14 @@
 			title={m.Basic_info()}
 			description={m.template_form_basic_info_description()}
 		/>
+
+		{#if !initialData['type']}
+			<SelectInput
+				{superform}
+				field="type"
+				options={{ options: Object.values(TemplatesTypeOptions) }}
+			/>
+		{/if}
 
 		<Input {superform} field="name" options={{ placeholder: m.template_form_name_placeholder() }} />
 

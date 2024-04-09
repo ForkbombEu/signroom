@@ -203,8 +203,10 @@
 						{/if}
 
 						{#if propertyList}
-							<p class="text-sm font-mono text-gray-500 bg-gray-100 px-2 py-1 rounded-md mt-2">
-								{propertyList}
+							<p
+								class="text-sm font-mono text-gray-500 bg-gray-100 px-2 py-1 rounded-md mt-2 w-fit"
+							>
+								Properties: {propertyList}
 							</p>
 						{:else}
 							<p class="text-gray-300">Template parsing error</p>
@@ -212,10 +214,10 @@
 
 						<svelte:fragment slot="right">
 							<div class="flex gap-2">
-								<Button outline disabled>
+								<!-- <Button outline disabled>
 									View
 									<Icon src={Eye} ml></Icon>
-								</Button>
+								</Button> -->
 
 								<Button
 									outline
@@ -238,16 +240,14 @@
 </OrganizationLayout>
 
 <PortalWrapper>
-	<Drawer
-		width="w-[700px]"
-		placement="right"
-		bind:hidden={$hideDrawer}
-		title={m.Create_new_Template()}
-	>
-		{@const defaultTemplateType =
-			templateFilter == 'issuance'
-				? TemplatesTypeOptions.issuance
-				: TemplatesTypeOptions.verification}
+	<Drawer width="w-[700px]" placement="right" bind:hidden={$hideDrawer} title={button}>
+		{@const defaultTemplateType = choice(
+			templateFilter,
+			TemplatesTypeOptions.issuance,
+			TemplatesTypeOptions.authorization,
+			TemplatesTypeOptions.verification,
+			undefined
+		)}
 
 		<div class="p-8">
 			<TemplateForm
