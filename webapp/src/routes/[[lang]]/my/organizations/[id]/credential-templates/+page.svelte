@@ -9,7 +9,7 @@
 	import { createFieldComponent } from '$lib/recordForm/fieldSchemaToInput.svelte';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { Button } from 'flowbite-svelte';
-	import JSONSchemaInput from '../credential-issuances/_partials/JSONSchemaInput.svelte';
+	import JSONSchemaInput from './_partials/JSONSchemaInput.svelte';
 	import Textarea from '$lib/forms/fields/textarea.svelte';
 	import { m } from '$lib/i18n';
 
@@ -140,7 +140,7 @@
 
 <PortalWrapper>
 	<Drawer
-		width="w-[700px]"
+		width="w-[800px]"
 		placement="right"
 		bind:hidden={$hideDrawer}
 		title={m.Create_new_Template()}
