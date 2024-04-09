@@ -184,10 +184,7 @@
 
 		<svelte:fragment slot="bottom">
 			<SidebarGroup>
-				<SidebarLinks
-					links={[{ text: 'Help', disabled: true, icon: QuestionMarkCircle, href: '/help' }]}
-				/>
-
+				<SidebarLinks links={[{ text: 'Help', icon: QuestionMarkCircle, href: 'https://forkbombeu.github.io/DIDroom/intro.html' }]} />
 				{#if $currentUser}
 					{@const id = 'menu-trigger'}
 					{@const idSelector = `#${id}`}
