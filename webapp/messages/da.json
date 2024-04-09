@@ -87,5 +87,14 @@
 	"_Signature_unshared_successfully": "✅ Signaturen blev fjernet",
 	"_Document_signed_successfully": "✅ Dokument underskrevet med succes",
 	"Are_you_sure_you_want_to_remove_all_access_to_the_signature": "Er du sikker på, at du vil fjerne al adgang til signaturen?",
-	"Yes_remove_access": "Ja, fjern adgangen"
+	"Yes_remove_access": "Ja, fjern adgangen",
+	"Select_one_or_more_templates_for_this_service": "Vælg en eller flere skabeloner til denne tjeneste",
+	"Create_new_Template": "Opret ny skabelon",
+	"Services_templates": "Credential skabeloner",
+	"Templates": "Skabeloner",
+	"Credential_templates": "Credential skabeloner",
+	"Template_parsing_error": "Skabelonparsingsfejl",
+	"New_credential_template": "Ny credentialskabelon",
+	"Template": "Skabelon",
+	"template_form_basic_info_description": "Opret skabeloner til at definere udstedelses- og verifikationsflows: skabeloner indeholder parametre og logik for flowene. Skabeloner vælges i flow-editorerne.  "
 }

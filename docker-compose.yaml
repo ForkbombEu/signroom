@@ -55,3 +55,7 @@ services:
     network_mode: "host"
     healthcheck:
       test: wget -nv -t1 --spider 'http://localhost:4173/' || exit 1
+      interval: 20s
+      retries: 6
+      start_period: 60s
+      timeout: 60s

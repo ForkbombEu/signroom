@@ -1,7 +1,7 @@
 import type { OrganizationsResponse } from '$lib/pocketbase/types';
 import type { m as messages } from '$lib/i18n';
 import type { NavigationTab } from '$lib/components/navigationTabs.svelte';
-import { Cog, Fire, GlobeAlt, Home, Users } from 'svelte-heros-v2';
+import { Cog, Document, Fire, GlobeAlt, HandRaised, Home, Users } from 'svelte-heros-v2';
 import type { SidebarItemProps } from '$lib/layout/SidebarLinks.svelte';
 import { pb } from '$lib/pocketbase';
 
@@ -23,6 +23,16 @@ export function createOrganizationLinks(
 			text: m.Issuance_flows(),
 			href: base('/credential-issuances'),
 			icon: Fire
+		},
+		{
+			text: m.Verification_flows(),
+			href: base('/verification-flows'),
+			icon: HandRaised
+		},
+		{
+			text: m.Templates(),
+			href: base('/credential-templates'),
+			icon: Document
 		},
 		{
 			text: m.Microservices(),

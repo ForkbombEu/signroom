@@ -4,7 +4,8 @@
 	import {
 		Collections,
 		type OrganizationsResponse,
-		type ServicesResponse
+		type ServicesResponse,
+		type VerificationFlowsResponse
 	} from '$lib/pocketbase/types';
 	import type { BreadcrumbsOptions } from './Breadcrumbs.svelte';
 	import Breadcrumbs from './Breadcrumbs.svelte';
@@ -17,6 +18,7 @@
 			'[issuance_id]': getServiceNameById,
 			organizations: () => m.organizations(),
 			'credential-issuances': () => m.Credential_issuances(),
+			'[verification_flow_id]': getVerificationFlowNameById,
 			my: () => m.My()
 		},
 		exclude: ['[[lang]]']
@@ -34,6 +36,13 @@
 			.collection(Collections.Organizations)
 			.getOne<OrganizationsResponse>(id);
 		return organization.name;
+	}
+
+	async function getVerificationFlowNameById(id: string): Promise<string> {
+		const verificationFlow = await pb
+			.collection(Collections.VerificationFlows)
+			.getOne<VerificationFlowsResponse>(id);
+		return verificationFlow.name;
 	}
 </script>
 
