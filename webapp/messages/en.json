@@ -283,7 +283,7 @@
 	"issuance_flow_form_description_placeholder": "Issuance flow for Age verification and Above 18.",
 	"Credential_info": "Credential info",
 	"issuance_flow_form_credential_info_description": "In this section you can select the cryptography and credential formats, along with the templates for the credential and the authorization flow. The templates define the parameters, the content of the issuance flows. You can create and edit templates and re-use them in multiple flows.",
-	"issuance_flow_form_microservices_description": "issuance_flow_form_microservices_description",
+	"issuance_flow_form_microservices_description": "Select the credential issuer that will produce the credential, and the authorization server that will authenticate the user requesting the credential. ",
 	"New_credential_issuer": "New credential issuer",
 	"New_authorization_server": "New authorization server",
 	"Options": "Options",
