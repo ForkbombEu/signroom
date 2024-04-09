@@ -101,5 +101,8 @@
 	"issuance_flow_form_credential_info_description": "I dette afsnit kan du vælge kryptografi- og credentialsformater sammen med skabelonerne for credentialsoplysningerne og autorisationsflowet. Skabelonerne definerer parametrene, indholdet af udstedelsesstrømmene. Du kan oprette og redigere skabeloner og genbruge dem i flere flows.",
 	"advanced_settings_description": "Dette afsnit er dedikeret til andre indstillinger, der ikke kunne passe til de foregående afsnit.",
 	"Use_only_lowercase_and_uppercase_letters_no_spaces": "Brug kun tal, små eller store bogstaver, men ingen mellemrum.",
-	"verification_flow_form_basic_info_description": "Du kan konfigurere et verifikationsflow her ved at vælge en bekræftelsesskabelon og vælge en pålidelig part."
+	"verification_flow_form_basic_info_description": "Du kan konfigurere et verifikationsflow her ved at vælge en bekræftelsesskabelon og vælge en pålidelig part.",
+	"verification_flow_form_name_placeholder": "Dette navn vises i Verifier-appen",
+	"verification_flow_form_description_placeholder": "Beskriv verifikationsforløbet: Denne beskrivelse vises i Verifier-appen",
+	"verification_flow_form_microservices_description": "Den stolende part er en mikrotjeneste, der modtager en verifiable presentation (eller credential eller zero knowledge proof), verificerer den og returnerer resultatet til verifikatoren. Vælg den pålidelige part, der skal udføre verifikationen."
 }

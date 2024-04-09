@@ -101,5 +101,8 @@
 	"issuance_flow_form_credential_info_description": "Dans cette section, vous pouvez sélectionner les formats de cryptographie et des credentials, ainsi que les modèles pour les credentials et le flux d'autorisation. Les modèles définissent les paramètres, le contenu des flux d'émission. Vous pouvez créer et modifier des modèles et les réutiliser dans plusieurs flux.",
 	"advanced_settings_description": "Cette section est dédiée à d'autres paramètres qui ne pouvaient pas correspondre aux sections précédentes.",
 	"Use_only_lowercase_and_uppercase_letters_no_spaces": "Utilisez uniquement des chiffres, des caractères minuscules ou majuscules, mais pas d'espaces.",
-	"verification_flow_form_basic_info_description": "Vous pouvez configurer un flux de vérification ici en sélectionnant un modèle de vérification et en sélectionnant une partie de confiance."
+	"verification_flow_form_basic_info_description": "Vous pouvez configurer un flux de vérification ici en sélectionnant un modèle de vérification et en sélectionnant une partie de confiance.",
+	"verification_flow_form_name_placeholder": "Ce nom apparaîtra dans l'application Verifier",
+	"verification_flow_form_description_placeholder": "Décrire le flux de vérification : cette description apparaîtra dans l'application Verifier",
+	"verification_flow_form_microservices_description": "La partie utilisatrice est un microservice qui reçoit une verifiable presentation (ou un credential ou une zero knowledge proof), la vérifie et renvoie le résultat au vérificateur. Sélectionnez la partie de confiance qui effectuera la vérification."
 }

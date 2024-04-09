@@ -101,5 +101,8 @@
 	"issuance_flow_form_credential_info_description": "In questa sezione è possibile selezionare la crittografia e i formati delle credenziali, insieme ai modelli per la credenziale e il flusso di autorizzazione. I modelli definiscono i parametri, il contenuto dei flussi di emissione. Puoi creare e modificare modelli e riutilizzarli in più flussi.",
 	"advanced_settings_description": "Questa sezione è dedicata ad altre impostazioni che non potevano rientrare nelle sezioni precedenti.",
 	"Use_only_lowercase_and_uppercase_letters_no_spaces": "Utilizza solo numeri, caratteri minuscoli o maiuscoli, ma non spazi.",
-	"verification_flow_form_basic_info_description": "Puoi impostare un flusso di verifica qui selezionando un modello di verifica e selezionando una parte facente affidamento."
+	"verification_flow_form_basic_info_description": "Puoi impostare un flusso di verifica qui selezionando un modello di verifica e selezionando una parte facente affidamento.",
+	"verification_flow_form_name_placeholder": "Questo nome verrà visualizzato nell'app Verifier",
+	"verification_flow_form_description_placeholder": "Descrivi il flusso di verifica: questa descrizione apparirà nell'app Verifier",
+	"verification_flow_form_microservices_description": "La deliverable party è un microservizio che riceve una verifiable presentation (o credenziale o una zero knowledge proof), la verifica e restituisce il risultato al verifier. Seleziona la componente che eseguirà la verifica."
 }
