@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Collections, type ServicesResponse } from '$lib/pocketbase/types';
+	import { Collections, TemplatesTypeOptions, type ServicesResponse } from '$lib/pocketbase/types';
 	import { CollectionManager } from '$lib/collectionManager';
 	import { Plus, ArrowRight, Eye, Pencil } from 'svelte-heros-v2';
 	import { Button, Badge } from 'flowbite-svelte';
@@ -19,7 +19,10 @@
 	const recordType = createTypeProp<ServicesResponse>();
 
 	$: createIssuanceUrl = `${$page.url.pathname}/create`;
-	$: templatesUrl = `/my/organizations/${organization.id}/credential-templates?filter=issuance`;
+
+	$: templatesUrl = (type: TemplatesTypeOptions) =>
+		`/my/organizations/${organization.id}/credential-templates?filter=${type}`;
+
 	$: issuanceFlowUrl = (id: string, edit = false) =>
 		`${$page.url.pathname}/${id}${edit ? '/edit' : ''}`;
 </script>
@@ -37,10 +40,20 @@
 			<SectionTitle tag="h5" title={m.Issuance_flows()}>
 				<svelte:fragment slot="right">
 					<div class="flex gap-2">
-						<Button href={templatesUrl} outline class="shrink-0">
+						<Button
+							href={templatesUrl(TemplatesTypeOptions.authorization)}
+							outline
+							class="shrink-0"
+						>
+							{m.Authorization_templates()}
+							<ArrowRight size="20" class="ml-1" />
+						</Button>
+
+						<Button href={templatesUrl(TemplatesTypeOptions.issuance)} outline class="shrink-0">
 							{m.Credential_templates()}
 							<ArrowRight size="20" class="ml-1" />
 						</Button>
+
 						<Button href={createIssuanceUrl} class="shrink-0">
 							{m.New_issuance_flow()}
 							<Plus size="20" class="ml-1" />

@@ -312,5 +312,7 @@
 	"Create_verification_flow": "Create verification flow",
 	"Update_verification_flow": "Update verification flow",
 	"Edit_verification_flow": "Edit verification flow",
-	"Back_to_verification_flows": "Back to verification flows"
+	"Back_to_verification_flows": "Back to verification flows",
+	"Authorization_templates": "Authorization templates",
+	"New_template": "New template"
 }

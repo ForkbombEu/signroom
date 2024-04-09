@@ -39,17 +39,73 @@
 
 	//
 
-	type TemplateFilter = 'issuance' | 'verification' | null;
+	type TemplateFilter = TemplatesTypeOptions | null;
 	let templateFilter: TemplateFilter = null;
 
 	$: templateFilter = $page.url.searchParams.get('filter') as TemplateFilter;
 
-	$: backUrl = `/my/organizations/${organization.id}/${
-		templateFilter == 'issuance' ? 'credential-issuances' : 'verification-flows'
-	}`;
+	$: backUrl = calcBackUrl(templateFilter);
 
-	$: backText =
-		templateFilter == 'issuance' ? m.Back_to_issuance_flows() : m.Back_to_verification_flows();
+	$: backText = choice(
+		templateFilter,
+		m.Back_to_issuance_flows(),
+		m.Back_to_issuance_flows(),
+		m.Back_to_verification_flows(),
+		''
+	);
+
+	$: title = choice(
+		templateFilter,
+		m.Credential_templates(),
+		m.Authorization_templates(),
+		m.Verification_templates(),
+		m.Templates()
+	);
+
+	$: button = choice(
+		templateFilter,
+		m.New_credential_template(),
+		m.New_authorization_template(),
+		m.New_verification_template(),
+		m.New_template()
+	);
+
+	function choice<T = unknown>(
+		templateFilter: TemplateFilter,
+		issuance: T,
+		authorization: T,
+		verification: T,
+		def: T
+	) {
+		switch (templateFilter) {
+			case TemplatesTypeOptions.issuance: {
+				return issuance;
+			}
+			case TemplatesTypeOptions.authorization: {
+				return authorization;
+			}
+			case TemplatesTypeOptions.verification: {
+				return verification;
+			}
+			default: {
+				return def;
+			}
+		}
+	}
+
+	//
+
+	function calcBackUrl(templateFilter: TemplateFilter): string {
+		const baseUrl = (route: string) => `/my/organizations/${organization.id}/${route}`;
+
+		return choice(
+			templateFilter,
+			baseUrl('credential-issuances'),
+			baseUrl('credential-issuances'),
+			baseUrl('verification-flows'),
+			''
+		);
+	}
 
 	function calcPbFilter(templateFilter: TemplateFilter): string {
 		const organizationFilter = `organization.id = '${organization.id}'`;
@@ -59,10 +115,15 @@
 	}
 
 	function calcPbTemplateTypeFilter(templateFilter: TemplateFilter): string {
-		if (!templateFilter) return '';
-		else if (templateFilter == 'issuance')
-			return `type = '${TemplatesTypeOptions.authorization}' || type = '${TemplatesTypeOptions.issuance}'`;
-		else return `type = '${TemplatesTypeOptions.verification}'`;
+		const type = (type: TemplatesTypeOptions) => `type = '${type}'`;
+
+		return choice(
+			templateFilter,
+			type(TemplatesTypeOptions.issuance),
+			type(TemplatesTypeOptions.authorization),
+			type(TemplatesTypeOptions.verification),
+			''
+		);
 	}
 
 	//
@@ -83,6 +144,11 @@
 	let templateFormInitialData: TemplatesRecord | undefined = undefined;
 
 	$: hideDrawer = createToggleStore(true);
+
+	//
+
+	const newTemplateId = 'new-template';
+	const newTemplateIdSelector = `#${newTemplateId}`;
 </script>
 
 <OrganizationLayout org={data.organization}>
@@ -112,10 +178,10 @@
 				</Button>
 			{/if}
 
-			<SectionTitle tag="h5" title={m.Templates()}>
+			<SectionTitle tag="h5" {title}>
 				<svelte:fragment slot="right">
-					<Button on:click={hideDrawer.off}>
-						{m.New_credential_template()}
+					<Button id="newTemplate" on:click={hideDrawer.off}>
+						{button}
 						<Icon src={Plus} ml />
 					</Button>
 				</svelte:fragment>
