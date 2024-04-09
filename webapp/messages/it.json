@@ -104,5 +104,6 @@
 	"verification_flow_form_basic_info_description": "Puoi impostare un flusso di verifica qui selezionando un modello di verifica e selezionando una parte facente affidamento.",
 	"verification_flow_form_name_placeholder": "Questo nome verrà visualizzato nell'app Verifier",
 	"verification_flow_form_description_placeholder": "Descrivi il flusso di verifica: questa descrizione apparirà nell'app Verifier",
-	"verification_flow_form_microservices_description": "La deliverable party è un microservizio che riceve una verifiable presentation (o credenziale o una zero knowledge proof), la verifica e restituisce il risultato al verifier. Seleziona la componente che eseguirà la verifica."
+	"verification_flow_form_microservices_description": "La deliverable party è un microservizio che riceve una verifiable presentation (o credenziale o una zero knowledge proof), la verifica e restituisce il risultato al verifier. Seleziona la componente che eseguirà la verifica.",
+	"issuance_flows_description": "Trova qui i tuoi flussi di emissione: i flussi descrivono come e quando verrà emessa una credenziale e cosa conterrà."
 }
