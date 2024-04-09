@@ -102,6 +102,7 @@
 	"issuance_flow_form_microservices_description": "Wählen Sie den Credential-aussteller aus, der die Credential erstellen wird, und den Autorisierungsserver, der den Benutzer authentifiziert, der die Credential anfordert. ",
 	"advanced_settings_description": "Dieser Abschnitt ist anderen Einstellungen gewidmet, die nicht in die vorherigen Abschnitte gepasst haben.",
 	"Use_only_lowercase_and_uppercase_letters_no_spaces": "Verwenden Sie nur Zahlen, Klein- oder Großbuchstaben, aber keine Leerzeichen.",
+	"new_verification_flow_description": "Richten Sie hier einen Überprüfungsablauf ein: Richten Sie die Vorlage und die vertrauende Partei ein und legen Sie fest, wie der Ablauf in der Verifier-App angezeigt wird.",
 	"verification_flow_form_basic_info_description": "Sie können hier einen Überprüfungsablauf einrichten, indem Sie eine Überprüfungsvorlage und eine vertrauende Partei auswählen.",
 	"verification_flow_form_name_placeholder": "Dieser Name wird in der Verifier-App angezeigt",
 	"verification_flow_form_description_placeholder": "Beschreiben Sie den Verifizierungsablauf: Diese Beschreibung wird in der Verifier-App angezeigt",

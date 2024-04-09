@@ -102,6 +102,7 @@
 	"issuance_flow_form_microservices_description": "Sélectionnez l'émetteur de credential qui produira la credential et le serveur d'autorisation qui authentifiera l'utilisateur demandant les credential. ",
 	"advanced_settings_description": "Cette section est dédiée à d'autres paramètres qui ne pouvaient pas correspondre aux sections précédentes.",
 	"Use_only_lowercase_and_uppercase_letters_no_spaces": "Utilisez uniquement des chiffres, des caractères minuscules ou majuscules, mais pas d'espaces.",
+	"new_verification_flow_description": "Configurez un flux de vérification ici : configurez le modèle, la partie de confiance et la manière dont le flux apparaîtra dans l'application Verifier.",
 	"verification_flow_form_basic_info_description": "Vous pouvez configurer un flux de vérification ici en sélectionnant un modèle de vérification et en sélectionnant une partie de confiance.",
 	"verification_flow_form_name_placeholder": "Ce nom apparaîtra dans l'application Verifier",
 	"verification_flow_form_description_placeholder": "Décrire le flux de vérification : cette description apparaîtra dans l'application Verifier",

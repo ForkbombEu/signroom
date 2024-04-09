@@ -298,7 +298,7 @@
 	"Verification_flows": "Verification flows",
 	"New_verification_flow": "New verification flow",
 	"Verification_templates": "Verification templates",
-	"new_verification_flow_description": "new_verification_flow_description",
+	"new_verification_flow_description": "Setup a verification flow here: setup the template, the relying party and how the flow will appear in the Verifier app.",
 	"verification_flow_form_basic_info_description": "You can setup a verification flow here by selecting a verification template and selecting a relying party.",
 	"verification_flow_form_name_placeholder": "This name will appear in the Verifier app",
 	"verification_flow_form_description_placeholder": "Describe the verification flow: this description will appear in the Verifier app",
