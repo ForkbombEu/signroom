@@ -1,5 +1,9 @@
 <script lang="ts">
-	import { Collections, type ServicesResponse } from '$lib/pocketbase/types';
+	import {
+		Collections,
+		type ServicesResponse,
+		type VerificationFlowsResponse
+	} from '$lib/pocketbase/types';
 	import { CollectionManager } from '$lib/collectionManager';
 	import { Plus, ArrowRight, Eye, Pencil } from 'svelte-heros-v2';
 	import { Button, Badge } from 'flowbite-svelte';
@@ -16,11 +20,11 @@
 	export let data;
 	let { organization } = data;
 
-	const recordType = createTypeProp<ServicesResponse>();
+	const recordType = createTypeProp<VerificationFlowsResponse>();
 
-	$: createIssuanceUrl = `${$page.url.pathname}/create`;
-	$: templatesUrl = `/my/organizations/${organization.id}/credential-templates?filter=issuance`;
-	$: issuanceFlowUrl = (id: string, edit = false) =>
+	$: verificationFlowCreateUrl = `${$page.url.pathname}/create`;
+	$: templatesUrl = `/my/organizations/${organization.id}/credential-templates?filter=verification`;
+	$: verificationFlowUrl = (id: string, edit = false) =>
 		`${$page.url.pathname}/${id}${edit ? '/edit' : ''}`;
 </script>
 
@@ -28,21 +32,21 @@
 	<PageCard>
 		<CollectionManager
 			{recordType}
-			collection={Collections.Services}
+			collection={Collections.VerificationFlows}
 			let:records
 			initialQueryParams={{
 				filter: `organization.id = '${organization.id}'`
 			}}
 		>
-			<SectionTitle tag="h5" title={m.Issuance_flows()}>
+			<SectionTitle tag="h5" title={m.Verification_flows()}>
 				<svelte:fragment slot="right">
 					<div class="flex gap-2">
 						<Button href={templatesUrl} outline class="shrink-0">
-							{m.Credential_templates()}
+							{m.Verification_templates()}
 							<ArrowRight size="20" class="ml-1" />
 						</Button>
-						<Button href={createIssuanceUrl} class="shrink-0">
-							{m.New_issuance_flow()}
+						<Button href={verificationFlowCreateUrl} class="shrink-0">
+							{m.New_verification_flow()}
 							<Plus size="20" class="ml-1" />
 						</Button>
 					</div>
@@ -54,11 +58,10 @@
 					{#each records as record}
 						<PlainCard>
 							<div class="flex items-center gap-4">
-								<ImagePreview src={record.logo} size="w-[50px] h-[50px]" hideHelpText
-								></ImagePreview>
+								<ImagePreview src={record.logo} size="w-[50px] h-[50px]" hideHelpText />
 								<div>
 									<div class="flex gap-2 items-center">
-										<p class="text-primary-700 font-semibold">{c(record.display_name)}</p>
+										<p class="text-primary-700 font-semibold">{c(record.name)}</p>
 										<Badge color="green">{m.Active()}</Badge>
 									</div>
 									{#if record.description}
@@ -69,11 +72,11 @@
 
 							<svelte:fragment slot="right">
 								<div class="space-x-1">
-									<Button outline size="sm" href={issuanceFlowUrl(record.id)}>
+									<Button outline size="sm" href={verificationFlowUrl(record.id)}>
 										{m.View()}
 										<Eye size="20" class="ml-2" />
 									</Button>
-									<Button outline size="sm" href={issuanceFlowUrl(record.id, true)}>
+									<Button outline size="sm" href={verificationFlowUrl(record.id, true)}>
 										{m.Edit()}
 										<Pencil size="20" class="ml-2" />
 									</Button>

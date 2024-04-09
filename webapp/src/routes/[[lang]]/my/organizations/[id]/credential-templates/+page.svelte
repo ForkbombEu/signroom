@@ -8,7 +8,7 @@
 	} from '$lib/pocketbase/types';
 	import { createFieldComponent } from '$lib/recordForm/fieldSchemaToInput.svelte';
 	import { createTypeProp } from '$lib/utils/typeProp';
-	import { Button } from 'flowbite-svelte';
+	import { Badge, Button } from 'flowbite-svelte';
 	import JSONSchemaInput from '../credential-issuances/_partials/JSONSchemaInput.svelte';
 	import Textarea from '$lib/forms/fields/textarea.svelte';
 	import { m } from '$lib/i18n';
@@ -28,6 +28,7 @@
 	import PortalWrapper from '$lib/components/portalWrapper.svelte';
 	import Drawer from '$lib/components/drawer.svelte';
 	import { createToggleStore } from '$lib/components/utils/toggleStore';
+	import { page } from '$app/stores';
 
 	//
 
@@ -36,7 +37,33 @@
 
 	const recordType = createTypeProp<TemplatesResponse>();
 
-	$: backUrl = `/my/organizations/${organization.id}/credential-issuances`;
+	//
+
+	type TemplateFilter = 'issuance' | 'verification' | null;
+	let templateFilter: TemplateFilter = null;
+
+	$: templateFilter = $page.url.searchParams.get('filter') as TemplateFilter;
+
+	$: backUrl = `/my/organizations/${organization.id}/${
+		templateFilter == 'issuance' ? 'credential-issuances' : 'verification-flows'
+	}`;
+
+	$: backText =
+		templateFilter == 'issuance' ? m.Back_to_issuance_flows() : m.Back_to_verification_flows();
+
+	function calcPbFilter(templateFilter: TemplateFilter): string {
+		const organizationFilter = `organization.id = '${organization.id}'`;
+		const typeFilter = calcPbTemplateTypeFilter(templateFilter);
+		if (typeFilter) return `${organizationFilter} && ${typeFilter}`;
+		else return organizationFilter;
+	}
+
+	function calcPbTemplateTypeFilter(templateFilter: TemplateFilter): string {
+		if (!templateFilter) return '';
+		else if (templateFilter == 'issuance')
+			return `type = '${TemplatesTypeOptions.authorization}' || type = '${TemplatesTypeOptions.issuance}'`;
+		else return `type = '${TemplatesTypeOptions.verification}'`;
+	}
 
 	//
 
@@ -64,7 +91,8 @@
 			{recordType}
 			collection={Collections.Templates}
 			initialQueryParams={{
-				filter: `organization.id = '${organization.id}'`
+				filter: calcPbFilter(templateFilter),
+				sort: 'type'
 			}}
 			formSettings={{
 				hide: { organization: organization.id },
@@ -77,12 +105,14 @@
 			}}
 			let:records
 		>
-			<Button href={backUrl} outline>
-				<ArrowLeft size="20" class="mr-2"></ArrowLeft>
-				{m.Back_to_issuance_flows()}
-			</Button>
+			{#if templateFilter}
+				<Button href={backUrl} outline>
+					<ArrowLeft size="20" class="mr-2"></ArrowLeft>
+					{backText}
+				</Button>
+			{/if}
 
-			<SectionTitle tag="h5" title={m.Credential_templates()}>
+			<SectionTitle tag="h5" title={m.Templates()}>
 				<svelte:fragment slot="right">
 					<Button on:click={hideDrawer.off}>
 						{m.New_credential_template()}
@@ -98,7 +128,10 @@
 						.join(', ')}
 
 					<PlainCard let:Title let:Description>
-						<Title>{template.name}</Title>
+						<div class="flex items-center gap-2">
+							<Title>{template.name}</Title>
+							<Badge color="dark">{template.type}</Badge>
+						</div>
 						{#if template.description}
 							<Description>{template.description}</Description>
 						{/if}
@@ -145,12 +178,17 @@
 		bind:hidden={$hideDrawer}
 		title={m.Create_new_Template()}
 	>
+		{@const defaultTemplateType =
+			templateFilter == 'issuance'
+				? TemplatesTypeOptions.issuance
+				: TemplatesTypeOptions.verification}
+
 		<div class="p-8">
 			<TemplateForm
 				templateId={templateFormId}
 				initialData={{
 					organization: organization.id,
-					type: TemplatesTypeOptions.issuance,
+					type: defaultTemplateType,
 					...templateFormInitialData
 				}}
 				on:success={() => {
