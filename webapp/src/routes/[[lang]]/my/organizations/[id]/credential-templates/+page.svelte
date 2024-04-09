@@ -9,7 +9,7 @@
 	import { createFieldComponent } from '$lib/recordForm/fieldSchemaToInput.svelte';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { Badge, Button } from 'flowbite-svelte';
-	import JSONSchemaInput from '../credential-issuances/_partials/JSONSchemaInput.svelte';
+	import JSONSchemaInput from './_partials/JSONSchemaInput.svelte';
 	import Textarea from '$lib/forms/fields/textarea.svelte';
 	import { m } from '$lib/i18n';
 
@@ -240,7 +240,7 @@
 </OrganizationLayout>
 
 <PortalWrapper>
-	<Drawer width="w-[700px]" placement="right" bind:hidden={$hideDrawer} title={button}>
+	<Drawer width="w-[800px]" placement="right" bind:hidden={$hideDrawer} title={button}>
 		{@const defaultTemplateType = choice(
 			templateFilter,
 			TemplatesTypeOptions.issuance,
@@ -248,7 +248,6 @@
 			TemplatesTypeOptions.verification,
 			undefined
 		)}
-
 		<div class="p-8">
 			<TemplateForm
 				templateId={templateFormId}
