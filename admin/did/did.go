@@ -163,7 +163,7 @@ func RequestNewDid(conf *config.DidConfig, agent *DidAgent) (*DidResult, error) 
 
 	result := DidResult{
 		Created: true,
-		Did:     body.result,
+		Did:     body,
 	}
 	return &result, nil
 }
