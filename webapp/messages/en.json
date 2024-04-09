@@ -261,7 +261,7 @@
 	"Required": "Required",
 	"Basic_info": "Basic info",
 	"template_form_basic_info_description": "Create templates to define issuance and verification flows: templates contain parameters and logic of the flows. Templates are selected within the flow editors.  ",
-	"template_form_name_placeholder": "Template form name placeholder",
+	"template_form_name_placeholder": "Name of the template",
 	"template_form_description_placeholder": "Template form description placeholder",
 	"Attributes_needed": "Attributes needed",
 	"attributes_needed_description": "attributes needed description",
