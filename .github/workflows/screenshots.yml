@@ -12,11 +12,11 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
       - run: docker compose up --wait
-      - name: 📨 Setup playwright
+      - name: 📨 Run playwright
         run: |
           npm install -g pnpm
-          npx playwright install --with-deps
           pnpm i
+          pnpm exec playwright install --with-deps
           pnpm exec playwright test
         working-directory: ./screenshots
       - name: Commit screenshots assets

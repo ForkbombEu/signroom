@@ -97,12 +97,19 @@
 	"New_credential_template": "Nouveau modèle de credential",
 	"Template": "Modèle",
 	"template_form_basic_info_description": "Créez des modèles pour définir les flux d'émission et de vérification : les modèles contiennent les paramètres et la logique des flux. Les modèles sont sélectionnés dans les éditeurs de flux.  ",
+	"template_form_name_placeholder": "Nom du modèle",
 	"issuance_flow_form_main_info_description": "Le flux de délivrance définit quand et comment une credential sera délivré, ainsi que ce qu'il contiendra. afin de configurer un flux d'émission, vous devez sélectionner la cryptographie et le format utilisé, sélectionner les microservices qui délivreront le credential et un modèle pour définir les revendications, les paramètres et la logique de l'émission.",
 	"issuance_flow_form_credential_info_description": "Dans cette section, vous pouvez sélectionner les formats de cryptographie et des credentials, ainsi que les modèles pour les credentials et le flux d'autorisation. Les modèles définissent les paramètres, le contenu des flux d'émission. Vous pouvez créer et modifier des modèles et les réutiliser dans plusieurs flux.",
+	"issuance_flow_form_microservices_description": "Sélectionnez l'émetteur de credential qui produira la credential et le serveur d'autorisation qui authentifiera l'utilisateur demandant les credential. ",
 	"advanced_settings_description": "Cette section est dédiée à d'autres paramètres qui ne pouvaient pas correspondre aux sections précédentes.",
 	"Use_only_lowercase_and_uppercase_letters_no_spaces": "Utilisez uniquement des chiffres, des caractères minuscules ou majuscules, mais pas d'espaces.",
+	"new_verification_flow_description": "Configurez un flux de vérification ici : configurez le modèle, la partie de confiance et la manière dont le flux apparaîtra dans l'application Verifier.",
 	"verification_flow_form_basic_info_description": "Vous pouvez configurer un flux de vérification ici en sélectionnant un modèle de vérification et en sélectionnant une partie de confiance.",
 	"verification_flow_form_name_placeholder": "Ce nom apparaîtra dans l'application Verifier",
 	"verification_flow_form_description_placeholder": "Décrire le flux de vérification : cette description apparaîtra dans l'application Verifier",
-	"verification_flow_form_microservices_description": "La partie utilisatrice est un microservice qui reçoit une verifiable presentation (ou un credential ou une zero knowledge proof), la vérifie et renvoie le résultat au vérificateur. Sélectionnez la partie de confiance qui effectuera la vérification."
+	"verification_info_description": "Sélectionnez un modèle de vérification pour le flux. Le modèle contient les paramètres et la logique de la vérification.",
+	"verification_flow_form_microservices_description": "La partie utilisatrice est un microservice qui reçoit une verifiable presentation (ou un credential ou une zero knowledge proof), la vérifie et renvoie le résultat au vérificateur. Sélectionnez la partie de confiance qui effectuera la vérification.",
+	"templates_description_verification": "Voici vos modèles de vérification : ils contiennent les paramètres et la logique du processus de vérification de credential. ",
+	"verification_flows_description": "Les flux de vérification définissent la logique de la vérification, le microservice (partie de confiance) qui effectuera la vérification ainsi que la manière dont le flux de vérification sera présenté dans l'application Verifier. ",
+	"issuance_flows_description": "Retrouvez ici vos flux de délivrance : les flux décrivent comment et quand une credential sera délivré et ce qu'il contiendra."
 }

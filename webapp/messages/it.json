@@ -97,12 +97,19 @@
 	"New_credential_template": "Nuovo modello di credenziale",
 	"Template": "Modello",
 	"template_form_basic_info_description": "Creare template per definire i flussi di emissione e verifica: i template contengono parametri e logica dei flussi. I modelli vengono selezionati all'interno degli editor di flusso.  ",
+	"template_form_name_placeholder": "Nome del modello",
 	"issuance_flow_form_main_info_description": "Il flusso di emissione definisce quando e come verrà emessa una credenziale e cosa conterrà la credenziale. per impostare un flusso di emissione è necessario selezionare la crittografia e il formato utilizzato, selezionare selezionare i microservizi che emetteranno la credenziale e un template per definire le attestazioni, i parametri e la logica dell'emissione.",
 	"issuance_flow_form_credential_info_description": "In questa sezione è possibile selezionare la crittografia e i formati delle credenziali, insieme ai modelli per la credenziale e il flusso di autorizzazione. I modelli definiscono i parametri, il contenuto dei flussi di emissione. Puoi creare e modificare modelli e riutilizzarli in più flussi.",
+	"issuance_flow_form_microservices_description": "Seleziona l'emittente delle credenziali che produrrà le credenziali e il server di autorizzazione che autenticherà l'utente che richiede le credenziali. ",
 	"advanced_settings_description": "Questa sezione è dedicata ad altre impostazioni che non potevano rientrare nelle sezioni precedenti.",
 	"Use_only_lowercase_and_uppercase_letters_no_spaces": "Utilizza solo numeri, caratteri minuscoli o maiuscoli, ma non spazi.",
+	"new_verification_flow_description": "Imposta un flusso di verifica qui: imposta il modello, la deliverable party e il modo in cui apparirà il flusso nell'app Verifier.",
 	"verification_flow_form_basic_info_description": "Puoi impostare un flusso di verifica qui selezionando un modello di verifica e selezionando una parte facente affidamento.",
 	"verification_flow_form_name_placeholder": "Questo nome verrà visualizzato nell'app Verifier",
 	"verification_flow_form_description_placeholder": "Descrivi il flusso di verifica: questa descrizione apparirà nell'app Verifier",
-	"verification_flow_form_microservices_description": "La deliverable party è un microservizio che riceve una verifiable presentation (o credenziale o una zero knowledge proof), la verifica e restituisce il risultato al verifier. Seleziona la componente che eseguirà la verifica."
+	"verification_info_description": "Seleziona un modello di verifica per il flusso. Il modello contiene i parametri e la logica per la verifica.",
+	"verification_flow_form_microservices_description": "La deliverable party è un microservizio che riceve una verifiable presentation (o credenziale o una zero knowledge proof), la verifica e restituisce il risultato al verifier. Seleziona la componente che eseguirà la verifica.",
+	"templates_description_verification": "Ecco i tuoi modelli di verifica: contengono i parametri e la logica del processo di verifica delle credenziali. ",
+	"verification_flows_description": "I flussi di verifica definiscono la logica della verifica, il microservizio (relying party) che eseguirà la verifica e il modo in cui il flusso di verifica verrà presentato nell'app Verifier. ",
+	"issuance_flows_description": "Trova qui i tuoi flussi di emissione: i flussi descrivono come e quando verrà emessa una credenziale e cosa conterrà."
 }

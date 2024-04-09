@@ -97,12 +97,19 @@
 	"New_credential_template": "Neue Credentialsvorlage",
 	"Template": "Vorlage",
 	"template_form_basic_info_description": "Erstellen Sie Vorlagen, um Ausgabe- und Überprüfungsabläufe zu definieren: Vorlagen enthalten Parameter und Logik der Abläufe. Vorlagen werden in den Ablaufeditoren ausgewählt.  ",
+	"template_form_name_placeholder": "Name der Vorlage",
 	"issuance_flow_form_main_info_description": "Der Ausgabeablauf definiert, wann und wie eine Credential ausgegeben wird und was die Anmeldeinformation enthalten wird. Um einen Ausgabeablauf einzurichten, müssen Sie die verwendete Kryptografie und das verwendete Format auswählen, die Microservices auswählen, die den Credential ausstellen, und eine Vorlage zum Definieren der Ansprüche, Parameter und der Logik der Ausgabe.",
 	"issuance_flow_form_credential_info_description": "In diesem Abschnitt können Sie die Kryptografie- und Credentials-formate sowie die Vorlagen für die Credentials und den Autorisierungsablauf auswählen. Die Vorlagen definieren die Parameter und den Inhalt der Ausgabeabläufe. Sie können Vorlagen erstellen und bearbeiten und sie in mehreren Abläufen wiederverwenden.",
+	"issuance_flow_form_microservices_description": "Wählen Sie den Credential-aussteller aus, der die Credential erstellen wird, und den Autorisierungsserver, der den Benutzer authentifiziert, der die Credential anfordert. ",
 	"advanced_settings_description": "Dieser Abschnitt ist anderen Einstellungen gewidmet, die nicht in die vorherigen Abschnitte gepasst haben.",
 	"Use_only_lowercase_and_uppercase_letters_no_spaces": "Verwenden Sie nur Zahlen, Klein- oder Großbuchstaben, aber keine Leerzeichen.",
+	"new_verification_flow_description": "Richten Sie hier einen Überprüfungsablauf ein: Richten Sie die Vorlage und die vertrauende Partei ein und legen Sie fest, wie der Ablauf in der Verifier-App angezeigt wird.",
 	"verification_flow_form_basic_info_description": "Sie können hier einen Überprüfungsablauf einrichten, indem Sie eine Überprüfungsvorlage und eine vertrauende Partei auswählen.",
 	"verification_flow_form_name_placeholder": "Dieser Name wird in der Verifier-App angezeigt",
 	"verification_flow_form_description_placeholder": "Beschreiben Sie den Verifizierungsablauf: Diese Beschreibung wird in der Verifier-App angezeigt",
-	"verification_flow_form_microservices_description": "Die vertrauende Partei ist ein Mikrodienst, der eine Verifiable-Presentation (oder einen Credential oder einen zero knowledge proof) empfängt, überprüft und das Ergebnis an den Prüfer (Verifier) zurückgibt. Wählen Sie die vertrauende Partei aus, die die Überprüfung durchführen soll."
+	"verification_info_description": "Wählen Sie eine Überprüfungsvorlage für den Ablauf aus. Die Vorlage enthält die Parameter und die Logik für die Überprüfung.",
+	"verification_flow_form_microservices_description": "Die vertrauende Partei ist ein Mikrodienst, der eine Verifiable-Presentation (oder einen Credential oder einen zero knowledge proof) empfängt, überprüft und das Ergebnis an den Prüfer (Verifier) zurückgibt. Wählen Sie die vertrauende Partei aus, die die Überprüfung durchführen soll.",
+	"templates_description_verification": "Hier sind Ihre Überprüfungsvorlagen: Sie enthalten die Parameter und die Logik des Credentials-überprüfungsprozesses. ",
+	"verification_flows_description": "Verifizierungsabläufe definieren die Logik der Verifizierung, den Microservice (vertrauende Partei), der die Verifizierung durchführt, sowie die Art und Weise, wie der Verifizierungsablauf in der Verifier-App dargestellt wird. ",
+	"issuance_flows_description": "Hier finden Sie Ihre Ausgabeabläufe: Die Abläufe beschreiben, wie und wann ein Credential ausgestellt wird und was dieser enthalten wird."
 }
