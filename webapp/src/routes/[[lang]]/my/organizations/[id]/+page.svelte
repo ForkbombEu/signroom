@@ -47,7 +47,7 @@
 						{requestsCount}
 						{requestsCount == 1 ? m.new_membership_request() : m.new_membership_requests()}</P
 					>
-					<Button outline href={base('/membership-requests')}>
+					<Button outline href={base('/members')}>
 						<ArrowRight class="mr-2" size="20" />
 						{m.Manage()}
 					</Button>
