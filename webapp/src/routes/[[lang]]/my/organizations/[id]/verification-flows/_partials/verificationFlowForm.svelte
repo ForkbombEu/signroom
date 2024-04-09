@@ -114,7 +114,7 @@
 			{superform}
 		/>
 
-		<div class="flex items-start gap-8">
+		<!-- <div class="flex items-start gap-8">
 			<div class="grow">
 				<Input
 					field="logo"
@@ -130,7 +130,7 @@
 				<P>{m.Preview()}</P>
 				<ImagePreview src={$form.logo} alt={m.Credential_logo_URL()} />
 			</div>
-		</div>
+		</div> -->
 	</PageCard>
 
 	<PageCard>

@@ -38,7 +38,11 @@
 				filter: `organization.id = '${organization.id}'`
 			}}
 		>
-			<SectionTitle tag="h5" title={m.Verification_flows()}>
+			<SectionTitle
+				tag="h5"
+				title={m.Verification_flows()}
+				description={m.verification_flows_description()}
+			>
 				<svelte:fragment slot="right">
 					<div class="flex gap-2">
 						<Button href={templatesUrl} outline class="shrink-0">

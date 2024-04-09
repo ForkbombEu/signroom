@@ -69,7 +69,11 @@
 	{recordType}
 	let:records
 >
-	<SectionTitle tag="h5" title={m.Pending_membership_requests()}></SectionTitle>
+	<SectionTitle
+		tag="h5"
+		title={m.Pending_membership_requests()}
+		description={m.pending_membership_requests_description()}
+	/>
 
 	<svelte:fragment slot="emptyState">
 		<EmptyState icon={UserGroup} title={m.No_new_membership_requests()}></EmptyState>
