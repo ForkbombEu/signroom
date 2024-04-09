@@ -100,5 +100,6 @@
 	"issuance_flow_form_main_info_description": "Le flux de délivrance définit quand et comment une credential sera délivré, ainsi que ce qu'il contiendra. afin de configurer un flux d'émission, vous devez sélectionner la cryptographie et le format utilisé, sélectionner les microservices qui délivreront le credential et un modèle pour définir les revendications, les paramètres et la logique de l'émission.",
 	"issuance_flow_form_credential_info_description": "Dans cette section, vous pouvez sélectionner les formats de cryptographie et des credentials, ainsi que les modèles pour les credentials et le flux d'autorisation. Les modèles définissent les paramètres, le contenu des flux d'émission. Vous pouvez créer et modifier des modèles et les réutiliser dans plusieurs flux.",
 	"advanced_settings_description": "Cette section est dédiée à d'autres paramètres qui ne pouvaient pas correspondre aux sections précédentes.",
-	"Use_only_lowercase_and_uppercase_letters_no_spaces": "Utilisez uniquement des chiffres, des caractères minuscules ou majuscules, mais pas d'espaces."
+	"Use_only_lowercase_and_uppercase_letters_no_spaces": "Utilisez uniquement des chiffres, des caractères minuscules ou majuscules, mais pas d'espaces.",
+	"verification_flow_form_basic_info_description": "Vous pouvez configurer un flux de vérification ici en sélectionnant un modèle de vérification et en sélectionnant une partie de confiance."
 }

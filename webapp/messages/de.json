@@ -100,5 +100,6 @@
 	"issuance_flow_form_main_info_description": "Der Ausgabeablauf definiert, wann und wie eine Credential ausgegeben wird und was die Anmeldeinformation enthalten wird. Um einen Ausgabeablauf einzurichten, müssen Sie die verwendete Kryptografie und das verwendete Format auswählen, die Microservices auswählen, die den Credential ausstellen, und eine Vorlage zum Definieren der Ansprüche, Parameter und der Logik der Ausgabe.",
 	"issuance_flow_form_credential_info_description": "In diesem Abschnitt können Sie die Kryptografie- und Credentials-formate sowie die Vorlagen für die Credentials und den Autorisierungsablauf auswählen. Die Vorlagen definieren die Parameter und den Inhalt der Ausgabeabläufe. Sie können Vorlagen erstellen und bearbeiten und sie in mehreren Abläufen wiederverwenden.",
 	"advanced_settings_description": "Dieser Abschnitt ist anderen Einstellungen gewidmet, die nicht in die vorherigen Abschnitte gepasst haben.",
-	"Use_only_lowercase_and_uppercase_letters_no_spaces": "Verwenden Sie nur Zahlen, Klein- oder Großbuchstaben, aber keine Leerzeichen."
+	"Use_only_lowercase_and_uppercase_letters_no_spaces": "Verwenden Sie nur Zahlen, Klein- oder Großbuchstaben, aber keine Leerzeichen.",
+	"verification_flow_form_basic_info_description": "Sie können hier einen Überprüfungsablauf einrichten, indem Sie eine Überprüfungsvorlage und eine vertrauende Partei auswählen."
 }
