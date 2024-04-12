@@ -32,7 +32,7 @@
 	import { createTypeProp } from '$lib/utils/typeProp.js';
 	import { Button, P } from 'flowbite-svelte';
 	import { Plus } from 'svelte-heros-v2';
-	import TemplateForm from '../../credential-templates/_partials/templateForm.svelte';
+	import TemplateForm from '../../templates/_partials/templateForm.svelte';
 	import { createEventDispatcher } from 'svelte';
 
 	//

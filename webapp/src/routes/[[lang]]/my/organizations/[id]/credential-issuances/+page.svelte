@@ -21,7 +21,7 @@
 	$: createIssuanceUrl = `${$page.url.pathname}/create`;
 
 	$: templatesUrl = (type: TemplatesTypeOptions) =>
-		`/my/organizations/${organization.id}/credential-templates?filter=${type}`;
+		`/my/organizations/${organization.id}/templates?filter=${type}`;
 
 	$: issuanceFlowUrl = (id: string, edit = false) =>
 		`${$page.url.pathname}/${id}${edit ? '/edit' : ''}`;

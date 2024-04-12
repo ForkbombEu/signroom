@@ -23,7 +23,7 @@
 	const recordType = createTypeProp<VerificationFlowsResponse>();
 
 	$: verificationFlowCreateUrl = `${$page.url.pathname}/create`;
-	$: templatesUrl = `/my/organizations/${organization.id}/credential-templates?filter=verification`;
+	$: templatesUrl = `/my/organizations/${organization.id}/templates?filter=verification`;
 	$: verificationFlowUrl = (id: string, edit = false) =>
 		`${$page.url.pathname}/${id}${edit ? '/edit' : ''}`;
 </script>
