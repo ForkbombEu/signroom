@@ -5,7 +5,7 @@
 	import type { PBResponse } from '$lib/utils/types';
 	import type { Collections } from '$lib/pocketbase/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
-	import { createRecordLabel, excludeStringArray, getCollectionFieldNames } from './utils';
+	import { createRecordLabel, searchTextFilter, excludeIdsFilter, mergeFilters } from './utils';
 	// @ts-ignore
 	import Svelecte from 'svelecte';
 
@@ -21,7 +21,14 @@
 	export let recordId: string | undefined = undefined;
 	export let options: Partial<RecordInputOptions<RecordGeneric>> = {};
 
-	let { displayFields = [], name = undefined, required = false, placeholder = undefined } = options;
+	let {
+		displayFields = [],
+		name = undefined,
+		required = false,
+		placeholder = undefined,
+		filter = undefined
+	} = options;
+
 	$: exclude = options.excludeIds ?? [];
 	$: disabled = options.disabled ?? false;
 
@@ -46,7 +53,7 @@
 
 		const records = await pb.collection(collection).getFullList<RecordGeneric>({
 			requestKey: null,
-			filter: filterString(text)
+			filter: mergeFilters(searchTextFilter(collection, text), excludeIdsFilter(exclude), filter)
 		});
 
 		return records.map((r) => {
@@ -55,22 +62,6 @@
 				label: createRecordLabel(r, displayFields)
 			};
 		});
-	}
-
-	function filterString(text: string) {
-		let baseString = filterSearchString(text);
-		if (exclude.length > 0) {
-			const excludeString = excludeStringArray('id', exclude);
-			baseString = `${baseString} && ${excludeString}`;
-		}
-		return baseString;
-	}
-
-	function filterSearchString(text: string) {
-		const searchString = getCollectionFieldNames(collection)
-			.map((f) => `${f} ~ "${text}"`)
-			.join(' || ');
-		return `(${searchString})`;
 	}
 
 	//

@@ -177,6 +177,14 @@
 		<Checkbox {superform} field="allow_extra_attributes">{m.Allow_extra_attributes()}</Checkbox>
 	</div>
 
+	<div class="space-y-8">
+		<SectionTitle tag="h5" title={m.Advanced_settings()} />
+
+		<Checkbox field="public" {superform}>
+			{m.Is_public()}: {m.template_is_public_description()}
+		</Checkbox>
+	</div>
+
 	<Hr />
 
 	<FormError></FormError>

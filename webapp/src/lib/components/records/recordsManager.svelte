@@ -1,5 +1,6 @@
 <script lang="ts" context="module">
-	import type { PBResponse, StringKeys } from '$lib/utils/types';
+	import type { RecordInputOptions } from './types';
+	import type { PBResponse } from '$lib/utils/types';
 
 	export type InputMode = 'search' | 'select';
 
@@ -8,14 +9,11 @@
 	export type RecordsManagerOptions<R extends PBResponse = PBResponse> = Partial<{
 		inputMode: InputMode;
 		multiple: boolean;
-		name: string | undefined;
-		placeholder: string | undefined;
-		displayFields: StringKeys<R>[];
-		excludeIds: string[];
 		showActions: RecordManagerActions[];
 		max: number | undefined;
 		formSettings: Partial<FieldsSettings<R>>;
-	}>;
+	}> &
+		RecordInputOptions<R>;
 </script>
 
 <script lang="ts">
@@ -25,7 +23,7 @@
 	import RecordSearch from './recordSearch.svelte';
 	import ArrayOrItemManager from '$lib/components/arrayOrItemManager.svelte';
 
-	import { createRecordLabel, filterStringArray } from './utils';
+	import { createRecordLabel } from './utils';
 	import { createTypeProp } from '$lib/utils/typeProp';
 
 	import Drawer from '$lib/components/drawer.svelte';
@@ -42,7 +40,7 @@
 
 	export let collection: string;
 	export let value: string[] | string | undefined = undefined;
-	export let options: RecordsManagerOptions<RecordGeneric> = {};
+	export let options: Partial<RecordsManagerOptions<RecordGeneric>> = {};
 
 	let {
 		inputMode = 'search',
@@ -53,7 +51,8 @@
 		excludeIds = [],
 		showActions = [],
 		max = undefined,
-		formSettings = {}
+		formSettings = {},
+		filter = undefined
 	} = options;
 
 	//
@@ -108,11 +107,11 @@
 	//
 
 	let tempRecords: Record<string, RecordGeneric> = {};
-	$: loadRecords(tempIds);
+	$: loadDisplayRecords(tempIds);
 
-	async function loadRecords(ids: typeof tempIds) {
+	async function loadDisplayRecords(ids: typeof tempIds) {
 		const records = await pb.collection(collection).getFullList<RecordGeneric>({
-			filter: filterStringArray('id', '=', '||', ids),
+			filter: ids.map((id) => `id = '${id}'`).join(' || '),
 			requestKey: null
 		});
 		tempRecords = {};
@@ -132,7 +131,7 @@
 		{recordType}
 		{collection}
 		bind:recordId={tempId}
-		options={{ name, placeholder, displayFields, excludeIds: exclude, disabled }}
+		options={{ name, placeholder, displayFields, excludeIds: exclude, disabled, filter }}
 	/>
 
 	<ArrayOrItemManager bind:value let:item>

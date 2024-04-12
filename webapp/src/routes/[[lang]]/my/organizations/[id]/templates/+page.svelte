@@ -202,6 +202,9 @@
 							<Badge color={choice(template.type, 'green', 'blue', 'yellow', 'dark')}>
 								{template.type}
 							</Badge>
+							{#if template.public}
+								<Badge color="dark">{m.Public()}</Badge>
+							{/if}
 						</div>
 						{#if template.description}
 							<Description>{template.description}</Description>
