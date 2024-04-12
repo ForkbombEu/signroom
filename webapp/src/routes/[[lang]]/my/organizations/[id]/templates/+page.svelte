@@ -200,6 +200,9 @@
 						<div class="flex items-center gap-2">
 							<Title>{template.name}</Title>
 							<Badge color="dark">{template.type}</Badge>
+							{#if template.public}
+								<Badge color="dark">{m.Public()}</Badge>
+							{/if}
 						</div>
 						{#if template.description}
 							<Description>{template.description}</Description>

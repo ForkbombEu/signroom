@@ -326,5 +326,6 @@
 	"templates_description": "templates_description",
 	"pending_membership_requests_description": "pending_membership_requests_description",
 	"members_description": "members_description",
-	"template_is_public_description": "This template can be used also by other organizations"
+	"template_is_public_description": "This template can be used also by other organizations",
+	"Public": "Public"
 }
