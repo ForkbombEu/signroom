@@ -199,7 +199,9 @@
 					<PlainCard let:Title let:Description>
 						<div class="flex items-center gap-2">
 							<Title>{template.name}</Title>
-							<Badge color="dark">{template.type}</Badge>
+							<Badge color={choice(template.type, 'green', 'blue', 'yellow', 'dark')}>
+								{template.type}
+							</Badge>
 							{#if template.public}
 								<Badge color="dark">{m.Public()}</Badge>
 							{/if}
