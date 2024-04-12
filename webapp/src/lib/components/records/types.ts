@@ -7,4 +7,5 @@ export type RecordInputOptions<R extends PBResponse> = {
 	excludeIds: string[];
 	required: boolean;
 	disabled: boolean;
+	filter?: string | undefined;
 };

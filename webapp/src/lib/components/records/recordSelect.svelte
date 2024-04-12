@@ -6,7 +6,7 @@
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { pb } from '$lib/pocketbase';
 	import { Select } from 'flowbite-svelte';
-	import { createRecordLabel, excludeStringArray } from './utils';
+	import { createRecordLabel, excludeIdsFilter, mergeFilters } from './utils';
 
 	//
 
@@ -20,7 +20,14 @@
 	export let recordId: string | undefined = undefined;
 	export let options: Partial<RecordInputOptions<RecordGeneric>> = {};
 
-	let { displayFields = [], name = undefined, required = false, placeholder = undefined } = options;
+	let {
+		displayFields = [],
+		name = undefined,
+		required = false,
+		placeholder = undefined,
+		filter = undefined
+	} = options;
+
 	$: exclude = options.excludeIds ?? [];
 	$: disabled = options.disabled ?? false;
 
@@ -32,7 +39,7 @@
 	async function loadRecords(excludeIds: string[]) {
 		records = await pb.collection(collection).getFullList<RecordGeneric>({
 			requestKey: null,
-			filter: excludeStringArray('id', excludeIds)
+			filter: mergeFilters(excludeIdsFilter(excludeIds), filter)
 		});
 	}
 
