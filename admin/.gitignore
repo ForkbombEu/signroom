@@ -1,8 +1,8 @@
 /pb
 /tmp
-/pb_data/data.db
+/pb_data/data.*
 /pb_data/storage
-/pb_data/logs.db
+/pb_data/logs.*
 /pb_data/types.d.ts
 .DS_Store
 .env
