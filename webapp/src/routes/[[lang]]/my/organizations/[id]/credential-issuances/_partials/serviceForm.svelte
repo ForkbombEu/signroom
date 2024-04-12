@@ -28,7 +28,9 @@
 		type AuthorizationServersResponse,
 		type IssuersResponse,
 		type ServicesRecord,
-		type ServicesResponse
+		type ServicesResponse,
+		type TemplatesResponse,
+		type OrganizationsResponse
 	} from '$lib/pocketbase/types.js';
 	import { fieldsSchemaToZod } from '$lib/pocketbaseToZod/index.js';
 	import { RecordForm } from '$lib/recordForm';
@@ -113,6 +115,16 @@
 	function templateFilter(type: TemplatesTypeOptions, organizationId: string) {
 		return `type = '${type}' && ( organization.id = '${organizationId}' || public = true )`;
 	}
+
+	type Template = TemplatesResponse<unknown, unknown, { organization: OrganizationsResponse }>;
+
+	const templateTypeProp = createTypeProp<Template>();
+
+	function formatTeplateRecord(t: Template) {
+		const isExternal = t.organization != organizationId;
+		const organizationName = isExternal ? ` (@${t.expand?.organization.name})` : '';
+		return `${t.name} ${organizationName} | ${t.description}`;
+	}
 </script>
 
 <Form {superform} showRequiredIndicator className="space-y-10">
@@ -181,13 +193,15 @@
 
 		<div>
 			<Relations
+				recordType={templateTypeProp}
 				collection={Collections.Templates}
 				field="credential_template"
 				options={{
 					label: m.Credential_template(),
 					inputMode: 'select',
-					displayFields: ['name'],
-					filter: templateFilter(TemplatesTypeOptions.issuance, organizationId)
+					filter: templateFilter(TemplatesTypeOptions.issuance, organizationId),
+					expand: 'organization',
+					formatRecord: formatTeplateRecord
 				}}
 				{superform}
 			>
@@ -202,13 +216,15 @@
 
 		<div>
 			<Relations
+				recordType={templateTypeProp}
 				collection={Collections.Templates}
 				field="authorization_template"
 				options={{
 					label: m.Authorization_template(),
 					inputMode: 'select',
-					displayFields: ['name'],
-					filter: templateFilter(TemplatesTypeOptions.authorization, organizationId)
+					filter: templateFilter(TemplatesTypeOptions.authorization, organizationId),
+					expand: 'organization',
+					formatRecord: formatTeplateRecord
 				}}
 				{superform}
 			>
