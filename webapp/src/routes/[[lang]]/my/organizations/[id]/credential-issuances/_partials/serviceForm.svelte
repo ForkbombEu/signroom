@@ -107,6 +107,12 @@
 	let hideAuthorizationTemplateDrawer = createToggleStore(true);
 	let hideCredentialIssuerDrawer = createToggleStore(true);
 	let hideAuthorizationServerDrawer = createToggleStore(true);
+
+	//
+
+	function templateFilter(type: TemplatesTypeOptions, organizationId: string) {
+		return `type = '${type}' && ( organization.id = '${organizationId}' || public = true )`;
+	}
 </script>
 
 <Form {superform} showRequiredIndicator className="space-y-10">
@@ -180,7 +186,8 @@
 				options={{
 					label: m.Credential_template(),
 					inputMode: 'select',
-					displayFields: ['name']
+					displayFields: ['name'],
+					filter: templateFilter(TemplatesTypeOptions.issuance, organizationId)
 				}}
 				{superform}
 			>
@@ -200,7 +207,8 @@
 				options={{
 					label: m.Authorization_template(),
 					inputMode: 'select',
-					displayFields: ['name']
+					displayFields: ['name'],
+					filter: templateFilter(TemplatesTypeOptions.authorization, organizationId)
 				}}
 				{superform}
 			>
