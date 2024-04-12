@@ -325,5 +325,6 @@
 	"issuance_flows_description": "Find here your issuance flows: the flows describe how and when a credential will be issued and what it will contain.",
 	"templates_description": "templates_description",
 	"pending_membership_requests_description": "pending_membership_requests_description",
-	"members_description": "members_description"
+	"members_description": "members_description",
+	"template_is_public_description": "This template can be used also by other organizations"
 }
