@@ -31,7 +31,7 @@ export function createOrganizationLinks(
 		},
 		{
 			text: m.Templates(),
-			href: base('/credential-templates'),
+			href: base('/templates'),
 			icon: Document
 		},
 		{
