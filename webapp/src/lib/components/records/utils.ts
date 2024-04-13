@@ -16,11 +16,11 @@ export function searchTextFilter(collection: string, text: string) {
 
 //
 
-export function mergeFilters(...filters: Array<string | undefined>): string {
+export function mergeFilters(...filters: Array<string | undefined>): string | undefined {
 	const validFilters: Array<string> = filters.filter(isNonEmptyString);
 	if (validFilters.length == 1) return validFilters[0];
 	else if (validFilters.length > 1) return validFilters.map((f) => `(${f})`).join(' && ');
-	else return '';
+	else return undefined;
 }
 
 function isNonEmptyString(s: string | undefined): s is string {

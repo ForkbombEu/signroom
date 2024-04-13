@@ -25,7 +25,9 @@
 		TemplatesTypeOptions,
 		type VerificationFlowsRecord,
 		type VerificationFlowsResponse,
-		type RelyingPartiesResponse
+		type RelyingPartiesResponse,
+		type OrganizationsResponse,
+		type TemplatesResponse
 	} from '$lib/pocketbase/types.js';
 	import { fieldsSchemaToZod } from '$lib/pocketbaseToZod/index.js';
 	import { RecordForm } from '$lib/recordForm';
@@ -89,6 +91,22 @@
 	//
 
 	const relyingPartyTypeProp = createTypeProp<RelyingPartiesResponse>();
+
+	//
+
+	function templateFilter(type: TemplatesTypeOptions, organizationId: string) {
+		return `type = '${type}' && ( organization.id = '${organizationId}' || public = true )`;
+	}
+
+	type Template = TemplatesResponse<unknown, unknown, { organization: OrganizationsResponse }>;
+
+	const templateTypeProp = createTypeProp<Template>();
+
+	function formatTeplateRecord(t: Template) {
+		const isExternal = t.organization != organizationId;
+		const organizationName = isExternal ? ` (@${t.expand?.organization.name})` : '';
+		return `${t.name} ${organizationName} | ${t.description}`;
+	}
 </script>
 
 <Form {superform} showRequiredIndicator className="space-y-10">
@@ -142,12 +160,15 @@
 
 		<div>
 			<Relations
+				recordType={templateTypeProp}
 				collection={Collections.Templates}
 				field="template"
 				options={{
 					label: m.Verification_template(),
 					inputMode: 'select',
-					displayFields: ['name']
+					filter: templateFilter(TemplatesTypeOptions.verification, organizationId),
+					formatRecord: formatTeplateRecord,
+					expand: 'organization'
 				}}
 				{superform}
 			>

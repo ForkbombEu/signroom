@@ -1,4 +1,6 @@
 <script lang="ts">
+	import type { RecordFullListOptions } from 'pocketbase';
+
 	import type { RecordInputOptions } from './types';
 
 	import { pb } from '$lib/pocketbase';
@@ -26,7 +28,9 @@
 		name = undefined,
 		required = false,
 		placeholder = undefined,
-		filter = undefined
+		filter = undefined,
+		expand = undefined,
+		formatRecord = undefined
 	} = options;
 
 	$: exclude = options.excludeIds ?? [];
@@ -49,17 +53,24 @@
 	//
 
 	async function fetchOptions(text: string | undefined): Promise<Option[]> {
-		if (!text) return [];
+		const pbFilter = mergeFilters(
+			text ? searchTextFilter(collection, text) : undefined,
+			excludeIdsFilter(exclude),
+			filter
+		);
 
-		const records = await pb.collection(collection).getFullList<RecordGeneric>({
-			requestKey: null,
-			filter: mergeFilters(searchTextFilter(collection, text), excludeIdsFilter(exclude), filter)
-		});
+		const options: RecordFullListOptions = {
+			requestKey: null
+		};
+		if (expand) options.expand = expand;
+		if (pbFilter) options.filter = pbFilter;
+
+		const records = await pb.collection(collection).getFullList<RecordGeneric>(options);
 
 		return records.map((r) => {
 			return {
 				[valueField]: r.id,
-				label: createRecordLabel(r, displayFields)
+				label: formatRecord ? formatRecord(r) : createRecordLabel(r, displayFields)
 			};
 		});
 	}
@@ -78,7 +89,10 @@
 	}
 
 	function setPlaceholder(maybeRecord: typeof record) {
-		if (maybeRecord) actualPlaceholder = createRecordLabel(maybeRecord, displayFields);
+		if (maybeRecord)
+			actualPlaceholder = formatRecord
+				? formatRecord(maybeRecord)
+				: createRecordLabel(maybeRecord, displayFields);
 		else actualPlaceholder = placeholder;
 	}
 </script>

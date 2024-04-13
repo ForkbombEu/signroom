@@ -45,14 +45,12 @@
 	let {
 		inputMode = 'search',
 		multiple = false,
-		name = undefined,
-		placeholder = undefined,
 		displayFields = [],
 		excludeIds = [],
 		showActions = [],
 		max = undefined,
 		formSettings = {},
-		filter = undefined
+		formatRecord = undefined
 	} = options;
 
 	//
@@ -131,14 +129,14 @@
 		{recordType}
 		{collection}
 		bind:recordId={tempId}
-		options={{ name, placeholder, displayFields, excludeIds: exclude, disabled, filter }}
+		options={{ ...options, excludeIds: exclude, disabled }}
 	/>
 
 	<ArrayOrItemManager bind:value let:item>
 		{@const record = tempRecords[item]}
 		{#if record}
 			<slot {record}>
-				{createRecordLabel(record, displayFields)}
+				{formatRecord ? formatRecord(record) : createRecordLabel(record, displayFields)}
 			</slot>
 		{/if}
 	</ArrayOrItemManager>
