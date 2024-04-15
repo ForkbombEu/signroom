@@ -121,5 +121,6 @@
 	"templates_description_verification": "Aqui estão seus modelos de verificação: eles contêm os parâmetros e a lógica do processo de verificação de credenciais. ",
 	"verification_flows_description": "Os fluxos de verificação definem a lógica da verificação, o microsserviço (parte confiável) que realizará a verificação e também como o fluxo de verificação será apresentado no aplicativo Verifier. ",
 	"issuance_flows_description": "Encontre aqui seus fluxos de emissão: os fluxos descrevem como e quando uma credencial será emitida e o que ela conterá.",
-	"pending_membership_requests_description": "Aqui você pode ver a lista de usuários que solicitaram ser membros desta organização"
+	"pending_membership_requests_description": "Aqui você pode ver a lista de usuários que solicitaram ser membros desta organização",
+	"members_description": "Lista dos membros existentes da organização: os membros podem ter diferentes funções, permitindo-lhes diferentes privilégios "
 }
