@@ -95,6 +95,7 @@
 	"Credential_templates": "Modèles de credential",
 	"credential_issuer_description": "Le credential issuer est un microservice qui produit des credentials vérifiables. La structure des credentials est basée sur les revendications définies dans le modèle de credential, et le contenu est typiquement (mais pas nécessairement) lu à partir de sources externes. ",
 	"authorization_server_description": "Le serveur d'autorisation est un microservice dont le comportement est défini dans les spécifications Opein4VC et Oauth 2.0, chargé de gérer le contrôle d'accès et les décisions d'autorisation.",
+	"relying_party_description": "Le relying party vérifie l'authenticité et la validité d'une credential au cours du flux de vérification.",
 	"Template_parsing_error": "Erreur d'analyse du modèle",
 	"New_credential_template": "Nouveau modèle de credential",
 	"Template": "Modèle",
