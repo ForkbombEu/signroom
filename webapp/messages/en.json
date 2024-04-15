@@ -211,7 +211,7 @@
 	"news_section_description": "Stay up to date with the latest developments and insights in the world of cryptography and digital signatures.",
 	"organzations_page_description": "This page serves as a centralized hub for managing your organizational memberships and activities.",
 	"credential_issuer_description": "The credential issuer is a microservicee that produces verifiable credentials. The structure of the credential is based on the claims defined in the credential template, and the content is typical (but not necessarily) read from external sources. ",
-	"authorization_server_description": "An authorization server is a component of an OAuth 2.0 or OpenID Connect system responsible for managing access control and authorization decisions.",
+	"authorization_server_description": "The authorization server is a microservice whose behaviour is defined in the Opein4VC and Oauth 2.0 specifications, responsible for managing access control and authorization decisions.",
 	"relying_party_description": "The relying party verifies the authenticity and validity of a user's credentials during authentication or authorization processes.",
 	"Add_new": "Add new",
 	"Create_issuance_flow": "Create issuance flow",

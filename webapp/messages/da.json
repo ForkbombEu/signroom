@@ -94,6 +94,7 @@
 	"Templates": "Skabeloner",
 	"Credential_templates": "Credential skabeloner",
 	"credential_issuer_description": "Credential issueren er en mikroservice, der producerer verificerbare credentialer. Strukturen af credentialen er baseret på de krav, der er defineret i credentialskabelonen, og indholdet er typisk (men ikke nødvendigvis) læst fra eksterne kilder. ",
+	"authorization_server_description": "Autorisationsserveren er en mikrotjeneste, hvis adfærd er defineret i Opein4VC- og Oauth 2.0-specifikationerne, ansvarlig for styring af adgangskontrol og godkendelsesbeslutninger.",
 	"Template_parsing_error": "Skabelonparsingsfejl",
 	"New_credential_template": "Ny credentialskabelon",
 	"Template": "Skabelon",

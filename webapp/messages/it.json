@@ -94,6 +94,7 @@
 	"Templates": "Modelli",
 	"Credential_templates": "Modelli di credenziali",
 	"credential_issuer_description": "Il credential issuer è un microservizio che produce credenziali verificabili. La struttura della credenziale si basa sulle attestazioni definite nel modello della credenziale e il contenuto è tipico (ma non necessariamente) letto da fonti esterne. ",
+	"authorization_server_description": "Il server di autorizzazione è un microservizio il cui comportamento è definito nelle specifiche Opein4VC e Oauth 2.0, responsabile della gestione del controllo degli accessi e delle decisioni di autorizzazione.",
 	"Template_parsing_error": "Errore di analisi del modello",
 	"New_credential_template": "Nuovo modello di credenziale",
 	"Template": "Modello",
