@@ -99,6 +99,7 @@
 	"template_form_basic_info_description": "Crie templates para definir fluxos de emissão e verificação: os templates contêm parâmetros e lógica dos fluxos. Os modelos são selecionados nos editores de fluxo.  ",
 	"template_form_name_placeholder": "Nome do modelo",
 	"form_structure_description": "Defina aqui os atributos que o usuário deve inserir manualmente, na forma fornecida pelo servidor de autorização",
+	"custom_code_description": "Este código contém a lógica de negócio do fluxo que estamos definindo agora: o código está escrito em Zencode, comece pelos exemplos e siga a documentação para saber mais",
 	"issuance_flow_form_main_info_description": "O fluxo de emissão define quando e como uma credencial será emitida e o que ela conterá. para configurar um fluxo de emissão é necessário selecionar a criptografia e o formato utilizado, selecionar os microsserviços que emitirão a credencial e um template para definir as declarações, os parâmetros e a lógica da emissão.",
 	"issuance_flow_form_credential_info_description": "Nesta seção você pode selecionar os formatos de criptografia e credenciais, juntamente com os modelos para a credencial e o fluxo de autorização. Os templates definem os parâmetros, o conteúdo dos fluxos de emissão. Você pode criar e editar modelos e reutilizá-los em vários fluxos.",
 	"issuance_flow_form_microservices_description": "Selecione o emissor da credencial que produzirá a credencial e o servidor de autorização que autenticará o usuário que está solicitando a credencial. ",
