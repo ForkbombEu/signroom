@@ -98,6 +98,7 @@
 	"Template": "Modèle",
 	"template_form_basic_info_description": "Créez des modèles pour définir les flux d'émission et de vérification : les modèles contiennent les paramètres et la logique des flux. Les modèles sont sélectionnés dans les éditeurs de flux.  ",
 	"template_form_name_placeholder": "Nom du modèle",
+	"form_structure_description": "Définissez ici les attributs que l'utilisateur doit saisir manuellement, dans le formulaire fourni par le serveur d'autorisation.",
 	"issuance_flow_form_main_info_description": "Le flux de délivrance définit quand et comment une credential sera délivré, ainsi que ce qu'il contiendra. afin de configurer un flux d'émission, vous devez sélectionner la cryptographie et le format utilisé, sélectionner les microservices qui délivreront le credential et un modèle pour définir les revendications, les paramètres et la logique de l'émission.",
 	"issuance_flow_form_credential_info_description": "Dans cette section, vous pouvez sélectionner les formats de cryptographie et des credentials, ainsi que les modèles pour les credentials et le flux d'autorisation. Les modèles définissent les paramètres, le contenu des flux d'émission. Vous pouvez créer et modifier des modèles et les réutiliser dans plusieurs flux.",
 	"issuance_flow_form_microservices_description": "Sélectionnez l'émetteur de credential qui produira la credential et le serveur d'autorisation qui authentifiera l'utilisateur demandant les credential. ",
