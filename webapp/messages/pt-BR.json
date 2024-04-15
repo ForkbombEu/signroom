@@ -112,6 +112,7 @@
 	"verification_flow_form_description_placeholder": "Descreva o fluxo de verificação: esta descrição aparecerá no aplicativo Verifier",
 	"verification_info_description": "Selecione um modelo de verificação para o fluxo. O modelo contém os parâmetros e a lógica para a verificação.",
 	"verification_flow_form_microservices_description": "A parte confiável é um microsserviço, que recebe uma apresentação verificável (ou credencial, ou prova de conhecimento zero), verifica e retorna o resultado ao verificador. Selecione a parte confiável que realizará a verificação.",
+	"attributes_needed_description_credential": "Defina aqui as reivindicações que o emissor da credencial escreverá na credencial  ",
 	"attributes_needed_description_verification": "Defina aqui os parâmetros que a parte confiável usará para verificar a credencial",
 	"attributes_needed_description_authorization": "Defina aqui os atributos que a carteira enviará automaticamente para o servidor de autorização",
 	"templates_description_verification": "Aqui estão seus modelos de verificação: eles contêm os parâmetros e a lógica do processo de verificação de credenciais. ",
