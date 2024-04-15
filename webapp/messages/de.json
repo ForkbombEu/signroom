@@ -120,5 +120,6 @@
 	"attributes_needed_description_authorization": "Definieren Sie hier die Attribute, die das Wallet automatisch an den Autorisierungsserver sendet",
 	"templates_description_verification": "Hier sind Ihre Überprüfungsvorlagen: Sie enthalten die Parameter und die Logik des Credentials-überprüfungsprozesses. ",
 	"verification_flows_description": "Verifizierungsabläufe definieren die Logik der Verifizierung, den Microservice (vertrauende Partei), der die Verifizierung durchführt, sowie die Art und Weise, wie der Verifizierungsablauf in der Verifier-App dargestellt wird. ",
-	"issuance_flows_description": "Hier finden Sie Ihre Ausgabeabläufe: Die Abläufe beschreiben, wie und wann ein Credential ausgestellt wird und was dieser enthalten wird."
+	"issuance_flows_description": "Hier finden Sie Ihre Ausgabeabläufe: Die Abläufe beschreiben, wie und wann ein Credential ausgestellt wird und was dieser enthalten wird.",
+	"pending_membership_requests_description": "Hier können Sie die Liste der Benutzer sehen, die eine Mitgliedschaft in dieser Organisation beantragt haben"
 }

@@ -120,5 +120,6 @@
 	"attributes_needed_description_authorization": "Definisci qui gli attributi che il wallet invierà automaticamente al server di autorizzazione",
 	"templates_description_verification": "Ecco i tuoi modelli di verifica: contengono i parametri e la logica del processo di verifica delle credenziali. ",
 	"verification_flows_description": "I flussi di verifica definiscono la logica della verifica, il microservizio (relying party) che eseguirà la verifica e il modo in cui il flusso di verifica verrà presentato nell'app Verifier. ",
-	"issuance_flows_description": "Trova qui i tuoi flussi di emissione: i flussi descrivono come e quando verrà emessa una credenziale e cosa conterrà."
+	"issuance_flows_description": "Trova qui i tuoi flussi di emissione: i flussi descrivono come e quando verrà emessa una credenziale e cosa conterrà.",
+	"pending_membership_requests_description": "Qui puoi vedere l'elenco degli utenti che hanno richiesto di essere membri di questa organizzazione"
 }

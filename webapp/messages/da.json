@@ -120,5 +120,6 @@
 	"attributes_needed_description_authorization": "Definer her de attributter, som wallet vil sende automatisk til autorisationsserveren",
 	"templates_description_verification": "Her er dine bekræftelsesskabeloner: De indeholder parametrene og logikken i credentialsbekræftelsesprocessen. ",
 	"verification_flows_description": "Verifikationsflows definerer logikken i verifikationen, den mikrotjeneste (relying part), der udfører verifikationen, samt hvordan verifikationsflowet vil blive præsenteret i Verifier-appen. ",
-	"issuance_flows_description": "Find dine udstedelsesstrømme her: strømmene beskriver, hvordan og hvornår en credential vil blive udstedt, og hvad den vil indeholde."
+	"issuance_flows_description": "Find dine udstedelsesstrømme her: strømmene beskriver, hvordan og hvornår en credential vil blive udstedt, og hvad den vil indeholde.",
+	"pending_membership_requests_description": "Her kan du se listen over brugere, der har anmodet om at blive medlem af denne organisation"
 }
