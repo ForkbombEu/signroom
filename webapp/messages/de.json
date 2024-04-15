@@ -93,6 +93,7 @@
 	"Services_templates": "Credentialsvorlagen",
 	"Templates": "Vorlagen",
 	"Credential_templates": "Credentialsvorlagen",
+	"credential_issuer_description": "Der Credential-Issuer ist ein Microservice, der überprüfbare Credentialen erstellt. Die Struktur der Credential ist basiert auf den in der Credentials-svorlage definierten Ansprüchen, und der Inhalt wird normalerweise (aber nicht notwendigerweise) aus externen Quellen gelesen. ",
 	"Template_parsing_error": "Fehler beim Parsen der Vorlage",
 	"New_credential_template": "Neue Credentialsvorlage",
 	"Template": "Vorlage",

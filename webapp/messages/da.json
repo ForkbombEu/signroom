@@ -93,6 +93,7 @@
 	"Services_templates": "Credential skabeloner",
 	"Templates": "Skabeloner",
 	"Credential_templates": "Credential skabeloner",
+	"credential_issuer_description": "Credential issueren er en mikroservice, der producerer verificerbare credentialer. Strukturen af credentialen er baseret på de krav, der er defineret i credentialskabelonen, og indholdet er typisk (men ikke nødvendigvis) læst fra eksterne kilder. ",
 	"Template_parsing_error": "Skabelonparsingsfejl",
 	"New_credential_template": "Ny credentialskabelon",
 	"Template": "Skabelon",

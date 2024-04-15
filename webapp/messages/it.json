@@ -93,6 +93,7 @@
 	"Services_templates": "Modelli di credenziale",
 	"Templates": "Modelli",
 	"Credential_templates": "Modelli di credenziali",
+	"credential_issuer_description": "Il credential issuer è un microservizio che produce credenziali verificabili. La struttura della credenziale si basa sulle attestazioni definite nel modello della credenziale e il contenuto è tipico (ma non necessariamente) letto da fonti esterne. ",
 	"Template_parsing_error": "Errore di analisi del modello",
 	"New_credential_template": "Nuovo modello di credenziale",
 	"Template": "Modello",
