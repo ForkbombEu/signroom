@@ -316,7 +316,7 @@
 	"Authorization_templates": "Authorization templates",
 	"New_template": "New template",
 	"attributes_needed_description_credential": "attributes_needed_description_credential",
-	"attributes_needed_description_verification": "attributes_needed_description_verification",
+	"attributes_needed_description_verification": "Define here the parameters that relying party will use to verify the credential",
 	"attributes_needed_description_authorization": "Define here the attributes that the wallet will send automatically to the authorization server",
 	"templates_description_credential": "templates_description_credential",
 	"templates_description_verification": "Here are your verification templates: they contain the parameters and the logic of the credential verification process. ",
