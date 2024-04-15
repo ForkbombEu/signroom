@@ -121,6 +121,7 @@
 	"templates_description_verification": "Hier sind Ihre Überprüfungsvorlagen: Sie enthalten die Parameter und die Logik des Credentials-überprüfungsprozesses. ",
 	"verification_flows_description": "Verifizierungsabläufe definieren die Logik der Verifizierung, den Microservice (vertrauende Partei), der die Verifizierung durchführt, sowie die Art und Weise, wie der Verifizierungsablauf in der Verifier-App dargestellt wird. ",
 	"issuance_flows_description": "Hier finden Sie Ihre Ausgabeabläufe: Die Abläufe beschreiben, wie und wann ein Credential ausgestellt wird und was dieser enthalten wird.",
+	"templates_description": "Hier finden Sie alle Vorlagen für die Issuance- und Verifizierungsabläufe. Es gibt drei Arten von Vorlagen: Autorisierung, Issuance oder Verifizierung. Vorlagen spielen eine zentrale Rolle für das Funktionieren der Issuance- und Verifizierungsabläufe für Credentialen und damit für das Verhalten ihrer jeweiligen Mikrodienste (Authorization Server, Credential Issuer and Relying Party). ",
 	"pending_membership_requests_description": "Hier können Sie die Liste der Benutzer sehen, die eine Mitgliedschaft in dieser Organisation beantragt haben",
 	"members_description": "Liste der bestehenden Mitglieder der Organisation: Mitglieder können unterschiedliche Rollen haben, die ihnen unterschiedliche Berechtigungen verleihen "
 }

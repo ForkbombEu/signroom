@@ -121,6 +121,7 @@
 	"templates_description_verification": "Her er dine bekræftelsesskabeloner: De indeholder parametrene og logikken i credentialsbekræftelsesprocessen. ",
 	"verification_flows_description": "Verifikationsflows definerer logikken i verifikationen, den mikrotjeneste (relying part), der udfører verifikationen, samt hvordan verifikationsflowet vil blive præsenteret i Verifier-appen. ",
 	"issuance_flows_description": "Find dine udstedelsesstrømme her: strømmene beskriver, hvordan og hvornår en credential vil blive udstedt, og hvad den vil indeholde.",
+	"templates_description": "Find alle skabelonerne til udstedelses- og verifikationsstrømmene her. Skabeloner kan være af tre typer: Autorisation, Issuance eller Verification. Skabeloner spiller en central rolle i funktionen af credentialsudstedelsen og verifikationsstrømmene og derfor i adfærden af deres respektive mikrotjenester (Authorization Server, Credential Issuer and Relying Party). ",
 	"pending_membership_requests_description": "Her kan du se listen over brugere, der har anmodet om at blive medlem af denne organisation",
 	"members_description": "Liste over eksisterende medlemmer af organisationen: medlemmer kan have forskellige roller, hvilket giver dem forskellige privilegier "
 }
