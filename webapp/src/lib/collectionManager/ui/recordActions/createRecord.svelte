@@ -16,6 +16,7 @@
 	recordType;
 
 	export let initialData: Partial<RecordGeneric> = {};
+	export let modalTitle = 'Create record';
 
 	//
 
@@ -49,7 +50,7 @@
 </slot>
 
 <PortalWrapper>
-	<Modal bind:open title="Create record" size="md" placement="center">
+	<Modal bind:open title={modalTitle} size="md" placement="center">
 		<div class="w-full">
 			<RecordForm
 				{collection}

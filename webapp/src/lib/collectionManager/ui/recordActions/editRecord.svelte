@@ -19,6 +19,7 @@
 
 	export let record: RecordGeneric;
 	export let formSettings: Partial<FormSettings> = {};
+	export let modalTitle = 'Edit record';
 
 	//
 
@@ -47,7 +48,7 @@
 </slot>
 
 <PortalWrapper>
-	<Modal bind:open title="Edit record" size="md">
+	<Modal bind:open title={modalTitle} size="md">
 		<div class="w-full">
 			<RecordForm
 				collection={record.collectionId}

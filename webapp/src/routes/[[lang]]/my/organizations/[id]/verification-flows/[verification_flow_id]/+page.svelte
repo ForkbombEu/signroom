@@ -19,11 +19,12 @@
 	} from '@api/downloadCredentialIssuer/utils.js';
 	import { pipe } from 'effect';
 	import type { TemplatesResponse } from '$lib/pocketbase/types.js';
+	import { ProtectedOrgUI } from '$lib/rbac';
 
 	//
 
 	export let data;
-	let { verificationFlow } = data;
+	let { verificationFlow, organization } = data;
 	let { template, relying_party } = verificationFlow.expand!;
 
 	//
@@ -61,10 +62,12 @@
 	<div class="flex gap-8 items-start">
 		<PageCard class="grow">
 			<SectionTitle tag="h5" title={m.Verification_flow_details()}>
-				<Button slot="right" href={`${$page.url.pathname}/edit`}>
-					{m.Make_changes()}
-					<Icon src={Pencil} ml></Icon>
-				</Button>
+				<ProtectedOrgUI slot="right" orgId={organization.id} roles={['admin', 'owner']}>
+					<Button href={`${$page.url.pathname}/edit`}>
+						{m.Make_changes()}
+						<Icon src={Pencil} ml />
+					</Button>
+				</ProtectedOrgUI>
 			</SectionTitle>
 
 			<div class="font-medium space-y-8">
