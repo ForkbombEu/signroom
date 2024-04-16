@@ -4,8 +4,16 @@
 		type ServicesResponse,
 		type VerificationFlowsResponse
 	} from '$lib/pocketbase/types';
+<<<<<<< HEAD
+	import { CollectionEmptyState, CollectionManager } from '$lib/collectionManager';
+	import { Plus, ArrowRight, Eye, Pencil } from 'svelte-heros-v2';
+||||||| 0c96e28
+	import { CollectionManager } from '$lib/collectionManager';
+	import { Plus, ArrowRight, Eye, Pencil } from 'svelte-heros-v2';
+=======
 	import { CollectionManager } from '$lib/collectionManager';
 	import { Plus, ArrowRight, Eye, Pencil, Trash } from 'svelte-heros-v2';
+>>>>>>> main
 	import { Button, Badge } from 'flowbite-svelte';
 	import { page } from '$app/stores';
 	import { createTypeProp } from '$lib/utils/typeProp';
@@ -41,6 +49,10 @@
 				filter: `organization.id = '${organization.id}'`
 			}}
 		>
+			<svelte:fragment slot="emptyState">
+				<CollectionEmptyState hideCreateButton></CollectionEmptyState>
+			</svelte:fragment>
+
 			<SectionTitle
 				tag="h5"
 				title={m.Verification_flows()}

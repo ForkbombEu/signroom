@@ -12,8 +12,13 @@
 	import PlainCard from '$lib/components/plainCard.svelte';
 	import { c } from '$lib/utils/strings.js';
 	import ImagePreview from '$lib/components/imagePreview.svelte';
+<<<<<<< HEAD
+	import CollectionEmptyState from '$lib/collectionManager/ui/collectionEmptyState.svelte';
+||||||| 0c96e28
+=======
 	import { ProtectedOrgUI } from '$lib/rbac/index.js';
 	import Icon from '$lib/components/icon.svelte';
+>>>>>>> main
 
 	export let data;
 	let { organization } = data;
@@ -39,6 +44,10 @@
 				filter: `organization.id = '${organization.id}'`
 			}}
 		>
+			<svelte:fragment slot="emptyState">
+				<CollectionEmptyState hideCreateButton></CollectionEmptyState>
+			</svelte:fragment>
+
 			<SectionTitle
 				tag="h5"
 				title={m.Issuance_flows()}
