@@ -55,7 +55,7 @@ dependencies:
     version: 0.5.1(svelte@4.2.0)(tailwindcss@3.3.3)
   json-schema-builder-svelte:
     specifier: github:dyne/json-schema-builder-svelte
-    version: github.com/dyne/json-schema-builder-svelte/799ddb4bdb70ecf4be52cc4118e4f6c4328d2c83(svelte@4.2.0)
+    version: github.com/dyne/json-schema-builder-svelte/920ca59dccf4f5d73c9268f24a7b2daf73cac4bc(svelte@4.2.0)
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
@@ -1259,8 +1259,8 @@ packages:
     resolution: {integrity: sha512-/s55Jujywdw/Jpan+vsy6JZs1z2ZTGxTmbZTPiuSL2wz9mfzA2gN1zzaqmvfi4pq+uOt7Du85fkiwv5ymW84aQ==}
     dev: true
 
-  /@sinclair/typebox@0.32.14:
-    resolution: {integrity: sha512-EC77Mw8huT2z9YlYbWfpIQgN6shZE1tH4NP4/Trig8UBel9FZNMZRJ42ubJI8PLor2uIU+waLml1dce5ReCOPg==}
+  /@sinclair/typebox@0.32.20:
+    resolution: {integrity: sha512-ziK497ILSIYMxD/thl496idIb03IZPlha04itLQu1xAFQbumWZ+Dj4PMMCkDRpAYhvVSdmRlTjGu2B2MA5RplQ==}
     dev: false
 
   /@slangroom/core@1.13.0(zenroom@4.12.0):
@@ -4750,15 +4750,15 @@ packages:
     resolution: {integrity: sha512-wvWkphh5WQsJbVk1tbx1l1Ly4yg+XecD+Mq280uBGt9wa5BKSWf4Mhp6GmrkPixhMxmabYY7RbzlwVP32pbGCg==}
     dev: true
 
-  github.com/dyne/json-schema-builder-svelte/799ddb4bdb70ecf4be52cc4118e4f6c4328d2c83(svelte@4.2.0):
-    resolution: {tarball: https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/799ddb4bdb70ecf4be52cc4118e4f6c4328d2c83}
-    id: github.com/dyne/json-schema-builder-svelte/799ddb4bdb70ecf4be52cc4118e4f6c4328d2c83
+  github.com/dyne/json-schema-builder-svelte/920ca59dccf4f5d73c9268f24a7b2daf73cac4bc(svelte@4.2.0):
+    resolution: {tarball: https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/920ca59dccf4f5d73c9268f24a7b2daf73cac4bc}
+    id: github.com/dyne/json-schema-builder-svelte/920ca59dccf4f5d73c9268f24a7b2daf73cac4bc
     name: json-schema-builder-svelte
-    version: 0.1.8
+    version: 0.1.9
     peerDependencies:
       svelte: ^4.0.0
     dependencies:
-      '@sinclair/typebox': 0.32.14
+      '@sinclair/typebox': 0.32.20
       ajv: 8.12.0
       ajv-formats: 2.1.1(ajv@8.12.0)
       effect: 2.4.6
