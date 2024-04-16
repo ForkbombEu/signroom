@@ -9,7 +9,8 @@
 	$: divClass = clsx(
 		size,
 		'rounded-full bg-gray-50 border border-gray-300 flex items-center justify-center text-gray-40',
-		'overflow-hidden'
+		'overflow-hidden',
+		'shrink-0'
 	);
 
 	function checkImageUrl(src: string) {
