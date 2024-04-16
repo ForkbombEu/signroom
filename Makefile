@@ -148,11 +148,20 @@ doc: ## 📚 Serve documentation on localhost
 definitions: ## ⚙️ Generate type definitions and schema
 	cd webapp && pnpm definitions
 
+build: setup $(PB)
+	$(PB) serve &
+	@echo
+	@echo "🍭 building the frontend"
+	@echo
+	sleep 2
+	cd webapp && pnpm build
+
 # - Cleaning - #
 
 clean: ## 🧹 Clean the project
 	@rm -rf $(AZC) $(WZC) $(WCZ) $(BIN) $(PB)
 	@rm -fr webapp/node_modules
+	@rm -fr webapp/build
 	@rm -f webapp/src/lib/pocketbase/types.ts
 	@rm -f webapp/src/lib/pocketbase/schema/db_schema.json
 	@rm -f webapp/src/lib/rbac/roles.ts
