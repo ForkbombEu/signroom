@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { CollectionManager } from '$lib/collectionManager';
+	import { CollectionEmptyState, CollectionManager } from '$lib/collectionManager';
 	import {
 		Collections,
 		TemplatesTypeOptions,
@@ -156,6 +156,13 @@
 
 <OrganizationLayout org={data.organization}>
 	<PageCard>
+		{#if templateFilter}
+			<Button href={backUrl} outline>
+				<ArrowLeft size="20" class="mr-2"></ArrowLeft>
+				{backText}
+			</Button>
+		{/if}
+
 		<CollectionManager
 			{recordType}
 			collection={Collections.Templates}
@@ -174,12 +181,9 @@
 			}}
 			let:records
 		>
-			{#if templateFilter}
-				<Button href={backUrl} outline>
-					<ArrowLeft size="20" class="mr-2"></ArrowLeft>
-					{backText}
-				</Button>
-			{/if}
+			<svelte:fragment slot="emptyState">
+				<CollectionEmptyState hideCreateButton></CollectionEmptyState>
+			</svelte:fragment>
 
 			<SectionTitle tag="h5" {title} {description}>
 				<svelte:fragment slot="right">

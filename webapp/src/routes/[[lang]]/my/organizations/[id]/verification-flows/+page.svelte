@@ -4,7 +4,7 @@
 		type ServicesResponse,
 		type VerificationFlowsResponse
 	} from '$lib/pocketbase/types';
-	import { CollectionManager } from '$lib/collectionManager';
+	import { CollectionEmptyState, CollectionManager } from '$lib/collectionManager';
 	import { Plus, ArrowRight, Eye, Pencil } from 'svelte-heros-v2';
 	import { Button, Badge } from 'flowbite-svelte';
 	import { page } from '$app/stores';
@@ -38,6 +38,10 @@
 				filter: `organization.id = '${organization.id}'`
 			}}
 		>
+			<svelte:fragment slot="emptyState">
+				<CollectionEmptyState hideCreateButton></CollectionEmptyState>
+			</svelte:fragment>
+
 			<SectionTitle
 				tag="h5"
 				title={m.Verification_flows()}
