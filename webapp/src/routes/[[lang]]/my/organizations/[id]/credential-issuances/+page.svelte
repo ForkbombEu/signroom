@@ -77,19 +77,15 @@
 				<div class="space-y-4">
 					{#each records as record}
 						<PlainCard>
-							<div class="flex items-center gap-4">
-								<ImagePreview src={record.logo} size="w-[50px] h-[50px]" hideHelpText
-								></ImagePreview>
-								<div>
-									<div class="flex gap-2 items-center">
-										<p class="text-primary-700 font-semibold">{c(record.display_name)}</p>
-										<Badge color="green">{m.Active()}</Badge>
-									</div>
-									{#if record.description}
-										<p class="text-sm text-gray-500">{record.description}</p>
-									{/if}
-								</div>
+							<ImagePreview slot="left" src={record.logo} size="w-[50px] h-[50px]" hideHelpText />
+
+							<div class="flex gap-2 items-center">
+								<p class="text-primary-700 font-semibold">{c(record.display_name)}</p>
+								<Badge color="green">{m.Active()}</Badge>
 							</div>
+							{#if record.description}
+								<p class="text-sm text-gray-500">{record.description}</p>
+							{/if}
 
 							<svelte:fragment slot="right">
 								<div class="flex items-center gap-2">

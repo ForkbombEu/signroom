@@ -9,6 +9,8 @@
 	import { pb } from '$lib/pocketbase';
 	import SignaturesFoldersHead from './signaturesFoldersHead.svelte';
 	import type { ToastContent } from '../../routes/[[lang]]/my/signatures/+page.svelte';
+	import SectionTitle from './sectionTitle.svelte';
+	import { m } from '$lib/i18n';
 
 	export let folderId: string | null = null;
 	export let trigger: (toast: ToastContent) => void;
@@ -149,7 +151,10 @@
 
 <div class="flex flex-col md:flex-row justify-between gap-4 md:items-end items-start mb-8">
 	{#if !folderId}
-		<TitleDescription title="My signatures" description="Here you can see all your signatures" />
+		<SectionTitle
+			title={m.my_signatures()}
+			description={m.Here_you_can_see_all_your_signatures()}
+		/>
 	{:else}
 		<SignaturesFoldersHead {folderId} />
 	{/if}

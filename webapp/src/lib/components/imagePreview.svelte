@@ -9,7 +9,8 @@
 	$: divClass = clsx(
 		size,
 		'rounded-full bg-gray-50 border border-gray-300 flex items-center justify-center text-gray-40',
-		'overflow-hidden'
+		'overflow-hidden',
+		'shrink-0'
 	);
 
 	function checkImageUrl(src: string) {
@@ -25,7 +26,7 @@
 <div class={divClass}>
 	{#await checkImageUrl(src ?? '') then result}
 		{#if result}
-			<img class="w-full" {src} {alt} />
+			<img class="w-full h-full object-cover" {src} {alt} />
 		{:else}
 			<div class="text-xs text-center leading-[0.9rem] text-gray-400">
 				{#if !hideHelpText}
