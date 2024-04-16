@@ -128,17 +128,17 @@
 		<JSONSchemaInput {superform} field="schema"></JSONSchemaInput>
 	</div>
 
-	<div class="space-y-8">
-		{#if $form.type == TemplatesTypeOptions.authorization}
+	{#if $form.type == TemplatesTypeOptions.authorization}
+		<div class="space-y-8">
 			<SectionTitle
 				tag="h5"
 				title={m.Form_structure()}
 				description={m.form_structure_description()}
 			/>
 
-			<JSONSchemaInput {superform} field="schema"></JSONSchemaInput>
-		{/if}
-	</div>
+			<JSONSchemaInput {superform} field="schema_secondary"></JSONSchemaInput>
+		</div>
+	{/if}
 
 	<div class="space-y-8">
 		<SectionTitle tag="h5" title={m.Custom_code()} description={m.custom_code_description()} />
