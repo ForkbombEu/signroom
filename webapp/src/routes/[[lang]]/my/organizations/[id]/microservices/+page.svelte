@@ -20,6 +20,8 @@
 	import EditRecord from '$lib/collectionManager/ui/recordActions/editRecord.svelte';
 	import { Pencil } from 'svelte-heros';
 	import { ProtectedOrgUI } from '$lib/rbac';
+	import { Credential_issuer } from '$paraglide/messages';
+	import { Add_new } from '$paraglide/messages/en';
 
 	export let data;
 	let { organization } = data;
@@ -43,7 +45,7 @@
 					title={m.Credential_issuers()}
 					description={m.credential_issuer_description()}
 				>
-					<CreateRecord slot="right">
+					<CreateRecord slot="right" modalTitle={`${m.Add_new()} – ${m.Credential_issuer()}`}>
 						<svelte:fragment slot="button" let:openModal>
 							<Button on:click={openModal}>
 								{m.Add_new()}
@@ -65,14 +67,22 @@
 							<svelte:fragment slot="right">
 								<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
 									<div class="flex gap-2">
-										<EditRecord {record} let:openModal>
+										<EditRecord
+											{record}
+											let:openModal
+											modalTitle={`${m.Edit()} – ${m.Credential_issuer()}`}
+										>
 											<Button outline on:click={openModal}>
 												{m.Edit()}
 												<Icon src={Pencil} ml></Icon>
 											</Button>
 										</EditRecord>
 
-										<DeleteRecord {record} let:openModal>
+										<DeleteRecord
+											{record}
+											let:openModal
+											modalTitle={`${m.Delete()} – ${m.Credential_issuer()}`}
+										>
 											<Button outline on:click={openModal}>
 												<Icon src={Trash} />
 											</Button>
@@ -100,7 +110,7 @@
 					title={m.Authorization_servers()}
 					description={m.authorization_server_description()}
 				>
-					<CreateRecord slot="right">
+					<CreateRecord slot="right" modalTitle={`${m.Add_new()} – ${m.Authorization_server()}`}>
 						<svelte:fragment slot="button" let:openModal>
 							<Button on:click={openModal}>
 								{m.Add_new()}
@@ -122,14 +132,22 @@
 							<svelte:fragment slot="right">
 								<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
 									<div class="flex gap-2">
-										<EditRecord {record} let:openModal>
+										<EditRecord
+											{record}
+											let:openModal
+											modalTitle={`${m.Edit()} – ${m.Authorization_server()}`}
+										>
 											<Button outline on:click={openModal}>
 												{m.Edit()}
 												<Icon src={Pencil} ml></Icon>
 											</Button>
 										</EditRecord>
 
-										<DeleteRecord {record} let:openModal>
+										<DeleteRecord
+											{record}
+											let:openModal
+											modalTitle={`${m.Delete()} – ${m.Authorization_server()}`}
+										>
 											<Button outline on:click={openModal}>
 												<Icon src={Trash} />
 											</Button>
@@ -157,7 +175,7 @@
 					title={m.Relying_parties()}
 					description={m.relying_party_description()}
 				>
-					<CreateRecord slot="right">
+					<CreateRecord slot="right" modalTitle={`${m.Add_new()} – ${m.Relying_party()}`}>
 						<svelte:fragment slot="button" let:openModal>
 							<Button on:click={openModal}>
 								{m.Add_new()}
@@ -179,14 +197,22 @@
 							<svelte:fragment slot="right">
 								<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
 									<div class="flex gap-2">
-										<EditRecord {record} let:openModal>
+										<EditRecord
+											{record}
+											let:openModal
+											modalTitle={`${m.Edit()} – ${m.Relying_party()}`}
+										>
 											<Button outline on:click={openModal}>
 												{m.Edit()}
 												<Icon src={Pencil} ml></Icon>
 											</Button>
 										</EditRecord>
 
-										<DeleteRecord {record} let:openModal>
+										<DeleteRecord
+											{record}
+											let:openModal
+											modalTitle={`${m.Delete()} – ${m.Relying_party()}`}
+										>
 											<Button outline on:click={openModal}>
 												<Icon src={Trash} />
 											</Button>
