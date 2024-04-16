@@ -327,5 +327,6 @@
 	"pending_membership_requests_description": "Here you can see the list of users who requested to be members of this organization",
 	"members_description": "List of the existing members of the organization: members can have different roles allowing them different privileges ",
 	"template_is_public_description": "This template can be used also by other organizations",
-	"Public": "Public"
+	"Public": "Public",
+	"Here_you_can_see_all_your_signatures": "Here you can see all your signatures"
 }
