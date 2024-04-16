@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { CollectionManager } from '$lib/collectionManager';
+	import { CollectionEmptyState, CollectionManager, DeleteRecord } from '$lib/collectionManager';
 	import {
 		Collections,
 		TemplatesTypeOptions,
@@ -21,7 +21,7 @@
 	import OrganizationLayout from '$lib/components/organizationLayout.svelte';
 	import PageCard from '$lib/components/pageCard.svelte';
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
-	import { ArrowLeft, Eye, Pencil, Plus } from 'svelte-heros-v2';
+	import { ArrowLeft, Eye, Pencil, Plus, Trash } from 'svelte-heros-v2';
 	import Icon from '$lib/components/icon.svelte';
 	import PlainCard from '$lib/components/plainCard.svelte';
 	import TemplateForm from './_partials/templateForm.svelte';
@@ -29,6 +29,7 @@
 	import Drawer from '$lib/components/drawer.svelte';
 	import { createToggleStore } from '$lib/components/utils/toggleStore';
 	import { page } from '$app/stores';
+	import { ProtectedOrgUI } from '$lib/rbac';
 
 	//
 
@@ -156,6 +157,13 @@
 
 <OrganizationLayout org={data.organization}>
 	<PageCard>
+		{#if templateFilter}
+			<Button href={backUrl} outline>
+				<ArrowLeft size="20" class="mr-2"></ArrowLeft>
+				{backText}
+			</Button>
+		{/if}
+
 		<CollectionManager
 			{recordType}
 			collection={Collections.Templates}
@@ -174,12 +182,9 @@
 			}}
 			let:records
 		>
-			{#if templateFilter}
-				<Button href={backUrl} outline>
-					<ArrowLeft size="20" class="mr-2"></ArrowLeft>
-					{backText}
-				</Button>
-			{/if}
+			<svelte:fragment slot="emptyState">
+				<CollectionEmptyState hideCreateButton></CollectionEmptyState>
+			</svelte:fragment>
 
 			<SectionTitle tag="h5" {title} {description}>
 				<svelte:fragment slot="right">
@@ -222,22 +227,25 @@
 
 						<svelte:fragment slot="right">
 							<div class="flex gap-2">
-								<!-- <Button outline disabled>
-									View
-									<Icon src={Eye} ml></Icon>
-								</Button> -->
+								<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
+									<Button
+										outline
+										on:click={() => {
+											templateFormId = template.id;
+											templateFormInitialData = template;
+											hideDrawer.off();
+										}}
+									>
+										Edit
+										<Icon src={Pencil} ml></Icon>
+									</Button>
 
-								<Button
-									outline
-									on:click={() => {
-										templateFormId = template.id;
-										templateFormInitialData = template;
-										hideDrawer.off();
-									}}
-								>
-									Edit
-									<Icon src={Pencil} ml></Icon>
-								</Button>
+									<DeleteRecord record={template} let:openModal>
+										<Button outline on:click={openModal}>
+											<Icon src={Trash} />
+										</Button>
+									</DeleteRecord>
+								</ProtectedOrgUI>
 							</div>
 						</svelte:fragment>
 					</PlainCard>

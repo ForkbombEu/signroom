@@ -328,5 +328,7 @@
 	"members_description": "List of the existing members of the organization: members can have different roles allowing them different privileges ",
 	"template_is_public_description": "This template can be used also by other organizations",
 	"Public": "Public",
-	"Here_you_can_see_all_your_signatures": "Here you can see all your signatures"
+	"This_is_a_verification_flow": "This is a verification flow",
+	"verification_flow_description": "verification_flow_description",
+  "Here_you_can_see_all_your_signatures": "Here you can see all your signatures"
 }

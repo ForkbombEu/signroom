@@ -119,8 +119,8 @@
 					</div>
 
 					<div class="mt-6 space-y-1">
-						<p class="font-semibold">{m.This_is_an_issuance_flow()}</p>
-						<p class="max-w-[200px] text-sm text-gray-500">{m.issuance_flow_description()}</p>
+						<p class="font-semibold">{m.This_is_a_verification_flow()}</p>
+						<p class="max-w-[200px] text-sm text-gray-500">{m.verification_flow_description()}</p>
 					</div>
 
 					<Button outline class="mt-4" size="sm" disabled>
