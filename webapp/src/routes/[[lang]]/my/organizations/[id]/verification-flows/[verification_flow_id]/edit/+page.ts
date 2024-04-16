@@ -4,10 +4,6 @@ import { error } from '@sveltejs/kit';
 export const load = async ({ params, fetch }) => {
 	try {
 		await verifyRole(params.id, ['admin', 'owner'], fetch);
-
-		return {
-			issuanceFlowId: params.verification_flow_id
-		};
 	} catch (e) {
 		throw error(404);
 	}
