@@ -90,6 +90,7 @@
 				{recordType}
 				subscribe={[Collections.Authorizations, Collections.Folders]}
 				let:records
+				hideEmptyState
 			>
 				<SignaturesTableHead {folderId} {trigger} />
 				<CollectionTable
