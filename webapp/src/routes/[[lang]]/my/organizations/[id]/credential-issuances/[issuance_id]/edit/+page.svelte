@@ -17,7 +17,7 @@
 	<OrganizationBreadcrumbs></OrganizationBreadcrumbs>
 
 	<Button
-		href={`/my/organizations/${data.organization.id}/credential-issuances/${data.issuanceFlowId}`}
+		href={`/my/organizations/${data.organization.id}/credential-issuances/${data.service.id}`}
 		outline
 		size="xs"
 	>
@@ -31,7 +31,7 @@
 <PageContent>
 	<ServiceForm
 		organizationId={data.organization.id}
-		serviceId={data.issuanceFlowId}
+		serviceId={data.service.id}
 		initialData={data.service}
 		on:success={async (e) => {
 			await invalidateAll();
