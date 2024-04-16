@@ -5,7 +5,7 @@
 		type VerificationFlowsResponse
 	} from '$lib/pocketbase/types';
 	import { CollectionEmptyState, CollectionManager } from '$lib/collectionManager';
-	import { Plus, ArrowRight, Eye, Pencil } from 'svelte-heros-v2';
+	import { Plus, ArrowRight, Eye, Pencil, Trash } from 'svelte-heros-v2';
 	import { Button, Badge } from 'flowbite-svelte';
 	import { page } from '$app/stores';
 	import { createTypeProp } from '$lib/utils/typeProp';
