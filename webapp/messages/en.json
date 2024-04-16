@@ -329,8 +329,9 @@
 	"template_is_public_description": "This template can be used also by other organizations",
 	"Public": "Public",
 	"This_is_a_verification_flow": "This is a verification flow",
+	"Here_you_can_see_all_your_signatures": "Here you can see all your signatures",
+	"Verification_flow_details": "Verification flow details",
 	"microservice_name_description": "microservice_name_description",
 	"microservice_endpoint_description": "microservice_endpoint_description",
-	"verification_flow_description": "The verification is managed mostly by the DIDroom Verifier app. Install the verifier app, login with an account connected with this organization and start the verification flow from there.",
-	"Here_you_can_see_all_your_signatures": "Here you can see all your signatures"
+	"verification_flow_description": "The verification is managed mostly by the DIDroom Verifier app. Install the verifier app, login with an account connected with this organization and start the verification flow from there."
 }
