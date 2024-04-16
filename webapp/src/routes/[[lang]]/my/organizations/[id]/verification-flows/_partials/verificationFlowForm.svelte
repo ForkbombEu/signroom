@@ -236,7 +236,7 @@
 		width="w-[700px]"
 		placement="right"
 		bind:hidden={$hideVerificationTemplateDrawer}
-		title={m.New_credential_template()}
+		title={m.New_verification_template()}
 	>
 		<div class="p-8">
 			<TemplateForm
