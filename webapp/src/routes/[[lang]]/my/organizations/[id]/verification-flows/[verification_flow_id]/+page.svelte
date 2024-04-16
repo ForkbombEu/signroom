@@ -60,7 +60,7 @@
 <PageContent>
 	<div class="flex gap-8 items-start">
 		<PageCard class="grow">
-			<SectionTitle tag="h5" title={m.Credential_details()}>
+			<SectionTitle tag="h5" title={m.Verification_flow_details()}>
 				<Button slot="right" href={`${$page.url.pathname}/edit`}>
 					{m.Make_changes()}
 					<Icon src={Pencil} ml></Icon>
@@ -68,10 +68,10 @@
 			</SectionTitle>
 
 			<div class="font-medium space-y-8">
-				<div class="flex gap-3 items-center pb-1">
+				<!-- <div class="flex gap-3 items-center pb-1">
 					<p>Logo:</p>
 					<Avatar class="object-cover border" size="lg" src={verificationFlow.logo}></Avatar>
-				</div>
+				</div> -->
 
 				<p>
 					{m.Relying_party()}:
