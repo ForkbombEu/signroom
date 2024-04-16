@@ -1,13 +1,8 @@
 <script lang="ts">
-	import {
-		CollectionManager,
-		CollectionManagerHeader,
-		CollectionTable,
-		DeleteRecord
-	} from '$lib/collectionManager';
+	import { CollectionManager, DeleteRecord } from '$lib/collectionManager';
 	import { Collections, type IssuersResponse } from '$lib/pocketbase/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
-	import { Button, Heading } from 'flowbite-svelte';
+	import { Button } from 'flowbite-svelte';
 	import { m } from '$lib/i18n';
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
 	import CreateRecord from '$lib/collectionManager/ui/recordActions/createRecord.svelte';
@@ -16,12 +11,9 @@
 	import { Plus, Trash } from 'svelte-heros-v2';
 	import Icon from '$lib/components/icon.svelte';
 	import PlainCard from '$lib/components/plainCard.svelte';
-	import Description from '$lib/components/table/cells/description.svelte';
 	import EditRecord from '$lib/collectionManager/ui/recordActions/editRecord.svelte';
 	import { Pencil } from 'svelte-heros';
 	import { ProtectedOrgUI } from '$lib/rbac';
-	import { Credential_issuer } from '$paraglide/messages';
-	import { Add_new } from '$paraglide/messages/en';
 
 	export let data;
 	let { organization } = data;
@@ -36,7 +28,11 @@
 				{recordType}
 				collection={Collections.Issuers}
 				formSettings={{
-					hide: { organization: data.organization.id }
+					hide: { organization: data.organization.id },
+					descriptions: {
+						name: m.microservice_name_description(),
+						endpoint: m.microservice_endpoint_description()
+					}
 				}}
 				let:records
 			>
@@ -101,7 +97,11 @@
 				{recordType}
 				collection={Collections.AuthorizationServers}
 				formSettings={{
-					hide: { organization: data.organization.id }
+					hide: { organization: data.organization.id },
+					descriptions: {
+						name: m.microservice_name_description(),
+						endpoint: m.microservice_endpoint_description()
+					}
 				}}
 				let:records
 			>
@@ -166,7 +166,11 @@
 				{recordType}
 				collection={Collections.RelyingParties}
 				formSettings={{
-					hide: { organization: data.organization.id }
+					hide: { organization: data.organization.id },
+					descriptions: {
+						name: m.microservice_name_description(),
+						endpoint: m.microservice_endpoint_description()
+					}
 				}}
 				let:records
 			>
