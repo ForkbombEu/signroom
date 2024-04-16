@@ -1,11 +1,5 @@
 <script lang="ts">
-<<<<<<< HEAD
-	import { CollectionEmptyState, CollectionManager } from '$lib/collectionManager';
-||||||| 0c96e28
-	import { CollectionManager } from '$lib/collectionManager';
-=======
-	import { CollectionManager, DeleteRecord } from '$lib/collectionManager';
->>>>>>> main
+	import { CollectionEmptyState, CollectionManager, DeleteRecord } from '$lib/collectionManager';
 	import {
 		Collections,
 		TemplatesTypeOptions,
