@@ -2,7 +2,8 @@
 	import {
 		CollectionManager,
 		CollectionManagerHeader,
-		CollectionTable
+		CollectionTable,
+		DeleteRecord
 	} from '$lib/collectionManager';
 	import { Collections, type IssuersResponse } from '$lib/pocketbase/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
@@ -12,14 +13,17 @@
 	import CreateRecord from '$lib/collectionManager/ui/recordActions/createRecord.svelte';
 	import OrganizationLayout from '$lib/components/organizationLayout.svelte';
 	import PageCard from '$lib/components/pageCard.svelte';
-	import { Plus } from 'svelte-heros-v2';
+	import { Plus, Trash } from 'svelte-heros-v2';
 	import Icon from '$lib/components/icon.svelte';
 	import PlainCard from '$lib/components/plainCard.svelte';
 	import Description from '$lib/components/table/cells/description.svelte';
 	import EditRecord from '$lib/collectionManager/ui/recordActions/editRecord.svelte';
 	import { Pencil } from 'svelte-heros';
+	import { ProtectedOrgUI } from '$lib/rbac';
 
 	export let data;
+	let { organization } = data;
+
 	const recordType = createTypeProp<IssuersResponse>();
 </script>
 
@@ -59,12 +63,22 @@
 							</Description>
 
 							<svelte:fragment slot="right">
-								<EditRecord {record} let:openModal>
-									<Button outline on:click={openModal}>
-										{m.Edit()}
-										<Icon src={Pencil} ml></Icon>
-									</Button>
-								</EditRecord>
+								<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
+									<div class="flex gap-2">
+										<EditRecord {record} let:openModal>
+											<Button outline on:click={openModal}>
+												{m.Edit()}
+												<Icon src={Pencil} ml></Icon>
+											</Button>
+										</EditRecord>
+
+										<DeleteRecord {record} let:openModal>
+											<Button outline on:click={openModal}>
+												<Icon src={Trash} />
+											</Button>
+										</DeleteRecord>
+									</div>
+								</ProtectedOrgUI>
 							</svelte:fragment>
 						</PlainCard>
 					{/each}
@@ -106,12 +120,22 @@
 							</Description>
 
 							<svelte:fragment slot="right">
-								<EditRecord {record} let:openModal>
-									<Button outline on:click={openModal}>
-										{m.Edit()}
-										<Icon src={Pencil} ml></Icon>
-									</Button>
-								</EditRecord>
+								<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
+									<div class="flex gap-2">
+										<EditRecord {record} let:openModal>
+											<Button outline on:click={openModal}>
+												{m.Edit()}
+												<Icon src={Pencil} ml></Icon>
+											</Button>
+										</EditRecord>
+
+										<DeleteRecord {record} let:openModal>
+											<Button outline on:click={openModal}>
+												<Icon src={Trash} />
+											</Button>
+										</DeleteRecord>
+									</div>
+								</ProtectedOrgUI>
 							</svelte:fragment>
 						</PlainCard>
 					{/each}
@@ -153,12 +177,22 @@
 							</Description>
 
 							<svelte:fragment slot="right">
-								<EditRecord {record} let:openModal>
-									<Button outline on:click={openModal}>
-										{m.Edit()}
-										<Icon src={Pencil} ml></Icon>
-									</Button>
-								</EditRecord>
+								<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
+									<div class="flex gap-2">
+										<EditRecord {record} let:openModal>
+											<Button outline on:click={openModal}>
+												{m.Edit()}
+												<Icon src={Pencil} ml></Icon>
+											</Button>
+										</EditRecord>
+
+										<DeleteRecord {record} let:openModal>
+											<Button outline on:click={openModal}>
+												<Icon src={Trash} />
+											</Button>
+										</DeleteRecord>
+									</div>
+								</ProtectedOrgUI>
 							</svelte:fragment>
 						</PlainCard>
 					{/each}

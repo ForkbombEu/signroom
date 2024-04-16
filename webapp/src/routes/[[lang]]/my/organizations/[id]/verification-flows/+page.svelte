@@ -4,8 +4,16 @@
 		type ServicesResponse,
 		type VerificationFlowsResponse
 	} from '$lib/pocketbase/types';
+<<<<<<< HEAD
 	import { CollectionEmptyState, CollectionManager } from '$lib/collectionManager';
 	import { Plus, ArrowRight, Eye, Pencil } from 'svelte-heros-v2';
+||||||| 0c96e28
+	import { CollectionManager } from '$lib/collectionManager';
+	import { Plus, ArrowRight, Eye, Pencil } from 'svelte-heros-v2';
+=======
+	import { CollectionManager } from '$lib/collectionManager';
+	import { Plus, ArrowRight, Eye, Pencil, Trash } from 'svelte-heros-v2';
+>>>>>>> main
 	import { Button, Badge } from 'flowbite-svelte';
 	import { page } from '$app/stores';
 	import { createTypeProp } from '$lib/utils/typeProp';
@@ -16,6 +24,9 @@
 	import PlainCard from '$lib/components/plainCard.svelte';
 	import { c } from '$lib/utils/strings.js';
 	import ImagePreview from '$lib/components/imagePreview.svelte';
+	import DeleteRecord from '$lib/collectionManager/ui/recordActions/deleteRecord.svelte';
+	import Icon from '$lib/components/icon.svelte';
+	import { ProtectedOrgUI } from '$lib/rbac/index.js';
 
 	export let data;
 	let { organization } = data;
@@ -79,15 +90,24 @@
 							</div>
 
 							<svelte:fragment slot="right">
-								<div class="space-x-1">
+								<div class="flex items-center gap-2">
 									<Button outline size="sm" href={verificationFlowUrl(record.id)}>
 										{m.View()}
-										<Eye size="20" class="ml-2" />
+										<Icon src={Eye} ml></Icon>
 									</Button>
-									<Button outline size="sm" href={verificationFlowUrl(record.id, true)}>
-										{m.Edit()}
-										<Pencil size="20" class="ml-2" />
-									</Button>
+
+									<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
+										<Button outline size="sm" href={verificationFlowUrl(record.id, true)}>
+											{m.Edit()}
+											<Icon src={Pencil} ml></Icon>
+										</Button>
+
+										<DeleteRecord {record} let:openModal>
+											<Button outline size="sm" on:click={openModal}>
+												<Icon src={Trash} />
+											</Button>
+										</DeleteRecord>
+									</ProtectedOrgUI>
 								</div>
 							</svelte:fragment>
 						</PlainCard>
