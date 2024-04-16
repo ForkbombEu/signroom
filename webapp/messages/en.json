@@ -327,5 +327,7 @@
 	"pending_membership_requests_description": "Here you can see the list of users who requested to be members of this organization",
 	"members_description": "List of the existing members of the organization: members can have different roles allowing them different privileges ",
 	"template_is_public_description": "This template can be used also by other organizations",
-	"Public": "Public"
+	"Public": "Public",
+	"This_is_a_verification_flow": "This is a verification flow",
+	"verification_flow_description": "verification_flow_description"
 }
