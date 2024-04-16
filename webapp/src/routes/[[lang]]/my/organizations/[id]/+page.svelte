@@ -23,7 +23,7 @@
 
 <OrganizationLayout org={data.organization}>
 	<div class="flex gap-4">
-		<PageCard class="grow">
+		<PageCard class="grow basis-1">
 			<SectionTitle tag="h5" title={m.Issuance_flows()} description={m.issuance_flows_description()}
 			></SectionTitle>
 
@@ -40,7 +40,7 @@
 		</PageCard>
 
 		<ProtectedOrgUI orgId={organization.id} roles={[ADMIN, OWNER]}>
-			<PageCard class="grow">
+			<PageCard class="grow basis-1">
 				<SectionTitle
 					tag="h5"
 					title={m.Membership_requests()}
