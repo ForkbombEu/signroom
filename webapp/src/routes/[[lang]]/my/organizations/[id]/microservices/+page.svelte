@@ -1,13 +1,8 @@
 <script lang="ts">
-	import {
-		CollectionManager,
-		CollectionManagerHeader,
-		CollectionTable,
-		DeleteRecord
-	} from '$lib/collectionManager';
+	import { CollectionManager, DeleteRecord } from '$lib/collectionManager';
 	import { Collections, type IssuersResponse } from '$lib/pocketbase/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
-	import { Button, Heading } from 'flowbite-svelte';
+	import { Button } from 'flowbite-svelte';
 	import { m } from '$lib/i18n';
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
 	import CreateRecord from '$lib/collectionManager/ui/recordActions/createRecord.svelte';
@@ -16,7 +11,6 @@
 	import { Plus, Trash } from 'svelte-heros-v2';
 	import Icon from '$lib/components/icon.svelte';
 	import PlainCard from '$lib/components/plainCard.svelte';
-	import Description from '$lib/components/table/cells/description.svelte';
 	import EditRecord from '$lib/collectionManager/ui/recordActions/editRecord.svelte';
 	import { Pencil } from 'svelte-heros';
 	import { ProtectedOrgUI } from '$lib/rbac';
@@ -34,7 +28,11 @@
 				{recordType}
 				collection={Collections.Issuers}
 				formSettings={{
-					hide: { organization: data.organization.id }
+					hide: { organization: data.organization.id },
+					descriptions: {
+						name: m.microservice_name_description(),
+						endpoint: m.microservice_endpoint_description()
+					}
 				}}
 				let:records
 			>
@@ -43,7 +41,7 @@
 					title={m.Credential_issuers()}
 					description={m.credential_issuer_description()}
 				>
-					<CreateRecord slot="right">
+					<CreateRecord slot="right" modalTitle={`${m.Add_new()} – ${m.Credential_issuer()}`}>
 						<svelte:fragment slot="button" let:openModal>
 							<Button on:click={openModal}>
 								{m.Add_new()}
@@ -65,14 +63,22 @@
 							<svelte:fragment slot="right">
 								<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
 									<div class="flex gap-2">
-										<EditRecord {record} let:openModal>
+										<EditRecord
+											{record}
+											let:openModal
+											modalTitle={`${m.Edit()} – ${m.Credential_issuer()}`}
+										>
 											<Button outline on:click={openModal}>
 												{m.Edit()}
 												<Icon src={Pencil} ml></Icon>
 											</Button>
 										</EditRecord>
 
-										<DeleteRecord {record} let:openModal>
+										<DeleteRecord
+											{record}
+											let:openModal
+											modalTitle={`${m.Delete()} – ${m.Credential_issuer()}`}
+										>
 											<Button outline on:click={openModal}>
 												<Icon src={Trash} />
 											</Button>
@@ -91,7 +97,11 @@
 				{recordType}
 				collection={Collections.AuthorizationServers}
 				formSettings={{
-					hide: { organization: data.organization.id }
+					hide: { organization: data.organization.id },
+					descriptions: {
+						name: m.microservice_name_description(),
+						endpoint: m.microservice_endpoint_description()
+					}
 				}}
 				let:records
 			>
@@ -100,7 +110,7 @@
 					title={m.Authorization_servers()}
 					description={m.authorization_server_description()}
 				>
-					<CreateRecord slot="right">
+					<CreateRecord slot="right" modalTitle={`${m.Add_new()} – ${m.Authorization_server()}`}>
 						<svelte:fragment slot="button" let:openModal>
 							<Button on:click={openModal}>
 								{m.Add_new()}
@@ -122,14 +132,22 @@
 							<svelte:fragment slot="right">
 								<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
 									<div class="flex gap-2">
-										<EditRecord {record} let:openModal>
+										<EditRecord
+											{record}
+											let:openModal
+											modalTitle={`${m.Edit()} – ${m.Authorization_server()}`}
+										>
 											<Button outline on:click={openModal}>
 												{m.Edit()}
 												<Icon src={Pencil} ml></Icon>
 											</Button>
 										</EditRecord>
 
-										<DeleteRecord {record} let:openModal>
+										<DeleteRecord
+											{record}
+											let:openModal
+											modalTitle={`${m.Delete()} – ${m.Authorization_server()}`}
+										>
 											<Button outline on:click={openModal}>
 												<Icon src={Trash} />
 											</Button>
@@ -148,7 +166,11 @@
 				{recordType}
 				collection={Collections.RelyingParties}
 				formSettings={{
-					hide: { organization: data.organization.id }
+					hide: { organization: data.organization.id },
+					descriptions: {
+						name: m.microservice_name_description(),
+						endpoint: m.microservice_endpoint_description()
+					}
 				}}
 				let:records
 			>
@@ -157,7 +179,7 @@
 					title={m.Relying_parties()}
 					description={m.relying_party_description()}
 				>
-					<CreateRecord slot="right">
+					<CreateRecord slot="right" modalTitle={`${m.Add_new()} – ${m.Relying_party()}`}>
 						<svelte:fragment slot="button" let:openModal>
 							<Button on:click={openModal}>
 								{m.Add_new()}
@@ -179,14 +201,22 @@
 							<svelte:fragment slot="right">
 								<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
 									<div class="flex gap-2">
-										<EditRecord {record} let:openModal>
+										<EditRecord
+											{record}
+											let:openModal
+											modalTitle={`${m.Edit()} – ${m.Relying_party()}`}
+										>
 											<Button outline on:click={openModal}>
 												{m.Edit()}
 												<Icon src={Pencil} ml></Icon>
 											</Button>
 										</EditRecord>
 
-										<DeleteRecord {record} let:openModal>
+										<DeleteRecord
+											{record}
+											let:openModal
+											modalTitle={`${m.Delete()} – ${m.Relying_party()}`}
+										>
 											<Button outline on:click={openModal}>
 												<Icon src={Trash} />
 											</Button>
