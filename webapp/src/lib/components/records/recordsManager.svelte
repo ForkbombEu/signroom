@@ -13,7 +13,7 @@
 		max: number | undefined;
 		formSettings: Partial<FieldsSettings<R>>;
 	}> &
-		RecordInputOptions<R>;
+		Partial<RecordInputOptions<R>>;
 </script>
 
 <script lang="ts">
