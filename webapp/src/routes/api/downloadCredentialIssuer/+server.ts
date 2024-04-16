@@ -20,7 +20,7 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 		const zip = await fetchZipFile(fetch);
 
 		updateCredentialIssuerWellKnown(zip, body, DEFAULT_LOCALE);
-		updateAuthorizationServerWellKnown(zip, body, DEFAULT_LOCALE);
+		updateAuthorizationServerWellKnown(zip, body);
 		updateCredentialKeysJson(zip, body, nanoid(), DEFAULT_LOCALE);
 		updateCreateSchemaJson(zip, body.credential_template);
 
@@ -87,6 +87,8 @@ function updateCredentialIssuerWellKnown(zip: AdmZip, data: RequestBody, locale 
 					locale
 				}),
 
+				_.set('jwks.keys[0].kid', ''),
+
 				_.set('credential_configurations_supported[0].display[0]', {
 					name: data.credential_display_name,
 					locale,
@@ -114,11 +116,7 @@ function updateCredentialIssuerWellKnown(zip: AdmZip, data: RequestBody, locale 
 	);
 }
 
-function updateAuthorizationServerWellKnown(
-	zip: AdmZip,
-	data: RequestBody,
-	locale = DEFAULT_LOCALE
-) {
+function updateAuthorizationServerWellKnown(zip: AdmZip, data: RequestBody) {
 	updateZipFileContent(
 		zip,
 		'public/authz_server/.well-known/oauth-authorization-server',
@@ -134,6 +132,7 @@ function updateAuthorizationServerWellKnown(
 
 				JSON.parse,
 
+				_.set('jwks.keys[0].kid', ''),
 				_.set('issuer', cleanUrl(data.credential_issuer_url)),
 				_.set('scopes_supported', [data.credential_type_name]),
 
