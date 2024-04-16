@@ -21,6 +21,7 @@
 	} from '@api/downloadCredentialIssuer/utils.js';
 	import { pipe, ReadonlyArray as A, flow } from 'effect';
 	import type { TemplatesResponse } from '$lib/pocketbase/types.js';
+	import { ProtectedOrgUI } from '$lib/rbac';
 
 	//
 
@@ -120,10 +121,12 @@
 						{/if}
 					</Button>
 
-					<Button href={`${$page.url.pathname}/edit`}>
-						{m.Make_changes()}
-						<Icon src={Pencil} ml></Icon>
-					</Button>
+					<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
+						<Button href={`${$page.url.pathname}/edit`}>
+							{m.Make_changes()}
+							<Icon src={Pencil} ml></Icon>
+						</Button>
+					</ProtectedOrgUI>
 				</div>
 			</SectionTitle>
 
