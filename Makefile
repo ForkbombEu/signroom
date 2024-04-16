@@ -114,6 +114,14 @@ doc: ## 📚 Serve documentation on localhost
 definitions: ## ⚙️ Generate type definitions and schema
 	cd webapp && pnpm definitions
 
+build: setup $(PB)
+	$(PB) serve &
+	@echo
+	@echo "🍭 building the frontend"
+	@echo
+	sleep 2
+	cd webapp && pnpm build
+
 # - Cleaning - #
 
 remove_git: ## 🧹 Remove git
@@ -128,6 +136,7 @@ clean: ## 🧹 Clean the project
 	@echo "🧹 Clean project build"
 	@rm -f admin/pb
 	@rm -fr webapp/node_modules
+	@rm -fr webapp/build
 	@rm -f webapp/src/lib/pocketbase/types.ts
 	@rm -f webapp/src/lib/pocketbase/schema/db_schema.json
 
