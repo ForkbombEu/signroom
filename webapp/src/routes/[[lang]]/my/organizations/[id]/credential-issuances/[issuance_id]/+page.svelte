@@ -26,7 +26,7 @@
 	//
 
 	export let data;
-	let { service, organization } = data;
+	let { service, organization, authServerScopesSupported } = data;
 	let { credential_issuer, credential_template, authorization_server, authorization_template } =
 		service.expand!;
 
@@ -47,7 +47,8 @@
 			authorization_form_template: authorization_template.schema_secondary as ObjectSchema,
 			credential_issuer_url: credential_issuer.endpoint,
 			authorization_server_url: authorization_server.endpoint,
-			credential_logo: service.logo
+			credential_logo: service.logo,
+			scopes_supported: authServerScopesSupported
 		});
 
 		if (response.ok) {

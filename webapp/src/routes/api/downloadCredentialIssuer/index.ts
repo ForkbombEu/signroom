@@ -13,7 +13,8 @@ export const requestBodySchema = z.object({
 	credential_display_name: z.string(),
 	credential_type_name: z.string(),
 	credential_logo: z.string().nullish(),
-	credential_description: z.string()
+	credential_description: z.string(),
+	scopes_supported: z.array(z.string())
 });
 
 //
