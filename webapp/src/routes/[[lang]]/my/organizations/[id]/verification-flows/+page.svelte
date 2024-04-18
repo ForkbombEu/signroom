@@ -51,16 +51,18 @@
 				description={m.verification_flows_description()}
 			>
 				<svelte:fragment slot="right">
-					<div class="flex gap-2">
-						<Button href={templatesUrl} outline class="shrink-0">
-							{m.Verification_templates()}
-							<ArrowRight size="20" class="ml-1" />
-						</Button>
-						<Button href={verificationFlowCreateUrl} class="shrink-0">
-							{m.New_verification_flow()}
-							<Plus size="20" class="ml-1" />
-						</Button>
-					</div>
+					<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
+						<div class="flex gap-2">
+							<Button href={templatesUrl} outline class="shrink-0">
+								{m.Verification_templates()}
+								<ArrowRight size="20" class="ml-1" />
+							</Button>
+							<Button href={verificationFlowCreateUrl} class="shrink-0">
+								{m.New_verification_flow()}
+								<Plus size="20" class="ml-1" />
+							</Button>
+						</div>
+					</ProtectedOrgUI>
 				</svelte:fragment>
 			</SectionTitle>
 
