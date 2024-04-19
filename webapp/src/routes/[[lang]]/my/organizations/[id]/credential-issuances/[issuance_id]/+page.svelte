@@ -172,12 +172,12 @@
 
 				<div class="flex gap-4">
 					<img
-						alt="Didroom Verifier app logo"
+						alt="Didroom Wallet app logo"
 						class="w-[100px] h-[100px] rounded-lg"
 						src={`${assets}/app-didroom.svg`}
 					/>
 					<div class="space-y-2">
-						<Button outline target="_blank" href="https://github.com/ForkbombEu/verifier/">
+						<Button outline target="_blank" href="https://github.com/ForkbombEu/wallet/">
 							{m.Github()}
 							<Icon src={ArrowTopRightOnSquare} ml></Icon>
 						</Button>
