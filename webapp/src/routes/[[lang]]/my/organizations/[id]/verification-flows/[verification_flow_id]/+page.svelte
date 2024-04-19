@@ -1,9 +1,7 @@
 <script lang="ts">
-	import { Button, Spinner } from 'flowbite-svelte';
-	import { ArrowDownTray, Pencil } from 'svelte-heros-v2';
-	import { generateQr } from '$lib/qrcode';
+	import { Button, Heading } from 'flowbite-svelte';
+	import { QuestionMarkCircle, Pencil, ArrowTopRightOnSquare } from 'svelte-heros-v2';
 	import { m } from '$lib/i18n';
-	import type { ObjectSchema } from '$lib/jsonSchema/types';
 	import PageTop from '$lib/components/pageTop.svelte';
 	import PageContent from '$lib/components/pageContent.svelte';
 	import PageCard from '$lib/components/pageCard.svelte';
@@ -11,35 +9,16 @@
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
 	import Icon from '$lib/components/icon.svelte';
 	import { page } from '$app/stores';
-	import { Avatar } from 'flowbite-svelte';
-	import {
-		flattenCredentialSubjectProperties,
-		objectSchemaToCredentialSubject,
-		DEFAULT_LOCALE
-	} from '@api/downloadCredentialIssuer/utils.js';
-	import { pipe } from 'effect';
-	import type { TemplatesResponse } from '$lib/pocketbase/types.js';
 	import { ProtectedOrgUI } from '$lib/rbac';
 	import TemplateSchemaDisplay from '$lib/components/templateSchemaDisplay.svelte';
+	import { assets } from '$app/paths';
 
 	//
 
 	export let data;
+
 	let { verificationFlow, organization } = data;
 	let { template, relying_party } = verificationFlow.expand!;
-
-	//
-
-	async function generateVerificationFlowQr() {
-		const { result } = await generateQr(
-			JSON.stringify({
-				// TODO – Review
-				credential_configuration_ids: [verificationFlow.name],
-				credential_issuer: relying_party.endpoint
-			})
-		);
-		return result.qrcode as string;
-	}
 </script>
 
 <PageTop>
@@ -80,31 +59,31 @@
 			</div>
 		</PageCard>
 
-		<PageCard class="!p-4 shrink-0">
-			{#await generateVerificationFlowQr()}
-				<Spinner />
-			{:then qrimg}
-				<div class="flex flex-col">
-					<div
-						class="self-stretch border rounded-lg flex flex-col items-center p-4 bg-gray-50 gap-2"
+		<PageCard class="!p-4 shrink-0 w-[300px] !space-y-4">
+			<Heading tag="h5">{m.verification_flow_qr_code_title()}</Heading>
+			<p class="text-gray-500">{m.verification_flow_qr_code_description()}</p>
+
+			<div class="flex gap-4">
+				<img
+					alt="Didroom Verifier app logo"
+					class="w-[100px] h-[100px]"
+					src={`${assets}/app-didroom-verifier.svg`}
+				/>
+				<div class="space-y-2">
+					<Button outline target="_blank" href="https://github.com/ForkbombEu/verifier/">
+						{m.Github()}
+						<Icon src={ArrowTopRightOnSquare} ml></Icon>
+					</Button>
+					<Button
+						outline
+						target="_blank"
+						href="https://forkbombeu.github.io/DIDroom/solution.html#verifier-app"
 					>
-						<p class="font-semibold text-xl">{verificationFlow.name}</p>
-						<img src={qrimg} alt={m.Service_Qr_Code()} class="rounded-md" />
-					</div>
-
-					<div class="mt-6 space-y-1">
-						<p class="font-semibold">{m.This_is_a_verification_flow()}</p>
-						<p class="max-w-[200px] text-sm text-gray-500">{m.verification_flow_description()}</p>
-					</div>
-
-					<Button outline class="mt-4" size="sm" disabled>
-						{m.Download_QR_code_page()}
-						<Icon src={ArrowDownTray} ml></Icon>
+						{m.Help()}
+						<Icon src={QuestionMarkCircle} ml></Icon>
 					</Button>
 				</div>
-			{:catch error}
-				<p class="text-red-500">{JSON.stringify(error)}</p>
-			{/await}
+			</div>
 		</PageCard>
 	</div>
 </PageContent>
