@@ -330,5 +330,18 @@
 	"Public": "Public",
 	"This_is_a_verification_flow": "This is a verification flow",
 	"verification_flow_description": "verification_flow_description",
-  "Here_you_can_see_all_your_signatures": "Here you can see all your signatures"
+	"Here_you_can_see_all_your_signatures": "Here you can see all your signatures",
+	"See_all": "See all",
+	"one_active_flow": "1 active flow",
+	"num_active_flows": "{number} active flows",
+	"no_active_flows": "No active flows",
+	"one_template": "1 template",
+	"num_templates": "{number} templates",
+	"no_templates": "No templates",
+	"one_microservice": "1 microservice",
+	"num_microservices": "{number} microservices",
+	"no_microservices": "No microservices",
+	"one_membership_request": "1 membership request",
+	"num_membership_requests": "{number} membership requests",
+	"no_membership_requests": "No membership requests"
 }
