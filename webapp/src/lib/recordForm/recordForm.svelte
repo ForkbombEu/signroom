@@ -13,6 +13,7 @@
 
 	export type FieldsSettings<R extends PBResponse = PBResponse> = {
 		labels: { [K in Keys<R>]?: string };
+		descriptions: { [K in Keys<R>]?: string };
 		order: Array<Keys<R>>;
 		exclude: Array<Keys<R>>;
 		hide: { [K in Keys<R>]?: R[K] };
@@ -26,6 +27,8 @@
 </script>
 
 <script lang="ts">
+	import { c } from '$lib/utils/strings';
+
 	import type { FormSettings } from '$lib/forms/form.svelte';
 
 	import { createEventDispatcher } from 'svelte';
@@ -60,7 +63,15 @@
 	export let recordId = '';
 
 	export let fieldsSettings: Partial<FieldsSettings<RecordGeneric>> = {};
-	let { order = [], exclude = [], hide, labels, components, relations } = fieldsSettings;
+	let {
+		order = [],
+		exclude = [],
+		hide,
+		labels,
+		components,
+		relations,
+		descriptions
+	} = fieldsSettings;
 
 	export let formSettings: Partial<FormSettings> = {};
 
@@ -156,11 +167,20 @@
 
 <Form {superform} showRequiredIndicator>
 	{#each fieldsSchema as fieldSchema}
-		{@const hidden = hide ? Object.keys(hide).includes(fieldSchema.name) : false}
-		{@const label = labels?.[fieldSchema.name] ?? fieldSchema.name}
-		{@const component = components?.[fieldSchema.name]}
-		{@const relationInputOptions = relations?.[fieldSchema.name] ?? {}}
-		<FieldSchemaToInput {label} {fieldSchema} {hidden} {component} {relationInputOptions} />
+		{@const name = fieldSchema.name}
+		{@const hidden = hide ? Object.keys(hide).includes(name) : false}
+		{@const label = c(labels?.[name] ?? name)}
+		{@const component = components?.[name]}
+		{@const relationInputOptions = relations?.[name] ?? {}}
+		{@const description = descriptions?.[name]}
+		<FieldSchemaToInput
+			{description}
+			{label}
+			{fieldSchema}
+			{hidden}
+			{component}
+			{relationInputOptions}
+		/>
 	{/each}
 
 	<FormError />

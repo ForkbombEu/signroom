@@ -50,26 +50,28 @@
 				description={m.issuance_flows_description()}
 			>
 				<svelte:fragment slot="right">
-					<div class="flex gap-2">
-						<Button
-							href={templatesUrl(TemplatesTypeOptions.authorization)}
-							outline
-							class="shrink-0"
-						>
-							{m.Authorization_templates()}
-							<ArrowRight size="20" class="ml-1" />
-						</Button>
+					<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
+						<div class="flex gap-2">
+							<Button
+								href={templatesUrl(TemplatesTypeOptions.authorization)}
+								outline
+								class="shrink-0"
+							>
+								{m.Authorization_templates()}
+								<ArrowRight size="20" class="ml-1" />
+							</Button>
 
-						<Button href={templatesUrl(TemplatesTypeOptions.issuance)} outline class="shrink-0">
-							{m.Credential_templates()}
-							<ArrowRight size="20" class="ml-1" />
-						</Button>
+							<Button href={templatesUrl(TemplatesTypeOptions.issuance)} outline class="shrink-0">
+								{m.Credential_templates()}
+								<ArrowRight size="20" class="ml-1" />
+							</Button>
 
-						<Button href={createIssuanceUrl} class="shrink-0">
-							{m.New_issuance_flow()}
-							<Plus size="20" class="ml-1" />
-						</Button>
-					</div>
+							<Button href={createIssuanceUrl} class="shrink-0">
+								{m.New_issuance_flow()}
+								<Plus size="20" class="ml-1" />
+							</Button>
+						</div>
+					</ProtectedOrgUI>
 				</svelte:fragment>
 			</SectionTitle>
 

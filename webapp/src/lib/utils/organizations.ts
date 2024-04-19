@@ -4,11 +4,12 @@ import type { NavigationTab } from '$lib/components/navigationTabs.svelte';
 import { Cog, Document, Fire, GlobeAlt, HandRaised, Home, Users } from 'svelte-heros-v2';
 import type { SidebarItemProps } from '$lib/layout/SidebarLinks.svelte';
 import { pb } from '$lib/pocketbase';
+import type { OrgRole } from '$lib/rbac';
 
 export function createOrganizationLinks(
 	organizationId: string,
 	m: typeof messages,
-	isOwner: boolean
+	userRole: OrgRole = 'member'
 ): NavigationTab[] {
 	const base = (path = '') => `/my/organizations/${organizationId}${path}`;
 
@@ -29,11 +30,7 @@ export function createOrganizationLinks(
 			href: base('/verification-flows'),
 			icon: HandRaised
 		},
-		{
-			text: m.Templates(),
-			href: base('/templates'),
-			icon: Document
-		},
+
 		{
 			text: m.Microservices(),
 			href: base('/microservices'),
@@ -46,7 +43,15 @@ export function createOrganizationLinks(
 		}
 	];
 
-	if (isOwner) {
+	if (userRole != 'member') {
+		links.splice(3, 0, {
+			text: m.Templates(),
+			href: base('/templates'),
+			icon: Document
+		});
+	}
+
+	if (userRole == 'owner') {
 		links.push({
 			text: m.Settings(),
 			href: base('/settings'),
@@ -60,12 +65,12 @@ export function createOrganizationLinks(
 export function createOrganizationSidebarLinks(
 	org: OrganizationsResponse,
 	m: typeof messages,
-	isOwner = false
+	userRole: OrgRole = 'member'
 ): SidebarItemProps[] {
 	return [
 		{
 			text: org.name,
-			subLinks: createOrganizationLinks(org.id, m, isOwner),
+			subLinks: createOrganizationLinks(org.id, m, userRole),
 			icon: pb.getFileUrl(org, org.avatar)
 		}
 	];

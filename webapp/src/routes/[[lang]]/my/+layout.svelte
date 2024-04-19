@@ -31,7 +31,7 @@
 		EllipsisHorizontal
 	} from 'svelte-heros-v2';
 	import { createOrganizationSidebarLinks } from '$lib/utils/organizations.js';
-	import { OrgRoles } from '$lib/rbac';
+	import { OrgRoles, getUserRole } from '$lib/rbac';
 	import { m } from '$lib/i18n';
 	import UserAvatar from '$lib/components/userAvatar.svelte';
 	import { getUserDisplayName } from '$lib/utils/pb';
@@ -169,14 +169,17 @@
 							}
 						]}
 					/>
+
 					{#if authorizations}
-						{@const links = authorizations.flatMap((a) => {
-							const userRole = a.expand.role.name;
-							const isOwner = userRole == OrgRoles.OWNER;
-							const isAdmin = userRole == OrgRoles.ADMIN;
-							return createOrganizationSidebarLinks(a.expand.organization, m, isAdmin || isOwner);
-						})}
-						<SidebarLinks {links} />
+						{#each authorizations as authorization}
+							{@const organization = authorization.expand.organization}
+							{@const organizationId = organization.id}
+							{@const userId = $currentUser?.id ?? ''}
+							{#await getUserRole(organizationId, userId) then userRole}
+								{@const links = createOrganizationSidebarLinks(organization, m, userRole)}
+								<SidebarLinks {links} />
+							{/await}
+						{/each}
 					{/if}
 				</div>
 			</SidebarGroup>
@@ -184,7 +187,15 @@
 
 		<svelte:fragment slot="bottom">
 			<SidebarGroup>
-				<SidebarLinks links={[{ text: 'Help', icon: QuestionMarkCircle, href: 'https://forkbombeu.github.io/DIDroom/intro.html' }]} />
+				<SidebarLinks
+					links={[
+						{
+							text: 'Help',
+							icon: QuestionMarkCircle,
+							href: 'https://forkbombeu.github.io/DIDroom/intro.html'
+						}
+					]}
+				/>
 				{#if $currentUser}
 					{@const id = 'menu-trigger'}
 					{@const idSelector = `#${id}`}

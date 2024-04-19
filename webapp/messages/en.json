@@ -343,5 +343,10 @@
 	"no_microservices": "No microservices",
 	"one_membership_request": "1 membership request",
 	"num_membership_requests": "{number} membership requests",
-	"no_membership_requests": "No membership requests"
+	"no_membership_requests": "No membership requests",
+	"Here_you_can_see_all_your_signatures": "Here you can see all your signatures",
+	"Verification_flow_details": "Verification flow details",
+	"microservice_name_description": "microservice_name_description",
+	"microservice_endpoint_description": "microservice_endpoint_description",
+	"verification_flow_description": "The verification is managed mostly by the DIDroom Verifier app. Install the verifier app, login with an account connected with this organization and start the verification flow from there."
 }

@@ -31,7 +31,7 @@
 <PageContent>
 	<ServiceForm
 		organizationId={data.organization.id}
-		verificationFlowId={data.issuanceFlowId}
+		verificationFlowId={data.verificationFlow.id}
 		initialData={data.verificationFlow}
 		on:success={async (e) => {
 			await invalidateAll();

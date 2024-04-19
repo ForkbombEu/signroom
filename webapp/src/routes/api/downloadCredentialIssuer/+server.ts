@@ -134,7 +134,7 @@ function updateAuthorizationServerWellKnown(zip: AdmZip, data: RequestBody) {
 
 				_.set('jwks.keys[0].kid', ''),
 				_.set('issuer', cleanUrl(data.credential_issuer_url)),
-				_.set('scopes_supported', [data.credential_type_name]),
+				_.set('scopes_supported', data.scopes_supported),
 
 				(json) => JSON.stringify(json, null, 4)
 			)
