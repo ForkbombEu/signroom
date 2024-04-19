@@ -38,6 +38,7 @@
 	import Icon from '$lib/components/icon.svelte';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
+	import LanguageSwitcher from '$lib/i18n/languageSwitcher.svelte';
 
 	//
 
@@ -196,6 +197,9 @@
 						}
 					]}
 				/>
+
+				<LanguageSwitcher />
+
 				{#if $currentUser}
 					{@const id = 'menu-trigger'}
 					{@const idSelector = `#${id}`}
@@ -212,7 +216,7 @@
 						</svelte:fragment>
 					</SidebarDropdownWrapper>
 
-					<Dropdown triggeredBy={idSelector} class="min-w-[215px]">
+					<Dropdown triggeredBy={idSelector} class="w-[215px]">
 						<DropdownHeader>
 							<span class="block truncate text-xs font-medium text-gray-500">
 								{getUserDisplayName($currentUser)}
