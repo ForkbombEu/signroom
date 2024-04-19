@@ -66,7 +66,7 @@
 			<div class="flex gap-4">
 				<img
 					alt="Didroom Verifier app logo"
-					class="w-[100px] h-[100px]"
+					class="w-[100px] h-[100px] rounded-lg"
 					src={`${assets}/app-didroom-verifier.svg`}
 				/>
 				<div class="space-y-2">
