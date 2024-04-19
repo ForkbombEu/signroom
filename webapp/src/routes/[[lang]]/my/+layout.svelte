@@ -7,7 +7,9 @@
 		Logo,
 		SidebarLinks,
 		MainContent,
-		SidebarCloseButton
+		SidebarCloseButton,
+		Topbar,
+		HamburgerButton
 	} from '$lib/layout';
 	import {
 		Dropdown,
@@ -49,53 +51,36 @@
 </script>
 
 <UIShell {sidebarLayoutBreakpoint}>
-	<!-- <Topbar slot="top" let:sidebarLayoutMode>
-		<svelte:fragment slot="left">
-			<div class="flex space-x-2">
-				<HamburgerButton />
-				{#if sidebarLayoutMode == 'default'}
-					<Logo />
-				{/if}
-			</div>
-		</svelte:fragment>
-		<svelte:fragment slot="center">
-			<div class="flex items-center">
-				<div>
-					<span class="whitespace-nowrap">
-						{m.hello()}, <span class="font-semibold text-primary-600">{$currentUser?.email}</span>
-					</span>
-				</div>
-				<div class="shrink-0">
-					<DIDButton />
-				</div>
-			</div>
-		</svelte:fragment>
-		<svelte:fragment slot="right">
-			<div class="mr-3">
-				<LanguageSwitcher />
-			</div>
-			<AvatarMenu>
-				<DropdownHeader>
-					<span class="block truncate text-xs font-medium text-gray-500">
-						{$currentUser?.email}
-					</span>
-				</DropdownHeader>
-				<DropdownItem href="/my/profile">{m.My_profile()}</DropdownItem>
-				<DropdownDivider />
-				<DropdownItem href="/pro" class="flex items-center">
-					<Fire class="text-red-500 mr-2 w-5" />{m.Go_Pro()}</DropdownItem
-				>
-				<DropdownDivider />
-				<DropdownItem on:click={() => goto('/my/logout')} class="text-primary-600">
-					{m.Sign_out()}
-				</DropdownItem>
-			</AvatarMenu>
-		</svelte:fragment>
-	</Topbar> -->
+	<svelte:fragment slot="top" let:sidebarLayoutMode>
+		{#if sidebarLayoutMode == 'drawer'}
+			<Topbar>
+				<svelte:fragment slot="left">
+					<div class="flex space-x-2">
+						<Logo />
+					</div>
+				</svelte:fragment>
+				<svelte:fragment slot="center">
+					<div class="flex items-center">
+						{#if $currentUser}
+							<span class="whitespace-nowrap">
+								{m.hello()},
+								<span class="font-semibold text-primary-600">
+									{getUserDisplayName($currentUser)}
+								</span>
+							</span>
+						{/if}
+					</div>
+				</svelte:fragment>
+				<svelte:fragment slot="right">
+					<HamburgerButton />
+				</svelte:fragment>
+			</Topbar>
+		{/if}
+	</svelte:fragment>
 
 	<Sidebar darkMode>
 		<svelte:fragment slot="top">
-			<div class="flex items-center p-3">
+			<div class="flex items-center py-2.5 px-3 justify-between border-b border-gray-600">
 				<Logo />
 				<SidebarCloseButton />
 			</div>

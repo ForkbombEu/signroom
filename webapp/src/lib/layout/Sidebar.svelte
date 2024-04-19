@@ -22,7 +22,7 @@
 <svelte:component this={comp} {width} {darkMode}>
 	<Sidebar
 		{activeUrl}
-		class="flex flex-col grow bg-white dark:bg-gray-800 border-r"
+		class="flex flex-col grow bg-white dark:bg-gray-800 border-r border-r-600"
 		asideClass={width}
 	>
 		<div class="flex flex-col overflow-hidden grow">
