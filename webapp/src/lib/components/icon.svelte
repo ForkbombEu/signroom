@@ -11,10 +11,10 @@
 	let className = '';
 	export { className as class };
 
-	$: classes = clsx(className, {
+	$: classes = clsx(className, 'pointer-events-none', {
 		'mr-2': mr,
 		'ml-2': ml
 	});
 </script>
 
-<svelte:component this={src} size={size.toString()} class={classes}></svelte:component>
+<svelte:component this={src} size={size.toString()} tabindex="-1" class={classes} />
