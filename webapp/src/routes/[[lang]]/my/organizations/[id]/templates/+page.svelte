@@ -30,6 +30,7 @@
 	import { createToggleStore } from '$lib/components/utils/toggleStore';
 	import { page } from '$app/stores';
 	import { ProtectedOrgUI } from '$lib/rbac';
+	import { templatesColors } from '$lib/utils/colors';
 
 	//
 
@@ -204,7 +205,7 @@
 					<PlainCard let:Title let:Description>
 						<div class="flex items-center gap-2">
 							<Title>{template.name}</Title>
-							<Badge color={choice(template.type, 'green', 'blue', 'yellow', 'dark')}>
+							<Badge color={templatesColors[template.type]}>
 								{template.type}
 							</Badge>
 							{#if template.public}
