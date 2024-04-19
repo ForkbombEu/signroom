@@ -54,7 +54,7 @@
 
 		if (response.ok) {
 			const blob = new Blob([await response.arrayBuffer()], { type: 'application/zip' });
-			downloadBlob(blob, 'credential-issuer.zip');
+			downloadBlob(blob, 'microservices.zip');
 		}
 
 		loading = false;
