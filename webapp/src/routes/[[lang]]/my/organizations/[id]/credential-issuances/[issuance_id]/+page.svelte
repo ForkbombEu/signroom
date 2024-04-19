@@ -22,6 +22,7 @@
 	import { pipe, ReadonlyArray as A, flow } from 'effect';
 	import type { TemplatesResponse } from '$lib/pocketbase/types.js';
 	import { ProtectedOrgUI } from '$lib/rbac';
+	import TemplateSchemaDisplay from '$lib/components/templateSchemaDisplay.svelte';
 
 	//
 
@@ -78,26 +79,18 @@
 	// 	downloadBlob(imgBlob, `credential-issuance-qr.png`);
 	// }
 
-	let templates = [
+	let microservicesTemplates = [
 		{
 			label: m.Credential_template(),
 			name: credential_template.name,
-			properties: getTemplatePropertyList(credential_template)
+			template: credential_template
 		},
 		{
 			label: m.Authorization_template(),
 			name: authorization_template.name,
-			properties: getTemplatePropertyList(authorization_template)
+			template: authorization_template
 		}
 	];
-
-	function getTemplatePropertyList(template: TemplatesResponse) {
-		return pipe(
-			template.schema as ObjectSchema,
-			objectSchemaToCredentialSubject,
-			flattenCredentialSubjectProperties
-		);
-	}
 </script>
 
 <PageTop>
@@ -147,31 +140,13 @@
 					<span class="text-primary-700">{authorization_server.endpoint}</span>
 				</p>
 
-				{#each templates as template}
+				{#each microservicesTemplates as t}
 					<div class="space-y-2">
 						<p>
-							{template.label}:
-							<span class="text-primary-700">{template.name}</span>
+							{t.label}:
+							<span class="text-primary-700">{t.name}</span>
 						</p>
-						<div class="divide-y bg-gray-50 border rounded-lg">
-							{#each template.properties as [propertyId, property]}
-								{@const displayName = property.display?.at(0)?.name}
-								<div class="p-4">
-									<p>
-										{m.Property_ID()}: <span class="font-mono text-primary-700">{propertyId}</span>
-									</p>
-									{#if displayName}
-										<p>
-											{m.Display_name()}:
-											<span class="text-primary-700">{displayName} ({DEFAULT_LOCALE})</span>
-										</p>
-									{/if}
-									{#if property.mandatory}
-										<p class="text-primary-700">{m.Required()}</p>
-									{/if}
-								</div>
-							{/each}
-						</div>
+						<TemplateSchemaDisplay template={t.template}></TemplateSchemaDisplay>
 					</div>
 				{/each}
 			</div>

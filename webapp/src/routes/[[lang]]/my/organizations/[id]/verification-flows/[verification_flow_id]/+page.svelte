@@ -20,6 +20,7 @@
 	import { pipe } from 'effect';
 	import type { TemplatesResponse } from '$lib/pocketbase/types.js';
 	import { ProtectedOrgUI } from '$lib/rbac';
+	import TemplateSchemaDisplay from '$lib/components/templateSchemaDisplay.svelte';
 
 	//
 
@@ -38,18 +39,6 @@
 			})
 		);
 		return result.qrcode as string;
-	}
-
-	//
-
-	const propertyList = getTemplatePropertyList(template);
-
-	function getTemplatePropertyList(template: TemplatesResponse) {
-		return pipe(
-			template.schema as ObjectSchema,
-			objectSchemaToCredentialSubject,
-			flattenCredentialSubjectProperties
-		);
 	}
 </script>
 
@@ -86,25 +75,7 @@
 						{m.Verification_template()}:
 						<span class="text-primary-700">{template.name}</span>
 					</p>
-					<div class="divide-y bg-gray-50 border rounded-lg">
-						{#each propertyList as [propertyId, property]}
-							{@const displayName = property.display?.at(0)?.name}
-							<div class="p-4">
-								<p>
-									{m.Property_ID()}: <span class="font-mono text-primary-700">{propertyId}</span>
-								</p>
-								{#if displayName}
-									<p>
-										{m.Display_name()}:
-										<span class="text-primary-700">{displayName} ({DEFAULT_LOCALE})</span>
-									</p>
-								{/if}
-								{#if property.mandatory}
-									<p class="text-primary-700">{m.Required()}</p>
-								{/if}
-							</div>
-						{/each}
-					</div>
+					<TemplateSchemaDisplay {template} />
 				</div>
 			</div>
 		</PageCard>
