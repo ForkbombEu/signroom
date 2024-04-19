@@ -32,6 +32,11 @@ export function createOrganizationLinks(
 		},
 
 		{
+			text: m.Microservices(),
+			href: base('/microservices'),
+			icon: GlobeAlt
+		},
+		{
 			text: m.Members(),
 			href: base('/members'),
 			icon: Users
@@ -43,12 +48,6 @@ export function createOrganizationLinks(
 			text: m.Templates(),
 			href: base('/templates'),
 			icon: Document
-		});
-
-		links.splice(4, 0, {
-			text: m.Microservices(),
-			href: base('/microservices'),
-			icon: GlobeAlt
 		});
 	}
 

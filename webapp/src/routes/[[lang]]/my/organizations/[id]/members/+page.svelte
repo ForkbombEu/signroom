@@ -9,7 +9,7 @@
 	} from '$lib/pocketbase/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { m } from '$lib/i18n';
-	import { OrgRoles, ProtectedOrgUI, getUserRole } from '$lib/rbac';
+	import { OrgRoles, ProtectedOrgUI } from '$lib/rbac';
 
 	import { Button, Badge } from 'flowbite-svelte';
 	import { Pencil, Plus, XMark } from 'svelte-heros-v2';
@@ -96,23 +96,21 @@
 							</div>
 
 							<svelte:fragment slot="right">
-								<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
-									<div class="space-x-1">
-										<EditRecord {record} let:openModal>
-											<Button outline color="primary" size="sm" on:click={openModal}>
-												Edit role
-												<Pencil size="20" class="ml-2"></Pencil>
-											</Button>
-										</EditRecord>
+								<div class="space-x-1">
+									<EditRecord {record} let:openModal>
+										<Button outline color="primary" size="sm" on:click={openModal}>
+											Edit role
+											<Pencil size="20" class="ml-2"></Pencil>
+										</Button>
+									</EditRecord>
 
-										<DeleteRecord {record} let:openModal>
-											<Button outline color="primary" size="sm" on:click={openModal}>
-												Remove
-												<XMark size="20" class="ml-2"></XMark>
-											</Button>
-										</DeleteRecord>
-									</div>
-								</ProtectedOrgUI>
+									<DeleteRecord {record} let:openModal>
+										<Button outline color="primary" size="sm" on:click={openModal}>
+											Remove
+											<XMark size="20" class="ml-2"></XMark>
+										</Button>
+									</DeleteRecord>
+								</div>
 							</svelte:fragment>
 						</PlainCard>
 					{/if}
