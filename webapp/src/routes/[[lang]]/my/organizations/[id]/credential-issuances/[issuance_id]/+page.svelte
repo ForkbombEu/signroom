@@ -1,8 +1,13 @@
 <script lang="ts">
 	import { request } from '@api/downloadCredentialIssuer';
 	import { downloadBlob } from '$lib/utils/clientFileDownload';
-	import { Button, Spinner } from 'flowbite-svelte';
-	import { ArrowDownTray, Pencil } from 'svelte-heros-v2';
+	import { Button, Heading, Spinner } from 'flowbite-svelte';
+	import {
+		ArrowDownTray,
+		ArrowTopRightOnSquare,
+		Pencil,
+		QuestionMarkCircle
+	} from 'svelte-heros-v2';
 	import { generateQr } from '$lib/qrcode';
 	import { m } from '$lib/i18n';
 	import type { ObjectSchema } from '$lib/jsonSchema/types';
@@ -23,6 +28,7 @@
 	import type { TemplatesResponse } from '$lib/pocketbase/types.js';
 	import { ProtectedOrgUI } from '$lib/rbac';
 	import TemplateSchemaDisplay from '$lib/components/templateSchemaDisplay.svelte';
+	import { assets } from '$app/paths';
 
 	//
 
@@ -152,27 +158,45 @@
 			</div>
 		</PageCard>
 
-		<PageCard class="!p-4 shrink-0">
+		<PageCard class="!p-4 shrink-0 w-[300px] !space-y-4">
 			{#await generateCredentialIssuanceQr()}
 				<Spinner />
 			{:then qrimg}
-				<div class="flex flex-col">
-					<div
-						class="self-stretch border rounded-lg flex flex-col items-center p-4 bg-gray-50 gap-2"
-					>
-						<p class="font-semibold text-xl">{service.display_name}</p>
-						<img src={qrimg} alt={m.Service_Qr_Code()} class="rounded-md" />
-					</div>
-
-					<div class="mt-6 space-y-1">
-						<p class="font-semibold">{m.This_is_an_issuance_flow()}</p>
-						<p class="max-w-[200px] text-sm text-gray-500">{m.issuance_flow_description()}</p>
-					</div>
-
+				<div class="self-stretch border rounded-lg flex flex-col items-center p-4 bg-gray-50 gap-2">
+					<img src={qrimg} alt={m.Service_Qr_Code()} class="rounded-md" />
 					<Button outline class="mt-4" size="sm" disabled>
-						{m.Download_QR_code_page()}
-						<Icon src={ArrowDownTray} ml></Icon>
+						<span class="whitespace-nowrap">
+							{m.Open_qr_code_in_new_page()}
+						</span>
+						<Icon src={ArrowTopRightOnSquare} ml></Icon>
 					</Button>
+				</div>
+
+				<div class="mt-6 space-y-2">
+					<Heading tag="h5">{m.issuance_flow_qr_code_title()}</Heading>
+					<p class="text-gray-500">{m.issuance_flow_qr_code_description()}</p>
+				</div>
+
+				<div class="flex gap-4">
+					<img
+						alt="Didroom Verifier app logo"
+						class="w-[100px] h-[100px] rounded-lg"
+						src={`${assets}/app-didroom.svg`}
+					/>
+					<div class="space-y-2">
+						<Button outline target="_blank" href="https://github.com/ForkbombEu/verifier/">
+							{m.Github()}
+							<Icon src={ArrowTopRightOnSquare} ml></Icon>
+						</Button>
+						<Button
+							outline
+							target="_blank"
+							href="https://forkbombeu.github.io/DIDroom/solution.html#wallet-holder-app"
+						>
+							{m.Help()}
+							<Icon src={QuestionMarkCircle} ml></Icon>
+						</Button>
+					</div>
 				</div>
 			{:catch error}
 				<p class="text-red-500">{JSON.stringify(error)}</p>
