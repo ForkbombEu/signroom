@@ -19,13 +19,6 @@
 	import Icon from '$lib/components/icon.svelte';
 	import { page } from '$app/stores';
 	import { Avatar } from 'flowbite-svelte';
-	import {
-		flattenCredentialSubjectProperties,
-		objectSchemaToCredentialSubject,
-		DEFAULT_LOCALE
-	} from '@api/downloadCredentialIssuer/utils.js';
-	import { pipe, ReadonlyArray as A, flow } from 'effect';
-	import type { TemplatesResponse } from '$lib/pocketbase/types.js';
 	import { ProtectedOrgUI } from '$lib/rbac';
 	import TemplateSchemaDisplay from '$lib/components/templateSchemaDisplay.svelte';
 	import { assets } from '$app/paths';
@@ -111,7 +104,7 @@
 			<SectionTitle tag="h5" title={m.Credential_details()}>
 				<div slot="right" class="flex items-center gap-2">
 					<Button outline on:click={downloadCredentialIssuer} class="shrink-0">
-						{m.Download_issuer()}
+						{m.Download_microservices()}
 						{#if loading}
 							<div class="ml-2">
 								<Spinner size="5"></Spinner>

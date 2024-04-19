@@ -354,5 +354,6 @@
 	"Github": "Github",
 	"issuance_flow_qr_code_title": "Allow users to scan QR with Wallet App for Credential Retrieval",
 	"issuance_flow_qr_code_description": "Easily retrieve this credential by scanning this QR code using the Wallet app.",
-	"Open_qr_code_in_new_page": "Open qr code in new page"
+	"Open_qr_code_in_new_page": "Open qr code in new page",
+	"Download_microservices": "Download microservices"
 }
