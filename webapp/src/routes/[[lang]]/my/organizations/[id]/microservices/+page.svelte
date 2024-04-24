@@ -27,6 +27,9 @@
 			<CollectionManager
 				{recordType}
 				collection={Collections.Issuers}
+				initialQueryParams={{
+					filter: `organization.id = '${organization.id}'`
+				}}
 				formSettings={{
 					hide: { organization: data.organization.id },
 					descriptions: {
@@ -96,6 +99,9 @@
 			<CollectionManager
 				{recordType}
 				collection={Collections.AuthorizationServers}
+				initialQueryParams={{
+					filter: `organization.id = '${organization.id}'`
+				}}
 				formSettings={{
 					hide: { organization: data.organization.id },
 					descriptions: {
@@ -165,6 +171,9 @@
 			<CollectionManager
 				{recordType}
 				collection={Collections.RelyingParties}
+				initialQueryParams={{
+					filter: `organization.id = '${organization.id}'`
+				}}
 				formSettings={{
 					hide: { organization: data.organization.id },
 					descriptions: {
