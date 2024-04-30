@@ -14,6 +14,7 @@
 
 	export let width = 'w-60';
 	export let darkMode = false;
+	export let preloadLinkOnHover = false;
 
 	$: comp = $sidebarLayoutMode == 'drawer' ? SidebarDrawerContainer : SidebarDefaultContainer;
 	$: activeUrl = i18n.route($page.url.pathname);
@@ -25,7 +26,10 @@
 		class="flex flex-col grow bg-white dark:bg-gray-800 border-r border-r-600"
 		asideClass={width}
 	>
-		<div class="flex flex-col overflow-hidden grow">
+		<div
+			class="flex flex-col overflow-hidden grow"
+			data-sveltekit-preload-data={preloadLinkOnHover ? 'hover' : 'false'}
+		>
 			{#if $sidebarLayoutMode == 'drawer'}
 				<div class="shrink-0">
 					<slot name="top" />
