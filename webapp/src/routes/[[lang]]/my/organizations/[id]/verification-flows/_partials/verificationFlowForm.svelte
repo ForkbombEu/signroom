@@ -161,7 +161,7 @@
 		<div>
 			<Relations
 				recordType={templateTypeProp}
-				collection={Collections.Templates}
+				collection={Collections.TemplatesPublicData}
 				field="template"
 				options={{
 					label: m.Verification_template(),

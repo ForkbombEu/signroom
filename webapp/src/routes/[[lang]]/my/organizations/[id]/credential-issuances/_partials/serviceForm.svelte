@@ -194,7 +194,7 @@
 		<div>
 			<Relations
 				recordType={templateTypeProp}
-				collection={Collections.Templates}
+				collection={Collections.TemplatesPublicData}
 				field="credential_template"
 				options={{
 					label: m.Credential_template(),
@@ -217,7 +217,7 @@
 		<div>
 			<Relations
 				recordType={templateTypeProp}
-				collection={Collections.Templates}
+				collection={Collections.TemplatesPublicData}
 				field="authorization_template"
 				options={{
 					label: m.Authorization_template(),
