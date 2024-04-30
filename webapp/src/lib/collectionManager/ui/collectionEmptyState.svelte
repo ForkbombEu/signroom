@@ -5,7 +5,7 @@
 
 	import EmptyState from '$lib/components/emptyState.svelte';
 
-	export let title = 'No records here!';
+	export let title = 'No items here!';
 	export let description = 'Start by adding a record to this collection.';
 	export let icon: IconComponent = FolderOpen;
 	export let hideCreateButton: boolean = false;
