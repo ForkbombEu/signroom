@@ -355,5 +355,7 @@
 	"issuance_flow_qr_code_title": "Allow users to scan QR with Wallet App for Credential Retrieval",
 	"issuance_flow_qr_code_description": "Easily retrieve this credential by scanning this QR code using the Wallet app.",
 	"Open_qr_code_in_new_page": "Open qr code in new page",
-	"Download_microservices": "Download microservices"
+	"Download_microservices": "Download microservices",
+	"You_can_now_close_this_page": "You can now close this page.",
+	"Go_to_login": "Go to login"
 }
