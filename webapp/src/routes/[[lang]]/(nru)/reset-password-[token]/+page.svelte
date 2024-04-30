@@ -20,7 +20,7 @@
 		})
 		.refine((data) => {
 			return data.password == data.passwordConfirm;
-		});
+		}, m.Passwords_do_not_match());
 
 	const superform = createForm(schema, async ({ form }) => {
 		const { data } = form;
