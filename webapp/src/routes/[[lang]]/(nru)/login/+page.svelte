@@ -2,6 +2,7 @@
 	import { goto } from '$lib/i18n';
 	import { pb } from '$lib/pocketbase';
 	import { Collections } from '$lib/pocketbase/types';
+	import { A } from 'flowbite-svelte';
 	import { Form, createForm, FormError, SubmitButton, Input } from '$lib/forms';
 	import { z } from 'zod';
 	import { currentEmail } from './+layout.svelte';
@@ -51,7 +52,11 @@
 			label: m.Your_password(),
 			placeholder: '•••••'
 		}}
-	/>
+	>
+		<svelte:fragment slot="labelRight">
+			<A href="/forgot-password">{m.Forgot_password()}</A>
+		</svelte:fragment>
+	</Input>
 
 	<FormError />
 

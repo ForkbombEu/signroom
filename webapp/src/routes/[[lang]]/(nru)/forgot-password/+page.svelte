@@ -1,26 +1,54 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
-	import { Label, Input, Heading, P, Button } from 'flowbite-svelte';
-	import { m } from '$lib/i18n';
+	import { Collections } from '$lib/pocketbase/types';
+	import { pb } from '$lib/pocketbase';
+	import { Heading, P, Hr, A } from 'flowbite-svelte';
+	import { goto, m } from '$lib/i18n';
+	import Icon from '$lib/components/icon.svelte';
+	import { ArrowLeft } from 'svelte-heros-v2';
+	import {
+		createForm,
+		Form,
+		FormError,
+		SubmitButton,
+		Input,
+		type SubmitFunction
+	} from '$lib/forms';
+	import { z } from 'zod';
 
-	export let form: any;
+	//
+
+	const schema = z.object({
+		email: z.string().email()
+	});
+
+	const onSubmit: SubmitFunction<typeof schema> = async ({ form }) => {
+		await pb.collection(Collections.Users).requestPasswordReset(form.data.email);
+		await goto('/forgot-password/confirm');
+	};
+
+	const superform = createForm(schema, onSubmit);
 </script>
 
-{#if !form}
-	<form method="post" use:enhance class="space-y-8">
-		<div class="space-y-1">
-			<Heading tag="h4">{m.Forgot_password()}</Heading>
-			<P>{m.Please_enter_here_your_email_to_recover_your_password_()}</P>
-		</div>
-		<Label class="space-y-2">
-			<span>{m.Your_email()}</span>
-			<Input type="email" name="email" id="email" placeholder="name@foundation.org" required />
-		</Label>
-		<Button type="submit" class="w-full">{m.Recover_password()}</Button>
-	</form>
-{:else if form.success}
-	<div class="space-y-4">
-		<Heading tag="h4">{m.Reset_email_sent_successfully()}</Heading>
-		<P>{m.Please_click_the_link_in_the_email_to_reset_your_password_()}</P>
+<Form {superform}>
+	<div class="space-y-2">
+		<A href="/login"><Icon src={ArrowLeft} mr />{m.Login()}</A>
+		<Hr />
 	</div>
-{/if}
+
+	<div class="space-y-2">
+		<Heading tag="h4">{m.Forgot_password()}</Heading>
+		<P>{m.Please_enter_here_your_email_to_recover_your_password_()}</P>
+	</div>
+
+	<Input
+		{superform}
+		field="email"
+		options={{ type: 'email', placeholder: 'user@example.org', label: m.Your_email() }}
+	/>
+
+	<FormError />
+
+	<div class="flex justify-end">
+		<SubmitButton>{m.Reset_password()}</SubmitButton>
+	</div>
+</Form>
