@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Alert } from 'flowbite-svelte';
 	import { getFormContext } from './form.svelte';
+	import { m } from '$lib/i18n';
 
 	const { superform } = getFormContext();
 	const { message, allErrors } = superform;
@@ -10,7 +11,7 @@
 
 {#if error}
 	<Alert color="red" dismissable>
-		<p class="font-bold">Error</p>
+		<p class="font-bold">{m.Error()}</p>
 		{#if error.messages.length > 0}
 			<ul class="space-y-2 mt-1">
 				{#each error.messages as message}

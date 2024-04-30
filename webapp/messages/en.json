@@ -358,5 +358,6 @@
 	"Download_microservices": "Download microservices",
 	"You_can_now_close_this_page": "You can now close this page.",
 	"Go_to_login": "Go to login",
-	"Passwords_do_not_match": "Passwords do not match"
+	"Passwords_do_not_match": "Passwords do not match",
+	"Error": "Error"
 }
