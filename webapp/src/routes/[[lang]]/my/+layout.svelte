@@ -1,9 +1,14 @@
 <script lang="ts">
 	import { currentUser } from '$lib/pocketbase';
+<<<<<<< ours
+=======
+	import { goto } from '$app/navigation';
+>>>>>>> theirs
 
 	import {
 		UIShell,
 		Sidebar,
+<<<<<<< ours
 		Logo,
 		SidebarLinks,
 		MainContent,
@@ -46,11 +51,27 @@
 
 	export let data;
 	let { authorizations } = data;
+=======
+		Topbar,
+		HamburgerButton,
+		AvatarMenu,
+		Logo,
+		SidebarLinks,
+		MainContent,
+		SidebarCloseButton
+	} from '$lib/layout';
+	import { DropdownDivider, DropdownHeader, DropdownItem } from 'flowbite-svelte';
+	import DIDButton from '$lib/components/DIDButton.svelte';
+	import { Fire } from 'svelte-heros-v2';
+
+	import { links } from './sidebarLinks';
+>>>>>>> theirs
 
 	let sidebarLayoutBreakpoint = 1024;
 </script>
 
 <UIShell {sidebarLayoutBreakpoint}>
+<<<<<<< ours
 	<svelte:fragment slot="top" let:sidebarLayoutMode>
 		{#if sidebarLayoutMode == 'drawer'}
 			<Topbar>
@@ -81,10 +102,57 @@
 	<Sidebar darkMode>
 		<svelte:fragment slot="top">
 			<div class="flex items-center py-2.5 px-3 justify-between border-b border-gray-600">
+=======
+	<Topbar slot="top" let:sidebarLayoutMode>
+		<svelte:fragment slot="left">
+			<div class="flex space-x-2">
+				<HamburgerButton />
+				{#if sidebarLayoutMode == 'default'}
+					<Logo />
+				{/if}
+			</div>
+		</svelte:fragment>
+		<svelte:fragment slot="center">
+			<div class="flex items-center">
+				<div>
+					<span class="whitespace-nowrap">
+						Hello, <span class="font-semibold text-primary-600">{$currentUser?.email}</span>
+					</span>
+				</div>
+				<div class="shrink-0">
+					<DIDButton />
+				</div>
+			</div>
+		</svelte:fragment>
+		<svelte:fragment slot="right">
+			<AvatarMenu>
+				<DropdownHeader>
+					<span class="block truncate text-xs font-medium text-gray-500">
+						{$currentUser?.email}
+					</span>
+				</DropdownHeader>
+				<DropdownItem href="/my/profile">My profile</DropdownItem>
+				<DropdownDivider />
+				<DropdownItem href="/pro" class="flex items-center">
+					<Fire class="text-red-500 mr-2 w-5" /> Go Pro</DropdownItem
+				>
+				<DropdownDivider />
+				<DropdownItem on:click={() => goto('/my/logout')} class="text-primary-600">
+					Sign out
+				</DropdownItem>
+			</AvatarMenu>
+		</svelte:fragment>
+	</Topbar>
+
+	<Sidebar>
+		<svelte:fragment slot="top">
+			<div class="flex items-center p-3">
+>>>>>>> theirs
 				<Logo />
 				<SidebarCloseButton />
 			</div>
 		</svelte:fragment>
+<<<<<<< ours
 
 		<div class="space-y-0">
 			<SidebarGroup>
@@ -238,5 +306,15 @@
 		<div class="bg-[url('/bg.png')] bg-cover min-h-screen overflow-auto">
 			<slot />
 		</div>
+=======
+		<div class="p-3">
+			<SidebarLinks {links} />
+		</div>
+		<svelte:fragment slot="bottom">bottom</svelte:fragment>
+	</Sidebar>
+
+	<MainContent>
+		<slot />
+>>>>>>> theirs
 	</MainContent>
 </UIShell>
