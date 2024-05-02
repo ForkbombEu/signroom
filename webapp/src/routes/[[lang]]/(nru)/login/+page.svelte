@@ -1,4 +1,5 @@
 <script lang="ts">
+<<<<<<< ours
 	import { goto } from '$lib/i18n';
 	import { pb } from '$lib/pocketbase';
 	import { Collections } from '$lib/pocketbase/types';
@@ -7,6 +8,14 @@
 	import { z } from 'zod';
 	import { currentEmail } from './+layout.svelte';
 	import { m } from '$lib/i18n';
+=======
+	import { goto } from '$app/navigation';
+	import { pb } from '$lib/pocketbase';
+	import { Collections } from '$lib/pocketbase/types';
+	import { Form, createForm, FormError, SubmitButton, Input } from '$lib/forms';
+	import { z } from 'zod';
+	import { currentEmail } from './+layout.svelte';
+>>>>>>> theirs
 
 	const schema = z.object({
 		email: z.string().email(),
@@ -38,8 +47,13 @@
 		options={{
 			id: 'email',
 			type: 'email',
+<<<<<<< ours
 			label: m.Your_email(),
 			placeholder: m.namefoundation_org()
+=======
+			label: 'Your email',
+			placeholder: 'name@foundation.org'
+>>>>>>> theirs
 		}}
 	/>
 
@@ -49,6 +63,7 @@
 		options={{
 			id: 'password',
 			type: 'password',
+<<<<<<< ours
 			label: m.Your_password(),
 			placeholder: '•••••'
 		}}
@@ -57,10 +72,20 @@
 			<A href="/forgot-password">{m.Forgot_password()}</A>
 		</svelte:fragment>
 	</Input>
+=======
+			label: 'Your password',
+			placeholder: '•••••'
+		}}
+	/>
+>>>>>>> theirs
 
 	<FormError />
 
 	<div class="flex justify-end">
+<<<<<<< ours
 		<SubmitButton>{m.Log_in()}</SubmitButton>
+=======
+		<SubmitButton>Log in</SubmitButton>
+>>>>>>> theirs
 	</div>
 </Form>
