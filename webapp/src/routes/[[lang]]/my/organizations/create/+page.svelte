@@ -1,4 +1,5 @@
 <script lang="ts">
+<<<<<<< ours
 	import { A, Button, Heading } from 'flowbite-svelte';
 	import { RecordForm } from '$lib/recordForm';
 	import { Collections, type OrganizationsResponse } from '$lib/pocketbase/types';
@@ -9,6 +10,12 @@
 	import PageTop from '$lib/components/pageTop.svelte';
 	import { ArrowLeft } from 'svelte-heros-v2';
 	import Icon from '$lib/components/icon.svelte';
+=======
+	import { A, Heading } from 'flowbite-svelte';
+	import { RecordForm } from '$lib/recordForm';
+	import { Collections, type OrganizationsResponse } from '$lib/pocketbase/types';
+	import { createTypeProp } from '$lib/utils/typeProp';
+>>>>>>> theirs
 
 	const recordType = createTypeProp<OrganizationsResponse>();
 
@@ -17,6 +24,7 @@
 	}
 </script>
 
+<<<<<<< ours
 <PageTop>
 	<Button href="/my/organizations" outline size="xs">
 		<Icon src={ArrowLeft} mr></Icon>
@@ -45,3 +53,22 @@
 		/>
 	</PageCard>
 </PageContent>
+=======
+<div class="space-y-8">
+	<A href="/my/organizations">← My organizations</A>
+	<Heading tag="h4">Create an organization</Heading>
+	<RecordForm
+		{recordType}
+		collection={Collections.Organizations}
+		fieldsSettings={{
+			labels: {
+				name: 'Organization name',
+				description: 'Short description',
+				avatar: 'Avatar'
+			}
+		}}
+		submitButtonText="Create organization"
+		on:success={handleSuccess}
+	/>
+</div>
+>>>>>>> theirs
