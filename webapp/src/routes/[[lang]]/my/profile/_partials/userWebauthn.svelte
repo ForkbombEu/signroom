@@ -7,8 +7,12 @@
 	import { currentUser } from '$lib/pocketbase';
 
 	import { Collections, type WebauthnCredentialsResponse } from '$lib/pocketbase/types';
+<<<<<<< ours
 	import { CollectionManager, DeleteRecord, EditRecord, Pagination } from '$lib/collectionManager';
 	import { m } from '$lib/i18n';
+=======
+	import { CollectionManager, DeleteRecord, EditRecord } from '$lib/collectionManager';
+>>>>>>> theirs
 
 	import { InformationCircle, Plus } from 'svelte-heros-v2';
 	import { Alert, Button, Card, Heading, P, Spinner } from 'flowbite-svelte';
@@ -20,15 +24,23 @@
 	const userEmailAddress = $currentUser?.email!;
 </script>
 
+<<<<<<< ours
 <Heading tag="h6">{m.Your_devices()}</Heading>
 <P color="gray" size="sm">{m.Manage_the_devices_you_use_to_login_()}</P>
+=======
+<Heading tag="h6">Your devices</Heading>
+<P color="gray" size="sm">Manage the devices you use to login.</P>
+>>>>>>> theirs
 
 <CollectionManager
 	{recordType}
 	collection={Collections.WebauthnCredentials}
 	let:records
 	editFormSettings={{ exclude: ['user', 'credential'] }}
+<<<<<<< ours
 	hideEmptyState
+=======
+>>>>>>> theirs
 >
 	<div class="space-y-2 py-4">
 		{#each records as record}
@@ -45,14 +57,21 @@
 				</div>
 			</Card>
 		{/each}
+<<<<<<< ours
 		<Pagination />
+=======
+>>>>>>> theirs
 	</div>
 </CollectionManager>
 
 {#await platformAuthenticatorAvailable}
 	<div class="flex flex-col items-center">
 		<Spinner />
+<<<<<<< ours
 		<P>{m.Checking_your_device()}</P>
+=======
+		<P>Checking your device</P>
+>>>>>>> theirs
 	</div>
 {:then response}
 	{#if !response || !isWebauthnSupported()}
@@ -61,7 +80,12 @@
 				<InformationCircle />
 			</svelte:fragment>
 			<span>
+<<<<<<< ours
 				{m.Your_device_does_not_have_integrated_Webauthn_support_An_external_authenticator_is_required_()}
+=======
+				Your device does not have integrated Webauthn support. An external authenticator is
+				required.
+>>>>>>> theirs
 			</span>
 		</Alert>
 	{/if}
@@ -74,7 +98,11 @@
 			registerUser(userEmailAddress, navigator.userAgent);
 		}}
 	>
+<<<<<<< ours
 		<Plus size="20" class="mr-1" />
 		{m.Add_a_device()}
+=======
+		<Plus size="20" class="mr-1" /> Add a device
+>>>>>>> theirs
 	</Button>
 </div>
