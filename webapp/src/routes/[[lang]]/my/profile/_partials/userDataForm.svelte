@@ -14,7 +14,10 @@
 	import { currentUser, pb } from '$lib/pocketbase';
 	import { createEventDispatcher } from 'svelte';
 	import { z } from 'zod';
+<<<<<<< ours
 	import { m } from '$lib/i18n';
+=======
+>>>>>>> theirs
 
 	const dispatch = createEventDispatcher<{ success: undefined }>();
 
@@ -43,13 +46,21 @@
 </script>
 
 <Form {superform}>
+<<<<<<< ours
 	<Input {superform} field="name" options={{ label: m.Username() }} />
+=======
+	<Input {superform} field="name" options={{ label: 'Username' }} />
+>>>>>>> theirs
 
 	<div class="space-y-2">
 		<Input {superform} field="email" options={{ type: 'email' }} />
 
 		<Checkbox {superform} field="emailVisibility">
+<<<<<<< ours
 			<span>{m.Show_email_to_other_users()}</span>
+=======
+			<span>Show email to other users</span>
+>>>>>>> theirs
 		</Checkbox>
 	</div>
 
@@ -58,6 +69,12 @@
 	<FormError />
 
 	<div class="flex justify-end">
+<<<<<<< ours
 		<SubmitButton>{m.Update_profile()}</SubmitButton>
 	</div>
 </Form>
+=======
+		<SubmitButton>Update profile</SubmitButton>
+	</div>
+</Form>
+>>>>>>> theirs
