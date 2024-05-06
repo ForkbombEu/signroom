@@ -1,5 +1,8 @@
-/*Copied from 'ajv/dist/compile/rules' */
+import { z } from 'zod';
 
+//
+
+/*Copied from 'ajv/dist/compile/rules' */
 declare const _jsonTypes: readonly [
 	'string',
 	'number',
@@ -16,6 +19,7 @@ export type JSONType = (typeof _jsonTypes)[number];
 export interface BaseSchema<T extends JSONType> {
 	type: T;
 	description?: string;
+	title?: string;
 	enum?: unknown[];
 }
 
@@ -43,3 +47,16 @@ export type JSONSchema =
 	| BooleanSchema
 	| ObjectSchema
 	| ArraySchema;
+
+//
+
+export const objectSchemaValidator = z.custom<ObjectSchema>(
+	(value) =>
+		z
+			.object({
+				type: z.literal('object'),
+				properties: z.record(z.string(), z.unknown()),
+				required: z.array(z.string()).optional()
+			})
+			.safeParse(value).success
+);

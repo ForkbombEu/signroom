@@ -88,6 +88,7 @@ func main() {
 					EddsaPublicKey:   authRecord.Get("eddsa_public_key").(string),
 					EthereumAddress:  authRecord.Get("ethereum_address").(string),
 					ReflowPublicKey:  authRecord.Get("reflow_public_key").(string),
+					Es256PublicKey:   authRecord.Get("es256_public_key").(string),
 				})
 				if err != nil {
 					return err

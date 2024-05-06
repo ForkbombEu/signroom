@@ -6,15 +6,12 @@
 	export let id = 'submit';
 	export let color: ComponentProps<Button>['color'] = 'primary';
 
-	let className = '';
-	export { className as class };
-
 	const { superform } = getFormContext();
 	const { allErrors } = superform;
 
 	$: hasErrors = formHasErrors($allErrors);
 </script>
 
-<Button class={className} {id} {color} type="submit" disabled={hasErrors}>
+<Button {id} {color} type="submit" disabled={hasErrors}>
 	<slot />
 </Button>

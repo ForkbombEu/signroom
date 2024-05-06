@@ -2,9 +2,11 @@
 	import { goto } from '$lib/i18n';
 	import { pb } from '$lib/pocketbase';
 	import { Collections } from '$lib/pocketbase/types';
+	import { A } from 'flowbite-svelte';
 	import { Form, createForm, FormError, SubmitButton, Input } from '$lib/forms';
 	import { z } from 'zod';
 	import { currentEmail } from './+layout.svelte';
+	import { m } from '$lib/i18n';
 
 	const schema = z.object({
 		email: z.string().email(),
@@ -36,8 +38,8 @@
 		options={{
 			id: 'email',
 			type: 'email',
-			label: 'Your email',
-			placeholder: 'name@foundation.org'
+			label: m.Your_email(),
+			placeholder: m.namefoundation_org()
 		}}
 	/>
 
@@ -47,14 +49,18 @@
 		options={{
 			id: 'password',
 			type: 'password',
-			label: 'Your password',
+			label: m.Your_password(),
 			placeholder: '•••••'
 		}}
-	/>
+	>
+		<svelte:fragment slot="labelRight">
+			<A href="/forgot-password">{m.Forgot_password()}</A>
+		</svelte:fragment>
+	</Input>
 
 	<FormError />
 
 	<div class="flex justify-end">
-		<SubmitButton>Log in</SubmitButton>
+		<SubmitButton>{m.Log_in()}</SubmitButton>
 	</div>
 </Form>

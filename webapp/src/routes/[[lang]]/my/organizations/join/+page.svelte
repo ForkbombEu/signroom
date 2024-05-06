@@ -8,8 +8,16 @@
 		type OrgJoinRequestsRecord,
 		type OrganizationsResponse
 	} from '$lib/pocketbase/types.js';
-	import clsx from 'clsx';
-	import { A, Avatar, Button, Heading, Modal, P } from 'flowbite-svelte';
+	import { m } from '$lib/i18n';
+	import { Avatar, Button, Modal, P } from 'flowbite-svelte';
+	import PageTop from '$lib/components/pageTop.svelte';
+	import Icon from '$lib/components/icon.svelte';
+	import { ArrowLeft, UserGroup, UserPlus } from 'svelte-heros-v2';
+	import SectionTitle from '$lib/components/sectionTitle.svelte';
+	import PageContent from '$lib/components/pageContent.svelte';
+	import PageCard from '$lib/components/pageCard.svelte';
+	import EmptyState from '$lib/components/emptyState.svelte';
+	import PlainCard from '$lib/components/plainCard.svelte';
 
 	//
 
@@ -40,51 +48,70 @@
 	}
 </script>
 
-<div class="space-y-8">
-	<A href="/my/organizations">← My organizations</A>
-	<Heading tag="h4">Join an organization</Heading>
-	<div class="space-y-6">
-		{#each organizations as org}
-			{@const avatarUrl = pb.files.getUrl(org, org.avatar)}
-			{@const hasDescription = Boolean(org.description)}
-			{@const containerClass = clsx('flex space-x-4', { 'items-center': !hasDescription })}
-			<div class={containerClass}>
-				<Avatar src={avatarUrl} size="md" class="shrink-0" />
-				<div class="grow">
-					<P weight="bold">{org.name}</P>
-					<div class="text-gray-400 text-sm line-clamp-2 grow">
-						{#if hasDescription}
-							{@html org.description}
-						{/if}
-					</div>
-				</div>
-				<div class="pl-8 shrink-0 self-start">
-					{#if !isRequestAlreadySent(org)}
-						<Button
-							color="alternative"
-							on:click={() => {
-								selectOrganization(org);
-							}}
-						>
-							Join
-						</Button>
-					{:else}
-						<Button color="alternative" disabled>Request sent</Button>
-					{/if}
-				</div>
+<PageTop>
+	<Button href="/my/organizations" outline size="xs">
+		<Icon src={ArrowLeft} mr></Icon>
+		{m.Back_to_my_organizations()}
+	</Button>
+
+	<SectionTitle title={m.Join_an_organization()} hideLine></SectionTitle>
+</PageTop>
+
+<PageContent>
+	<PageCard>
+		{#if data.organizations.length == 0}
+			<EmptyState title={m.No_available_organizations_found()} icon={UserGroup} />
+		{:else}
+			<div class="space-y-4">
+				{#each organizations as org}
+					{@const avatarUrl = pb.files.getUrl(org, org.avatar)}
+					{@const hasDescription = Boolean(org.description)}
+
+					<PlainCard let:Title let:Description>
+						<div class="flex gap-4 items-center">
+							<Avatar src={avatarUrl} size="md" class="shrink-0" />
+							<div>
+								<Title>{org.name}</Title>
+								{#if hasDescription}
+									<Description>
+										<span class="line-clamp-2">
+											{@html org.description}
+										</span>
+									</Description>
+								{/if}
+							</div>
+						</div>
+
+						<div slot="right" class="pl-8 shrink-0 self-start">
+							{#if !isRequestAlreadySent(org)}
+								<Button
+									outline
+									on:click={() => {
+										selectOrganization(org);
+									}}
+								>
+									{m.Join()}
+									<Icon src={UserPlus} ml></Icon>
+								</Button>
+							{:else}
+								<Button color="alternative" disabled>{m.Request_sent()}</Button>
+							{/if}
+						</div>
+					</PlainCard>
+				{/each}
 			</div>
-		{/each}
-	</div>
-</div>
+		{/if}
+	</PageCard>
+</PageContent>
 
 <PortalWrapper>
 	<Modal
-		title={`Send a request to ${selectedOrganization?.name}`}
+		title={`${m.Send_a_request_to()} ${selectedOrganization?.name}`}
 		open={Boolean(selectedOrganization)}
 	>
-		<P>Please confirm that you want to join this organization.</P>
+		<P>{m.Please_confirm_that_you_want_to_join_this_organization_()}</P>
 		<div class="flex justify-end">
-			<Button on:click={sendJoinRequest}>Send join request</Button>
+			<Button on:click={sendJoinRequest}>{m.Send_join_request()}</Button>
 		</div>
 	</Modal>
 </PortalWrapper>

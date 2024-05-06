@@ -27,6 +27,7 @@
 </script>
 
 <FieldWrapper {field} label={options.label} helpText={options.helpText}>
+	<slot slot="labelRight" name="labelRight" />
 	<Input
 		{...options}
 		{type}

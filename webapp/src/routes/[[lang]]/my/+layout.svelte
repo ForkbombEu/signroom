@@ -1,36 +1,46 @@
 <script lang="ts">
 	import { currentUser } from '$lib/pocketbase';
-	import { goto } from '$lib/i18n';
 
 	import {
 		UIShell,
 		Sidebar,
-		Topbar,
-		HamburgerButton,
-		AvatarMenu,
 		Logo,
 		SidebarLinks,
 		MainContent,
-		SidebarCloseButton
+		SidebarCloseButton,
+		Topbar,
+		HamburgerButton
 	} from '$lib/layout';
 	import {
+		Dropdown,
 		DropdownDivider,
 		DropdownHeader,
 		DropdownItem,
-		Heading,
 		Hr,
-		P,
-		SidebarCta,
-		SidebarGroup,
-		SidebarItem
+		SidebarDropdownWrapper,
+		SidebarGroup
 	} from 'flowbite-svelte';
-	import DIDButton from '$lib/components/DIDButton.svelte';
-	import { Fire, Lifebuoy, UserCircle, WrenchScrewdriver } from 'svelte-heros-v2';
-	import { createSidebarLinks } from './_partials/sidebarLinks';
-	import { createOrganizationLinks } from './_partials/organizationLinks';
-	import { OrgRoles } from '$lib/rbac';
-	import LanguageSwitcher from '$lib/i18n/languageSwitcher.svelte';
+	import {
+		ArrowLeftStartOnRectangle,
+		CheckCircle,
+		Fire,
+		Home,
+		InboxArrowDown,
+		QuestionMarkCircle,
+		RectangleStack,
+		User,
+		Users,
+		EllipsisHorizontal
+	} from 'svelte-heros-v2';
+	import { createOrganizationSidebarLinks } from '$lib/utils/organizations.js';
+	import { OrgRoles, getUserRole } from '$lib/rbac';
 	import { m } from '$lib/i18n';
+	import UserAvatar from '$lib/components/userAvatar.svelte';
+	import { getUserDisplayName } from '$lib/utils/pb';
+	import Icon from '$lib/components/icon.svelte';
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
+	import LanguageSwitcher from '$lib/i18n/languageSwitcher.svelte';
 
 	//
 
@@ -41,116 +51,191 @@
 </script>
 
 <UIShell {sidebarLayoutBreakpoint}>
-	<Topbar slot="top" let:sidebarLayoutMode>
-		<svelte:fragment slot="left">
-			<div class="flex space-x-2">
-				<HamburgerButton />
-				{#if sidebarLayoutMode == 'default'}
-					<Logo />
-				{/if}
-			</div>
-		</svelte:fragment>
-		<svelte:fragment slot="center">
-			<div class="flex items-center">
-				<div>
-					<span class="whitespace-nowrap">
-						{m.hello()}, <span class="font-semibold text-primary-600">{$currentUser?.email}</span>
-					</span>
-				</div>
-				<div class="shrink-0">
-					<DIDButton />
-				</div>
-			</div>
-		</svelte:fragment>
-		<svelte:fragment slot="right">
-			<div class="mr-3">
-				<LanguageSwitcher />
-			</div>
-			<AvatarMenu>
-				<DropdownHeader>
-					<span class="block truncate text-xs font-medium text-gray-500">
-						{$currentUser?.email}
-					</span>
-				</DropdownHeader>
-				<DropdownItem href="/my/profile">My profile</DropdownItem>
-				<DropdownDivider />
-				<DropdownItem href="/pro" class="flex items-center">
-					<Fire class="text-red-500 mr-2 w-5" /> Go Pro</DropdownItem
-				>
-				<DropdownDivider />
-				<DropdownItem on:click={() => goto('/my/logout')} class="text-primary-600">
-					Sign out
-				</DropdownItem>
-			</AvatarMenu>
-		</svelte:fragment>
-	</Topbar>
+	<svelte:fragment slot="top" let:sidebarLayoutMode>
+		{#if sidebarLayoutMode == 'drawer'}
+			<Topbar>
+				<svelte:fragment slot="left">
+					<div class="flex space-x-2">
+						<Logo />
+					</div>
+				</svelte:fragment>
+				<svelte:fragment slot="center">
+					<div class="flex items-center">
+						{#if $currentUser}
+							<span class="whitespace-nowrap">
+								{m.hello()},
+								<span class="font-semibold text-primary-600">
+									{getUserDisplayName($currentUser)}
+								</span>
+							</span>
+						{/if}
+					</div>
+				</svelte:fragment>
+				<svelte:fragment slot="right">
+					<HamburgerButton />
+				</svelte:fragment>
+			</Topbar>
+		{/if}
+	</svelte:fragment>
 
-	<Sidebar>
+	<Sidebar darkMode>
 		<svelte:fragment slot="top">
-			<div class="flex items-center p-3">
+			<div class="flex items-center py-2.5 px-3 justify-between border-b border-gray-600">
 				<Logo />
 				<SidebarCloseButton />
 			</div>
 		</svelte:fragment>
 
 		<div class="space-y-0">
-			<div class="p-3">
-				<SidebarLinks links={createSidebarLinks(m)} />
-			</div>
-			{#if authorizations}
-				{@const links = authorizations.flatMap((a) => {
-					const userRole = a.expand.role.name;
-					const isOwner = userRole == OrgRoles.OWNER;
-					const isAdmin = userRole == OrgRoles.ADMIN;
-					return createOrganizationLinks(a.expand.organization, isAdmin || isOwner);
-				})}
-				<Hr />
-				<p class="text-gray-500 text-xs font-medium tracking-wide p-4">ORGANIZATIONS</p>
-				<div class="p-3 pt-0">
-					<SidebarLinks {links} />
+			<SidebarGroup>
+				<div class="p-3">
+					<SidebarLinks
+						links={[
+							{
+								text: m.Home(),
+								href: '/my',
+								icon: Home
+							},
+							{
+								text: m.notifications(),
+								icon: InboxArrowDown,
+								href: '/my/notifications',
+								disabled: true
+							}
+						]}
+					/>
 				</div>
-			{/if}
+			</SidebarGroup>
+
+			<Hr />
+
+			<p class="text-gray-500 text-xs font-medium tracking-wide p-4 uppercase">
+				{m.signatures()}
+			</p>
+
+			<SidebarGroup>
+				<div class="p-3 pt-0">
+					<SidebarLinks
+						links={[
+							{
+								text: m.my_signatures(),
+								href: '/my/signatures',
+								icon: RectangleStack
+							},
+							{
+								text: m.multisignatures(),
+								disabled: true,
+								href: '/my/multisignatures',
+								icon: Users
+							},
+							{
+								text: m.validate_signatures(),
+								href: '/my/validate',
+								icon: CheckCircle
+							}
+						]}
+					/>
+				</div>
+			</SidebarGroup>
+
+			<Hr />
+
+			<p class="text-gray-500 text-xs font-medium tracking-wide p-4 uppercase">
+				{m.organizations()}
+			</p>
+
+			<SidebarGroup>
+				<div class="p-3 pt-0 space-y-2">
+					<SidebarLinks
+						links={[
+							{
+								text: m.My_organizations(),
+								href: '/my/organizations',
+								icon: RectangleStack
+							}
+						]}
+					/>
+
+					{#if authorizations}
+						{#each authorizations as authorization}
+							{@const organization = authorization.expand.organization}
+							{@const organizationId = organization.id}
+							{@const userId = $currentUser?.id ?? ''}
+							{#await getUserRole(organizationId, userId) then userRole}
+								{@const links = createOrganizationSidebarLinks(organization, m, userRole)}
+								<SidebarLinks {links} />
+							{/await}
+						{/each}
+					{/if}
+				</div>
+			</SidebarGroup>
 		</div>
 
 		<svelte:fragment slot="bottom">
-			<SidebarGroup class="px-2">
-				<!-- <SidebarCta label="Beta">
-					<p class="mb-3 text-sm text-blue-900 dark:text-blue-400">
-						You are one of the lucky few to try Signroom and all of its feature offerings first
-						before anyone else.
-					</p>
-					<a
-						class="text-sm text-blue-900 underline hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-						href="https://github.com/ForkbombEu/signroom"
-					>
-						Please provide us feedbacks and suggestions for how to make it better.
-					</a>
-				</SidebarCta> -->
-				<SidebarItem
-					label="Settings"
-					href="/my/settings"
-					class="opacity-20 hover:bg-transparent cursor-default"
-				>
-					<svelte:fragment slot="icon">
-						<WrenchScrewdriver />
-					</svelte:fragment>
-				</SidebarItem>
-				<SidebarItem label="Profile" href="/my/profile">
-					<svelte:fragment slot="icon">
-						<UserCircle />
-					</svelte:fragment>
-				</SidebarItem>
-				<SidebarItem label="Help" class="opacity-20 hover:bg-transparent cursor-default">
-					<svelte:fragment slot="icon">
-						<Lifebuoy />
-					</svelte:fragment>
-				</SidebarItem>
-			</SidebarGroup></svelte:fragment
-		>
+			<SidebarGroup>
+				<SidebarLinks
+					links={[
+						{
+							text: 'Help',
+							icon: QuestionMarkCircle,
+							href: 'https://forkbombeu.github.io/DIDroom/intro.html'
+						}
+					]}
+				/>
+
+				<LanguageSwitcher />
+
+				{#if $currentUser}
+					{@const id = 'menu-trigger'}
+					{@const idSelector = `#${id}`}
+					<SidebarDropdownWrapper label={getUserDisplayName($currentUser)} ulClass="hidden" {id}>
+						<svelte:fragment slot="icon">
+							<UserAvatar size="sm" />
+						</svelte:fragment>
+
+						<svelte:fragment slot="arrowdown">
+							<EllipsisHorizontal />
+						</svelte:fragment>
+						<svelte:fragment slot="arrowup">
+							<EllipsisHorizontal />
+						</svelte:fragment>
+					</SidebarDropdownWrapper>
+
+					<Dropdown triggeredBy={idSelector} class="w-[215px]">
+						<DropdownHeader>
+							<span class="block truncate text-xs font-medium text-gray-500">
+								{getUserDisplayName($currentUser)}
+							</span>
+						</DropdownHeader>
+						<DropdownItem href="/my/profile" class="flex">
+							<Icon src={User} mr />
+							{m.My_profile()}
+						</DropdownItem>
+
+						<DropdownDivider />
+
+						<DropdownItem href="/" class="flex cursor-default pointer-events-none opacity-30">
+							<Icon src={Fire} mr class="dark:text-red-400 text-red-700" />
+							{m.Go_Pro()}
+						</DropdownItem>
+
+						<DropdownDivider />
+
+						<DropdownItem
+							on:click={() => goto('/my/logout')}
+							class="flex dark:text-red-400 text-red-700"
+						>
+							<Icon src={ArrowLeftStartOnRectangle} mr />
+							{m.Sign_out()}
+						</DropdownItem>
+					</Dropdown>
+				{/if}
+			</SidebarGroup>
+		</svelte:fragment>
 	</Sidebar>
 
 	<MainContent>
-		<div class="p-8 bg-slate-100 bg-[url('/bg.png')] bg-cover min-h-screen overflow-auto">
+		<div class="bg-[url('/bg.png')] bg-cover min-h-screen overflow-auto">
 			<slot />
 		</div>
 	</MainContent>

@@ -17,7 +17,10 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			'@api': './src/routes/api',
-			$paraglide: "./src/paraglide",
+			$paraglide: './src/paraglide'
+		},
+		version: {
+			name: process.env.npm_package_version
 		}
 	}
 };

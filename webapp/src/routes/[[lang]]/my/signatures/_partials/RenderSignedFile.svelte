@@ -5,6 +5,7 @@
 	import RenderPades from './RenderPades.svelte';
 	import { SignaturesTypeOptions } from '$lib/pocketbase/types';
 	import type { SignedFile } from './Files.svelte';
+	import { m } from '$lib/i18n';
 
 	export let type: SignaturesTypeOptions = SignaturesTypeOptions.xades;
 	export let signedFile: SignedFile;
@@ -31,7 +32,7 @@
 
 <div class="flex flex-col gap-8 justify-end">
 	<div class={`flex justify-${leftButton ? 'start' : 'end'}`}>
-		<Button color="primary" on:click={validate}>Validate signature</Button>
+		<Button color="primary" on:click={validate}>{m.Validate_signature()}</Button>
 	</div>
 	<Accordion>
 		<AccordionItem open={!result}>

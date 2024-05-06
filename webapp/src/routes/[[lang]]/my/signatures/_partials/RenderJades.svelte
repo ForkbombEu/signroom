@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Hr } from 'flowbite-svelte';
+	import { m } from '$lib/i18n';
 	export let file: string;
 	let jadesArray = atob(file).split('.');
 </script>
@@ -10,13 +11,7 @@
 			null,
 			2
 		)}
-        <!-- The second element of the array is the file content in base64url -->
-		<!-- <Hr />{JSON.stringify(
-					JSON.parse(atob(jadesArray[1].replace(/_/g, '/').replace(/-/g, '+'))),
-					null,
-					2
-				)} -->
 		<Hr />
 	</pre>
-	Signature: {jadesArray[2]}
+	{m.Signature()} {jadesArray[2]}
 </div>

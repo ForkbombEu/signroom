@@ -6,7 +6,8 @@ export const load = async ({ params, fetch }) => {
 	const organization = await pb
 		.collection(Collections.Organizations)
 		.getOne<OrganizationsResponse>(organizationId, {
-			fetch
+			fetch,
+			requestKey: null
 		});
 
 	return { organization };

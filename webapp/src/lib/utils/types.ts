@@ -12,12 +12,16 @@ export type StringKeys<T> = Extract<keyof T, string>;
 
 /* Components */
 
-export type Link = {
+export type IconComponent = typeof XCircle;
+
+export interface Link {
 	href: string;
 	text: string;
-};
+}
 
-export type IconComponent = typeof XCircle;
+export interface LinkWithIcon extends Link {
+	icon?: IconComponent;
+}
 
 /* Pocketbase generics */
 

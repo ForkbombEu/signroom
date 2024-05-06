@@ -69,6 +69,8 @@
 	export let createFormSettings: Partial<FieldsSettings<RecordGeneric>> = {};
 	export let editFormSettings: Partial<FieldsSettings<RecordGeneric>> = {};
 
+	export let hideEmptyState = false;
+
 	export let initialQueryParams: RecordFullListOptions = {};
 	export let subscribe: string[] = [];
 
@@ -195,6 +197,12 @@
 	</div>
 {:then}
 	<slot {records} {loadRecords} />
+
+	{#if records.length === 0 && !hideEmptyState}
+		<slot name="emptyState">
+			<CollectionEmptyState />
+		</slot>
+	{/if}
 {:catch}
 	<CollectionEmptyState
 		icon={ExclamationTriangle}

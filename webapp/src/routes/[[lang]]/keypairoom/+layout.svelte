@@ -3,6 +3,7 @@
 	import { currentUser } from '$lib/pocketbase';
 	import DIDButton from '$lib/components/DIDButton.svelte';
 	import UserAvatar from '$lib/components/userAvatar.svelte';
+	import { m } from '$lib/i18n';
 </script>
 
 <Topbar>
@@ -10,7 +11,7 @@
 	<div class="flex items-center" slot="center">
 		<div>
 			<span class="whitespace-nowrap">
-				Hello, <span class="font-semibold">{$currentUser?.email}</span>
+				{m.Hello()} <span class="font-semibold">{$currentUser?.email}</span>
 			</span>
 		</div>
 		<div class="shrink-0">

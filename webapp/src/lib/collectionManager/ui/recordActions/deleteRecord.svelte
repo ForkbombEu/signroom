@@ -10,6 +10,8 @@
 	type RecordGeneric = $$Generic<PBResponse>;
 	export let record: RecordGeneric;
 
+	export let modalTitle = 'Delete record';
+
 	const { dataManager } = getRecordsManagerContext();
 	const { loadRecords, recordService } = dataManager;
 
@@ -20,20 +22,20 @@
 	}
 
 	let open = false;
+
+	function openModal() {
+		open = true;
+	}
 </script>
 
-<Button
-	class="!p-2"
-	color="alternative"
-	on:click={() => {
-		open = true;
-	}}
->
-	<Trash size="20" />
-</Button>
+<slot {openModal}>
+	<Button class="!p-2" color="alternative" on:click={openModal}>
+		<Trash size="20" />
+	</Button>
+</slot>
 
 <PortalWrapper>
-	<Modal bind:open title="Delete record" size="xs">
+	<Modal bind:open title={modalTitle} size="xs">
 		<div class="text-center space-y-6">
 			<P>Are you sure you want to delete this record?</P>
 			<div class="flex gap-2 justify-center">
