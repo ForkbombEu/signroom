@@ -359,5 +359,7 @@
 	"You_can_now_close_this_page": "You can now close this page.",
 	"Go_to_login": "Go to login",
 	"Passwords_do_not_match": "Passwords do not match",
-	"Error": "Error"
+	"Error": "Error",
+	"View_seals": "View seals",
+	"Create_a_new_multisignature": "Create a new multisignature"
 }

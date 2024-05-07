@@ -10,32 +10,48 @@
 
 	import { Eye, Plus } from 'svelte-heros-v2';
 	import { Button, Heading } from 'flowbite-svelte';
-	import Card from '$lib/components/card.svelte';
+	import PageCard from '$lib/components/pageCard.svelte';
+	import PageContent from '$lib/components/pageContent.svelte';
+	import PageTop from '$lib/components/pageTop.svelte';
+	import SectionTitle from '$lib/components/sectionTitle.svelte';
+	import { m } from '$lib/i18n';
 
 	//
 
 	const recordType = createTypeProp<MultisignaturesResponse>();
 </script>
 
-<Card>
-	<CollectionManager {recordType} collection={Collections.Multisignatures} let:records>
-		<CollectionManagerHeader hideCreateButton>
-			<svelte:fragment slot="title">
-				<Heading tag="h4">Multisignatures</Heading>
-			</svelte:fragment>
-			<svelte:fragment slot="actions">
-				<Button color="alternative" href="/my/multisignatures/seals">
-					<Eye /><span class="ml-2">View seals</span>
-				</Button>
-				<Button href="/my/multisignatures/create">
-					<Plus /><span>Create a new multisignature</span>
-				</Button>
-			</svelte:fragment>
-		</CollectionManagerHeader>
-		<CollectionTable {records}>
-			<svelte:fragment slot="emptyState">
-				<CollectionEmptyState hideCreateButton />
-			</svelte:fragment>
-		</CollectionTable>
-	</CollectionManager>
-</Card>
+<PageTop>
+	<SectionTitle title={m.multisignatures()}></SectionTitle>
+</PageTop>
+
+<PageContent>
+	<PageCard>
+		<CollectionManager
+			{recordType}
+			collection={Collections.Multisignatures}
+			let:records
+			hideEmptyState
+		>
+			<CollectionManagerHeader hideCreateButton>
+				<svelte:fragment slot="title">
+					<Heading tag="h4">{m.multisignatures()}</Heading>
+				</svelte:fragment>
+				<svelte:fragment slot="actions">
+					<Button color="alternative" href="/my/multisignatures/seals">
+						<Eye /><span class="ml-2">{m.View_seals()}</span>
+					</Button>
+					<Button href="/my/multisignatures/create">
+						<Plus /><span>{m.Create_a_new_multisignature()}</span>
+					</Button>
+				</svelte:fragment>
+			</CollectionManagerHeader>
+
+			<CollectionTable {records}>
+				<svelte:fragment slot="emptyState">
+					<CollectionEmptyState hideCreateButton />
+				</svelte:fragment>
+			</CollectionTable>
+		</CollectionManager>
+	</PageCard>
+</PageContent>
