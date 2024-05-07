@@ -63,14 +63,9 @@ export function resetMultisignatureFormData() {
 //
 
 export async function createMultisignatureAndSeals(data: MultisignatureFormData) {
-	return pipe(
-		Effect.gen(function* () {
-			const multisignature = yield* createMultisignature(data);
-			yield* createMultisignatureSeals(multisignature.id, data);
-			return multisignature;
-		}),
-		Effect.runPromise
-	);
+	const multisignature = await Effect.runPromise(createMultisignature(data));
+	await Effect.runPromise(createMultisignatureSeals(multisignature.id, data));
+	return multisignature;
 }
 
 function createMultisignature(data: MultisignatureFormData) {
