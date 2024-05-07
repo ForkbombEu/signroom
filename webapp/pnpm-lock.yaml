@@ -77,6 +77,9 @@ dependencies:
   svelte-heros:
     specifier: ^5.1.0
     version: 5.1.0(svelte@4.2.0)
+  svelte-persisted-store:
+    specifier: ^0.9.1
+    version: 0.9.2(svelte@4.2.0)
   xml-formatter:
     specifier: ^3.5.0
     version: 3.5.0
@@ -4112,6 +4115,15 @@ packages:
       svelte: ^3.19.0 || ^4.0.0
     dependencies:
       svelte: 4.2.0
+
+  /svelte-persisted-store@0.9.2(svelte@4.2.0):
+    resolution: {integrity: sha512-jp7W98yMgBhgz5fWnjZBCmCX89Rse13iqVpjK+1ByS6iYkvW9WT+F2vwsep3f0Zy/tnGYbb8MI+9Vx7W0NQsPg==}
+    engines: {node: '>=0.14'}
+    peerDependencies:
+      svelte: ^3.48.0 || ^4.0.0 || ^5.0.0-next.0
+    dependencies:
+      svelte: 4.2.0
+    dev: false
 
   /svelte-preprocess@5.0.4(postcss-load-config@4.0.1)(postcss@8.4.29)(svelte@4.2.0)(typescript@5.2.2):
     resolution: {integrity: sha512-ABia2QegosxOGsVlsSBJvoWeXy1wUKSfF7SWJdTjLAbx/Y3SrVevvvbFNQqrSJw89+lNSsM58SipmZJ5SRi5iw==}
