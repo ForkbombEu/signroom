@@ -3,7 +3,8 @@
 		multisignatureFormDataSchema,
 		multisignatureFormData,
 		createMultisignatureAndSeals,
-		type MultisignatureFormData
+		type MultisignatureFormData,
+		resetMultisignatureFormData
 	} from '../logic';
 	import { Form, createForm, SubmitButton, FormError } from '$lib/forms';
 	import { currentUser, pb } from '$lib/pocketbase';
@@ -25,19 +26,32 @@
 
 	//
 
-	$: userId = $currentUser!.id;
-	$: $multisignatureFormData.owner = userId;
+	$: addCurrentUserAsOwner($currentUser);
 
 	const superform = createForm(
 		multisignatureFormDataSchema,
 		async ({ form }) => {
-			let participants = form.data.participants;
-			if (!participants.includes(userId)) participants.push(userId);
-			let data: MultisignatureFormData = { ...form.data, participants };
+			let data = addMultisignatureOwnerToParticipants(form.data);
 			await createMultisignatureAndSeals(data);
+			resetMultisignatureFormData();
 		},
 		$multisignatureFormData
 	);
+
+	function addCurrentUserAsOwner(user: typeof $currentUser) {
+		$multisignatureFormData.owner = user?.id ?? '';
+	}
+
+	function addMultisignatureOwnerToParticipants(
+		data: MultisignatureFormData
+	): MultisignatureFormData {
+		let participants = data.participants;
+		let userId = data.owner;
+		if (!participants.includes(userId)) participants.push(userId);
+		return { ...data, participants };
+	}
+
+	//
 
 	function getOwner() {
 		return pb.collection(Collections.Users).getOne<UsersResponse>($currentUser!.id);

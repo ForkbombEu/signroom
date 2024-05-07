@@ -42,14 +42,23 @@ export const multisignatureFormDataSchema = setupSchema
 
 export type MultisignatureFormData = z.infer<typeof multisignatureFormDataSchema>;
 
-export const multisignatureFormData = persisted<MultisignatureFormData>('multisignatureFormData', {
+const defaultMultisignatureFormData: MultisignatureFormData = {
 	name: '',
 	credentialIssuer: '',
 	contentJSON: '',
 	sealExpirationDate: '',
 	participants: [],
 	owner: ''
-});
+};
+
+export const multisignatureFormData = persisted<MultisignatureFormData>(
+	'multisignatureFormData',
+	defaultMultisignatureFormData
+);
+
+export function resetMultisignatureFormData() {
+	multisignatureFormData.set(defaultMultisignatureFormData);
+}
 
 //
 
