@@ -13,7 +13,7 @@
 
 	{#if image}
 		<img
-			class="border border-gray-200 bg-gray-100 h-[120px] w-full object-cover rounded-lg overflow-hidden"
+			class="border border-gray-200 bg-gray-100 h-[150px] w-full object-cover rounded-lg overflow-hidden"
 			src={image}
 			alt={imageAlt}
 		/>
