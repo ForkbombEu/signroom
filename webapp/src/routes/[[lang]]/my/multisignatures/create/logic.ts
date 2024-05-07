@@ -12,7 +12,7 @@ import { pb } from '$lib/pocketbase';
 import type { ClientResponseError } from 'pocketbase';
 
 import { Effect, pipe } from 'effect';
-import { Array as A } from 'effect';
+import * as A from 'effect/Array';
 
 //
 
