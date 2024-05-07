@@ -43,7 +43,7 @@
 </PageTop>
 
 <Form {superform} className="space-y-0 space-x-0">
-	<PageContent class="flex gap-8 items-start !space-y-0">
+	<PageContent layout="horizontal">
 		<div class="space-y-8 grow">
 			<PageCard>
 				<SectionTitle tag="h5" title="Name" />

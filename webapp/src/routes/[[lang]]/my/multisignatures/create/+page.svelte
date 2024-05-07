@@ -18,7 +18,7 @@
 	/>
 </PageTop>
 
-<PageContent class="flex items-start gap-8 !space-y-0">
+<PageContent layout="horizontal">
 	<PageCard class="grow">
 		<SectionTitle
 			tag="h5"

@@ -23,6 +23,7 @@
 	import PageTop from '$lib/components/pageTop.svelte';
 	import PageContent from '$lib/components/pageContent.svelte';
 	import PageCard from '$lib/components/pageCard.svelte';
+	import { goto } from '$lib/i18n';
 
 	//
 
@@ -31,12 +32,16 @@
 	const superform = createForm(
 		multisignatureFormDataSchema,
 		async ({ form }) => {
-			let data = addMultisignatureOwnerToParticipants(form.data);
-			await createMultisignatureAndSeals(data);
+			const data = addMultisignatureOwnerToParticipants(form.data);
+			const multisignature = await createMultisignatureAndSeals(data);
 			resetMultisignatureFormData();
+			await signOwnerSeal();
+			await goto(`/my/multisignatures/${multisignature.id}`);
 		},
 		$multisignatureFormData
 	);
+
+	// Data operations
 
 	function addCurrentUserAsOwner(user: typeof $currentUser) {
 		$multisignatureFormData.owner = user?.id ?? '';
@@ -51,7 +56,13 @@
 		return { ...data, participants };
 	}
 
-	//
+	// Signature operations
+
+	async function signOwnerSeal() {
+		// TODO
+	}
+
+	// Display operations
 
 	function getOwner() {
 		return pb.collection(Collections.Users).getOne<UsersResponse>($currentUser!.id);
@@ -76,7 +87,7 @@
 	/>
 </PageTop>
 
-<PageContent class="flex !space-y-0 items-start gap-8">
+<PageContent layout="horizontal">
 	<PageCard class="p-6 space-y-5 grow">
 		<SectionTitle tag="h5" title="Multisignature details" />
 

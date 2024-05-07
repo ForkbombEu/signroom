@@ -12,7 +12,7 @@ import { pb } from '$lib/pocketbase';
 import type { ClientResponseError } from 'pocketbase';
 
 import { Effect, pipe } from 'effect';
-import * as A from 'effect/ReadonlyArray';
+import * as A from 'effect/Array';
 
 //
 
@@ -63,11 +63,9 @@ export function resetMultisignatureFormData() {
 //
 
 export async function createMultisignatureAndSeals(data: MultisignatureFormData) {
-	await pipe(
-		createMultisignature(data),
-		Effect.flatMap((multisignature) => createMultisignatureSeals(multisignature.id, data)),
-		Effect.runPromise
-	);
+	const multisignature = await Effect.runPromise(createMultisignature(data));
+	await Effect.runPromise(createMultisignatureSeals(multisignature.id, data));
+	return multisignature;
 }
 
 function createMultisignature(data: MultisignatureFormData) {
