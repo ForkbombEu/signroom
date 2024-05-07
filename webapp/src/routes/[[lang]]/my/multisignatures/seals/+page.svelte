@@ -18,7 +18,12 @@
 </script>
 
 <Card>
-	<CollectionManager {recordType} collection={Collections.MultisignatureSeals} let:records>
+	<CollectionManager
+		{recordType}
+		collection={Collections.MultisignatureSeals}
+		let:records
+		hideEmptyState
+	>
 		<CollectionManagerHeader hideCreateButton>
 			<svelte:fragment slot="title">
 				<Heading tag="h4">Multisignatures Seals</Heading>
