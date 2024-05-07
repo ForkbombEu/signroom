@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Heading } from 'flowbite-svelte';
-	import Card from './card.svelte';
+	import PageCard from './pageCard.svelte';
+	import SectionTitle from './sectionTitle.svelte';
 
 	export let title: string;
 	export let description: string | undefined = undefined;
@@ -8,7 +8,7 @@
 	export let imageAlt = '';
 </script>
 
-<Card class="p-6 w-[300px] shrink-0 space-y-7">
+<PageCard class="max-w-[350px] shrink-0 !p-5 !space-y-6">
 	<slot name="top" />
 
 	{#if image}
@@ -19,14 +19,7 @@
 		/>
 	{/if}
 
-	<div class="space-y-2">
-		<Heading tag="h6">{title}</Heading>
-		{#if description || $$slots.description}
-			<slot name="description">
-				<p>{description}</p>
-			</slot>
-		{/if}
-	</div>
+	<SectionTitle tag="h6" {title} {description} hideLine></SectionTitle>
 
 	<slot name="bottom" />
-</Card>
+</PageCard>

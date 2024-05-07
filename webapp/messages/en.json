@@ -361,5 +361,14 @@
 	"Passwords_do_not_match": "Passwords do not match",
 	"Error": "Error",
 	"View_seals": "View seals",
-	"Create_a_new_multisignature": "Create a new multisignature"
+	"Create_a_new_multisignature": "Create a new multisignature",
+	"create_a_new_multisignature_description": "The Reflow multisignature employs homomorphic cryptography, allowing invited participants to cryptographically sign a data object. Our cryptographic flow prioritizes privacy-by-design and GDPR compliance.",
+	"Requirements_for_multisignature_creation": "Requirements for multisignature creation",
+	"Before_proceeding_ensure_you_have_the_following_": "Before proceeding, ensure you have the following:",
+	"Coconut_issuer": "Coconut issuer",
+	"coconut_issuer_description": "An entity responsible for issuing Coconut credentials is required for multi-signature.",
+	"Participant_account_and_did": "Participant Account and DID",
+	"participant_account_and_did_description": "Users must have already an account and DID on the platform to be invited to sign.",
+	"Multisignature_setup": "Multisignature setup",
+	"multisignature_setup_description": "Successful completion of the multisignature process requires signatures from all participants"
 }
