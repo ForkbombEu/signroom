@@ -25,15 +25,12 @@
 
 	const superform = createForm(
 		setupSchema,
-		() => goto('/my/multisignatures/create/participants'),
-		$multisignatureFormData,
-		{
-			validationMethod: 'onblur'
-		}
+		async ({ form }) => {
+			multisignatureFormData.update((data) => ({ ...data, ...form.data }));
+			await goto('/my/multisignatures/create/participants');
+		},
+		$multisignatureFormData
 	);
-
-	const { form } = superform;
-	$: multisignatureFormData.update((data) => ({ ...data, ...$form }));
 
 	const credentialIssuerType = createTypeProp<CoconutCredentialIssuersResponse>();
 </script>
@@ -113,7 +110,7 @@
 						options={{
 							label: 'Deadline for signing',
 							placeholder: 'Enter a date',
-							helpText: 'Date must be formatted as DD-MM-YYYY'
+							helpText: 'Date must be formatted as YYYY-MM-DD'
 						}}
 					/>
 					<ul class="list-disc pl-4 text-sm text-gray-700">
