@@ -1,11 +1,18 @@
 <script lang="ts">
 	import { Heading, P, Button, Hr } from 'flowbite-svelte';
+<<<<<<< ours
 	import { currentUser, pb } from '$lib/pocketbase';
 	import UserDataForm from './userDataForm.svelte';
 	import { Pencil, XMark } from 'svelte-heros-v2';
 	import UserAvatar from '$lib/components/userAvatar.svelte';
 	import { m } from '$lib/i18n';
 
+=======
+	import { currentUser } from '$lib/pocketbase';
+	import UserDataForm from './userDataForm.svelte';
+	import { Pencil, XMark } from 'svelte-heros-v2';
+	import UserAvatar from '$lib/components/userAvatar.svelte';
+>>>>>>> theirs
 
 	let edit = false;
 	const toggleEdit = () => {
@@ -34,10 +41,17 @@
 		<Button color="alternative" on:click={toggleEdit}>
 			{#if !edit}
 				<Pencil size="20" />
+<<<<<<< ours
 				<span class="ml-2">{m.Edit_profile()}</span>
 			{:else}
 				<XMark size="20" />
 				<span class="ml-2">{m.Cancel()}</span>
+=======
+				<span class="ml-2">Edit profile</span>
+			{:else}
+				<XMark size="20" />
+				<span class="ml-2">Cancel</span>
+>>>>>>> theirs
 			{/if}
 		</Button>
 	</div>
