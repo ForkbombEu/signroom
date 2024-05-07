@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { multisignatureFormData, participantsSchema } from '../logic';
 	import { Collections, type UsersResponse } from '$lib/pocketbase/types';
+	import { currentUser } from '$lib/pocketbase';
 	import { goto } from '$lib/i18n';
 
 	import { Form, createForm, SubmitButton, FormError, Relations } from '$lib/forms';
@@ -12,6 +13,8 @@
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
 	import { Button } from 'flowbite-svelte';
 	import { ArrowRight, ArrowLeft } from 'svelte-heros-v2';
+	import PageTop from '$lib/components/pageTop.svelte';
+	import PageContent from '$lib/components/pageContent.svelte';
 
 	//
 
@@ -28,34 +31,35 @@
 	$: multisignatureFormData.update((data) => ({ ...data, ...$form }));
 
 	const recordType = createTypeProp<UsersResponse>();
+
+	$: userId = $currentUser!.id;
 </script>
 
-<Form {superform}>
-	<div class="flex items-start gap-8">
-		<div class="space-y-8">
-			<div class="p-6 pb-0">
-				<SectionTitle
-					title="Invite Participants to Sign"
-					description="Successful completion of the multi-signature process necessitates signatures from all participants."
-				/>
-			</div>
+<Form {superform} className="space-y-0">
+	<PageTop>
+		<SectionTitle
+			title="Invite Participants to Sign"
+			description="Successful completion of the multi-signature process necessitates signatures from all participants."
+		/>
+	</PageTop>
 
-			<Card class="p-6 space-y-8">
-				<SectionTitle tag="h5" title="Search Participants" />
-				<Relations
-					{superform}
-					{recordType}
-					collection={Collections.Users}
-					field="participants"
-					options={{
-						label: 'Search users',
-						placeholder: 'Search participants by full name',
-						multiple: true,
-						displayFields: ['username']
-					}}
-				/>
-			</Card>
-		</div>
+	<PageContent class="flex items-start gap-8 !space-y-0">
+		<Card class="p-6 space-y-8 grow">
+			<SectionTitle tag="h5" title="Search Participants" />
+			<Relations
+				{superform}
+				{recordType}
+				collection={Collections.Users}
+				field="participants"
+				options={{
+					label: 'Search users',
+					placeholder: 'Search participants by full name',
+					multiple: true,
+					displayFields: ['username'],
+					excludeIds: [userId]
+				}}
+			/>
+		</Card>
 
 		<SideCard
 			title="Invite participants to sign"
@@ -71,11 +75,11 @@
 					<Button color="alternative" class="p-0 grow" href="/my/multisignatures/create/setup">
 						<ArrowLeft />
 					</Button>
-					<SubmitButton class="px-4">
+					<SubmitButton>
 						<span class="mr-2 text-nowrap">Confirm participants</span><ArrowRight />
 					</SubmitButton>
 				</div>
 			</svelte:fragment>
 		</SideCard>
-	</div>
+	</PageContent>
 </Form>
