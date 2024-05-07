@@ -40,7 +40,7 @@
 		/>
 	</PageTop>
 
-	<PageContent class="flex items-start gap-8 !space-y-0">
+	<PageContent layout="horizontal">
 		<Card class="p-6 space-y-8 grow">
 			<SectionTitle tag="h5" title="Search Participants" />
 			<Relations

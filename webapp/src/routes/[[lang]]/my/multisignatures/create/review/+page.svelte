@@ -87,7 +87,7 @@
 	/>
 </PageTop>
 
-<PageContent class="flex !space-y-0 items-start gap-8">
+<PageContent layout="horizontal">
 	<PageCard class="p-6 space-y-5 grow">
 		<SectionTitle tag="h5" title="Multisignature details" />
 
