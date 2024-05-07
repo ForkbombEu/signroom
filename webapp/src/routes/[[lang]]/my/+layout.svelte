@@ -124,7 +124,6 @@
 							},
 							{
 								text: m.multisignatures(),
-								disabled: true,
 								href: '/my/multisignatures',
 								icon: Users
 							},
