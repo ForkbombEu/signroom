@@ -53,14 +53,16 @@ export const multisignatureFormData = persisted<MultisignatureFormData>('multisi
 //
 
 export async function createMultisignatureAndSeals(data: MultisignatureFormData) {
-	const o = await Effect.runPromise(createMultisignature(data));
+	await pipe(
+		createMultisignature(data),
+		Effect.flatMap((multisignature) => createMultisignatureSeals(multisignature.id, data)),
+		Effect.runPromise
+	);
 }
 
-function createMultisignature(
-	data: MultisignatureFormData
-): Effect.Effect<MultisignaturesResponse, ClientResponseError, never> {
+function createMultisignature(data: MultisignatureFormData) {
 	return Effect.tryPromise({
-		try: async () => {
+		try: () => {
 			const { owner, name, credentialIssuer, contentJSON } = data;
 
 			const multisignatureData: MultisignaturesRecord = {
@@ -70,11 +72,9 @@ function createMultisignature(
 				content_json: contentJSON
 			};
 
-			const multisignature = await pb
+			return pb
 				.collection(Collections.Multisignatures)
 				.create<MultisignaturesResponse>(multisignatureData);
-
-			return multisignature;
 		},
 		catch: (e) => {
 			return e as ClientResponseError;
@@ -86,12 +86,7 @@ function createMultisignatureSeal(
 	data: MultisignatureSealsRecord
 ): Effect.Effect<MultisignatureSealsResponse, ClientResponseError, never> {
 	return Effect.tryPromise({
-		try: async () => {
-			return await pb
-				.collection(Collections.Multisignatures)
-				.create<MultisignatureSealsResponse>(data);
-		},
-
+		try: () => pb.collection(Collections.Multisignatures).create<MultisignatureSealsResponse>(data),
 		catch: (e) => {
 			return e as ClientResponseError;
 		}
