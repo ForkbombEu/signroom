@@ -80,7 +80,7 @@
 		"classnames": "^2.3.2",
 		"clsx": "^2.0.0",
 		"dayjs": "^1.11.9",
-		"effect": "^2.4.6",
+		"effect": "^3.1.2",
 		"execa": "^8.0.1",
 		"flowbite": "^1.8.1",
 		"flowbite-svelte": "^0.44.18",

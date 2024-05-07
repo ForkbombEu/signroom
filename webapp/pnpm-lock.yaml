@@ -39,8 +39,8 @@ dependencies:
     specifier: ^1.11.9
     version: 1.11.9
   effect:
-    specifier: ^2.4.6
-    version: 2.4.6
+    specifier: ^3.1.2
+    version: 3.1.2
   execa:
     specifier: ^8.0.1
     version: 8.0.1
@@ -2240,8 +2240,12 @@ packages:
       safe-buffer: 5.2.1
     dev: true
 
-  /effect@2.4.6:
-    resolution: {integrity: sha512-gaZC+aopWvS67SX8RFT3mirabjpVBk5qshj/Z3IKW35DjzpQ8WhAE7VWwfBBWWMBuQ/B0RsbzKR8YGN2AivIgQ==}
+  /effect@2.4.19:
+    resolution: {integrity: sha512-z/rn878Po3n522g/AYUDHD1SsZaZdvRxlTCLQ8xl8H6xA82nBwwooD1mdn/73Uywmp7d84oay3w3528r0Uyd0w==}
+    dev: false
+
+  /effect@3.1.2:
+    resolution: {integrity: sha512-XakSWck6w6ROqKyEys0tKE9K6Gx2p8W/09u2ZTEZZrneO5Z3QEdPhXzWTyC73kD5zUvfJinZLVIas8I1xoHaTg==}
     dev: false
 
   /electron-to-chromium@1.4.551:
@@ -4773,7 +4777,7 @@ packages:
       '@sinclair/typebox': 0.32.20
       ajv: 8.12.0
       ajv-formats: 2.1.1(ajv@8.12.0)
-      effect: 2.4.6
+      effect: 2.4.19
       nanoid: 5.0.2
       slugify: 1.6.6
       svelte: 4.2.0
