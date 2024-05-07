@@ -2,7 +2,8 @@
 	import {
 		multisignatureFormDataSchema,
 		multisignatureFormData,
-		createMultisignatureAndSeals
+		createMultisignatureAndSeals,
+		type MultisignatureFormData
 	} from '../logic';
 	import { Form, createForm, SubmitButton, FormError } from '$lib/forms';
 	import { currentUser, pb } from '$lib/pocketbase';
@@ -12,7 +13,11 @@
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
 	import { Button } from 'flowbite-svelte';
 	import { ArrowRight, ArrowLeft } from 'svelte-heros-v2';
-	import { Collections, type UsersResponse } from '$lib/pocketbase/types';
+	import {
+		Collections,
+		type CoconutCredentialIssuersResponse,
+		type UsersResponse
+	} from '$lib/pocketbase/types';
 	import ReviewField from '$lib/components/reviewField.svelte';
 	import PageTop from '$lib/components/pageTop.svelte';
 	import PageContent from '$lib/components/pageContent.svelte';
@@ -20,13 +25,18 @@
 
 	//
 
-	$multisignatureFormData.owner = $currentUser!.id;
+	$: userId = $currentUser!.id;
+	$: $multisignatureFormData.owner = userId;
 
 	const superform = createForm(
 		multisignatureFormDataSchema,
-		({ form }) => createMultisignatureAndSeals(form.data),
-		$multisignatureFormData,
-		{ validationMethod: 'onblur' }
+		async ({ form }) => {
+			let participants = form.data.participants;
+			if (!participants.includes(userId)) participants.push(userId);
+			let data: MultisignatureFormData = { ...form.data, participants };
+			await createMultisignatureAndSeals(data);
+		},
+		$multisignatureFormData
 	);
 
 	function getOwner() {
@@ -36,6 +46,12 @@
 	function getParticipants() {
 		const filter = $multisignatureFormData.participants.map((id) => `id = "${id}"`).join(' || ');
 		return pb.collection(Collections.Users).getFullList<UsersResponse>({ filter });
+	}
+
+	function getIssuer() {
+		return pb
+			.collection(Collections.CoconutCredentialIssuers)
+			.getOne<CoconutCredentialIssuersResponse>($multisignatureFormData.credentialIssuer);
 	}
 </script>
 
@@ -47,7 +63,7 @@
 </PageTop>
 
 <PageContent class="flex !space-y-0 items-start gap-8">
-	<PageCard class="p-6 space-y-6 grow">
+	<PageCard class="p-6 space-y-5 grow">
 		<SectionTitle tag="h5" title="Multisignature details" />
 
 		<ReviewField label="Signature name">
@@ -66,6 +82,12 @@
 				{#each participants as p}
 					<p>{p.username}</p>
 				{/each}
+			{/await}
+		</ReviewField>
+
+		<ReviewField label="Credential issuer">
+			{#await getIssuer() then issuer}
+				<p>{issuer.name} – {issuer.endpoint}</p>
 			{/await}
 		</ReviewField>
 
