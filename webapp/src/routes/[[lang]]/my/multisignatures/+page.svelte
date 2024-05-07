@@ -15,6 +15,8 @@
 	import PageTop from '$lib/components/pageTop.svelte';
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
 	import { m } from '$lib/i18n';
+	import PlainCard from '$lib/components/plainCard.svelte';
+	import Icon from '$lib/components/icon.svelte';
 
 	//
 
@@ -47,11 +49,17 @@
 				</svelte:fragment>
 			</CollectionManagerHeader>
 
-			<CollectionTable {records}>
-				<svelte:fragment slot="emptyState">
-					<CollectionEmptyState hideCreateButton />
-				</svelte:fragment>
-			</CollectionTable>
+			{#each records as record}
+				<PlainCard let:Title>
+					<Title>{record.name}</Title>
+					<svelte:fragment slot="right">
+						<Button outline href={`/my/multisignatures/${record.id}`}>
+							{m.View()}
+							<Icon src={Eye} ml />
+						</Button>
+					</svelte:fragment>
+				</PlainCard>
+			{/each}
 		</CollectionManager>
 	</PageCard>
 </PageContent>
