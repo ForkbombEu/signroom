@@ -23,6 +23,7 @@ export const setupSchema = z.object({
 	sealExpirationDate: z
 		.string()
 		.regex(/^(19|20)\d\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/, 'Invalid date format')
+		.refine((s) => new Date(s) > new Date(), 'Date must be after than today')
 });
 
 export const participantsSchema = z.object({
