@@ -10,7 +10,6 @@
 	} from '$lib/forms';
 
 	import { assets } from '$app/paths';
-	import Card from '$lib/components/card.svelte';
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
 	import { ArrowRight } from 'svelte-heros-v2';
 	import SideCard from '$lib/components/sideCard.svelte';
@@ -20,6 +19,9 @@
 	import { Fileupload } from 'flowbite-svelte';
 	import FieldWrapper from '$lib/forms/fields/fieldParts/fieldWrapper.svelte';
 	import { goto } from '$lib/i18n';
+	import PageContent from '$lib/components/pageContent.svelte';
+	import PageTop from '$lib/components/pageTop.svelte';
+	import PageCard from '$lib/components/pageCard.svelte';
 
 	const superform = createForm(
 		setupSchema,
@@ -36,17 +38,17 @@
 	const credentialIssuerType = createTypeProp<CoconutCredentialIssuersResponse>();
 </script>
 
-<Form {superform}>
-	<div class="flex items-start gap-8">
-		<div class="space-y-8">
-			<div class="p-6">
-				<SectionTitle
-					title="Setup multisignature content"
-					description="This page guides users through a three-step process to create a multi-signature."
-				/>
-			</div>
+<PageTop>
+	<SectionTitle
+		title="Setup multisignature content"
+		description="This page guides users through a three-step process to create a multi-signature."
+	/>
+</PageTop>
 
-			<Card class="p-6 space-y-8">
+<Form {superform} className="space-y-0 space-x-0">
+	<PageContent class="flex gap-8 items-start !space-y-0">
+		<div class="space-y-8 grow">
+			<PageCard>
 				<SectionTitle tag="h5" title="Name" />
 				<Input
 					{superform}
@@ -57,9 +59,9 @@
 						helpText: 'Provide a descriptive name for the multi-signature'
 					}}
 				/>
-			</Card>
+			</PageCard>
 
-			<Card class="p-6 space-y-8">
+			<PageCard>
 				<SectionTitle
 					tag="h5"
 					title="Credential issuer"
@@ -76,9 +78,9 @@
 						displayFields: ['name', 'endpoint']
 					}}
 				/>
-			</Card>
+			</PageCard>
 
-			<Card class="p-6 space-y-8">
+			<PageCard>
 				<SectionTitle tag="h5" title="Signature content / Reflow seal" />
 				<Textarea
 					{superform}
@@ -100,9 +102,9 @@
 						<Fileupload />
 					</FieldWrapper>
 				</div>
-			</Card>
+			</PageCard>
 
-			<Card class="p-6 space-y-8">
+			<PageCard>
 				<SectionTitle tag="h5" title="Settings" />
 				<div class="space-y-4">
 					<Input
@@ -120,7 +122,7 @@
 						<li>Both success and failure will be communicated to invitees and the organizer</li>
 					</ul>
 				</div>
-			</Card>
+			</PageCard>
 		</div>
 
 		<SideCard
@@ -138,5 +140,5 @@
 				</SubmitButton>
 			</svelte:fragment>
 		</SideCard>
-	</div>
+	</PageContent>
 </Form>
