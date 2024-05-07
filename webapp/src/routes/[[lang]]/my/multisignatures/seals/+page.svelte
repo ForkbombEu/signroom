@@ -1,41 +1,56 @@
 <script lang="ts">
-	import { Collections, type MultisignatureSealsResponse } from '$lib/pocketbase/types';
 	import {
-		CollectionManager,
-		CollectionTable,
-		CollectionEmptyState,
-		CollectionManagerHeader
-	} from '$lib/collectionManager';
+		Collections,
+		type MultisignatureSealsResponse,
+		type MultisignaturesResponse,
+		MultisignatureSealsStatusOptions
+	} from '$lib/pocketbase/types';
+	import { CollectionManager, CollectionEmptyState } from '$lib/collectionManager';
 	import { createTypeProp } from '$lib/utils/typeProp';
+	import { currentUser } from '$lib/pocketbase';
 
 	import { ArrowLeft } from 'svelte-heros-v2';
-	import { Button, Heading } from 'flowbite-svelte';
-	import Card from '$lib/components/card.svelte';
+	import { Button, Badge } from 'flowbite-svelte';
+	import PageTop from '$lib/components/pageTop.svelte';
+	import SectionTitle from '$lib/components/sectionTitle.svelte';
+	import Icon from '$lib/components/icon.svelte';
+	import PageContent from '$lib/components/pageContent.svelte';
+	import PageCard from '$lib/components/pageCard.svelte';
+	import PlainCard from '$lib/components/plainCard.svelte';
 
 	//
 
-	const recordType = createTypeProp<MultisignatureSealsResponse>();
+	const multisignatureExpand = 'multisignature';
+
+	type Seals = MultisignatureSealsResponse<
+		unknown,
+		{ [multisignatureExpand]: MultisignaturesResponse }
+	>;
+	const recordType = createTypeProp<Seals>();
+
+	const { pending, signed, declined } = MultisignatureSealsStatusOptions;
 </script>
 
-<Card>
-	<CollectionManager
-		{recordType}
-		collection={Collections.MultisignatureSeals}
-		let:records
-		hideEmptyState
-	>
-		<CollectionManagerHeader hideCreateButton>
-			<svelte:fragment slot="title">
-				<Heading tag="h4">Multisignatures Seals</Heading>
-			</svelte:fragment>
-			<svelte:fragment slot="actions">
-				<Button color="alternative" href="/my/multisignatures">
-					<ArrowLeft /><span class="ml-2">Back to Multisignatures</span>
-				</Button>
-			</svelte:fragment>
-		</CollectionManagerHeader>
+<PageTop>
+	<Button outline href="/my/multisignatures">
+		<Icon src={ArrowLeft} mr />
+		Back to Multisignatures
+	</Button>
+	<SectionTitle title="Multisignatures Seals" hideLine />
+</PageTop>
 
-		<CollectionTable {records}>
+<PageContent>
+	<PageCard>
+		<CollectionManager
+			{recordType}
+			collection={Collections.MultisignatureSeals}
+			let:records
+			hideEmptyState
+			initialQueryParams={{
+				filter: `owner.id = '${$currentUser?.id}'`,
+				expand: multisignatureExpand
+			}}
+		>
 			<svelte:fragment slot="emptyState">
 				<CollectionEmptyState
 					hideCreateButton
@@ -43,6 +58,23 @@
 					description="Pending seals will appear here."
 				/>
 			</svelte:fragment>
-		</CollectionTable>
-	</CollectionManager>
-</Card>
+
+			{#each records as record}
+				<PlainCard let:Title>
+					<Title>
+						{record.expand?.[multisignatureExpand].name}
+					</Title>
+					{#if record.status == pending}
+						<Badge color="yellow">Pending</Badge>
+					{/if}
+
+					<div slot="right">
+						{#if record.status == pending}
+							<Button outline>Sign</Button>
+						{/if}
+					</div>
+				</PlainCard>
+			{/each}
+		</CollectionManager>
+	</PageCard>
+</PageContent>
