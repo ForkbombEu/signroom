@@ -87,7 +87,8 @@ function createMultisignatureSeal(
 	data: MultisignatureSealsRecord
 ): Effect.Effect<MultisignatureSealsResponse, ClientResponseError, never> {
 	return Effect.tryPromise({
-		try: () => pb.collection(Collections.Multisignatures).create<MultisignatureSealsResponse>(data),
+		try: () =>
+			pb.collection(Collections.MultisignatureSeals).create<MultisignatureSealsResponse>(data),
 		catch: (e) => {
 			return e as ClientResponseError;
 		}
