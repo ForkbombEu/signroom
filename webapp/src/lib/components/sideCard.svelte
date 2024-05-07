@@ -8,7 +8,7 @@
 	export let imageAlt = '';
 </script>
 
-<PageCard class="max-w-[350px] shrink-0 !p-5 !space-y-6">
+<PageCard class="max-w-[350px] min-w-[350px] shrink-0 !p-5 !space-y-6">
 	<slot name="top" />
 
 	{#if image}
