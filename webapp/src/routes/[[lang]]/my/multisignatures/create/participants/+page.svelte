@@ -18,21 +18,23 @@
 
 	//
 
+	$: userId = $currentUser!.id;
+
 	const superform = createForm(
 		participantsSchema,
-		() => goto('/my/multisignatures/create/review'),
+		({ form }) => {
+			let participants = form.data.participants;
+			if (!participants.includes(userId)) participants.push(userId);
+			multisignatureFormData.update((data) => ({ ...data, ...form.data, participants }));
+			goto('/my/multisignatures/create/review');
+		},
 		$multisignatureFormData,
 		{
 			validationMethod: 'onblur'
 		}
 	);
 
-	const { form } = superform;
-	$: multisignatureFormData.update((data) => ({ ...data, ...$form }));
-
 	const recordType = createTypeProp<UsersResponse>();
-
-	$: userId = $currentUser!.id;
 </script>
 
 <Form {superform} className="space-y-0">
