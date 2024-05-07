@@ -1,11 +1,6 @@
 <script lang="ts">
 	import { Collections, type MultisignaturesResponse } from '$lib/pocketbase/types';
-	import {
-		CollectionManager,
-		CollectionTable,
-		CollectionEmptyState,
-		CollectionManagerHeader
-	} from '$lib/collectionManager';
+	import { CollectionManager, CollectionManagerHeader } from '$lib/collectionManager';
 	import { createTypeProp } from '$lib/utils/typeProp';
 
 	import { Eye, Plus } from 'svelte-heros-v2';
