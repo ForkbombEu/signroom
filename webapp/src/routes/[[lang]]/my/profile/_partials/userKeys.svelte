@@ -4,8 +4,11 @@
 	import CopyButton from '$lib/components/copyButton.svelte';
 	import { capitalizeFirstLetter } from '$lib/utils/strings';
 	import type { UsersRecord } from '$lib/pocketbase/types';
+<<<<<<< ours
 	import { m } from '$lib/i18n';
 
+=======
+>>>>>>> theirs
 
 	type UserKeys = keyof UsersRecord;
 
@@ -19,7 +22,11 @@
 	const hasKeys = keys.map((k) => $currentUser?.[k]).every((k) => Boolean(k));
 </script>
 
+<<<<<<< ours
 <Heading tag="h6" class="mb-1">{m.Your_keys()}</Heading>
+=======
+<Heading tag="h6" class="mb-1">Your keys</Heading>
+>>>>>>> theirs
 {#if hasKeys}
 	<div class="flex flex-col gap-4">
 		{#each keys as key}
@@ -39,8 +46,14 @@
 		{/each}
 	</div>
 {:else}
+<<<<<<< ours
 	<P>{m.You_have_no_keys_yet_()}</P>
 	<div class="flex justify-end mt-4">
 		<Button color="primary" size="sm" href="/keypairoom/regenerate">{m.Generate_new_keys()}</Button>
+=======
+	<P>You have no keys yet.</P>
+	<div class="flex justify-end mt-4">
+		<Button color="primary" size="sm" href="/keypairoom/regenerate">Generate new keys</Button>
+>>>>>>> theirs
 	</div>
 {/if}
