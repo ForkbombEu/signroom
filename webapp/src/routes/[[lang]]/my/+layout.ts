@@ -21,26 +21,25 @@ export const load = async ({ url, fetch }) => {
 	if (!featureFlags.AUTH) throw error(404);
 	if (!(await verifyUser(fetch))) throw redirect(url, '/login');
 
-
 	if (featureFlags.KEYPAIROOM) {
 		const publicKeys = await getUserPublicKeys();
 		if (!publicKeys) {
-			throw redirect(303, `/keypairoom?${welcomeSearchParamKey}`);
+			throw redirect(url, `/keypairoom?${welcomeSearchParamKey}`);
 		}
 
 		if (browser) {
 			const keyring = getKeyringFromLocalStorage();
 			if (!keyring) {
-				throw redirect(303, `/keypairoom/regenerate?${missingKeyringParam}`);
+				throw redirect(url, `/keypairoom/regenerate?${missingKeyringParam}`);
 			}
 
 			try {
 				await matchPublicAndPrivateKeys(publicKeys, keyring);
 			} catch (e) {
-				throw redirect(303, `/keypairoom/regenerate?${missingKeyringParam}`);
+				throw redirect(url, `/keypairoom/regenerate?${missingKeyringParam}`);
 			}
- 		}
- 	}
+		}
+	}
 
 	if (featureFlags.ORGANIZATIONS) {
 		type Authorizations = Required<
