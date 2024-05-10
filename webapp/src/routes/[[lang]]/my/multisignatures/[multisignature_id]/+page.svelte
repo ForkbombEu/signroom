@@ -11,6 +11,7 @@
 	import { getUserDisplayName } from '$lib/utils/pb.js';
 	import { Button } from 'flowbite-svelte';
 	import { ArrowLeft } from 'svelte-heros-v2';
+	import { addSignaturesToReflowSeal, verifySignedReflowSeal } from './logic.js';
 
 	export let data;
 	let { multisignature, seals } = data;
@@ -21,6 +22,19 @@
 
 	let missingSeals = seals.some((s) => s.status == MultisignatureSealsStatusOptions.pending);
 	let allGood = seals.every((s) => s.status == MultisignatureSealsStatusOptions.signed);
+	let verified = false;
+
+	async function completeMultisignature() {
+		// TODO: check if all have signed
+		const signedReflowSeal = await addSignaturesToReflowSeal(issuer!, multisignature, seals);
+		console.log(signedReflowSeal);
+		// TODO - store success result in backend
+		const verification = await verifySignedReflowSeal(
+			signedReflowSeal,
+			multisignature.content_json as Record<string, unknown>
+		);
+		console.log(verification);
+	}
 </script>
 
 <PageTop>
@@ -93,7 +107,7 @@
 			</ul>
 
 			{#if allGood}
-				<Button>Complete multisignature</Button>
+				<Button on:click={completeMultisignature}>Complete multisignature</Button>
 			{/if}
 		</svelte:fragment>
 	</SideCard>
