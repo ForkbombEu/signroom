@@ -18,8 +18,6 @@
 
 	//
 
-	let userId = $currentUser?.id ?? '';
-
 	const superform = createForm(
 		participantsSchema,
 		async ({ form }) => {
@@ -52,8 +50,7 @@
 					label: 'Search users',
 					placeholder: 'Search participants by full name',
 					multiple: true,
-					displayFields: ['username'],
-					excludeIds: [userId]
+					displayFields: ['username']
 				}}
 			/>
 		</Card>

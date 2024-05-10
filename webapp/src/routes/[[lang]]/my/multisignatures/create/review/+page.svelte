@@ -3,8 +3,9 @@
 		multisignatureFormDataSchema,
 		multisignatureFormData,
 		createMultisignatureAndSeals,
-		type MultisignatureFormData,
-		resetMultisignatureFormData
+		resetMultisignatureFormData,
+		createReflowSeal,
+		getParticipantsReflowPublicKeys
 	} from '../logic';
 	import { Form, createForm, SubmitButton, FormError } from '$lib/forms';
 	import { currentUser, pb } from '$lib/pocketbase';
@@ -32,10 +33,15 @@
 	const superform = createForm(
 		multisignatureFormDataSchema,
 		async ({ form }) => {
-			const data = addMultisignatureOwnerToParticipants(form.data);
-			const multisignature = await createMultisignatureAndSeals(data);
+			const { data } = form;
+			const public_keys = await getParticipantsReflowPublicKeys(data.participants);
+			const reflow_seal = await createReflowSeal(JSON.parse(data.contentJSON), public_keys);
+			const multisignature = await createMultisignatureAndSeals({
+				...data,
+				reflow_seal,
+				owner: $currentUser?.id!
+			});
 			resetMultisignatureFormData();
-			await signOwnerSeal();
 			await goto(`/my/multisignatures/${multisignature.id}`);
 		},
 		$multisignatureFormData
@@ -45,21 +51,6 @@
 
 	function addCurrentUserAsOwner(user: typeof $currentUser) {
 		$multisignatureFormData.owner = user?.id ?? '';
-	}
-
-	function addMultisignatureOwnerToParticipants(
-		data: MultisignatureFormData
-	): MultisignatureFormData {
-		let participants = data.participants;
-		let userId = data.owner;
-		if (!participants.includes(userId)) participants.push(userId);
-		return { ...data, participants };
-	}
-
-	// Signature operations
-
-	async function signOwnerSeal() {
-		// TODO
 	}
 
 	// Display operations
@@ -103,7 +94,6 @@
 
 		<ReviewField label="Participants">
 			{#await getParticipants() then participants}
-				<p>(You)</p>
 				{#each participants as p}
 					<p>{p.username}</p>
 				{/each}

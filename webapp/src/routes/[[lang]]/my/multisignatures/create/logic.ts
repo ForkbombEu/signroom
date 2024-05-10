@@ -14,6 +14,48 @@ import type { ClientResponseError } from 'pocketbase';
 import { Effect, pipe } from 'effect';
 import * as A from 'effect/Array';
 
+import createReflowSealContract from '../../../../../../client_zencode/reflow/reflow-4-organizare-create-reflow-seal.zen?raw';
+import { zencodeExec } from '$lib/keypairoom/keypair';
+import { getUserPublicKeys } from '$lib/keypairoom/utils';
+
+//
+
+type ParticipantsReflowPublicKeys = Record<string, { reflow_public_key: string }>;
+
+type ReflowSealContractReturn = {
+	reflow_seal: {
+		SM: string;
+		identity: string;
+		verifier: string;
+	};
+};
+
+export function createReflowSeal(
+	reflow_seal_source: string,
+	public_keys: ParticipantsReflowPublicKeys
+) {
+	return zencodeExec<ReflowSealContractReturn>(createReflowSealContract, {
+		data: {
+			reflow_seal_source,
+			public_keys
+		},
+		conf: 'logfmt=text'
+	});
+}
+
+export async function getParticipantsReflowPublicKeys(
+	ids: string[]
+): Promise<ParticipantsReflowPublicKeys> {
+	const participantsPublicKeys = await Promise.all(ids.map((id) => getUserPublicKeys(id)));
+	const publicKeysRecord: ParticipantsReflowPublicKeys = {};
+	for (const pubKeys of participantsPublicKeys) {
+		if (pubKeys) {
+			publicKeysRecord[pubKeys.owner] = { reflow_public_key: pubKeys.reflow_public_key };
+		}
+	}
+	return publicKeysRecord;
+}
+
 //
 
 export const setupSchema = z.object({
@@ -62,13 +104,15 @@ export function resetMultisignatureFormData() {
 
 //
 
-export async function createMultisignatureAndSeals(data: MultisignatureFormData) {
+type CreateMultisignatureData = MultisignatureFormData & { reflow_seal: ReflowSealContractReturn };
+
+export async function createMultisignatureAndSeals(data: CreateMultisignatureData) {
 	const multisignature = await Effect.runPromise(createMultisignature(data));
 	await Effect.runPromise(createMultisignatureSeals(multisignature.id, data));
 	return multisignature;
 }
 
-function createMultisignature(data: MultisignatureFormData) {
+function createMultisignature(data: CreateMultisignatureData) {
 	return Effect.tryPromise({
 		try: () => {
 			const { owner, name, credentialIssuer, contentJSON } = data;
@@ -77,7 +121,8 @@ function createMultisignature(data: MultisignatureFormData) {
 				owner,
 				name,
 				coconut_credential_issuer: credentialIssuer,
-				content_json: contentJSON
+				content_json: contentJSON,
+				reflow_seal: data.reflow_seal
 			};
 
 			return pb
