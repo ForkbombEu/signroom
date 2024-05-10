@@ -16,7 +16,7 @@ jobs:
       run:
         working-directory: ./webapp
     steps:
-      - uses: dyne/pnpm@v1
+      - uses: dyne/pnpm@main
         with:
           working-directory: webapp
       - run: npx playwright install --with-deps
