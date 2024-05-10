@@ -20,6 +20,12 @@ jobs:
         with:
           working-directory: webapp
       - run: npx playwright install --with-deps
+      - run: go build
+        working-directory: ./admin
+      - name: 🤖 Start pocketbase
+        run: |
+          ./admin//pb serve &
+          while ! nc -z 0.0.0.0 8090; do echo "pocketbase not ready" && sleep 1; done
       - run: pnpm t
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
