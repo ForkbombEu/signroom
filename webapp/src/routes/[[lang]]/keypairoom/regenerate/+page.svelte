@@ -3,7 +3,8 @@
 		getHMAC,
 		matchPublicAndPrivateKeys,
 		regenerateKeypair,
-		saveKeyringToLocalStorage
+		saveKeyringToLocalStorage,
+		type Keyring
 	} from '$lib/keypairoom/keypair';
 	import { currentUser } from '$lib/pocketbase';
 
@@ -29,7 +30,13 @@
 
 	const superform = createForm(schema, async ({ form }) => {
 		const hmac = await getHMAC(form.data.email);
-		const { keyring } = await regenerateKeypair(form.data.seed, hmac);
+		let keyring: Keyring;
+		try {
+			const keypair = await regenerateKeypair(form.data.seed, hmac);
+			keyring = keypair.keyring;
+		} catch (e) {
+			throw new Error('Invalid seed');
+		}
 
 		if ($featureFlags.AUTH && $currentUser) {
 			const publicKeys = await getUserPublicKeys();
