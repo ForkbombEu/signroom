@@ -70,7 +70,7 @@
 
 					<div slot="right">
 						{#if record.status == pending}
-							<Button outline>Sign</Button>
+							<Button outline href={`/my/multisignatures/seals/${record.id}`}>Sign</Button>
 						{/if}
 					</div>
 				</PlainCard>

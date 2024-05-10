@@ -198,9 +198,11 @@
 {:then}
 	<slot {records} {loadRecords} />
 
-	{#if records.length === 0 && !hideEmptyState}
+	{#if records.length === 0}
 		<slot name="emptyState">
-			<CollectionEmptyState />
+			{#if !hideEmptyState}
+				<CollectionEmptyState />
+			{/if}
 		</slot>
 	{/if}
 {:catch}

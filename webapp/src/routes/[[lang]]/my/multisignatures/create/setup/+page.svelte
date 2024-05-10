@@ -93,8 +93,8 @@
 				<div class="opacity-40">
 					<FieldWrapper
 						field=""
-						label="Upload document(s) to sign:"
-						helpText="Homomorphic multisignature for documents (upcoming) "
+						label="Upload document(s) to sign: (upcoming)"
+						helpText="Homomorphic multisignature for documents"
 					>
 						<Fileupload />
 					</FieldWrapper>

@@ -13,6 +13,7 @@ export const load = async ({ params, fetch }) => {
 
 	type Multisignatures = MultisignaturesResponse<
 		unknown,
+		unknown,
 		{ [ownerExpand]: UsersResponse; [issuerExpand]: CoconutCredentialIssuersResponse }
 	>;
 
