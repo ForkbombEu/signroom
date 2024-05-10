@@ -12,6 +12,7 @@
 	import { m } from '$lib/i18n';
 	import PlainCard from '$lib/components/plainCard.svelte';
 	import Icon from '$lib/components/icon.svelte';
+	import CollectionEmptyState from '$lib/collectionManager/ui/collectionEmptyState.svelte';
 
 	//
 
@@ -30,31 +31,32 @@
 			let:records
 			hideEmptyState
 		>
-			<CollectionManagerHeader hideCreateButton>
-				<svelte:fragment slot="title">
-					<Heading tag="h4">{m.multisignatures()}</Heading>
-				</svelte:fragment>
-				<svelte:fragment slot="actions">
+			<SectionTitle title={m.multisignatures()}>
+				<div slot="right" class="flex gap-2">
 					<Button color="alternative" href="/my/multisignatures/seals">
 						<Eye /><span class="ml-2">{m.View_seals()}</span>
 					</Button>
 					<Button href="/my/multisignatures/create">
 						<Plus /><span>{m.Create_a_new_multisignature()}</span>
 					</Button>
-				</svelte:fragment>
-			</CollectionManagerHeader>
+				</div>
+			</SectionTitle>
 
-			{#each records as record}
-				<PlainCard let:Title>
-					<Title>{record.name}</Title>
-					<svelte:fragment slot="right">
-						<Button outline href={`/my/multisignatures/${record.id}`}>
-							{m.View()}
-							<Icon src={Eye} ml />
-						</Button>
-					</svelte:fragment>
-				</PlainCard>
-			{/each}
+			<CollectionEmptyState slot="emptyState" hideCreateButton></CollectionEmptyState>
+
+			<div class="space-y-4">
+				{#each records as record}
+					<PlainCard let:Title>
+						<Title>{record.name}</Title>
+						<svelte:fragment slot="right">
+							<Button outline href={`/my/multisignatures/${record.id}`}>
+								{m.View()}
+								<Icon src={Eye} ml />
+							</Button>
+						</svelte:fragment>
+					</PlainCard>
+				{/each}
+			</div>
 		</CollectionManager>
 	</PageCard>
 </PageContent>
