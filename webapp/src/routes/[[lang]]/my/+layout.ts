@@ -2,6 +2,10 @@ import { verifyUser } from '$lib/auth/verifyUser';
 import { loadFeatureFlags } from '$lib/features';
 import { error } from '@sveltejs/kit';
 
+import { browser } from '$app/environment';
+import { redirect } from '$lib/i18n';
+import { getKeyringFromLocalStorage, matchPublicAndPrivateKeys } from '$lib/keypairoom/keypair';
+import { getUserPublicKeys } from '$lib/keypairoom/utils';
 import { pb } from '$lib/pocketbase';
 import {
 	Collections,
@@ -9,10 +13,7 @@ import {
 	type OrgRolesResponse,
 	type OrganizationsResponse
 } from '$lib/pocketbase/types';
-import { browser } from '$app/environment';
-import { getKeyringFromLocalStorage } from '$lib/keypairoom/keypair';
 import { missingKeyringParam, welcomeSearchParamKey } from '$lib/utils/constants';
-import { redirect } from '$lib/i18n';
 
 export const load = async ({ url, fetch }) => {
 	const featureFlags = await loadFeatureFlags();
@@ -20,14 +21,26 @@ export const load = async ({ url, fetch }) => {
 	if (!featureFlags.AUTH) throw error(404);
 	if (!(await verifyUser(fetch))) throw redirect(url, '/login');
 
-	if (featureFlags.KEYPAIROOM && browser) {
-		const keyring = getKeyringFromLocalStorage();
-		if (!keyring) {
-			const isWelcome = url.searchParams.has(welcomeSearchParamKey);
-			if (isWelcome) throw redirect(url, `/keypairoom?${url.searchParams.toString()}`);
-			else throw redirect(url, `/keypairoom/regenerate?${missingKeyringParam}`);
+
+	if (featureFlags.KEYPAIROOM) {
+		const publicKeys = await getUserPublicKeys();
+		if (!publicKeys) {
+			throw redirect(303, `/keypairoom?${welcomeSearchParamKey}`);
 		}
-	}
+
+		if (browser) {
+			const keyring = getKeyringFromLocalStorage();
+			if (!keyring) {
+				throw redirect(303, `/keypairoom/regenerate?${missingKeyringParam}`);
+			}
+
+			try {
+				await matchPublicAndPrivateKeys(publicKeys, keyring);
+			} catch (e) {
+				throw redirect(303, `/keypairoom/regenerate?${missingKeyringParam}`);
+			}
+ 		}
+ 	}
 
 	if (featureFlags.ORGANIZATIONS) {
 		type Authorizations = Required<

@@ -5,6 +5,9 @@
 
 	import { Card } from 'flowbite-svelte';
 	import { featureFlags } from '$lib/features';
+
+	export let data;
+	let { publicKeys } = data;
 </script>
 
 <div class="max-w-xl mx-auto space-y-8 p-8">
@@ -14,7 +17,7 @@
 
 	{#if $featureFlags.KEYPAIROOM}
 		<Card class="!max-w-none">
-			<UserKeys />
+			<UserKeys keys={publicKeys} />
 		</Card>
 	{/if}
 
