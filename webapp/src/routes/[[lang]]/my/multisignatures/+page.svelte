@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Collections, type MultisignaturesResponse } from '$lib/pocketbase/types';
-	import { CollectionManager, CollectionManagerHeader } from '$lib/collectionManager';
+	import { CollectionManager, CollectionManagerHeader, DeleteRecord } from '$lib/collectionManager';
 	import { createTypeProp } from '$lib/utils/typeProp';
 
 	import { Eye, Plus } from 'svelte-heros-v2';
@@ -13,6 +13,7 @@
 	import PlainCard from '$lib/components/plainCard.svelte';
 	import Icon from '$lib/components/icon.svelte';
 	import CollectionEmptyState from '$lib/collectionManager/ui/collectionEmptyState.svelte';
+	import { Trash } from 'svelte-heros';
 
 	//
 
@@ -53,6 +54,12 @@
 								{m.View()}
 								<Icon src={Eye} ml />
 							</Button>
+							<DeleteRecord {record} let:openModal>
+								<Button outline on:click={openModal}>
+									{m.Delete()}
+									<Icon src={Trash} ml />
+								</Button>
+							</DeleteRecord>
 						</svelte:fragment>
 					</PlainCard>
 				{/each}
