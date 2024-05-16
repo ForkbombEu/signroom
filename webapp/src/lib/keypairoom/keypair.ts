@@ -36,13 +36,16 @@ export interface Keypair {
 type ZenroomProps = {
 	data?: Record<string, unknown>;
 	keys?: Record<string, unknown>;
-	conf?: Record<string, unknown>;
+	conf?: string;
 };
 
-async function zencodeExec<T>(contract: string, props: ZenroomProps): Promise<T> {
+export async function zencodeExec<T>(contract: string, props: ZenroomProps = {}): Promise<T> {
 	const { result } = await zencode_exec(
 		contract,
-		_.mapValues(props, (rec) => JSON.stringify(rec))
+		_.mapValues(props, (v) => {
+			if (typeof v == 'string') return v; // for conf
+			return JSON.stringify(v);
+		})
 	);
 	return JSON.parse(result);
 }
