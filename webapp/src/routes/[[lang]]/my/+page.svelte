@@ -14,7 +14,7 @@
 	let links = pb.collection('quick_actions').getFullList({ filter: 'published=true' });
 </script>
 
-<PageContent class="flex gap-8 items-start !space-y-0">
+<PageContent layout="horizontal">
 	<PageCard>
 		<SectionTitle title={m.Quick_actions()} description={m.quick_actions_description()} />
 

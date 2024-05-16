@@ -1,5 +1,13 @@
 import { ClientResponseError } from 'pocketbase';
 
+export function getErrorMessage(e: unknown): string {
+	if (e instanceof Error) {
+		return e.message;
+	} else {
+		return JSON.stringify(e);
+	}
+}
+
 export function normalizeError(
 	e: unknown,
 	fallbacks: Partial<ClientResponseErrorData> = {}
