@@ -16,12 +16,13 @@ jobs:
       - uses: dyne/pnpm@main
         with:
           working-directory: webapp
-      - run: npx playwright install --with-deps
       - run: make setup
       - name: 🤖 Start pocketbase
         run: |
           ./admin/pb serve &
           while ! nc -z 0.0.0.0 8090; do echo "pocketbase not ready" && sleep 1; done
+      - run: npx playwright install --with-deps
+        working-directory: webapp
       - run: pnpm build && pnpm t
         working-directory: webapp
       - uses: actions/upload-artifact@v4
