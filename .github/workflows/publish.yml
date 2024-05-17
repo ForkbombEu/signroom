@@ -22,8 +22,7 @@ jobs:
         run: |
           ./admin/pb serve &
           while ! nc -z 0.0.0.0 8090; do echo "pocketbase not ready" && sleep 1; done
-      - run: pnpm build
-      - run: pnpm t
+      - run: pnpm build && pnpm t
         working-directory: webapp
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
