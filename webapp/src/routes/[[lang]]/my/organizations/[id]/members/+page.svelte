@@ -9,7 +9,7 @@
 	} from '$lib/pocketbase/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { m } from '$lib/i18n';
-	import { OrgRoles, ProtectedOrgUI, getUserRole } from '$lib/rbac';
+	import { OrgRoles, ProtectedOrgUI } from '$lib/rbac';
 
 	import { Button, Badge } from 'flowbite-svelte';
 	import { Pencil, Plus, XMark } from 'svelte-heros-v2';
