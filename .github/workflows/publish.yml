@@ -42,9 +42,9 @@ jobs:
       pull-requests: write
       id-token: write
     steps:
-      - uses: dyne/pnpm@v1
+      - uses: dyne/pnpm@main
         with:
-          working-directory: webapp
+          working-directory: ./webapp
       - run: pnpm build
       - run: pnpm semantic-release
         env:
