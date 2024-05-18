@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { Button, Heading, P } from 'flowbite-svelte';
-	import { currentUser } from '$lib/pocketbase';
 	import CopyButton from '$lib/components/copyButton.svelte';
 	import { capitalizeFirstLetter } from '$lib/utils/strings';
-	import type { UsersPublicKeysRecord } from '$lib/pocketbase/types';
 	import type { PublicKeys } from '$lib/keypairoom/utils';
 
 	export let keys: PublicKeys | undefined = undefined;
