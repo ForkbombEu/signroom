@@ -1,0 +1,39 @@
+{
+  "repositoryUrl": "git@github.com:ForkbombEu/signroom.git",
+  "dryRun": false,
+  "plugins": [
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "preset": "angular",
+        "releaseRules": [
+          { "type": "build", "scope": "deps", "release": "patch" },
+          { "type": "build", "scope": "deps-dev", "release": "patch" }
+        ]
+      }
+    ],
+    [
+      "@semantic-release/npm",
+      {
+        "npmPublish": false 
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": [
+          "CHANGELOG.md",
+          "pnpm-lock.yaml",
+          "package.json"
+        ],
+        "message": "chore(release): 🚀 ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }
+    ],
+    "@semantic-release/github"
+  ],
+  "branches": [
+    "main"
+  ]
+}
