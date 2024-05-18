@@ -45,7 +45,8 @@ jobs:
       - uses: dyne/pnpm@main
         with:
           working-directory: ./webapp
-      - run: pnpm add -D @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/error @semantic-release/git @semantic-release/github @semantic-release/npm @semantic-release/release-notes-generator && npx semantic-release
+      - run: pnpm add -D @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/error @semantic-release/git @semantic-release/github @semantic-release/npm @semantic-release/release-notes-generator semantic-release 
+      - run: pnpm semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
