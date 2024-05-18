@@ -45,7 +45,6 @@ jobs:
       - uses: dyne/pnpm@main
         with:
           working-directory: ./webapp
-      - run: pnpm build
       - run: pnpm semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
