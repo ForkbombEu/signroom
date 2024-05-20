@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/ForkbombEu/signroom/compare/v1.0.0...v1.0.1) (2024-05-20)
+
+
+### Bug Fixes
+
+* typegen missing env vars for new installs ([2c6e0dd](https://github.com/ForkbombEu/signroom/commit/2c6e0ddd85e07e9bca8f1287874b5fbab15d3deb))
+
 # 1.0.0 (2024-05-18)
 
 
