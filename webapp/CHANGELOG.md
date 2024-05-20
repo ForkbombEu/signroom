@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/ForkbombEu/signroom/compare/v1.0.1...v1.0.2) (2024-05-20)
+
+
+### Bug Fixes
+
+* update docker compose env vars ([3965452](https://github.com/ForkbombEu/signroom/commit/3965452ceb79e2c5abb74b97a090d7d26669f045))
+
 ## [1.0.1](https://github.com/ForkbombEu/signroom/compare/v1.0.0...v1.0.1) (2024-05-20)
 
 
