@@ -51,16 +51,19 @@
 
 			if (!storedPublicKeys) {
 				await saveUserPublicKeys(publicKeys);
-				try {
-					if ($featureFlags.DID) await pb.send('/api/did', {});
-				} catch (e) {
-					console.log(e);
-				}
 			} else {
 				try {
 					await matchPublicAndPrivateKeys(storedPublicKeys, privateKeys);
 				} catch (e) {
 					throw new Error('Wrong answers');
+				}
+			}
+
+			if ($featureFlags.DID) {
+				try {
+					await pb.send('/api/did', {});
+				} catch (e) {
+					console.log(e);
 				}
 			}
 		}
