@@ -69,10 +69,12 @@
 	export let createFormSettings: Partial<FieldsSettings<RecordGeneric>> = {};
 	export let editFormSettings: Partial<FieldsSettings<RecordGeneric>> = {};
 
+	export let hideEmptyState = false;
+
 	export let initialQueryParams: RecordFullListOptions = {};
 	export let subscribe: string[] = [];
 
-	export let perPage = 5;
+	export let perPage = 25;
 	export let disablePagination = false;
 
 	/* Data load */
@@ -195,6 +197,14 @@
 	</div>
 {:then}
 	<slot {records} {loadRecords} />
+
+	{#if records.length === 0}
+		<slot name="emptyState">
+			{#if !hideEmptyState}
+				<CollectionEmptyState />
+			{/if}
+		</slot>
+	{/if}
 {:catch}
 	<CollectionEmptyState
 		icon={ExclamationTriangle}

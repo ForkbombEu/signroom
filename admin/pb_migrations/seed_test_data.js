@@ -1,30 +1,19 @@
+/// <reference path="../pb_data/types.d.ts" />
+
 const USERS_COLLECTION_NAME = "users";
 
-const users = {
-    A: {
-        email: "userA@example.org",
-        password: "userAuserA",
-    },
-    B: {
-        email: "userB@example.org",
-        password: "userBuserB",
-    },
-    C: {
-        email: "userC@example.org",
-        password: "userCuserC",
-    },
-};
-
 function createSampleUserData(letter) {
+    const name = `user${letter}`;
     return {
         email: `user${letter}@example.org`,
-        username: `user${letter}`,
+        username: name,
         password: `user${letter}user${letter}`,
+        name: name,
     };
 }
 
 function addSampleUser(dao, letter) {
-    const { email, username, password } = createSampleUserData(letter);
+    const { email, username, password, name } = createSampleUserData(letter);
     const collection = dao.findCollectionByNameOrId(USERS_COLLECTION_NAME);
 
     const record = new Record(collection);
@@ -32,16 +21,12 @@ function addSampleUser(dao, letter) {
     record.setEmail(email);
     record.setPassword(password);
     record.setVerified(true);
+    record.set("name", name);
     record.set("emailVisibility", true);
 
     dao.saveRecord(record);
 
     return record;
-}
-
-function removeUser(dao, email) {
-    const record = dao.findAuthRecordByEmail(USERS_COLLECTION_NAME, email);
-    dao.deleteRecord(record);
 }
 
 migrate(

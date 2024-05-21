@@ -32,8 +32,6 @@ Signroom is generated using the [Starters](https://github.com/dyne/starters) tem
 - [x] Xades
 - [x] Pades
 - [x] Jades
-- [x] Secure
-- [x] As a service
 
 ## Identity, Credential and cryptography
 

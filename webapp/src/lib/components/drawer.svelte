@@ -11,6 +11,7 @@
 	export let closeOnClickOutside = true;
 	export let hideTopbar = false;
 	export let title: string | undefined = undefined;
+	export let darkMode = false;
 
 	$: transitionDirection = placement == 'right' ? 1 : -1;
 	$: transitionParams = {
@@ -28,7 +29,7 @@
 		{transitionParams}
 		activateClickOutside={closeOnClickOutside}
 		{placement}
-		class="flex flex-col !p-0"
+		class={`${darkMode ? 'dark' : ''} flex flex-col !p-0`}
 		{width}
 	>
 		{#if !hideTopbar}

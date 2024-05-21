@@ -1,34 +1,41 @@
 <script lang="ts" context="module">
+	import type { NavigationTabProps } from '$lib/components/navigationTab.svelte';
 	import type { IconComponent } from '$lib/utils/types';
 
 	type BadgeColor = ComponentProps<Badge>['color'];
 
-	export interface SidebarLink {
-		label: string;
-		disabled?: boolean;
-		href?: string;
-		icon?: IconComponent;
-		subLinks?: SidebarLink[];
+	interface SidebarLinkOptions {
 		badge?: {
 			text: string;
 			color: BadgeColor;
 		};
+		disabled?: boolean;
 	}
+
+	export interface SidebarLinkProps extends NavigationTabProps, SidebarLinkOptions {}
+
+	export interface SidebarGroupProps extends SidebarLinkOptions {
+		text: string;
+		icon?: IconComponent | string;
+		subLinks: SidebarLinkProps[];
+	}
+
+	export type SidebarItemProps = SidebarGroupProps | SidebarLinkProps;
 </script>
 
 <script lang="ts">
-	import {
-		Badge,
-		SidebarDropdownItem,
-		SidebarDropdownWrapper,
-		SidebarGroup,
-		SidebarItem
-	} from 'flowbite-svelte';
+	import { Badge, SidebarDropdownItem, SidebarItem } from 'flowbite-svelte';
 	import { getUIShellContext } from './UiShell.svelte';
 	import type { ComponentProps } from 'svelte';
-	import { page } from '$app/stores';
 
-	export let links: SidebarLink[];
+	import clsx from 'clsx';
+	import SidebarLinksDropdown from './SidebarLinksDropdown.svelte';
+
+	//
+
+	export let links: SidebarItemProps[];
+
+	//
 
 	const { toggleSidebar, sidebarLayoutMode } = getUIShellContext();
 
@@ -37,48 +44,41 @@
 			toggleSidebar();
 		}
 	};
-	const disabledClass = (disabled?: boolean) =>
-		disabled ? 'opacity-20 hover:bg-transparent cursor-default' : undefined;
-	export let activeClass =
-		'flex items-center p-2 pl-11 text-base font-normal text-gray-900 bg-gray-200 dark:bg-gray-700 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700';
+
+	//
+
+	function classes(disabled?: boolean) {
+		return clsx({
+			'opacity-20 hover:bg-transparent cursor-default pointer-events-none': disabled
+		});
+	}
 </script>
 
-<SidebarGroup>
-	{#each links as entry}
-		{#if entry.subLinks && entry.subLinks.length > 0}
-			<SidebarDropdownWrapper label={entry.label} disabled={entry.disabled}>
-				<svelte:fragment slot="icon">
-					<svelte:component this={entry.icon} />
-				</svelte:fragment>
-				{#each entry.subLinks as subEntry}
-					<SidebarDropdownItem
-						label={subEntry.label}
-						href={subEntry.href}
-						on:click={() => toggleSidebarHandler()}
-						active={$page.url.pathname === subEntry.href}
-						{activeClass}
-						disabled={subEntry.disabled}
-						class={disabledClass(subEntry.disabled)}
-					/>
-				{/each}
-			</SidebarDropdownWrapper>
-		{:else}
-			<SidebarItem
-				disabled={entry.disabled}
-				label={entry.label}
-				href={entry.href}
+{#each links as entry}
+	{#if 'subLinks' in entry}
+		<SidebarLinksDropdown props={entry} let:subEntry>
+			<SidebarDropdownItem
+				label={subEntry.text}
+				href={subEntry.href}
 				on:click={() => toggleSidebarHandler()}
-				class={disabledClass(entry.disabled)}
-			>
-				<svelte:fragment slot="icon">
-					<svelte:component this={entry.icon} />
-				</svelte:fragment>
-				<svelte:fragment slot="subtext">
-					{#if entry.badge}
-						<Badge color={entry.badge.color}>{entry.badge.text}</Badge>
-					{/if}
-				</svelte:fragment>
-			</SidebarItem>
-		{/if}
-	{/each}
-</SidebarGroup>
+				class={classes(subEntry.disabled)}
+			/>
+		</SidebarLinksDropdown>
+	{:else}
+		<SidebarItem
+			label={entry.text}
+			href={entry.href}
+			on:click={() => toggleSidebarHandler()}
+			class={classes(entry.disabled)}
+		>
+			<svelte:fragment slot="icon">
+				<svelte:component this={entry.icon} />
+			</svelte:fragment>
+			<svelte:fragment slot="subtext">
+				{#if entry.badge}
+					<Badge color={entry.badge.color}>{entry.badge.text}</Badge>
+				{/if}
+			</svelte:fragment>
+		</SidebarItem>
+	{/if}
+{/each}

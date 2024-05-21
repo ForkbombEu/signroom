@@ -8,6 +8,7 @@
 	export let width = 'w-40';
 	export let backdrop = true;
 	export let closeOnClickOutside = true;
+	export let darkMode = false;
 </script>
 
 <Drawer
@@ -16,6 +17,7 @@
 	{width}
 	{backdrop}
 	{closeOnClickOutside}
+	{darkMode}
 	hideTopbar
 >
 	<slot />

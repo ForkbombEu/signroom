@@ -1,0 +1,28 @@
+{
+  "playwright.workspaceSettings": {
+    "configs": [
+      {
+        "relativeConfigFile": "webapp/playwright.config.ts",
+        "selected": true,
+        "enabled": true,
+        "projects": [
+          {
+            "name": "setup",
+            "enabled": true
+          },
+          {
+            "name": "nruTests",
+            "enabled": true
+          },
+          {
+            "name": "loggedTests",
+            "enabled": true
+          }
+        ]
+      }
+    ]
+  },
+  "tailwindCSS.experimental.classRegex": [
+    ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ]
+}

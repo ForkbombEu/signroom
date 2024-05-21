@@ -1,1 +1,1 @@
-export const appTitle = 'Signroom';
+export const appTitle = 'Didroom';

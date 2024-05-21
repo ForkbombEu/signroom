@@ -8,7 +8,9 @@
 	import forge from 'node-forge';
 	import { pb } from '$lib/pocketbase';
 	import SignaturesFoldersHead from './signaturesFoldersHead.svelte';
-	import type { ToastContent } from '../../routes/my/signatures/+page.svelte';
+	import type { ToastContent } from '../../routes/[[lang]]/my/signatures/+page.svelte';
+	import SectionTitle from './sectionTitle.svelte';
+	import { m } from '$lib/i18n';
 
 	export let folderId: string | null = null;
 	export let trigger: (toast: ToastContent) => void;
@@ -149,36 +151,41 @@
 
 <div class="flex flex-col md:flex-row justify-between gap-4 md:items-end items-start mb-8">
 	{#if !folderId}
-		<TitleDescription title="My signatures" description="Here you can see all your signatures" />
+		<SectionTitle
+			title={m.my_signatures()}
+			description={m.Here_you_can_see_all_your_signatures()}
+		/>
 	{:else}
 		<SignaturesFoldersHead {folderId} />
 	{/if}
 	<div class="md:ml-4">
-		<CreateRecord initialData={{folder:folderId}} let:openModal on:success={(e) => sign(e.detail.record)}>
-			<Button
-				id="new-signature"
-				color="primary"
-				size="sm"
-				class="!px-4 !py-2 whitespace-nowrap gap-2 w-fit"
-			>
-				<ArrowKeyDown />
-				New signature
-			</Button>
-			<Dropdown class="w-text-sm font-light" title="Popover title" triggeredBy="#new-signature">
-				{#each ['xades', 'pades', 'jades', 'cades'] as algo}
-					<DropdownItem>
-						<Button
-							outline
-							size="sm"
-							class="!px-4 !py-2 whitespace-nowrap gap-2 w-fit"
-							on:click={createRecord.bind(null, algo, openModal)}
-						>
-							<ClipboardDocumentCheck />
-							Sign with {algo}
-						</Button>
-					</DropdownItem>
-				{/each}
-			</Dropdown>
+		<CreateRecord initialData={{ folder: folderId }} on:success={(e) => sign(e.detail.record)}>
+			<svelte:fragment slot="button" let:openModal>
+				<Button
+					id="new-signature"
+					color="primary"
+					size="sm"
+					class="!px-4 !py-2 whitespace-nowrap gap-2 w-fit"
+				>
+					<ArrowKeyDown />
+					New signature
+				</Button>
+				<Dropdown class="w-text-sm font-light" title="Popover title" triggeredBy="#new-signature">
+					{#each ['xades', 'pades', 'jades', 'cades'] as algo}
+						<DropdownItem>
+							<Button
+								outline
+								size="sm"
+								class="!px-4 !py-2 whitespace-nowrap gap-2 w-fit"
+								on:click={createRecord.bind(null, algo, openModal)}
+							>
+								<ClipboardDocumentCheck />
+								Sign with {algo}
+							</Button>
+						</DropdownItem>
+					{/each}
+				</Dropdown>
+			</svelte:fragment>
 		</CreateRecord>
 	</div>
 </div>

@@ -26,11 +26,9 @@
 </script>
 
 <div class="flex justify-between items-center mb-4">
-	{#if $$slots.title}
-		<slot name="title" />
-	{:else}
+	<slot name="title">
 		<Heading tag={headingTag}>{collection}</Heading>
-	{/if}
+	</slot>
 	{#if description}
 		<P class="text-slate-600 pt-6">{description}</P>
 	{/if}
@@ -53,7 +51,7 @@
 				</Button>
 			</div>
 		{:else}
-			<div class="flex space-x-2 items-center">
+			<div class="flex gap-3 items-center">
 				{#if !hideCreateButton}
 					<CreateRecord />
 				{/if}
