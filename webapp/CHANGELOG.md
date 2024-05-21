@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/ForkbombEu/signroom/compare/v1.0.3...v1.0.4) (2024-05-21)
+
+
+### Bug Fixes
+
+* did backend logic ([#610](https://github.com/ForkbombEu/signroom/issues/610)) ([bfa74d3](https://github.com/ForkbombEu/signroom/commit/bfa74d37fa664d1c9e3eeaeb54d9aace00576552))
+
 ## [1.0.3](https://github.com/ForkbombEu/signroom/compare/v1.0.2...v1.0.3) (2024-05-21)
 
 
