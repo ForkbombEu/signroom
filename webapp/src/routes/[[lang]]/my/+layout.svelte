@@ -41,6 +41,8 @@
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import LanguageSwitcher from '$lib/i18n/languageSwitcher.svelte';
+	import { appTitle } from '$lib/strings';
+	import { version } from '$app/environment';
 
 	//
 
@@ -230,6 +232,9 @@
 					</Dropdown>
 				{/if}
 			</SidebarGroup>
+			<div class="flex pt-1 border-t border-t-white/20 mt-2">
+				<p class="text-white opacity-30 text-xs px-2 font-mono">{appTitle} – Version {version}</p>
+			</div>
 		</svelte:fragment>
 	</Sidebar>
 
