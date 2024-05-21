@@ -1,3 +1,24 @@
+## [1.0.3](https://github.com/ForkbombEu/signroom/compare/v1.0.2...v1.0.3) (2024-05-21)
+
+
+### Bug Fixes
+
+* issuance flow public ([#600](https://github.com/ForkbombEu/signroom/issues/600)) ([27ee1be](https://github.com/ForkbombEu/signroom/commit/27ee1be2cd7df63b0e3918331ea31ac37d6c3a35))
+
+## [1.0.2](https://github.com/ForkbombEu/signroom/compare/v1.0.1...v1.0.2) (2024-05-20)
+
+
+### Bug Fixes
+
+* update docker compose env vars ([3965452](https://github.com/ForkbombEu/signroom/commit/3965452ceb79e2c5abb74b97a090d7d26669f045))
+
+## [1.0.1](https://github.com/ForkbombEu/signroom/compare/v1.0.0...v1.0.1) (2024-05-20)
+
+
+### Bug Fixes
+
+* typegen missing env vars for new installs ([2c6e0dd](https://github.com/ForkbombEu/signroom/commit/2c6e0ddd85e07e9bca8f1287874b5fbab15d3deb))
+
 # 1.0.0 (2024-05-18)
 
 

@@ -6,7 +6,7 @@
 		saveKeyringToLocalStorage,
 		type Keyring
 	} from '$lib/keypairoom/keypair';
-	import { currentUser } from '$lib/pocketbase';
+	import { currentUser, pb } from '$lib/pocketbase';
 
 	import { page } from '$app/stores';
 	import Card from '$lib/components/card.svelte';
@@ -49,6 +49,14 @@
 					await matchPublicAndPrivateKeys(publicKeys, keyring);
 				} catch (e) {
 					throw new Error('Invalid seed');
+				}
+			}
+
+			if ($featureFlags.DID) {
+				try {
+					await pb.send('/api/did', {});
+				} catch (e) {
+					console.log(e);
 				}
 			}
 		}
