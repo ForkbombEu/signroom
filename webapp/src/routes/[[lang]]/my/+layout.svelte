@@ -30,7 +30,8 @@
 		RectangleStack,
 		User,
 		Users,
-		EllipsisHorizontal
+		EllipsisHorizontal,
+		LockClosed
 	} from 'svelte-heros-v2';
 	import { createOrganizationSidebarLinks } from '$lib/utils/organizations.js';
 	import { OrgRoles, getUserRole } from '$lib/rbac';
@@ -133,6 +134,11 @@
 								text: m.validate_signatures(),
 								href: '/my/validate',
 								icon: CheckCircle
+							},
+							{
+								text: m.Certificates(),
+								href: '/my/certificates',
+								icon: LockClosed
 							}
 						]}
 					/>
