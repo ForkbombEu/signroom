@@ -9,6 +9,9 @@
 	import SignaturesFoldersHead from './signaturesFoldersHead.svelte';
 	import type { ToastContent } from '../../routes/my/signatures/+page.svelte';
 	import { signData } from './utils/sign';
+	import type { ToastContent } from '../../routes/[[lang]]/my/signatures/+page.svelte';
+	import SectionTitle from './sectionTitle.svelte';
+	import { m } from '$lib/i18n';
 
 	export let folderId: string | null = null;
 	export let trigger: (toast: ToastContent) => void;
@@ -21,8 +24,8 @@
 		formFieldsSettings.base.hide!.type = type;
 		cb();
 	};
-	const CERTIFICATE_KEY = "certificateKey";
-	const CERTIFICATE = "certificate";
+	const CERTIFICATE_KEY = 'certificateKey';
+	const CERTIFICATE = 'certificate';
 
 	let loading = false;
 	let error: any = null;
@@ -57,15 +60,15 @@
 				return;
 			}
 
-		        const cert = await pb.collection('certificates').getOne(record.certificate)
-		        const name = cert.name;
-		        const certPem = cert.value;
-		        const signatureAlgorithmName = cert.algorithm;
+			const cert = await pb.collection('certificates').getOne(record.certificate);
+			const name = cert.name;
+			const certPem = cert.value;
+			const signatureAlgorithmName = cert.algorithm;
 			// current timestamp
 			const ts_now = Date.now();
-		        const sk = JSON.parse(localStorage.getItem(CERTIFICATE_KEY) || '{}');
-		        if ( sk[name] == null ) throw("Empty secret key");
-		        const secretKey = sk[name].zenroomValue || sk[name].value;
+			const sk = JSON.parse(localStorage.getItem(CERTIFICATE_KEY) || '{}');
+			if (sk[name] == null) throw 'Empty secret key';
+			const secretKey = sk[name].zenroomValue || sk[name].value;
 			//2. get data to sign
 			const toSign = await fetch('/api/getDataToSign', {
 				method: 'POST',
@@ -83,7 +86,14 @@
 			//4. sign document (insert signature)
 			const signed = await fetch('/api/signDocument', {
 				method: 'POST',
-				body: JSON.stringify({ certPem, ts_now, algo, doc: fb64, signatureAlgorithmName, signedDigest }),
+				body: JSON.stringify({
+					certPem,
+					ts_now,
+					algo,
+					doc: fb64,
+					signatureAlgorithmName,
+					signedDigest
+				}),
 				headers: {
 					'Content-Type': 'application/json',
 					Accept: 'application/json'
@@ -100,7 +110,7 @@
 			signatureName = rc.title;
 			trigger('signed');
 		} catch (e) {
-			error = {}
+			error = {};
 			error.message = e;
 			loading = false;
 		}
@@ -109,36 +119,41 @@
 
 <div class="flex flex-col md:flex-row justify-between gap-4 md:items-end items-start mb-8">
 	{#if !folderId}
-		<TitleDescription title="My signatures" description="Here you can see all your signatures" />
+		<SectionTitle
+			title={m.my_signatures()}
+			description={m.Here_you_can_see_all_your_signatures()}
+		/>
 	{:else}
 		<SignaturesFoldersHead {folderId} />
 	{/if}
 	<div class="md:ml-4">
-		<CreateRecord initialData={{folder:folderId}} let:openModal on:success={(e) => sign(e.detail.record)}>
-			<Button
-				id="new-signature"
-				color="primary"
-				size="sm"
-				class="!px-4 !py-2 whitespace-nowrap gap-2 w-fit"
-			>
-				<ArrowKeyDown />
-				New signature
-			</Button>
-			<Dropdown class="w-text-sm font-light" title="Popover title" triggeredBy="#new-signature">
-				{#each ['xades', 'pades', 'jades', 'cades'] as algo}
-					<DropdownItem>
-						<Button
-							outline
-							size="sm"
-							class="!px-4 !py-2 whitespace-nowrap gap-2 w-fit"
-							on:click={createRecord.bind(null, algo, openModal)}
-						>
-							<ClipboardDocumentCheck />
-							Sign with {algo}
-						</Button>
-					</DropdownItem>
-				{/each}
-			</Dropdown>
+		<CreateRecord initialData={{ folder: folderId }} on:success={(e) => sign(e.detail.record)}>
+			<svelte:fragment slot="button" let:openModal>
+				<Button
+					id="new-signature"
+					color="primary"
+					size="sm"
+					class="!px-4 !py-2 whitespace-nowrap gap-2 w-fit"
+				>
+					<ArrowKeyDown />
+					New signature
+				</Button>
+				<Dropdown class="w-text-sm font-light" title="Popover title" triggeredBy="#new-signature">
+					{#each ['xades', 'pades', 'jades', 'cades'] as algo}
+						<DropdownItem>
+							<Button
+								outline
+								size="sm"
+								class="!px-4 !py-2 whitespace-nowrap gap-2 w-fit"
+								on:click={createRecord.bind(null, algo, openModal)}
+							>
+								<ClipboardDocumentCheck />
+								Sign with {algo}
+							</Button>
+						</DropdownItem>
+					{/each}
+				</Dropdown>
+			</svelte:fragment>
 		</CreateRecord>
 	</div>
 </div>

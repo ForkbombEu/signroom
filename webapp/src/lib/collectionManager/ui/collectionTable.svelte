@@ -18,6 +18,7 @@
 		Checkbox
 	} from 'flowbite-svelte';
 	import RecordsTableHead from './collectionTableHeader.svelte';
+	import Pagination from './pagination.svelte';
 
 	//
 
@@ -59,7 +60,9 @@
 			{/each}
 
 			{#if $$slots.default}
-				<TableHeadCell />
+				<slot name="header">
+					<TableHeadCell />
+				</slot>
 			{/if}
 
 			<slot name="header" />
@@ -111,4 +114,7 @@
 			{/each}
 		</TableBody>
 	</Table>
+	<div class="pt-6">
+		<Pagination />
+	</div>
 {/if}

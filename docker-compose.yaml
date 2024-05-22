@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-version: "3.8"
 services:
   be:
     image: starters-pb:latest
@@ -48,8 +47,17 @@ services:
       - PUBLIC_POCKETBASE_URL=http://127.0.0.1:8090/
       - PB_ADMIN_USER=admin@example.org
       - PB_ADMIN_PASS=adminadmin
+      - PB_TYPEGEN_URL=http://127.0.0.1:8090
+      - PB_TYPEGEN_EMAIL=admin@example.org
+      - PB_TYPEGEN_PASSWORD=adminadmin
     volumes:
       - type: bind
         source: ./admin/pb_data
         target: /admin/pb_data
     network_mode: "host"
+    healthcheck:
+      test: wget -nv -t1 --spider 'http://localhost:4173/' || exit 1
+      interval: 20s
+      retries: 6
+      start_period: 60s
+      timeout: 60s

@@ -9,6 +9,11 @@ export { ProtectedOrgLayout, ProtectedOrgUI };
 import { browser } from '$app/environment';
 import { pb } from '$lib/pocketbase';
 import type { OrgRole } from './roles';
+import {
+	Collections,
+	type OrgAuthorizationsResponse,
+	type OrgRolesResponse
+} from '$lib/pocketbase/types';
 
 export async function verifyAuthorizations(organizationId: string, fetchFn = fetch) {
 	if (!browser) return;
@@ -33,4 +38,18 @@ export async function verifyRole(organizationId: string, roles: OrgRole[], fetch
 		requestKey: null,
 		fetch: fetchFn
 	});
+}
+
+export async function getUserRole(organizationId: string, userId: string): Promise<OrgRole> {
+	const orgAuthorization = await pb
+		.collection(Collections.OrgAuthorizations)
+		.getFirstListItem<OrgAuthorizationsResponse<{ role: OrgRolesResponse }>>(
+			`organization.id = '${organizationId}' && user.id = '${userId}'`,
+			{
+				expand: 'role',
+				requestKey: null
+			}
+		);
+
+	return orgAuthorization.expand?.role.name as OrgRole;
 }

@@ -1,17 +1,25 @@
+import { objectSchemaValidator } from '$lib/jsonSchema/types';
 import { z } from 'zod';
 
-export const formSchema = z.object({
-	credential_issuer_url: z.string().url(),
-	authorization_server: z.string().url()
+//
+
+export const requestBodySchema = z.object({
+	credential_issuer_url: z.string(),
+	credential_issuer_name: z.string(),
+	authorization_server_url: z.string(),
+	credential_template: objectSchemaValidator,
+	authorization_form_template: z.any(),
+	authorization_data_template: z.any(),
+	credential_display_name: z.string(),
+	credential_type_name: z.string(),
+	credential_logo: z.string().nullish(),
+	credential_description: z.string(),
+	scopes_supported: z.array(z.string())
 });
 
-export const requestSchema = formSchema.extend({
-	credential_name: z.string(), // Generate from service name
-	credential_issuer_name: z.string(), // Generate from organization name
-	templates: z.array(z.string()) // List of JSON schemas
-});
+//
 
-export type RequestBody = z.infer<typeof requestSchema>;
+export type RequestBody = z.infer<typeof requestBodySchema>;
 
 export function request(body: RequestBody, fetchFn = fetch) {
 	return fetchFn('/api/downloadCredentialIssuer', {

@@ -1,128 +1,202 @@
+import { String as S, pipe } from 'effect';
+import _ from 'lodash/fp';
+
 import type { RequestHandler } from '@sveltejs/kit';
 import AdmZip from 'adm-zip';
-import type { RequestBody } from '.';
-import * as credentialIssuer from '$lib/credentialIssuer';
-import * as credentialKeys from './credential.keys';
-import _ from 'lodash';
-import type { ObjectSchema } from '$lib/jsonSchema/types';
+import { requestBodySchema, type RequestBody } from '.';
+import {
+	mergeObjectSchemas,
+	DEFAULT_LOCALE,
+	mergeObjectSchemasIntoCredentialSubject,
+	updateZipFileContent
+} from './utils';
 import { nanoid } from 'nanoid';
-
-//
-
-const DIDROOM_MICROSERVICES_URL =
-	'https://github.com/ForkbombEu/DIDroom_microservices/archive/refs/heads/main.zip';
 
 //
 
 export const POST: RequestHandler = async ({ fetch, request }) => {
 	try {
-		const body = (await request.json()) as RequestBody;
-		const {
-			credential_issuer_url,
-			credential_issuer_name,
-			credential_name,
-			authorization_server,
-			templates
-		} = body;
+		const body = await parseRequestBody(request);
+		const zip = await fetchZipFile(fetch);
 
-		/* Zip reading */
+		updateCredentialIssuerWellKnown(zip, body, DEFAULT_LOCALE);
+		updateAuthorizationServerWellKnown(zip, body);
+		updateCredentialKeysJson(zip, body, nanoid(), DEFAULT_LOCALE);
+		updateCreateSchemaJson(zip, body.credential_template);
 
-		const zipResponse = await fetch(DIDROOM_MICROSERVICES_URL);
-		const buffer = Buffer.from(await zipResponse.arrayBuffer());
-		const zip = new AdmZip(buffer);
-
-		/* Credential issuer metadata update */
-
-		const CREDENTIAL_ISSUER_METADATA_FILE_NAME = 'openid-credential-issuer';
-		const credentialIssuerMetadataEntry = getFile(zip, CREDENTIAL_ISSUER_METADATA_FILE_NAME);
-
-		if (credentialIssuerMetadataEntry) {
-			const credentialSubject = _.merge(
-				templates
-					.map((t) => JSON.parse(t))
-					.map((t) => credentialIssuer.objectSchemaToCredentialSubject(t))
-			);
-
-			const credentialIssuerMetadata = credentialIssuer.template({
-				credential_issuer_url,
-				credential_issuer_name,
-				credential_name,
-				authorization_server,
-				credentialSubject
-			});
-
-			editFile(
-				zip,
-				CREDENTIAL_ISSUER_METADATA_FILE_NAME,
-				JSON.stringify(credentialIssuerMetadata, null, 4)
-			);
-		}
-
-		/* credential.keys.json */
-
-		const CREDENTIAL_KEYS_FILE_NAME = 'credential.keys.json';
-		const credentialKeysJsonEntry = getFile(zip, CREDENTIAL_KEYS_FILE_NAME);
-
-		if (credentialKeysJsonEntry) {
-			const credentialSubject = _.merge(
-				templates
-					.map((t) => JSON.parse(t))
-					.map((t) => credentialKeys.objectSchemaToCredentialSubject(t))
-			);
-
-			const template = credentialKeys.template({
-				id: 'sadkjhaskjldh',
-				issuerUrl: credential_issuer_url,
-				credentialSubject
-			});
-
-			editFile(zip, CREDENTIAL_KEYS_FILE_NAME, JSON.stringify(template, null, 4));
-		}
-
-		/* create.schema.json */
-
-		const CREATE_SCHEMA_JSON_FILE_NAME = 'create.schema.json';
-		const createSchemaJsonEntry = getFile(zip, CREATE_SCHEMA_JSON_FILE_NAME);
-
-		if (createSchemaJsonEntry) {
-			const schema = mergeObjectSchemas(templates.map((t) => JSON.parse(t)));
-			editFile(zip, CREATE_SCHEMA_JSON_FILE_NAME, JSON.stringify(schema, null, 2));
-		}
-
-		/* */
-
-		return new Response(zip.toBuffer(), {
-			status: 200,
-			headers: {
-				'Content-Type': 'application/octet-stream'
-			}
-		});
+		return zipResponse(zip);
 	} catch (e) {
 		console.log(e);
-		return new Response((e as Error)?.message ?? 'Internal Server Error', {
-			status: 500
-		});
+		return errorResponse(e);
 	}
 };
 
-function getFile(zip: AdmZip, entryName: string) {
-	return zip.getEntries().find((entry) => entry.name === entryName);
+//
+
+async function parseRequestBody(request: Request): Promise<RequestBody> {
+	return requestBodySchema.parse(await request.json());
 }
 
-function editFile(zip: AdmZip, entryName: string, content: string) {
-	const entry = zip.getEntries().find((entry) => entry.name === entryName);
-	if (!entry) return;
-	zip.updateFile(entry, Buffer.from(content));
+async function fetchZipFile(fetchFn = fetch): Promise<AdmZip> {
+	const DIDROOM_MICROSERVICES_URL =
+		'https://github.com/ForkbombEu/DIDroom_microservices/archive/refs/heads/main.zip';
+	const zipResponse = await fetchFn(DIDROOM_MICROSERVICES_URL);
+	const buffer = Buffer.from(await zipResponse.arrayBuffer());
+	return new AdmZip(buffer);
 }
 
-function mergeObjectSchemas(schemas: ObjectSchema[]): ObjectSchema {
-	if (schemas.length === 1) return schemas[0];
+function zipResponse(zip: AdmZip): Response {
+	return new Response(zip.toBuffer(), {
+		status: 200,
+		headers: {
+			'Content-Type': 'application/octet-stream'
+		}
+	});
+}
 
-	const mergedSchema: ObjectSchema = { type: 'object', properties: {}, required: [] };
-	for (const schema of schemas) {
-		const id = nanoid(5);
-		mergedSchema.properties[id] = schema;
-		mergedSchema.required?.push(id);
-	}
-	return mergedSchema;
+function errorResponse(e: unknown) {
+	return new Response(e instanceof Error ? e.message : 'Internal Server Error', {
+		status: 500
+	});
+}
+
+//
+
+function updateCredentialIssuerWellKnown(zip: AdmZip, data: RequestBody, locale = DEFAULT_LOCALE) {
+	updateZipFileContent(
+		zip,
+		'public/credential_issuer/.well-known/openid-credential-issuer',
+
+		(content) =>
+			pipe(
+				content,
+
+				S.replaceAll(
+					'https://issuer1.zenswarm.forkbomb.eu/credential_issuer',
+					cleanUrl(data.credential_issuer_url)
+				),
+				S.replace(
+					'https://authz-server1.zenswarm.forkbomb.eu/authz_server',
+					cleanUrl(data.authorization_server_url)
+				),
+
+				JSON.parse,
+
+				_.set('display[0]', {
+					name: data.credential_issuer_name,
+					locale
+				}),
+
+				_.set('jwks.keys[0].kid', ''),
+
+				_.set('credential_configurations_supported[0].display[0]', {
+					name: data.credential_display_name,
+					locale,
+					logo: {
+						url: data.credential_logo,
+						alt_text: `${data.credential_display_name} logo`
+					},
+					background_color: '#12107c',
+					text_color: '#FFFFFF',
+					description: data.credential_description
+				}),
+
+				_.set(
+					'credential_configurations_supported[0].credential_definition.type[0]',
+					data.credential_type_name
+				),
+				_.set(
+					'credential_configurations_supported[0].credential_definition.credentialSubject',
+					mergeObjectSchemasIntoCredentialSubject([data.credential_template], locale)
+				),
+				_.update('credential_configurations_supported', (v: unknown[]) => v.slice(undefined, 1)), // Keeps only the first example
+
+				(json) => JSON.stringify(json, null, 4)
+			)
+	);
+}
+
+function updateAuthorizationServerWellKnown(zip: AdmZip, data: RequestBody) {
+	updateZipFileContent(
+		zip,
+		'public/authz_server/.well-known/oauth-authorization-server',
+
+		(content) =>
+			pipe(
+				content,
+
+				S.replaceAll(
+					'https://authz-server1.zenswarm.forkbomb.eu/authz_server',
+					cleanUrl(data.authorization_server_url)
+				),
+
+				JSON.parse,
+
+				_.set('jwks.keys[0].kid', ''),
+				_.set('scopes_supported', data.scopes_supported),
+
+				(json) => JSON.stringify(json, null, 4)
+			)
+	);
+}
+
+function updateCredentialKeysJson(
+	zip: AdmZip,
+	data: RequestBody,
+	id: string,
+	locale = DEFAULT_LOCALE
+) {
+	const credentialSubject = mergeObjectSchemasIntoCredentialSubject(
+		[data.credential_template],
+		locale
+	);
+
+	updateZipFileContent(
+		zip,
+		'credential_issuer/credential.keys.json',
+
+		(content) =>
+			pipe(
+				content,
+				S.replaceAll('http://issuer.example.org', cleanUrl(data.credential_issuer_url)),
+
+				JSON.parse,
+				_.set(
+					'supported_selective_disclosure.credentials_supported[0].credentialSubject',
+					credentialSubject
+				),
+				_.set(
+					'supported_selective_disclosure.credentials_supported[0].display[0].name',
+					data.credential_display_name
+				),
+				_.set('supported_selective_disclosure.credentials_supported[0].display[0].locale', locale),
+				_.set('supported_selective_disclosure.credentials_supported[0].id', id),
+				_.set(
+					'supported_selective_disclosure.credentials_supported[0].order',
+					Object.keys(credentialSubject)
+				),
+				_.set(
+					'supported_selective_disclosure.credentials_supported[0].types[1]',
+					data.credential_type_name
+				),
+				_.set('supported_selective_disclosure.scopes_supported[1]', data.credential_type_name),
+				_.set('object', {}),
+				_.set('id', id),
+
+				(json) => JSON.stringify(json, null, 4)
+			)
+	);
+}
+
+function updateCreateSchemaJson(zip: AdmZip, template: RequestBody['credential_template']) {
+	updateZipFileContent(
+		zip,
+		'credential_issuer/create.schema.json',
+
+		() => pipe([template], mergeObjectSchemas, (data) => JSON.stringify(data, null, 4))
+	);
+}
+
+function cleanUrl(url: string) {
+	return url.endsWith('/') ? url.slice(0, -1) : url;
 }
