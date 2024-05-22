@@ -15,7 +15,7 @@ test('it should create an organization', async ({ browser }) => {
 
 	await page.goto('/my/organizations');
 
-	await page.getByRole('link', { name: 'Create a new organization plus' }).click();
+  await page.getByRole('button', { name: 'Create a new organization' }).click();
 	await expect(page).toHaveURL('/my/organizations/create');
 
 	orgName = `org-${randomId()}`;
@@ -29,7 +29,7 @@ test('it should create an organization', async ({ browser }) => {
 });
 
 test('it should edit organization name', async () => {
-	await page.getByRole('tab', { name: 'cog Settings' }).click();
+	await page.getByRole('tab', { name: 'academic cap Settings' }).click();
 	await expect(page).toHaveURL(/my\/organizations\/[^/]+\/settings/);
 
 	await page.locator('input[name="name"]').click();
@@ -41,7 +41,7 @@ test('it should edit organization name', async () => {
 });
 
 test('it should add user B to the organization as admin', async () => {
-	await page.getByRole('tab', { name: 'users Members' }).click();
+	await page.getByRole('tab', { name: 'academic cap Members' }).click();
 	await expect(page).toHaveURL(/my\/organizations\/[^/]+\/members/);
 
 	let username = 'userB';
@@ -73,7 +73,7 @@ test.skip("it should hide the 'settings' section to admin", async ({ browser, pa
 	const settingsButton = page.getByTestId(`${orgName} link`);
 	await expect(settingsButton).toBeHidden();
 
-	await page.getByRole('main').getByRole('link', { name: orgName }).click();
+	await page.getByRole('main').getByRole('button', { name: orgName }).click();
 	await expect(page.getByRole('tab', { name: 'cog Settings' })).toBeHidden();
 
 	await page.goto(`/my/organizations/${orgId}/settings`);
@@ -96,7 +96,7 @@ test.skip("it should hide the 'settings' section to user", async ({ browser, pag
 });
 
 async function addMemberWithRole(page: Page, username: string, role: string) {
-	await page.getByRole('button', { name: 'plus Add new member' }).click();
+	await page.getByRole('button', { name: 'academic cap Add new member' }).click();
 
 	await page.locator('.sv-content').click();
 	await page.getByPlaceholder('Select').fill(username);
