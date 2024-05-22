@@ -1,3 +1,11 @@
+## [1.2.1](https://github.com/ForkbombEu/signroom/compare/v1.2.0...v1.2.1) (2024-05-22)
+
+
+### Bug Fixes
+
+* updated migrations timestamps ([#624](https://github.com/ForkbombEu/signroom/issues/624)) ([1db157c](https://github.com/ForkbombEu/signroom/commit/1db157cbe55648f94075419d3c321ffef24f4f62))
+* various small ui fixes ([#622](https://github.com/ForkbombEu/signroom/issues/622)) ([3250267](https://github.com/ForkbombEu/signroom/commit/32502674082ea61c931711f68d053787c043b752))
+
 # [1.2.0](https://github.com/ForkbombEu/signroom/compare/v1.1.0...v1.2.0) (2024-05-22)
 
 
