@@ -48,9 +48,6 @@
 			const certificate = await readFile(data.certificate as File);
 			const key = await readFile(data.key as File);
 			await addCertifcateAndKey(data.name, certificate, key, $currentUser!.id);
-			delete data.name;
-			delete data.key;
-			delete data.certificate;
 			showModal = false;
 		},
 		undefined,
@@ -103,10 +100,7 @@
 			if (!keyUploadCertificate) return;
 			const key = form.data.key as File;
 			const keyContent = await readFile(key);
-			await addKey(keyUploadCertificate.name,
-				keyUploadCertificate.algorithm,
-				keyContent,
-				false);
+			await addKey(keyUploadCertificate.name, keyUploadCertificate.algorithm, keyContent, false);
 			delete form.data.key;
 			keyUploadModal = createToggleStore(false);
 		},
@@ -131,7 +125,6 @@
 		async ({ form }) => {
 			const { data } = form;
 			await addAutosingedCertificateAndKey(data.name, $currentUser!.id);
-			delete data.name;
 			showAutosignedModal = false;
 		},
 		undefined,
@@ -155,6 +148,7 @@
 				</Button>
 			</svelte:fragment>
 		</CollectionManagerHeader>
+
 		<CollectionTable
 			{records}
 			fields={['name', 'algorithm']}
@@ -162,11 +156,11 @@
 		>
 			<svelte:fragment slot="emptyState">
 				<CollectionEmptyState
-					title = "No certificate here"
-					description = "Start by creating an autosigned certificate"
+					title="No certificate here"
+					description="Start by creating an autosigned certificate"
 					hideCreateButton
-					>
-					<svelte:fragment slot="actions">
+				>
+					<svelte:fragment slot="bottom">
 						<Button color="alternative" on:click={() => (showAutosignedModal = true)}>
 							<Plus />
 							<span class="ml-2"> Generate an autosigned certificate </span>
@@ -245,7 +239,12 @@
 		</Form>
 	</Modal>
 
-	<Modal bind:open={showAutosignedModal} size="md" title="Autosigned certificate" placement="center">
+	<Modal
+		bind:open={showAutosignedModal}
+		size="md"
+		title="Autosigned certificate"
+		placement="center"
+	>
 		<Form superform={autosignedCertForm}>
 			<Input
 				superform={autosignedCertForm}
