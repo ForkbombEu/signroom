@@ -20,11 +20,13 @@
 	export let size: keyof typeof sizeToNumber = 'md';
 
 	//@ts-ignore
-	$: src = pb.files.getUrl($currentUser, user?.avatar);
+	$: src = pb.files.getUrl(user, user?.avatar);
 </script>
 
-{#if $currentUser?.avatar}
-	<Avatar {size} {src} />
-{:else}
-	<BoringAvatar variant="beam" size={sizeToNumber[size || 'md']} name={$currentUser?.email} />
-{/if}
+<div class="shrink-0">
+	{#if $currentUser?.avatar}
+		<Avatar {size} {src} />
+	{:else}
+		<BoringAvatar variant="beam" size={sizeToNumber[size]} name={$currentUser?.email} />
+	{/if}
+</div>
