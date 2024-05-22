@@ -54,7 +54,7 @@
 				hide: { organization: organization.id },
 				relations: {
 					role: { inputMode: 'select', displayFields: ['name'] },
-					user: { displayFields: ['name'] }
+					user: { displayFields: ['name', 'email'] }
 				}
 			}}
 			editFormSettings={{
