@@ -1,8 +1,8 @@
 <script lang="ts">
 	import {
-		userQuestions,
-		type UserAnswers,
-		userAnswersSchema
+		userChallengesSchema,
+		userChallenges,
+		type UserChallenges
 	} from '$lib/keypairoom/userQuestions.js';
 	import {
 		generateKeypair,
@@ -35,13 +35,13 @@
 
 	const schema = z.object({
 		email: z.string().email(),
-		questions: userAnswersSchema
+		questions: userChallengesSchema
 	});
 
-	type FormData = z.infer<typeof schema>;
-
 	const superform = createForm(schema, async ({ form }) => {
-		const keypair = await createKeypairFromFormData(form.data);
+		const { email, questions } = form.data;
+		const challenges = userChallengesSchema.parse(questions);
+		const keypair = await createKeypairFromFormData(email, challenges);
 
 		const privateKeys = keypair.keyring;
 		const publicKeys = getPublicKeysFromKeypair(keypair);
@@ -72,21 +72,9 @@
 		seed = keypair.seed;
 	});
 
-	async function createKeypairFromFormData(data: FormData) {
-		const email = data.email;
+	async function createKeypairFromFormData(email: string, challenges: UserChallenges) {
 		const HMAC = await getHMAC(email);
-		return await generateKeypair(email, HMAC, formQuestionsToUserAnswers(data.questions));
-	}
-
-	// non-answered questions *must* be set to 'null'
-	function formQuestionsToUserAnswers(questions: FormData['questions']): UserAnswers {
-		return {
-			question1: questions['question1'] ?? 'null',
-			question2: questions['question2'] ?? 'null',
-			question3: questions['question3'] ?? 'null',
-			question4: questions['question4'] ?? 'null',
-			question5: questions['question5'] ?? 'null'
-		};
+		return await generateKeypair(email, HMAC, challenges);
 	}
 
 	const { form } = superform;
@@ -153,7 +141,7 @@
 				<Hr />
 			{/if}
 
-			{#each userQuestions as question}
+			{#each userChallenges as question}
 				<Input {superform} field={`questions.${question.id}`} options={{ label: question.text }} />
 			{/each}
 
