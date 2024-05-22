@@ -88,14 +88,14 @@
 
 		<ReviewField label="Organizer">
 			{#await getOwner() then owner}
-				<p>{owner.username}</p>
+				<p>{owner.name}</p>
 			{/await}
 		</ReviewField>
 
 		<ReviewField label="Participants">
 			{#await getParticipants() then participants}
 				{#each participants as p}
-					<p>{p.username}</p>
+					<p>{p.name}</p>
 				{/each}
 			{/await}
 		</ReviewField>
