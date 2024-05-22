@@ -15,6 +15,7 @@
 	} from 'flowbite-svelte';
 	import { ArrowPath } from 'svelte-heros-v2';
 	import Icon from '$lib/components/icon.svelte';
+	import SidebarButton from '$lib/layout/SidebarButton.svelte';
 
 	const languagesDisplay: Record<AvailableLanguageTag, { flag: string; name: string }> = {
 		en: { flag: '🇬🇧', name: 'English' },
@@ -28,18 +29,13 @@
 	const id = 'language-switcher';
 </script>
 
-<SidebarDropdownWrapper label={languagesDisplay[languageTag()].name} ulClass="hidden" {id}>
-	<svelte:fragment slot="icon">
+<SidebarButton {id}>
+	<div class="flex gap-3">
 		<p class="w-6 h-6 text-2xl leading-[1]">{languagesDisplay[languageTag()].flag}</p>
-	</svelte:fragment>
-
-	<svelte:fragment slot="arrowdown">
-		<Icon src={ArrowPath} class="mr-1"></Icon>
-	</svelte:fragment>
-	<svelte:fragment slot="arrowup">
-		<Icon src={ArrowPath} class="mr-1"></Icon>
-	</svelte:fragment>
-</SidebarDropdownWrapper>
+		<p>{languagesDisplay[languageTag()].name}</p>
+	</div>
+	<Icon src={ArrowPath} slot="right" size={18}></Icon>
+</SidebarButton>
 
 <Dropdown triggeredBy={`#${id}`} class="w-[215px]">
 	<DropdownHeader>

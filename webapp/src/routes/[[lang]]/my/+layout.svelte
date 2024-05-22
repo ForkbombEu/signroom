@@ -41,6 +41,8 @@
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import LanguageSwitcher from '$lib/i18n/languageSwitcher.svelte';
+	import SidebarButton from '$lib/layout/SidebarButton.svelte';
+	import { getUIShellContext } from '$lib/layout/UiShell.svelte';
 
 	//
 
@@ -50,7 +52,7 @@
 	let sidebarLayoutBreakpoint = 1024;
 </script>
 
-<UIShell {sidebarLayoutBreakpoint}>
+<UIShell {sidebarLayoutBreakpoint} let:toggleSidebar>
 	<svelte:fragment slot="top" let:sidebarLayoutMode>
 		{#if sidebarLayoutMode == 'drawer'}
 			<Topbar>
@@ -171,7 +173,7 @@
 		</div>
 
 		<svelte:fragment slot="bottom">
-			<SidebarGroup>
+			<SidebarGroup class="space-y-1">
 				<SidebarLinks
 					links={[
 						{
@@ -187,18 +189,15 @@
 				{#if $currentUser}
 					{@const id = 'menu-trigger'}
 					{@const idSelector = `#${id}`}
-					<SidebarDropdownWrapper label={getUserDisplayName($currentUser)} ulClass="hidden" {id}>
-						<svelte:fragment slot="icon">
-							<UserAvatar size="sm" />
-						</svelte:fragment>
-
-						<svelte:fragment slot="arrowdown">
-							<EllipsisHorizontal />
-						</svelte:fragment>
-						<svelte:fragment slot="arrowup">
-							<EllipsisHorizontal />
-						</svelte:fragment>
-					</SidebarDropdownWrapper>
+					<SidebarButton {id} class="pl-1 py-1">
+						<div class="flex gap-2 items-center">
+							<div class="">
+								<UserAvatar size="sm" />
+							</div>
+							<span>{getUserDisplayName($currentUser)}</span>
+						</div>
+						<Icon src={EllipsisHorizontal} slot="right" />
+					</SidebarButton>
 
 					<Dropdown triggeredBy={idSelector} class="w-[215px]">
 						<DropdownHeader>
@@ -206,7 +205,7 @@
 								{getUserDisplayName($currentUser)}
 							</span>
 						</DropdownHeader>
-						<DropdownItem href="/my/profile" class="flex">
+						<DropdownItem href="/my/profile" class="flex" on:click={toggleSidebar}>
 							<Icon src={User} mr />
 							{m.My_profile()}
 						</DropdownItem>
