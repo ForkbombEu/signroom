@@ -7,7 +7,6 @@
 	//@ts-ignore
 	import { pb } from '$lib/pocketbase';
 	import SignaturesFoldersHead from './signaturesFoldersHead.svelte';
-	import type { ToastContent } from '../../routes/my/signatures/+page.svelte';
 	import { signData } from './utils/sign';
 	import type { ToastContent } from '../../routes/[[lang]]/my/signatures/+page.svelte';
 	import SectionTitle from './sectionTitle.svelte';
