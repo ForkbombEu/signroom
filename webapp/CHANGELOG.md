@@ -1,3 +1,17 @@
+# [1.2.0](https://github.com/ForkbombEu/signroom/compare/v1.1.0...v1.2.0) (2024-05-22)
+
+
+### Bug Fixes
+
+* show names in the multisignature details page ([#620](https://github.com/ForkbombEu/signroom/issues/620)) ([4722963](https://github.com/ForkbombEu/signroom/commit/47229636800b720d6ab6a0b5c911c643dddf9c8a))
+* tests auth and run tests on build preview ([#623](https://github.com/ForkbombEu/signroom/issues/623)) ([2caa7bb](https://github.com/ForkbombEu/signroom/commit/2caa7bb3c198af05b537db8e49ddad7c04a48bd1))
+
+
+### Features
+
+* add one or more certificate and decide which one to use when signing ([#379](https://github.com/ForkbombEu/signroom/issues/379)) ([e641bc0](https://github.com/ForkbombEu/signroom/commit/e641bc053498e0b9a51cf1118a1a5b790108e221))
+* search users by username also ([#614](https://github.com/ForkbombEu/signroom/issues/614)) ([eb2196f](https://github.com/ForkbombEu/signroom/commit/eb2196f1afe76e3d95b84187301fe7aa12ed8308))
+
 # [1.1.0](https://github.com/ForkbombEu/signroom/compare/v1.0.4...v1.1.0) (2024-05-22)
 
 
