@@ -50,7 +50,7 @@
 					label: 'Search users',
 					placeholder: 'Search participants by full name',
 					multiple: true,
-					displayFields: ['username']
+					displayFields: ['name', 'email']
 				}}
 			/>
 		</Card>

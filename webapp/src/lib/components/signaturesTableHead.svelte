@@ -5,9 +5,9 @@
 	import { ClipboardDocumentCheck, ExclamationCircle, HandThumbUp } from 'svelte-heros-v2';
 	import { getRecordsManagerContext, CreateRecord } from '$lib/collectionManager';
 	//@ts-ignore
-	import forge from 'node-forge';
 	import { pb } from '$lib/pocketbase';
 	import SignaturesFoldersHead from './signaturesFoldersHead.svelte';
+	import { signData } from './utils/sign';
 	import type { ToastContent } from '../../routes/[[lang]]/my/signatures/+page.svelte';
 	import SectionTitle from './sectionTitle.svelte';
 	import { m } from '$lib/i18n';
@@ -23,7 +23,8 @@
 		formFieldsSettings.base.hide!.type = type;
 		cb();
 	};
-	const pki = forge.pki;
+	const CERTIFICATE_KEY = 'certificateKey';
+	const CERTIFICATE = 'certificate';
 
 	let loading = false;
 	let error: any = null;
@@ -58,59 +59,19 @@
 				return;
 			}
 
+			const cert = await pb.collection('certificates').getOne(record.certificate);
+			const name = cert.name;
+			const certPem = cert.value;
+			const signatureAlgorithmName = cert.algorithm;
 			// current timestamp
 			const ts_now = Date.now();
-			// yesterday timestamp to be used as notBefore
-			// date in the x509 certificate
-			var yesterday = new Date();
-			yesterday.setDate(yesterday.getDate() - 1);
-
-			//1. generate a rsa keypair and a X.509v3 certificate
-			const keypair = pki.rsa.generateKeyPair(2048);
-			var cert = pki.createCertificate();
-			cert.publicKey = keypair.publicKey;
-			cert.serialNumber = '01';
-			cert.validity.notBefore = yesterday;
-			cert.validity.notAfter = new Date();
-			cert.validity.notAfter.setFullYear(cert.validity.notBefore.getFullYear() + 1);
-			const attrs = [
-				{
-					name: 'commonName',
-					value: ''
-				},
-				{
-					name: 'countryName',
-					value: ''
-				},
-				{
-					shortName: 'ST',
-					value: ''
-				},
-				{
-					name: 'localityName',
-					value: ''
-				},
-				{
-					name: 'organizationName',
-					value: ''
-				},
-				{
-					shortName: 'OU',
-					value: ''
-				}
-			];
-			cert.setSubject(attrs);
-			cert.setIssuer(attrs);
-			// self-sign certificate
-			cert.sign(keypair.privateKey);
-			// convert a Forge certificate to PEM
-			var cert_pem = pki.certificateToPem(cert);
-			cert_pem = cert_pem.split('\r\n').slice(1, -2).join('\n');
-
+			const sk = JSON.parse(localStorage.getItem(CERTIFICATE_KEY) || '{}');
+			if (sk[name] == null) throw 'Empty secret key';
+			const secretKey = sk[name].zenroomValue || sk[name].value;
 			//2. get data to sign
 			const toSign = await fetch('/api/getDataToSign', {
 				method: 'POST',
-				body: JSON.stringify({ algo, doc: fb64, cert_pem, ts_now }),
+				body: JSON.stringify({ certPem, ts_now, algo, doc: fb64, signatureAlgorithmName }),
 				headers: {
 					'Content-Type': 'application/json',
 					Accept: 'application/json'
@@ -119,14 +80,19 @@
 			const toBeSigned = await toSign.json();
 
 			//3. sign digest of data
-			var md = forge.md.sha256.create();
-			md.update(atob(toBeSigned.bytes), 'raw');
-			const signedDigest = btoa(keypair.privateKey.sign(md));
+			const signedDigest = await signData(signatureAlgorithmName, secretKey, toBeSigned.bytes);
 
 			//4. sign document (insert signature)
 			const signed = await fetch('/api/signDocument', {
 				method: 'POST',
-				body: JSON.stringify({ cert_pem, ts_now, signedDigest, doc: fb64, algo }),
+				body: JSON.stringify({
+					certPem,
+					ts_now,
+					algo,
+					doc: fb64,
+					signatureAlgorithmName,
+					signedDigest
+				}),
 				headers: {
 					'Content-Type': 'application/json',
 					Accept: 'application/json'
@@ -143,7 +109,8 @@
 			signatureName = rc.title;
 			trigger('signed');
 		} catch (e) {
-			error = e;
+			error = {};
+			error.message = e;
 			loading = false;
 		}
 	}
