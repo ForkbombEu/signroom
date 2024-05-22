@@ -17,7 +17,6 @@
 		DropdownHeader,
 		DropdownItem,
 		Hr,
-		SidebarDropdownWrapper,
 		SidebarGroup
 	} from 'flowbite-svelte';
 	import {
@@ -30,19 +29,20 @@
 		RectangleStack,
 		User,
 		Users,
-		EllipsisHorizontal
+		EllipsisHorizontal,
+		LockClosed
 	} from 'svelte-heros-v2';
 	import { createOrganizationSidebarLinks } from '$lib/utils/organizations.js';
-	import { OrgRoles, getUserRole } from '$lib/rbac';
+	import { getUserRole } from '$lib/rbac';
 	import { m } from '$lib/i18n';
 	import UserAvatar from '$lib/components/userAvatar.svelte';
 	import { getUserDisplayName } from '$lib/utils/pb';
 	import Icon from '$lib/components/icon.svelte';
-	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import LanguageSwitcher from '$lib/i18n/languageSwitcher.svelte';
 	import SidebarButton from '$lib/layout/SidebarButton.svelte';
-	import { getUIShellContext } from '$lib/layout/UiShell.svelte';
+	import { appTitle } from '$lib/strings';
+	import { version } from '$app/environment';
 
 	//
 
@@ -133,6 +133,11 @@
 								text: m.validate_signatures(),
 								href: '/my/validate',
 								icon: CheckCircle
+							},
+							{
+								text: m.Certificates(),
+								href: '/my/certificates',
+								icon: LockClosed
 							}
 						]}
 					/>
@@ -229,6 +234,9 @@
 					</Dropdown>
 				{/if}
 			</SidebarGroup>
+			<div class="flex pt-1 border-t border-t-white/20 mt-2">
+				<p class="text-white opacity-30 text-xs px-2 font-mono">{appTitle} – Version {version}</p>
+			</div>
 		</svelte:fragment>
 	</Sidebar>
 

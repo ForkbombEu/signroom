@@ -370,5 +370,6 @@
 	"Participant_account_and_did": "Participant Account and DID",
 	"participant_account_and_did_description": "Users must have already an account and DID on the platform to be invited to sign.",
 	"Multisignature_setup": "Multisignature setup",
-	"multisignature_setup_description": "Successful completion of the multisignature process requires signatures from all participants"
+	"multisignature_setup_description": "Successful completion of the multisignature process requires signatures from all participants",
+	"Certificates": "Certificates"
 }

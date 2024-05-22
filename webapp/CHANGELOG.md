@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/ForkbombEu/signroom/compare/v1.0.4...v1.1.0) (2024-05-22)
+
+
+### Features
+
+* add version number ([#617](https://github.com/ForkbombEu/signroom/issues/617)) ([f9261d5](https://github.com/ForkbombEu/signroom/commit/f9261d5dd7e6d888690f479784f1cd1b3cb21907))
+
 ## [1.0.4](https://github.com/ForkbombEu/signroom/compare/v1.0.3...v1.0.4) (2024-05-21)
 
 
