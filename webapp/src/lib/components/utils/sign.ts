@@ -4,23 +4,32 @@ import { zencode_exec } from 'zenroom';
 import forge from 'node-forge';
 
 async function zencodeExec(contract: string, data: string) {
-	const { result } = await zencode_exec(contract, {data: data});
+	const { result } = await zencode_exec(contract, { data: data });
 	return JSON.parse(result);
 }
 
-export async function signData(algorithmName: string, sk: string, data: string): string {
-	switch(algorithmName){
+export async function signData(algorithmName: string, sk: string, data: string): Promise<string> {
+	switch (algorithmName) {
 		case 'ECDSA':
-			const { der_signature } = await zencodeExec(hexDerEs256Signature,
-				`{"keyring": {"es256": "${sk}"}, "bytes": "${data}"}`);
-			const signedDigest = btoa(der_signature.match(/\w{2}/g).map(function(a: string){return String.fromCharCode(parseInt(a, 16));} ).join(""));
+			const { der_signature } = await zencodeExec(
+				hexDerEs256Signature,
+				`{"keyring": {"es256": "${sk}"}, "bytes": "${data}"}`
+			);
+			const signedDigest = btoa(
+				der_signature
+					.match(/\w{2}/g)
+					.map(function (a: string) {
+						return String.fromCharCode(parseInt(a, 16));
+					})
+					.join('')
+			);
 			return signedDigest;
-			break;;
 		case 'EdDSA':
-			const { eddsa_signature } = await zencodeExec(EdDSASignature,
-				`{"keyring": {"eddsa": "${sk}"}, "bytes": "${data}"}`);
+			const { eddsa_signature } = await zencodeExec(
+				EdDSASignature,
+				`{"keyring": {"eddsa": "${sk}"}, "bytes": "${data}"}`
+			);
 			return eddsa_signature;
-			break;
 		case 'RSASSA-PKCS1-v1_5':
 			// sk needs to be Pem, i.e.
 			// -----BEGIN PRIVATE KEY-----\nbase64\n-----END PRIVATE KEY-----
@@ -28,7 +37,6 @@ export async function signData(algorithmName: string, sk: string, data: string):
 			var md = forge.md.sha256.create();
 			md.update(atob(data), 'raw');
 			return btoa(pkcs1PrivateKey.sign(md));
-			break;
 		case '1.2.840.113549.1.1.10':
 			// sk needs to be Pem, i.e.
 			// -----BEGIN PRIVATE KEY-----\nbase64\n-----END PRIVATE KEY-----
@@ -41,8 +49,7 @@ export async function signData(algorithmName: string, sk: string, data: string):
 				saltLength: 20
 			});
 			return btoa(pssPrivateKey.sign(md, pss));
-			break;
 		default:
-			throw(algorithmName + '  not yet implemented')
+			throw algorithmName + '  not yet implemented';
 	}
 }
