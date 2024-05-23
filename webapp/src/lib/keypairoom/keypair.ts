@@ -1,4 +1,4 @@
-import type { UserAnswers } from './userQuestions';
+import type { UserChallenges } from './userQuestions';
 import { zencode_exec } from 'zenroom';
 import keypairoomClient from '../../../zenflows-crypto/src/keypairoomClient-8-9-10-11-12.zen?raw';
 import keypairoomClientRecreateKeys from '../../../zenflows-crypto/src/keypairoomClientRecreateKeys.zen?raw';
@@ -55,17 +55,11 @@ export async function zencodeExec<T>(contract: string, props: ZenroomProps = {})
 export async function generateKeypair(
 	email: string,
 	HMAC: string,
-	answers: UserAnswers
+	userChallenges: UserChallenges
 ): Promise<Keypair> {
 	return await zencodeExec<Keypair>(keypairoomClient, {
 		data: {
-			userChallenges: {
-				whereParentsMet: answers.question1,
-				nameFirstPet: answers.question2,
-				nameFirstTeacher: answers.question3,
-				whereHomeTown: answers.question4,
-				nameMotherMaid: answers.question5
-			},
+			userChallenges,
 			username: email,
 			'seedServerSideShard.HMAC': HMAC
 		}
