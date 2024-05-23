@@ -37,7 +37,7 @@
 
 	//
 
-	const { toggleSidebar, sidebarLayoutMode } = getUIShellContext();
+	const { toggleSidebar } = getUIShellContext();
 
 	function classes(disabled?: boolean) {
 		return clsx({
