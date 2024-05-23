@@ -39,14 +39,6 @@
 
 	const { toggleSidebar, sidebarLayoutMode } = getUIShellContext();
 
-	const toggleSidebarHandler = () => {
-		if ($sidebarLayoutMode == 'drawer') {
-			toggleSidebar();
-		}
-	};
-
-	//
-
 	function classes(disabled?: boolean) {
 		return clsx({
 			'opacity-20 hover:bg-transparent cursor-default pointer-events-none': disabled
@@ -60,7 +52,7 @@
 			<SidebarDropdownItem
 				label={subEntry.text}
 				href={subEntry.href}
-				on:click={() => toggleSidebarHandler()}
+				on:click={toggleSidebar}
 				class={classes(subEntry.disabled)}
 			/>
 		</SidebarLinksDropdown>
@@ -68,7 +60,7 @@
 		<SidebarItem
 			label={entry.text}
 			href={entry.href}
-			on:click={() => toggleSidebarHandler()}
+			on:click={toggleSidebar}
 			class={classes(entry.disabled)}
 		>
 			<svelte:fragment slot="icon">
