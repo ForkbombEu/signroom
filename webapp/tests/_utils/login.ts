@@ -30,7 +30,7 @@ export async function login(page: Page, email: string, password: string) {
 	await page.locator('input[name="questions\\.question5"]').fill('p');
 
 	await page.getByRole('button', { name: 'Generate keys' }).click();
-	await page.getByRole('button', { name: 'Go to Dashboard' }).click();
+	await page.getByRole('link', { name: 'Go to Dashboard' }).click();
 
 	await expect(page).toHaveURL(/my/);
 }
