@@ -87,7 +87,7 @@ async function decodeKey(algorithmName: string, secretKey: string): Promise<stri
 	if (algorithmName == 'RSASSA-PKCS1-v1_5' || algorithmName == '1.2.840.113549.1.1.10')
 		return null;
 	const hexKey = arr
-		.find((value: any[]) => value.constructor.name == '_OctetString')
+		.find((value: any[]) => value.constructor.NAME == 'OCTET STRING')
 		.toString()
 		.replace(/OCTET STRING :/g, '')
 		.trim();
