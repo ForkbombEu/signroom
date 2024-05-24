@@ -20,7 +20,7 @@ export async function login(page: Page, email: string, password: string) {
 		await page.getByRole('link', { name: 'Forgot the "seed"? Regenerate it' }).click();
 	}
 
-	const o = page.locator('input[name="questions\\.question1"]');
+	const o = page.locator('input[name="questions\\.whereParentsMet"]');
 	await expect(o).toBeVisible();
 
 	await page.locator('input[name="questions\\.whereParentsMet"]').fill('p');
