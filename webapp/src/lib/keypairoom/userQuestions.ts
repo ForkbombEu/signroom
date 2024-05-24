@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import _ from 'lodash';
+import { m } from '$lib/i18n';
 
 //
 
@@ -29,9 +30,9 @@ export type UserChallenges = z.infer<typeof userChallengesSchema>;
 export type UserChallenge = keyof UserChallenges;
 
 export const userChallenges: Array<{ id: UserChallenge; text: string }> = [
-	{ id: 'whereParentsMet', text: 'Where did your parents meet?' },
-	{ id: 'nameFirstPet', text: 'What is the name of your first pet?' },
-	{ id: 'whereHomeTown', text: 'What is your home town?' },
-	{ id: 'nameFirstTeacher', text: 'What is the name of your first teacher?' },
-	{ id: 'nameMotherMaid', text: 'What is the surname of your mother before wedding?' }
+	{ id: 'whereParentsMet', text: m.whereParentsMet() },
+	{ id: 'nameFirstPet', text: m.nameFirstPet() },
+	{ id: 'whereHomeTown', text: m.whereHomeTown() },
+	{ id: 'nameFirstTeacher', text: m.nameFirstTeacher() },
+	{ id: 'nameMotherMaid', text: m.nameMotherMaid() }
 ];

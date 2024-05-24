@@ -371,5 +371,10 @@
 	"participant_account_and_did_description": "Users must have already an account and DID on the platform to be invited to sign.",
 	"Multisignature_setup": "Multisignature setup",
 	"multisignature_setup_description": "Successful completion of the multisignature process requires signatures from all participants",
-	"Certificates": "Certificates"
+	"Certificates": "Certificates",
+	"whereParentsMet": "Where did your parents meet?",
+	"nameFirstPet": "What is the name of your first pet?",
+	"whereHomeTown": "What is your home town?",
+	"nameFirstTeacher": "What is the name of your first teacher?",
+	"nameMotherMaid": "What is the surname of your mother before wedding?"
 }
