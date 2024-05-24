@@ -36,7 +36,9 @@
 	}
 
 	const toggleSidebar = () => {
-		$isSidebarHidden = !$isSidebarHidden;
+		if ($sidebarLayoutMode == 'drawer') {
+			$isSidebarHidden = !$isSidebarHidden;
+		}
 	};
 
 	setContext<UIShellContext>(UI_SHELL_KEY, {
