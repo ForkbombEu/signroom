@@ -23,11 +23,11 @@ export async function login(page: Page, email: string, password: string) {
 	const o = page.locator('input[name="questions\\.question1"]');
 	await expect(o).toBeVisible();
 
-	await page.locator('input[name="questions\\.question1"]').fill('p');
-	await page.locator('input[name="questions\\.question2"]').fill('p');
-	await page.locator('input[name="questions\\.question3"]').fill('p');
-	await page.locator('input[name="questions\\.question4"]').fill('p');
-	await page.locator('input[name="questions\\.question5"]').fill('p');
+	await page.locator('input[name="questions\\.whereParentsMet"]').fill('p');
+	await page.locator('input[name="questions\\.nameFirstPet"]').fill('p');
+	await page.locator('input[name="questions\\.whereHomeTown"]').fill('p');
+	await page.locator('input[name="questions\\.nameFirstTeacher"]').fill('p');
+	await page.locator('input[name="questions\\.nameMotherMaid"]').fill('p');
 
 	await page.getByRole('button', { name: 'Generate keys' }).click();
 	await page.getByRole('link', { name: 'Go to Dashboard' }).click();
