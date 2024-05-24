@@ -1,4 +1,5 @@
 import { test, expect, Page } from '@playwright/test';
+import { createOrganization } from '@utils/organization';
 import { nanoid } from 'nanoid';
 
 test.describe('it should create an issuance flow', () => {
@@ -15,22 +16,7 @@ test.describe('it should create an issuance flow', () => {
 	});
 
 	test('it should create an organization', async () => {
-		let organizationName = `org-${nanoid(5)}`;
-
-		await page.goto('/my');
-		await expect(page).toHaveURL(/my/);
-
-		const organizationsLink = page.getByRole('link', { name: 'My organizations' });
-		await expect(organizationsLink).toBeVisible();
-		await organizationsLink.click();
-
-		await page.getByRole('link', { name: 'Create a new organization' }).click();
-		await page.locator('input[name="name"]').click();
-		await page.locator('input[name="name"]').fill(organizationName);
-		await page.getByRole('button', { name: 'Create organization' }).click();
-
-		const organizationTitle = page.getByRole('heading', { name: organizationName });
-		await expect(organizationTitle).toBeVisible();
+		await createOrganization(page);
 	});
 
 	test('it should create a credential issuer', async () => {
@@ -206,20 +192,20 @@ test.describe('it should create an issuance flow', () => {
 	test('it should navigate to issuance flow pages and related', async () => {
 		await page.getByRole('link', { name: 'Issuance flows' }).click();
 		await expect(page).toHaveURL(/credential-issuances/);
-		await page.getByRole('link', { name: 'Credential templates' }).click();
+		await page.getByRole('button', { name: 'Credential templates' }).click();
 		await expect(page).toHaveURL(/templates/);
-		await page.getByRole('link', { name: 'Back to issuance' }).click();
+		await page.getByRole('button', { name: 'Back to issuance' }).click();
 		await expect(page).toHaveURL(/credential-issuances/);
-		await page.getByRole('link', { name: 'Authorization templates' }).click();
+		await page.getByRole('button', { name: 'Authorization templates' }).click();
 		await expect(page).toHaveURL(/templates/);
-		await page.getByRole('link', { name: 'Back to issuance' }).click();
+		await page.getByRole('button', { name: 'Back to issuance' }).click();
 		await expect(page).toHaveURL(/credential-issuances/);
 	});
 
 	test('it should create a new issuance flow', async () => {
 		let issuanceFlowName = `issuance-flow-${nanoid(5)}`;
 
-		await page.getByRole('link', { name: 'New issuance flow' }).click();
+		await page.getByRole('button', { name: 'New issuance flow' }).click();
 		await expect(page).toHaveURL(/credential-issuances\/create/);
 
 		await page.getByPlaceholder('Age verification', { exact: true }).fill(issuanceFlowName);
@@ -243,7 +229,7 @@ test.describe('it should create an issuance flow', () => {
 	});
 
 	test('it should update the issuance flow', async () => {
-		await page.getByRole('link', { name: 'Make changes' }).click();
+		await page.getByRole('button', { name: 'Make changes' }).click();
 		await expect(page).toHaveURL(/edit/);
 		await page.getByPlaceholder('Age verification', { exact: true }).click();
 		await page.getByPlaceholder('Age verification', { exact: true }).fill('Issuance Test Updated');

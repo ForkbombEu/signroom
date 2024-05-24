@@ -1,5 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
 import { userLogin, randomId } from '@utils/login';
+import { createOrganization } from '@utils/organization';
 import { config } from 'dotenv';
 
 config();
@@ -21,19 +22,7 @@ test.describe('it should test organizations and members', () => {
 
 	test('it should create an organization', async ({ browser }) => {
 		page = await userLogin(browser, 'A');
-
-		await page.goto('/my/organizations');
-
-		await page.getByRole('link', { name: 'Create a new organization' }).click();
-		await expect(page).toHaveURL('/my/organizations/create');
-
-		orgName = `org-${randomId()}`;
-		await page.locator('input[name="name"]').click();
-		await page.locator('input[name="name"]').fill(orgName);
-		await page.getByRole('button', { name: 'Create organization' }).click();
-		await expect(page).toHaveURL(new RegExp('/my/organizations/(.*)'));
-		await expect(page.getByRole('heading', { name: orgName })).toBeVisible();
-
+		await createOrganization(page);
 		orgId = page.url().split('/').at(-1);
 	});
 
