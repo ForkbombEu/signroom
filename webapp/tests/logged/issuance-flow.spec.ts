@@ -239,7 +239,7 @@ test.describe('it should create an issuance flow', () => {
 		await page.getByRole('button', { name: 'Create issuance flow' }).click();
 
 		await expect(page).toHaveURL(/organizations\/[a-zA-Z0-9]{15}/);
-		await expect(page.getByText(issuanceFlowName)).toBeVisible();
+		await expect(page.getByText(issuanceFlowName).first()).toBeVisible();
 	});
 
 	test('it should update the issuance flow', async () => {
