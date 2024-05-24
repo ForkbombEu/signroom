@@ -19,7 +19,7 @@ importers:
         version: 2.11.8
       '@sentry/sveltekit':
         specifier: ^7.66.0
-        version: 7.116.0(@sveltejs/kit@1.30.4(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12)))(svelte@4.2.17)
+        version: 7.116.0(@sveltejs/kit@1.30.4)(svelte@4.2.17)
       '@slangroom/core':
         specifier: ^1.13.0
         version: 1.30.0(zenroom@4.32.0)
@@ -49,7 +49,7 @@ importers:
         version: 1.11.11
       effect:
         specifier: ^3.1.2
-        version: 3.2.3
+        version: 3.2.4
       execa:
         specifier: ^8.0.1
         version: 8.0.1
@@ -104,40 +104,40 @@ importers:
         version: 1.2.5(debug@4.3.4)
       '@inlang/paraglide-js-adapter-sveltekit':
         specifier: ^0.4.1
-        version: 0.4.1(@sveltejs/kit@1.30.4(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12)))(debug@4.3.4)
+        version: 0.4.1(@sveltejs/kit@1.30.4)(debug@4.3.4)
       '@playwright/test':
         specifier: ^1.37.1
         version: 1.44.0
       '@semantic-release/changelog':
         specifier: ^6.0.3
-        version: 6.0.3(semantic-release@23.1.1(typescript@5.4.5))
+        version: 6.0.3(semantic-release@23.1.1)
       '@semantic-release/commit-analyzer':
         specifier: ^12.0.0
-        version: 12.0.0(semantic-release@23.1.1(typescript@5.4.5))
+        version: 12.0.0(semantic-release@23.1.1)
       '@semantic-release/error':
         specifier: ^4.0.0
         version: 4.0.0
       '@semantic-release/git':
         specifier: ^10.0.1
-        version: 10.0.1(semantic-release@23.1.1(typescript@5.4.5))
+        version: 10.0.1(semantic-release@23.1.1)
       '@semantic-release/github':
         specifier: ^10.0.4
-        version: 10.0.4(semantic-release@23.1.1(typescript@5.4.5))
+        version: 10.0.5(semantic-release@23.1.1)
       '@semantic-release/npm':
         specifier: ^12.0.1
-        version: 12.0.1(semantic-release@23.1.1(typescript@5.4.5))
+        version: 12.0.1(semantic-release@23.1.1)
       '@semantic-release/release-notes-generator':
         specifier: ^13.0.0
-        version: 13.0.0(semantic-release@23.1.1(typescript@5.4.5))
+        version: 13.0.0(semantic-release@23.1.1)
       '@sveltejs/adapter-auto':
         specifier: ^2.1.1
-        version: 2.1.1(@sveltejs/kit@1.30.4(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12)))
+        version: 2.1.1(@sveltejs/kit@1.30.4)
       '@sveltejs/adapter-node':
         specifier: ^1.3.1
-        version: 1.3.1(@sveltejs/kit@1.30.4(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12)))
+        version: 1.3.1(@sveltejs/kit@1.30.4)
       '@sveltejs/kit':
         specifier: ^1.30.3
-        version: 1.30.4(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12))
+        version: 1.30.4(svelte@4.2.17)(vite@4.5.3)
       '@types/debug':
         specifier: ^4.1.8
         version: 4.1.12
@@ -149,7 +149,7 @@ importers:
         version: 1.3.11
       '@typescript-eslint/eslint-plugin':
         specifier: ^6.7.0
-        version: 6.21.0(@typescript-eslint/parser@6.21.0(eslint@8.57.0)(typescript@5.4.5))(eslint@8.57.0)(typescript@5.4.5)
+        version: 6.21.0(@typescript-eslint/parser@6.21.0)(eslint@8.57.0)(typescript@5.4.5)
       '@typescript-eslint/parser':
         specifier: ^6.7.0
         version: 6.21.0(eslint@8.57.0)(typescript@5.4.5)
@@ -194,16 +194,16 @@ importers:
         version: 4.2.17
       svelte-check:
         specifier: ^3.5.1
-        version: 3.7.1(postcss-load-config@4.0.2(postcss@8.4.38))(postcss@8.4.38)(svelte@4.2.17)
+        version: 3.7.1(postcss-load-config@4.0.2)(postcss@8.4.38)(svelte@4.2.17)
       svelte-heros-v2:
         specifier: ^1.2.2
         version: 1.3.0(svelte@4.2.17)
       svelte-preprocess:
         specifier: ^5.0.4
-        version: 5.1.4(postcss-load-config@4.0.2(postcss@8.4.38))(postcss@8.4.38)(svelte@4.2.17)(typescript@5.4.5)
+        version: 5.1.4(postcss-load-config@4.0.2)(postcss@8.4.38)(svelte@4.2.17)(typescript@5.4.5)
       sveltekit-superforms:
         specifier: 1.6.1
-        version: 1.6.1(@sveltejs/kit@1.30.4(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12)))(svelte@4.2.17)(zod@3.23.8)
+        version: 1.6.1(@sveltejs/kit@1.30.4)(svelte@4.2.17)(zod@3.23.8)
       tailwindcss:
         specifier: ^3.3.3
         version: 3.4.3
@@ -218,7 +218,7 @@ importers:
         version: 4.5.3(@types/node@20.12.12)
       vitest:
         specifier: ^0.34.6
-        version: 0.34.6(playwright@1.44.0)
+        version: 0.34.6
       zod:
         specifier: ^3.22.2
         version: 3.23.8
@@ -846,8 +846,8 @@ packages:
     peerDependencies:
       semantic-release: '>=18.0.0'
 
-  '@semantic-release/github@10.0.4':
-    resolution: {integrity: sha512-eHCfW3jlzax5OKd5nTovlvoCdg+b9YBa31M2JGT1KmzmJR3TIalu2ahVU+V/xATVeOx+S8fbCiPnBBgMlzH5Vw==}
+  '@semantic-release/github@10.0.5':
+    resolution: {integrity: sha512-hmuCDkfru/Uc9+ZBNOSremAupu6BCslvOVDiG0wYcL8TQodCycp6uvwDyeym1H0M4l3ob9c0s0xMBiZjjXQ2yA==}
     engines: {node: '>=20.8.1'}
     peerDependencies:
       semantic-release: '>=20.1.0'
@@ -1723,11 +1723,11 @@ packages:
   effect@2.4.19:
     resolution: {integrity: sha512-z/rn878Po3n522g/AYUDHD1SsZaZdvRxlTCLQ8xl8H6xA82nBwwooD1mdn/73Uywmp7d84oay3w3528r0Uyd0w==}
 
-  effect@3.2.3:
-    resolution: {integrity: sha512-tI0pzouV9BnZFHXNDoMCn9L76RFr23FMyzQ8syl+hxNtkn5aRdcQLeapv8acix+O4sQjQA4MpT8H3X9jfTs6hg==}
+  effect@3.2.4:
+    resolution: {integrity: sha512-w7MvlKBKs0oHeoe+S+xyXVzFpR+g3abY5KmjZksTAMgTTpJx8XZ0Tz0Pv+LWlGyD9R1dJNAsSc+RE0+NMl9JSw==}
 
-  electron-to-chromium@1.4.777:
-    resolution: {integrity: sha512-n02NCwLJ3wexLfK/yQeqfywCblZqLcXphzmid5e8yVPdtEcida7li0A5WQKghHNG0FeOMCzeFOzEbtAh5riXFw==}
+  electron-to-chromium@1.4.779:
+    resolution: {integrity: sha512-oaTiIcszNfySXVJzKcjxd2YjPxziAd+GmXyb2HbidCeFo6Z88ygOT7EimlrEQhM2U08VhSrbKhLOXP0kKUCZ6g==}
 
   emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
@@ -2224,6 +2224,7 @@ packages:
 
   inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
+    deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
 
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
@@ -2416,6 +2417,7 @@ packages:
 
   json-schema-builder-svelte@https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/920ca59dccf4f5d73c9268f24a7b2daf73cac4bc:
     resolution: {tarball: https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/920ca59dccf4f5d73c9268f24a7b2daf73cac4bc}
+    name: json-schema-builder-svelte
     version: 0.1.9
     peerDependencies:
       svelte: ^4.0.0
@@ -4279,10 +4281,10 @@ snapshots:
       '@inlang/plugin': 2.4.5(@sinclair/typebox@0.31.28)
       '@sinclair/typebox': 0.31.28
 
-  '@inlang/paraglide-js-adapter-sveltekit@0.4.1(@sveltejs/kit@1.30.4(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12)))(debug@4.3.4)':
+  '@inlang/paraglide-js-adapter-sveltekit@0.4.1(@sveltejs/kit@1.30.4)(debug@4.3.4)':
     dependencies:
       '@inlang/paraglide-js-adapter-vite': 1.2.15(debug@4.3.4)
-      '@sveltejs/kit': 1.30.4(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12))
+      '@sveltejs/kit': 1.30.4(svelte@4.2.17)(vite@4.5.3)
       dedent: 1.5.1
       devalue: 4.3.3
       magic-string: 0.30.10
@@ -4756,13 +4758,11 @@ snapshots:
       glob: 8.1.0
       is-reference: 1.2.1
       magic-string: 0.30.10
-    optionalDependencies:
       rollup: 3.29.4
 
   '@rollup/plugin-json@6.1.0(rollup@3.29.4)':
     dependencies:
       '@rollup/pluginutils': 5.1.0(rollup@3.29.4)
-    optionalDependencies:
       rollup: 3.29.4
 
   '@rollup/plugin-node-resolve@15.2.3(rollup@3.29.4)':
@@ -4773,7 +4773,6 @@ snapshots:
       is-builtin-module: 3.2.1
       is-module: 1.0.0
       resolve: 1.22.8
-    optionalDependencies:
       rollup: 3.29.4
 
   '@rollup/pluginutils@5.1.0(rollup@3.29.4)':
@@ -4781,12 +4780,11 @@ snapshots:
       '@types/estree': 1.0.5
       estree-walker: 2.0.2
       picomatch: 2.3.1
-    optionalDependencies:
       rollup: 3.29.4
 
   '@sec-ant/readable-stream@0.4.1': {}
 
-  '@semantic-release/changelog@6.0.3(semantic-release@23.1.1(typescript@5.4.5))':
+  '@semantic-release/changelog@6.0.3(semantic-release@23.1.1)':
     dependencies:
       '@semantic-release/error': 3.0.0
       aggregate-error: 3.1.0
@@ -4794,7 +4792,7 @@ snapshots:
       lodash: 4.17.21
       semantic-release: 23.1.1(typescript@5.4.5)
 
-  '@semantic-release/commit-analyzer@12.0.0(semantic-release@23.1.1(typescript@5.4.5))':
+  '@semantic-release/commit-analyzer@12.0.0(semantic-release@23.1.1)':
     dependencies:
       conventional-changelog-angular: 7.0.0
       conventional-commits-filter: 4.0.0
@@ -4811,7 +4809,7 @@ snapshots:
 
   '@semantic-release/error@4.0.0': {}
 
-  '@semantic-release/git@10.0.1(semantic-release@23.1.1(typescript@5.4.5))':
+  '@semantic-release/git@10.0.1(semantic-release@23.1.1)':
     dependencies:
       '@semantic-release/error': 3.0.0
       aggregate-error: 3.1.0
@@ -4825,7 +4823,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@semantic-release/github@10.0.4(semantic-release@23.1.1(typescript@5.4.5))':
+  '@semantic-release/github@10.0.5(semantic-release@23.1.1)':
     dependencies:
       '@octokit/core': 6.1.2
       '@octokit/plugin-paginate-rest': 11.3.0(@octokit/core@6.1.2)
@@ -4847,7 +4845,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@semantic-release/npm@12.0.1(semantic-release@23.1.1(typescript@5.4.5))':
+  '@semantic-release/npm@12.0.1(semantic-release@23.1.1)':
     dependencies:
       '@semantic-release/error': 4.0.0
       aggregate-error: 5.0.0
@@ -4864,7 +4862,7 @@ snapshots:
       semver: 7.6.2
       tempy: 3.1.0
 
-  '@semantic-release/release-notes-generator@13.0.0(semantic-release@23.1.1(typescript@5.4.5))':
+  '@semantic-release/release-notes-generator@13.0.0(semantic-release@23.1.1)':
     dependencies:
       conventional-changelog-angular: 7.0.0
       conventional-changelog-writer: 7.0.1
@@ -5011,7 +5009,7 @@ snapshots:
       magic-string: 0.30.10
       svelte: 4.2.17
 
-  '@sentry/sveltekit@7.116.0(@sveltejs/kit@1.30.4(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12)))(svelte@4.2.17)':
+  '@sentry/sveltekit@7.116.0(@sveltejs/kit@1.30.4)(svelte@4.2.17)':
     dependencies:
       '@sentry-internal/tracing': 7.116.0
       '@sentry/core': 7.116.0
@@ -5021,7 +5019,7 @@ snapshots:
       '@sentry/types': 7.116.0
       '@sentry/utils': 7.116.0
       '@sentry/vite-plugin': 0.6.1
-      '@sveltejs/kit': 1.30.4(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12))
+      '@sveltejs/kit': 1.30.4(svelte@4.2.17)(vite@4.5.3)
       magicast: 0.2.8
       sorcery: 0.11.0
     transitivePeerDependencies:
@@ -5097,22 +5095,22 @@ snapshots:
     transitivePeerDependencies:
       - zenroom
 
-  '@sveltejs/adapter-auto@2.1.1(@sveltejs/kit@1.30.4(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12)))':
+  '@sveltejs/adapter-auto@2.1.1(@sveltejs/kit@1.30.4)':
     dependencies:
-      '@sveltejs/kit': 1.30.4(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12))
+      '@sveltejs/kit': 1.30.4(svelte@4.2.17)(vite@4.5.3)
       import-meta-resolve: 4.1.0
 
-  '@sveltejs/adapter-node@1.3.1(@sveltejs/kit@1.30.4(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12)))':
+  '@sveltejs/adapter-node@1.3.1(@sveltejs/kit@1.30.4)':
     dependencies:
       '@rollup/plugin-commonjs': 25.0.8(rollup@3.29.4)
       '@rollup/plugin-json': 6.1.0(rollup@3.29.4)
       '@rollup/plugin-node-resolve': 15.2.3(rollup@3.29.4)
-      '@sveltejs/kit': 1.30.4(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12))
+      '@sveltejs/kit': 1.30.4(svelte@4.2.17)(vite@4.5.3)
       rollup: 3.29.4
 
-  '@sveltejs/kit@1.30.4(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12))':
+  '@sveltejs/kit@1.30.4(svelte@4.2.17)(vite@4.5.3)':
     dependencies:
-      '@sveltejs/vite-plugin-svelte': 2.5.3(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12))
+      '@sveltejs/vite-plugin-svelte': 2.5.3(svelte@4.2.17)(vite@4.5.3)
       '@types/cookie': 0.5.4
       cookie: 0.5.0
       devalue: 4.3.3
@@ -5130,18 +5128,18 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@sveltejs/vite-plugin-svelte-inspector@1.0.4(@sveltejs/vite-plugin-svelte@2.5.3(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12)))(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12))':
+  '@sveltejs/vite-plugin-svelte-inspector@1.0.4(@sveltejs/vite-plugin-svelte@2.5.3)(svelte@4.2.17)(vite@4.5.3)':
     dependencies:
-      '@sveltejs/vite-plugin-svelte': 2.5.3(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12))
+      '@sveltejs/vite-plugin-svelte': 2.5.3(svelte@4.2.17)(vite@4.5.3)
       debug: 4.3.4
       svelte: 4.2.17
       vite: 4.5.3(@types/node@20.12.12)
     transitivePeerDependencies:
       - supports-color
 
-  '@sveltejs/vite-plugin-svelte@2.5.3(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12))':
+  '@sveltejs/vite-plugin-svelte@2.5.3(svelte@4.2.17)(vite@4.5.3)':
     dependencies:
-      '@sveltejs/vite-plugin-svelte-inspector': 1.0.4(@sveltejs/vite-plugin-svelte@2.5.3(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12)))(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12))
+      '@sveltejs/vite-plugin-svelte-inspector': 1.0.4(@sveltejs/vite-plugin-svelte@2.5.3)(svelte@4.2.17)(vite@4.5.3)
       debug: 4.3.4
       deepmerge: 4.3.1
       kleur: 4.1.5
@@ -5149,7 +5147,7 @@ snapshots:
       svelte: 4.2.17
       svelte-hmr: 0.15.3(svelte@4.2.17)
       vite: 4.5.3(@types/node@20.12.12)
-      vitefu: 0.2.5(vite@4.5.3(@types/node@20.12.12))
+      vitefu: 0.2.5(vite@4.5.3)
     transitivePeerDependencies:
       - supports-color
 
@@ -5205,7 +5203,7 @@ snapshots:
 
   '@types/semver@7.5.8': {}
 
-  '@typescript-eslint/eslint-plugin@6.21.0(@typescript-eslint/parser@6.21.0(eslint@8.57.0)(typescript@5.4.5))(eslint@8.57.0)(typescript@5.4.5)':
+  '@typescript-eslint/eslint-plugin@6.21.0(@typescript-eslint/parser@6.21.0)(eslint@8.57.0)(typescript@5.4.5)':
     dependencies:
       '@eslint-community/regexpp': 4.10.0
       '@typescript-eslint/parser': 6.21.0(eslint@8.57.0)(typescript@5.4.5)
@@ -5220,7 +5218,6 @@ snapshots:
       natural-compare: 1.4.0
       semver: 7.6.2
       ts-api-utils: 1.3.0(typescript@5.4.5)
-    optionalDependencies:
       typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
@@ -5233,7 +5230,6 @@ snapshots:
       '@typescript-eslint/visitor-keys': 6.21.0
       debug: 4.3.4
       eslint: 8.57.0
-    optionalDependencies:
       typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
@@ -5250,7 +5246,6 @@ snapshots:
       debug: 4.3.4
       eslint: 8.57.0
       ts-api-utils: 1.3.0(typescript@5.4.5)
-    optionalDependencies:
       typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
@@ -5267,7 +5262,6 @@ snapshots:
       minimatch: 9.0.3
       semver: 7.6.2
       ts-api-utils: 1.3.0(typescript@5.4.5)
-    optionalDependencies:
       typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
@@ -5361,7 +5355,7 @@ snapshots:
       indent-string: 5.0.0
 
   ajv-formats@2.1.1(ajv@8.13.0):
-    optionalDependencies:
+    dependencies:
       ajv: 8.13.0
 
   ajv@6.12.6:
@@ -5511,7 +5505,7 @@ snapshots:
   browserslist@4.23.0:
     dependencies:
       caniuse-lite: 1.0.30001621
-      electron-to-chromium: 1.4.777
+      electron-to-chromium: 1.4.779
       node-releases: 2.0.14
       update-browserslist-db: 1.0.16(browserslist@4.23.0)
 
@@ -5716,7 +5710,6 @@ snapshots:
       import-fresh: 3.3.0
       js-yaml: 4.1.0
       parse-json: 5.2.0
-    optionalDependencies:
       typescript: 5.4.5
 
   crc-32@1.2.2: {}
@@ -5842,9 +5835,9 @@ snapshots:
 
   effect@2.4.19: {}
 
-  effect@3.2.3: {}
+  effect@3.2.4: {}
 
-  electron-to-chromium@1.4.777: {}
+  electron-to-chromium@1.4.779: {}
 
   emoji-regex@8.0.0: {}
 
@@ -5994,9 +5987,8 @@ snapshots:
       postcss-safe-parser: 6.0.0(postcss@8.4.38)
       postcss-selector-parser: 6.1.0
       semver: 7.6.2
-      svelte-eslint-parser: 0.36.0(svelte@4.2.17)
-    optionalDependencies:
       svelte: 4.2.17
+      svelte-eslint-parser: 0.36.0(svelte@4.2.17)
     transitivePeerDependencies:
       - supports-color
       - ts-node
@@ -6216,7 +6208,7 @@ snapshots:
       mini-svg-data-uri: 1.4.4
 
   follow-redirects@1.15.6(debug@4.3.4):
-    optionalDependencies:
+    dependencies:
       debug: 4.3.4
 
   for-each@0.3.3:
@@ -6661,6 +6653,7 @@ snapshots:
   json-parse-even-better-errors@2.3.1: {}
 
   json-schema-builder-svelte@https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/920ca59dccf4f5d73c9268f24a7b2daf73cac4bc(svelte@4.2.17):
+    id: json-schema-builder-svelte@https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/920ca59dccf4f5d73c9268f24a7b2daf73cac4bc
     dependencies:
       '@sinclair/typebox': 0.32.30
       ajv: 8.13.0
@@ -7170,16 +7163,14 @@ snapshots:
   postcss-load-config@3.1.4(postcss@8.4.38):
     dependencies:
       lilconfig: 2.1.0
-      yaml: 1.10.2
-    optionalDependencies:
       postcss: 8.4.38
+      yaml: 1.10.2
 
   postcss-load-config@4.0.2(postcss@8.4.38):
     dependencies:
       lilconfig: 3.1.1
-      yaml: 2.4.2
-    optionalDependencies:
       postcss: 8.4.38
+      yaml: 2.4.2
 
   postcss-nested@6.0.1(postcss@8.4.38):
     dependencies:
@@ -7402,11 +7393,11 @@ snapshots:
 
   semantic-release@23.1.1(typescript@5.4.5):
     dependencies:
-      '@semantic-release/commit-analyzer': 12.0.0(semantic-release@23.1.1(typescript@5.4.5))
+      '@semantic-release/commit-analyzer': 12.0.0(semantic-release@23.1.1)
       '@semantic-release/error': 4.0.0
-      '@semantic-release/github': 10.0.4(semantic-release@23.1.1(typescript@5.4.5))
-      '@semantic-release/npm': 12.0.1(semantic-release@23.1.1(typescript@5.4.5))
-      '@semantic-release/release-notes-generator': 13.0.0(semantic-release@23.1.1(typescript@5.4.5))
+      '@semantic-release/github': 10.0.5(semantic-release@23.1.1)
+      '@semantic-release/npm': 12.0.1(semantic-release@23.1.1)
+      '@semantic-release/release-notes-generator': 13.0.0(semantic-release@23.1.1)
       aggregate-error: 5.0.0
       cosmiconfig: 9.0.0(typescript@5.4.5)
       debug: 4.3.4
@@ -7673,7 +7664,7 @@ snapshots:
 
   svelte-boring-avatars@1.2.6: {}
 
-  svelte-check@3.7.1(postcss-load-config@4.0.2(postcss@8.4.38))(postcss@8.4.38)(svelte@4.2.17):
+  svelte-check@3.7.1(postcss-load-config@4.0.2)(postcss@8.4.38)(svelte@4.2.17):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       chokidar: 3.6.0
@@ -7682,7 +7673,7 @@ snapshots:
       picocolors: 1.0.1
       sade: 1.8.1
       svelte: 4.2.17
-      svelte-preprocess: 5.1.4(postcss-load-config@4.0.2(postcss@8.4.38))(postcss@8.4.38)(svelte@4.2.17)(typescript@5.4.5)
+      svelte-preprocess: 5.1.4(postcss-load-config@4.0.2)(postcss@8.4.38)(svelte@4.2.17)(typescript@5.4.5)
       typescript: 5.4.5
     transitivePeerDependencies:
       - '@babel/core'
@@ -7702,7 +7693,6 @@ snapshots:
       espree: 9.6.1
       postcss: 8.4.38
       postcss-scss: 4.0.9(postcss@8.4.38)
-    optionalDependencies:
       svelte: 4.2.17
 
   svelte-heros-v2@0.10.12(svelte@4.2.17):
@@ -7725,17 +7715,16 @@ snapshots:
     dependencies:
       svelte: 4.2.17
 
-  svelte-preprocess@5.1.4(postcss-load-config@4.0.2(postcss@8.4.38))(postcss@8.4.38)(svelte@4.2.17)(typescript@5.4.5):
+  svelte-preprocess@5.1.4(postcss-load-config@4.0.2)(postcss@8.4.38)(svelte@4.2.17)(typescript@5.4.5):
     dependencies:
       '@types/pug': 2.0.10
       detect-indent: 6.1.0
       magic-string: 0.30.10
+      postcss: 8.4.38
+      postcss-load-config: 4.0.2(postcss@8.4.38)
       sorcery: 0.11.0
       strip-indent: 3.0.0
       svelte: 4.2.17
-    optionalDependencies:
-      postcss: 8.4.38
-      postcss-load-config: 4.0.2(postcss@8.4.38)
       typescript: 5.4.5
 
   svelte-tiny-virtual-list@2.1.0: {}
@@ -7757,9 +7746,9 @@ snapshots:
       magic-string: 0.30.10
       periscopic: 3.1.0
 
-  sveltekit-superforms@1.6.1(@sveltejs/kit@1.30.4(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12)))(svelte@4.2.17)(zod@3.23.8):
+  sveltekit-superforms@1.6.1(@sveltejs/kit@1.30.4)(svelte@4.2.17)(zod@3.23.8):
     dependencies:
-      '@sveltejs/kit': 1.30.4(svelte@4.2.17)(vite@4.5.3(@types/node@20.12.12))
+      '@sveltejs/kit': 1.30.4(svelte@4.2.17)(vite@4.5.3)
       svelte: 4.2.17
       zod: 3.23.8
 
@@ -8051,18 +8040,18 @@ snapshots:
 
   vite@4.5.3(@types/node@20.12.12):
     dependencies:
+      '@types/node': 20.12.12
       esbuild: 0.18.20
       postcss: 8.4.38
       rollup: 3.29.4
     optionalDependencies:
-      '@types/node': 20.12.12
       fsevents: 2.3.3
 
-  vitefu@0.2.5(vite@4.5.3(@types/node@20.12.12)):
-    optionalDependencies:
+  vitefu@0.2.5(vite@4.5.3):
+    dependencies:
       vite: 4.5.3(@types/node@20.12.12)
 
-  vitest@0.34.6(playwright@1.44.0):
+  vitest@0.34.6:
     dependencies:
       '@types/chai': 4.3.16
       '@types/chai-subset': 1.3.5
@@ -8088,8 +8077,6 @@ snapshots:
       vite: 4.5.3(@types/node@20.12.12)
       vite-node: 0.34.6(@types/node@20.12.12)
       why-is-node-running: 2.2.2
-    optionalDependencies:
-      playwright: 1.44.0
     transitivePeerDependencies:
       - less
       - lightningcss
