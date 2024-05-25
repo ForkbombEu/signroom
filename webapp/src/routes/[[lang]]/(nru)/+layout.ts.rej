@@ -1,0 +1,15 @@
+diff a/webapp/src/routes/[[lang]]/(nru)/+layout.ts b/webapp/src/routes/[[lang]]/(nru)/+layout.ts	(rejected hunks)
+@@ -1,8 +1,9 @@
+-import { error, redirect } from '@sveltejs/kit';
++import { error } from '@sveltejs/kit';
+ import { loadFeatureFlags } from '$lib/features';
+ import { verifyUser } from '$lib/auth/verifyUser';
++import { redirect } from '$lib/i18n';
+ 
+-export const load = async () => {
+-	if (!(await loadFeatureFlags()).AUTH) throw error(404);
+-	if (await verifyUser()) throw redirect(303, '/my');
++export const load = async ({ url }) => {
++	if (!(await loadFeatureFlags()).AUTH) error(404);
++	if (await verifyUser()) redirect('/my', url);
+ };

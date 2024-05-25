@@ -1,0 +1,8 @@
+diff a/webapp/src/routes/[[lang]]/(nru)/login/+page.svelte b/webapp/src/routes/[[lang]]/(nru)/login/+page.svelte	(rejected hunks)
+@@ -1,5 +1,5 @@
+ <script lang="ts">
+-	import { goto } from '$app/navigation';
++	import { goto } from '$lib/i18n';
+ 	import { pb } from '$lib/pocketbase';
+ 	import { Collections } from '$lib/pocketbase/types';
+ 	import { Form, createForm, FormError, SubmitButton, Input } from '$lib/forms';

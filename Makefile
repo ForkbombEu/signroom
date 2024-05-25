@@ -77,13 +77,26 @@ $(ZENCODE):
 
 endif
 
-# - Setup: Submodules - #
+# - Setup: GIT - #
+
+STARTERS_CHECK := $(shell pwd | grep -q "/starters/saas/signroom" && echo true || echo false)
+
+ifeq ($(STARTERS_CHECK),false)
 
 .git:
 	@echo "🌱 Setup Git"
 	@git init -q
 	@git branch -m main
 	@git add .
+
+else
+
+.git:
+	@echo "Skipping git setup"
+
+endif
+
+# - Setup: Submodules - #
 
 $(AZC): .git
 	@rm -rf $@

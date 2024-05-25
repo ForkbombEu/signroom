@@ -1,0 +1,7 @@
+diff a/webapp/src/routes/+error.svelte b/webapp/src/routes/+error.svelte	(rejected hunks)
+@@ -1,5 +1,4 @@
+ <script lang="ts">
+-	import { goto } from '$app/navigation';
+ 	import { page } from '$app/stores';
+ 	import { A, Heading, P } from 'flowbite-svelte';
+ 	type ErrorData = {
