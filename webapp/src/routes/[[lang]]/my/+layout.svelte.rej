@@ -1,0 +1,27 @@
+diff a/webapp/src/routes/[[lang]]/my/+layout.svelte b/webapp/src/routes/[[lang]]/my/+layout.svelte	(rejected hunks)
+@@ -1,6 +1,6 @@
+ <script lang="ts">
+ 	import { currentUser } from '$lib/pocketbase';
+-	import { goto } from '$app/navigation';
++	import { goto } from '$lib/i18n';
+ 
+ 	import {
+ 		UIShell,
+@@ -36,7 +36,7 @@
+ 			<div class="flex items-center">
+ 				<div>
+ 					<span class="whitespace-nowrap">
+-						Hello, <span class="font-semibold text-primary-600">{$currentUser?.email}</span>
++						Hello, <span class="text-primary-600 font-semibold">{$currentUser?.email}</span>
+ 					</span>
+ 				</div>
+ 				<div class="shrink-0">
+@@ -54,7 +54,7 @@
+ 				<DropdownItem href="/my/profile">My profile</DropdownItem>
+ 				<DropdownDivider />
+ 				<DropdownItem href="/pro" class="flex items-center">
+-					<Fire class="text-red-500 mr-2 w-5" /> Go Pro</DropdownItem
++					<Fire class="mr-2 w-5 text-red-500" /> Go Pro</DropdownItem
+ 				>
+ 				<DropdownDivider />
+ 				<DropdownItem on:click={() => goto('/my/logout')} class="text-primary-600">

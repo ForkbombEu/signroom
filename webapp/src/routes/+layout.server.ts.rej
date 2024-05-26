@@ -1,0 +1,9 @@
+diff a/webapp/src/routes/+layout.server.ts b/webapp/src/routes/+layout.server.ts	(rejected hunks)
+@@ -6,6 +6,6 @@ export const ssr = false;
+ export const load = async () => {
+ 	const flags = await loadFeatureFlags();
+ 	if (flags.MAINTENANCE) {
+-		throw error(503);
++		error(503);
+ 	}
+ };

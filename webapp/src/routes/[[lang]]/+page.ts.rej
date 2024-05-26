@@ -1,0 +1,11 @@
+diff a/webapp/src/routes/[[lang]]/+page.ts b/webapp/src/routes/[[lang]]/+page.ts	(rejected hunks)
+@@ -1,6 +1,6 @@
+-import { redirect } from '@sveltejs/kit';
++import { redirect } from '$lib/i18n';
+ import { verifyUser } from '$lib/auth/verifyUser';
+ 
+-export const load = async () => {
+-	if (await verifyUser()) throw redirect(303, '/my');
++export const load = async ({ url }) => {
++	if (await verifyUser()) redirect('/my', url);
+ };
