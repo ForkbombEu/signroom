@@ -1,0 +1,8 @@
+diff a/webapp/src/routes/[[lang]]/(nru)/login/webauthn/+page.svelte b/webapp/src/routes/[[lang]]/(nru)/login/webauthn/+page.svelte	(rejected hunks)
+@@ -1,5 +1,5 @@
+ <script lang="ts">
+-	import { goto } from '$app/navigation';
++	import { goto } from '$lib/i18n';
+ 	import { loginUser } from '$lib/webauthn/index';
+ 	import { z } from 'zod';
+ 

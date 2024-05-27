@@ -1,0 +1,46 @@
+diff a/webapp/src/routes/[[lang]]/(nru)/login/+layout.svelte b/webapp/src/routes/[[lang]]/(nru)/login/+layout.svelte	(rejected hunks)
+@@ -8,15 +8,16 @@
+ 	import type { Link } from '$lib/utils/types';
+ 	import { A, Button, ButtonGroup, Heading, Hr, P } from 'flowbite-svelte';
+ 	import { featureFlags } from '$lib/features';
++	import { m } from '$lib/i18n';
+ 
+ 	const modes: Link[] = [
+ 		{
+ 			href: '/login',
+-			text: 'Email and password'
++			text: m.Email_and_password()
+ 		},
+ 		{
+ 			href: '/login/webauthn',
+-			text: 'Webauthn'
++			text: m.Webauthn()
+ 		}
+ 	];
+ </script>
+@@ -24,7 +25,7 @@
+ <Heading tag="h4">Log in</Heading>
+ {#if $featureFlags.WEBAUTHN}
+ 	<div class="space-y-2">
+-		<P size="sm" color="text-gray-500">Choose your authentication method</P>
++		<P size="sm" color="text-gray-500">{m.Choose_your_authentication_method()}</P>
+ 		<ButtonGroup class="w-full">
+ 			{#each modes as { href, text }}
+ 				{@const isActive = $page.url.pathname === href}
+@@ -38,10 +39,11 @@
+ 	<slot />
+ </div>
+ 
+-<div class="flex flex-col items-center gap-4">
+-	<Hr />
+-	<P color="text-gray-500 dark:text-gray-400" size="sm">
+-		Don't have an account?
+-		<A href="/register">Register here</A>
++<div class="flex flex-col gap-4">
++	<Hr hrClass="!m-2" />
++
++	<P color="text-gray-500 dark:text-gray-400" class="self-center" size="sm">
++		{m.Dont_have_an_account()}
++		<A href="/register">{m.Register_here()}</A>
+ 	</P>
+ </div>
