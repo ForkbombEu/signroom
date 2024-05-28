@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/ForkbombEu/signroom/compare/v1.2.3...v1.3.0) (2024-05-28)
+
+
+### Features
+
+* update sveltekit and i18n ([#646](https://github.com/ForkbombEu/signroom/issues/646)) ([826f7c6](https://github.com/ForkbombEu/signroom/commit/826f7c6f6799f025ff56298a9caf4d87117b48a9))
+
 ## [1.2.3](https://github.com/ForkbombEu/signroom/compare/v1.2.2...v1.2.3) (2024-05-28)
 
 ### Bug Fixes
