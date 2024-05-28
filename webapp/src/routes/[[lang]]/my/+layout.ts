@@ -18,25 +18,27 @@ import { missingKeyringParam, welcomeSearchParamKey } from '$lib/utils/constants
 export const load = async ({ url, fetch }) => {
 	const featureFlags = await loadFeatureFlags();
 
-	if (!featureFlags.AUTH) throw error(404);
-	if (!(await verifyUser(fetch))) throw redirect(url, '/login');
+	if (!featureFlags.AUTH) error(404);
+	if (!(await verifyUser(fetch))) redirect( '/login',url);
 
 	if (featureFlags.KEYPAIROOM) {
 		const publicKeys = await getUserPublicKeys();
 		if (!publicKeys) {
-			throw redirect(url, `/keypairoom?${welcomeSearchParamKey}`);
+					redirect(`/keypairoom?${welcomeSearchParamKey}`, url);
+					return;
 		}
 
 		if (browser) {
 			const keyring = getKeyringFromLocalStorage();
 			if (!keyring) {
-				throw redirect(url, `/keypairoom/regenerate?${missingKeyringParam}`);
+								redirect(`/keypairoom/regenerate?${missingKeyringParam}`, url);
+								return;
 			}
 
 			try {
 				await matchPublicAndPrivateKeys(publicKeys, keyring);
 			} catch (e) {
-				throw redirect(url, `/keypairoom/regenerate?${missingKeyringParam}`);
+							redirect(`/keypairoom/regenerate?${missingKeyringParam}`, url);
 			}
 		}
 	}

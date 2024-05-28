@@ -20,7 +20,7 @@
 		SidebarGroup
 	} from 'flowbite-svelte';
 	import {
-		ArrowLeftStartOnRectangle,
+		ArrowLeftOnRectangle,
 		CheckCircle,
 		Fire,
 		Home,
@@ -38,7 +38,7 @@
 	import UserAvatar from '$lib/components/userAvatar.svelte';
 	import { getUserDisplayName } from '$lib/utils/pb';
 	import Icon from '$lib/components/icon.svelte';
-	import { goto } from '$app/navigation';
+	import { goto } from '$lib/i18n';
 	import LanguageSwitcher from '$lib/i18n/languageSwitcher.svelte';
 	import SidebarButton from '$lib/layout/SidebarButton.svelte';
 	import { appTitle } from '$lib/strings';
@@ -66,7 +66,7 @@
 						{#if $currentUser}
 							<span class="whitespace-nowrap">
 								{m.hello()},
-								<span class="font-semibold text-primary-600">
+								<span class="text-primary-600 font-semibold">
 									{getUserDisplayName($currentUser)}
 								</span>
 							</span>
@@ -82,7 +82,7 @@
 
 	<Sidebar darkMode>
 		<svelte:fragment slot="top">
-			<div class="flex items-center py-2.5 px-3 justify-between border-b border-gray-600">
+			<div class="flex items-center justify-between border-b border-gray-600 px-3 py-2.5">
 				<Logo />
 				<SidebarCloseButton />
 			</div>
@@ -111,7 +111,7 @@
 
 			<Hr />
 
-			<p class="text-gray-500 text-xs font-medium tracking-wide p-4 uppercase">
+			<p class="p-4 text-xs font-medium uppercase tracking-wide text-gray-500">
 				{m.signatures()}
 			</p>
 
@@ -146,12 +146,12 @@
 
 			<Hr />
 
-			<p class="text-gray-500 text-xs font-medium tracking-wide p-4 uppercase">
+			<p class="p-4 text-xs font-medium uppercase tracking-wide text-gray-500">
 				{m.organizations()}
 			</p>
 
 			<SidebarGroup>
-				<div class="p-3 pt-0 space-y-2">
+				<div class="space-y-2 p-3 pt-0">
 					<SidebarLinks
 						links={[
 							{
@@ -194,8 +194,8 @@
 				{#if $currentUser}
 					{@const id = 'menu-trigger'}
 					{@const idSelector = `#${id}`}
-					<SidebarButton {id} class="pl-1 py-1">
-						<div class="flex gap-2 items-center">
+					<SidebarButton {id} class="py-1 pl-1">
+						<div class="flex items-center gap-2">
 							<div class="">
 								<UserAvatar size="sm" />
 							</div>
@@ -217,8 +217,8 @@
 
 						<DropdownDivider />
 
-						<DropdownItem href="/" class="flex cursor-default pointer-events-none opacity-30">
-							<Icon src={Fire} mr class="dark:text-red-400 text-red-700" />
+						<DropdownItem href="/" class="pointer-events-none flex cursor-default opacity-30">
+							<Icon src={Fire} mr class="text-red-700 dark:text-red-400" />
 							{m.Go_Pro()}
 						</DropdownItem>
 
@@ -226,22 +226,22 @@
 
 						<DropdownItem
 							on:click={() => goto('/my/logout')}
-							class="flex dark:text-red-400 text-red-700"
+							class="flex text-red-700 dark:text-red-400"
 						>
-							<Icon src={ArrowLeftStartOnRectangle} mr />
+							<Icon src={ArrowLeftOnRectangle} mr />
 							{m.Sign_out()}
 						</DropdownItem>
 					</Dropdown>
 				{/if}
 			</SidebarGroup>
-			<div class="flex pt-1 border-t border-t-white/20 mt-2">
-				<p class="text-white opacity-30 text-xs px-2 font-mono">{appTitle} – Version {version}</p>
+			<div class="mt-2 flex border-t border-t-white/20 pt-1">
+				<p class="px-2 font-mono text-xs text-white opacity-30">{appTitle} – Version {version}</p>
 			</div>
 		</svelte:fragment>
 	</Sidebar>
 
 	<MainContent>
-		<div class="bg-[url('/bg.png')] bg-cover min-h-screen overflow-auto">
+		<div class="min-h-screen overflow-auto bg-[url('/bg.png')] bg-cover">
 			<slot />
 		</div>
 	</MainContent>
