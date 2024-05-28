@@ -116,7 +116,7 @@
 	}
 </script>
 
-<div class="flex flex-col md:flex-row justify-between gap-4 md:items-end items-start mb-8">
+<div class="mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
 	{#if !folderId}
 		<SectionTitle
 			title={m.my_signatures()}
@@ -132,7 +132,7 @@
 					id="new-signature"
 					color="primary"
 					size="sm"
-					class="!px-4 !py-2 whitespace-nowrap gap-2 w-fit"
+					class="w-fit gap-2 whitespace-nowrap !px-4 !py-2"
 				>
 					<ArrowKeyDown />
 					New signature
@@ -143,7 +143,7 @@
 							<Button
 								outline
 								size="sm"
-								class="!px-4 !py-2 whitespace-nowrap gap-2 w-fit"
+								class="w-fit gap-2 whitespace-nowrap !px-4 !py-2"
 								on:click={createRecord.bind(null, algo, openModal)}
 							>
 								<ClipboardDocumentCheck />
@@ -157,7 +157,7 @@
 	</div>
 </div>
 
-<div class="fixed m-0 p-0 z-50">
+<div class="fixed z-50 m-0 p-0">
 	<Modal open={loading} dismissable={false}>
 		<div class="flex flex-col items-center gap-2">
 			<Spinner />

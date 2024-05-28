@@ -7,6 +7,6 @@ export const load = async ({ url }) => {
 		localStorage.clear();
 		pb.authStore.clear();
 		currentUser.set(null);
-		throw redirect( '/',url);
+		throw redirect('/', url);
 	}
 };

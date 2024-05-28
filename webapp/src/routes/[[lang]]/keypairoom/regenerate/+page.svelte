@@ -75,7 +75,7 @@
 	$: isKeyringMissing = $page.url.searchParams.has(missingKeyringParamKey);
 </script>
 
-<Card class="p-6 space-y-6">
+<Card class="space-y-6 p-6">
 	{#if !success}
 		<Heading tag="h4">{m.Regenerate_keys()}</Heading>
 
@@ -120,7 +120,7 @@
 
 		<A href="/keypairoom" class="text-sm">{m.Forgot_the_seed_Regenerate_it()}</A>
 	{:else}
-		<div class="space-y-4 p-6 flex flex-col">
+		<div class="flex flex-col space-y-4 p-6">
 			<Heading tag="h4">{m.Keys_regenerated()}</Heading>
 			<P>
 				{m.Your_keys_have_been_regenerated_You_can_now_go_back_to()}

@@ -2,7 +2,7 @@
 	import { Navbar } from 'flowbite-svelte';
 </script>
 
-<div class="shrink-0 border-b dark">
+<div class="dark shrink-0 border-b">
 	<Navbar fluid>
 		<div class="shrink-0 items-center justify-start">
 			<slot name="left" />
@@ -10,7 +10,7 @@
 		<div class="justify-center">
 			<slot name="center" />
 		</div>
-		<div class="shrink-0 flex items-center justify-end">
+		<div class="flex shrink-0 items-center justify-end">
 			<slot name="right" />
 		</div>
 	</Navbar>

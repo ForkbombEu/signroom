@@ -5,6 +5,6 @@
 	export { className as class };
 </script>
 
-<Card class={`p-8 space-y-8 rounded-xl ${className}`}>
+<Card class={`space-y-8 rounded-xl p-8 ${className}`}>
 	<slot />
 </Card>

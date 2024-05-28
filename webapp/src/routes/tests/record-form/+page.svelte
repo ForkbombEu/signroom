@@ -25,7 +25,7 @@
 	>();
 </script>
 
-<div class="max-w-xl mx-auto p-4">
+<div class="mx-auto max-w-xl p-4">
 	<RecordForm
 		{recordType}
 		collection={Collections.CrudExample}

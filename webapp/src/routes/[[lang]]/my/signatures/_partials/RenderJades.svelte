@@ -5,7 +5,7 @@
 	let jadesArray = atob(file).split('.');
 </script>
 
-<div class="overflow-x-scroll w-full h-max">
+<div class="h-max w-full overflow-x-scroll">
 	<pre>{JSON.stringify(
 			JSON.parse(atob(jadesArray[0].replace(/_/g, '/').replace(/-/g, '+'))),
 			null,
@@ -13,5 +13,6 @@
 		)}
 		<Hr />
 	</pre>
-	{m.Signature()} {jadesArray[2]}
+	{m.Signature()}
+	{jadesArray[2]}
 </div>

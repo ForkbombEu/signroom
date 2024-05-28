@@ -6,7 +6,6 @@
 	import UserAvatar from '$lib/components/userAvatar.svelte';
 	import { m } from '$lib/i18n';
 
-
 	let edit = false;
 	const toggleEdit = () => {
 		edit = !edit;
@@ -14,20 +13,20 @@
 </script>
 
 <div class="space-y-6">
-	<div class="flex flex-row gap-6 items-center">
+	<div class="flex flex-row items-center gap-6">
 		<UserAvatar size="lg" />
 		<div class="flex flex-col">
 			<Heading tag="h4">{$currentUser?.name}</Heading>
 			<P>
 				{$currentUser?.email}
-				<span class="text-gray-400 text-sm ml-1">
+				<span class="ml-1 text-sm text-gray-400">
 					({$currentUser?.emailVisibility ? 'public' : 'not public'})
 				</span>
 			</P>
 		</div>
 	</div>
 
-	<div class="flex items-center gap-4 justify-end">
+	<div class="flex items-center justify-end gap-4">
 		{#if edit}
 			<Hr />
 		{/if}

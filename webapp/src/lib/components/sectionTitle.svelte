@@ -29,7 +29,7 @@
 	{/if}
 	{#if hasDescription}
 		<slot name="description">
-			<p class="text-gray-500 text-sm">{description}</p>
+			<p class="text-sm text-gray-500">{description}</p>
 		</slot>
 	{/if}
 </div>

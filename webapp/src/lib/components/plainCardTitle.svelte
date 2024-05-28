@@ -1,3 +1,3 @@
-<p class="text-primary-700 font-semibold">
+<p class="font-semibold text-primary-700">
 	<slot />
 </p>

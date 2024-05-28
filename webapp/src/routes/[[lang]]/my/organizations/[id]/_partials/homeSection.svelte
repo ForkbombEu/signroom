@@ -20,8 +20,8 @@
 
 <SectionTitle {title}></SectionTitle>
 
-<div class="flex justify-between items-center">
-	<p class="text-primary-700 font-semibold">
+<div class="flex items-center justify-between">
+	<p class="font-semibold text-primary-700">
 		{#if items.length == 1}
 			{singleItemText()}
 		{:else if items.length > 1}
@@ -40,10 +40,10 @@
 </div>
 
 {#if items.length > 0}
-	<div class="border rounded-lg bg-gray-50 p-3">
-		<ul class=" divide-y h-[150px] overflow-auto">
+	<div class="rounded-lg border bg-gray-50 p-3">
+		<ul class=" h-[150px] divide-y overflow-auto">
 			{#each items as item}
-				<li class="py-2 px-1">
+				<li class="px-1 py-2">
 					<slot {item} />
 				</li>
 			{/each}

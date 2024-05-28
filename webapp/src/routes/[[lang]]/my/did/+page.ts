@@ -9,7 +9,7 @@ export const load = async ({ fetch, url }) => {
 	if (!KEYPAIROOM && !DID) error(404);
 
 	const keyring = getKeyringFromLocalStorage();
-	if (!keyring) redirect( '/keypairoom/regenerate',  url);
+	if (!keyring) redirect('/keypairoom/regenerate', url);
 
 	const { did } = await pb.send<{ did: JSON }>('/api/did', { fetch });
 	return { did };

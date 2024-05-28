@@ -52,13 +52,13 @@
 						<Avatar src={avatarUrl} size="md" class="shrink-0" />
 						<div class="grow">
 							<P weight="bold">{org.name}</P>
-							<div class="text-gray-400 text-sm line-clamp-2 grow">
+							<div class="line-clamp-2 grow text-sm text-gray-400">
 								{#if hasDescription}
 									{@html org.description}
 								{/if}
 							</div>
 						</div>
-						<div class="pl-8 shrink-0 self-start">
+						<div class="shrink-0 self-start pl-8">
 							<Button
 								color="alternative"
 								on:click={() => {

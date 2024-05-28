@@ -8,4 +8,10 @@
 	const pades = getPades(file);
 </script>
 
-<object {...pades} class="w-full h-[40rem]" title={m.pdf_reader()} aria-label="" aria-labelledby=""/>
+<object
+	{...pades}
+	class="h-[40rem] w-full"
+	title={m.pdf_reader()}
+	aria-label=""
+	aria-labelledby=""
+/>

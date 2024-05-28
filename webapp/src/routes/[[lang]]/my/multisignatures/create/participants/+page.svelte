@@ -39,7 +39,7 @@
 	</PageTop>
 
 	<PageContent layout="horizontal">
-		<Card class="p-6 space-y-8 grow">
+		<Card class="grow space-y-8 p-6">
 			<SectionTitle tag="h5" title="Search Participants" />
 			<Relations
 				{superform}
@@ -66,7 +66,7 @@
 			<svelte:fragment slot="bottom">
 				<FormError />
 				<div class="flex justify-stretch gap-2">
-					<Button color="alternative" class="p-0 grow" href="/my/multisignatures/create/setup">
+					<Button color="alternative" class="grow p-0" href="/my/multisignatures/create/setup">
 						<ArrowLeft />
 					</Button>
 					<SubmitButton>

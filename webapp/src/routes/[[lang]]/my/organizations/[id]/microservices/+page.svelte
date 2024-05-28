@@ -59,7 +59,7 @@
 						<PlainCard let:Title let:Description>
 							<Title>{record.name}</Title>
 							<Description>
-								<span class="font-bold mr-2">{m.Endpoint()}:</span>
+								<span class="mr-2 font-bold">{m.Endpoint()}:</span>
 								{record.endpoint}
 							</Description>
 
@@ -131,7 +131,7 @@
 						<PlainCard let:Title let:Description>
 							<Title>{record.name}</Title>
 							<Description>
-								<span class="font-bold mr-2">{m.Endpoint()}:</span>
+								<span class="mr-2 font-bold">{m.Endpoint()}:</span>
 								{record.endpoint}
 							</Description>
 
@@ -203,7 +203,7 @@
 						<PlainCard let:Title let:Description>
 							<Title>{record.name}</Title>
 							<Description>
-								<span class="font-bold mr-2">{m.Endpoint()}:</span>
+								<span class="mr-2 font-bold">{m.Endpoint()}:</span>
 								{record.endpoint}
 							</Description>
 

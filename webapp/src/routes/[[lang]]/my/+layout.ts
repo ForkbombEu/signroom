@@ -19,26 +19,26 @@ export const load = async ({ url, fetch }) => {
 	const featureFlags = await loadFeatureFlags();
 
 	if (!featureFlags.AUTH) error(404);
-	if (!(await verifyUser(fetch))) redirect( '/login',url);
+	if (!(await verifyUser(fetch))) redirect('/login', url);
 
 	if (featureFlags.KEYPAIROOM) {
 		const publicKeys = await getUserPublicKeys();
 		if (!publicKeys) {
-					redirect(`/keypairoom?${welcomeSearchParamKey}`, url);
-					return;
+			redirect(`/keypairoom?${welcomeSearchParamKey}`, url);
+			return;
 		}
 
 		if (browser) {
 			const keyring = getKeyringFromLocalStorage();
 			if (!keyring) {
-								redirect(`/keypairoom/regenerate?${missingKeyringParam}`, url);
-								return;
+				redirect(`/keypairoom/regenerate?${missingKeyringParam}`, url);
+				return;
 			}
 
 			try {
 				await matchPublicAndPrivateKeys(publicKeys, keyring);
 			} catch (e) {
-							redirect(`/keypairoom/regenerate?${missingKeyringParam}`, url);
+				redirect(`/keypairoom/regenerate?${missingKeyringParam}`, url);
 			}
 		}
 	}

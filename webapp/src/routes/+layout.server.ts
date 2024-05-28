@@ -6,6 +6,6 @@ export const ssr = false;
 export const load = async ({ fetch }) => {
 	const flags = await loadFeatureFlags(fetch);
 	if (flags.MAINTENANCE) {
-		 error(503);
+		error(503);
 	}
 };

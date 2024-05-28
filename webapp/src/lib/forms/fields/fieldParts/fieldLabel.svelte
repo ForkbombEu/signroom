@@ -16,7 +16,7 @@
 
 <Label
 	for={field}
-	class="label flex justify-between items-center"
+	class="label flex items-center justify-between"
 	color={fieldHasErrors($errors) ? 'red' : 'gray'}
 >
 	<div>

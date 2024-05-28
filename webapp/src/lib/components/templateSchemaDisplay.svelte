@@ -34,7 +34,7 @@
 	}
 </script>
 
-<div class="divide-y bg-gray-50 border rounded-lg">
+<div class="divide-y rounded-lg border bg-gray-50">
 	{#if propertyListEither.pipe(Either.isLeft)}
 		<EmptyState title={m.Template_parsing_error()} icon={ExclamationTriangle} />
 	{:else}

@@ -23,7 +23,7 @@
 </script>
 
 <OrganizationLayout org={data.organization}>
-	<div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+	<div class="grid grid-cols-1 gap-8 sm:grid-cols-2">
 		<PageCard class="!space-y-4">
 			<HomeSection
 				title={m.Issuance_flows()}

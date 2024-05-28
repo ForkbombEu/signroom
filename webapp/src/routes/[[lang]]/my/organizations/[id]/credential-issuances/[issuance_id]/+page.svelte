@@ -99,7 +99,7 @@
 </PageTop>
 
 <PageContent>
-	<div class="flex gap-8 items-start">
+	<div class="flex items-start gap-8">
 		<PageCard class="grow">
 			<SectionTitle tag="h5" title={m.Credential_details()}>
 				<div slot="right" class="flex items-center gap-2">
@@ -123,10 +123,10 @@
 				</div>
 			</SectionTitle>
 
-			<div class="font-medium space-y-8">
-				<div class="flex gap-3 items-center pb-1">
+			<div class="space-y-8 font-medium">
+				<div class="flex items-center gap-3 pb-1">
 					<p>Logo:</p>
-					<Avatar class="object-cover border" size="lg" src={service.logo}></Avatar>
+					<Avatar class="border object-cover" size="lg" src={service.logo}></Avatar>
 				</div>
 
 				<p>
@@ -151,11 +151,11 @@
 			</div>
 		</PageCard>
 
-		<PageCard class="!p-4 shrink-0 w-[300px] !space-y-4">
+		<PageCard class="w-[300px] shrink-0 !space-y-4 !p-4">
 			{#await generateCredentialIssuanceQr()}
 				<Spinner />
 			{:then qrimg}
-				<div class="self-stretch border rounded-lg flex flex-col items-center p-4 bg-gray-50 gap-2">
+				<div class="flex flex-col items-center gap-2 self-stretch rounded-lg border bg-gray-50 p-4">
 					<img src={qrimg} alt={m.Service_Qr_Code()} class="rounded-md" />
 					<Button outline class="mt-4" size="sm" disabled>
 						<span class="whitespace-nowrap">
@@ -173,7 +173,7 @@
 				<div class="flex gap-4">
 					<img
 						alt="Didroom Wallet app logo"
-						class="w-[100px] h-[100px] rounded-lg"
+						class="h-[100px] w-[100px] rounded-lg"
 						src={`${assets}/app-didroom.svg`}
 					/>
 					<div class="space-y-2">

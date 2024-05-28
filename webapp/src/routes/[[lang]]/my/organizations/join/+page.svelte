@@ -68,7 +68,7 @@
 					{@const hasDescription = Boolean(org.description)}
 
 					<PlainCard let:Title let:Description>
-						<div class="flex gap-4 items-center">
+						<div class="flex items-center gap-4">
 							<Avatar src={avatarUrl} size="md" class="shrink-0" />
 							<div>
 								<Title>{org.name}</Title>
@@ -82,7 +82,7 @@
 							</div>
 						</div>
 
-						<div slot="right" class="pl-8 shrink-0 self-start">
+						<div slot="right" class="shrink-0 self-start pl-8">
 							{#if !isRequestAlreadySent(org)}
 								<Button
 									outline

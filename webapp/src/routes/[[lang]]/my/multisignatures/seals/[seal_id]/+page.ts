@@ -18,9 +18,9 @@ export const load = async ({ params }) => {
 
 	const issuer = await pb
 		.collection(Collections.CoconutCredentialIssuers)
-		.getOne<CoconutCredentialIssuersResponse<IssuerPublicKeys>>(
-			multisignature.coconut_credential_issuer
-		);
+		.getOne<
+			CoconutCredentialIssuersResponse<IssuerPublicKeys>
+		>(multisignature.coconut_credential_issuer);
 
 	return {
 		seal,

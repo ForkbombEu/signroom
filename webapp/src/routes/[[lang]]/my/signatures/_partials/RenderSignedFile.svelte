@@ -30,7 +30,7 @@
 	const Types = SignaturesTypeOptions;
 </script>
 
-<div class="flex flex-col gap-8 justify-end">
+<div class="flex flex-col justify-end gap-8">
 	<div class={`flex justify-${leftButton ? 'start' : 'end'}`}>
 		<Button color="primary" on:click={validate}>{m.Validate_signature()}</Button>
 	</div>
@@ -50,7 +50,7 @@
 		{#if result}
 			<AccordionItem open={!!result}>
 				<span slot="header">Validation data</span>
-				<div class="overflow-x-scroll w-full h-max">
+				<div class="h-max w-full overflow-x-scroll">
 					<pre>{JSON.stringify(result, null, 2)}</pre>
 				</div>
 			</AccordionItem>

@@ -4,6 +4,6 @@
 	export let target = 'body';
 </script>
 
-<div use:portal={target} class="fixed m-0 p-0 z-50">
+<div use:portal={target} class="fixed z-50 m-0 p-0">
 	<slot />
 </div>

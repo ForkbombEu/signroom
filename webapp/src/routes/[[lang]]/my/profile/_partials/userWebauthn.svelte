@@ -34,7 +34,7 @@
 		{#each records as record}
 			{@const label = Boolean(record.description) ? record.description : record.credential?.ID}
 			<Card class="max-w-none">
-				<div class="flex justify-between gap-4 items-center">
+				<div class="flex items-center justify-between gap-4">
 					<div class="w-0 grow overflow-hidden">
 						<P>{label}</P>
 					</div>
@@ -67,7 +67,7 @@
 	{/if}
 {/await}
 
-<div class="flex justify-end mt-2">
+<div class="mt-2 flex justify-end">
 	<Button
 		color="alternative"
 		on:click={() => {

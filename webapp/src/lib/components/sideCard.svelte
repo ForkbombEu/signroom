@@ -8,12 +8,12 @@
 	export let imageAlt = '';
 </script>
 
-<PageCard class="max-w-[350px] min-w-[350px] shrink-0 !p-5 !space-y-6">
+<PageCard class="min-w-[350px] max-w-[350px] shrink-0 !space-y-6 !p-5">
 	<slot name="top" />
 
 	{#if image}
 		<img
-			class="border border-gray-200 bg-gray-100 h-[150px] w-full object-cover rounded-lg overflow-hidden"
+			class="h-[150px] w-full overflow-hidden rounded-lg border border-gray-200 bg-gray-100 object-cover"
 			src={image}
 			alt={imageAlt}
 		/>

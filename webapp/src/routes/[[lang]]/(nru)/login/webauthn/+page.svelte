@@ -6,7 +6,6 @@
 
 	import { Form, createForm, Input, FormError, SubmitButton } from '$lib/forms';
 	import { currentEmail } from '../+layout.svelte';
-	
 
 	const schema = z.object({
 		email: z.string().email()

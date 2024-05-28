@@ -10,12 +10,12 @@
 </script>
 
 <div
-	class="flex flex-col gap-4 lg:flex-row max-w-4xl mx-auto min-h-screen pt-20 lg:pt-0 p-8 lg:p-0"
+	class="mx-auto flex min-h-screen max-w-4xl flex-col gap-4 p-8 pt-20 lg:flex-row lg:p-0 lg:pt-0"
 >
-	<div class="flex flex-col items-center justify-center w-full">
+	<div class="flex w-full flex-col items-center justify-center">
 		<img src={image} alt={title} />
 	</div>
-	<div class="flex flex-col items-center justify-center w-full gap-4">
+	<div class="flex w-full flex-col items-center justify-center gap-4">
 		<Heading tag="h3" class="text-primary-600">{status} {title}</Heading>
 		<Heading tag="h2">{message}</Heading>
 		<div class="w-full pt-8">

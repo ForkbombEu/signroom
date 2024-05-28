@@ -218,7 +218,7 @@
 
 						{#if propertyList}
 							<p
-								class="text-sm font-mono text-gray-500 bg-gray-100 px-2 py-1 rounded-md mt-2 w-fit"
+								class="mt-2 w-fit rounded-md bg-gray-100 px-2 py-1 font-mono text-sm text-gray-500"
 							>
 								Properties: {propertyList}
 							</p>
