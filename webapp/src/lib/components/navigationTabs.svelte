@@ -1,7 +1,7 @@
 <script lang="ts" context="module">
 	import clsx from 'clsx';
 	import type { NavigationTabProps as NavigationTab } from './navigationTab.svelte';
-	export { NavigationTab };
+	export { type NavigationTab };
 </script>
 
 <script lang="ts">

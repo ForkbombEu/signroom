@@ -10,7 +10,7 @@
 	let { publicKeys } = data;
 </script>
 
-<div class="max-w-xl mx-auto space-y-8 p-8">
+<div class="mx-auto max-w-xl space-y-8 p-8">
 	<Card class="!max-w-none">
 		<UserData />
 	</Card>

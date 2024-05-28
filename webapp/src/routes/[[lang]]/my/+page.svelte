@@ -24,14 +24,14 @@
 			{#each links as link}
 				<a
 					href={link.href}
-					class="rounded-lg border-2 border-slate-400 p-3 hover:border-primary-500 group flex items-center cursor-pointer"
+					class="group flex cursor-pointer items-center rounded-lg border-2 border-slate-400 p-3 hover:border-primary-500"
 				>
-					<div class="hidden group-hover:block text-primary-500">
-						<ArrowLongRight class="w-6 inline-block mr-2" />
+					<div class="hidden text-primary-500 group-hover:block">
+						<ArrowLongRight class="mr-2 inline-block w-6" />
 					</div>
 					<div>
-						<Heading tag="h6" class="text-primary-500 font-semibold">{link.title}</Heading>
-						<p class="text-gray-700 dark:text-gray-400 font-light">
+						<Heading tag="h6" class="font-semibold text-primary-500">{link.title}</Heading>
+						<p class="font-light text-gray-700 dark:text-gray-400">
 							{link.description}
 						</p>
 					</div>
@@ -51,7 +51,7 @@
 					<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
 						{n.title}
 					</h5>
-					<p class="mb-3 font-normal text-gray-700 dark:text-gray-400 leading-tight">
+					<p class="mb-3 font-normal leading-tight text-gray-700 dark:text-gray-400">
 						{n.preview}
 					</p>
 					<a

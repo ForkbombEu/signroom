@@ -88,9 +88,9 @@
 </script>
 
 {#if isWelcome}
-	<div class="-rotate-1 mb-6">
+	<div class="mb-6 -rotate-1">
 		<Alert color="yellow" border>
-			<div class="text-ellipsis overflow-hidden space-y-3">
+			<div class="space-y-3 overflow-hidden text-ellipsis">
 				<Heading color="yellow" tag="h2" class="text-ellipsis">Welcome to {appTitle} 🎉</Heading>
 				<P color="yellow" weight="bold">Thanks for joining us!</P>
 				<P color="yellow">
@@ -102,19 +102,19 @@
 	</div>
 {/if}
 
-<Card class="p-6 space-y-6">
+<Card class="space-y-6 p-6">
 	{#if !seed}
 		<Heading tag="h4">Generate your keys</Heading>
 
 		<Alert color="blue">
 			<span class="sr-only">Info</span>
-			<span class="font-bold text flex items-center mb-2">
+			<span class="text mb-2 flex items-center font-bold">
 				<div class="mr-1">
 					<InformationCircle size="20" />
 				</div>
 				Important information
 			</span>
-			<ul class="list-disc pl-4 space-y-1 pt-1">
+			<ul class="list-disc space-y-1 pl-4 pt-1">
 				<li>
 					By answering these questions, you will generate keys that will be used to encrypt your
 					data

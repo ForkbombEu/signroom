@@ -161,8 +161,8 @@
 	submitButtonText = Boolean(submitButtonText)
 		? submitButtonText
 		: Boolean(recordId)
-		? 'Edit record'
-		: 'Create record';
+			? 'Edit record'
+			: 'Create record';
 </script>
 
 <Form {superform} showRequiredIndicator>

@@ -6,9 +6,9 @@ export const POST = async (evt: RequestEvent) => {
 	const { fetch } = evt;
 	const policy = {
 		bytes: btoa(policyConstraint),
-		digestAlgorithm : null,
-		name : "policy.xml"
-	}
+		digestAlgorithm: null,
+		name: 'policy.xml'
+	};
 	const validateSignature = await fetch(
 		`http://dss.forkbomb.eu:8080/services/rest/validation/validateSignature`,
 		{

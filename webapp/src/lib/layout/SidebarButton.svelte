@@ -14,7 +14,7 @@
 </script>
 
 <button {id} class={classes} on:click>
-	<div class="flex items-center w-0 grow overflow-hidden">
+	<div class="flex w-0 grow items-center overflow-hidden">
 		<slot />
 	</div>
 	<div>

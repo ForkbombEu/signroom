@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
 	import type { CalcBreadcrumbsOptions } from './Breadcrumbs';
-	export { CalcBreadcrumbsOptions as BreadcrumbsOptions };
+	export { type CalcBreadcrumbsOptions as BreadcrumbsOptions };
 </script>
 
 <script lang="ts">

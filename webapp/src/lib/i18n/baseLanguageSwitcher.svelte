@@ -6,16 +6,10 @@
 	} from '$paraglide/runtime';
 	import { page } from '$app/stores';
 	import { i18n, m } from '.';
-	import {
-		Dropdown,
-		DropdownDivider,
-		DropdownHeader,
-		DropdownItem,
-		SidebarDropdownWrapper
-	} from 'flowbite-svelte';
+	import { Dropdown, Button, DropdownHeader, DropdownItem } from 'flowbite-svelte';
 	import { ArrowPath } from 'svelte-heros-v2';
-	import Icon from '$lib/components/icon.svelte';
-	import SidebarButton from '$lib/layout/SidebarButton.svelte';
+
+	//
 
 	const languagesDisplay: Record<AvailableLanguageTag, { flag: string; name: string }> = {
 		en: { flag: '🇬🇧', name: 'English' },
@@ -29,13 +23,13 @@
 	const id = 'language-switcher';
 </script>
 
-<SidebarButton {id}>
-	<div class="flex gap-3">
+<Button color="alternative" {id}>
+	<div class="flex items-center gap-3">
 		<p class="h-6 w-6 text-2xl leading-[1]">{languagesDisplay[languageTag()].flag}</p>
 		<p>{languagesDisplay[languageTag()].name}</p>
+		<ArrowPath size="18" />
 	</div>
-	<Icon src={ArrowPath} slot="right" size={18}></Icon>
-</SidebarButton>
+</Button>
 
 <Dropdown triggeredBy={`#${id}`} class="w-[215px]">
 	<DropdownHeader>

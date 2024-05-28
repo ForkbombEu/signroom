@@ -50,7 +50,7 @@
 
 <PortalWrapper>
 	<Modal bind:open title={modalTitle} size="xs">
-		<div class="text-center space-y-6">
+		<div class="space-y-6 text-center">
 			<P>Are you sure you want to delete this record?</P>
 
 			{#if error}
@@ -60,7 +60,7 @@
 				</Alert>
 			{/if}
 
-			<div class="flex gap-2 justify-center">
+			<div class="flex justify-center gap-2">
 				<Button color="red" on:click={deleteRecord}>
 					<Trash size="20" /><span class="ml-1">Delete</span>
 				</Button>

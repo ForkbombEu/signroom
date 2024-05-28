@@ -192,7 +192,7 @@
 </script>
 
 {#await promise}
-	<div class="flex items-center justify-center min-h-screen justify-items-center">
+	<div class="flex min-h-screen items-center justify-center justify-items-center">
 		<GridSpinner />
 	</div>
 {:then}

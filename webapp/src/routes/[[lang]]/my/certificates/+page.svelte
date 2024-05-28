@@ -139,7 +139,7 @@
 
 <PageContent>
 	<PageCard>
-		<div class="p-4 space-y-4 border-slate-200 rounded-lg">
+		<div class="space-y-4 rounded-lg border-slate-200 p-4">
 			<CollectionManager
 				collection={Collections.Certificates}
 				{recordType}

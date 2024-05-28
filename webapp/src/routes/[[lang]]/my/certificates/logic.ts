@@ -2,7 +2,7 @@ import { fromBER } from 'asn1js';
 import { X509Certificate } from '@peculiar/x509';
 import { zencode_exec } from 'zenroom';
 import { pb } from '$lib/pocketbase';
-import { generateKeyAndCertificate } from '$lib/keypairoom/x509'
+import { generateKeyAndCertificate } from '$lib/keypairoom/x509';
 
 const converter: Record<string, string> = {
 	ECDSA: `Given I have a 'hex' named 'key'
@@ -16,7 +16,7 @@ const algorithmIdentifier: Record<string, string> = {
 	'1.3.101.112': 'EdDSA',
 	'1.2.840.113549.1.1.1': 'RSASSA-PKCS1-v1_5',
 	'1.2.840.113549.1.1.10': '1.2.840.113549.1.1.10'
-}
+};
 const BEGIN_CERTIFICATE = '-----BEGIN CERTIFICATE-----';
 const END_CERTIFICATE = '-----END CERTIFICATE-----';
 const BEGIN_KEY = '-----BEGIN PRIVATE KEY-----';
@@ -25,7 +25,7 @@ const BEGIN_EC = '-----BEGIN EC PRIVATE KEY-----';
 const END_EC = '-----END EC PRIVATE KEY-----';
 const OBJECT_IDENTIFIER = 'OBJECT IDENTIFIER : ';
 
-export function readKeyFromLocalStorage(){
+export function readKeyFromLocalStorage() {
 	return JSON.parse(localStorage.getItem('certificateKey') || '{}');
 }
 
@@ -49,8 +49,8 @@ async function checkCertificate(certificate: string) {
 }
 
 function checkKey(secretKey: string): string {
-	var begin = secretKey.indexOf(BEGIN_KEY);
-	var end;
+	let begin = secretKey.indexOf(BEGIN_KEY);
+	let end;
 	if (begin != -1) {
 		begin += BEGIN_KEY.length;
 		end = secretKey.indexOf(END_KEY);
@@ -63,31 +63,35 @@ function checkKey(secretKey: string): string {
 	return secretKey.slice(begin, end).split('\n').join('');
 }
 
-function mathcKeyCertAlgo(algorithmName: string, arr: any[]) {
-	var id;
+function mathcKeyCertAlgo(algorithmName: string, arr: string[]) {
+	let id;
 	for (const v of arr) {
 		const index = v.toString().indexOf(OBJECT_IDENTIFIER);
-		if(index != -1) {
-			id = v.toString().slice(index+OBJECT_IDENTIFIER.length).split('\n')[0];
+		if (index != -1) {
+			id = v
+				.toString()
+				.slice(index + OBJECT_IDENTIFIER.length)
+				.split('\n')[0];
 			break;
 		}
 	}
-	if(!id) throw('Key has no object identifier')
-	if(!algorithmIdentifier[id]) throw('Algorithm not supported')
-	if(algorithmIdentifier[id] != algorithmName)
-		throw('Key algorithm does not correspond to certificate algorithm')
+	if (!id) throw 'Key has no object identifier';
+	if (!algorithmIdentifier[id]) throw 'Algorithm not supported';
+	if (algorithmIdentifier[id] != algorithmName)
+		throw 'Key algorithm does not correspond to certificate algorithm';
 }
 
 async function decodeKey(algorithmName: string, secretKey: string): Promise<string | null> {
 	const sk = checkKey(secretKey);
 	const buf = Uint8Array.from(atob(sk), (c) => c.charCodeAt(0));
-	const obj: any = fromBER(buf).valueOf();
+	const obj = fromBER(buf).valueOf();
+	// @ts-expect-error The shape of the object is unkown
 	const arr = obj.result.valueBlock.value;
 	mathcKeyCertAlgo(algorithmName, arr);
-	if (algorithmName == 'RSASSA-PKCS1-v1_5' || algorithmName == '1.2.840.113549.1.1.10')
-		return null;
+	if (algorithmName == 'RSASSA-PKCS1-v1_5' || algorithmName == '1.2.840.113549.1.1.10') return null;
 	const hexKey = arr
-		.find((value: any[]) => value.constructor.NAME == 'OCTET STRING')
+		// @ts-expect-error NAME property actually exists
+		.find((value: unknown[]) => value.constructor.NAME == 'OCTET STRING')
 		.toString()
 		.replace(/OCTET STRING :/g, '')
 		.trim();
@@ -97,17 +101,17 @@ async function decodeKey(algorithmName: string, secretKey: string): Promise<stri
 	return JSON.parse(result).key;
 }
 
-async function freeName(name: string, allKeys: Record<string, any>, checkCert: boolean) {
-	if(checkCert) {
+async function freeName(name: string, allKeys: Record<string, unknown>, checkCert: boolean) {
+	if (checkCert) {
 		let certificateFound;
 		try {
 			await pb.collection('certificates').getFirstListItem(`name="${name}"`);
 			certificateFound = true;
-		} catch(e) {
+		} catch (e) {
 			certificateFound = false;
 		}
-		if(certificateFound) {
-			throw('Name already in use for certificate');
+		if (certificateFound) {
+			throw 'Name already in use for certificate';
 		}
 	}
 	if (allKeys[name]) throw 'Name already in use';
@@ -124,7 +128,12 @@ export async function addKey(name: string, algorithm: string, key: string, check
 	localStorage.setItem('certificateKey', JSON.stringify(allKeys));
 }
 
-export async function addCertifcateAndKey(name: string, certificate: string, key: string, userId: string) {
+export async function addCertifcateAndKey(
+	name: string,
+	certificate: string,
+	key: string,
+	userId: string
+) {
 	const { parsedCertificate, signatureAlgorithmName } = await checkCertificate(certificate);
 	await addKey(name, signatureAlgorithmName, key, true);
 	const c = {
@@ -133,11 +142,7 @@ export async function addCertifcateAndKey(name: string, certificate: string, key
 		algorithm: signatureAlgorithmName,
 		owner: userId
 	};
-	try {
-		await pb.collection('certificates').create(c);
-	} catch (e) {
-		throw e;
-	}
+	await pb.collection('certificates').create(c);
 }
 
 export async function addAutosingedCertificateAndKey(name: string, userId: string) {

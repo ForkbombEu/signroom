@@ -15,9 +15,9 @@
 	const isOwned = $currentUser?.id === record?.owner;
 </script>
 
-<div class="flex flex-col gap-2 max-w-xl">
+<div class="flex max-w-xl flex-col gap-2">
 	<div>
-		<div class="flex flex-row gap-4 items-center" />
+		<div class="flex flex-row items-center gap-4" />
 		<Heading tag="h5">
 			{record?.title}
 			{#if record?.type}
@@ -26,7 +26,7 @@
 			<OwnerDisplay value={record?.owner || ''} {record} />
 		</Heading>
 		{#if folder && isOwned}
-			<div class="text-gray-400 font-semibold">{folder}</div>
+			<div class="font-semibold text-gray-400">{folder}</div>
 		{/if}
 	</div>
 	<div class="line-clamp-3 w-full whitespace-normal text-gray-600">

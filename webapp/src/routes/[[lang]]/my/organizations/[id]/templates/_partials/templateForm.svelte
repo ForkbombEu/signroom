@@ -119,10 +119,10 @@
 			description={type == TemplatesTypeOptions.issuance
 				? m.attributes_needed_description_credential()
 				: type == TemplatesTypeOptions.authorization
-				? m.attributes_needed_description_authorization()
-				: type == TemplatesTypeOptions.verification
-				? m.attributes_needed_description_verification()
-				: ''}
+					? m.attributes_needed_description_authorization()
+					: type == TemplatesTypeOptions.verification
+						? m.attributes_needed_description_verification()
+						: ''}
 		/>
 
 		<JSONSchemaInput {superform} field="schema"></JSONSchemaInput>

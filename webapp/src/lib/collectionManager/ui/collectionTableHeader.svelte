@@ -24,7 +24,7 @@
 
 <TableHeadCell>
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
-	<div role="columnheader" tabindex="0" on:click={handleClick} class="select-none cursor-pointer">
+	<div role="columnheader" tabindex="0" on:click={handleClick} class="cursor-pointer select-none">
 		<span>{field}</span>
 		{#if isSort}
 			<span>{sortArrow}</span>

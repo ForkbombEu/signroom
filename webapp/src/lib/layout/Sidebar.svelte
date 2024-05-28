@@ -23,11 +23,11 @@
 <svelte:component this={comp} {width} {darkMode}>
 	<Sidebar
 		{activeUrl}
-		class="flex flex-col grow bg-white dark:bg-gray-800 border-r border-r-600"
+		class="border-r-600 flex grow flex-col border-r bg-white dark:bg-gray-800"
 		asideClass={width}
 	>
 		<div
-			class="flex flex-col overflow-hidden grow"
+			class="flex grow flex-col overflow-hidden"
 			data-sveltekit-preload-data={preloadLinkOnHover ? 'hover' : 'false'}
 		>
 			{#if $sidebarLayoutMode == 'drawer'}
@@ -40,7 +40,7 @@
 				<slot />
 			</div>
 
-			<div class="shrink-0 border-t dark:border-t-gray-700 p-3">
+			<div class="shrink-0 border-t p-3 dark:border-t-gray-700">
 				<slot name="bottom" />
 			</div>
 		</div>

@@ -54,7 +54,10 @@
 </script>
 
 <div class="p-4">
-	<TitleDescription title={m.Validate()} description={m.Upload_a_signature_file_and_verify_autenticity()} />
+	<TitleDescription
+		title={m.Validate()}
+		description={m.Upload_a_signature_file_and_verify_autenticity()}
+	/>
 	<br />
 	<Dropzone
 		id="dropzone"
@@ -68,7 +71,7 @@
 	>
 		<svg
 			aria-hidden="true"
-			class="mb-3 w-10 h-10 text-gray-400"
+			class="mb-3 h-10 w-10 text-gray-400"
 			fill="none"
 			stroke="currentColor"
 			viewBox="0 0 24 24"
@@ -81,9 +84,12 @@
 			/></svg
 		>
 		<p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-			<span class="font-semibold">{m.Click_to_upload()}</span> {m.or_drag_and_drop()}
+			<span class="font-semibold">{m.Click_to_upload()}</span>
+			{m.or_drag_and_drop()}
 		</p>
-		<p class="text-xs text-gray-500 dark:text-gray-400">{m.JSON_signature_downloaded_from_signroom()}</p>
+		<p class="text-xs text-gray-500 dark:text-gray-400">
+			{m.JSON_signature_downloaded_from_signroom()}
+		</p>
 	</Dropzone>
 	{#if file}
 		<div class="flex gap-8">

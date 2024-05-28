@@ -6,10 +6,10 @@ export * from './types';
 
 /* Main */
 
-export function getCollectionSchema(
-	collection: Collections | string
-) {
-	return jsonSchema.find((e) => e.name === collection || e.id === collection) as CollectionSchema | undefined;
+export function getCollectionSchema(collection: Collections | string) {
+	return jsonSchema.find((e) => e.name === collection || e.id === collection) as
+		| CollectionSchema
+		| undefined;
 }
 
 //

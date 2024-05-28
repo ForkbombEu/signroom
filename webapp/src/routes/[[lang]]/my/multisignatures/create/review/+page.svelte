@@ -79,7 +79,7 @@
 </PageTop>
 
 <PageContent layout="horizontal">
-	<PageCard class="p-6 space-y-5 grow">
+	<PageCard class="grow space-y-5 p-6">
 		<SectionTitle tag="h5" title="Multisignature details" />
 
 		<ReviewField label="Signature name">
@@ -125,7 +125,7 @@
 				<div class="flex justify-stretch gap-2">
 					<Button
 						color="alternative"
-						class="p-0 grow"
+						class="grow p-0"
 						href="/my/multisignatures/create/participants"
 					>
 						<ArrowLeft />

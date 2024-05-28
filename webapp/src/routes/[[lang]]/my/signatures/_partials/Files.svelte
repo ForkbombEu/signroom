@@ -40,7 +40,7 @@
 	const handleOpen = () => (open = !open);
 </script>
 
-<div class="flex flex-col gap-4 max-w-[400px]">
+<div class="flex max-w-[400px] flex-col gap-4">
 	<A class="gap-1" href={url} download={value} slot="beforeButtons">
 		<span>
 			<DocumentArrowDown size="20" />
@@ -66,7 +66,7 @@
 <div class="fixed z-50">
 	<Modal bind:open title={`${record.title} – ${m.Signed()}`} size="md">
 		<div class="w-full">
-			<RenderSignedFile {type} signedFile={signedFile} />
+			<RenderSignedFile {type} {signedFile} />
 		</div>
 	</Modal>
 </div>

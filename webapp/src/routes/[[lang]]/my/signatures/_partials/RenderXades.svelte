@@ -4,6 +4,6 @@
 	let xml = atob(file);
 </script>
 
-<div class="overflow-x-scroll w-full h-max">
+<div class="h-max w-full overflow-x-scroll">
 	<pre>{xmlFormat(xml)}</pre>
 </div>

@@ -26,9 +26,9 @@
 <div class={divClass}>
 	{#await checkImageUrl(src ?? '') then result}
 		{#if result}
-			<img class="w-full h-full object-cover" {src} {alt} />
+			<img class="h-full w-full object-cover" {src} {alt} />
 		{:else}
-			<div class="text-xs text-center leading-[0.9rem] text-gray-400">
+			<div class="text-center text-xs leading-[0.9rem] text-gray-400">
 				{#if !hideHelpText}
 					<p>No</p>
 					<p>Image</p>

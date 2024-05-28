@@ -33,7 +33,7 @@
 		{width}
 	>
 		{#if !hideTopbar}
-			<div class="flex justify-between items-center p-2 pl-4 border-b">
+			<div class="flex items-center justify-between border-b p-2 pl-4">
 				<Heading tag="h6">
 					{#if title}
 						{title}

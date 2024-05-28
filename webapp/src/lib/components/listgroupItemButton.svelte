@@ -19,7 +19,7 @@
 </script>
 
 <ListgroupItem>
-	<div class="flex justify-between items-center">
+	<div class="flex items-center justify-between">
 		<slot />
 		<div>
 			<!-- {#if !hideShow}

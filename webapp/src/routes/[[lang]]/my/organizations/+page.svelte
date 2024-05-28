@@ -70,11 +70,11 @@
 	<PageCard>
 		<SectionTitle tag="h5" title={m.Your_organizations()}>
 			<div slot="right" class="flex justify-end gap-2">
-				<Button size="sm" outline class="!px-4 shrink-0" href="/my/organizations/join">
+				<Button size="sm" outline class="shrink-0 !px-4" href="/my/organizations/join">
 					<span class="ml-1"> {m.Join_an_organization()} </span>
 					<Icon src={UserPlus} ml />
 				</Button>
-				<Button size="sm" class="!px-4 shrink-0" href="/my/organizations/create">
+				<Button size="sm" class="shrink-0 !px-4" href="/my/organizations/create">
 					<span class="ml-1"> {m.Create_a_new_organization()} </span>
 					<Icon src={Plus} ml />
 				</Button>
