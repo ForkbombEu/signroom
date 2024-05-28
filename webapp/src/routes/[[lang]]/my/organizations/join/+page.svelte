@@ -33,7 +33,7 @@
 	}
 
 	async function sendJoinRequest() {
-		await pb.collection(Collections.OrgJoinRequests).create({
+		await pb.collection('orgJoinRequests').create({
 			user: $currentUser?.id!,
 			organization: selectedOrganization?.id!,
 			status: OrgJoinRequestsStatusOptions.pending,

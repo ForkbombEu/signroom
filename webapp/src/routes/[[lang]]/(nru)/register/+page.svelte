@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { pb } from '$lib/pocketbase';
-	import { Collections, OrgJoinRequestsStatusOptions } from '$lib/pocketbase/types';
+	import { OrgJoinRequestsStatusOptions } from '$lib/pocketbase/types';
 	import { goto, m } from '$lib/i18n';
 	import { z } from 'zod';
 
@@ -32,7 +32,7 @@
 		await u.requestVerification(data.email);
 		//Join organization
 		if (Boolean(join)) {
-			await pb.collection(Collections.OrgJoinRequests).create({
+			await pb.collection('orgJoinRequests').create({
 				user: record.id,
 				organization: join,
 				status: OrgJoinRequestsStatusOptions.pending,

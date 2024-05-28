@@ -22,7 +22,7 @@
 	});
 
 	const onSubmit: SubmitFunction<typeof schema> = async ({ form }) => {
-		await pb.collection(Collections.Users).requestPasswordReset(form.data.email);
+		await pb.collection('users').requestPasswordReset(form.data.email);
 		await goto('/forgot-password/confirm');
 	};
 

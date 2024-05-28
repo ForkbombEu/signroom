@@ -61,9 +61,9 @@
 			const formData = createFormData(e.form.data);
 			let record: ServicesResponse;
 			if (serviceId) {
-				record = await pb.collection(Collections.Services).update(serviceId, formData);
+				record = await pb.collection('services').update(serviceId, formData);
 			} else {
-				record = await pb.collection(Collections.Services).create<ServicesResponse>(formData);
+				record = await pb.collection('services').create(formData);
 			}
 			dispatch('success', { record });
 		},
