@@ -49,8 +49,8 @@ async function checkCertificate(certificate: string) {
 }
 
 function checkKey(secretKey: string): string {
-	var begin = secretKey.indexOf(BEGIN_KEY);
-	var end;
+	let begin = secretKey.indexOf(BEGIN_KEY);
+	let end;
 	if (begin != -1) {
 		begin += BEGIN_KEY.length;
 		end = secretKey.indexOf(END_KEY);
@@ -63,8 +63,8 @@ function checkKey(secretKey: string): string {
 	return secretKey.slice(begin, end).split('\n').join('');
 }
 
-function mathcKeyCertAlgo(algorithmName: string, arr: any[]) {
-	var id;
+function mathcKeyCertAlgo(algorithmName: string, arr: string[]) {
+	let id;
 	for (const v of arr) {
 		const index = v.toString().indexOf(OBJECT_IDENTIFIER);
 		if (index != -1) {
@@ -84,12 +84,14 @@ function mathcKeyCertAlgo(algorithmName: string, arr: any[]) {
 async function decodeKey(algorithmName: string, secretKey: string): Promise<string | null> {
 	const sk = checkKey(secretKey);
 	const buf = Uint8Array.from(atob(sk), (c) => c.charCodeAt(0));
-	const obj: any = fromBER(buf).valueOf();
+	const obj = fromBER(buf).valueOf();
+	// @ts-expect-error The shape of the object is unkown
 	const arr = obj.result.valueBlock.value;
 	mathcKeyCertAlgo(algorithmName, arr);
 	if (algorithmName == 'RSASSA-PKCS1-v1_5' || algorithmName == '1.2.840.113549.1.1.10') return null;
 	const hexKey = arr
-		.find((value: any[]) => value.constructor.NAME == 'OCTET STRING')
+		// @ts-expect-error NAME property actually exists
+		.find((value: unknown[]) => value.constructor.NAME == 'OCTET STRING')
 		.toString()
 		.replace(/OCTET STRING :/g, '')
 		.trim();
@@ -99,7 +101,7 @@ async function decodeKey(algorithmName: string, secretKey: string): Promise<stri
 	return JSON.parse(result).key;
 }
 
-async function freeName(name: string, allKeys: Record<string, any>, checkCert: boolean) {
+async function freeName(name: string, allKeys: Record<string, unknown>, checkCert: boolean) {
 	if (checkCert) {
 		let certificateFound;
 		try {
@@ -140,11 +142,7 @@ export async function addCertifcateAndKey(
 		algorithm: signatureAlgorithmName,
 		owner: userId
 	};
-	try {
-		await pb.collection('certificates').create(c);
-	} catch (e) {
-		throw e;
-	}
+	await pb.collection('certificates').create(c);
 }
 
 export async function addAutosingedCertificateAndKey(name: string, userId: string) {
