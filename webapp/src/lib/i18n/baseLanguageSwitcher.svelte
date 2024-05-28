@@ -3,7 +3,7 @@
 		availableLanguageTags,
 		type AvailableLanguageTag,
 		languageTag
-	} from '$lib/paraglide/runtime';
+	} from '$paraglide/runtime';
 	import { page } from '$app/stores';
 	import { i18n, m } from '.';
 	import { Dropdown, Button, DropdownHeader, DropdownItem } from 'flowbite-svelte';
