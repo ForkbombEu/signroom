@@ -5,6 +5,6 @@ export const load = async ({ params, fetch }) => {
 	try {
 		await verifyRole(params.id, ['admin', 'owner'], fetch);
 	} catch (e) {
-		throw error(404);
+		error(404);
 	}
 };
