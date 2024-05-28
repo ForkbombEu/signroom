@@ -17,7 +17,7 @@
 		schema,
 		async ({ form }) => {
 			const { data } = form;
-			const u = pb.collection(Collections.Users);
+			const u = pb.collection('users');
 			await u.authWithPassword(data.email, data.password);
 			await goto('/my');
 		},
