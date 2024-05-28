@@ -60,7 +60,7 @@
 	async function removeAuthorization() {
 		if (!authorization) return;
 		removeLoading = true;
-		await pb.collection(Collections.Authorizations).delete(authorization.id);
+		await pb.collection('authorizations').delete(authorization.id);
 		open = false;
 		dispatch('remove');
 	}

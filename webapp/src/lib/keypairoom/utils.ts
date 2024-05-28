@@ -32,5 +32,5 @@ export async function saveUserPublicKeys(publicKeys: PublicKeys) {
 		...publicKeys,
 		owner: pb.authStore.model?.id
 	};
-	await pb.collection(Collections.UsersPublicKeys).create(data);
+	await pb.collection('users_public_keys').create(data);
 }
