@@ -13,9 +13,9 @@
 	},
 	"scripts": {
 		"predev": "pnpm run definitions",
-		"dev": "pnpm paraglide && vite dev",
+		"dev": "vite dev",
 		"prebuild": "pnpm run definitions",
-		"build": "pnpm paraglide && svelte-kit sync && vite build",
+		"build": "svelte-kit sync && vite build",
 		"preview": "vite preview",
 		"test": "playwright test",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -29,9 +29,7 @@
 		"roles": "node ./src/lib/rbac/generateRolesList.mjs",
 		"schema": "node ./src/lib/pocketbase/schema/generateSchema.mjs",
 		"definitions": "pnpm types && pnpm schema && pnpm features && pnpm roles",
-		"serve": "pnpm build && pnpm preview --host",
-		"postinstall": "pnpm paraglide",
-		"paraglide": "paraglide-js compile --project ./project.inlang"
+		"serve": "pnpm build && pnpm preview --host"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.41.2",
