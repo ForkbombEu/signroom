@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/ForkbombEu/signroom/compare/v1.2.2...v1.2.3) (2024-05-28)
+
+
+### Bug Fixes
+
+* **keypairoom:** users challenges handling ([#628](https://github.com/ForkbombEu/signroom/issues/628)) ([afbd4e0](https://github.com/ForkbombEu/signroom/commit/afbd4e0b03eadfee0a6d610d35686718174ae909))
+
 ## [1.2.2](https://github.com/ForkbombEu/signroom/compare/v1.2.1...v1.2.2) (2024-05-24)
 
 
