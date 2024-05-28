@@ -36,7 +36,9 @@
 	}
 
 	const toggleSidebar = () => {
-		$isSidebarHidden = !$isSidebarHidden;
+		if ($sidebarLayoutMode == 'drawer') {
+			$isSidebarHidden = !$isSidebarHidden;
+		}
 	};
 
 	setContext<UIShellContext>(UI_SHELL_KEY, {
@@ -50,9 +52,9 @@
 
 <div class="w-screen h-screen overflow-hidden flex flex-col">
 	<div class="shrink-0">
-		<slot name="top" sidebarLayoutMode={$sidebarLayoutMode} />
+		<slot name="top" sidebarLayoutMode={$sidebarLayoutMode} {toggleSidebar} />
 	</div>
 	<div class="h-0 grow flex items-stretch">
-		<slot sidebarLayoutMode={$sidebarLayoutMode} />
+		<slot sidebarLayoutMode={$sidebarLayoutMode} {toggleSidebar} />
 	</div>
 </div>

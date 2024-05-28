@@ -1,102 +1,101 @@
 import { test, expect, type Page } from '@playwright/test';
 import { userLogin, randomId } from '@utils/login';
+import { createOrganization } from '@utils/organization';
 import { config } from 'dotenv';
 
 config();
 
-test.describe.configure({ mode: 'serial' });
+test.describe('it should test organizations and members', () => {
+	let page: Page;
+	let orgName: string;
+	let orgId: string;
 
-let page: Page;
-let orgName: string;
-let orgId: string;
+	test.beforeAll(async ({ browser }) => {
+		const context = await browser.newContext();
+		page = await context.newPage();
+		await page.goto('/my');
+	});
 
-test('it should create an organization', async ({ browser }) => {
-	page = await userLogin(browser, 'A');
+	test.afterAll(async ({ browser }) => {
+		browser.close;
+	});
 
-	await page.goto('/my/organizations');
+	test('it should create an organization', async ({ browser }) => {
+		page = await userLogin(browser, 'A');
+		await createOrganization(page);
+		orgId = page.url().split('/').at(-1);
+	});
 
-  await page.getByRole('button', { name: 'Create a new organization' }).click();
-	await expect(page).toHaveURL('/my/organizations/create');
+	test('it should edit organization name', async () => {
+		await page.getByRole('tab', { name: 'Settings' }).click();
+		await expect(page).toHaveURL(/my\/organizations\/[^/]+\/settings/);
 
-	orgName = `org-${randomId()}`;
-	await page.locator('input[name="name"]').click();
-	await page.locator('input[name="name"]').fill(orgName);
-	await page.getByRole('button', { name: 'Create organization' }).click();
-	await expect(page).toHaveURL(new RegExp('/my/organizations/(.*)'));
-	await expect(page.getByRole('heading', { name: orgName })).toBeVisible();
+		await page.locator('input[name="name"]').click();
 
-	orgId = page.url().split('/').at(-1);
-});
+		orgName = `org-${randomId()}`;
+		await page.locator('input[name="name"]').fill(orgName);
+		await page.getByRole('button', { name: 'Save changes' }).click();
+		// await expect(page.getByRole('heading', { name: orgName })).toBeVisible();
+	});
 
-test('it should edit organization name', async () => {
-	await page.getByRole('tab', { name: 'academic cap Settings' }).click();
-	await expect(page).toHaveURL(/my\/organizations\/[^/]+\/settings/);
+	test('it should add user B to the organization as admin', async () => {
+		await page.getByRole('tab', { name: 'Members' }).click();
+		await expect(page).toHaveURL(/my\/organizations\/[^/]+\/members/);
 
-	await page.locator('input[name="name"]').click();
+		let username = 'userB';
+		let role = 'admin';
+		await addMemberWithRole(page, username, role);
+		await expect(page.getByRole('dialog')).toBeHidden();
+		await expect(page.getByText(`${username} ${role}`)).toBeVisible();
+	});
 
-	orgName = `org-${randomId()}`;
-	await page.locator('input[name="name"]').fill(orgName);
-	await page.getByRole('button', { name: 'Save changes' }).click();
-	// await expect(page.getByRole('heading', { name: orgName })).toBeVisible();
-});
+	test('it should add user C to the organization as member', async () => {
+		let username = 'userC';
+		await addMemberWithRole(page, username, 'member');
+		await expect(page.getByRole('dialog')).toBeHidden();
+		await expect(page.getByText(username)).toBeVisible();
+	});
 
-test('it should add user B to the organization as admin', async () => {
-	await page.getByRole('tab', { name: 'academic cap Members' }).click();
-	await expect(page).toHaveURL(/my\/organizations\/[^/]+\/members/);
+	test('it should fail to add A as member', async () => {
+		await addMemberWithRole(page, 'userA', 'member');
+		await expect(page.getByText('Failed to create record.')).toBeVisible();
+	});
 
-	let username = 'userB';
-	let role = 'admin';
-	await addMemberWithRole(page, username, role);
-	await expect(page.getByRole('dialog')).toBeHidden();
-	await expect(page.getByText(`${username} ${role}`)).toBeVisible();
-});
+	test.skip("it should hide the 'settings' section to admin", async ({ browser, page }) => {
+		page.close();
+		page = await userLogin(browser, 'B');
+		await page.goto('/my/organizations');
 
-test('it should add user C to the organization as member', async () => {
-	let username = 'userC';
-	await addMemberWithRole(page, username, 'member');
-	await expect(page.getByRole('dialog')).toBeHidden();
-	await expect(page.getByText(username)).toBeVisible();
-});
+		await expect(page.getByRole('main').getByText(orgName)).toBeVisible();
 
-test('it should fail to add A as member', async () => {
-	await addMemberWithRole(page, 'userA', 'member');
-	await expect(page.getByText('Failed to create record.')).toBeVisible();
-});
+		const settingsButton = page.getByTestId(`${orgName} link`);
+		await expect(settingsButton).toBeHidden();
 
-test.skip("it should hide the 'settings' section to admin", async ({ browser, page }) => {
-	page.close();
-	page = await userLogin(browser, 'B');
-	await page.goto('/my/organizations');
+		await page.getByRole('main').getByRole('button', { name: orgName }).click();
+		await expect(page.getByRole('tab', { name: 'cog Settings' })).toBeHidden();
 
-	await expect(page.getByRole('main').getByText(orgName)).toBeVisible();
+		await page.goto(`/my/organizations/${orgId}/settings`);
+		await expect(page.getByText('unauthorized')).toBeVisible();
+	});
 
-	const settingsButton = page.getByTestId(`${orgName} link`);
-	await expect(settingsButton).toBeHidden();
+	test.skip("it should hide the 'settings' section to user", async ({ browser, page }) => {
+		page.close();
+		page = await userLogin(browser, 'C');
+		await page.goto('/my/organizations');
 
-	await page.getByRole('main').getByRole('button', { name: orgName }).click();
-	await expect(page.getByRole('tab', { name: 'cog Settings' })).toBeHidden();
+		await expect(page.getByRole('main').getByText(orgName)).toBeVisible();
 
-	await page.goto(`/my/organizations/${orgId}/settings`);
-	await expect(page.getByText('unauthorized')).toBeVisible();
-});
+		const settingsButton = page.getByTestId(`${orgName} link`);
+		await expect(settingsButton).toBeHidden();
 
-test.skip("it should hide the 'settings' section to user", async ({ browser, page }) => {
-	page.close();
-	page = await userLogin(browser, 'C');
-	await page.goto('/my/organizations');
-
-	await expect(page.getByRole('main').getByText(orgName)).toBeVisible();
-
-	const settingsButton = page.getByTestId(`${orgName} link`);
-	await expect(settingsButton).toBeHidden();
-
-	await page.getByRole('main').getByRole('link', { name: orgName }).click();
-	await expect(page.getByRole('tab', { name: 'cog Settings' })).toBeHidden();
-	await expect(page.getByRole('tab', { name: 'users Members' })).toBeHidden();
+		await page.getByRole('main').getByRole('link', { name: orgName }).click();
+		await expect(page.getByRole('tab', { name: 'cog Settings' })).toBeHidden();
+		await expect(page.getByRole('tab', { name: 'users Members' })).toBeHidden();
+	});
 });
 
 async function addMemberWithRole(page: Page, username: string, role: string) {
-	await page.getByRole('button', { name: 'academic cap Add new member' }).click();
+	await page.getByRole('button', { name: 'Add new member' }).click();
 
 	await page.locator('.sv-content').click();
 	await page.getByPlaceholder('Select').fill(username);

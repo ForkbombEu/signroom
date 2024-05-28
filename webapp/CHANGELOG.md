@@ -1,3 +1,19 @@
+## [1.2.2](https://github.com/ForkbombEu/signroom/compare/v1.2.1...v1.2.2) (2024-05-24)
+
+
+### Bug Fixes
+
+* certficate upload ([#632](https://github.com/ForkbombEu/signroom/issues/632)) ([27e1994](https://github.com/ForkbombEu/signroom/commit/27e199432f7942a0832d9f22a8f3d5b4a5cc0d1c))
+* sidebar hiding ([#629](https://github.com/ForkbombEu/signroom/issues/629)) ([96df792](https://github.com/ForkbombEu/signroom/commit/96df792b7aea311e13571329502fafb56efdce61))
+
+## [1.2.1](https://github.com/ForkbombEu/signroom/compare/v1.2.0...v1.2.1) (2024-05-22)
+
+
+### Bug Fixes
+
+* updated migrations timestamps ([#624](https://github.com/ForkbombEu/signroom/issues/624)) ([1db157c](https://github.com/ForkbombEu/signroom/commit/1db157cbe55648f94075419d3c321ffef24f4f62))
+* various small ui fixes ([#622](https://github.com/ForkbombEu/signroom/issues/622)) ([3250267](https://github.com/ForkbombEu/signroom/commit/32502674082ea61c931711f68d053787c043b752))
+
 # [1.2.0](https://github.com/ForkbombEu/signroom/compare/v1.1.0...v1.2.0) (2024-05-22)
 
 
