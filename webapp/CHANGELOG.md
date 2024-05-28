@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/ForkbombEu/signroom/compare/v1.3.0...v1.4.0) (2024-05-28)
+
+
+### Features
+
+* update pocketbase ([#647](https://github.com/ForkbombEu/signroom/issues/647)) ([049ca56](https://github.com/ForkbombEu/signroom/commit/049ca563f31601ecf38147ae5209aed4588f8a0f))
+
 # [1.3.0](https://github.com/ForkbombEu/signroom/compare/v1.2.3...v1.3.0) (2024-05-28)
 
 
