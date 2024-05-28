@@ -1,13 +1,13 @@
 import { loadFeatureFlags } from '$lib/features';
 import { getUserPublicKeys } from '$lib/keypairoom/utils';
 import { welcomeSearchParam } from '$lib/utils/constants';
-import { redirect } from '@sveltejs/kit';
+import { redirect } from '$lib/i18n';
 
-export const load = async () => {
+export const load = async ({ url }) => {
 	const { KEYPAIROOM, AUTH } = await loadFeatureFlags();
 
 	if (KEYPAIROOM && AUTH) {
 		const publicKeys = await getUserPublicKeys();
-		if (!publicKeys) throw redirect(303, `/my/keypairoom?${welcomeSearchParam}`);
+		if (!publicKeys) redirect(`/my/keypairoom?${welcomeSearchParam}`, url);
 	}
 };

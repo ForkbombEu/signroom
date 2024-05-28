@@ -1,0 +1,9 @@
+diff a/webapp/src/routes/[[lang]]/(nru)/login/webauthn/+page.ts b/webapp/src/routes/[[lang]]/(nru)/login/webauthn/+page.ts	(rejected hunks)
+@@ -4,6 +4,6 @@ import { error } from '@sveltejs/kit';
+ export const load = async () => {
+ 	const { WEBAUTHN } = await loadFeatureFlags();
+ 	if (!WEBAUTHN) {
+-		throw error(404);
++		error(404);
+ 	}
+ };
