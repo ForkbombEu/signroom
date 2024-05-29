@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/ForkbombEu/signroom/compare/v1.4.0...v1.5.0) (2024-05-29)
+
+
+### Features
+
+* implemented new types for pb collections ([#648](https://github.com/ForkbombEu/signroom/issues/648)) ([d667b10](https://github.com/ForkbombEu/signroom/commit/d667b105a0ab8ac5ffae1fddf0ec57e78e63ac0f))
+
 # [1.4.0](https://github.com/ForkbombEu/signroom/compare/v1.3.0...v1.4.0) (2024-05-28)
 
 
