@@ -33,9 +33,9 @@
 		async (e) => {
 			let record: TemplatesResponse;
 			if (templateId) {
-				record = await pb.collection(Collections.Templates).update(templateId, e.form.data);
+				record = await pb.collection('templates').update(templateId, e.form.data);
 			} else {
-				record = await pb.collection(Collections.Templates).create(e.form.data);
+				record = await pb.collection('templates').create(e.form.data);
 			}
 			dispatch('success', record);
 		},

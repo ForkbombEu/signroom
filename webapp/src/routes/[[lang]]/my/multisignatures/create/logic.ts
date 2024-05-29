@@ -135,12 +135,9 @@ function createMultisignature(data: CreateMultisignatureData) {
 	});
 }
 
-function createMultisignatureSeal(
-	data: MultisignatureSealsRecord
-): Effect.Effect<MultisignatureSealsResponse, ClientResponseError, never> {
+function createMultisignatureSeal(data: MultisignatureSealsRecord) {
 	return Effect.tryPromise({
-		try: () =>
-			pb.collection(Collections.MultisignatureSeals).create<MultisignatureSealsResponse>(data),
+		try: () => pb.collection('multisignature_seals').create(data),
 		catch: (e) => {
 			return e as ClientResponseError;
 		}

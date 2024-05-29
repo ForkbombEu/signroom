@@ -1,10 +1,9 @@
 <script lang="ts">
 	import { OrgRoles } from '$lib/rbac';
-	import { Heading, Button, A, P, Badge, Avatar } from 'flowbite-svelte';
+	import { Button, A, P, Badge, Avatar } from 'flowbite-svelte';
 	import { Plus, UserPlus, Cog, PuzzlePiece, ArrowUturnLeft } from 'svelte-heros-v2';
 	import { c } from '$lib/utils/strings.js';
 	import { pb } from '$lib/pocketbase/index.js';
-	import { Collections } from '$lib/pocketbase/types.js';
 	import { invalidateAll } from '$app/navigation';
 	import { m } from '$lib/i18n';
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
@@ -22,7 +21,7 @@
 	const { ADMIN, OWNER } = OrgRoles;
 
 	async function deleteJoinRequest(requestId: string) {
-		await pb.collection(Collections.OrgJoinRequests).delete(requestId);
+		await pb.collection('orgJoinRequests').delete(requestId);
 		invalidateAll();
 	}
 </script>

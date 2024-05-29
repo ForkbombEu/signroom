@@ -56,18 +56,18 @@
 	// Display operations
 
 	function getOwner() {
-		return pb.collection(Collections.Users).getOne<UsersResponse>($currentUser!.id);
+		return pb.collection('users').getOne($currentUser!.id);
 	}
 
 	function getParticipants() {
 		const filter = $multisignatureFormData.participants.map((id) => `id = "${id}"`).join(' || ');
-		return pb.collection(Collections.Users).getFullList<UsersResponse>({ filter });
+		return pb.collection('users').getFullList({ filter });
 	}
 
 	function getIssuer() {
 		return pb
-			.collection(Collections.CoconutCredentialIssuers)
-			.getOne<CoconutCredentialIssuersResponse>($multisignatureFormData.credentialIssuer);
+			.collection('coconut_credential_issuers')
+			.getOne($multisignatureFormData.credentialIssuer);
 	}
 </script>
 
