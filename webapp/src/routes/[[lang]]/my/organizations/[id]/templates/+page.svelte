@@ -17,7 +17,7 @@
 	import {
 		objectSchemaToCredentialSubject,
 		flattenCredentialSubjectProperties
-	} from '@api/downloadCredentialIssuer/utils';
+	} from '@api/download-microservices/utils';
 	import OrganizationLayout from '$lib/components/organizationLayout.svelte';
 	import PageCard from '$lib/components/pageCard.svelte';
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
