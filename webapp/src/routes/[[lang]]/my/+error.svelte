@@ -6,7 +6,7 @@
 	const status = $page.status;
 	const title = status === 404 ? 'Not Found' : 'Internal Error';
 	const image = status === 404 ? '/404-computer.svg' : '/500.svg';
-	const message = $page.error!.message;
+	const message = $page.error?.message;
 </script>
 
 <div

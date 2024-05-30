@@ -87,7 +87,7 @@ importers:
         specifier: ^1.6.6
         version: 1.6.6
       svelte-boring-avatars:
-        specifier: ^1.2.5
+        specifier: ^1.2.6
         version: 1.2.6
       svelte-heros:
         specifier: ^6.0.1
