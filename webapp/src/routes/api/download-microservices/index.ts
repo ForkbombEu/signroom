@@ -1,28 +1,27 @@
-import { objectSchemaValidator } from '$lib/jsonSchema/types';
-import { z } from 'zod';
+import type {
+	AuthorizationServersResponse,
+	IssuersResponse,
+	OrganizationsResponse,
+	RelyingPartiesResponse,
+	ServicesResponse,
+	TemplatesResponse,
+	VerificationFlowsResponse
+} from '$lib/pocketbase/types';
 
 //
 
-export const requestBodySchema = z.object({
-	credential_issuer_url: z.string(),
-	credential_issuer_name: z.string(),
-	authorization_server_url: z.string(),
-	credential_template: objectSchemaValidator,
-	authorization_form_template: z.any(),
-	authorization_data_template: z.any(),
-	credential_display_name: z.string(),
-	credential_type_name: z.string(),
-	credential_logo: z.string().nullish(),
-	credential_description: z.string(),
-	scopes_supported: z.array(z.string())
-});
-
-//
-
-export type RequestBody = z.infer<typeof requestBodySchema>;
+export type RequestBody = {
+	authorization_servers: AuthorizationServersResponse[];
+	credential_issuers: IssuersResponse[];
+	relying_parties: RelyingPartiesResponse[];
+	templates: TemplatesResponse[];
+	issuance_flows: ServicesResponse[];
+	verification_flows: VerificationFlowsResponse[];
+	organization: OrganizationsResponse;
+};
 
 export function request(body: RequestBody, fetchFn = fetch) {
-	return fetchFn('/api/downloadCredentialIssuer', {
+	return fetchFn('/api/download-microservices', {
 		method: 'POST',
 		body: JSON.stringify(body),
 		headers: {
