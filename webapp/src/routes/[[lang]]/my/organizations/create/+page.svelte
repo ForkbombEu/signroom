@@ -37,9 +37,6 @@
 					avatar: m.Avatar()
 				}
 			}}
-			formSettings={{
-				dataType: 'json'
-			}}
 			submitButtonText={m.Create_organization()}
 			on:success={handleSuccess}
 		/>
