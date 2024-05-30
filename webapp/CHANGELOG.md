@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/ForkbombEu/signroom/compare/v1.5.0...v1.5.1) (2024-05-30)
+
+
+### Bug Fixes
+
+* **organizations:** bad form settings ([#650](https://github.com/ForkbombEu/signroom/issues/650)) ([ce17092](https://github.com/ForkbombEu/signroom/commit/ce170929b464b2f8edda633810e5ee419b9b0711))
+
 # [1.5.0](https://github.com/ForkbombEu/signroom/compare/v1.4.0...v1.5.0) (2024-05-29)
 
 
