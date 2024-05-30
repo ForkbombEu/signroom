@@ -2,7 +2,7 @@
 	import { CollectionManager, DeleteRecord } from '$lib/collectionManager';
 	import { Collections, type IssuersResponse } from '$lib/pocketbase/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
-	import { Button, Modal, P, Spinner } from 'flowbite-svelte';
+	import { Alert, Button, Modal, P, Spinner } from 'flowbite-svelte';
 	import { m } from '$lib/i18n';
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
 	import CreateRecord from '$lib/collectionManager/ui/recordActions/createRecord.svelte';
@@ -16,6 +16,7 @@
 	import { ProtectedOrgUI } from '$lib/rbac';
 	import { downloadMicroservices } from './logic.js';
 	import PortalWrapper from '$lib/components/portalWrapper.svelte';
+	import { getErrorMessage } from '$lib/errorHandling.js';
 
 	//
 
@@ -27,10 +28,16 @@
 	//
 
 	let loading = false;
+	let error: string | undefined = undefined;
 
 	async function handleDownloadMicroservices() {
+		error = undefined;
 		loading = true;
-		await downloadMicroservices();
+		try {
+			await downloadMicroservices(organization.id);
+		} catch (e) {
+			error = getErrorMessage(e);
+		}
 		loading = false;
 	}
 </script>
@@ -38,7 +45,12 @@
 <OrganizationLayout org={data.organization}>
 	<div class="space-y-10">
 		<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
-			<PageCard class="flex justify-end py-5">
+			<PageCard class="flex items-center justify-between !space-y-0 py-5">
+				{#if error}
+					<Alert title="Error" color="red" class="py-2" dismissable>{error}</Alert>
+				{:else}
+					<p></p>
+				{/if}
 				<Button on:click={handleDownloadMicroservices}>
 					{m.Download_microservices()}<Icon src={ArrowDownTray} ml />
 				</Button>
