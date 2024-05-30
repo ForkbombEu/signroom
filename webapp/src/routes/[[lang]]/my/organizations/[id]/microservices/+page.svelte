@@ -2,27 +2,49 @@
 	import { CollectionManager, DeleteRecord } from '$lib/collectionManager';
 	import { Collections, type IssuersResponse } from '$lib/pocketbase/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
-	import { Button } from 'flowbite-svelte';
+	import { Button, Modal, P, Spinner } from 'flowbite-svelte';
 	import { m } from '$lib/i18n';
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
 	import CreateRecord from '$lib/collectionManager/ui/recordActions/createRecord.svelte';
 	import OrganizationLayout from '$lib/components/organizationLayout.svelte';
 	import PageCard from '$lib/components/pageCard.svelte';
-	import { Plus, Trash } from 'svelte-heros-v2';
+	import { ArrowDownTray, Plus, Trash } from 'svelte-heros-v2';
 	import Icon from '$lib/components/icon.svelte';
 	import PlainCard from '$lib/components/plainCard.svelte';
 	import EditRecord from '$lib/collectionManager/ui/recordActions/editRecord.svelte';
 	import { Pencil } from 'svelte-heros';
 	import { ProtectedOrgUI } from '$lib/rbac';
+	import { downloadMicroservices } from './logic.js';
+	import PortalWrapper from '$lib/components/portalWrapper.svelte';
+
+	//
 
 	export let data;
 	let { organization } = data;
 
 	const recordType = createTypeProp<IssuersResponse>();
+
+	//
+
+	let loading = false;
+
+	async function handleDownloadMicroservices() {
+		loading = true;
+		await downloadMicroservices();
+		loading = false;
+	}
 </script>
 
 <OrganizationLayout org={data.organization}>
 	<div class="space-y-10">
+		<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
+			<PageCard class="flex justify-end py-5">
+				<Button on:click={handleDownloadMicroservices}>
+					{m.Download_microservices()}<Icon src={ArrowDownTray} ml />
+				</Button>
+			</PageCard>
+		</ProtectedOrgUI>
+
 		<PageCard>
 			<CollectionManager
 				{recordType}
@@ -240,3 +262,13 @@
 		</PageCard>
 	</div>
 </OrganizationLayout>
+
+<PortalWrapper>
+	<Modal open={loading} dismissable={false} class="w-fit">
+		<div class="flex flex-col items-center justify-center text-sm">
+			<Spinner />
+			<p class="mt-4 font-bold">{m.Downloading_microservices()}</p>
+			<p>P{m.Please_wait()}</p>
+		</div>
+	</Modal>
+</PortalWrapper>
