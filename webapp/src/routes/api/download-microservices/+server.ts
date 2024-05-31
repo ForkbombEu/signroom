@@ -13,22 +13,7 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
 	try {
 		const didroom_microservices_zip = await fetchZipFileAsBuffer(fetch);
 		const data = await parseRequestBody(request);
-
-		const zip = new AdmZip();
-
-		data.authorization_servers.forEach((a) => {
-			const az = createAuthorizationServerZip(didroom_microservices_zip, a, data);
-			addZipAsSubfolder(zip, az, createSlug(a.name));
-		});
-		data.relying_parties.forEach((r) => {
-			const rz = createRelyingPartyZip(didroom_microservices_zip, r, data);
-			addZipAsSubfolder(zip, rz, createSlug(r.name));
-		});
-		data.credential_issuers.forEach((c) => {
-			const cz = createCredentialIssuerZip(didroom_microservices_zip, c, data);
-			addZipAsSubfolder(zip, cz, createSlug(c.name));
-		});
-
+		const zip = createMicroservicesZip(didroom_microservices_zip, data);
 		return zipResponse(zip);
 	} catch (e) {
 		console.log(e);
@@ -47,6 +32,28 @@ async function fetchZipFileAsBuffer(fetchFn = fetch): Promise<Buffer> {
 		'https://github.com/ForkbombEu/DIDroom_microservices/archive/refs/heads/main.zip';
 	const zipResponse = await fetchFn(DIDROOM_MICROSERVICES_URL);
 	return Buffer.from(await zipResponse.arrayBuffer());
+}
+
+function createMicroservicesZip(
+	didroom_microservices_zip_buffer: Buffer,
+	data: DownloadMicroservicesRequestBody
+): AdmZip {
+	const zip = new AdmZip();
+
+	data.authorization_servers.forEach((a) => {
+		const az = createAuthorizationServerZip(didroom_microservices_zip_buffer, a, data);
+		addZipAsSubfolder(zip, az, createSlug(a.name));
+	});
+	data.relying_parties.forEach((r) => {
+		const rz = createRelyingPartyZip(didroom_microservices_zip_buffer, r, data);
+		addZipAsSubfolder(zip, rz, createSlug(r.name));
+	});
+	data.credential_issuers.forEach((c) => {
+		const cz = createCredentialIssuerZip(didroom_microservices_zip_buffer, c, data);
+		addZipAsSubfolder(zip, cz, createSlug(c.name));
+	});
+
+	return zip;
 }
 
 //
