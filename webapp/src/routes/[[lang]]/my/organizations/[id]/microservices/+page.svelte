@@ -14,9 +14,10 @@
 	import EditRecord from '$lib/collectionManager/ui/recordActions/editRecord.svelte';
 	import { Pencil } from 'svelte-heros';
 	import { ProtectedOrgUI } from '$lib/rbac';
-	import { downloadMicroservices } from './logic.js';
 	import PortalWrapper from '$lib/components/portalWrapper.svelte';
 	import { getErrorMessage } from '$lib/errorHandling.js';
+	import { requestDownloadMicroservices } from '@api/download-microservices/index.js';
+	import { dowloadResponseAsZip } from '$lib/utils/clientFileDownload.js';
 
 	//
 
@@ -39,6 +40,12 @@
 			error = getErrorMessage(e);
 		}
 		loading = false;
+	}
+
+	async function downloadMicroservices(organizationId: string, fetchFn = fetch) {
+		const response = await requestDownloadMicroservices(organizationId, fetchFn);
+		if (!response.ok) throw new Error(response.statusText);
+		dowloadResponseAsZip(response, 'microservices.zip');
 	}
 </script>
 

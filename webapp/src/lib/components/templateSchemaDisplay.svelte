@@ -3,10 +3,10 @@
 	import type { ObjectSchema } from '$lib/jsonSchema/types';
 	import type { TemplatesResponse } from '$lib/pocketbase/types';
 	import {
-		DEFAULT_LOCALE,
 		flattenCredentialSubjectProperties,
 		objectSchemaToCredentialSubject
-	} from '@api/download-microservices/utils';
+	} from '@api/download-microservices/utils/credential-subject';
+	import { DEFAULT_LOCALE } from '@api/download-microservices/shared';
 	import { Effect, pipe, Either } from 'effect';
 	import EmptyState from './emptyState.svelte';
 	import { ExclamationTriangle } from 'svelte-heros-v2';
