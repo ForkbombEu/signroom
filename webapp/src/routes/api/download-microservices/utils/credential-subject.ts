@@ -1,34 +1,9 @@
 import type { ObjectSchema } from '$lib/jsonSchema/types';
-import type AdmZip from 'adm-zip';
+import { z } from 'zod';
+import { DEFAULT_LOCALE } from '../shared';
 import _ from 'lodash';
-import z from 'zod';
 
-/* Locales */
-
-export const DEFAULT_LOCALE = 'en-US';
-
-/* Zip handling */
-
-function getZipEntry(zip: AdmZip, entryPathFragment: string) {
-	return zip.getEntries().find((entry) => entry.entryName.includes(entryPathFragment));
-}
-
-function editZipEntry(zip: AdmZip, entry: AdmZip.IZipEntry, content: string) {
-	zip.updateFile(entry, Buffer.from(content));
-}
-
-export function updateZipFileContent(
-	zip: AdmZip,
-	pathFragment: string,
-	updater: (content: string) => string
-) {
-	const zipEntry = getZipEntry(zip, pathFragment);
-	if (!zipEntry) throw new Error(`Zip: Not found: ${pathFragment}`);
-	const newContent = updater(zipEntry.getData().toString());
-	editZipEntry(zip, zipEntry, newContent);
-}
-
-/* Object schemas handling */
+//
 
 export function mergeObjectSchemas(schemas: ObjectSchema[]): ObjectSchema {
 	return {
@@ -52,7 +27,7 @@ export function objectSchemaToCredentialSubject(
 	schema: ObjectSchema,
 	locale = DEFAULT_LOCALE
 ): CredentialSubject {
-	let credentialSubject: CredentialSubject = {};
+	const credentialSubject: CredentialSubject = {};
 
 	for (const [propertyName, property] of Object.entries(schema.properties)) {
 		//
@@ -106,7 +81,7 @@ export type CredentialSubjectProperty = {
 
 //
 
-function checkCredentialSubjectProperty(data: any): data is CredentialSubjectProperty {
+function checkCredentialSubjectProperty(data: unknown): data is CredentialSubjectProperty {
 	return CredentialSubjectPropertySchema.safeParse(data).success;
 }
 
