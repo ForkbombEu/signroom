@@ -1,3 +1,18 @@
+# [1.6.0](https://github.com/ForkbombEu/signroom/compare/v1.5.1...v1.6.0) (2024-06-04)
+
+
+### Bug Fixes
+
+* add keypairoom logout ([#662](https://github.com/ForkbombEu/signroom/issues/662)) ([3efe184](https://github.com/ForkbombEu/signroom/commit/3efe1845f673d44ce8d1bc79de151fe1190e59d1))
+* hide other types of cryptography ([#663](https://github.com/ForkbombEu/signroom/issues/663)) ([a386114](https://github.com/ForkbombEu/signroom/commit/a386114fc9723924cf8da822982be2de816a2541))
+
+
+### Features
+
+* add DID button ([#661](https://github.com/ForkbombEu/signroom/issues/661)) ([dc60676](https://github.com/ForkbombEu/signroom/commit/dc606762e8a5401cea7fba3e70919e92ea148ba8))
+* download microservices ([#657](https://github.com/ForkbombEu/signroom/issues/657)) ([ef28ce4](https://github.com/ForkbombEu/signroom/commit/ef28ce4aa10c0b1c93acc007535034aca75143e0))
+* setup pricing page ([#660](https://github.com/ForkbombEu/signroom/issues/660)) ([b7effb3](https://github.com/ForkbombEu/signroom/commit/b7effb3cbb63ad0fb22ba118aa9745a5dfc8e9f0))
+
 ## [1.5.1](https://github.com/ForkbombEu/signroom/compare/v1.5.0...v1.5.1) (2024-05-30)
 
 
