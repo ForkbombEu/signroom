@@ -3,27 +3,47 @@
 	import UserKeys from './_partials/userKeys.svelte';
 	import UserWebauthn from './_partials/userWebauthn.svelte';
 
-	import { Card } from 'flowbite-svelte';
 	import { featureFlags } from '$lib/features';
+	import PageCard from '$lib/components/pageCard.svelte';
+	import SectionTitle from '$lib/components/sectionTitle.svelte';
+	import { m } from '$lib/i18n';
+	import { Button } from 'flowbite-svelte';
+	import { createDidUrl } from '$lib/did';
+	import Icon from '$lib/components/icon.svelte';
+	import { ArrowUpRight } from 'svelte-heros-v2';
 
 	export let data;
 	let { publicKeys } = data;
 </script>
 
 <div class="mx-auto max-w-xl space-y-8 p-8">
-	<Card class="!max-w-none">
+	<PageCard>
 		<UserData />
-	</Card>
+	</PageCard>
 
 	{#if $featureFlags.KEYPAIROOM}
-		<Card class="!max-w-none">
+		<PageCard>
+			<div class="space-y-3">
+				{#if $featureFlags.DID && publicKeys}
+					<SectionTitle tag="h5" title={m.Your_did()}></SectionTitle>
+					<Button
+						target="_blank"
+						class="w-full"
+						outline
+						href={createDidUrl(publicKeys.eddsa_public_key)}
+					>
+						{m.View_did()}
+						<Icon src={ArrowUpRight} ml />
+					</Button>
+				{/if}
+			</div>
 			<UserKeys keys={publicKeys} />
-		</Card>
+		</PageCard>
 	{/if}
 
 	{#if $featureFlags.WEBAUTHN}
-		<Card class="!max-w-none">
+		<PageCard>
 			<UserWebauthn />
-		</Card>
+		</PageCard>
 	{/if}
 </div>
