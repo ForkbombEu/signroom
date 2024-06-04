@@ -66,7 +66,7 @@
 						{#if $currentUser}
 							<span class="whitespace-nowrap">
 								{m.hello()},
-								<span class="font-semibold text-primary-600">
+								<span class="text-primary-600 font-semibold">
 									{getUserDisplayName($currentUser)}
 								</span>
 							</span>
@@ -217,7 +217,7 @@
 
 						<DropdownDivider />
 
-						<DropdownItem href="/" class="pointer-events-none flex cursor-default opacity-30">
+						<DropdownItem href="/pricing" class="flex" on:click={toggleSidebar}>
 							<Icon src={Fire} mr class="text-red-700 dark:text-red-400" />
 							{m.Go_Pro()}
 						</DropdownItem>
