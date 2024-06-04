@@ -9,7 +9,7 @@ import type {
 } from '$lib/pocketbase/types';
 import type { DownloadMicroservicesRequestBody } from '.';
 import { cleanUrl } from './utils/data';
-import { DEFAULT_LOCALE, getFoldersToDelete, type WellKnown } from './shared';
+import { DEFAULT_LOCALE, addCustomCode, getFoldersToDelete, type WellKnown } from './shared';
 import { objectSchemaToCredentialSubject } from './utils/credential-subject';
 import type { ObjectSchema } from '$lib/jsonSchema/types';
 import _ from 'lodash/fp';
@@ -145,6 +145,17 @@ function convertIssuanceFlowToCredentialConfiguration(
 	) as CredentialConfiguration;
 }
 
+/* Custom code editing */
+
+function addCredentialsCustomCode(
+	zip: AdmZip,
+	credential_issuer_related_data: CredentialIssuerRelatedData
+) {
+	credential_issuer_related_data.credentials.forEach(({ issuance_flow, issuance_template }) =>
+		addCustomCode(zip, 'credential_issuer', issuance_flow.type_name, issuance_template)
+	);
+}
+
 /* Zip editing */
 
 const CREDENTIAL_ISSUER_WELL_KNOWN_PATH =
@@ -178,6 +189,7 @@ export function createCredentialIssuerZip(
 
 	editCredentialIssuerWellKnown(zip, credential_issuer, credential_issuer_related_data);
 	getFoldersToDelete('credential_issuer').forEach((path) => deleteZipFolder(zip, path));
+	addCredentialsCustomCode(zip, credential_issuer_related_data);
 
 	return zip;
 }

@@ -1,7 +1,11 @@
-import type { AuthorizationServersResponse, ServicesResponse } from '$lib/pocketbase/types';
-import { pipe, String as S } from 'effect';
+import type {
+	AuthorizationServersResponse,
+	ServicesResponse,
+	TemplatesResponse
+} from '$lib/pocketbase/types';
+import { pipe, String as S, Array as A, Option as O } from 'effect';
 import type { DownloadMicroservicesRequestBody } from '.';
-import { getFoldersToDelete, type WellKnown } from './shared';
+import { addCustomCode, getFoldersToDelete, type WellKnown } from './shared';
 import { cleanUrl } from './utils/data';
 import _ from 'lodash/fp';
 import AdmZip from 'adm-zip';
@@ -10,7 +14,10 @@ import { deleteZipFolder, updateZipEntryJson } from './utils/zip';
 /* Data setup */
 
 type AuthorizationServerRelatedData = {
-	issuance_flows: ServicesResponse[];
+	credentials: Array<{
+		issuance_flow: ServicesResponse;
+		authorization_template: TemplatesResponse;
+	}>;
 };
 
 function getAuthorizationServerRelatedDataFromRequestBody(
@@ -18,8 +25,17 @@ function getAuthorizationServerRelatedDataFromRequestBody(
 	authorization_server: AuthorizationServersResponse
 ): AuthorizationServerRelatedData {
 	return {
-		issuance_flows: body.issuance_flows.filter(
-			(flow) => flow.authorization_server == authorization_server.id
+		credentials: pipe(
+			body.issuance_flows,
+			A.filter((issuance_flow) => issuance_flow.authorization_server == authorization_server.id),
+			A.map((issuance_flow) => ({
+				issuance_flow,
+				authorization_template: pipe(
+					body.templates,
+					A.findFirst((t) => t.id == issuance_flow.authorization_template),
+					O.getOrThrow
+				)
+			}))
 		)
 	};
 }
@@ -32,8 +48,8 @@ function createAuthorizationServerWellKnown(
 	default_well_known: WellKnown
 ): WellKnown {
 	const authorization_server_url = cleanUrl(authorization_server.endpoint);
-	const scopes_supported = authorization_server_related_data.issuance_flows.map(
-		(flow) => flow.type_name
+	const scopes_supported = authorization_server_related_data.credentials.map(
+		({ issuance_flow }) => issuance_flow.type_name
 	);
 
 	return pipe(
@@ -49,6 +65,17 @@ function createAuthorizationServerWellKnown(
 		_.set('jwks.keys[0].kid', ''),
 		_.set('scopes_supported', scopes_supported)
 	) as WellKnown;
+}
+
+/* Custom code editing */
+
+function addCredentialsCustomCode(
+	zip: AdmZip,
+	credential_issuer_related_data: AuthorizationServerRelatedData
+) {
+	credential_issuer_related_data.credentials.forEach(({ issuance_flow, authorization_template }) =>
+		addCustomCode(zip, 'authz_server', issuance_flow.type_name, authorization_template)
+	);
 }
 
 /* Zip editing */
@@ -77,13 +104,14 @@ export function createAuthorizationServerZip(
 ) {
 	const zip = new AdmZip(zip_buffer);
 
-	const credential_issuer_related_data = getAuthorizationServerRelatedDataFromRequestBody(
+	const authorization_server_related_data = getAuthorizationServerRelatedDataFromRequestBody(
 		request_body,
 		authorization_server
 	);
 
-	editAuthorizationServerWellKnown(zip, authorization_server, credential_issuer_related_data);
+	editAuthorizationServerWellKnown(zip, authorization_server, authorization_server_related_data);
 	getFoldersToDelete('authz_server').forEach((path) => deleteZipFolder(zip, path));
+	addCredentialsCustomCode(zip, authorization_server_related_data);
 
 	return zip;
 }
