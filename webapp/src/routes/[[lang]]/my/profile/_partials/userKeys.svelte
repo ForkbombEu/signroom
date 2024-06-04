@@ -3,11 +3,13 @@
 	import CopyButton from '$lib/components/copyButton.svelte';
 	import { capitalizeFirstLetter } from '$lib/utils/strings';
 	import type { PublicKeys } from '$lib/keypairoom/utils';
+	import SectionTitle from '$lib/components/sectionTitle.svelte';
+	import { m } from '$lib/i18n';
 
 	export let keys: PublicKeys | undefined = undefined;
 </script>
 
-<Heading tag="h6" class="mb-1">Your keys</Heading>
+<SectionTitle tag="h5" title={m.Your_keys()} />
 {#if keys}
 	<div class="flex flex-col gap-4">
 		{#each Object.entries(keys) as [keyName, key]}
