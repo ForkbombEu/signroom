@@ -378,5 +378,6 @@
 	"nameFirstTeacher": "What is the name of your first teacher?",
 	"nameMotherMaid": "What is the surname of your mother before wedding?",
 	"Downloading_microservices": "Downloading microservices",
-	"Please_wait": "lease wait"
+	"Please_wait": "lease wait",
+	"download_microservices_description": "download microservices description"
 }

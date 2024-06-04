@@ -52,15 +52,16 @@
 <OrganizationLayout org={data.organization}>
 	<div class="space-y-10">
 		<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
-			<PageCard class="flex items-center justify-between !space-y-0 py-5">
-				{#if error}
-					<Alert title="Error" color="red" class="py-2" dismissable>{error}</Alert>
-				{:else}
-					<p></p>
-				{/if}
-				<Button on:click={handleDownloadMicroservices}>
-					{m.Download_microservices()}<Icon src={ArrowDownTray} ml />
-				</Button>
+			<PageCard class="flex items-center justify-between gap-8 !space-y-0 py-5">
+				<p class="text-sm text-gray-500">{m.download_microservices_description()}</p>
+				<div class="flex items-center gap-4">
+					{#if error}
+						<Alert title="Error" color="red" class="py-2" dismissable>{error}</Alert>
+					{/if}
+					<Button on:click={handleDownloadMicroservices}>
+						{m.Download_microservices()}<Icon src={ArrowDownTray} ml />
+					</Button>
+				</div>
 			</PageCard>
 		</ProtectedOrgUI>
 
