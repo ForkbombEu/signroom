@@ -36,14 +36,5 @@ export const load = async ({ params, fetch }) => {
 		.collection(Collections.Services)
 		.getOne<Service>(params.issuance_id, { expand, fetch });
 
-	const servicesWithSharedAuthServer = await pb
-		.collection(Collections.Services)
-		.getFullList<Service>({
-			filter: `authorization_server = '${service.authorization_server}'`,
-			fetch
-		});
-
-	const authServerScopesSupported = servicesWithSharedAuthServer.map((s) => s.type_name);
-
-	return { service, authServerScopesSupported };
+	return { service };
 };

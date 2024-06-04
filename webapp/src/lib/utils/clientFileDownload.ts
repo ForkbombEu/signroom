@@ -21,3 +21,10 @@ export async function imageSrcToBlob(src: string) {
 
 	return blob;
 }
+
+export async function dowloadResponseAsZip(response: Response, fileName: string) {
+	if (response.ok) {
+		const blob = new Blob([await response.arrayBuffer()], { type: 'application/zip' });
+		downloadBlob(blob, fileName);
+	}
+}

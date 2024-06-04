@@ -1,16 +1,8 @@
 <script lang="ts">
-	import { request } from '@api/downloadCredentialIssuer';
-	import { downloadBlob } from '$lib/utils/clientFileDownload';
 	import { Button, Heading, Spinner } from 'flowbite-svelte';
-	import {
-		ArrowDownTray,
-		ArrowTopRightOnSquare,
-		Pencil,
-		QuestionMarkCircle
-	} from 'svelte-heros-v2';
+	import { ArrowTopRightOnSquare, Pencil, QuestionMarkCircle } from 'svelte-heros-v2';
 	import { generateQr } from '$lib/qrcode';
 	import { m } from '$lib/i18n';
-	import type { ObjectSchema } from '$lib/jsonSchema/types';
 	import PageTop from '$lib/components/pageTop.svelte';
 	import PageContent from '$lib/components/pageContent.svelte';
 	import PageCard from '$lib/components/pageCard.svelte';
@@ -26,38 +18,9 @@
 	//
 
 	export let data;
-	let { service, organization, authServerScopesSupported } = data;
+	let { service, organization } = data;
 	let { credential_issuer, credential_template, authorization_server, authorization_template } =
 		service.expand!;
-
-	//
-
-	let loading = false;
-
-	async function downloadCredentialIssuer() {
-		loading = true;
-
-		const response = await request({
-			credential_display_name: service.display_name,
-			credential_type_name: service.type_name,
-			credential_issuer_name: credential_issuer.name,
-			credential_description: service.description,
-			credential_template: credential_template.schema as ObjectSchema,
-			authorization_data_template: authorization_template.schema as ObjectSchema,
-			authorization_form_template: authorization_template.schema_secondary as ObjectSchema,
-			credential_issuer_url: credential_issuer.endpoint,
-			authorization_server_url: authorization_server.endpoint,
-			credential_logo: service.logo,
-			scopes_supported: authServerScopesSupported
-		});
-
-		if (response.ok) {
-			const blob = new Blob([await response.arrayBuffer()], { type: 'application/zip' });
-			downloadBlob(blob, 'microservices.zip');
-		}
-
-		loading = false;
-	}
 
 	//
 
@@ -93,7 +56,7 @@
 </script>
 
 <PageTop>
-	<OrganizationBreadcrumbs></OrganizationBreadcrumbs>
+	<OrganizationBreadcrumbs />
 
 	<SectionTitle title={service.display_name} description={service.description} />
 </PageTop>
@@ -103,17 +66,6 @@
 		<PageCard class="grow">
 			<SectionTitle tag="h5" title={m.Credential_details()}>
 				<div slot="right" class="flex items-center gap-2">
-					<Button outline on:click={downloadCredentialIssuer} class="shrink-0">
-						{m.Download_microservices()}
-						{#if loading}
-							<div class="ml-2">
-								<Spinner size="5"></Spinner>
-							</div>
-						{:else}
-							<Icon src={ArrowDownTray} ml></Icon>
-						{/if}
-					</Button>
-
 					<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
 						<Button href={`${$page.url.pathname}/edit`}>
 							{m.Make_changes()}
