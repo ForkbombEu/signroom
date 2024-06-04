@@ -377,5 +377,8 @@
 	"whereHomeTown": "What is your home town?",
 	"nameFirstTeacher": "What is the name of your first teacher?",
 	"nameMotherMaid": "What is the surname of your mother before wedding?",
-	"credential_type_help_text": "Support for BBS, W3C-VC and Coconut is coming soon!"
+	"Downloading_microservices": "Downloading microservices",
+	"Please_wait": "lease wait",
+	"download_microservices_description": "download microservices description",
+  "credential_type_help_text": "Support for BBS, W3C-VC and Coconut is coming soon!"
 }
