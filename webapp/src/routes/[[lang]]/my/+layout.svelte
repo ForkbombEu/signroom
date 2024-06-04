@@ -225,7 +225,7 @@
 						<DropdownDivider />
 
 						<DropdownItem
-							on:click={() => goto('/my/logout')}
+							on:click={() => goto('/logout')}
 							class="flex text-red-700 dark:text-red-400"
 						>
 							<Icon src={ArrowLeftOnRectangle} mr />
