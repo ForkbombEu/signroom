@@ -40,6 +40,7 @@
 	import TemplateForm from '../../templates/_partials/templateForm.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import slugify from 'slugify';
+	import FieldHelpText from '$lib/forms/fields/fieldParts/fieldHelpText.svelte';
 
 	//
 
@@ -185,11 +186,18 @@
 			description={m.issuance_flow_form_credential_info_description()}
 		/>
 
-		<Select
-			{superform}
-			field="cryptography"
-			options={{ label: m.Cryptography(), options: credentialTypeOptions }}
-		/>
+		<div class="space-y-2">
+			<Select
+				{superform}
+				field="cryptography"
+				options={{
+					label: m.Cryptography(),
+					options: credentialTypeOptions,
+					disabled: true
+				}}
+			/>
+			<FieldHelpText text={m.credential_type_help_text()} />
+		</div>
 
 		<div>
 			<Relations
