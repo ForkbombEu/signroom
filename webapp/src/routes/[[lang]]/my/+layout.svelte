@@ -30,7 +30,8 @@
 		User,
 		Users,
 		EllipsisHorizontal,
-		LockClosed
+		LockClosed,
+		Document
 	} from 'svelte-heros-v2';
 	import { createOrganizationSidebarLinks } from '$lib/utils/organizations.js';
 	import { getUserRole } from '$lib/rbac';
@@ -43,6 +44,8 @@
 	import SidebarButton from '$lib/layout/SidebarButton.svelte';
 	import { appTitle } from '$lib/strings';
 	import { version } from '$app/environment';
+	import { featureFlags } from '$lib/features';
+	import { getUserDidUrl } from '$lib/did/index.js';
 
 	//
 
@@ -66,7 +69,7 @@
 						{#if $currentUser}
 							<span class="whitespace-nowrap">
 								{m.hello()},
-								<span class="font-semibold text-primary-600">
+								<span class="text-primary-600 font-semibold">
 									{getUserDisplayName($currentUser)}
 								</span>
 							</span>
@@ -214,6 +217,17 @@
 							<Icon src={User} mr />
 							{m.My_profile()}
 						</DropdownItem>
+
+						<DropdownDivider />
+
+						{#if $featureFlags.DID}
+							{#await getUserDidUrl() then url}
+								<DropdownItem href={url} class="flex" target="_blank">
+									<Icon src={Document} mr />
+									{m.my_DID()}
+								</DropdownItem>
+							{/await}
+						{/if}
 
 						<DropdownDivider />
 
