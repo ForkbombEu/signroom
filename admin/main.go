@@ -26,6 +26,10 @@ import (
 	"pb/webauthn"
 )
 
+type EmailCheckResponse struct {
+	Exists bool `json:"exists"`
+}
+
 func main() {
 	app := pocketbase.New()
 	var publicDirFlag string
@@ -67,6 +71,29 @@ func main() {
 			},
 			Middlewares: []echo.MiddlewareFunc{
 				apis.ActivityLogger(app),
+			},
+		})
+
+		e.Router.AddRoute(echo.Route{
+			Method: http.MethodGet,
+			Path:   "/api/email-check",
+			Handler: func(c echo.Context) error {
+				email := c.QueryParam("email")
+				
+				if email == "" {
+					return c.JSON(http.StatusBadRequest, map[string]string{"error": "email query parameter is required"})
+				}
+
+				user, err := app.Dao().FindFirstRecordByFilter("users", "email = {:email}", dbx.Params{"email": email})
+				
+				if err != nil {
+					response := EmailCheckResponse{Exists: false}
+					return c.JSON(http.StatusOK, response)
+				}
+
+
+				response := EmailCheckResponse{Exists: user != nil}
+				return c.JSON(http.StatusOK, response)
 			},
 		})
 
