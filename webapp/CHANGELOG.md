@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/ForkbombEu/signroom/compare/v1.6.0...v1.7.0) (2024-06-05)
+
+
+### Features
+
+* add endpoint to check if an email is already registered or available ([#665](https://github.com/ForkbombEu/signroom/issues/665)) ([d0c6257](https://github.com/ForkbombEu/signroom/commit/d0c625705d57045336f2a1a1d1a2b7898c07e2c8))
+
 # [1.6.0](https://github.com/ForkbombEu/signroom/compare/v1.5.1...v1.6.0) (2024-06-04)
 
 
