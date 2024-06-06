@@ -1,3 +1,11 @@
+## [1.7.1](https://github.com/ForkbombEu/signroom/compare/v1.7.0...v1.7.1) (2024-06-06)
+
+
+### Bug Fixes
+
+* keypairoom ([#668](https://github.com/ForkbombEu/signroom/issues/668)) ([299a010](https://github.com/ForkbombEu/signroom/commit/299a010705e114fdf136d8447ecd57b795595709))
+* qr generation ([#670](https://github.com/ForkbombEu/signroom/issues/670)) ([7a40685](https://github.com/ForkbombEu/signroom/commit/7a40685da686f22771cadc0b4b78c9c4b9e2906d))
+
 # [1.7.0](https://github.com/ForkbombEu/signroom/compare/v1.6.0...v1.7.0) (2024-06-05)
 
 
