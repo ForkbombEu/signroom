@@ -9,7 +9,7 @@ export function mergeObjectSchemas(schemas: ObjectSchema[]): ObjectSchema {
 	return {
 		type: 'object',
 		properties: _.merge({}, ...schemas.map((s) => s.properties)),
-		required: _.merge([], ...schemas.map((s) => s.required))
+		required: _.concat(...schemas.map((s) => s.required ?? []))
 	};
 }
 
