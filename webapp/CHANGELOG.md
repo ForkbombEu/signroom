@@ -1,3 +1,15 @@
+# [1.8.0](https://github.com/ForkbombEu/signroom/compare/v1.7.1...v1.8.0) (2024-06-06)
+
+
+### Bug Fixes
+
+* download microservices auth template schema ([#672](https://github.com/ForkbombEu/signroom/issues/672)) ([3171414](https://github.com/ForkbombEu/signroom/commit/3171414dc2f8c0ab65afc9089a49115291664c96))
+
+
+### Features
+
+* merge authz server schemas ([#671](https://github.com/ForkbombEu/signroom/issues/671)) ([0d2a0cf](https://github.com/ForkbombEu/signroom/commit/0d2a0cf69ef6bd1161cfaaa96a4738a56b864151))
+
 ## [1.7.1](https://github.com/ForkbombEu/signroom/compare/v1.7.0...v1.7.1) (2024-06-06)
 
 
