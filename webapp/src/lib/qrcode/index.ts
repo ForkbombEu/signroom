@@ -1,18 +1,8 @@
-import { Slangroom } from '@slangroom/core';
-import { qrcode } from '@slangroom/qrcode';
+import qrcode from 'qrcode-generator';
 
-const slangroom = new Slangroom(qrcode);
-
-export const generateQr = async (text: string) => {
-	const qr = await slangroom.execute(
-		`
-Rule unknown ignore
-
-Given I send text 'text' and create qr code and output into 'qrcode'
-Given I have a 'string' named 'qrcode'
-Then print data
-`,
-		{ data: { text } }
-	);
-	return qr;
-};
+export function generateQr(text: string, cellSize = 20) {
+	const qr = qrcode(0, 'L');
+	qr.addData(text);
+	qr.make();
+	return qr.createDataURL(cellSize);
+}
