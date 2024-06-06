@@ -71,7 +71,7 @@
 	$: type = $form['type'];
 </script>
 
-<Form {superform} className="space-y-12">
+<Form {superform} className="space-y-12" showRequiredIndicator>
 	<div class="space-y-8">
 		<SectionTitle
 			tag="h5"
@@ -104,7 +104,7 @@
 	<div class="space-y-8">
 		<SectionTitle
 			tag="h5"
-			title={m.Attributes_needed()}
+			title="{m.Attributes_needed()} *"
 			description={type == TemplatesTypeOptions.issuance
 				? m.attributes_needed_description_credential()
 				: type == TemplatesTypeOptions.authorization
@@ -121,7 +121,7 @@
 		<div class="space-y-8">
 			<SectionTitle
 				tag="h5"
-				title={m.Form_structure()}
+				title="{m.Form_structure()} *"
 				description={m.form_structure_description()}
 			/>
 
@@ -130,7 +130,7 @@
 	{/if}
 
 	<div class="space-y-8">
-		<SectionTitle tag="h5" title={m.Custom_code()} description={m.custom_code_description()} />
+		<SectionTitle tag="h5" title="{m.Custom_code()}*" description={m.custom_code_description()} />
 
 		<div class="flex gap-8">
 			<div class="grow">
