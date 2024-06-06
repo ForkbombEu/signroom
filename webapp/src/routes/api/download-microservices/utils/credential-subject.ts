@@ -1,6 +1,6 @@
 import type { ObjectSchema } from '$lib/jsonSchema/types';
 import { z } from 'zod';
-import { DEFAULT_LOCALE } from '../shared';
+import { DEFAULT_LOCALE } from './locale';
 import _ from 'lodash';
 
 //
