@@ -14,14 +14,16 @@
 	import { m } from '$lib/i18n';
 
 	import { objectSchemaValidator } from '$lib/jsonSchema/types';
+
 	import {
 		objectSchemaToCredentialSubject,
 		flattenCredentialSubjectProperties
 	} from '@api/download-microservices/utils/credential-subject';
+
 	import OrganizationLayout from '$lib/components/organizationLayout.svelte';
 	import PageCard from '$lib/components/pageCard.svelte';
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
-	import { ArrowLeft, Eye, Pencil, Plus, Trash } from 'svelte-heros-v2';
+	import { ArrowLeft, Pencil, Plus, Trash } from 'svelte-heros-v2';
 	import Icon from '$lib/components/icon.svelte';
 	import PlainCard from '$lib/components/plainCard.svelte';
 	import TemplateForm from './_partials/templateForm.svelte';

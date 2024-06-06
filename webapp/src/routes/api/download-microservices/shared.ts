@@ -4,10 +4,6 @@ import { getZipRootFolder } from './utils/zip';
 
 //
 
-export const DEFAULT_LOCALE = 'en-US';
-
-//
-
 export type WellKnown = Record<string, unknown> & { readonly brand: unique symbol };
 
 //

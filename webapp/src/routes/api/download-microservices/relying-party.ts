@@ -1,7 +1,8 @@
 import type { IssuersResponse, RelyingPartiesResponse } from '$lib/pocketbase/types';
 import AdmZip from 'adm-zip';
 import type { DownloadMicroservicesRequestBody } from '.';
-import { DEFAULT_LOCALE, getFoldersToDelete, type WellKnown } from './shared';
+import { getFoldersToDelete, type WellKnown } from './shared';
+import { DEFAULT_LOCALE } from './utils/locale';
 import { cleanUrl } from './utils/data';
 import { String as S, pipe } from 'effect';
 import _ from 'lodash/fp';
