@@ -62,8 +62,8 @@
 	function applyPreset(preset: TemplatePreset) {
 		$form['zencode_script'] = preset.zencode_script;
 		$form['zencode_data'] = preset.zencode_data;
-		$form['schema'] = preset.schema
-		$form['schema_secondary'] = preset.schema_secondary
+		$form['schema'] = preset.schema;
+		$form['schema_secondary'] = preset.schema_secondary;
 	}
 
 	//
@@ -157,8 +157,6 @@
 				/>
 			</div>
 		</div>
-
-		<Checkbox {superform} field="allow_extra_attributes">{m.Allow_extra_attributes()}</Checkbox>
 	</div>
 
 	<div class="space-y-8">
@@ -171,7 +169,7 @@
 
 	<Hr />
 
-	<FormError></FormError>
+	<FormError />
 
 	<div class="flex justify-end">
 		<SubmitButton>{templateId ? m.Update_template() : m.Create_template()}</SubmitButton>
