@@ -24,15 +24,12 @@
 
 	//
 
-	async function generateCredentialIssuanceQr() {
-		const { result } = await generateQr(
+	const issuanceFlowQr = generateQr(
 			JSON.stringify({
 				credential_configuration_ids: [service.type_name],
 				credential_issuer: credential_issuer.endpoint
 			})
 		);
-		return result.qrcode as string;
-	}
 
 	//
 
@@ -104,11 +101,8 @@
 		</PageCard>
 
 		<PageCard class="w-[300px] shrink-0 !space-y-4 !p-4">
-			{#await generateCredentialIssuanceQr()}
-				<Spinner />
-			{:then qrimg}
 				<div class="flex flex-col items-center gap-2 self-stretch rounded-lg border bg-gray-50 p-4">
-					<img src={qrimg} alt={m.Service_Qr_Code()} class="rounded-md" />
+					<img src={issuanceFlowQr} alt={m.Service_Qr_Code()} class="w-40 rounded-lg" />
 					<Button outline class="mt-4" size="sm" disabled>
 						<span class="whitespace-nowrap">
 							{m.Open_qr_code_in_new_page()}
@@ -143,9 +137,6 @@
 						</Button>
 					</div>
 				</div>
-			{:catch error}
-				<p class="text-red-500">{JSON.stringify(error)}</p>
-			{/await}
 		</PageCard>
 	</div>
 </PageContent>
