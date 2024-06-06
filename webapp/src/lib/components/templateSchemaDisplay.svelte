@@ -6,7 +6,7 @@
 		flattenCredentialSubjectProperties,
 		objectSchemaToCredentialSubject
 	} from '@api/download-microservices/utils/credential-subject';
-	import { DEFAULT_LOCALE } from '@api/download-microservices/shared';
+	import { DEFAULT_LOCALE } from '@api/download-microservices/utils/locale';
 	import { Effect, pipe, Either } from 'effect';
 	import EmptyState from './emptyState.svelte';
 	import { ExclamationTriangle } from 'svelte-heros-v2';
