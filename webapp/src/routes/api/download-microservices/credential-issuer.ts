@@ -1,5 +1,6 @@
 import AdmZip from 'adm-zip';
 import { deleteZipFolder, updateZipEntryJson } from './utils/zip';
+import { pipe, Option as O, Array as A, String as S } from 'effect';
 import type {
 	AuthorizationServersResponse,
 	IssuersResponse,
@@ -13,11 +14,6 @@ import { DEFAULT_LOCALE } from './utils/locale';
 import { objectSchemaToCredentialSubject } from './utils/credential-subject';
 import type { ObjectSchema } from '$lib/jsonSchema/types';
 import _ from 'lodash/fp';
-
-import { pipe } from 'effect';
-import * as S from 'effect/String';
-import * as A from 'effect/Array';
-import * as O from 'effect/Option';
 
 /* Data setup */
 
