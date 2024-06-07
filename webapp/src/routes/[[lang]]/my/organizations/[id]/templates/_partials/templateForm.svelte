@@ -18,6 +18,7 @@
 	import SubmitButton from '$lib/forms/submitButton.svelte';
 	import FormError from '$lib/forms/formError.svelte';
 	import { createEventDispatcher } from 'svelte';
+	import { templatePresetOptions, type TemplatePreset } from './templatePresets';
 
 	export let templateId: string | undefined = undefined;
 	export let initialData: Partial<TemplatesRecord> = {
@@ -49,37 +50,20 @@
 
 	//
 
-	type CodeSample = {
-		name: string;
-		zencode_script: string;
-		zencode_data: string;
-	};
+	let preset: TemplatePreset | undefined = undefined;
+	$: handlePresetSelection(preset);
 
-	const codeSamples: CodeSample[] = [
-		{
-			name: 'Generic HTTP request',
-			zencode_script: `Given nothing\nThen print the string 'yes'`,
-			zencode_data: `{\n  "myKey": "myValue"\n}`
-		}
-	];
-
-	const codeSamplesOptions: SelectOptionType<CodeSample>[] = codeSamples.map((sample) => ({
-		name: sample.name,
-		value: sample
-	}));
-
-	let selectedCodeSample: CodeSample | undefined = undefined;
-	$: handleCodeSampleSelection(selectedCodeSample);
-
-	function handleCodeSampleSelection(selectedCodeSample: CodeSample | undefined) {
-		if (!selectedCodeSample) return;
-		setCodeSamples(selectedCodeSample);
-		selectedCodeSample = undefined;
+	function handlePresetSelection(selectedPreset: TemplatePreset | undefined) {
+		if (!selectedPreset) return;
+		applyPreset(selectedPreset);
+		preset = undefined;
 	}
 
-	function setCodeSamples(sample: CodeSample) {
-		$form['zencode_script'] = sample.zencode_script;
-		$form['zencode_data'] = sample.zencode_data;
+	function applyPreset(preset: TemplatePreset) {
+		$form['zencode_script'] = preset.zencode_script;
+		$form['zencode_data'] = preset.zencode_data;
+		$form['schema'] = preset.schema;
+		$form['schema_secondary'] = preset.schema_secondary;
 	}
 
 	//
@@ -87,7 +71,7 @@
 	$: type = $form['type'];
 </script>
 
-<Form {superform} className="space-y-12">
+<Form {superform} className="space-y-12" showRequiredIndicator>
 	<div class="space-y-8">
 		<SectionTitle
 			tag="h5"
@@ -112,10 +96,15 @@
 		/>
 	</div>
 
+	<div class="space-y-4">
+		<SectionTitle tag="h5" title="Load preset" description="load_preset_description" />
+		<Select items={templatePresetOptions} bind:value={preset} placeholder="Select option" />
+	</div>
+
 	<div class="space-y-8">
 		<SectionTitle
 			tag="h5"
-			title={m.Attributes_needed()}
+			title="{m.Attributes_needed()} *"
 			description={type == TemplatesTypeOptions.issuance
 				? m.attributes_needed_description_credential()
 				: type == TemplatesTypeOptions.authorization
@@ -125,28 +114,23 @@
 						: ''}
 		/>
 
-		<JSONSchemaInput {superform} field="schema"></JSONSchemaInput>
+		<JSONSchemaInput {superform} field="schema" />
 	</div>
 
 	{#if $form.type == TemplatesTypeOptions.authorization}
 		<div class="space-y-8">
 			<SectionTitle
 				tag="h5"
-				title={m.Form_structure()}
+				title="{m.Form_structure()} *"
 				description={m.form_structure_description()}
 			/>
 
-			<JSONSchemaInput {superform} field="schema_secondary"></JSONSchemaInput>
+			<JSONSchemaInput {superform} field="schema_secondary" />
 		</div>
 	{/if}
 
 	<div class="space-y-8">
-		<SectionTitle tag="h5" title={m.Custom_code()} description={m.custom_code_description()} />
-
-		<div class="space-y-2">
-			<Label>{m.select_code_sample()}</Label>
-			<Select items={codeSamplesOptions} bind:value={selectedCodeSample}></Select>
-		</div>
+		<SectionTitle tag="h5" title="{m.Custom_code()}*" description={m.custom_code_description()} />
 
 		<div class="flex gap-8">
 			<div class="grow">
@@ -173,8 +157,6 @@
 				/>
 			</div>
 		</div>
-
-		<Checkbox {superform} field="allow_extra_attributes">{m.Allow_extra_attributes()}</Checkbox>
 	</div>
 
 	<div class="space-y-8">
@@ -187,7 +169,7 @@
 
 	<Hr />
 
-	<FormError></FormError>
+	<FormError />
 
 	<div class="flex justify-end">
 		<SubmitButton>{templateId ? m.Update_template() : m.Create_template()}</SubmitButton>

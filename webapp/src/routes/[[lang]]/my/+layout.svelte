@@ -69,7 +69,7 @@
 						{#if $currentUser}
 							<span class="whitespace-nowrap">
 								{m.hello()},
-								<span class="text-primary-600 font-semibold">
+								<span class="font-semibold text-primary-600">
 									{getUserDisplayName($currentUser)}
 								</span>
 							</span>

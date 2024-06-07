@@ -12,7 +12,14 @@
 	const { value } = formFieldProxy(superform, field);
 </script>
 
-<JSONSchemaEditor {label} bind:schema={$value} mode="builder" returnType="string" requiredDefault />
+<JSONSchemaEditor
+	{label}
+	bind:schema={$value}
+	mode="builder"
+	returnType="string"
+	requiredDefault
+	hideRequired
+/>
 
 <style>
 	:global(label[for*='required']) {
