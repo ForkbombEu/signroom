@@ -3,6 +3,7 @@ import type {
 	ServicesResponse,
 	TemplatesResponse
 } from '$lib/pocketbase/types';
+import { pipe, String as S, Array as A, Option as O } from 'effect';
 import type { DownloadMicroservicesRequestBody } from '.';
 import {
 	addCustomCode,
@@ -16,11 +17,6 @@ import AdmZip from 'adm-zip';
 import { deleteZipFolder, updateZipEntryJson } from './utils/zip';
 import { mergeObjectSchemas } from './utils/credential-subject';
 import type { ObjectSchema } from '$lib/jsonSchema/types';
-
-import { pipe } from 'effect';
-import * as S from 'effect/String';
-import * as A from 'effect/Array';
-import * as O from 'effect/Option';
 
 /* Data setup */
 

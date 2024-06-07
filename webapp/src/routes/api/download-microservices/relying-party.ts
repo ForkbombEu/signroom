@@ -4,11 +4,9 @@ import type { DownloadMicroservicesRequestBody } from '.';
 import { getFoldersToDelete, type WellKnown } from './shared';
 import { DEFAULT_LOCALE } from './utils/locale';
 import { cleanUrl } from './utils/data';
+import { String as S, pipe } from 'effect';
 import _ from 'lodash/fp';
 import { deleteZipFolder, updateZipEntryJson } from './utils/zip';
-
-import { pipe } from 'effect';
-import * as S from 'effect/String';
 
 /* Data setup */
 
