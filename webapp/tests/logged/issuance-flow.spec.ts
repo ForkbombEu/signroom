@@ -43,7 +43,7 @@ test.describe('it should create an issuance flow', () => {
 	});
 
 	test('it should create an issuance template', async () => {
-		let templateName = `issuance-template-${nanoid(5)}`;
+		const templateName = `issuance-template-${nanoid(5)}`;
 
 		// it should start creating the template
 
@@ -98,21 +98,6 @@ test.describe('it should create an issuance flow', () => {
 
 		// it should select the other options
 
-		await page
-			.locator('div')
-			.filter({
-				hasText: /^Select Zencode from the examples Choose option \.\.\.Generic HTTP request$/
-			})
-			.getByRole('combobox')
-			.selectOption({ index: 0 });
-
-		await page
-			.getByLabel('New template Basic info')
-			.locator('div')
-			.filter({ hasText: 'Allow extra attributes' })
-			.nth(4)
-			.click();
-
 		await page.getByText('Is public: This template can').click();
 
 		// it should create the issuance template
@@ -123,7 +108,7 @@ test.describe('it should create an issuance flow', () => {
 	});
 
 	test('it should create an authorization template', async () => {
-		let templateName = `auth-template-${nanoid(5)}`;
+		const templateName = `auth-template-${nanoid(5)}`;
 
 		// it should start creating the template
 
@@ -136,49 +121,43 @@ test.describe('it should create an issuance flow', () => {
 		await page.getByPlaceholder('Template form description').click();
 		await page.getByPlaceholder('Template form description').fill('this is a good description');
 
-		// it should add properties to the auth template (1)
-
-		await page.getByPlaceholder('property_id').first().click();
-		await page.getByPlaceholder('property_id').first().fill('full_name');
-
-		await page.getByPlaceholder('Display name').first().click();
-		await page.getByPlaceholder('Display name').first().fill('Full Name');
-
-		// it should add properties to the auth template (2)
-
-		await page.getByRole('button', { name: 'Add property' }).first().click();
-		const secondRow = page.getByRole('row').nth(2);
-
-		await secondRow.getByPlaceholder('property_id').fill('age');
-		await secondRow.getByPlaceholder('Display name').click();
-		await secondRow.getByPlaceholder('Display name').fill('Age');
-		await secondRow.locator('select').selectOption('integer');
-
-		// it should add properties to the form template (1)
-
-		const thirdRow = page.getByRole('row').nth(4);
-
-		await thirdRow.getByPlaceholder('property_id').click();
-		await thirdRow.getByPlaceholder('property_id').fill('age');
-		await thirdRow.getByPlaceholder('Display name').click();
-		await thirdRow.getByPlaceholder('Display name').fill('Age');
-		await thirdRow.locator('select').selectOption('integer');
-
-		// it should fill the other options
+		// it should select a preset
 
 		await page
-			.locator('div')
-			.filter({
-				hasText: /^Select Zencode from the examples Choose option \.\.\.Generic HTTP request$/
-			})
+			.locator('form div')
+			.filter({ hasText: 'Load preset load_preset_description Select optionGeneric HTTP Preset' })
 			.getByRole('combobox')
-			.selectOption({ index: 0 });
+			.selectOption({ index: 1 });
 
-		await page
-			.locator('label')
-			.filter({ hasText: 'Allow extra attributes' })
-			.locator('label')
-			.click();
+		// // it should add properties to the auth template (1)
+
+		// await page.getByPlaceholder('property_id').first().click();
+		// await page.getByPlaceholder('property_id').first().fill('full_name');
+
+		// await page.getByPlaceholder('Display name').first().click();
+		// await page.getByPlaceholder('Display name').first().fill('Full Name');
+
+		// // it should add properties to the auth template (2)
+
+		// await page.getByRole('button', { name: 'Add property' }).first().click();
+		// const secondRow = page.getByRole('row').nth(2);
+
+		// await secondRow.getByPlaceholder('property_id').fill('age');
+		// await secondRow.getByPlaceholder('Display name').click();
+		// await secondRow.getByPlaceholder('Display name').fill('Age');
+		// await secondRow.locator('select').selectOption('integer');
+
+		// // it should add properties to the form template (1)
+
+		// const thirdRow = page.getByRole('row').nth(4);
+
+		// await thirdRow.getByPlaceholder('property_id').click();
+		// await thirdRow.getByPlaceholder('property_id').fill('age');
+		// await thirdRow.getByPlaceholder('Display name').click();
+		// await thirdRow.getByPlaceholder('Display name').fill('Age');
+		// await thirdRow.locator('select').selectOption('integer');
+
+		//
 
 		await page.getByText('Is public: This template can').click();
 
@@ -203,7 +182,7 @@ test.describe('it should create an issuance flow', () => {
 	});
 
 	test('it should create a new issuance flow', async () => {
-		let issuanceFlowName = `issuance-flow-${nanoid(5)}`;
+		const issuanceFlowName = `issuance-flow-${nanoid(5)}`;
 
 		await page.getByRole('button', { name: 'New issuance flow' }).click();
 		await expect(page).toHaveURL(/credential-issuances\/create/);

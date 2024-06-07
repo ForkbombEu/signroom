@@ -17,7 +17,8 @@ const preset_1: TemplatePreset = {
 		type: 'object',
 		properties: {
 			did: {
-				type: 'string'
+				type: 'string',
+				title: 'did'
 			}
 		},
 		required: ['did']
@@ -26,10 +27,12 @@ const preset_1: TemplatePreset = {
 		type: 'object',
 		properties: {
 			email: {
-				type: 'string'
+				type: 'string',
+				title: 'email'
 			},
 			password: {
-				type: 'string'
+				type: 'string',
+				title: 'password'
 			}
 		},
 		required: ['email', 'password']
