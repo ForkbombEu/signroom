@@ -1,6 +1,6 @@
 import type { ObjectSchema } from '$lib/jsonSchema/types';
 import { z } from 'zod';
-import { DEFAULT_LOCALE } from '../shared';
+import { DEFAULT_LOCALE } from './locale';
 import _ from 'lodash';
 
 //
@@ -9,7 +9,7 @@ export function mergeObjectSchemas(schemas: ObjectSchema[]): ObjectSchema {
 	return {
 		type: 'object',
 		properties: _.merge({}, ...schemas.map((s) => s.properties)),
-		required: _.merge([], ...schemas.map((s) => s.required))
+		required: _.concat(...schemas.map((s) => s.required ?? []))
 	};
 }
 

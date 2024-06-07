@@ -5,11 +5,18 @@ import type {
 } from '$lib/pocketbase/types';
 import { pipe, String as S, Array as A, Option as O } from 'effect';
 import type { DownloadMicroservicesRequestBody } from '.';
-import { addCustomCode, getFoldersToDelete, type WellKnown } from './shared';
+import {
+	addCustomCode,
+	getCredentialCustomCodePath,
+	getFoldersToDelete,
+	type WellKnown
+} from './shared';
 import { cleanUrl } from './utils/data';
 import _ from 'lodash/fp';
 import AdmZip from 'adm-zip';
 import { deleteZipFolder, updateZipEntryJson } from './utils/zip';
+import { mergeObjectSchemas } from './utils/credential-subject';
+import type { ObjectSchema } from '$lib/jsonSchema/types';
 
 /* Data setup */
 
@@ -69,12 +76,32 @@ function createAuthorizationServerWellKnown(
 
 /* Custom code editing */
 
+function addAuthorizationTemplateSchema(
+	zip: AdmZip,
+	credential_type_name: string,
+	template: TemplatesResponse
+) {
+	const basePath = getCredentialCustomCodePath(zip, 'authz_server', credential_type_name);
+	const user_attributes_schema = template.schema as ObjectSchema;
+	const form_fields_schema = template.schema_secondary as ObjectSchema;
+	const schema = pipe(
+		[form_fields_schema, user_attributes_schema],
+		mergeObjectSchemas,
+		_.set('form_fields', Object.keys(form_fields_schema.properties)),
+		_.set('user_attributes', Object.keys(user_attributes_schema.properties))
+	);
+	zip.addFile(`${basePath}.schema.json`, Buffer.from(JSON.stringify(schema, null, 4)));
+}
+
 function addCredentialsCustomCode(
 	zip: AdmZip,
 	credential_issuer_related_data: AuthorizationServerRelatedData
 ) {
-	credential_issuer_related_data.credentials.forEach(({ issuance_flow, authorization_template }) =>
-		addCustomCode(zip, 'authz_server', issuance_flow.type_name, authorization_template)
+	credential_issuer_related_data.credentials.forEach(
+		({ issuance_flow, authorization_template }) => {
+			addCustomCode(zip, 'authz_server', issuance_flow.type_name, authorization_template);
+			addAuthorizationTemplateSchema(zip, issuance_flow.type_name, authorization_template);
+		}
 	);
 }
 

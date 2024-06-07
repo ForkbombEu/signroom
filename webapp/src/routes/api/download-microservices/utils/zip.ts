@@ -70,3 +70,7 @@ function renamePathSegmentAtIndex(path: string, new_name: string, index: number)
 		})
 		.join(PATH_SEPARATOR);
 }
+
+export function getZipRootFolder(zip: AdmZip): string {
+	return zip.getEntries()[0].entryName;
+}

@@ -1,3 +1,37 @@
+## [1.8.1](https://github.com/ForkbombEu/signroom/compare/v1.8.0...v1.8.1) (2024-06-07)
+
+
+### Bug Fixes
+
+* effect import ([#674](https://github.com/ForkbombEu/signroom/issues/674)) ([9594d20](https://github.com/ForkbombEu/signroom/commit/9594d20510e4cf08b19c3fa136e8fa224b40bd5b))
+
+# [1.8.0](https://github.com/ForkbombEu/signroom/compare/v1.7.1...v1.8.0) (2024-06-06)
+
+
+### Bug Fixes
+
+* download microservices auth template schema ([#672](https://github.com/ForkbombEu/signroom/issues/672)) ([3171414](https://github.com/ForkbombEu/signroom/commit/3171414dc2f8c0ab65afc9089a49115291664c96))
+
+
+### Features
+
+* merge authz server schemas ([#671](https://github.com/ForkbombEu/signroom/issues/671)) ([0d2a0cf](https://github.com/ForkbombEu/signroom/commit/0d2a0cf69ef6bd1161cfaaa96a4738a56b864151))
+
+## [1.7.1](https://github.com/ForkbombEu/signroom/compare/v1.7.0...v1.7.1) (2024-06-06)
+
+
+### Bug Fixes
+
+* keypairoom ([#668](https://github.com/ForkbombEu/signroom/issues/668)) ([299a010](https://github.com/ForkbombEu/signroom/commit/299a010705e114fdf136d8447ecd57b795595709))
+* qr generation ([#670](https://github.com/ForkbombEu/signroom/issues/670)) ([7a40685](https://github.com/ForkbombEu/signroom/commit/7a40685da686f22771cadc0b4b78c9c4b9e2906d))
+
+# [1.7.0](https://github.com/ForkbombEu/signroom/compare/v1.6.0...v1.7.0) (2024-06-05)
+
+
+### Features
+
+* add endpoint to check if an email is already registered or available ([#665](https://github.com/ForkbombEu/signroom/issues/665)) ([d0c6257](https://github.com/ForkbombEu/signroom/commit/d0c625705d57045336f2a1a1d1a2b7898c07e2c8))
+
 # [1.6.0](https://github.com/ForkbombEu/signroom/compare/v1.5.1...v1.6.0) (2024-06-04)
 
 

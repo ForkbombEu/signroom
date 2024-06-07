@@ -9,7 +9,8 @@ import type {
 } from '$lib/pocketbase/types';
 import type { DownloadMicroservicesRequestBody } from '.';
 import { cleanUrl } from './utils/data';
-import { DEFAULT_LOCALE, addCustomCode, getFoldersToDelete, type WellKnown } from './shared';
+import { addCustomCode, getFoldersToDelete, type WellKnown } from './shared';
+import { DEFAULT_LOCALE } from './utils/locale';
 import { objectSchemaToCredentialSubject } from './utils/credential-subject';
 import type { ObjectSchema } from '$lib/jsonSchema/types';
 import _ from 'lodash/fp';

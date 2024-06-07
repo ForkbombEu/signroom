@@ -10,10 +10,12 @@ import type { Keypair } from './keypair';
 export type PublicKeys = Omit<UsersPublicKeysRecord, 'owner'>;
 
 export function getPublicKeysFromKeypair(keypair: Keypair): PublicKeys {
-	const publicKeys: Partial<Keypair> = _.cloneDeep(keypair);
+	const publicKeys = _.cloneDeep(keypair);
+	// @ts-expect-error Cannot use delete on required field
 	delete publicKeys.seed;
+	// @ts-expect-error Cannot use delete on required field
 	delete publicKeys.keyring;
-	return keypair;
+	return publicKeys;
 }
 
 export async function getUserPublicKeys(userId: string | undefined = undefined) {
