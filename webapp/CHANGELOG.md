@@ -1,3 +1,10 @@
+## [1.8.2](https://github.com/ForkbombEu/signroom/compare/v1.8.1...v1.8.2) (2024-06-07)
+
+
+### Bug Fixes
+
+* effect import ([#674](https://github.com/ForkbombEu/signroom/issues/674)) ([3321e54](https://github.com/ForkbombEu/signroom/commit/3321e54c5bb845800cdaeffa0b5efa2c345d05af))
+
 ## [1.8.1](https://github.com/ForkbombEu/signroom/compare/v1.8.0...v1.8.1) (2024-06-07)
 
 
