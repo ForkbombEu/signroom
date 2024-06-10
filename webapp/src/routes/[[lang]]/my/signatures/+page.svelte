@@ -38,6 +38,8 @@
 	import PageContent from '$lib/components/pageContent.svelte';
 	import { signFile } from '$lib/components/utils/sign';
 	import { load } from '../+layout';
+	import PlainCard from '$lib/components/plainCard.svelte';
+	import DeleteRecord from '$lib/collectionManager/ui/recordActions/deleteRecord.svelte';
 
 	//
 
@@ -93,9 +95,50 @@
 			error = e instanceof Error ? e.message : JSON.stringify(e);
 		}
 	}
+
+	//
+
+	const folderTypeProp = createTypeProp<FoldersResponse>();
 </script>
 
+<PageTop>
+	<SectionTitle title="Signatures" description="signatures_description" />
+</PageTop>
+
 <PageContent>
+	<PageCard>
+		<CollectionManager
+			recordType={folderTypeProp}
+			formSettings={{
+				hide: {
+					owner: $currentUser?.id
+				}
+			}}
+			collection={Collections.Folders}
+			let:records
+			hideEmptyState
+		>
+			<SectionTitle title="Folders">
+				<svelte:fragment slot="right">
+					<CreateRecord recordType={folderTypeProp}>Add folder</CreateRecord>
+				</svelte:fragment>
+			</SectionTitle>
+
+			<svelte:fragment slot="emptyState">
+				<CollectionEmptyState hideCreateButton></CollectionEmptyState>
+			</svelte:fragment>
+
+			{#each records as record}
+				<PlainCard let:Title>
+					<Title>{record.name}</Title>
+					<svelte:fragment slot="right">
+						<DeleteRecord {record} />
+					</svelte:fragment>
+				</PlainCard>
+			{/each}
+		</CollectionManager>
+	</PageCard>
+
 	<PageCard>
 		<CollectionManager
 			{recordType}
