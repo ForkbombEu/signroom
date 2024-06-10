@@ -62,13 +62,18 @@
 	function applyPreset(preset: TemplatePreset) {
 		$form['zencode_script'] = preset.zencode_script;
 		$form['zencode_data'] = preset.zencode_data;
-		$form['schema'] = preset.schema;
-		$form['schema_secondary'] = preset.schema_secondary;
+		$form['schema'] = JSON.stringify(preset.schema);
+		$form['schema_secondary'] = JSON.stringify(preset.schema_secondary);
 	}
 
 	//
 
-	$: type = $form['type'];
+	$: type = getType($form);
+
+	function getType(form: typeof $form | undefined | null) {
+		if (form) return $form['type'];
+		else return undefined;
+	}
 </script>
 
 <Form {superform} className="space-y-12" showRequiredIndicator>
@@ -117,7 +122,7 @@
 		<JSONSchemaInput {superform} field="schema" />
 	</div>
 
-	{#if $form.type == TemplatesTypeOptions.authorization}
+	{#if type == TemplatesTypeOptions.authorization}
 		<div class="space-y-8">
 			<SectionTitle
 				tag="h5"
