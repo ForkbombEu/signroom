@@ -13,7 +13,7 @@
 		type TemplatesRecord
 	} from '$lib/pocketbase/types';
 	import { fieldsSchemaToZod } from '$lib/pocketbaseToZod';
-	import { Hr, Label, type SelectOptionType, Select } from 'flowbite-svelte';
+	import { Hr, Select } from 'flowbite-svelte';
 	import JSONSchemaInput from './JSONSchemaInput.svelte';
 	import SubmitButton from '$lib/forms/submitButton.svelte';
 	import FormError from '$lib/forms/formError.svelte';
@@ -21,10 +21,14 @@
 	import { templatePresetOptions, type TemplatePreset } from './templatePresets';
 	import CodeEditorField from './codeEditorField.svelte';
 
+	//
+
 	export let templateId: string | undefined = undefined;
 	export let initialData: Partial<TemplatesRecord> = {
 		type: TemplatesTypeOptions.issuance
 	};
+
+	//
 
 	let schema = fieldsSchemaToZod(getCollectionSchema(Collections.Templates)!.schema);
 
@@ -49,7 +53,7 @@
 
 	const { form } = superform;
 
-	//
+	/* Preset application */
 
 	let preset: TemplatePreset | undefined = undefined;
 	$: handlePresetSelection(preset);
@@ -78,8 +82,12 @@
 
 	// setup code placeholders
 
-	$form['zencode_script'] = '# Add code here';
-	$form['zencode_data'] = `{}`;
+	addCodePlaceholders();
+
+	function addCodePlaceholders() {
+		if (!$form['zencode_script']) $form['zencode_script'] = '# Add code here';
+		if (!$form['zencode_data']) $form['zencode_data'] = `{}`;
+	}
 </script>
 
 <Form {superform} className="space-y-12" showRequiredIndicator>
