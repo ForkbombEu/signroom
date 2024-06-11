@@ -24,7 +24,7 @@
 	} from '$lib/collectionManager';
 	import { page } from '$app/stores';
 	import type { RecordFullListOptions } from 'pocketbase';
-	import { Alert, Button, ButtonGroup, Spinner, Toast } from 'flowbite-svelte';
+	import { Alert, Button, ButtonGroup, Spinner, Toast, A } from 'flowbite-svelte';
 	import { Pencil, Share } from 'svelte-heros-v2';
 	import ShareSignature from './_partials/ShareSignature.svelte';
 	import { slide } from 'svelte/transition';
@@ -37,22 +37,25 @@
 	import PageCard from '$lib/components/pageCard.svelte';
 	import PageContent from '$lib/components/pageContent.svelte';
 	import { signFile } from '$lib/components/utils/sign';
-	import { load } from '../+layout';
 	import PlainCard from '$lib/components/plainCard.svelte';
 	import DeleteRecord from '$lib/collectionManager/ui/recordActions/deleteRecord.svelte';
+	import Icon from '$lib/components/icon.svelte';
+	import { ArrowLeft } from 'svelte-heros';
+	import type { FieldsSettings } from '$lib/recordForm';
 
 	//
 
-	const recordType = createTypeProp<SignaturesResponse<{ folder: FoldersResponse }>>();
+	export let data;
+	$: folder = data.folder;
 
-	// $: folderId = $page.url.searchParams.get('folder');
+	//
 
-	// let initialQueryParams: RecordFullListOptions;
-	// $: if (folderId) {
-	// 	initialQueryParams = { filter: `folder.id="${folderId}"`, expand: 'folder' };
-	// } else {
-	// 	initialQueryParams = { expand: 'folder' };
-	// }
+	let hideFolderSettings: FieldsSettings<SignaturesResponse>['hide'];
+	$: if (folder) {
+		hideFolderSettings = { folder: folder.id };
+	} else {
+		hideFolderSettings = {};
+	}
 
 	// let shareModal = false;
 	// let record: SignaturesResponse | undefined = undefined;
@@ -98,6 +101,8 @@
 
 	//
 
+	const signatureTypeProp =
+		createTypeProp<SignaturesResponse<unknown, { folder: FoldersResponse }>>();
 	const folderTypeProp = createTypeProp<FoldersResponse>();
 </script>
 
@@ -106,46 +111,60 @@
 </PageTop>
 
 <PageContent>
+	{#if !folder}
+		<PageCard>
+			<CollectionManager
+				recordType={folderTypeProp}
+				formSettings={{
+					hide: {
+						owner: $currentUser?.id
+					}
+				}}
+				collection={Collections.Folders}
+				let:records
+				hideEmptyState
+			>
+				<SectionTitle title="Folders">
+					<svelte:fragment slot="right">
+						<CreateRecord recordType={folderTypeProp}>Add folder</CreateRecord>
+					</svelte:fragment>
+				</SectionTitle>
+
+				<svelte:fragment slot="emptyState">
+					<CollectionEmptyState hideCreateButton></CollectionEmptyState>
+				</svelte:fragment>
+
+				{#if records.length}
+					<div class="space-y-2">
+						{#each records as record}
+							<PlainCard let:Title class="py-2.5">
+								<Title>
+									<A href="/my/signatures?folder={record.id}">
+										{record.name}
+									</A>
+								</Title>
+								<svelte:fragment slot="right">
+									<EditRecord {record} />
+									<DeleteRecord {record} />
+								</svelte:fragment>
+							</PlainCard>
+						{/each}
+					</div>
+				{/if}
+			</CollectionManager>
+		</PageCard>
+	{/if}
+
 	<PageCard>
 		<CollectionManager
-			recordType={folderTypeProp}
+			recordType={signatureTypeProp}
+			collection={Collections.Signatures}
+			initialQueryParams={{ expand: 'folder', filter: `folder.id = "${folder ? folder.id : ''}"` }}
 			formSettings={{
 				hide: {
-					owner: $currentUser?.id
-				}
-			}}
-			collection={Collections.Folders}
-			let:records
-			hideEmptyState
-		>
-			<SectionTitle title="Folders">
-				<svelte:fragment slot="right">
-					<CreateRecord recordType={folderTypeProp}>Add folder</CreateRecord>
-				</svelte:fragment>
-			</SectionTitle>
-
-			<svelte:fragment slot="emptyState">
-				<CollectionEmptyState hideCreateButton></CollectionEmptyState>
-			</svelte:fragment>
-
-			{#each records as record}
-				<PlainCard let:Title>
-					<Title>{record.name}</Title>
-					<svelte:fragment slot="right">
-						<DeleteRecord {record} />
-					</svelte:fragment>
-				</PlainCard>
-			{/each}
-		</CollectionManager>
-	</PageCard>
-
-	<PageCard>
-		<CollectionManager
-			{recordType}
-			collection={Collections.Signatures}
-			initialQueryParams={{ expand: 'folder' }}
-			formSettings={{
-				hide: { owner: $currentUser?.id },
+					owner: $currentUser?.id,
+					...hideFolderSettings
+				},
 				relations: {
 					folder: { displayFields: ['name'], inputMode: 'select' },
 					certificate: { displayFields: ['name'], inputMode: 'select' }
@@ -159,13 +178,25 @@
 			let:records
 			hideEmptyState
 		>
+			{@const title = folder ? folder.name : 'Signatures'}
 			<!-- <SignaturesTableHead {folderId} {trigger} />
 			-->
-			<SectionTitle title="Signatures">
-				<svelte:fragment slot="right">
-					<CreateRecord {recordType} on:success={handleRecordCreation}>Add signature</CreateRecord>
-				</svelte:fragment>
-			</SectionTitle>
+			<div class="space-y-4">
+				{#if folder}
+					<Button outline href="/my/signatures">
+						<Icon src={ArrowLeft} ml />
+						Back to all signatures
+					</Button>
+				{/if}
+
+				<SectionTitle {title}>
+					<svelte:fragment slot="right">
+						<CreateRecord recordType={signatureTypeProp} on:success={handleRecordCreation}>
+							Add signature
+						</CreateRecord>
+					</svelte:fragment>
+				</SectionTitle>
+			</div>
 
 			{#if error}
 				<Alert color="red">{error}</Alert>
