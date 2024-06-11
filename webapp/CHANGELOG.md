@@ -1,3 +1,10 @@
+## [1.8.4](https://github.com/ForkbombEu/signroom/compare/v1.8.3...v1.8.4) (2024-06-11)
+
+
+### Bug Fixes
+
+* template form ([#678](https://github.com/ForkbombEu/signroom/issues/678)) ([950415d](https://github.com/ForkbombEu/signroom/commit/950415de092c3b4a43b25decf6faafa8e6a276be))
+
 ## [1.8.3](https://github.com/ForkbombEu/signroom/compare/v1.8.2...v1.8.3) (2024-06-07)
 
 
