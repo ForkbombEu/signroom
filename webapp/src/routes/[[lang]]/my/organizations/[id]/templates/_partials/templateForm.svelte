@@ -19,6 +19,7 @@
 	import FormError from '$lib/forms/formError.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { templatePresetOptions, type TemplatePreset } from './templatePresets';
+	import CodeEditor from '$lib/components/codeEditor.svelte';
 
 	export let templateId: string | undefined = undefined;
 	export let initialData: Partial<TemplatesRecord> = {
@@ -74,6 +75,16 @@
 		if (form) return $form['type'];
 		else return undefined;
 	}
+
+	//
+
+	let code = `Scenario 'credential': participant generates credential request
+Given I have a 'keyring'
+When I create the credential request
+Then print the 'credential request'
+`;
+
+	$: console.log(code);
 </script>
 
 <Form {superform} className="space-y-12" showRequiredIndicator>
@@ -136,6 +147,8 @@
 
 	<div class="space-y-8">
 		<SectionTitle tag="h5" title="{m.Custom_code()}*" description={m.custom_code_description()} />
+
+		<CodeEditor bind:code lang="gherkin" />
 
 		<div class="flex gap-8">
 			<div class="grow">
