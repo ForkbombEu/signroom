@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/ForkbombEu/signroom/compare/v1.8.4...v1.9.0) (2024-06-11)
+
+
+### Features
+
+* **templates:** add syntax highlight in custom code ([#679](https://github.com/ForkbombEu/signroom/issues/679)) ([db96b80](https://github.com/ForkbombEu/signroom/commit/db96b80fffbd30462860305a39a88263087f52e6))
+
 ## [1.8.4](https://github.com/ForkbombEu/signroom/compare/v1.8.3...v1.8.4) (2024-06-11)
 
 
