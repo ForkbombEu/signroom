@@ -1,6 +1,6 @@
 <script lang="ts">
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
-	import { Checkbox, Form, createForm, Select as SelectInput } from '$lib/forms';
+	import { Checkbox, Form, createForm, Select as SelectInput, FieldController } from '$lib/forms';
 	import Input from '$lib/forms/fields/input.svelte';
 	import Textarea from '$lib/forms/fields/textarea.svelte';
 	import { m } from '$lib/i18n';
@@ -19,7 +19,7 @@
 	import FormError from '$lib/forms/formError.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { templatePresetOptions, type TemplatePreset } from './templatePresets';
-	import CodeEditor from '$lib/components/codeEditor.svelte';
+	import CodeEditorField from './codeEditorField.svelte';
 
 	export let templateId: string | undefined = undefined;
 	export let initialData: Partial<TemplatesRecord> = {
@@ -76,15 +76,10 @@
 		else return undefined;
 	}
 
-	//
+	// setup code placeholders
 
-	let code = `Scenario 'credential': participant generates credential request
-Given I have a 'keyring'
-When I create the credential request
-Then print the 'credential request'
-`;
-
-	$: console.log(code);
+	$form['zencode_script'] = '# Add code here';
+	$form['zencode_data'] = `{}`;
 </script>
 
 <Form {superform} className="space-y-12" showRequiredIndicator>
@@ -147,34 +142,8 @@ Then print the 'credential request'
 
 	<div class="space-y-8">
 		<SectionTitle tag="h5" title="{m.Custom_code()}*" description={m.custom_code_description()} />
-
-		<CodeEditor bind:code lang="gherkin" />
-
-		<div class="flex gap-8">
-			<div class="grow">
-				<Textarea
-					field="zencode_script"
-					options={{
-						placeholder: 'Given I send ...',
-						label: 'Zencode',
-						class: 'font-mono'
-					}}
-					{superform}
-				/>
-			</div>
-
-			<div class="grow">
-				<Textarea
-					field="zencode_data"
-					options={{
-						placeholder: '{\n  ...\n}',
-						label: 'JSON',
-						class: 'font-mono'
-					}}
-					{superform}
-				/>
-			</div>
-		</div>
+		<CodeEditorField {superform} field="zencode_script" label={m.zencode_script()} lang="gherkin" />
+		<CodeEditorField {superform} field="zencode_data" label={m.zencode_data()} lang="json" />
 	</div>
 
 	<div class="space-y-8">
