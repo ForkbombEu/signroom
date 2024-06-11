@@ -1,6 +1,6 @@
 <script lang="ts">
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
-	import { Checkbox, Form, createForm, Select as SelectInput } from '$lib/forms';
+	import { Checkbox, Form, createForm, Select as SelectInput, FieldController } from '$lib/forms';
 	import Input from '$lib/forms/fields/input.svelte';
 	import Textarea from '$lib/forms/fields/textarea.svelte';
 	import { m } from '$lib/i18n';
@@ -13,17 +13,22 @@
 		type TemplatesRecord
 	} from '$lib/pocketbase/types';
 	import { fieldsSchemaToZod } from '$lib/pocketbaseToZod';
-	import { Hr, Label, type SelectOptionType, Select } from 'flowbite-svelte';
+	import { Hr, Select } from 'flowbite-svelte';
 	import JSONSchemaInput from './JSONSchemaInput.svelte';
 	import SubmitButton from '$lib/forms/submitButton.svelte';
 	import FormError from '$lib/forms/formError.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { templatePresetOptions, type TemplatePreset } from './templatePresets';
+	import CodeEditorField from './codeEditorField.svelte';
+
+	//
 
 	export let templateId: string | undefined = undefined;
 	export let initialData: Partial<TemplatesRecord> = {
 		type: TemplatesTypeOptions.issuance
 	};
+
+	//
 
 	let schema = fieldsSchemaToZod(getCollectionSchema(Collections.Templates)!.schema);
 
@@ -48,7 +53,7 @@
 
 	const { form } = superform;
 
-	//
+	/* Preset application */
 
 	let preset: TemplatePreset | undefined = undefined;
 	$: handlePresetSelection(preset);
@@ -73,6 +78,15 @@
 	function getType(form: typeof $form | undefined | null) {
 		if (form) return $form['type'];
 		else return undefined;
+	}
+
+	// setup code placeholders
+
+	addCodePlaceholders();
+
+	function addCodePlaceholders() {
+		if (!$form['zencode_script']) $form['zencode_script'] = '# Add code here';
+		if (!$form['zencode_data']) $form['zencode_data'] = `{}`;
 	}
 </script>
 
@@ -136,32 +150,8 @@
 
 	<div class="space-y-8">
 		<SectionTitle tag="h5" title="{m.Custom_code()}*" description={m.custom_code_description()} />
-
-		<div class="flex gap-8">
-			<div class="grow">
-				<Textarea
-					field="zencode_script"
-					options={{
-						placeholder: 'Given I send ...',
-						label: 'Zencode',
-						class: 'font-mono'
-					}}
-					{superform}
-				/>
-			</div>
-
-			<div class="grow">
-				<Textarea
-					field="zencode_data"
-					options={{
-						placeholder: '{\n  ...\n}',
-						label: 'JSON',
-						class: 'font-mono'
-					}}
-					{superform}
-				/>
-			</div>
-		</div>
+		<CodeEditorField {superform} field="zencode_script" label={m.zencode_script()} lang="gherkin" />
+		<CodeEditorField {superform} field="zencode_data" label={m.zencode_data()} lang="json" />
 	</div>
 
 	<div class="space-y-8">
