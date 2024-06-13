@@ -156,67 +156,71 @@
 	{/if}
 
 	<PageCard>
-		<CollectionManager
-			recordType={signatureTypeProp}
-			collection={Collections.Signatures}
-			initialQueryParams={{ expand: 'folder', filter: `folder.id = "${folder ? folder.id : ''}"` }}
-			formSettings={{
-				hide: {
-					owner: $currentUser?.id,
-					...hideFolderSettings
-				},
-				relations: {
-					folder: { displayFields: ['name'], inputMode: 'select' },
-					certificate: { displayFields: ['name'], inputMode: 'select' }
-				},
-				exclude: ['signed_file']
-			}}
-			editFormSettings={{
-				exclude: ['owner', 'type', 'file']
-			}}
-			subscribe={[Collections.Authorizations, Collections.Folders]}
-			let:records
-			hideEmptyState
-		>
-			{@const title = folder ? folder.name : 'Signatures'}
-			<!-- <SignaturesTableHead {folderId} {trigger} />
+		{#key hideFolderSettings}
+			<CollectionManager
+				recordType={signatureTypeProp}
+				collection={Collections.Signatures}
+				initialQueryParams={{
+					expand: 'folder',
+					filter: `folder.id = "${folder ? folder.id : ''}"`
+				}}
+				formSettings={{
+					hide: {
+						owner: $currentUser?.id,
+						...hideFolderSettings
+					},
+					relations: {
+						folder: { displayFields: ['name'], inputMode: 'select' },
+						certificate: { displayFields: ['name'], inputMode: 'select' }
+					},
+					exclude: ['signed_file']
+				}}
+				editFormSettings={{
+					exclude: ['owner', 'type', 'file']
+				}}
+				subscribe={[Collections.Authorizations, Collections.Folders]}
+				let:records
+				hideEmptyState
+			>
+				{@const title = folder ? folder.name : 'Signatures'}
+				<!-- <SignaturesTableHead {folderId} {trigger} />
 			-->
-			<div class="space-y-4">
-				{#if folder}
-					<Button outline href="/my/signatures">
-						<Icon src={ArrowLeft} ml />
-						Back to all signatures
-					</Button>
+				<div class="space-y-4">
+					{#if folder}
+						<Button outline href="/my/signatures">
+							<Icon src={ArrowLeft} ml />
+							Back to all signatures
+						</Button>
+					{/if}
+
+					<SectionTitle {title}>
+						<svelte:fragment slot="right">
+							<CreateRecord recordType={signatureTypeProp} on:success={handleRecordCreation}>
+								Add signature
+							</CreateRecord>
+						</svelte:fragment>
+					</SectionTitle>
+				</div>
+
+				{#if error}
+					<Alert color="red">{error}</Alert>
+				{/if}
+				{#if loading}
+					<Spinner />
 				{/if}
 
-				<SectionTitle {title}>
-					<svelte:fragment slot="right">
-						<CreateRecord recordType={signatureTypeProp} on:success={handleRecordCreation}>
-							Add signature
-						</CreateRecord>
-					</svelte:fragment>
-				</SectionTitle>
-			</div>
-
-			{#if error}
-				<Alert color="red">{error}</Alert>
-			{/if}
-			{#if loading}
-				<Spinner />
-			{/if}
-
-			<CollectionTable
-				{records}
-				fields={['_info', 'file']}
-				hideActions={['select', 'delete', 'edit', 'share']}
-				fieldsComponents={{
-					_info: Info,
-					file: Files
-				}}
-				let:record
-			>
-				<ButtonGroup size="xs">
-					<!-- <Button
+				<CollectionTable
+					{records}
+					fields={['_info', 'file']}
+					hideActions={['select', 'delete', 'edit', 'share']}
+					fieldsComponents={{
+						_info: Info,
+						file: Files
+					}}
+					let:record
+				>
+					<ButtonGroup size="xs">
+						<!-- <Button
 							class="!p-2"
 							size="xs"
 							on:click={() => {
@@ -225,18 +229,19 @@
 						>
 							<Share size="12" class="mr-1" />{m.SHARE()}
 						</Button> -->
-					<EditRecord {record} />
-				</ButtonGroup>
+						<EditRecord {record} />
+					</ButtonGroup>
 
-				<svelte:fragment slot="emptyState">
-					<CollectionEmptyState
-						title="No signatures yet"
-						description="Start signing a document"
-						hideCreateButton
-					/>
-				</svelte:fragment>
-			</CollectionTable>
-		</CollectionManager>
+					<svelte:fragment slot="emptyState">
+						<CollectionEmptyState
+							title="No signatures yet"
+							description="Start signing a document"
+							hideCreateButton
+						/>
+					</svelte:fragment>
+				</CollectionTable>
+			</CollectionManager>
+		{/key}
 
 		<!-- {#key record}
 			{#if record}
