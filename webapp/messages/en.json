@@ -384,5 +384,11 @@
 	"Your_did": "Your DID",
 	"View_did": "View DID",
 	"zencode_script": "Zencode script",
-	"zencode_data": "Zencode data (JSON)"
+	"zencode_data": "Zencode data (JSON)",
+	"folder": "Folder",
+	"Certificate": "Certificate",
+	"Title": "Title",
+	"File": "File",
+	"Update_signature": "Update signature",
+	"Sign_file": "Sign file"
 }

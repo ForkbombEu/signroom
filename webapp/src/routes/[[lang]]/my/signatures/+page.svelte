@@ -12,6 +12,7 @@
 	import { currentUser } from '$lib/pocketbase';
 	import {
 		Collections,
+		SignaturesTypeOptions,
 		type FoldersResponse,
 		type SignaturesRecord,
 		type SignaturesResponse
@@ -42,6 +43,7 @@
 	import Icon from '$lib/components/icon.svelte';
 	import { ArrowLeft } from 'svelte-heros';
 	import type { FieldsSettings } from '$lib/recordForm';
+	import SignatureForm from './_partials/signatureForm.svelte';
 
 	//
 
@@ -111,6 +113,11 @@
 </PageTop>
 
 <PageContent>
+	<PageCard>
+		{@const ownerId = $currentUser?.id ?? ''}
+		<SignatureForm {ownerId} type={SignaturesTypeOptions.pades}></SignatureForm>
+	</PageCard>
+
 	{#if !folder}
 		<PageCard>
 			<CollectionManager
