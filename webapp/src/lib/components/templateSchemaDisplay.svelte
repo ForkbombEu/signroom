@@ -44,7 +44,7 @@
 			{@const displayName = property.display?.at(0)?.name}
 			<div class="p-4">
 				<p>
-					{m.Property_ID()}: <span class="text-primary-700 font-mono">{propertyId}</span>
+					{m.Property_ID()}: <span class="font-mono text-primary-700">{propertyId}</span>
 				</p>
 				{#if displayName}
 					<p>

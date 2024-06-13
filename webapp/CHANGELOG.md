@@ -1,3 +1,24 @@
+# [1.9.0](https://github.com/ForkbombEu/signroom/compare/v1.8.4...v1.9.0) (2024-06-11)
+
+
+### Features
+
+* **templates:** add syntax highlight in custom code ([#679](https://github.com/ForkbombEu/signroom/issues/679)) ([db96b80](https://github.com/ForkbombEu/signroom/commit/db96b80fffbd30462860305a39a88263087f52e6))
+
+## [1.8.4](https://github.com/ForkbombEu/signroom/compare/v1.8.3...v1.8.4) (2024-06-11)
+
+
+### Bug Fixes
+
+* template form ([#678](https://github.com/ForkbombEu/signroom/issues/678)) ([950415d](https://github.com/ForkbombEu/signroom/commit/950415de092c3b4a43b25decf6faafa8e6a276be))
+
+## [1.8.3](https://github.com/ForkbombEu/signroom/compare/v1.8.2...v1.8.3) (2024-06-07)
+
+
+### Bug Fixes
+
+* improved template form ([#673](https://github.com/ForkbombEu/signroom/issues/673)) ([f7d466d](https://github.com/ForkbombEu/signroom/commit/f7d466d570f77e4b649f02f6fe06c950a0af7839))
+
 ## [1.8.2](https://github.com/ForkbombEu/signroom/compare/v1.8.1...v1.8.2) (2024-06-07)
 
 
@@ -14,73 +35,63 @@
 
 # [1.8.0](https://github.com/ForkbombEu/signroom/compare/v1.7.1...v1.8.0) (2024-06-06)
 
-
 ### Bug Fixes
 
-* download microservices auth template schema ([#672](https://github.com/ForkbombEu/signroom/issues/672)) ([3171414](https://github.com/ForkbombEu/signroom/commit/3171414dc2f8c0ab65afc9089a49115291664c96))
-
+- download microservices auth template schema ([#672](https://github.com/ForkbombEu/signroom/issues/672)) ([3171414](https://github.com/ForkbombEu/signroom/commit/3171414dc2f8c0ab65afc9089a49115291664c96))
 
 ### Features
 
-* merge authz server schemas ([#671](https://github.com/ForkbombEu/signroom/issues/671)) ([0d2a0cf](https://github.com/ForkbombEu/signroom/commit/0d2a0cf69ef6bd1161cfaaa96a4738a56b864151))
+- merge authz server schemas ([#671](https://github.com/ForkbombEu/signroom/issues/671)) ([0d2a0cf](https://github.com/ForkbombEu/signroom/commit/0d2a0cf69ef6bd1161cfaaa96a4738a56b864151))
 
 ## [1.7.1](https://github.com/ForkbombEu/signroom/compare/v1.7.0...v1.7.1) (2024-06-06)
 
-
 ### Bug Fixes
 
-* keypairoom ([#668](https://github.com/ForkbombEu/signroom/issues/668)) ([299a010](https://github.com/ForkbombEu/signroom/commit/299a010705e114fdf136d8447ecd57b795595709))
-* qr generation ([#670](https://github.com/ForkbombEu/signroom/issues/670)) ([7a40685](https://github.com/ForkbombEu/signroom/commit/7a40685da686f22771cadc0b4b78c9c4b9e2906d))
+- keypairoom ([#668](https://github.com/ForkbombEu/signroom/issues/668)) ([299a010](https://github.com/ForkbombEu/signroom/commit/299a010705e114fdf136d8447ecd57b795595709))
+- qr generation ([#670](https://github.com/ForkbombEu/signroom/issues/670)) ([7a40685](https://github.com/ForkbombEu/signroom/commit/7a40685da686f22771cadc0b4b78c9c4b9e2906d))
 
 # [1.7.0](https://github.com/ForkbombEu/signroom/compare/v1.6.0...v1.7.0) (2024-06-05)
 
-
 ### Features
 
-* add endpoint to check if an email is already registered or available ([#665](https://github.com/ForkbombEu/signroom/issues/665)) ([d0c6257](https://github.com/ForkbombEu/signroom/commit/d0c625705d57045336f2a1a1d1a2b7898c07e2c8))
+- add endpoint to check if an email is already registered or available ([#665](https://github.com/ForkbombEu/signroom/issues/665)) ([d0c6257](https://github.com/ForkbombEu/signroom/commit/d0c625705d57045336f2a1a1d1a2b7898c07e2c8))
 
 # [1.6.0](https://github.com/ForkbombEu/signroom/compare/v1.5.1...v1.6.0) (2024-06-04)
 
-
 ### Bug Fixes
 
-* add keypairoom logout ([#662](https://github.com/ForkbombEu/signroom/issues/662)) ([3efe184](https://github.com/ForkbombEu/signroom/commit/3efe1845f673d44ce8d1bc79de151fe1190e59d1))
-* hide other types of cryptography ([#663](https://github.com/ForkbombEu/signroom/issues/663)) ([a386114](https://github.com/ForkbombEu/signroom/commit/a386114fc9723924cf8da822982be2de816a2541))
-
+- add keypairoom logout ([#662](https://github.com/ForkbombEu/signroom/issues/662)) ([3efe184](https://github.com/ForkbombEu/signroom/commit/3efe1845f673d44ce8d1bc79de151fe1190e59d1))
+- hide other types of cryptography ([#663](https://github.com/ForkbombEu/signroom/issues/663)) ([a386114](https://github.com/ForkbombEu/signroom/commit/a386114fc9723924cf8da822982be2de816a2541))
 
 ### Features
 
-* add DID button ([#661](https://github.com/ForkbombEu/signroom/issues/661)) ([dc60676](https://github.com/ForkbombEu/signroom/commit/dc606762e8a5401cea7fba3e70919e92ea148ba8))
-* download microservices ([#657](https://github.com/ForkbombEu/signroom/issues/657)) ([ef28ce4](https://github.com/ForkbombEu/signroom/commit/ef28ce4aa10c0b1c93acc007535034aca75143e0))
-* setup pricing page ([#660](https://github.com/ForkbombEu/signroom/issues/660)) ([b7effb3](https://github.com/ForkbombEu/signroom/commit/b7effb3cbb63ad0fb22ba118aa9745a5dfc8e9f0))
+- add DID button ([#661](https://github.com/ForkbombEu/signroom/issues/661)) ([dc60676](https://github.com/ForkbombEu/signroom/commit/dc606762e8a5401cea7fba3e70919e92ea148ba8))
+- download microservices ([#657](https://github.com/ForkbombEu/signroom/issues/657)) ([ef28ce4](https://github.com/ForkbombEu/signroom/commit/ef28ce4aa10c0b1c93acc007535034aca75143e0))
+- setup pricing page ([#660](https://github.com/ForkbombEu/signroom/issues/660)) ([b7effb3](https://github.com/ForkbombEu/signroom/commit/b7effb3cbb63ad0fb22ba118aa9745a5dfc8e9f0))
 
 ## [1.5.1](https://github.com/ForkbombEu/signroom/compare/v1.5.0...v1.5.1) (2024-05-30)
 
-
 ### Bug Fixes
 
-* **organizations:** bad form settings ([#650](https://github.com/ForkbombEu/signroom/issues/650)) ([ce17092](https://github.com/ForkbombEu/signroom/commit/ce170929b464b2f8edda633810e5ee419b9b0711))
+- **organizations:** bad form settings ([#650](https://github.com/ForkbombEu/signroom/issues/650)) ([ce17092](https://github.com/ForkbombEu/signroom/commit/ce170929b464b2f8edda633810e5ee419b9b0711))
 
 # [1.5.0](https://github.com/ForkbombEu/signroom/compare/v1.4.0...v1.5.0) (2024-05-29)
 
-
 ### Features
 
-* implemented new types for pb collections ([#648](https://github.com/ForkbombEu/signroom/issues/648)) ([d667b10](https://github.com/ForkbombEu/signroom/commit/d667b105a0ab8ac5ffae1fddf0ec57e78e63ac0f))
+- implemented new types for pb collections ([#648](https://github.com/ForkbombEu/signroom/issues/648)) ([d667b10](https://github.com/ForkbombEu/signroom/commit/d667b105a0ab8ac5ffae1fddf0ec57e78e63ac0f))
 
 # [1.4.0](https://github.com/ForkbombEu/signroom/compare/v1.3.0...v1.4.0) (2024-05-28)
 
-
 ### Features
 
-* update pocketbase ([#647](https://github.com/ForkbombEu/signroom/issues/647)) ([049ca56](https://github.com/ForkbombEu/signroom/commit/049ca563f31601ecf38147ae5209aed4588f8a0f))
+- update pocketbase ([#647](https://github.com/ForkbombEu/signroom/issues/647)) ([049ca56](https://github.com/ForkbombEu/signroom/commit/049ca563f31601ecf38147ae5209aed4588f8a0f))
 
 # [1.3.0](https://github.com/ForkbombEu/signroom/compare/v1.2.3...v1.3.0) (2024-05-28)
 
-
 ### Features
 
-* update sveltekit and i18n ([#646](https://github.com/ForkbombEu/signroom/issues/646)) ([826f7c6](https://github.com/ForkbombEu/signroom/commit/826f7c6f6799f025ff56298a9caf4d87117b48a9))
+- update sveltekit and i18n ([#646](https://github.com/ForkbombEu/signroom/issues/646)) ([826f7c6](https://github.com/ForkbombEu/signroom/commit/826f7c6f6799f025ff56298a9caf4d87117b48a9))
 
 ## [1.2.3](https://github.com/ForkbombEu/signroom/compare/v1.2.2...v1.2.3) (2024-05-28)
 

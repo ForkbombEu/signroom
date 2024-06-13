@@ -380,7 +380,9 @@
 	"Downloading_microservices": "Downloading microservices",
 	"Please_wait": "lease wait",
 	"download_microservices_description": "download microservices description",
-  "credential_type_help_text": "Support for BBS, W3C-VC and Coconut is coming soon!",
-  "Your_did": "Your DID",
-	"View_did": "View DID"
+	"credential_type_help_text": "Support for BBS, W3C-VC and Coconut is coming soon!",
+	"Your_did": "Your DID",
+	"View_did": "View DID",
+	"zencode_script": "Zencode script",
+	"zencode_data": "Zencode data (JSON)"
 }

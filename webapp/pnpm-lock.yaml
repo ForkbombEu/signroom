@@ -35,6 +35,9 @@ importers:
       '@types/adm-zip':
         specifier: ^0.5.5
         version: 0.5.5
+      '@types/prismjs':
+        specifier: ^1.26.4
+        version: 1.26.4
       adm-zip:
         specifier: ^0.5.14
         version: 0.5.14
@@ -47,6 +50,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      codejar:
+        specifier: ^4.2.0
+        version: 4.2.0
       dayjs:
         specifier: ^1.11.11
         version: 1.11.11
@@ -68,9 +74,12 @@ importers:
       flowbite-svelte-icons:
         specifier: ^1.3.1
         version: 1.3.1(svelte@4.2.17)(tailwind-merge@2.3.0)(tailwindcss@3.4.3)
+      highlight.js:
+        specifier: ^11.9.0
+        version: 11.9.0
       json-schema-builder-svelte:
         specifier: github:dyne/json-schema-builder-svelte
-        version: https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/920ca59dccf4f5d73c9268f24a7b2daf73cac4bc(svelte@4.2.17)
+        version: https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/e35fc4c76632f61de424695ddbb397576fc1bd43(svelte@4.2.17)
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -83,6 +92,9 @@ importers:
       pocketbase:
         specifier: ^0.21.3
         version: 0.21.3
+      prismjs:
+        specifier: ^1.29.0
+        version: 1.29.0
       qrcode-generator:
         specifier: ^1.4.4
         version: 1.4.4
@@ -1463,6 +1475,9 @@ packages:
   '@types/pg@8.6.1':
     resolution: {integrity: sha512-1Kc4oAGzAl7uqUStZCDvaLFqZrW9qWSjXOmBfdgyBP5La7Us6Mg4GBvRlSoaZMhQF/zSj1C8CtKMBkoiT8eL8w==}
 
+  '@types/prismjs@1.26.4':
+    resolution: {integrity: sha512-rlAnzkW2sZOjbqZ743IHUhFcvzaGbqijwOu8QZnZCjfQzBqFE3s4lOTJEsxikImav9uzz/42I+O7YUs1mWgMlg==}
+
   '@types/pug@2.0.10':
     resolution: {integrity: sha512-Sk/uYFOBAB7mb74XcpizmH0KOR2Pv3D2Hmrh1Dmy5BmK3MpdSa5kqZcg6EKBdklU0bFXX9gCfzvpnyUehrPIuA==}
 
@@ -1864,6 +1879,9 @@ packages:
 
   code-red@1.0.4:
     resolution: {integrity: sha512-7qJWqItLA8/VPVlKJlFXU+NBlo/qyfs39aJcuMT/2ere32ZqvF5OSxgdM5xOfJJ7O429gg2HM47y8v9P+9wrNw==}
+
+  codejar@4.2.0:
+    resolution: {integrity: sha512-U8OZe+2B400W5nSSbXxaoboBN5i1hxWdBZJ9kcTy0DBuc4muwkPE/ph/MGX4yooIE8hztfNLPNU1CbcNYch69A==}
 
   color-convert@1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
@@ -2552,6 +2570,10 @@ packages:
   highlight.js@10.7.3:
     resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
 
+  highlight.js@11.9.0:
+    resolution: {integrity: sha512-fJ7cW7fQGCYAkgv4CPfwFHrfd/cLS4Hau96JuJ+ZTOWhjnhoeN1ub1tFmALm/+lW5z4WCAuAV9bm05AP0mS6Gw==}
+    engines: {node: '>=12.0.0'}
+
   hook-std@3.0.0:
     resolution: {integrity: sha512-jHRQzjSDzMtFy34AGj1DN+vq54WVuhSvKgrHf0OMiFQTwDD4L/qqofVEWjLOBMTn5+lCD3fPg32W9yOfnEJTTw==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
@@ -2813,9 +2835,9 @@ packages:
   json-parse-even-better-errors@2.3.1:
     resolution: {integrity: sha512-xyFwyhro/JEof6Ghe2iz2NcXoj2sloNsWr/XsERDK/oiPCfaNhl5ONfp+jQdAZRQQ0IJWNzH9zIZF7li91kh2w==}
 
-  json-schema-builder-svelte@https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/920ca59dccf4f5d73c9268f24a7b2daf73cac4bc:
-    resolution: {tarball: https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/920ca59dccf4f5d73c9268f24a7b2daf73cac4bc}
-    version: 0.1.9
+  json-schema-builder-svelte@https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/e35fc4c76632f61de424695ddbb397576fc1bd43:
+    resolution: {tarball: https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/e35fc4c76632f61de424695ddbb397576fc1bd43}
+    version: 0.1.13
     peerDependencies:
       svelte: ^4.0.0
 
@@ -3608,6 +3630,10 @@ packages:
   pretty-ms@9.0.0:
     resolution: {integrity: sha512-E9e9HJ9R9NasGOgPaPE8VMeiPKAyWR5jcFpNnwIejslIhWqdqOrb2wShBsncMPUb+BcCd2OPYfh7p2W6oemTng==}
     engines: {node: '>=18'}
+
+  prismjs@1.29.0:
+    resolution: {integrity: sha512-Kx/1w86q/epKcmte75LNrEoT+lX8pBpavuAbvJWRXar7Hz8jrtF+e3vY751p0R8H9HdArwaCTNDDzHg/ScJK1Q==}
+    engines: {node: '>=6'}
 
   process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
@@ -6099,6 +6125,8 @@ snapshots:
       pg-protocol: 1.6.1
       pg-types: 2.2.0
 
+  '@types/prismjs@1.26.4': {}
+
   '@types/pug@2.0.10': {}
 
   '@types/qs@6.9.15': {}
@@ -6564,6 +6592,8 @@ snapshots:
       acorn: 8.11.3
       estree-walker: 3.0.3
       periscopic: 3.1.0
+
+  codejar@4.2.0: {}
 
   color-convert@1.9.3:
     dependencies:
@@ -7341,6 +7371,8 @@ snapshots:
 
   highlight.js@10.7.3: {}
 
+  highlight.js@11.9.0: {}
+
   hook-std@3.0.0: {}
 
   hosted-git-info@7.0.2:
@@ -7578,7 +7610,7 @@ snapshots:
 
   json-parse-even-better-errors@2.3.1: {}
 
-  json-schema-builder-svelte@https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/920ca59dccf4f5d73c9268f24a7b2daf73cac4bc(svelte@4.2.17):
+  json-schema-builder-svelte@https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/e35fc4c76632f61de424695ddbb397576fc1bd43(svelte@4.2.17):
     dependencies:
       '@sinclair/typebox': 0.32.31
       ajv: 8.16.0
@@ -8178,6 +8210,8 @@ snapshots:
   pretty-ms@9.0.0:
     dependencies:
       parse-ms: 4.0.0
+
+  prismjs@1.29.0: {}
 
   process-nextick-args@2.0.1: {}
 
