@@ -15,8 +15,8 @@
 
 	export let modalTitle = 'Delete record';
 
-	const { dataManager } = getRecordsManagerContext();
-	const { loadRecords, recordService } = dataManager;
+	let { dataManager } = getRecordsManagerContext();
+	let { loadRecords, recordService } = dataManager;
 
 	let error: string | undefined = undefined;
 
