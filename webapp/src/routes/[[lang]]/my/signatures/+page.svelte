@@ -155,8 +155,8 @@
 		</PageCard>
 	{/if}
 
-	<PageCard>
-		{#key hideFolderSettings}
+	{#key hideFolderSettings}
+		<PageCard>
 			<CollectionManager
 				recordType={signatureTypeProp}
 				collection={Collections.Signatures}
@@ -241,23 +241,23 @@
 					</svelte:fragment>
 				</CollectionTable>
 			</CollectionManager>
-		{/key}
 
-		<!-- {#key record}
+			<!-- {#key record}
 			{#if record}
-				<ShareSignature
-					bind:open={shareModal}
-					{record}
-					on:add={() => {
-						trigger('add');
+			<ShareSignature
+			bind:open={shareModal}
+			{record}
+			on:add={() => {
+				trigger('add');
+				}}
+				on:remove={() => {
+					trigger('remove');
 					}}
-					on:remove={() => {
-						trigger('remove');
-					}}
-				/>
-			{/if}
-		{/key} -->
-	</PageCard>
+					/>
+					{/if}
+					{/key} -->
+		</PageCard>
+	{/key}
 </PageContent>
 
 <Toast position="bottom-right" color="indigo" transition={slide} bind:open={show}>
