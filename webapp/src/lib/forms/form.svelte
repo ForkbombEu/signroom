@@ -142,7 +142,9 @@
 {#if $delayed}
 	<PortalWrapper>
 		<Modal open={$delayed} dismissable={false}>
-			<Spinner />
+			<slot name="loadingModalContent" {Spinner}>
+				<Spinner />
+			</slot>
 		</Modal>
 	</PortalWrapper>
 {/if}
