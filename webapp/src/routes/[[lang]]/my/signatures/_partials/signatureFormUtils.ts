@@ -24,7 +24,7 @@ function filterFieldsSchema(
 	hideFolder = false
 ) {
 	const defaultHiddenFields: Partial<SignatureField>[] = ['signed_file'];
-	const editHiddenFields: Partial<SignatureField>[] = ['file', 'certificate'];
+	const editHiddenFields: Partial<SignatureField>[] = ['file', 'certificate', 'owner', 'type'];
 	const folderField: SignatureField = 'folder';
 	return pipe(
 		fieldsSchema,

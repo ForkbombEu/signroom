@@ -56,6 +56,8 @@
 	import Drawer from '$lib/components/drawer.svelte';
 	import { createToggleStore } from '$lib/components/utils/toggleStore';
 	import { writable } from 'svelte/store';
+	import IconButton from '$lib/components/iconButton.svelte';
+	import _ from 'lodash';
 
 	//
 
@@ -109,6 +111,11 @@
 	const type = writable<SignaturesTypeOptions | undefined>(undefined);
 	function setType(type: SignaturesTypeOptions | undefined) {
 		$type = type;
+	}
+
+	const signatureToEdit = writable<Omit<SignaturesResponse, 'signed_file'> | undefined>(undefined);
+	function setSignatureToEdit(record: SignaturesResponse) {
+		$signatureToEdit = _.omit(record, ['signed_file']);
 	}
 </script>
 
@@ -230,7 +237,7 @@
 					}}
 					let:record
 				>
-					<ButtonGroup size="xs">
+					<svelte:fragment slot="actions" let:record>
 						<!-- <Button
 							class="!p-2"
 							size="xs"
@@ -240,13 +247,21 @@
 						>
 							<Share size="12" class="mr-1" />{m.SHARE()}
 						</Button> -->
-						<EditRecord {record} />
-					</ButtonGroup>
+						<IconButton
+							icon={Pencil}
+							size="sm"
+							border
+							on:click={() => {
+								setSignatureToEdit(record);
+								hideSignatureModal.off();
+							}}
+						/>
+					</svelte:fragment>
 
 					<svelte:fragment slot="emptyState">
 						<CollectionEmptyState
-							title="No signatures yet"
-							description="Start signing a document"
+							title={m.No_signatures_yet()}
+							description={m.Start_by_signing_a_document()}
 							hideCreateButton
 						/>
 					</svelte:fragment>
@@ -285,10 +300,19 @@
 		width="min-w-[70vw]"
 		closeOnClickOutside={false}
 	>
-		{#if $type}
-			<div class=" p-8">
+		<div class="p-8">
+			{#if $type}
 				<SignatureForm {ownerId} type={$type} onSubmit={hideSignatureModal.on} />
-			</div>
-		{/if}
+			{/if}
+			{#if $signatureToEdit}
+				<SignatureForm
+					{ownerId}
+					signatureId={$signatureToEdit.id}
+					type={$signatureToEdit.type}
+					onSubmit={hideSignatureModal.on}
+					initialData={$signatureToEdit}
+				/>
+			{/if}
+		</div>
 	</Drawer>
 </PortalWrapper>

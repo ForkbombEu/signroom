@@ -390,5 +390,7 @@
 	"Title": "Title",
 	"File": "File",
 	"Update_signature": "Update signature",
-	"Sign_file": "Sign file"
+	"Sign_file": "Sign file",
+	"No_signatures_yet": "No signatures yet",
+	"Start_by_signing_a_document": "Start by signing a document"
 }

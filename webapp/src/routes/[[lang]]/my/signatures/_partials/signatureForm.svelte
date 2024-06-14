@@ -10,18 +10,20 @@
 		type SubmitFunction
 	} from '$lib/forms';
 	import { m } from '$lib/i18n';
-	import { Collections, SignaturesTypeOptions } from '$lib/pocketbase/types';
+	import { Collections, SignaturesTypeOptions, type SignaturesRecord } from '$lib/pocketbase/types';
 	import { getSignatureFormSchema, type SignatureFormData } from './signatureFormUtils';
 	import SubmitButton from '$lib/forms/submitButton.svelte';
 	import type { AnyZodObject } from 'zod';
 	import { signFileAndUpload } from './sign';
-	import { P, Spinner } from 'flowbite-svelte';
+	import { P } from 'flowbite-svelte';
+	import { pb } from '$lib/pocketbase';
 
 	export let type: SignaturesTypeOptions;
 	export let signatureId: string | undefined = undefined;
 	export let ownerId: string;
 	export let folderId: string | undefined = undefined;
 	export let onSubmit: () => Promise<void> | void = () => {};
+	export let initialData: Partial<SignaturesRecord> = {};
 
 	//
 
@@ -29,26 +31,25 @@
 
 	const handleSubmit: SubmitFunction<AnyZodObject> = async ({ form }) => {
 		const data = form.data as SignatureFormData;
-		await signFileAndUpload(data);
+		if (!signatureId) await signFileAndUpload(data);
+		else await pb.collection('signatures').update(signatureId, form.data);
 		await onSubmit();
 	};
 
-	$: superform = createForm(
-		formSchema,
-		handleSubmit,
-		{
-			folder: folderId,
-			owner: ownerId,
-			type
-		},
-		{ dataType: 'form' }
-	);
+	$: initialFormData = {
+		...initialData,
+		folder: folderId,
+		owner: ownerId,
+		type
+	};
+
+	$: superform = createForm(formSchema, handleSubmit, initialFormData, {
+		dataType: 'form'
+	});
 
 	//
 
 	$: submitButtonText = signatureId ? m.Update_signature() : m.Sign_file();
-
-	//
 </script>
 
 <Form {superform} showRequiredIndicator>
@@ -68,25 +69,27 @@
 		}}
 	/>
 
-	<File
-		{superform}
-		field="file"
-		options={{
-			label: m.File(),
-			accept: type == SignaturesTypeOptions.pades ? 'application/pdf' : '*/*'
-		}}
-	/>
+	{#if !signatureId}
+		<File
+			{superform}
+			field="file"
+			options={{
+				label: m.File(),
+				accept: type == SignaturesTypeOptions.pades ? 'application/pdf' : '*/*'
+			}}
+		/>
 
-	<Relations
-		{superform}
-		field="certificate"
-		collection={Collections.Certificates}
-		options={{
-			inputMode: 'select',
-			displayFields: ['name'],
-			label: m.Certificate()
-		}}
-	/>
+		<Relations
+			{superform}
+			field="certificate"
+			collection={Collections.Certificates}
+			options={{
+				inputMode: 'select',
+				displayFields: ['name'],
+				label: m.Certificate()
+			}}
+		/>
+	{/if}
 
 	<Relations
 		{superform}
