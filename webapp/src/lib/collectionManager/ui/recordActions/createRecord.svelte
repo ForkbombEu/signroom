@@ -58,7 +58,7 @@
 					on:success={async (e) => {
 						await loadRecords();
 						dispatch('success', { record: e.detail.record });
-						show.off;
+						show.off();
 					}}
 				/>
 			</slot>
