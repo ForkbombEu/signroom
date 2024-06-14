@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/ForkbombEu/signroom/compare/v1.9.1...v1.10.0) (2024-06-14)
+
+
+### Features
+
+* signatures form rebuild ([#685](https://github.com/ForkbombEu/signroom/issues/685)) ([0e50f23](https://github.com/ForkbombEu/signroom/commit/0e50f234d94139d20a08fad02455b21c0008a485))
+
 ## [1.9.1](https://github.com/ForkbombEu/signroom/compare/v1.9.0...v1.9.1) (2024-06-14)
 
 
