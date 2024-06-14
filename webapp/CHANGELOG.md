@@ -1,3 +1,10 @@
+## [1.9.1](https://github.com/ForkbombEu/signroom/compare/v1.9.0...v1.9.1) (2024-06-14)
+
+
+### Bug Fixes
+
+* **signatures:** add back folders ([#681](https://github.com/ForkbombEu/signroom/issues/681)) ([c2b0a81](https://github.com/ForkbombEu/signroom/commit/c2b0a81ebddfc6235c53a7ba074128563de955b7))
+
 # [1.9.0](https://github.com/ForkbombEu/signroom/compare/v1.8.4...v1.9.0) (2024-06-11)
 
 
