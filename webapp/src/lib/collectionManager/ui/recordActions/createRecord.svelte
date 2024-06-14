@@ -26,10 +26,10 @@
 		};
 	}>();
 
-	const { collection, dataManager, formFieldsSettings } = getRecordsManagerContext<RecordGeneric>();
-	const { base, create } = formFieldsSettings;
-	const fieldsSettings = { ...base, ...create };
-	const { loadRecords } = dataManager;
+	let { collection, dataManager, formFieldsSettings } = getRecordsManagerContext<RecordGeneric>();
+	let { base, create } = formFieldsSettings;
+	let fieldsSettings = { ...base, ...create };
+	let { loadRecords } = dataManager;
 
 	//
 

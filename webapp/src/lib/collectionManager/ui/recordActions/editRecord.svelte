@@ -1,10 +1,8 @@
 <script lang="ts">
-	import type { FormSettings } from '$lib/forms/form.svelte';
-
 	import { createTypeProp } from '$lib/utils/typeProp';
 
 	import type { PBResponse } from '$lib/utils/types';
-	import { RecordForm } from '$lib/recordForm';
+	import { RecordForm, type FieldsSettings } from '$lib/recordForm';
 
 	import PortalWrapper from '$lib/components/portalWrapper.svelte';
 	import { Button, Modal } from 'flowbite-svelte';
@@ -18,18 +16,17 @@
 	recordType;
 
 	export let record: RecordGeneric;
-	export let formSettings: Partial<FormSettings> = {};
-	export let modalTitle = 'Edit record';
+	export let formSettings: Partial<FieldsSettings<RecordGeneric>> = {};
 
 	//
 
-	const { dataManager, formFieldsSettings } = getRecordsManagerContext<RecordGeneric>();
-	const { base, edit } = formFieldsSettings;
-	const { loadRecords } = dataManager;
+	let { formFieldsSettings } = getRecordsManagerContext<RecordGeneric>();
+	let { base, edit } = formFieldsSettings;
 
-	const fieldsSettings = {
+	let fieldsSettings = {
 		...base,
-		...edit
+		...edit,
+		...formSettings
 	};
 
 	//
@@ -38,6 +35,9 @@
 
 	function openModal() {
 		open = true;
+	}
+	function closeModal() {
+		open = false;
 	}
 </script>
 
@@ -48,18 +48,14 @@
 </slot>
 
 <PortalWrapper>
-	<Modal bind:open title={modalTitle} size="md">
+	<Modal bind:open title="Edit record" size="md">
 		<div class="w-full">
 			<RecordForm
 				collection={record.collectionId}
 				recordId={record.id}
 				initialData={record}
-				{formSettings}
 				{fieldsSettings}
-				on:success={async () => {
-					await loadRecords();
-					open = false;
-				}}
+				on:success={closeModal}
 			/>
 		</div>
 	</Modal>
