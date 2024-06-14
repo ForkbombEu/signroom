@@ -37,7 +37,6 @@
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
 	import PageCard from '$lib/components/pageCard.svelte';
 	import PageContent from '$lib/components/pageContent.svelte';
-	import { signFile } from '$lib/components/utils/sign';
 	import PlainCard from '$lib/components/plainCard.svelte';
 	import DeleteRecord from '$lib/collectionManager/ui/recordActions/deleteRecord.svelte';
 	import Icon from '$lib/components/icon.svelte';
@@ -92,7 +91,7 @@
 		loading = true;
 		try {
 			const { record } = e.detail;
-			await signFile(record);
+			// await signFile(record);
 			loading = false;
 			show = true;
 		} catch (e) {

@@ -11,7 +11,9 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			$paraglide: './src/paraglide',
-			'@api': './src/routes/api'
+			'@api': './src/routes/api',
+			'@zenflows-crypto': './zenflows-crypto',
+			'@client-zencode': './client-zencode'
 		},
 		version: {
 			name: process.env.npm_package_version

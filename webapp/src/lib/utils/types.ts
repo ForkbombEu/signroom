@@ -10,6 +10,10 @@ export type ArrayExtract<T> = T extends (infer U)[] ? U : T;
 
 export type StringKeys<T> = Extract<keyof T, string>;
 
+export type ReplaceType<T, K extends keyof T, NewType> = {
+	[P in keyof T]: P extends K ? NewType : T[P];
+};
+
 /* Components */
 
 export type IconComponent = typeof XCircle;

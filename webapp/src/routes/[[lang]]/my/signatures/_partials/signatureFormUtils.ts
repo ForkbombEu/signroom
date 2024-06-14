@@ -1,7 +1,10 @@
 import { getCollectionSchema, type FieldSchema } from '$lib/pocketbase/schema';
 import { Collections, type SignaturesRecord } from '$lib/pocketbase/types';
 import { fieldsSchemaToZod } from '$lib/pocketbaseToZod';
+import type { ReplaceType } from '$lib/utils/types';
 import { pipe, Option as O, Array as A } from 'effect';
+
+//
 
 type SignatureField = keyof SignaturesRecord;
 
@@ -40,3 +43,7 @@ export function getSignatureFormSchema(editMode = false, hideFolder = false) {
 		fieldsSchemaToZod
 	);
 }
+
+//
+
+export type SignatureFormData = Omit<ReplaceType<SignaturesRecord, 'file', File>, 'signed_file'>;

@@ -2,6 +2,7 @@
 	import {
 		File,
 		Form,
+		FormError,
 		Input,
 		Relations,
 		Textarea,
@@ -10,9 +11,10 @@
 	} from '$lib/forms';
 	import { m } from '$lib/i18n';
 	import { Collections, SignaturesTypeOptions } from '$lib/pocketbase/types';
-	import { getSignatureFormSchema } from './signatureFormUtils';
+	import { getSignatureFormSchema, type SignatureFormData } from './signatureFormUtils';
 	import SubmitButton from '$lib/forms/submitButton.svelte';
 	import type { AnyZodObject } from 'zod';
+	import { signFileAndUpload } from './sign';
 
 	export let type: SignaturesTypeOptions;
 	export let signatureId: string | undefined = undefined;
@@ -22,6 +24,12 @@
 	//
 
 	$: formSchema = getSignatureFormSchema(Boolean(signatureId), Boolean(folderId));
+
+	const onSubmit: SubmitFunction<AnyZodObject> = async ({ form }) => {
+		const data = form.data as SignatureFormData;
+		await signFileAndUpload(data);
+	};
+
 	$: superform = createForm(
 		formSchema,
 		onSubmit,
@@ -32,10 +40,6 @@
 		},
 		{ dataType: 'form' }
 	);
-
-	const onSubmit: SubmitFunction<AnyZodObject> = ({ form }) => {
-		console.log(form.data);
-	};
 
 	//
 
@@ -89,6 +93,8 @@
 			label: m.folder()
 		}}
 	/>
+
+	<FormError />
 
 	<div class="flex justify-end">
 		<SubmitButton>{submitButtonText}</SubmitButton>
