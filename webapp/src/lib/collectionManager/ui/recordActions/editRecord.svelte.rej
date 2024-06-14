@@ -1,0 +1,15 @@
+diff a/webapp/src/lib/collectionManager/ui/recordActions/editRecord.svelte b/webapp/src/lib/collectionManager/ui/recordActions/editRecord.svelte	(rejected hunks)
+@@ -20,10 +20,10 @@
+ 
+ 	//
+ 
+-	const { formFieldsSettings } = getRecordsManagerContext<RecordGeneric>();
+-	const { base, edit } = formFieldsSettings;
++	let { formFieldsSettings } = getRecordsManagerContext<RecordGeneric>();
++	let { base, edit } = formFieldsSettings;
+ 
+-	const fieldsSettings = {
++	let fieldsSettings = {
+ 		...base,
+ 		...edit,
+ 		...formSettings
