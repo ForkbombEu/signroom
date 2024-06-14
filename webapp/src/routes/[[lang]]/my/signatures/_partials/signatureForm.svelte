@@ -15,24 +15,27 @@
 	import SubmitButton from '$lib/forms/submitButton.svelte';
 	import type { AnyZodObject } from 'zod';
 	import { signFileAndUpload } from './sign';
+	import { P, Spinner } from 'flowbite-svelte';
 
 	export let type: SignaturesTypeOptions;
 	export let signatureId: string | undefined = undefined;
 	export let ownerId: string;
 	export let folderId: string | undefined = undefined;
+	export let onSubmit: () => Promise<void> | void = () => {};
 
 	//
 
 	$: formSchema = getSignatureFormSchema(Boolean(signatureId), Boolean(folderId));
 
-	const onSubmit: SubmitFunction<AnyZodObject> = async ({ form }) => {
+	const handleSubmit: SubmitFunction<AnyZodObject> = async ({ form }) => {
 		const data = form.data as SignatureFormData;
 		await signFileAndUpload(data);
+		await onSubmit();
 	};
 
 	$: superform = createForm(
 		formSchema,
-		onSubmit,
+		handleSubmit,
 		{
 			folder: folderId,
 			owner: ownerId,
@@ -44,6 +47,8 @@
 	//
 
 	$: submitButtonText = signatureId ? m.Update_signature() : m.Sign_file();
+
+	//
 </script>
 
 <Form {superform} showRequiredIndicator>
@@ -99,4 +104,12 @@
 	<div class="flex justify-end">
 		<SubmitButton>{submitButtonText}</SubmitButton>
 	</div>
+
+	<svelte:fragment slot="loadingModalContent" let:Spinner>
+		<div class="gap- mx-auto flex flex-col items-center">
+			<Spinner />
+			<P>We are signing your file.</P>
+			<P>Please don't leave the page.</P>
+		</div>
+	</svelte:fragment>
 </Form>

@@ -25,8 +25,17 @@
 	} from '$lib/collectionManager';
 	import { page } from '$app/stores';
 	import type { RecordFullListOptions } from 'pocketbase';
-	import { Alert, Button, ButtonGroup, Spinner, Toast, A } from 'flowbite-svelte';
-	import { Pencil, Share } from 'svelte-heros-v2';
+	import {
+		Alert,
+		Button,
+		ButtonGroup,
+		Spinner,
+		Toast,
+		A,
+		Dropdown,
+		DropdownItem
+	} from 'flowbite-svelte';
+	import { Pencil, Plus, Share } from 'svelte-heros-v2';
 	import ShareSignature from './_partials/ShareSignature.svelte';
 	import { slide } from 'svelte/transition';
 	import Info from './_partials/Info.svelte';
@@ -43,6 +52,10 @@
 	import { ArrowLeft } from 'svelte-heros';
 	import type { FieldsSettings } from '$lib/recordForm';
 	import SignatureForm from './_partials/signatureForm.svelte';
+	import PortalWrapper from '$lib/components/portalWrapper.svelte';
+	import Drawer from '$lib/components/drawer.svelte';
+	import { createToggleStore } from '$lib/components/utils/toggleStore';
+	import { writable } from 'svelte/store';
 
 	//
 
@@ -83,28 +96,20 @@
 	// 	}, duration);
 	// }
 
-	let loading = false;
-	let error: string | undefined = undefined;
-
-	async function handleRecordCreation(e: CustomEvent<{ record: SignaturesResponse }>) {
-		error = undefined;
-		loading = true;
-		try {
-			const { record } = e.detail;
-			// await signFile(record);
-			loading = false;
-			show = true;
-		} catch (e) {
-			loading = false;
-			error = e instanceof Error ? e.message : JSON.stringify(e);
-		}
-	}
-
 	//
 
 	const signatureTypeProp =
 		createTypeProp<SignaturesResponse<unknown, { folder: FoldersResponse }>>();
 	const folderTypeProp = createTypeProp<FoldersResponse>();
+
+	//
+
+	const hideSignatureModal = createToggleStore(true);
+
+	const type = writable<SignaturesTypeOptions | undefined>(undefined);
+	function setType(type: SignaturesTypeOptions | undefined) {
+		$type = type;
+	}
 </script>
 
 <PageTop>
@@ -112,11 +117,6 @@
 </PageTop>
 
 <PageContent>
-	<PageCard>
-		{@const ownerId = $currentUser?.id ?? ''}
-		<SignatureForm {ownerId} type={SignaturesTypeOptions.pades}></SignatureForm>
-	</PageCard>
-
 	{#if !folder}
 		<PageCard>
 			<CollectionManager
@@ -188,9 +188,8 @@
 				let:records
 				hideEmptyState
 			>
+				<!-- Header -->
 				{@const title = folder ? folder.name : 'Signatures'}
-				<!-- <SignaturesTableHead {folderId} {trigger} />
-			-->
 				<div class="space-y-4">
 					{#if folder}
 						<Button outline href="/my/signatures">
@@ -201,19 +200,25 @@
 
 					<SectionTitle {title}>
 						<svelte:fragment slot="right">
-							<CreateRecord recordType={signatureTypeProp} on:success={handleRecordCreation}>
-								Add signature
-							</CreateRecord>
+							<Button>
+								<span class="capitalize">{m.add_signature()}</span>
+								<Icon src={Plus} ml />
+							</Button>
+							<Dropdown class="min-w-40">
+								{#each Object.values(SignaturesTypeOptions) as type}
+									<DropdownItem
+										on:click={() => {
+											setType(type);
+											hideSignatureModal.off();
+										}}
+									>
+										<span class="capitalize">{type}</span>
+									</DropdownItem>
+								{/each}
+							</Dropdown>
 						</svelte:fragment>
 					</SectionTitle>
 				</div>
-
-				{#if error}
-					<Alert color="red">{error}</Alert>
-				{/if}
-				{#if loading}
-					<Spinner />
-				{/if}
 
 				<CollectionTable
 					{records}
@@ -269,3 +274,21 @@
 <Toast position="bottom-right" color="indigo" transition={slide} bind:open={show}>
 	{content}
 </Toast>
+
+<PortalWrapper>
+	{@const ownerId = $currentUser?.id ?? ''}
+	{@const drawerTitle = $type ? `${$type} signature` : `Signature`}
+	<Drawer
+		title={drawerTitle}
+		bind:hidden={$hideSignatureModal}
+		placement="right"
+		width="min-w-[70vw]"
+		closeOnClickOutside={false}
+	>
+		{#if $type}
+			<div class=" p-8">
+				<SignatureForm {ownerId} type={$type} onSubmit={hideSignatureModal.on} />
+			</div>
+		{/if}
+	</Drawer>
+</PortalWrapper>
