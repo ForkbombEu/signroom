@@ -41,5 +41,6 @@ export function addCustomCode(
 	const { zencode_data, zencode_script } = template;
 	const basePath = getCredentialCustomCodePath(zip, microservice, credential_type_name);
 	zip.addFile(`${basePath}.zen`, Buffer.from(zencode_script));
-	zip.addFile(`${basePath}.data.json`, Buffer.from(zencode_data));
+	zip.addFile(`${basePath}.keys.json`, Buffer.from(zencode_data));
+	zip.addFile(`${basePath}.metadata.json`, Buffer.from(JSON.stringify({ hidden: true })));
 }
