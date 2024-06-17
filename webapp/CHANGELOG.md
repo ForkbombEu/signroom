@@ -1,3 +1,10 @@
+## [1.10.1](https://github.com/ForkbombEu/signroom/compare/v1.10.0...v1.10.1) (2024-06-17)
+
+
+### Bug Fixes
+
+* custom code data stored in .keys.json and set the matadata field hidden to true ([#688](https://github.com/ForkbombEu/signroom/issues/688)) ([e92497c](https://github.com/ForkbombEu/signroom/commit/e92497c050430d7ae9347b67de3c378707e97351))
+
 # [1.10.0](https://github.com/ForkbombEu/signroom/compare/v1.9.1...v1.10.0) (2024-06-14)
 
 
