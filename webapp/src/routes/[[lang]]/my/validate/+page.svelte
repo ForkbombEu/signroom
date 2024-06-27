@@ -46,6 +46,7 @@
 				name = fileUp[0].name;
 				hasErrors = false;
 			} catch (error) {
+				console.log(error);
 				hasErrors = true;
 			}
 		};

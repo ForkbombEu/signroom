@@ -3,7 +3,7 @@
 
 	import { Heading } from 'flowbite-svelte';
 	import OwnerDisplay from './OwnerDisplay.svelte';
-	import Chip from './chip.svelte';
+	import Chip from './signatureTypeChip.svelte';
 	import { currentUser } from '$lib/pocketbase';
 
 	export let value: any;

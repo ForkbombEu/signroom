@@ -23,7 +23,6 @@ function readFileAsBase64(file: File): Promise<string> {
 		const reader = new FileReader();
 		reader.onload = () => {
 			const base64string = (reader.result as string).split(',')[1];
-			console.log(base64string);
 			resolve(base64string);
 		};
 		reader.onerror = () => {
@@ -140,7 +139,6 @@ async function signData(algorithmName: string, sk: string, data: string): Promis
 
 function storeSignature(data: SignatureFormData, signedFile: SignedFile) {
 	const createData = serialize({ ...data, signed_file: JSON.stringify(signedFile, null, 4) }); // TODO – Type better
-	console.log([...createData.entries()]);
 	return pb.collection('signatures').create(createData);
 }
 

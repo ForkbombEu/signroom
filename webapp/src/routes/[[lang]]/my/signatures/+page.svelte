@@ -9,7 +9,7 @@
 </script>
 
 <script lang="ts">
-	import { currentUser } from '$lib/pocketbase';
+	import { currentUser, pb } from '$lib/pocketbase';
 	import {
 		Collections,
 		SignaturesTypeOptions,
@@ -35,11 +35,9 @@
 		Dropdown,
 		DropdownItem
 	} from 'flowbite-svelte';
-	import { Pencil, Plus, Share } from 'svelte-heros-v2';
+	import { ArrowDownTray, LockClosed, Pencil, Plus, Share } from 'svelte-heros-v2';
 	import ShareSignature from './_partials/ShareSignature.svelte';
 	import { slide } from 'svelte/transition';
-	import Info from './_partials/Info.svelte';
-	import Files from './_partials/Files.svelte';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import CollectionEmptyState from '$lib/collectionManager/ui/collectionEmptyState.svelte';
 	import PageTop from '$lib/components/pageTop.svelte';
@@ -56,8 +54,10 @@
 	import Drawer from '$lib/components/drawer.svelte';
 	import { createToggleStore } from '$lib/components/utils/toggleStore';
 	import { writable } from 'svelte/store';
-	import IconButton from '$lib/components/iconButton.svelte';
 	import _ from 'lodash';
+	import SignatureTypeChip from './_partials/signatureTypeChip.svelte';
+	import { downloadSignedFile, validateSignedFile, type Signature } from '$lib/signatures';
+	import { downloadFileFromUrl } from '$lib/utils/clientFileDownload';
 
 	//
 
@@ -66,7 +66,7 @@
 
 	//
 
-	let hideFolderSettings: FieldsSettings<SignaturesResponse>['hide'];
+	let hideFolderSettings: FieldsSettings<Signature>['hide'];
 	$: if (folder) {
 		hideFolderSettings = { folder: folder.id };
 	} else {
@@ -100,8 +100,7 @@
 
 	//
 
-	const signatureTypeProp =
-		createTypeProp<SignaturesResponse<unknown, { folder: FoldersResponse }>>();
+	const signatureTypeProp = createTypeProp<Signature<{ folder: FoldersResponse }>>();
 	const folderTypeProp = createTypeProp<FoldersResponse>();
 
 	//
@@ -116,6 +115,13 @@
 	const signatureToEdit = writable<Omit<SignaturesResponse, 'signed_file'> | undefined>(undefined);
 	function setSignatureToEdit(record: SignaturesResponse) {
 		$signatureToEdit = _.omit(record, ['signed_file']);
+	}
+
+	//
+
+	function downloadSignatureOriginalFile(signature: Signature) {
+		const fileUrl = pb.getFileUrl(signature, signature.file);
+		downloadFileFromUrl(fileUrl, signature.file);
 	}
 </script>
 
@@ -227,7 +233,44 @@
 					</SectionTitle>
 				</div>
 
-				<CollectionTable
+				<div class="space-y-2">
+					{#each records as signature}
+						<PlainCard let:Title let:Description class="py-2.5">
+							<div class="flex items-center gap-2">
+								<Title>{signature.title}</Title>
+								<SignatureTypeChip type={signature.type} />
+							</div>
+							{#if signature.description}
+								<Description>{signature.description}</Description>
+							{/if}
+
+							<svelte:fragment slot="right">
+								<div class="flex items-center gap-2">
+									<Button
+										class="py-2"
+										color="alternative"
+										on:click={() => downloadSignedFile(signature)}
+									>
+										<Icon src={ArrowDownTray} mr />
+										{m.Signed_file()}
+									</Button>
+									<Button
+										class="py-2"
+										color="alternative"
+										on:click={() => downloadSignatureOriginalFile(signature)}
+									>
+										<Icon src={ArrowDownTray} mr />
+										{m.Original_file()}
+									</Button>
+									<EditRecord record={signature} />
+									<DeleteRecord record={signature} />
+								</div>
+							</svelte:fragment>
+						</PlainCard>
+					{/each}
+				</div>
+
+				<!-- <CollectionTable
 					{records}
 					fields={['_info', 'file']}
 					hideActions={['select', 'delete', 'edit', 'share']}
@@ -238,7 +281,7 @@
 					let:record
 				>
 					<svelte:fragment slot="actions" let:record>
-						<!-- <Button
+						<Button
 							class="!p-2"
 							size="xs"
 							on:click={() => {
@@ -246,7 +289,7 @@
 							}}
 						>
 							<Share size="12" class="mr-1" />{m.SHARE()}
-						</Button> -->
+						</Button>
 						<IconButton
 							icon={Pencil}
 							size="sm"
@@ -265,7 +308,7 @@
 							hideCreateButton
 						/>
 					</svelte:fragment>
-				</CollectionTable>
+				</CollectionTable> -->
 			</CollectionManager>
 
 			<!-- {#key record}
