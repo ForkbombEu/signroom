@@ -1,13 +1,3 @@
-<script lang="ts" context="module">
-	import { m } from '$lib/i18n';
-	const toasts = {
-		add: m._Signature_shared_successfully(),
-		remove: m._Signature_unshared_successfully(),
-		signed: m._Document_signed_successfully()
-	};
-	export type ToastContent = keyof typeof toasts;
-</script>
-
 <script lang="ts">
 	import { currentUser, pb } from '$lib/pocketbase';
 	import {
@@ -59,6 +49,7 @@
 	import { downloadSignedFile, validateSignedFile, type Signature } from '$lib/signatures';
 	import { downloadFileFromUrl } from '$lib/utils/clientFileDownload';
 	import IconButton from '$lib/components/iconButton.svelte';
+	import { m } from '$lib/i18n';
 
 	//
 
@@ -80,23 +71,6 @@
 	// function openShareModal(r: SignaturesResponse) {
 	// 	shareModal = true;
 	// 	record = r;
-	// }
-
-	// function clearRecord() {
-	// 	record = undefined;
-	// }
-
-	let show = false;
-	let content: string | undefined = undefined;
-	const duration = 2000;
-
-	// function trigger(key: ToastContent) {
-	// 	show = true;
-	// 	content = toasts[key];
-	// 	setTimeout(() => {
-	// 		show = false;
-	// 		content = undefined;
-	// 	}, duration);
 	// }
 
 	//
@@ -125,6 +99,29 @@
 	function downloadSignatureOriginalFile(signature: Signature) {
 		const fileUrl = pb.getFileUrl(signature, signature.file);
 		downloadFileFromUrl(fileUrl, signature.file);
+	}
+
+	//
+
+	const toasts = {
+		add: m._Signature_shared_successfully(),
+		remove: m._Signature_unshared_successfully(),
+		signed: m._Document_signed_successfully()
+	};
+
+	type ToastContent = keyof typeof toasts;
+
+	let show = false;
+	let content: string | undefined = undefined;
+	const duration = 3000;
+
+	function triggerToast(key: ToastContent) {
+		show = true;
+		content = toasts[key];
+		setTimeout(() => {
+			show = false;
+			content = undefined;
+		}, duration);
 	}
 </script>
 
@@ -314,26 +311,11 @@
 					</svelte:fragment>
 				</CollectionTable> -->
 			</CollectionManager>
-
-			<!-- {#key record}
-			{#if record}
-			<ShareSignature
-			bind:open={shareModal}
-			{record}
-			on:add={() => {
-				trigger('add');
-				}}
-				on:remove={() => {
-					trigger('remove');
-					}}
-					/>
-					{/if}
-					{/key} -->
 		</PageCard>
 	{/key}
 </PageContent>
 
-<Toast position="bottom-right" color="indigo" transition={slide} bind:open={show}>
+<Toast position="bottom-right" color="primary" transition={slide} bind:open={show}>
 	{content}
 </Toast>
 
@@ -349,7 +331,14 @@
 	>
 		<div class="p-8">
 			{#if $type}
-				<SignatureForm {ownerId} type={$type} onSubmit={hideSignatureModal.on} />
+				<SignatureForm
+					{ownerId}
+					type={$type}
+					onSubmit={() => {
+						hideSignatureModal.on();
+						triggerToast('add');
+					}}
+				/>
 			{/if}
 			{#if $signatureToEdit}
 				<SignatureForm
