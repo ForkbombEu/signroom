@@ -58,6 +58,7 @@
 	import SignatureTypeChip from './_partials/signatureTypeChip.svelte';
 	import { downloadSignedFile, validateSignedFile, type Signature } from '$lib/signatures';
 	import { downloadFileFromUrl } from '$lib/utils/clientFileDownload';
+	import IconButton from '$lib/components/iconButton.svelte';
 
 	//
 
@@ -108,13 +109,15 @@
 	const hideSignatureModal = createToggleStore(true);
 
 	const type = writable<SignaturesTypeOptions | undefined>(undefined);
-	function setType(type: SignaturesTypeOptions | undefined) {
+	function startCreateSignature(type: SignaturesTypeOptions | undefined) {
 		$type = type;
+		hideSignatureModal.off();
 	}
 
-	const signatureToEdit = writable<Omit<SignaturesResponse, 'signed_file'> | undefined>(undefined);
-	function setSignatureToEdit(record: SignaturesResponse) {
-		$signatureToEdit = _.omit(record, ['signed_file']);
+	const signatureToEdit = writable<SignaturesResponse | undefined>(undefined);
+	function startEditSignature(record: SignaturesResponse) {
+		$signatureToEdit = record;
+		hideSignatureModal.off();
 	}
 
 	//
@@ -219,12 +222,7 @@
 							</Button>
 							<Dropdown class="min-w-40">
 								{#each Object.values(SignaturesTypeOptions) as type}
-									<DropdownItem
-										on:click={() => {
-											setType(type);
-											hideSignatureModal.off();
-										}}
-									>
+									<DropdownItem on:click={() => startCreateSignature(type)}>
 										<span class="capitalize">{type}</span>
 									</DropdownItem>
 								{/each}
@@ -262,7 +260,13 @@
 										<Icon src={ArrowDownTray} mr />
 										{m.Original_file()}
 									</Button>
-									<EditRecord record={signature} />
+									<Button
+										class="!p-2"
+										color="alternative"
+										on:click={() => startEditSignature(signature)}
+									>
+										<Icon src={Pencil} />
+									</Button>
 									<DeleteRecord record={signature} />
 								</div>
 							</svelte:fragment>
@@ -351,6 +355,7 @@
 				<SignatureForm
 					{ownerId}
 					signatureId={$signatureToEdit.id}
+					folderId={$signatureToEdit.folder}
 					type={$signatureToEdit.type}
 					onSubmit={hideSignatureModal.on}
 					initialData={$signatureToEdit}
