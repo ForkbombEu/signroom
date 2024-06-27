@@ -4,29 +4,11 @@
 		Collections,
 		SignaturesTypeOptions,
 		type FoldersResponse,
-		type SignaturesRecord,
 		type SignaturesResponse
 	} from '$lib/pocketbase/types';
-	import {
-		CollectionManager,
-		CollectionTable,
-		CreateRecord,
-		EditRecord
-	} from '$lib/collectionManager';
-	import { page } from '$app/stores';
-	import type { RecordFullListOptions } from 'pocketbase';
-	import {
-		Alert,
-		Button,
-		ButtonGroup,
-		Spinner,
-		Toast,
-		A,
-		Dropdown,
-		DropdownItem
-	} from 'flowbite-svelte';
-	import { ArrowDownTray, LockClosed, Pencil, Plus, Share } from 'svelte-heros-v2';
-	import ShareSignature from './_partials/ShareSignature.svelte';
+	import { CollectionManager, CreateRecord, EditRecord } from '$lib/collectionManager';
+	import { Button, Toast, A, Dropdown, DropdownItem } from 'flowbite-svelte';
+	import { ArrowDownTray, Pencil, Plus } from 'svelte-heros-v2';
 	import { slide } from 'svelte/transition';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import CollectionEmptyState from '$lib/collectionManager/ui/collectionEmptyState.svelte';
@@ -46,10 +28,10 @@
 	import { writable } from 'svelte/store';
 	import _ from 'lodash';
 	import SignatureTypeChip from './_partials/signatureTypeChip.svelte';
-	import { downloadSignedFile, validateSignedFile, type Signature } from '$lib/signatures';
+	import { downloadSignedFile, type Signature } from '$lib/signatures';
 	import { downloadFileFromUrl } from '$lib/utils/clientFileDownload';
-	import IconButton from '$lib/components/iconButton.svelte';
 	import { m } from '$lib/i18n';
+	import ShareRecord from '$lib/collectionManager/ui/recordActions/shareRecord.svelte';
 
 	//
 
@@ -64,14 +46,6 @@
 	} else {
 		hideFolderSettings = {};
 	}
-
-	// let shareModal = false;
-	// let record: SignaturesResponse | undefined = undefined;
-
-	// function openShareModal(r: SignaturesResponse) {
-	// 	shareModal = true;
-	// 	record = r;
-	// }
 
 	//
 
@@ -145,7 +119,7 @@
 			>
 				<SectionTitle title="Folders">
 					<svelte:fragment slot="right">
-						<CreateRecord recordType={folderTypeProp}>Add folder</CreateRecord>
+						<CreateRecord recordType={folderTypeProp}>{m.Add_folder()}</CreateRecord>
 					</svelte:fragment>
 				</SectionTitle>
 
@@ -181,7 +155,7 @@
 				collection={Collections.Signatures}
 				initialQueryParams={{
 					expand: 'folder',
-					filter: `folder.id = "${folder ? folder.id : ''}"`
+					filter: `folder.id = "${folder ? folder.id : ''}" && owner.id = "${$currentUser?.id}"`
 				}}
 				formSettings={{
 					hide: {
@@ -214,8 +188,8 @@
 					<SectionTitle {title}>
 						<svelte:fragment slot="right">
 							<Button>
-								<span class="capitalize">{m.add_signature()}</span>
-								<Icon src={Plus} ml />
+								<Icon src={Plus} mr />
+								<span class="capitalize">{m.Sign_file()}</span>
 							</Button>
 							<Dropdown class="min-w-40">
 								{#each Object.values(SignaturesTypeOptions) as type}
@@ -264,6 +238,11 @@
 									>
 										<Icon src={Pencil} />
 									</Button>
+									<ShareRecord
+										record={signature}
+										on:add={() => triggerToast('add')}
+										on:remove={() => triggerToast('remove')}
+									/>
 									<DeleteRecord record={signature} />
 								</div>
 							</svelte:fragment>
@@ -271,45 +250,9 @@
 					{/each}
 				</div>
 
-				<!-- <CollectionTable
-					{records}
-					fields={['_info', 'file']}
-					hideActions={['select', 'delete', 'edit', 'share']}
-					fieldsComponents={{
-						_info: Info,
-						file: Files
-					}}
-					let:record
-				>
-					<svelte:fragment slot="actions" let:record>
-						<Button
-							class="!p-2"
-							size="xs"
-							on:click={() => {
-								openShareModal(record);
-							}}
-						>
-							<Share size="12" class="mr-1" />{m.SHARE()}
-						</Button>
-						<IconButton
-							icon={Pencil}
-							size="sm"
-							border
-							on:click={() => {
-								setSignatureToEdit(record);
-								hideSignatureModal.off();
-							}}
-						/>
-					</svelte:fragment>
-
-					<svelte:fragment slot="emptyState">
-						<CollectionEmptyState
-							title={m.No_signatures_yet()}
-							description={m.Start_by_signing_a_document()}
-							hideCreateButton
-						/>
-					</svelte:fragment>
-				</CollectionTable> -->
+				<svelte:fragment slot="emptyState">
+					<CollectionEmptyState hideCreateButton description={m.Start_by_signing_a_file()} />
+				</svelte:fragment>
 			</CollectionManager>
 		</PageCard>
 	{/key}
