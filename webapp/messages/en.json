@@ -401,5 +401,6 @@
 	"Success": "Success!",
 	"Warning": "Warning",
 	"There_are_issues_in_the_submitted_file": "There are issues in the submitted file.",
-	"Please_see_the_report_below": "Please see the report below."
+	"Please_see_the_report_below": "Please see the report below.",
+	"Remove": "Remove"
 }

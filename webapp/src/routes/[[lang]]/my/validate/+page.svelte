@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { Dropzone, Alert, Spinner } from 'flowbite-svelte';
+	import { Dropzone, Alert, Spinner, Button } from 'flowbite-svelte';
 	import { m } from '$lib/i18n';
 	import PageTop from '$lib/components/pageTop.svelte';
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
 	import PageContent from '$lib/components/pageContent.svelte';
 	import PageCard from '$lib/components/pageCard.svelte';
 	import Icon from '$lib/components/icon.svelte';
-	import { CloudArrowUp } from 'svelte-heros-v2';
+	import { CloudArrowUp, XMark } from 'svelte-heros-v2';
 	import { readFileAsBase64 } from '$lib/utils/files';
 	import {
 		isSignatureValid,
@@ -42,6 +42,7 @@
 
 	//
 
+	let signatureFile: File | undefined = undefined;
 	let result: SignatureValidationResult | undefined = undefined;
 	let error: string | undefined = undefined;
 	let loading = false;
@@ -49,6 +50,7 @@
 	async function handleFileValidation(file: File) {
 		resetSubmitState();
 		loading = true;
+		signatureFile = file;
 		try {
 			result = await validateSignatureFile(file);
 		} catch (e) {
@@ -62,6 +64,21 @@
 		error = undefined;
 		loading = false;
 	}
+
+	//
+
+	function handleRemoveFile() {
+		resetSubmitState();
+		signatureFile = undefined;
+		removeFileFromDropzone();
+	}
+
+	const DROPZONE_ID = 'dropzone';
+
+	function removeFileFromDropzone() {
+		const dropzone = document.getElementById(DROPZONE_ID) as HTMLInputElement;
+		dropzone.value = '';
+	}
 </script>
 
 <PageTop>
@@ -72,6 +89,7 @@
 	<PageCard class="!space-y-4">
 		<SectionTitle tag="h5" title="Select file" hideLine />
 		<Dropzone
+			id={DROPZONE_ID}
 			class="max-h-[200px] hover:cursor-default"
 			on:dragover={(e) => e.preventDefault()}
 			on:drop={handleDrop}
@@ -86,6 +104,26 @@
 				</p>
 			</div>
 		</Dropzone>
+
+		{#if signatureFile}
+			<Alert color="gray" dismissable class="justify-between">
+				<p class="font-bold">{signatureFile.name}</p>
+				<p>{Math.round(signatureFile.size / 1000)} KB</p>
+				<svelte:fragment slot="close-button" let:close>
+					<Button
+						size="xs"
+						color="alternative"
+						on:click={(e) => {
+							close(e);
+							handleRemoveFile();
+						}}
+					>
+						<Icon src={XMark} mr />
+						{m.Remove()}
+					</Button>
+				</svelte:fragment>
+			</Alert>
+		{/if}
 
 		{#if error}
 			<Alert color="red" title="dismissable">
