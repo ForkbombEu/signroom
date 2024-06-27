@@ -6,6 +6,7 @@ import forge from 'node-forge';
 import { serialize } from 'object-to-formdata';
 import { zencode_exec } from 'zenroom';
 import type { SignatureFormData } from './signatureFormUtils';
+import { readFileAsBase64 } from '$lib/utils/files';
 
 //
 
@@ -14,22 +15,6 @@ export async function signFileAndUpload(data: SignatureFormData) {
 	const base64file = await readFileAsBase64(data.file);
 	const signedFile = await signFile(data.type, base64file, certificate);
 	return await storeSignature(data, signedFile);
-}
-
-// 1. Read file
-
-function readFileAsBase64(file: File): Promise<string> {
-	return new Promise((resolve, reject) => {
-		const reader = new FileReader();
-		reader.onload = () => {
-			const base64string = (reader.result as string).split(',')[1];
-			resolve(base64string);
-		};
-		reader.onerror = () => {
-			reject(reader.error);
-		};
-		reader.readAsDataURL(file);
-	});
 }
 
 // 2. Sign file
