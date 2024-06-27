@@ -392,5 +392,14 @@
 	"Update_signature": "Update signature",
 	"Sign_file": "Sign file",
 	"No_signatures_yet": "No signatures yet",
-	"Start_by_signing_a_document": "Start by signing a document"
+	"Start_by_signing_a_document": "Start by signing a document",
+	"validate_signature_description": "Upload a signature file and verify autenticity",
+	"Click_to_upload_or_drag_and_drop": "Click to upload or drag and drop",
+	"Validation_result": "Validation result",
+	"Checking_file": "Checking file...",
+	"Your_signature_file_is_valid": "Your signature file is valid!",
+	"Success": "Success!",
+	"Warning": "Warning",
+	"There_are_issues_in_the_submitted_file": "There are issues in the submitted file.",
+	"Please_see_the_report_below": "Please see the report below."
 }
