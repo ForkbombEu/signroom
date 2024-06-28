@@ -1,6 +1,5 @@
 import * as x509 from '@peculiar/x509';
 import { pb } from '$lib/pocketbase';
-import type { CertificatesRecord } from '$lib/pocketbase/types';
 import { zencode_exec } from 'zenroom';
 import { fromBER } from 'asn1js';
 
@@ -54,7 +53,7 @@ async function checkCertificate(certificate: string) {
 		throw new Error('Invalid ceritifcate: must be in pem format');
 	}
 	const parsedCertificate = certificate.split('\n').slice(1, -1).join('');
-	const certAlg: { name: string; namedCurve?: string } = new X509Certificate(parsedCertificate)
+	const certAlg: { name: string; namedCurve?: string } = new x509.X509Certificate(parsedCertificate)
 		.publicKey.algorithm;
 	const signatureAlgorithmName = certAlg.name;
 	if (signatureAlgorithmName == 'ECDSA' && certAlg.namedCurve != 'P-256') {
@@ -145,7 +144,11 @@ export function readCertificateFromLocalStorage() {
 	return JSON.parse(localStorage.getItem(CERTIFICATES) || '{}');
 }
 
-async function addCertifcate(name: string, value: { value: string; algorithm: string }, owner: string) {
+async function addCertifcate(
+	name: string,
+	value: { value: string; algorithm: string },
+	owner: string
+) {
 	const allCerts = readCertificateFromLocalStorage();
 	allCerts[name] = value;
 	localStorage.setItem(CERTIFICATES, JSON.stringify(allCerts));
@@ -171,7 +174,11 @@ export async function addCertifcateAndKey(
 ) {
 	const { parsedCertificate, signatureAlgorithmName } = await checkCertificate(certificate);
 	await addKey(name, signatureAlgorithmName, key, true);
-	await addCertifcate(name, { value: parsedCertificate, algorithm: signatureAlgorithmName }, userId);
+	await addCertifcate(
+		name,
+		{ value: parsedCertificate, algorithm: signatureAlgorithmName },
+		userId
+	);
 }
 
 export async function addAutosingedCertificateAndKey(name: string, userId: string) {
