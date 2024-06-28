@@ -1,9 +1,16 @@
-import { fromBER } from 'asn1js';
-import { X509Certificate } from '@peculiar/x509';
-import { zencode_exec } from 'zenroom';
+import * as x509 from '@peculiar/x509';
 import { pb } from '$lib/pocketbase';
-import { generateKeyAndCertificate } from '$lib/keypairoom/x509';
+import type { CertificatesRecord } from '$lib/pocketbase/types';
+import { zencode_exec } from 'zenroom';
+import { fromBER } from 'asn1js';
 
+const CERTIFICATE_KEY = 'certificateKey';
+const CERTIFICATES = 'certificates';
+const ALGORITHM = {
+	name: 'ECDSA',
+	namedCurve: 'P-256',
+	hash: 'SHA-256'
+};
 const converter: Record<string, string> = {
 	ECDSA: `Given I have a 'hex' named 'key'
 		Then print the 'key' as 'base64'`,
@@ -25,23 +32,36 @@ const BEGIN_EC = '-----BEGIN EC PRIVATE KEY-----';
 const END_EC = '-----END EC PRIVATE KEY-----';
 const OBJECT_IDENTIFIER = 'OBJECT IDENTIFIER : ';
 
-export function readKeyFromLocalStorage() {
-	return JSON.parse(localStorage.getItem('certificateKey') || '{}');
+function url64ToBase64(input: string): string {
+	// Replace non-url compatible chars with base64 standard chars
+	input = input.replace(/-/g, '+').replace(/_/g, '/');
+
+	// Pad out with standard base64 required padding characters
+	var pad = input.length % 4;
+	if (pad) {
+		if (pad === 1) {
+			throw new Error(
+				'InvalidLengthError: Input base64url string is the wrong length to determine padding'
+			);
+		}
+		input += new Array(5 - pad).join('=');
+	}
+	return input;
 }
 
 async function checkCertificate(certificate: string) {
 	if (!certificate.startsWith(BEGIN_CERTIFICATE) || !certificate.endsWith(END_CERTIFICATE)) {
-		throw 'Invalid ceritifcate: must be in pem format';
+		throw new Error('Invalid ceritifcate: must be in pem format');
 	}
 	const parsedCertificate = certificate.split('\n').slice(1, -1).join('');
 	const certAlg: { name: string; namedCurve?: string } = new X509Certificate(parsedCertificate)
 		.publicKey.algorithm;
 	const signatureAlgorithmName = certAlg.name;
 	if (signatureAlgorithmName == 'ECDSA' && certAlg.namedCurve != 'P-256') {
-		throw 'ECDSA signature must be on P-256 curve';
+		throw new Error('ECDSA signature must be on P-256 curve');
 	}
 	if (signatureAlgorithmName == 'EdDSA' && certAlg.namedCurve != 'Ed25519') {
-		throw 'EdDSA signature must be on Ed25519 curve';
+		throw new Error('EdDSA signature must be on Ed25519 curve');
 	}
 	// signatureAlgorithmName = RSASSA-PKCS1-v1_5
 	// signatureAlgorithmName = 1.2.840.113549.1.1.10 (RSA-PSS)
@@ -59,7 +79,7 @@ function checkKey(secretKey: string): string {
 		if (begin != -1) begin += BEGIN_EC.length;
 		end = secretKey.indexOf(END_EC);
 	}
-	if (end <= begin) throw 'Invalid key: must be in pkcs8 format';
+	if (end <= begin) throw new Error('Invalid key: must be in pkcs8 format');
 	return secretKey.slice(begin, end).split('\n').join('');
 }
 
@@ -75,10 +95,10 @@ function mathcKeyCertAlgo(algorithmName: string, arr: string[]) {
 			break;
 		}
 	}
-	if (!id) throw 'Key has no object identifier';
-	if (!algorithmIdentifier[id]) throw 'Algorithm not supported';
+	if (!id) throw new Error('Key has no object identifier');
+	if (!algorithmIdentifier[id]) throw new Error('Algorithm not supported');
 	if (algorithmIdentifier[id] != algorithmName)
-		throw 'Key algorithm does not correspond to certificate algorithm';
+		throw new Error('Key algorithm does not correspond to certificate algorithm');
 }
 
 async function decodeKey(algorithmName: string, secretKey: string): Promise<string | null> {
@@ -105,16 +125,31 @@ async function freeName(name: string, allKeys: Record<string, unknown>, checkCer
 	if (checkCert) {
 		let certificateFound;
 		try {
-			await pb.collection('certificates').getFirstListItem(`name="${name}"`);
+			await pb.collection(CERTIFICATES).getFirstListItem(`name="${name}"`);
 			certificateFound = true;
 		} catch (e) {
 			certificateFound = false;
 		}
 		if (certificateFound) {
-			throw 'Name already in use for certificate';
+			throw new Error('Name already in use for certificate');
 		}
 	}
-	if (allKeys[name]) throw 'Name already in use';
+	if (allKeys[name]) throw new Error('Name already in use');
+}
+
+export function readKeyFromLocalStorage() {
+	return JSON.parse(localStorage.getItem(CERTIFICATE_KEY) || '{}');
+}
+
+export function readCertificateFromLocalStorage() {
+	return JSON.parse(localStorage.getItem(CERTIFICATES) || '{}');
+}
+
+async function addCertifcate(name: string, value: { value: string; algorithm: string }, owner: string) {
+	const allCerts = readCertificateFromLocalStorage();
+	allCerts[name] = value;
+	localStorage.setItem(CERTIFICATES, JSON.stringify(allCerts));
+	await pb.collection(CERTIFICATES).create({ name, owner });
 }
 
 export async function addKey(name: string, algorithm: string, key: string, checkCert: boolean) {
@@ -125,7 +160,7 @@ export async function addKey(name: string, algorithm: string, key: string, check
 	};
 	const sk = await decodeKey(algorithm, key);
 	if (sk) allKeys[name].zenroomValue = sk;
-	localStorage.setItem('certificateKey', JSON.stringify(allKeys));
+	localStorage.setItem(CERTIFICATE_KEY, JSON.stringify(allKeys));
 }
 
 export async function addCertifcateAndKey(
@@ -134,19 +169,53 @@ export async function addCertifcateAndKey(
 	key: string,
 	userId: string
 ) {
-	const { parsedCertificate, signatureAlgorithmName } = await checkCertificate(certificate);
+	const certResult = await checkCertificate(certificate);
 	await addKey(name, signatureAlgorithmName, key, true);
-	const c = {
-		name,
-		value: parsedCertificate,
-		algorithm: signatureAlgorithmName,
-		owner: userId
-	};
-	await pb.collection('certificates').create(c);
+	await addCertifcate(name, certResult, userId);
 }
 
 export async function addAutosingedCertificateAndKey(name: string, userId: string) {
+	// generating keypair
+	const keyPair = await crypto.subtle.generateKey(ALGORITHM, true, ['sign', 'verify']);
+	// storing the sk in local storage
+	const sk = await crypto.subtle.exportKey('pkcs8', keyPair.privateKey);
+	const sk_b64 = btoa(String.fromCharCode(...new Uint8Array(sk))).replace(/.{64}/g, '$&\n');
+	const completeKey =
+		'-----BEGIN EC PRIVATE KEY-----\n' + sk_b64 + '\n-----END EC PRIVATE KEY-----';
+	// raw key to be used in zenroom
+	const sk_jwk = await crypto.subtle.exportKey('jwk', keyPair.privateKey);
+	if (!sk_jwk.d) throw new Error('Undefined sk_jwk.d');
 	const allKeys = readKeyFromLocalStorage();
 	await freeName(name, allKeys, true);
-	await generateKeyAndCertificate(name, userId, allKeys);
+	allKeys[name] = {
+		value: completeKey,
+		zenroomValue: url64ToBase64(sk_jwk.d)
+	};
+	localStorage.setItem(CERTIFICATE_KEY, JSON.stringify(allKeys));
+	// compute date for certificate,
+	// valid from yesterday for an year
+	var yesterday = new Date();
+	yesterday.setDate(yesterday.getDate() - 1);
+	var year = new Date();
+	year.setFullYear(yesterday.getFullYear() + 1);
+	// certificate
+	const cert = await x509.X509CertificateGenerator.createSelfSigned({
+		serialNumber: '01',
+		name: 'CN=Test',
+		notBefore: yesterday,
+		notAfter: year,
+		signingAlgorithm: ALGORITHM,
+		keys: keyPair,
+		extensions: [
+			new x509.BasicConstraintsExtension(true, 2, true),
+			new x509.ExtendedKeyUsageExtension(['1.2.3.4.5.6.7', '2.3.4.5.6.7.8'], true),
+			new x509.KeyUsagesExtension(
+				x509.KeyUsageFlags.keyCertSign | x509.KeyUsageFlags.cRLSign,
+				true
+			),
+			await x509.SubjectKeyIdentifierExtension.create(keyPair.publicKey)
+		]
+	});
+	const parsedCert = cert.toString('pem').split('\n').slice(1, -1).join('');
+	addCertifcate(name, { value: parsedCert, algorithm: 'ECDSA' }, userId);
 }

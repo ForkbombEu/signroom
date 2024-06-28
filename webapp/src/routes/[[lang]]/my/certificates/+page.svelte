@@ -33,7 +33,7 @@
 		addKey,
 		addCertifcateAndKey,
 		addAutosingedCertificateAndKey
-	} from './logic';
+	} from '$lib/signatures/certificates';
 	import PageContent from '$lib/components/pageContent.svelte';
 	import PageCard from '$lib/components/pageCard.svelte';
 
