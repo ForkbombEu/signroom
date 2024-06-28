@@ -3,6 +3,27 @@ import { pb } from '$lib/pocketbase';
 import { zencode_exec } from 'zenroom';
 import { fromBER } from 'asn1js';
 
+//
+
+type Certificate = {
+	value: string;
+	algorithm: string;
+};
+
+type CertificateKey = {
+	value: string;
+	zenroomValue?: string;
+};
+
+export type CertificateData = {
+	certifcate: Certificate;
+	key: CertificateKey;
+};
+
+type Certificates = Record<string, CertificateData>;
+
+//
+
 const CERTIFICATE_KEY = 'certificateKey';
 const CERTIFICATES = 'certificates';
 const ALGORITHM = {
@@ -140,7 +161,8 @@ export function readKeyFromLocalStorage() {
 	return JSON.parse(localStorage.getItem(CERTIFICATE_KEY) || '{}');
 }
 
-export function readCertificateFromLocalStorage() {
+// -> Certificates
+export function readCertificatesFromLocalStorage(): Certificates {
 	return JSON.parse(localStorage.getItem(CERTIFICATES) || '{}');
 }
 
@@ -149,7 +171,7 @@ async function addCertifcate(
 	value: { value: string; algorithm: string },
 	owner: string
 ) {
-	const allCerts = readCertificateFromLocalStorage();
+	const allCerts = readCertificatesFromLocalStorage();
 	allCerts[name] = value;
 	localStorage.setItem(CERTIFICATES, JSON.stringify(allCerts));
 	await pb.collection(CERTIFICATES).create({ name, owner });
