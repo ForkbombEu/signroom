@@ -169,9 +169,9 @@ export async function addCertifcateAndKey(
 	key: string,
 	userId: string
 ) {
-	const certResult = await checkCertificate(certificate);
+	const { parsedCertificate, signatureAlgorithmName } = await checkCertificate(certificate);
 	await addKey(name, signatureAlgorithmName, key, true);
-	await addCertifcate(name, certResult, userId);
+	await addCertifcate(name, { value: parsedCertificate, algorithm: signatureAlgorithmName }, userId);
 }
 
 export async function addAutosingedCertificateAndKey(name: string, userId: string) {
