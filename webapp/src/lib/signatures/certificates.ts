@@ -2,25 +2,27 @@ import * as x509 from '@peculiar/x509';
 import { pb } from '$lib/pocketbase';
 import { zencode_exec } from 'zenroom';
 import { fromBER } from 'asn1js';
+import { z } from 'zod';
 
 //
 
-type Certificate = {
-	value: string;
-	algorithm: string;
-};
+const CertificateSchema = z.object({
+	value: z.string(),
+	algorithm: z.string()
+});
 
-type CertificateKey = {
-	value: string;
-	zenroomValue?: string;
-};
+const CertificateKeySchema = z.object({
+	value: z.string(),
+	zenroomValue: z.string().optional()
+});
 
-export type CertificateData = {
-	certifcate: Certificate;
-	key: CertificateKey;
-};
+export const CertificateDataSchema = z.object({
+	certificate: CertificateSchema,
+	key: CertificateKeySchema
+});
+export type CertificateData = z.infer<typeof CertificateDataSchema>;
 
-type Certificates = Record<string, CertificateData>;
+export const CertificatesSchema = z.record(CertificateDataSchema);
 
 //
 
@@ -161,9 +163,9 @@ export function readKeyFromLocalStorage() {
 	return JSON.parse(localStorage.getItem(CERTIFICATE_KEY) || '{}');
 }
 
-// -> Certificates
-export function readCertificatesFromLocalStorage(): Certificates {
-	return JSON.parse(localStorage.getItem(CERTIFICATES) || '{}');
+export function readCertificatesFromLocalStorage() {
+	const base = localStorage.getItem(CERTIFICATES) || '{}';
+	return CertificatesSchema.parse(JSON.parse(base));
 }
 
 async function addCertifcate(

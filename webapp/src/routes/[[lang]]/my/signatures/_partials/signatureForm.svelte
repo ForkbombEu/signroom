@@ -31,7 +31,7 @@
 
 	const handleSubmit: SubmitFunction<AnyZodObject> = async ({ form }) => {
 		const data = form.data as SignatureFormData;
-		if (!signatureId) await signFileAndUpload(data);
+		if (!signatureId) await signFileAndUpload(data, data.certificate);
 		else await pb.collection('signatures').update(signatureId, form.data);
 		await onSubmit();
 	};
