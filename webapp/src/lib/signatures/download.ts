@@ -2,6 +2,7 @@ import { lookup } from 'mrmime';
 import type { Signature, SignedFile } from './types';
 import { SignaturesTypeOptions } from '$lib/pocketbase/types';
 import { downloadBlob } from '$lib/utils/clientFileDownload';
+import { Buffer } from 'buffer';
 
 export function signedFileToBlob(signedFile: SignedFile): Blob {
 	const mime = lookup(signedFile.name);

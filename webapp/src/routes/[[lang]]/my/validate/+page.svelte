@@ -9,9 +9,9 @@
 	import { CloudArrowUp, XMark } from 'svelte-heros-v2';
 	import { readFileAsBase64 } from '$lib/utils/files';
 	import {
-		isSignatureValid,
 		validateSignedFile,
-		type SignatureValidationResult
+		isSignatureValid,
+		type ValidateSignatureResponse
 	} from '$lib/signatures';
 	import { getErrorMessage } from '$lib/errorHandling';
 
@@ -43,7 +43,7 @@
 	//
 
 	let signatureFile: File | undefined = undefined;
-	let result: SignatureValidationResult | undefined = undefined;
+	let result: ValidateSignatureResponse | undefined = undefined;
 	let error: string | undefined = undefined;
 	let loading = false;
 
@@ -53,6 +53,7 @@
 		signatureFile = file;
 		try {
 			result = await validateSignatureFile(file);
+			console.log(result);
 		} catch (e) {
 			error = getErrorMessage(e);
 		}
@@ -141,34 +142,45 @@
 	{/if}
 
 	{#if result}
-		{@const details = result.SimpleReport.signatureOrTimestampOrEvidenceRecord}
 		<PageCard class="!space-y-4">
 			<SectionTitle tag="h5" title={m.Validation_result()} />
-
-			{#if isSignatureValid(result)}
-				<Alert color="green">
-					<p class="font-bold">{m.Success()}</p>
-					<p>{m.Your_signature_file_is_valid()}</p>
+			{#if 'message' in result}
+				<Alert color="red">
+					<p class="font-bold">{m.Error()}</p>
+					<p>{result.message}</p>
 				</Alert>
 			{:else}
-				<Alert color="yellow">
-					<p class="font-bold">{m.Warning()}</p>
-					<p>{m.There_are_issues_in_the_submitted_file()}</p>
-					<p>{m.Please_see_the_report_below()}</p>
-				</Alert>
+				{@const details = result.SimpleReport.signatureOrTimestampOrEvidenceRecord}
 
-				{#each details as detail}
-					<Alert color="gray">
-						{@const errorTitle = detail.Signature.SubIndication}
-						{@const errors = detail.Signature.AdESValidationDetails.Error}
-						<p class="font-bold">{errorTitle}</p>
-						<ul>
-							{#each errors as error}
-								<li>{error.value}</li>
-							{/each}
-						</ul>
+				{#if isSignatureValid(result)}
+					<Alert color="green">
+						<p class="font-bold">{m.Success()}</p>
+						<p>{m.Your_signature_file_is_valid()}</p>
 					</Alert>
-				{/each}
+				{:else}
+					<Alert color="yellow">
+						<p class="font-bold">{m.Warning()}</p>
+						<p>{m.There_are_issues_in_the_submitted_file()}</p>
+						{#if details}
+							<p>{m.Please_see_the_report_below()}</p>
+						{/if}
+					</Alert>
+
+					{#if details}
+						{#each details as detail}
+							<Alert color="gray">
+								{@const errorTitle = detail.Signature.SubIndication}
+								{@const errors = detail.Signature.AdESValidationDetails.Error}
+								<p class="font-bold">{errorTitle}</p>
+								<ul>
+									{#each errors as error}
+										<li>{error.value}</li>
+									{/each}
+								</ul>
+							</Alert>
+						{/each}
+					{/if}
+				{/if}
 			{/if}
 		</PageCard>
 	{/if}
