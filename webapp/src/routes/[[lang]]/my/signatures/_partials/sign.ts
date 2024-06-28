@@ -24,8 +24,8 @@ async function signFile(
 	base64file: string,
 	certificateData: CertificateData
 ): Promise<SignedFile> {
-	const certPem = certificateData.certifcate.value;
-	const signatureAlgorithmName = certificateData.certifcate.algorithm;
+	const certPem = certificateData.certificate.value;
+	const signatureAlgorithmName = certificateData.certificate.algorithm;
 	const secretKey = certificateData.key.zenroomValue ?? certificateData.key.value;
 
 	// Current timestamp

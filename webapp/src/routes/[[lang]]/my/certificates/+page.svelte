@@ -36,6 +36,8 @@
 	} from '$lib/signatures/certificates';
 	import PageContent from '$lib/components/pageContent.svelte';
 	import PageCard from '$lib/components/pageCard.svelte';
+	import SectionTitle from '$lib/components/sectionTitle.svelte';
+	import Icon from '$lib/components/icon.svelte';
 
 	const schema = z.object({
 		name: z.string(),
@@ -146,37 +148,40 @@
 				let:records
 				hideEmptyState
 			>
-				<CollectionManagerHeader hideCreateButton>
-					<svelte:fragment slot="title">
-						<Heading tag="h4">My Certificates</Heading>
-					</svelte:fragment>
-					<svelte:fragment slot="actions">
+				<SectionTitle title="My Certificates">
+					<svelte:fragment slot="right">
 						<Button on:click={() => (showModal = true)}>
-							<Plus />
-							<span class="ml-2"> Add a Key-Certificate Pair </span>
+							<Icon src={Plus} mr />
+							Add a Key-Certificate Pair
 						</Button>
 					</svelte:fragment>
-				</CollectionManagerHeader>
+				</SectionTitle>
 
-				<CollectionTable
+				<svelte:fragment slot="emptyState">
+					<CollectionEmptyState
+						title="No certificates available"
+						description="Test our features by creating an autosigned certificate"
+						hideCreateButton
+					>
+						<svelte:fragment slot="bottom">
+							<Button
+								class="mt-4"
+								color="alternative"
+								on:click={() => (showAutosignedModal = true)}
+							>
+								<Plus />
+								<span class="ml-2"> Generate an autosigned certificate </span>
+							</Button>
+						</svelte:fragment>
+					</CollectionEmptyState>
+				</svelte:fragment>
+
+				<!-- <CollectionTable
 					{records}
-					fields={['name', 'algorithm']}
+					fields={['name']}
 					hideActions={['select', 'edit', 'share', 'delete']}
 				>
-					<svelte:fragment slot="emptyState">
-						<CollectionEmptyState
-							title="No certificate here"
-							description="Start by creating an autosigned certificate"
-							hideCreateButton
-						>
-							<svelte:fragment slot="bottom">
-								<Button color="alternative" on:click={() => (showAutosignedModal = true)}>
-									<Plus />
-									<span class="ml-2"> Generate an autosigned certificate </span>
-								</Button>
-							</svelte:fragment>
-						</CollectionEmptyState>
-					</svelte:fragment>
+
 
 					<svelte:fragment slot="header">
 						<TableHeadCell>Key status</TableHeadCell>
@@ -213,59 +218,59 @@
 							}}
 						/>
 					</svelte:fragment>
-				</CollectionTable>
+				</CollectionTable> -->
 			</CollectionManager>
 		</div>
-
-		<PortalWrapper>
-			<Modal bind:open={showModal} size="md" title="Key and certificate" placement="center">
-				<Form {superform}>
-					<Input
-						{superform}
-						field="name"
-						options={{ id: 'name', label: 'Insert your certificate name' }}
-					/>
-					<FileInput
-						{superform}
-						field="certificate"
-						options={{ id: 'certificate', label: 'Select your certificate' }}
-					/>
-					<FileInput {superform} field="key" options={{ id: 'key', label: 'Select your key' }} />
-					<FormError />
-					<dir class="flex justify-end">
-						<SubmitButton>Submit certificate and key</SubmitButton>
-					</dir>
-				</Form>
-			</Modal>
-
-			<Modal bind:open={$keyUploadModal} size="md" title="Load key" placement="center">
-				<Form superform={keyUploadForm}>
-					<FileInput superform={keyUploadForm} field="key" options={{ label: 'Select your key' }} />
-					<FormError />
-					<dir class="flex justify-end">
-						<SubmitButton>Submit key</SubmitButton>
-					</dir>
-				</Form>
-			</Modal>
-
-			<Modal
-				bind:open={showAutosignedModal}
-				size="md"
-				title="Autosigned certificate"
-				placement="center"
-			>
-				<Form superform={autosignedCertForm}>
-					<Input
-						superform={autosignedCertForm}
-						field="name"
-						options={{ id: 'name', label: 'Insert the  certificate name' }}
-					/>
-					<FormError />
-					<dir class="flex justify-end">
-						<SubmitButton>Submit name</SubmitButton>
-					</dir>
-				</Form>
-			</Modal>
-		</PortalWrapper>
 	</PageCard>
 </PageContent>
+
+<PortalWrapper>
+	<Modal bind:open={showModal} size="md" title="Key and certificate" placement="center">
+		<Form {superform}>
+			<Input
+				{superform}
+				field="name"
+				options={{ id: 'name', label: 'Insert your certificate name' }}
+			/>
+			<FileInput
+				{superform}
+				field="certificate"
+				options={{ id: 'certificate', label: 'Select your certificate' }}
+			/>
+			<FileInput {superform} field="key" options={{ id: 'key', label: 'Select your key' }} />
+			<FormError />
+			<dir class="flex justify-end">
+				<SubmitButton>Submit certificate and key</SubmitButton>
+			</dir>
+		</Form>
+	</Modal>
+
+	<Modal bind:open={$keyUploadModal} size="md" title="Load key" placement="center">
+		<Form superform={keyUploadForm}>
+			<FileInput superform={keyUploadForm} field="key" options={{ label: 'Select your key' }} />
+			<FormError />
+			<dir class="flex justify-end">
+				<SubmitButton>Submit key</SubmitButton>
+			</dir>
+		</Form>
+	</Modal>
+
+	<Modal
+		bind:open={showAutosignedModal}
+		size="md"
+		title="Autosigned certificate"
+		placement="center"
+	>
+		<Form superform={autosignedCertForm}>
+			<Input
+				superform={autosignedCertForm}
+				field="name"
+				options={{ id: 'name', label: 'Insert the  certificate name' }}
+			/>
+			<FormError />
+			<dir class="flex justify-end">
+				<SubmitButton>Submit name</SubmitButton>
+			</dir>
+		</Form>
+	</Modal>
+</PortalWrapper>

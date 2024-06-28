@@ -3,7 +3,6 @@ import { pb } from '$lib/pocketbase';
 import { zencode_exec } from 'zenroom';
 import { fromBER } from 'asn1js';
 import { z } from 'zod';
-import { pipe, Option as O } from 'effect';
 
 //
 
@@ -11,13 +10,11 @@ const CertificateSchema = z.object({
 	value: z.string(),
 	algorithm: z.string()
 });
-type Certificate = z.infer<typeof CertificateSchema>;
 
 const CertificateKeySchema = z.object({
 	value: z.string(),
 	zenroomValue: z.string().optional()
 });
-type CertificateKey = z.infer<typeof CertificateKeySchema>;
 
 export const CertificateDataSchema = z.object({
 	certificate: CertificateSchema,
@@ -166,6 +163,11 @@ export function readKeyFromLocalStorage() {
 	return JSON.parse(localStorage.getItem(CERTIFICATE_KEY) || '{}');
 }
 
+export function readCertificatesFromLocalStorage() {
+	const base = localStorage.getItem(CERTIFICATES) || '{}';
+	return CertificatesSchema.parse(JSON.parse(base));
+}
+
 async function addCertifcate(
 	name: string,
 	value: { value: string; algorithm: string },
@@ -203,41 +205,30 @@ export async function addCertifcateAndKey(
 	);
 }
 
-/* Certificate CRUD */
-
-export function readCertificatesFromLocalStorage() {
-	return pipe(localStorage.getItem(CERTIFICATES) || '{}', JSON.parse, CertificatesSchema.parse);
-}
-
-/* Autosigned certificate generation */
-
-function generateKeyPair() {
-	return crypto.subtle.generateKey(ALGORITHM, true, ['sign', 'verify']);
-}
-
-async function createAutosignedCertificateKey(keyPair: CryptoKeyPair): Promise<CertificateKey> {
+export async function addAutosingedCertificateAndKey(name: string, userId: string) {
+	// generating keypair
+	const keyPair = await crypto.subtle.generateKey(ALGORITHM, true, ['sign', 'verify']);
 	// storing the sk in local storage
 	const sk = await crypto.subtle.exportKey('pkcs8', keyPair.privateKey);
 	const sk_b64 = btoa(String.fromCharCode(...new Uint8Array(sk))).replace(/.{64}/g, '$&\n');
-	const completeKey = [BEGIN_EC, sk_b64, END_EC].join('\n');
-
+	const completeKey =
+		'-----BEGIN EC PRIVATE KEY-----\n' + sk_b64 + '\n-----END EC PRIVATE KEY-----';
 	// raw key to be used in zenroom
 	const sk_jwk = await crypto.subtle.exportKey('jwk', keyPair.privateKey);
 	if (!sk_jwk.d) throw new Error('Undefined sk_jwk.d');
-
-	return {
+	const allKeys = readKeyFromLocalStorage();
+	await freeName(name, allKeys, true);
+	allKeys[name] = {
 		value: completeKey,
 		zenroomValue: url64ToBase64(sk_jwk.d)
 	};
-}
-
-async function createAutosignedCertificate(keyPair: CryptoKeyPair): Promise<Certificate> {
-	// compute date for certificate, valid from yesterday for an year
+	localStorage.setItem(CERTIFICATE_KEY, JSON.stringify(allKeys));
+	// compute date for certificate,
+	// valid from yesterday for an year
 	var yesterday = new Date();
 	yesterday.setDate(yesterday.getDate() - 1);
 	var year = new Date();
 	year.setFullYear(yesterday.getFullYear() + 1);
-
 	// certificate
 	const cert = await x509.X509CertificateGenerator.createSelfSigned({
 		serialNumber: '01',
@@ -257,63 +248,5 @@ async function createAutosignedCertificate(keyPair: CryptoKeyPair): Promise<Cert
 		]
 	});
 	const parsedCert = cert.toString('pem').split('\n').slice(1, -1).join('');
-
-	return {
-		value: parsedCert,
-		algorithm: ALGORITHM.name
-	};
-}
-
-async function createAutosignedCertificateData(): Promise<CertificateData> {
-	const keyPair = await generateKeyPair();
-	return {
-		certificate: await createAutosignedCertificate(keyPair),
-		key: await createAutosignedCertificateKey(keyPair)
-	};
-}
-
-export async function addAutosingedCertificateAndKey(name: string, userId: string) {
-	// // generating keypair
-	// const keyPair = await crypto.subtle.generateKey(ALGORITHM, true, ['sign', 'verify']);
-	// // storing the sk in local storage
-	// const sk = await crypto.subtle.exportKey('pkcs8', keyPair.privateKey);
-	// const sk_b64 = btoa(String.fromCharCode(...new Uint8Array(sk))).replace(/.{64}/g, '$&\n');
-	// const completeKey = `${BEGIN_EC}\n${sk_b64}\n${END_EC}`
-	// 	'-----BEGIN EC PRIVATE KEY-----\n' + sk_b64 + '\n-----END EC PRIVATE KEY-----';
-	// // raw key to be used in zenroom
-	// const sk_jwk = await crypto.subtle.exportKey('jwk', keyPair.privateKey);
-	// if (!sk_jwk.d) throw new Error('Undefined sk_jwk.d');
-	// const allKeys = readKeyFromLocalStorage();
-	// await freeName(name, allKeys, true);
-	// allKeys[name] = {
-	// 	value: completeKey,
-	// 	zenroomValue: url64ToBase64(sk_jwk.d)
-	// };
-	// localStorage.setItem(CERTIFICATE_KEY, JSON.stringify(allKeys));
-	// // compute date for certificate,
-	// // valid from yesterday for an year
-	// var yesterday = new Date();
-	// yesterday.setDate(yesterday.getDate() - 1);
-	// var year = new Date();
-	// year.setFullYear(yesterday.getFullYear() + 1);
-	// // certificate
-	// const cert = await x509.X509CertificateGenerator.createSelfSigned({
-	// 	serialNumber: '01',
-	// 	name: 'CN=Test',
-	// 	notBefore: yesterday,
-	// 	notAfter: year,
-	// 	signingAlgorithm: ALGORITHM,
-	// 	keys: keyPair,
-	// 	extensions: [
-	// 		new x509.BasicConstraintsExtension(true, 2, true),
-	// 		new x509.ExtendedKeyUsageExtension(['1.2.3.4.5.6.7', '2.3.4.5.6.7.8'], true),
-	// 		new x509.KeyUsagesExtension(
-	// 			x509.KeyUsageFlags.keyCertSign | x509.KeyUsageFlags.cRLSign,
-	// 			true
-	// 		),
-	// 		await x509.SubjectKeyIdentifierExtension.create(keyPair.publicKey)
-	// 	]
-	// });
-	// const parsedCert = cert.toString('pem').split('\n').slice(1, -1).join('');
-	// addCertifcate(name, { value: parsedCert, algorithm: 'ECDSA' }, userId);
+	addCertifcate(name, { value: parsedCert, algorithm: 'ECDSA' }, userId);
 }
