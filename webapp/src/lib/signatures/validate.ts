@@ -17,7 +17,7 @@ export async function validateSignedFile(
 export type SignatureValidationResult = {
 	SimpleReport: {
 		ValidSignaturesCount: number;
-		signatureOrTimestampOrEvidenceRecord: Array<{
+		signatureOrTimestampOrEvidenceRecord: null | Array<{
 			Signature: {
 				SubIndication: string;
 				AdESValidationDetails: { Error: Array<{ value: string; key: string }> };

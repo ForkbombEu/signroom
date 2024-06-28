@@ -53,6 +53,7 @@
 		signatureFile = file;
 		try {
 			result = await validateSignatureFile(file);
+			console.log(result);
 		} catch (e) {
 			error = getErrorMessage(e);
 		}
@@ -160,21 +161,25 @@
 					<Alert color="yellow">
 						<p class="font-bold">{m.Warning()}</p>
 						<p>{m.There_are_issues_in_the_submitted_file()}</p>
-						<p>{m.Please_see_the_report_below()}</p>
+						{#if details}
+							<p>{m.Please_see_the_report_below()}</p>
+						{/if}
 					</Alert>
 
-					{#each details as detail}
-						<Alert color="gray">
-							{@const errorTitle = detail.Signature.SubIndication}
-							{@const errors = detail.Signature.AdESValidationDetails.Error}
-							<p class="font-bold">{errorTitle}</p>
-							<ul>
-								{#each errors as error}
-									<li>{error.value}</li>
-								{/each}
-							</ul>
-						</Alert>
-					{/each}
+					{#if details}
+						{#each details as detail}
+							<Alert color="gray">
+								{@const errorTitle = detail.Signature.SubIndication}
+								{@const errors = detail.Signature.AdESValidationDetails.Error}
+								<p class="font-bold">{errorTitle}</p>
+								<ul>
+									{#each errors as error}
+										<li>{error.value}</li>
+									{/each}
+								</ul>
+							</Alert>
+						{/each}
+					{/if}
 				{/if}
 			{/if}
 		</PageCard>
