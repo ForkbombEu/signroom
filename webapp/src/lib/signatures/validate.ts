@@ -2,7 +2,7 @@ import type { SignedFile } from './types';
 
 export async function validateSignedFile(
 	signedFile: SignedFile
-): Promise<SignatureValidationResult> {
+): Promise<ValidateSignatureResponse> {
 	const validate = await fetch('/api/validateSignature', {
 		method: 'POST',
 		body: JSON.stringify({ signedDocument: signedFile }),
@@ -25,6 +25,9 @@ export type SignatureValidationResult = {
 		}>;
 	};
 };
+
+type ErrorMessage = { message: string };
+export type ValidateSignatureResponse = SignatureValidationResult | ErrorMessage;
 
 export function isSignatureValid(validationResult: SignatureValidationResult): boolean {
 	return validationResult.SimpleReport.ValidSignaturesCount == 1;

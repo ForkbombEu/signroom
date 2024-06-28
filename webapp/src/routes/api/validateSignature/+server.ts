@@ -1,4 +1,4 @@
-import { json, type RequestEvent } from '@sveltejs/kit';
+import { json, type RequestEvent, error } from '@sveltejs/kit';
 import policyConstraint from './policy.xml?raw';
 
 export const POST = async (evt: RequestEvent) => {
@@ -11,7 +11,7 @@ export const POST = async (evt: RequestEvent) => {
 		name: 'policy.xml'
 	};
 
-	const validateSignature = await fetch(
+	const res = await fetch(
 		`http://dss.forkbomb.eu:8080/services/rest/validation/validateSignature`,
 		{
 			method: 'POST',
@@ -24,15 +24,12 @@ export const POST = async (evt: RequestEvent) => {
 				Accept: 'application/json'
 			}
 		}
-	).then((res) => {
-		if (!res.ok) {
-			return res.text().then((text) => {
-				throw new Error(text);
-			});
-		} else {
-			return res.json();
-		}
-	});
+	);
 
-	return json(validateSignature);
+	if (!res.ok) {
+		const text = await res.text();
+		return error(422, text);
+	} else {
+		return json(await res.json());
+	}
 };
