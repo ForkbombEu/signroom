@@ -407,5 +407,12 @@
 	"Click_to_upload_or_drag_and_drop": "Click to upload or drag and drop",
 	"signatures_description": "signatures_description",
 	"View_shared_signatures": "View shared signatures",
-	"Back_to_signatures": "Back to signatures"
+	"Back_to_signatures": "Back to signatures",
+	"Generate_an_autosigned_certificate": "Generate an autosigned certificate",
+	"Load_certificate": "Load certificate",
+	"Add_a_Key_Certificate_Pair": "Add a Key Certificate Pair",
+	"Save_certificate_and_key": "Save certificate and key",
+	"Certificate_name": "Certificate name",
+	"Select_your_key": "Select your key",
+	"Select_your_certificate": "Select your certificate"
 }
