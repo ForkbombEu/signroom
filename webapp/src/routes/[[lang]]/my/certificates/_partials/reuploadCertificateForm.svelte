@@ -1,7 +1,6 @@
 <script lang="ts">
 	import {
 		Form,
-		Input,
 		createForm,
 		zodFile,
 		File as FileInput,
@@ -9,19 +8,20 @@
 		SubmitButton
 	} from '$lib/forms';
 	import { parseCertificateData } from '$lib/certificates/parse';
-	import { saveCertificate } from '$lib/certificates/storage';
+	import { saveCertificateInLocalStorage } from '$lib/certificates/storage';
 	import { readFileAsString } from '$lib/utils/files';
 	import { nanoid } from 'nanoid';
 	import { z } from 'zod';
-	import { currentUser } from '$lib/pocketbase';
 	import { m } from '$lib/i18n';
 
 	//
 
+	export let certificateName: string;
 	export let onComplete = () => {};
 
+	//
+
 	let schema = z.object({
-		name: z.string(),
 		certificate: zodFile(),
 		key: zodFile()
 	});
@@ -33,7 +33,7 @@
 			const certificate = await readFileAsString(data.certificate);
 			const key = await readFileAsString(data.key);
 			const certificateData = await parseCertificateData(certificate, key);
-			await saveCertificate(data.name, certificateData, $currentUser!.id);
+			saveCertificateInLocalStorage(certificateName, certificateData);
 			onComplete();
 		},
 		undefined,
@@ -45,8 +45,6 @@
 </script>
 
 <Form {superform}>
-	<Input {superform} field="name" options={{ id: 'name', label: m.Certificate_name() }} />
-
 	<FileInput
 		{superform}
 		field="certificate"

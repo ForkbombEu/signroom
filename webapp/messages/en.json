@@ -404,5 +404,12 @@
 	"Validation_result": "Validation result",
 	"Checking_file": "Checking file",
 	"Remove": "Remove",
-	"Click_to_upload_or_drag_and_drop": "Click to upload or drag and drop"
+	"Click_to_upload_or_drag_and_drop": "Click to upload or drag and drop",
+	"Save_certificate_and_key": "Save certificate and key",
+	"Select_your_certificate": "Select your certificate",
+	"Select_your_key": "Select your key",
+	"Certificate_name": "Insert your certificate name",
+	"Generate_an_autosigned_certificate": "Generate an autosigned certificate",
+	"Add_a_Key_Certificate_Pair": "Add a Key-Certificate Pair",
+	"Load_certificate": "Load certificate"
 }

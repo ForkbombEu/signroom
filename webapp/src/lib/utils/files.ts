@@ -12,7 +12,7 @@ export function readFileAsBase64(file: File): Promise<string> {
 	});
 }
 
-export function readFileAsString(file: File) {
+export function readFileAsString(file: File): Promise<string> {
 	return new Promise((resolve, reject) => {
 		const reader = new FileReader();
 		reader.readAsText(file);
