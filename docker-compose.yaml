@@ -32,6 +32,9 @@ services:
         source: ./admin/pb_migrations
         target: /app/pb_migrations
       - type: bind
+        source: ./admin/pb_hooks
+        target: /app/pb_hooks
+      - type: bind
         source: ./admin/pb_data
         target: /app/pb_data
     stdin_open: true

@@ -8,9 +8,10 @@ WORKDIR /build
 
 COPY ./webapp/ .
 RUN rm -rf zenflows-crypto
+RUN rm -rf client_zencode
 RUN git init
 RUN git submodule add -f https://github.com/interfacerproject/zenflows-crypto zenflows-crypto
-
+RUN git submodule add -f https://github.com/ForkbombEu/client_zencode client_zencode
 
 EXPOSE $NODE_PORT
 RUN pnpm i
