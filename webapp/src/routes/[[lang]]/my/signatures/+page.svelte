@@ -163,8 +163,7 @@
 						...hideFolderSettings
 					},
 					relations: {
-						folder: { displayFields: ['name'], inputMode: 'select' },
-						certificate: { displayFields: ['name'], inputMode: 'select' }
+						folder: { displayFields: ['name'], inputMode: 'select' }
 					},
 					exclude: ['signed_file']
 				}}

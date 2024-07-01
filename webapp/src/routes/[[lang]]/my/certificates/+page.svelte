@@ -1,140 +1,45 @@
 <script lang="ts">
-	import { Badge, Button, Heading, Modal, TableBodyCell, TableHeadCell } from 'flowbite-svelte';
-	import {
-		Form,
-		createForm,
-		FormError,
-		Input,
-		SubmitButton,
-		File as FileInput,
-		zodFile
-	} from '$lib/forms';
-	import { z } from 'zod';
-	import {
-		CollectionManager,
-		CollectionManagerHeader,
-		CollectionTable,
-		CollectionEmptyState
-	} from '$lib/collectionManager';
-	import {
-		Collections,
-		type CertificatesResponse,
-		type CertificatesRecord
-	} from '$lib/pocketbase/types';
-	import { currentUser } from '$lib/pocketbase';
+	import { Badge, Button, Modal, TableBodyCell, TableHeadCell } from 'flowbite-svelte';
+	import { CollectionManager, CollectionTable, CollectionEmptyState } from '$lib/collectionManager';
+	import { Collections, type CertificatesResponse } from '$lib/pocketbase/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import PortalWrapper from '$lib/components/portalWrapper.svelte';
 	import { Plus, ArrowUpTray } from 'svelte-heros-v2';
 	import DeleteRecord from '$lib/collectionManager/ui/recordActions/deleteRecord.svelte';
 	import { createToggleStore } from '$lib/components/utils/toggleStore';
-	import { nanoid } from 'nanoid';
-	import {
-		readKeyFromLocalStorage,
-		addKey,
-		addCertifcateAndKey,
-		addAutosingedCertificateAndKey
-	} from './logic';
 	import PageContent from '$lib/components/pageContent.svelte';
 	import PageCard from '$lib/components/pageCard.svelte';
+	import SectionTitle from '$lib/components/sectionTitle.svelte';
+	import Icon from '$lib/components/icon.svelte';
 
-	const schema = z.object({
-		name: z.string(),
-		certificate: zodFile(),
-		key: zodFile()
-	});
-
-	const superform = createForm(
-		schema,
-		async ({ form }) => {
-			const { data } = form;
-			const certificate = await readFile(data.certificate as File);
-			const key = await readFile(data.key as File);
-			await addCertifcateAndKey(data.name, certificate, key, $currentUser!.id);
-			showModal = false;
-		},
-		undefined,
-		{
-			id: nanoid(5),
-			dataType: 'form'
-		}
-	);
-
-	async function readFile(file: File) {
-		let res: string = await new Promise((resolve, reject) => {
-			const reader = new FileReader();
-			reader.readAsText(file);
-			reader.onload = () => {
-				resolve(reader.result as string);
-			};
-		});
-		return res.trim();
-	}
-
-	function onCertificateDelete(certificate: CertificatesResponse) {
-		const allKeys = readKeyFromLocalStorage();
-		delete allKeys[certificate.name];
-		localStorage.setItem('certificateKey', JSON.stringify(allKeys));
-	}
-
-	function checkCertificateKeyInLocalStorage(certificate: CertificatesRecord): boolean {
-		const allKeys = readKeyFromLocalStorage();
-		return Boolean(allKeys[certificate.name]);
-	}
+	import CertificateForm from './_partials/certificateForm.svelte';
+	import ReuploadCertificateForm from './_partials/reuploadCertificateForm.svelte';
+	import AutosignedCertificateForm from './_partials/autosignedCertificateForm.svelte';
+	import { m } from '$lib/i18n';
+	import {
+		deleteCertificateInLocalStorage,
+		isCertificateInLocalStorage
+	} from '$lib/certificates/storage';
+	import { nanoid } from 'nanoid';
 
 	//
 
 	const recordType = createTypeProp<CertificatesResponse>();
 
-	let showModal = false;
-
-	/* Upload key modal */
-
-	let keyUploadModal = createToggleStore(false);
-	let keyUploadCertificate: CertificatesResponse | undefined = undefined;
-
-	const keyUploadFormSchema = z.object({
-		key: zodFile()
-	});
-
-	const keyUploadForm = createForm(
-		keyUploadFormSchema,
-		async ({ form }) => {
-			if (!keyUploadCertificate) return;
-			const key = form.data.key as File;
-			const keyContent = await readFile(key);
-			await addKey(keyUploadCertificate.name, keyUploadCertificate.algorithm, keyContent, false);
-			delete form.data.key;
-			keyUploadModal = createToggleStore(false);
-		},
-		undefined,
-		{
-			id: nanoid(5),
-			dataType: 'form'
-		}
-	);
+	const showCertificateModal = createToggleStore(false);
+	const showAutosignedCertificateModal = createToggleStore(false);
+	const showReuploadCertificateModal = createToggleStore(false);
 
 	//
 
-	/* Create autosigned certificate modal */
+	let certificateToReupload = '';
 
-	let showAutosignedModal = false;
+	//
 
-	const autosignedCertFormSchema = z.object({
-		name: z.string()
-	});
-	const autosignedCertForm = createForm(
-		autosignedCertFormSchema,
-		async ({ form }) => {
-			const { data } = form;
-			await addAutosingedCertificateAndKey(data.name, $currentUser!.id);
-			showAutosignedModal = false;
-		},
-		undefined,
-		{
-			id: nanoid(5),
-			dataType: 'form'
-		}
-	);
+	let certificateRedrawKey = '';
+	function triggerCertificateRedraw() {
+		certificateRedrawKey = nanoid(5);
+	}
 </script>
 
 <PageContent>
@@ -146,126 +51,94 @@
 				let:records
 				hideEmptyState
 			>
-				<CollectionManagerHeader hideCreateButton>
-					<svelte:fragment slot="title">
-						<Heading tag="h4">My Certificates</Heading>
+				<SectionTitle title="My Certificates">
+					<svelte:fragment slot="right">
+						<div class="flex items-center gap-2">
+							<Button on:click={showCertificateModal.on}>
+								<Icon src={Plus} mr />
+								{m.Add_a_Key_Certificate_Pair()}
+							</Button>
+						</div>
 					</svelte:fragment>
-					<svelte:fragment slot="actions">
-						<Button on:click={() => (showModal = true)}>
-							<Plus />
-							<span class="ml-2"> Add a Key-Certificate Pair </span>
-						</Button>
-					</svelte:fragment>
-				</CollectionManagerHeader>
+				</SectionTitle>
 
 				<CollectionTable
 					{records}
-					fields={['name', 'algorithm']}
+					fields={['name']}
 					hideActions={['select', 'edit', 'share', 'delete']}
+					hideEmptyState
 				>
-					<svelte:fragment slot="emptyState">
-						<CollectionEmptyState
-							title="No certificate here"
-							description="Start by creating an autosigned certificate"
-							hideCreateButton
-						>
-							<svelte:fragment slot="bottom">
-								<Button color="alternative" on:click={() => (showAutosignedModal = true)}>
-									<Plus />
-									<span class="ml-2"> Generate an autosigned certificate </span>
-								</Button>
-							</svelte:fragment>
-						</CollectionEmptyState>
-					</svelte:fragment>
-
 					<svelte:fragment slot="header">
-						<TableHeadCell>Key status</TableHeadCell>
+						<TableHeadCell>Storage status</TableHeadCell>
 					</svelte:fragment>
 					<svelte:fragment slot="row" let:record>
-						{@const keyExists = checkCertificateKeyInLocalStorage(record)}
-						<TableBodyCell>
-							{#if keyExists}
-								<Badge color="green">Available</Badge>
-							{:else}
-								<div class="flex items-center gap-2">
-									<Badge color="red">Missing</Badge>
-									<Button
-										size="xs"
-										color="alternative"
-										on:click={() => {
-											keyUploadCertificate = record;
-											keyUploadModal.on();
-										}}
-									>
-										<ArrowUpTray size="16"></ArrowUpTray>
-										<span class="ml-1.5">Load key</span>
-									</Button>
-								</div>
-							{/if}
-						</TableBodyCell>
+						{@const certificateExists = isCertificateInLocalStorage(record.name)}
+						{#key certificateRedrawKey}
+							<TableBodyCell>
+								{#if certificateExists}
+									<Badge color="green">Available</Badge>
+								{:else}
+									<div class="flex items-center gap-2">
+										<Badge color="red">Missing</Badge>
+										<Button
+											size="xs"
+											color="alternative"
+											on:click={() => {
+												certificateToReupload = record.name;
+												showReuploadCertificateModal.on();
+											}}
+										>
+											<ArrowUpTray size="16"></ArrowUpTray>
+											<span class="ml-1.5">{m.Load_certificate()}</span>
+										</Button>
+									</div>
+								{/if}
+							</TableBodyCell>
+						{/key}
 					</svelte:fragment>
 
 					<svelte:fragment slot="actions" let:record>
 						<DeleteRecord
 							{record}
-							on:delete={(e) => {
-								onCertificateDelete(e.detail.record);
-							}}
+							beforeDelete={() => deleteCertificateInLocalStorage(record.name)}
 						/>
 					</svelte:fragment>
 				</CollectionTable>
+
+				<svelte:fragment slot="emptyState">
+					<CollectionEmptyState hideCreateButton>
+						<Button
+							slot="bottom"
+							on:click={showAutosignedCertificateModal.on}
+							class="mt-4"
+							color="alternative"
+						>
+							<Icon src={Plus} mr />
+							{m.Generate_an_autosigned_certificate()}
+						</Button>
+					</CollectionEmptyState>
+				</svelte:fragment>
 			</CollectionManager>
 		</div>
-
-		<PortalWrapper>
-			<Modal bind:open={showModal} size="md" title="Key and certificate" placement="center">
-				<Form {superform}>
-					<Input
-						{superform}
-						field="name"
-						options={{ id: 'name', label: 'Insert your certificate name' }}
-					/>
-					<FileInput
-						{superform}
-						field="certificate"
-						options={{ id: 'certificate', label: 'Select your certificate' }}
-					/>
-					<FileInput {superform} field="key" options={{ id: 'key', label: 'Select your key' }} />
-					<FormError />
-					<dir class="flex justify-end">
-						<SubmitButton>Submit certificate and key</SubmitButton>
-					</dir>
-				</Form>
-			</Modal>
-
-			<Modal bind:open={$keyUploadModal} size="md" title="Load key" placement="center">
-				<Form superform={keyUploadForm}>
-					<FileInput superform={keyUploadForm} field="key" options={{ label: 'Select your key' }} />
-					<FormError />
-					<dir class="flex justify-end">
-						<SubmitButton>Submit key</SubmitButton>
-					</dir>
-				</Form>
-			</Modal>
-
-			<Modal
-				bind:open={showAutosignedModal}
-				size="md"
-				title="Autosigned certificate"
-				placement="center"
-			>
-				<Form superform={autosignedCertForm}>
-					<Input
-						superform={autosignedCertForm}
-						field="name"
-						options={{ id: 'name', label: 'Insert the  certificate name' }}
-					/>
-					<FormError />
-					<dir class="flex justify-end">
-						<SubmitButton>Submit name</SubmitButton>
-					</dir>
-				</Form>
-			</Modal>
-		</PortalWrapper>
 	</PageCard>
 </PageContent>
+
+<PortalWrapper>
+	<Modal bind:open={$showCertificateModal} title="Key and certificate">
+		<CertificateForm onComplete={showCertificateModal.off} />
+	</Modal>
+
+	<Modal bind:open={$showReuploadCertificateModal} title="Load key">
+		<ReuploadCertificateForm
+			certificateName={certificateToReupload}
+			onComplete={() => {
+				triggerCertificateRedraw();
+				showReuploadCertificateModal.off();
+			}}
+		/>
+	</Modal>
+
+	<Modal bind:open={$showAutosignedCertificateModal} title="Autosigned certificate">
+		<AutosignedCertificateForm onComplete={showAutosignedCertificateModal.off} />
+	</Modal>
+</PortalWrapper>
