@@ -29,7 +29,7 @@ export const CertificatesSchema = z.record(CertificateDataSchema);
 
 //
 
-const CERTIFICATE_KEY = 'certificateKey';
+const CERTIFICATES_AND_KEY = 'certificatesAndKey';
 const CERTIFICATES = 'certificates';
 const ALGORITHM = {
 	name: 'ECDSA',
@@ -57,12 +57,29 @@ const BEGIN_EC = '-----BEGIN EC PRIVATE KEY-----';
 const END_EC = '-----END EC PRIVATE KEY-----';
 const OBJECT_IDENTIFIER = 'OBJECT IDENTIFIER : ';
 
+
+/* Utility functions */
+
+async function freeName(name: string, allCertifcatesAndKeys: Record<string, CertificateData>): Promise<void> {
+	let certificateFound;
+	try {
+		await pb.collection(CERTIFICATES).getFirstListItem(`name="${name}"`);
+		certificateFound = true;
+	} catch (e) {
+		certificateFound = false;
+	}
+	if (certificateFound) {
+		throw new Error('Name already in use');
+	}
+	if (allCertifcatesAndKeys[name]) throw new Error('Name already in use');
+}
+
 function url64ToBase64(input: string): string {
 	// Replace non-url compatible chars with base64 standard chars
 	input = input.replace(/-/g, '+').replace(/_/g, '/');
 
 	// Pad out with standard base64 required padding characters
-	var pad = input.length % 4;
+	const pad = input.length % 4;
 	if (pad) {
 		if (pad === 1) {
 			throw new Error(
@@ -73,6 +90,8 @@ function url64ToBase64(input: string): string {
 	}
 	return input;
 }
+
+/* import user key and certificate */
 
 async function checkCertificate(certificate: string) {
 	if (!certificate.startsWith(BEGIN_CERTIFICATE) || !certificate.endsWith(END_CERTIFICATE)) {
@@ -146,67 +165,36 @@ async function decodeKey(algorithmName: string, secretKey: string): Promise<stri
 	return JSON.parse(result).key;
 }
 
-async function freeName(name: string, allKeys: Record<string, unknown>, checkCert: boolean) {
-	if (checkCert) {
-		let certificateFound;
-		try {
-			await pb.collection(CERTIFICATES).getFirstListItem(`name="${name}"`);
-			certificateFound = true;
-		} catch (e) {
-			certificateFound = false;
-		}
-		if (certificateFound) {
-			throw new Error('Name already in use for certificate');
-		}
-	}
-	if (allKeys[name]) throw new Error('Name already in use');
-}
-
-export function readKeyFromLocalStorage() {
-	return JSON.parse(localStorage.getItem(CERTIFICATE_KEY) || '{}');
-}
-
-async function addCertifcate(
-	name: string,
-	value: { value: string; algorithm: string },
-	owner: string
-) {
-	const allCerts = readCertificatesFromLocalStorage();
-	allCerts[name] = value;
-	localStorage.setItem(CERTIFICATES, JSON.stringify(allCerts));
-	await pb.collection(CERTIFICATES).create({ name, owner });
-}
-
-export async function addKey(name: string, algorithm: string, key: string, checkCert: boolean) {
-	const allKeys = readKeyFromLocalStorage();
-	await freeName(name, allKeys, checkCert);
-	allKeys[name] = {
-		value: key
+async function createCertificateKey(algorithm: string, key: string) {
+	const res = {
+		value: key,
 	};
 	const sk = await decodeKey(algorithm, key);
-	if (sk) allKeys[name].zenroomValue = sk;
-	localStorage.setItem(CERTIFICATE_KEY, JSON.stringify(allKeys));
+	if (sk) res.zenroomValue = sk;
+	return res
 }
 
 export async function addCertifcateAndKey(
 	name: string,
 	certificate: string,
 	key: string,
-	userId: string
+	owner: string
 ) {
+	const localData = readFromLocalStorage();
+	await freeName(name, localData, true);
 	const { parsedCertificate, signatureAlgorithmName } = await checkCertificate(certificate);
-	await addKey(name, signatureAlgorithmName, key, true);
-	await addCertifcate(
-		name,
-		{ value: parsedCertificate, algorithm: signatureAlgorithmName },
-		userId
-	);
+	localData[name] = {
+		key: await createCertificateKey(signatureAlgorithmName, key),
+		certificate: { parsedCertificate, signatureAlgorithmName }
+	};
+	localStorage.setItem(CERTIFICATES_AND_KEY, JSON.stringify(localData));
+	await pb.collection(CERTIFICATES).create({ name, owner });
 }
 
-/* Certificate CRUD */
+/* Certificate And Keys CRUD */
 
-export function readCertificatesFromLocalStorage() {
-	return pipe(localStorage.getItem(CERTIFICATES) || '{}', JSON.parse, CertificatesSchema.parse);
+export function readFromLocalStorage() {
+	return pipe(localStorage.getItem(CERTIFICATES_AND_KEY) || '{}', JSON.parse, CertificatesSchema.parse);
 }
 
 /* Autosigned certificate generation */
@@ -233,9 +221,9 @@ async function createAutosignedCertificateKey(keyPair: CryptoKeyPair): Promise<C
 
 async function createAutosignedCertificate(keyPair: CryptoKeyPair): Promise<Certificate> {
 	// compute date for certificate, valid from yesterday for an year
-	var yesterday = new Date();
+	const yesterday = new Date();
 	yesterday.setDate(yesterday.getDate() - 1);
-	var year = new Date();
+	const year = new Date();
 	year.setFullYear(yesterday.getFullYear() + 1);
 
 	// certificate
@@ -272,48 +260,10 @@ async function createAutosignedCertificateData(): Promise<CertificateData> {
 	};
 }
 
-export async function addAutosingedCertificateAndKey(name: string, userId: string) {
-	// // generating keypair
-	// const keyPair = await crypto.subtle.generateKey(ALGORITHM, true, ['sign', 'verify']);
-	// // storing the sk in local storage
-	// const sk = await crypto.subtle.exportKey('pkcs8', keyPair.privateKey);
-	// const sk_b64 = btoa(String.fromCharCode(...new Uint8Array(sk))).replace(/.{64}/g, '$&\n');
-	// const completeKey = `${BEGIN_EC}\n${sk_b64}\n${END_EC}`
-	// 	'-----BEGIN EC PRIVATE KEY-----\n' + sk_b64 + '\n-----END EC PRIVATE KEY-----';
-	// // raw key to be used in zenroom
-	// const sk_jwk = await crypto.subtle.exportKey('jwk', keyPair.privateKey);
-	// if (!sk_jwk.d) throw new Error('Undefined sk_jwk.d');
-	// const allKeys = readKeyFromLocalStorage();
-	// await freeName(name, allKeys, true);
-	// allKeys[name] = {
-	// 	value: completeKey,
-	// 	zenroomValue: url64ToBase64(sk_jwk.d)
-	// };
-	// localStorage.setItem(CERTIFICATE_KEY, JSON.stringify(allKeys));
-	// // compute date for certificate,
-	// // valid from yesterday for an year
-	// var yesterday = new Date();
-	// yesterday.setDate(yesterday.getDate() - 1);
-	// var year = new Date();
-	// year.setFullYear(yesterday.getFullYear() + 1);
-	// // certificate
-	// const cert = await x509.X509CertificateGenerator.createSelfSigned({
-	// 	serialNumber: '01',
-	// 	name: 'CN=Test',
-	// 	notBefore: yesterday,
-	// 	notAfter: year,
-	// 	signingAlgorithm: ALGORITHM,
-	// 	keys: keyPair,
-	// 	extensions: [
-	// 		new x509.BasicConstraintsExtension(true, 2, true),
-	// 		new x509.ExtendedKeyUsageExtension(['1.2.3.4.5.6.7', '2.3.4.5.6.7.8'], true),
-	// 		new x509.KeyUsagesExtension(
-	// 			x509.KeyUsageFlags.keyCertSign | x509.KeyUsageFlags.cRLSign,
-	// 			true
-	// 		),
-	// 		await x509.SubjectKeyIdentifierExtension.create(keyPair.publicKey)
-	// 	]
-	// });
-	// const parsedCert = cert.toString('pem').split('\n').slice(1, -1).join('');
-	// addCertifcate(name, { value: parsedCert, algorithm: 'ECDSA' }, userId);
+export async function addAutosingedCertificateAndKey(name: string, owner: string) {
+	const localData = readFromLocalStorage();
+	await freeName(name, localData, true);
+	localData[name] = await createAutosignedCertificateData();
+	localStorage.setItem(CERTIFICATES_AND_KEY, JSON.stringify(localData));
+	await pb.collection(CERTIFICATES).create({ name, owner });
 }
