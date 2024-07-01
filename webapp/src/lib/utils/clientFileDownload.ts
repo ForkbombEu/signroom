@@ -1,15 +1,19 @@
-export function downloadBlob(blob: Blob, fileName: string) {
-	const url = URL.createObjectURL(blob);
-
+export function downloadFileFromUrl(url: string, fileName: string) {
 	const a = document.createElement('a');
 	a.href = url;
 	a.download = fileName;
+	a.target = '_blank';
 
 	document.body.appendChild(a);
 	a.click();
 	document.body.removeChild(a);
 
 	URL.revokeObjectURL(url);
+}
+
+export function downloadBlob(blob: Blob, fileName: string) {
+	const url = URL.createObjectURL(blob);
+	downloadFileFromUrl(url, fileName);
 }
 
 export async function imageSrcToBlob(src: string) {

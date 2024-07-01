@@ -29,6 +29,7 @@
 	export let fieldsComponents: FieldsComponents<RecordGeneric> = {};
 	export let fieldsLabels: Partial<Record<(typeof fields)[number], string>> = {};
 	export let hideActions: Array<ViewAction> = [];
+	export let hideEmptyState = false;
 
 	const { selectionManager } = getRecordsManagerContext();
 	const { allRecordsSelected, toggleSelectAllRecords, selectedRecords } = selectionManager;
@@ -44,7 +45,9 @@
 
 {#if records.length === 0}
 	<slot name="emptyState">
-		<EmptyState />
+		{#if !hideEmptyState}
+			<EmptyState />
+		{/if}
 	</slot>
 {:else}
 	<Table>

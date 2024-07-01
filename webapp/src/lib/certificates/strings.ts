@@ -1,0 +1,7 @@
+export const BEGIN_CERTIFICATE = '-----BEGIN CERTIFICATE-----';
+export const END_CERTIFICATE = '-----END CERTIFICATE-----';
+export const BEGIN_KEY = '-----BEGIN PRIVATE KEY-----';
+export const END_KEY = '-----END PRIVATE KEY-----';
+export const BEGIN_EC = '-----BEGIN EC PRIVATE KEY-----';
+export const END_EC = '-----END EC PRIVATE KEY-----';
+export const OBJECT_IDENTIFIER = 'OBJECT IDENTIFIER : ';

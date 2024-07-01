@@ -7,6 +7,7 @@
 		Relations,
 		Textarea,
 		createForm,
+		Select,
 		type SubmitFunction
 	} from '$lib/forms';
 	import { m } from '$lib/i18n';
@@ -17,6 +18,7 @@
 	import { signFileAndUpload } from './sign';
 	import { P } from 'flowbite-svelte';
 	import { pb } from '$lib/pocketbase';
+	import { getCertificate, getCertificatesFromLocalStorage } from '$lib/certificates/storage';
 
 	export let type: SignaturesTypeOptions;
 	export let signatureId: string | undefined = undefined;
@@ -31,7 +33,8 @@
 
 	const handleSubmit: SubmitFunction<AnyZodObject> = async ({ form }) => {
 		const data = form.data as SignatureFormData;
-		if (!signatureId) await signFileAndUpload(data);
+		const certificate = getCertificate(data.certificate);
+		if (!signatureId) await signFileAndUpload(data, certificate);
 		else await pb.collection('signatures').update(signatureId, form.data);
 		await onSubmit();
 	};
@@ -50,6 +53,12 @@
 	//
 
 	$: submitButtonText = signatureId ? m.Update_signature() : m.Sign_file();
+
+	//
+
+	const certificatesOptions = Object.entries(getCertificatesFromLocalStorage()).map(
+		([certificateName, _]) => certificateName
+	);
 </script>
 
 <Form {superform} showRequiredIndicator>
@@ -79,16 +88,7 @@
 			}}
 		/>
 
-		<Relations
-			{superform}
-			field="certificate"
-			collection={Collections.Certificates}
-			options={{
-				inputMode: 'select',
-				displayFields: ['name'],
-				label: m.Certificate()
-			}}
-		/>
+		<Select {superform} field="certificate" options={{ options: certificatesOptions }}></Select>
 	{/if}
 
 	<Relations
