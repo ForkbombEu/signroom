@@ -69,7 +69,7 @@
 					hideEmptyState
 				>
 					<svelte:fragment slot="header">
-						<TableHeadCell>Key status</TableHeadCell>
+						<TableHeadCell>Storage status</TableHeadCell>
 					</svelte:fragment>
 					<svelte:fragment slot="row" let:record>
 						{@const certificateExists = isCertificateInLocalStorage(record.name)}
