@@ -21,6 +21,7 @@
 		isCertificateInLocalStorage
 	} from '$lib/certificates/storage';
 	import { nanoid } from 'nanoid';
+	import PageTop from '$lib/components/pageTop.svelte';
 
 	//
 

@@ -1,5 +1,5 @@
 import { pb } from '$lib/pocketbase';
-import type { SignaturesRecord, SignaturesTypeOptions } from '$lib/pocketbase/types';
+import type { SignaturesTypeOptions } from '$lib/pocketbase/types';
 import EdDSASignature from '@zenflows-crypto/src/eddsa_signature.zen?raw';
 import hexDerEs256Signature from '@zenflows-crypto/src/hex_der_es256_signature.zen?raw';
 import forge from 'node-forge';
@@ -8,7 +8,6 @@ import { zencode_exec } from 'zenroom';
 import type { SignatureFormData } from './signatureFormUtils';
 import { readFileAsBase64 } from '$lib/utils/files';
 import type { AlgorithmName, CertificateData } from '$lib/certificates/types';
-import { satisfies } from 'effect/Function';
 
 //
 
@@ -83,7 +82,7 @@ async function signData(algorithmName: AlgorithmName, sk: string, data: string):
 			);
 			return signedDigest;
 		}
-		case 'EdDSA': {
+		case 'Ed25519': {
 			const { eddsa_signature } = await zencodeExec(
 				EdDSASignature,
 				`{"keyring": {"eddsa": "${sk}"}, "bytes": "${data}"}`

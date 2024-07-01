@@ -405,11 +405,14 @@
 	"Checking_file": "Checking file",
 	"Remove": "Remove",
 	"Click_to_upload_or_drag_and_drop": "Click to upload or drag and drop",
-	"Save_certificate_and_key": "Save certificate and key",
-	"Select_your_certificate": "Select your certificate",
-	"Select_your_key": "Select your key",
-	"Certificate_name": "Insert your certificate name",
+	"signatures_description": "signatures_description",
+	"View_shared_signatures": "View shared signatures",
+	"Back_to_signatures": "Back to signatures",
 	"Generate_an_autosigned_certificate": "Generate an autosigned certificate",
-	"Add_a_Key_Certificate_Pair": "Add a Key-Certificate Pair",
-	"Load_certificate": "Load certificate"
+	"Load_certificate": "Load certificate",
+	"Add_a_Key_Certificate_Pair": "Add a Key Certificate Pair",
+	"Save_certificate_and_key": "Save certificate and key",
+	"Certificate_name": "Certificate name",
+	"Select_your_key": "Select your key",
+	"Select_your_certificate": "Select your certificate"
 }

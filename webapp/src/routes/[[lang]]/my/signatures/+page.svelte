@@ -8,7 +8,7 @@
 	} from '$lib/pocketbase/types';
 	import { CollectionManager, CreateRecord, EditRecord } from '$lib/collectionManager';
 	import { Button, Toast, A, Dropdown, DropdownItem } from 'flowbite-svelte';
-	import { ArrowDownTray, Pencil, Plus } from 'svelte-heros-v2';
+	import { ArrowDownTray, Eye, Pencil, Plus } from 'svelte-heros-v2';
 	import { slide } from 'svelte/transition';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import CollectionEmptyState from '$lib/collectionManager/ui/collectionEmptyState.svelte';
@@ -99,10 +99,6 @@
 	}
 </script>
 
-<PageTop>
-	<SectionTitle title="Signatures" description="signatures_description" />
-</PageTop>
-
 <PageContent>
 	{#if !folder}
 		<PageCard>
@@ -186,17 +182,25 @@
 
 					<SectionTitle {title}>
 						<svelte:fragment slot="right">
-							<Button>
-								<Icon src={Plus} mr />
-								<span class="capitalize">{m.Sign_file()}</span>
-							</Button>
-							<Dropdown class="min-w-40">
-								{#each Object.values(SignaturesTypeOptions) as type}
-									<DropdownItem on:click={() => startCreateSignature(type)}>
-										<span class="capitalize">{type}</span>
-									</DropdownItem>
-								{/each}
-							</Dropdown>
+							<div class="flex items-center gap-2">
+								<Button outline href="/my/signatures/shared">
+									<Icon src={Eye} mr />
+									{m.View_shared_signatures()}
+								</Button>
+								<div>
+									<Button>
+										<Icon src={Plus} mr />
+										<span class="capitalize">{m.Sign_file()}</span>
+									</Button>
+									<Dropdown class="min-w-40">
+										{#each Object.values(SignaturesTypeOptions) as type}
+											<DropdownItem on:click={() => startCreateSignature(type)}>
+												<span class="capitalize">{type}</span>
+											</DropdownItem>
+										{/each}
+									</Dropdown>
+								</div>
+							</div>
 						</svelte:fragment>
 					</SectionTitle>
 				</div>
