@@ -15,9 +15,9 @@ import {
 	type AlgorithmId,
 	type AlgorithmName,
 	type Certificate,
-	type CertificateKey
+	type CertificateKey,
+	type CertificateData
 } from './types';
-import type { CertificateData } from './certificates.old';
 
 //
 

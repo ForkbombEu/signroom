@@ -1,8 +1,7 @@
 import { pipe, Record, Option } from 'effect';
-import { CertificatesSchema, type Certificates } from './types';
+import { CertificatesSchema, type Certificates, type CertificateData } from './types';
 import { browser } from '$app/environment';
 import { pb } from '$lib/pocketbase';
-import type { CertificateData } from './certificates.old';
 import type { CertificatesRecord } from '$lib/pocketbase/types';
 
 //
