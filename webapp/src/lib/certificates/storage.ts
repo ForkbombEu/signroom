@@ -1,4 +1,4 @@
-import { pipe, Record } from 'effect';
+import { pipe, Record, Option } from 'effect';
 import { CertificatesSchema, type Certificates } from './types';
 import { browser } from '$app/environment';
 import { pb } from '$lib/pocketbase';
@@ -59,6 +59,10 @@ export function deleteCertificateInLocalStorage(name: string) {
 export function isCertificateInLocalStorage(name: string) {
 	const certificates = getCertificatesFromLocalStorage();
 	return Boolean(certificates[name]);
+}
+
+export function getCertificate(name: string) {
+	return pipe(getCertificatesFromLocalStorage(), Record.get(name), Option.getOrThrow);
 }
 
 //
