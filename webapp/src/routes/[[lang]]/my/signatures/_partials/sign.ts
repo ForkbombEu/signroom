@@ -1,5 +1,5 @@
 import { pb } from '$lib/pocketbase';
-import type { SignaturesTypeOptions } from '$lib/pocketbase/types';
+import type { SignaturesRecord, SignaturesTypeOptions } from '$lib/pocketbase/types';
 import EdDSASignature from '@zenflows-crypto/src/eddsa_signature.zen?raw';
 import hexDerEs256Signature from '@zenflows-crypto/src/hex_der_es256_signature.zen?raw';
 import forge from 'node-forge';
@@ -7,7 +7,8 @@ import { serialize } from 'object-to-formdata';
 import { zencode_exec } from 'zenroom';
 import type { SignatureFormData } from './signatureFormUtils';
 import { readFileAsBase64 } from '$lib/utils/files';
-import type { CertificateData } from '$lib/signatures/certificates';
+import type { AlgorithmName, CertificateData } from '$lib/certificates/types';
+import { satisfies } from 'effect/Function';
 
 //
 
@@ -25,7 +26,7 @@ async function signFile(
 	certificateData: CertificateData
 ): Promise<SignedFile> {
 	const certPem = certificateData.certificate.value;
-	const signatureAlgorithmName = certificateData.certificate.algorithm;
+	const signatureAlgorithmName = certificateData.certificate.algorithm as AlgorithmName;
 	const secretKey = certificateData.key.zenroomValue ?? certificateData.key.value;
 
 	// Current timestamp
@@ -65,7 +66,7 @@ async function signFile(
 	return (await signed.json()) as SignedFile;
 }
 
-async function signData(algorithmName: string, sk: string, data: string): Promise<string> {
+async function signData(algorithmName: AlgorithmName, sk: string, data: string): Promise<string> {
 	switch (algorithmName) {
 		case 'ECDSA': {
 			const { der_signature } = await zencodeExec(
@@ -118,7 +119,11 @@ async function signData(algorithmName: string, sk: string, data: string): Promis
 // 3. Create signature record
 
 function storeSignature(data: SignatureFormData, signedFile: SignedFile) {
-	const createData = serialize({ ...data, signed_file: JSON.stringify(signedFile, null, 4) }); // TODO – Type better
+	const createData = serialize({
+		...data,
+		signed_file: JSON.stringify(signedFile, null, 4),
+		certificate_used: data.certificate
+	}); // TODO – Type better
 	return pb.collection('signatures').create(createData);
 }
 
