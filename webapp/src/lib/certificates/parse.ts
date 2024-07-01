@@ -76,7 +76,7 @@ async function parseCertificateKey(
 const ZENCODE_KEY_CONVERTERS: Partial<Record<AlgorithmName, string>> = {
 	ECDSA: `Given I have a 'hex' named 'key'
 		Then print the 'key' as 'base64'`,
-	EdDSA: `Given I have a 'hex' named 'key'
+	Ed25519: `Given I have a 'hex' named 'key'
 		Then print the 'key' as 'base58'`
 };
 
