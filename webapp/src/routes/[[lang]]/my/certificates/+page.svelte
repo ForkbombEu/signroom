@@ -20,6 +20,7 @@
 		deleteCertificateInLocalStorage,
 		isCertificateInLocalStorage
 	} from '$lib/certificates/storage';
+	import { nanoid } from 'nanoid';
 
 	//
 
@@ -32,6 +33,13 @@
 	//
 
 	let certificateToReupload = '';
+
+	//
+
+	let certificateRedrawKey = '';
+	function triggerCertificateRedraw() {
+		certificateRedrawKey = nanoid(5);
+	}
 </script>
 
 <PageContent>
@@ -65,26 +73,28 @@
 					</svelte:fragment>
 					<svelte:fragment slot="row" let:record>
 						{@const certificateExists = isCertificateInLocalStorage(record.name)}
-						<TableBodyCell>
-							{#if certificateExists}
-								<Badge color="green">Available</Badge>
-							{:else}
-								<div class="flex items-center gap-2">
-									<Badge color="red">Missing</Badge>
-									<Button
-										size="xs"
-										color="alternative"
-										on:click={() => {
-											certificateToReupload = record.name;
-											showReuploadCertificateModal.on();
-										}}
-									>
-										<ArrowUpTray size="16"></ArrowUpTray>
-										<span class="ml-1.5">{m.Load_certificate()}</span>
-									</Button>
-								</div>
-							{/if}
-						</TableBodyCell>
+						{#key certificateRedrawKey}
+							<TableBodyCell>
+								{#if certificateExists}
+									<Badge color="green">Available</Badge>
+								{:else}
+									<div class="flex items-center gap-2">
+										<Badge color="red">Missing</Badge>
+										<Button
+											size="xs"
+											color="alternative"
+											on:click={() => {
+												certificateToReupload = record.name;
+												showReuploadCertificateModal.on();
+											}}
+										>
+											<ArrowUpTray size="16"></ArrowUpTray>
+											<span class="ml-1.5">{m.Load_certificate()}</span>
+										</Button>
+									</div>
+								{/if}
+							</TableBodyCell>
+						{/key}
 					</svelte:fragment>
 
 					<svelte:fragment slot="actions" let:record>
@@ -121,7 +131,10 @@
 	<Modal bind:open={$showReuploadCertificateModal} title="Load key">
 		<ReuploadCertificateForm
 			certificateName={certificateToReupload}
-			onComplete={showReuploadCertificateModal.off}
+			onComplete={() => {
+				triggerCertificateRedraw();
+				showReuploadCertificateModal.off();
+			}}
 		/>
 	</Modal>
 
