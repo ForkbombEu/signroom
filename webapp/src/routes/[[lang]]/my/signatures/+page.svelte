@@ -1,45 +1,15 @@
-<script lang="ts" context="module">
-	import { m } from '$lib/i18n';
-	const toasts = {
-		add: m._Signature_shared_successfully(),
-		remove: m._Signature_unshared_successfully(),
-		signed: m._Document_signed_successfully()
-	};
-	export type ToastContent = keyof typeof toasts;
-</script>
-
 <script lang="ts">
-	import { currentUser } from '$lib/pocketbase';
+	import { currentUser, pb } from '$lib/pocketbase';
 	import {
 		Collections,
 		SignaturesTypeOptions,
 		type FoldersResponse,
-		type SignaturesRecord,
 		type SignaturesResponse
 	} from '$lib/pocketbase/types';
-	import {
-		CollectionManager,
-		CollectionTable,
-		CreateRecord,
-		EditRecord
-	} from '$lib/collectionManager';
-	import { page } from '$app/stores';
-	import type { RecordFullListOptions } from 'pocketbase';
-	import {
-		Alert,
-		Button,
-		ButtonGroup,
-		Spinner,
-		Toast,
-		A,
-		Dropdown,
-		DropdownItem
-	} from 'flowbite-svelte';
-	import { Pencil, Plus, Share } from 'svelte-heros-v2';
-	import ShareSignature from './_partials/ShareSignature.svelte';
+	import { CollectionManager, CreateRecord, EditRecord } from '$lib/collectionManager';
+	import { Button, Toast, A, Dropdown, DropdownItem } from 'flowbite-svelte';
+	import { ArrowDownTray, Eye, Pencil, Plus } from 'svelte-heros-v2';
 	import { slide } from 'svelte/transition';
-	import Info from './_partials/Info.svelte';
-	import Files from './_partials/Files.svelte';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import CollectionEmptyState from '$lib/collectionManager/ui/collectionEmptyState.svelte';
 	import PageTop from '$lib/components/pageTop.svelte';
@@ -56,8 +26,12 @@
 	import Drawer from '$lib/components/drawer.svelte';
 	import { createToggleStore } from '$lib/components/utils/toggleStore';
 	import { writable } from 'svelte/store';
-	import IconButton from '$lib/components/iconButton.svelte';
 	import _ from 'lodash';
+	import SignatureTypeChip from './_partials/signatureTypeChip.svelte';
+	import { downloadSignedFile, type Signature } from '$lib/signatures';
+	import { downloadFileFromUrl } from '$lib/utils/clientFileDownload';
+	import { m } from '$lib/i18n';
+	import ShareRecord from '$lib/collectionManager/ui/recordActions/shareRecord.svelte';
 
 	//
 
@@ -66,42 +40,16 @@
 
 	//
 
-	let hideFolderSettings: FieldsSettings<SignaturesResponse>['hide'];
+	let hideFolderSettings: FieldsSettings<Signature>['hide'];
 	$: if (folder) {
 		hideFolderSettings = { folder: folder.id };
 	} else {
 		hideFolderSettings = {};
 	}
 
-	// let shareModal = false;
-	// let record: SignaturesResponse | undefined = undefined;
-
-	// function openShareModal(r: SignaturesResponse) {
-	// 	shareModal = true;
-	// 	record = r;
-	// }
-
-	// function clearRecord() {
-	// 	record = undefined;
-	// }
-
-	let show = false;
-	let content: string | undefined = undefined;
-	const duration = 2000;
-
-	// function trigger(key: ToastContent) {
-	// 	show = true;
-	// 	content = toasts[key];
-	// 	setTimeout(() => {
-	// 		show = false;
-	// 		content = undefined;
-	// 	}, duration);
-	// }
-
 	//
 
-	const signatureTypeProp =
-		createTypeProp<SignaturesResponse<unknown, { folder: FoldersResponse }>>();
+	const signatureTypeProp = createTypeProp<Signature<{ folder: FoldersResponse }>>();
 	const folderTypeProp = createTypeProp<FoldersResponse>();
 
 	//
@@ -109,19 +57,47 @@
 	const hideSignatureModal = createToggleStore(true);
 
 	const type = writable<SignaturesTypeOptions | undefined>(undefined);
-	function setType(type: SignaturesTypeOptions | undefined) {
+	function startCreateSignature(type: SignaturesTypeOptions | undefined) {
 		$type = type;
+		hideSignatureModal.off();
 	}
 
-	const signatureToEdit = writable<Omit<SignaturesResponse, 'signed_file'> | undefined>(undefined);
-	function setSignatureToEdit(record: SignaturesResponse) {
-		$signatureToEdit = _.omit(record, ['signed_file']);
+	const signatureToEdit = writable<SignaturesResponse | undefined>(undefined);
+	function startEditSignature(record: SignaturesResponse) {
+		$signatureToEdit = record;
+		hideSignatureModal.off();
+	}
+
+	//
+
+	function downloadSignatureOriginalFile(signature: Signature) {
+		const fileUrl = pb.getFileUrl(signature, signature.file);
+		downloadFileFromUrl(fileUrl, signature.file);
+	}
+
+	//
+
+	const toasts = {
+		add: m._Signature_shared_successfully(),
+		remove: m._Signature_unshared_successfully(),
+		signed: m._Document_signed_successfully()
+	};
+
+	type ToastContent = keyof typeof toasts;
+
+	let show = false;
+	let content: string | undefined = undefined;
+	const duration = 3000;
+
+	function triggerToast(key: ToastContent) {
+		show = true;
+		content = toasts[key];
+		setTimeout(() => {
+			show = false;
+			content = undefined;
+		}, duration);
 	}
 </script>
-
-<PageTop>
-	<SectionTitle title="Signatures" description="signatures_description" />
-</PageTop>
 
 <PageContent>
 	{#if !folder}
@@ -139,7 +115,7 @@
 			>
 				<SectionTitle title="Folders">
 					<svelte:fragment slot="right">
-						<CreateRecord recordType={folderTypeProp}>Add folder</CreateRecord>
+						<CreateRecord recordType={folderTypeProp}>{m.Add_folder()}</CreateRecord>
 					</svelte:fragment>
 				</SectionTitle>
 
@@ -175,7 +151,7 @@
 				collection={Collections.Signatures}
 				initialQueryParams={{
 					expand: 'folder',
-					filter: `folder.id = "${folder ? folder.id : ''}"`
+					filter: `folder.id = "${folder ? folder.id : ''}" && owner.id = "${$currentUser?.id}"`
 				}}
 				formSettings={{
 					hide: {
@@ -183,8 +159,7 @@
 						...hideFolderSettings
 					},
 					relations: {
-						folder: { displayFields: ['name'], inputMode: 'select' },
-						certificate: { displayFields: ['name'], inputMode: 'select' }
+						folder: { displayFields: ['name'], inputMode: 'select' }
 					},
 					exclude: ['signed_file']
 				}}
@@ -207,86 +182,86 @@
 
 					<SectionTitle {title}>
 						<svelte:fragment slot="right">
-							<Button>
-								<span class="capitalize">{m.add_signature()}</span>
-								<Icon src={Plus} ml />
-							</Button>
-							<Dropdown class="min-w-40">
-								{#each Object.values(SignaturesTypeOptions) as type}
-									<DropdownItem
-										on:click={() => {
-											setType(type);
-											hideSignatureModal.off();
-										}}
-									>
-										<span class="capitalize">{type}</span>
-									</DropdownItem>
-								{/each}
-							</Dropdown>
+							<div class="flex items-center gap-2">
+								<Button outline href="/my/signatures/shared">
+									<Icon src={Eye} mr />
+									{m.View_shared_signatures()}
+								</Button>
+								<div>
+									<Button>
+										<Icon src={Plus} mr />
+										<span class="capitalize">{m.Sign_file()}</span>
+									</Button>
+									<Dropdown class="min-w-40">
+										{#each Object.values(SignaturesTypeOptions) as type}
+											<DropdownItem on:click={() => startCreateSignature(type)}>
+												<span class="capitalize">{type}</span>
+											</DropdownItem>
+										{/each}
+									</Dropdown>
+								</div>
+							</div>
 						</svelte:fragment>
 					</SectionTitle>
 				</div>
 
-				<CollectionTable
-					{records}
-					fields={['_info', 'file']}
-					hideActions={['select', 'delete', 'edit', 'share']}
-					fieldsComponents={{
-						_info: Info,
-						file: Files
-					}}
-					let:record
-				>
-					<svelte:fragment slot="actions" let:record>
-						<!-- <Button
-							class="!p-2"
-							size="xs"
-							on:click={() => {
-								openShareModal(record);
-							}}
-						>
-							<Share size="12" class="mr-1" />{m.SHARE()}
-						</Button> -->
-						<IconButton
-							icon={Pencil}
-							size="sm"
-							border
-							on:click={() => {
-								setSignatureToEdit(record);
-								hideSignatureModal.off();
-							}}
-						/>
-					</svelte:fragment>
+				<div class="space-y-2">
+					{#each records as signature}
+						<PlainCard let:Title let:Description class="py-2.5">
+							<div class="flex items-center gap-2">
+								<Title>{signature.title}</Title>
+								<SignatureTypeChip type={signature.type} />
+							</div>
+							{#if signature.description}
+								<Description>{signature.description}</Description>
+							{/if}
 
-					<svelte:fragment slot="emptyState">
-						<CollectionEmptyState
-							title={m.No_signatures_yet()}
-							description={m.Start_by_signing_a_document()}
-							hideCreateButton
-						/>
-					</svelte:fragment>
-				</CollectionTable>
+							<svelte:fragment slot="right">
+								<div class="flex items-center gap-2">
+									<Button
+										class="py-2"
+										color="alternative"
+										on:click={() => downloadSignedFile(signature)}
+									>
+										<Icon src={ArrowDownTray} mr />
+										{m.Signed_file()}
+									</Button>
+									<Button
+										class="py-2"
+										color="alternative"
+										on:click={() => downloadSignatureOriginalFile(signature)}
+									>
+										<Icon src={ArrowDownTray} mr />
+										{m.Original_file()}
+									</Button>
+									<Button
+										class="!p-2"
+										color="alternative"
+										on:click={() => startEditSignature(signature)}
+									>
+										<Icon src={Pencil} />
+									</Button>
+									<ShareRecord
+										record={signature}
+										on:add={() => triggerToast('add')}
+										on:remove={() => triggerToast('remove')}
+									/>
+									<DeleteRecord record={signature} />
+								</div>
+							</svelte:fragment>
+						</PlainCard>
+					{/each}
+				</div>
+
+				<svelte:fragment slot="emptyState">
+					<CollectionEmptyState hideCreateButton description={m.Start_by_signing_a_file()} />
+				</svelte:fragment>
 			</CollectionManager>
-
-			<!-- {#key record}
-			{#if record}
-			<ShareSignature
-			bind:open={shareModal}
-			{record}
-			on:add={() => {
-				trigger('add');
-				}}
-				on:remove={() => {
-					trigger('remove');
-					}}
-					/>
-					{/if}
-					{/key} -->
 		</PageCard>
 	{/key}
 </PageContent>
 
-<Toast position="bottom-right" color="indigo" transition={slide} bind:open={show}>
+<Toast position="bottom-right" color="primary" transition={slide} bind:open={show}>
 	{content}
 </Toast>
 
@@ -302,12 +277,20 @@
 	>
 		<div class="p-8">
 			{#if $type}
-				<SignatureForm {ownerId} type={$type} onSubmit={hideSignatureModal.on} />
+				<SignatureForm
+					{ownerId}
+					type={$type}
+					onSubmit={() => {
+						hideSignatureModal.on();
+						triggerToast('add');
+					}}
+				/>
 			{/if}
 			{#if $signatureToEdit}
 				<SignatureForm
 					{ownerId}
 					signatureId={$signatureToEdit.id}
+					folderId={$signatureToEdit.folder}
 					type={$signatureToEdit.type}
 					onSubmit={hideSignatureModal.on}
 					initialData={$signatureToEdit}

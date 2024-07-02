@@ -1,4 +1,6 @@
-import { json, type RequestEvent } from '@sveltejs/kit';
+import type { AlgorithmName } from '$lib/certificates/types';
+import { getErrorMessage } from '$lib/errorHandling';
+import { error, json, type RequestEvent } from '@sveltejs/kit';
 
 const SHA256 = 'SHA256';
 const SHA512 = 'SHA512';
@@ -82,13 +84,16 @@ export const POST = async (evt: RequestEvent) => {
 			params.parameters.signaturePackaging = 'ENVELOPING';
 			break;
 	}
-	switch (req.signatureAlgorithmName) {
-		case ECDSA:
+
+	const algorithmName = req.signatureAlgorithmName as AlgorithmName;
+
+	switch (algorithmName) {
+		case 'ECDSA':
 			params.parameters.signatureAlgorithm = ECDSA + '_SHA256';
 			params.parameters.encryptionAlgorithm = ECDSA;
 			params.signatureValue.algorithm = ECDSA + '_SHA256';
 			break;
-		case EdDSA:
+		case 'Ed25519': // TODO - review these
 			params.parameters.signatureAlgorithm = 'ED25519';
 			params.parameters.digestAlgorithm = SHA512;
 			params.parameters.encryptionAlgorithm = 'EDDSA';
@@ -119,15 +124,11 @@ export const POST = async (evt: RequestEvent) => {
 				Accept: 'application/json'
 			}
 		}
-	).then((res) => {
-		if (!res.ok) {
-			return res.text().then((text) => {
-				throw new Error(text);
-			});
-		} else {
-			return res.json();
-		}
-	});
+	);
 
-	return json(signedDocument);
+	try {
+		return json(await signedDocument.json());
+	} catch (e) {
+		return error(500, getErrorMessage(e));
+	}
 };

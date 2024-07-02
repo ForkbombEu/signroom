@@ -14,6 +14,7 @@
 	export let record: RecordGeneric;
 
 	export let modalTitle = 'Delete record';
+	export let beforeDelete = () => {};
 
 	let { dataManager } = getRecordsManagerContext();
 	let { loadRecords, recordService } = dataManager;
@@ -22,6 +23,7 @@
 
 	async function deleteRecord() {
 		error = undefined;
+		beforeDelete();
 		try {
 			await recordService.delete(record.id);
 			loadRecords();

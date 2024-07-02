@@ -1,36 +1,20 @@
 import { pb } from '$lib/pocketbase';
-import type { CertificatesResponse, SignaturesTypeOptions } from '$lib/pocketbase/types';
+import type { SignaturesTypeOptions } from '$lib/pocketbase/types';
 import EdDSASignature from '@zenflows-crypto/src/eddsa_signature.zen?raw';
 import hexDerEs256Signature from '@zenflows-crypto/src/hex_der_es256_signature.zen?raw';
 import forge from 'node-forge';
 import { serialize } from 'object-to-formdata';
 import { zencode_exec } from 'zenroom';
 import type { SignatureFormData } from './signatureFormUtils';
+import { readFileAsBase64 } from '$lib/utils/files';
+import type { AlgorithmName, CertificateData } from '$lib/certificates/types';
 
 //
 
-export async function signFileAndUpload(data: SignatureFormData) {
-	const certificate = await pb.collection('certificates').getOne(data.certificate);
+export async function signFileAndUpload(data: SignatureFormData, certificateData: CertificateData) {
 	const base64file = await readFileAsBase64(data.file);
-	const signedFile = await signFile(data.type, base64file, certificate);
+	const signedFile = await signFile(data.type, base64file, certificateData);
 	return await storeSignature(data, signedFile);
-}
-
-// 1. Read file
-
-function readFileAsBase64(file: File): Promise<string> {
-	return new Promise((resolve, reject) => {
-		const reader = new FileReader();
-		reader.onload = () => {
-			const base64string = (reader.result as string).split(',')[1];
-			console.log(base64string);
-			resolve(base64string);
-		};
-		reader.onerror = () => {
-			reject(reader.error);
-		};
-		reader.readAsDataURL(file);
-	});
 }
 
 // 2. Sign file
@@ -38,19 +22,14 @@ function readFileAsBase64(file: File): Promise<string> {
 async function signFile(
 	algo: SignaturesTypeOptions,
 	base64file: string,
-	certificate: CertificatesResponse
+	certificateData: CertificateData
 ): Promise<SignedFile> {
-	const name = certificate.name;
-	const certPem = certificate.value;
-	const signatureAlgorithmName = certificate.algorithm;
+	const certPem = certificateData.certificate.value;
+	const signatureAlgorithmName = certificateData.certificate.algorithm as AlgorithmName;
+	const secretKey = certificateData.key.zenroomValue ?? certificateData.key.value;
 
 	// Current timestamp
 	const ts_now = Date.now();
-
-	// 1. Get secret key from localStorage
-	const sk = JSON.parse(localStorage.getItem('certificateKey') || '{}');
-	if (sk[name] == null) throw 'Empty secret key';
-	const secretKey = sk[name].zenroomValue || sk[name].value;
 
 	// 2. get data to sign
 	const toSign = await fetch('/api/getDataToSign', {
@@ -62,6 +41,9 @@ async function signFile(
 		}
 	});
 	const toBeSigned = await toSign.json();
+	if (!toSign.ok) {
+		throw new Error(toBeSigned.message);
+	}
 
 	// 3. sign digest of data
 	const signedDigest = await signData(signatureAlgorithmName, secretKey, toBeSigned.bytes);
@@ -82,11 +64,15 @@ async function signFile(
 			Accept: 'application/json'
 		}
 	});
+	const signedJson = await signed.json();
+	if (!signed.ok) {
+		throw new Error(signedJson.message);
+	}
 
-	return (await signed.json()) as SignedFile;
+	return signedJson as SignedFile;
 }
 
-async function signData(algorithmName: string, sk: string, data: string): Promise<string> {
+async function signData(algorithmName: AlgorithmName, sk: string, data: string): Promise<string> {
 	switch (algorithmName) {
 		case 'ECDSA': {
 			const { der_signature } = await zencodeExec(
@@ -103,7 +89,7 @@ async function signData(algorithmName: string, sk: string, data: string): Promis
 			);
 			return signedDigest;
 		}
-		case 'EdDSA': {
+		case 'Ed25519': {
 			const { eddsa_signature } = await zencodeExec(
 				EdDSASignature,
 				`{"keyring": {"eddsa": "${sk}"}, "bytes": "${data}"}`
@@ -139,8 +125,11 @@ async function signData(algorithmName: string, sk: string, data: string): Promis
 // 3. Create signature record
 
 function storeSignature(data: SignatureFormData, signedFile: SignedFile) {
-	const createData = serialize({ ...data, signed_file: JSON.stringify(signedFile, null, 4) }); // TODO – Type better
-	console.log([...createData.entries()]);
+	const createData = serialize({
+		...data,
+		signed_file: JSON.stringify(signedFile, null, 4),
+		certificate_used: data.certificate
+	}); // TODO – Type better
 	return pb.collection('signatures').create(createData);
 }
 
