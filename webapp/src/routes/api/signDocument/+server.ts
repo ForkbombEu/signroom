@@ -2,10 +2,8 @@ import type { AlgorithmName } from '$lib/certificates/types';
 import { getErrorMessage } from '$lib/errorHandling';
 import { error, json, type RequestEvent } from '@sveltejs/kit';
 
-const SHA256 = 'SHA256';
 const SHA512 = 'SHA512';
 const ECDSA = 'ECDSA';
-const EdDSA = 'EdDSA';
 const RSA = 'RSA';
 
 export const POST = async (evt: RequestEvent) => {

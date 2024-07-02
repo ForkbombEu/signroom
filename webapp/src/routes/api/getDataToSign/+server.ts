@@ -63,6 +63,7 @@ export const POST = async (evt: RequestEvent) => {
 			name: 'RemoteDocument'
 		}
 	};
+
 	switch (req.algo) {
 		case 'xades':
 			params.parameters.signaturePackaging = 'ENVELOPING';
@@ -80,15 +81,16 @@ export const POST = async (evt: RequestEvent) => {
 			params.parameters.signaturePackaging = 'ENVELOPING';
 			break;
 	}
+
 	switch (algo) {
 		case 'ECDSA':
 			params.parameters.signatureAlgorithm = ECDSA + '_SHA256';
 			params.parameters.encryptionAlgorithm = ECDSA;
 			break;
 		case 'Ed25519':
-			params.parameters.signatureAlgorithm = 'ED25519'; // TODO: fix here ?
+			params.parameters.signatureAlgorithm = 'ED25519';
 			params.parameters.digestAlgorithm = SHA512;
-			params.parameters.encryptionAlgorithm = 'EDDSA'; // TODO: fix here ?
+			params.parameters.encryptionAlgorithm = 'EDDSA';
 			params.parameters.contentTimestampParameters.digestAlgorithm = SHA512;
 			params.parameters.signatureTimestampParameters.digestAlgorithm = SHA512;
 			params.parameters.archiveTimestampParameters.digestAlgorithm = SHA512;
