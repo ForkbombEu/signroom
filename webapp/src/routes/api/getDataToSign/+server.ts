@@ -1,4 +1,5 @@
-import { json, type RequestEvent } from '@sveltejs/kit';
+import { getErrorMessage } from '$lib/errorHandling';
+import { error, json, type RequestEvent } from '@sveltejs/kit';
 
 const SHA256 = 'SHA256';
 const SHA512 = 'SHA512';
@@ -111,15 +112,11 @@ export const POST = async (evt: RequestEvent) => {
 				Accept: 'application/json'
 			}
 		}
-	).then((res) => {
-		if (!res.ok) {
-			return res.text().then((text) => {
-				throw new Error(text);
-			});
-		} else {
-			return res.json();
-		}
-	});
+	);
 
-	return json(toSign);
+	try {
+		return json(await toSign.json());
+	} catch (e) {
+		return error(500, getErrorMessage(e));
+	}
 };

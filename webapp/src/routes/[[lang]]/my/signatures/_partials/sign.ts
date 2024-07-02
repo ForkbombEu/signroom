@@ -41,6 +41,9 @@ async function signFile(
 		}
 	});
 	const toBeSigned = await toSign.json();
+	if (!toSign.ok) {
+		throw new Error(toBeSigned.message);
+	}
 
 	// 3. sign digest of data
 	const signedDigest = await signData(signatureAlgorithmName, secretKey, toBeSigned.bytes);
@@ -61,8 +64,12 @@ async function signFile(
 			Accept: 'application/json'
 		}
 	});
+	const signedJson = await signed.json();
+	if (!signed.ok) {
+		throw new Error(signedJson.message);
+	}
 
-	return (await signed.json()) as SignedFile;
+	return signedJson as SignedFile;
 }
 
 async function signData(algorithmName: AlgorithmName, sk: string, data: string): Promise<string> {
