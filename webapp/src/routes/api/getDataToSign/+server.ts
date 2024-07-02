@@ -1,15 +1,16 @@
+import type { AlgorithmName } from '$lib/certificates/types';
 import { getErrorMessage } from '$lib/errorHandling';
 import { error, json, type RequestEvent } from '@sveltejs/kit';
 
-const SHA256 = 'SHA256';
 const SHA512 = 'SHA512';
 const ECDSA = 'ECDSA';
-const EdDSA = 'EdDSA';
 const RSA = 'RSA';
 
 export const POST = async (evt: RequestEvent) => {
 	const req = await evt.request.json();
 	const { fetch } = evt;
+
+	const algo = req.signatureAlgorithmName as AlgorithmName;
 
 	const params: Record<string, any> = {
 		parameters: {
@@ -79,15 +80,15 @@ export const POST = async (evt: RequestEvent) => {
 			params.parameters.signaturePackaging = 'ENVELOPING';
 			break;
 	}
-	switch (req.signatureAlgorithmName) {
-		case ECDSA:
+	switch (algo) {
+		case 'ECDSA':
 			params.parameters.signatureAlgorithm = ECDSA + '_SHA256';
 			params.parameters.encryptionAlgorithm = ECDSA;
 			break;
-		case EdDSA:
-			params.parameters.signatureAlgorithm = 'ED25519';
+		case 'Ed25519':
+			params.parameters.signatureAlgorithm = 'ED25519'; // TODO: fix here ?
 			params.parameters.digestAlgorithm = SHA512;
-			params.parameters.encryptionAlgorithm = 'EDDSA';
+			params.parameters.encryptionAlgorithm = 'EDDSA'; // TODO: fix here ?
 			params.parameters.contentTimestampParameters.digestAlgorithm = SHA512;
 			params.parameters.signatureTimestampParameters.digestAlgorithm = SHA512;
 			params.parameters.archiveTimestampParameters.digestAlgorithm = SHA512;
