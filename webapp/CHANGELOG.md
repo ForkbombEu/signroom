@@ -1,3 +1,10 @@
+## [1.10.2](https://github.com/ForkbombEu/signroom/compare/v1.10.1...v1.10.2) (2024-07-02)
+
+
+### Bug Fixes
+
+* signatures ux/ui verification and flows ([#697](https://github.com/ForkbombEu/signroom/issues/697)) ([bddd22c](https://github.com/ForkbombEu/signroom/commit/bddd22cbf3646ce0896a86a85a54313444e514ff)), closes [#693](https://github.com/ForkbombEu/signroom/issues/693) [#694](https://github.com/ForkbombEu/signroom/issues/694) [#696](https://github.com/ForkbombEu/signroom/issues/696) [#700](https://github.com/ForkbombEu/signroom/issues/700)
+
 ## [1.10.1](https://github.com/ForkbombEu/signroom/compare/v1.10.0...v1.10.1) (2024-06-17)
 
 
