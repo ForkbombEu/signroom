@@ -8,13 +8,29 @@ import { zencode_exec } from 'zenroom';
 import type { SignatureFormData } from './signatureFormUtils';
 import { readFileAsBase64 } from '$lib/utils/files';
 import type { AlgorithmName, CertificateData } from '$lib/certificates/types';
+import { isInvalidCertificate } from '$lib/signatures/guards';
+import { m } from '$lib/i18n';
 
 //
 
 export async function signFileAndUpload(data: SignatureFormData, certificateData: CertificateData) {
+	checkIfAlgorithmAndCertificateAreCompatible(data.type, certificateData);
 	const base64file = await readFileAsBase64(data.file);
 	const signedFile = await signFile(data.type, base64file, certificateData);
 	return await storeSignature(data, signedFile);
+}
+
+// 1. Guard
+
+function checkIfAlgorithmAndCertificateAreCompatible(
+	signatureType: SignaturesTypeOptions,
+	certificateData: CertificateData
+) {
+	if (isInvalidCertificate(signatureType, certificateData)) {
+		throw new Error(
+			m.ECDSA_and_EdDSA_certificates_are_currently_not_supported_with_JADES_algorithm()
+		);
+	}
 }
 
 // 2. Sign file
