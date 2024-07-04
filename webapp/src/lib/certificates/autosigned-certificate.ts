@@ -1,5 +1,5 @@
 import * as x509 from '@peculiar/x509';
-import type { Certificate, CertificateData, CertificateKey } from './types';
+import type { AlgorithmName, Certificate, CertificateData, CertificateKey } from './types';
 import { BEGIN_EC, END_EC } from './strings';
 
 //
@@ -65,7 +65,7 @@ async function createAutosignedCertificate(keyPair: CryptoKeyPair): Promise<Cert
 
 	return {
 		value: parsedCert,
-		algorithm: ALGORITHM.name
+		algorithm: ALGORITHM.name as AlgorithmName
 	};
 }
 
