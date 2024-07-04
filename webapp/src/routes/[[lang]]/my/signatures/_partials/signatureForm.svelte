@@ -20,6 +20,7 @@
 	import { pb } from '$lib/pocketbase';
 	import { getCertificate, getCertificatesFromLocalStorage } from '$lib/certificates/storage';
 	import { isInvalidCertificate } from '$lib/signatures/guards';
+	import { getInvalidCertificates } from './utils';
 
 	export let type: SignaturesTypeOptions;
 	export let signatureId: string | undefined = undefined;
@@ -62,12 +63,6 @@
 		.map(([certificateName, _]) => certificateName);
 
 	$: invalidCertificates = getInvalidCertificates(type);
-
-	function getInvalidCertificates(signatureType: SignaturesTypeOptions) {
-		return Object.entries(getCertificatesFromLocalStorage())
-			.filter(([_, certificateData]) => isInvalidCertificate(signatureType, certificateData))
-			.map(([certificateName, _]) => certificateName);
-	}
 </script>
 
 <Form {superform} showRequiredIndicator>
