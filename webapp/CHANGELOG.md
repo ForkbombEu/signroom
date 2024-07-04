@@ -1,3 +1,10 @@
+## [1.10.3](https://github.com/ForkbombEu/signroom/compare/v1.10.2...v1.10.3) (2024-07-04)
+
+
+### Bug Fixes
+
+* show warning for jades ([#702](https://github.com/ForkbombEu/signroom/issues/702)) ([2a800f7](https://github.com/ForkbombEu/signroom/commit/2a800f75a98b0412f4af356502a6eb8e5e1d5002))
+
 ## [1.10.2](https://github.com/ForkbombEu/signroom/compare/v1.10.1...v1.10.2) (2024-07-02)
 
 
