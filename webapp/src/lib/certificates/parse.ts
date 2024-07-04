@@ -49,6 +49,7 @@ async function parseCertificate(certificate: string): Promise<Certificate> {
 	const certAlg = new x509.X509Certificate(parsedCertificate).publicKey.algorithm as EcKeyAlgorithm; // TODO - Check if interface is okay
 	const signatureAlgorithmName = certAlg.name;
 
+	// TODO – Review this check
 	if (signatureAlgorithmName == 'ECDSA' && certAlg.namedCurve != 'P-256') {
 		throw new Error('ECDSA signature must be on P-256 curve');
 	}
@@ -58,7 +59,7 @@ async function parseCertificate(certificate: string): Promise<Certificate> {
 	// signatureAlgorithmName = RSASSA-PKCS1-v1_5
 	// signatureAlgorithmName = 1.2.840.113549.1.1.10 (RSA-PSS)
 
-	return { value: parsedCertificate, algorithm: signatureAlgorithmName };
+	return { value: parsedCertificate, algorithm: signatureAlgorithmName as AlgorithmName };
 }
 
 // Key

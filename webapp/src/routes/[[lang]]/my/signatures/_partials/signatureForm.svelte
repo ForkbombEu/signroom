@@ -16,9 +16,11 @@
 	import SubmitButton from '$lib/forms/submitButton.svelte';
 	import type { AnyZodObject } from 'zod';
 	import { signFileAndUpload } from './sign';
-	import { P } from 'flowbite-svelte';
+	import { Alert, P } from 'flowbite-svelte';
 	import { pb } from '$lib/pocketbase';
 	import { getCertificate, getCertificatesFromLocalStorage } from '$lib/certificates/storage';
+	import { isInvalidCertificate } from '$lib/signatures/guards';
+	import { getInvalidCertificates } from './utils';
 
 	export let type: SignaturesTypeOptions;
 	export let signatureId: string | undefined = undefined;
@@ -56,9 +58,11 @@
 
 	//
 
-	const certificatesOptions = Object.entries(getCertificatesFromLocalStorage()).map(
-		([certificateName, _]) => certificateName
-	);
+	$: certificatesOptions = Object.entries(getCertificatesFromLocalStorage())
+		.filter(([_, certificateData]) => !isInvalidCertificate(type, certificateData))
+		.map(([certificateName, _]) => certificateName);
+
+	$: invalidCertificates = getInvalidCertificates(type);
 </script>
 
 <Form {superform} showRequiredIndicator>
@@ -88,7 +92,21 @@
 			}}
 		/>
 
-		<Select {superform} field="certificate" options={{ options: certificatesOptions }}></Select>
+		<div>
+			<Select {superform} field="certificate" options={{ options: certificatesOptions }} />
+			{#if invalidCertificates.length > 0}
+				<Alert color="yellow" class="mt-2" border>
+					<p class="font-bold">{m.Warning()}</p>
+					<p>{m.ECDSA_and_EdDSA_certificates_are_currently_not_supported_with_JADES_algorithm()}</p>
+					<p>{m.These_certificates_cannot_be_used()}</p>
+					<ul class="list-inside list-disc">
+						{#each invalidCertificates as certificate}
+							<li>{certificate}</li>
+						{/each}
+					</ul>
+				</Alert>
+			{/if}
+		</div>
 	{/if}
 
 	<Relations

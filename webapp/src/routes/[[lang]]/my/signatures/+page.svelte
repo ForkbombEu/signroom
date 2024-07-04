@@ -32,6 +32,8 @@
 	import { downloadFileFromUrl } from '$lib/utils/clientFileDownload';
 	import { m } from '$lib/i18n';
 	import ShareRecord from '$lib/collectionManager/ui/recordActions/shareRecord.svelte';
+	import { getInvalidCertificates } from './_partials/utils';
+	import { getCertificatesFromLocalStorage } from '$lib/certificates/storage';
 
 	//
 
@@ -96,6 +98,14 @@
 			show = false;
 			content = undefined;
 		}, duration);
+	}
+
+	//
+
+	function areCertificatesAvailableForSignatureType(type: SignaturesTypeOptions) {
+		const allCertificates = Object.keys(getCertificatesFromLocalStorage());
+		const invalidCertificates = getInvalidCertificates(type);
+		return invalidCertificates.length < allCertificates.length;
 	}
 </script>
 
@@ -194,6 +204,7 @@
 									</Button>
 									<Dropdown class="min-w-40">
 										{#each Object.values(SignaturesTypeOptions) as type}
+											<!-- {@const check = areCertificatesAvailableForSignatureType(type)} -->
 											<DropdownItem on:click={() => startCreateSignature(type)}>
 												<span class="capitalize">{type}</span>
 											</DropdownItem>
