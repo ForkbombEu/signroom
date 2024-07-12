@@ -1,0 +1,8 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: signroom
+Upstream-Contact: Matteo Cristino <matteo@dyne.org>
+Source: https://github.com/ForkbombEu/signroom
+
+Files: admin/pb_migrations/*.js
+Copyright: 2024 The Forkbomb Company
+License: AGPL-3.0-or-later
