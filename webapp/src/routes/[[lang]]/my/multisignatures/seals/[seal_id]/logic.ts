@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 The Forkbomb Company
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { zencodeExec, type Keyring } from '$lib/keypairoom/keypair';
 import { pb } from '$lib/pocketbase';
 import {

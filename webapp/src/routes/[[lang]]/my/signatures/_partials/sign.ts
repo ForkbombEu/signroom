@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 The Forkbomb Company
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { pb } from '$lib/pocketbase';
 import type { SignaturesTypeOptions } from '$lib/pocketbase/types';
 import EdDSASignature from '@zenflows-crypto/src/eddsa_signature.zen?raw';

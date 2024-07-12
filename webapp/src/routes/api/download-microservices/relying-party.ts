@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 The Forkbomb Company
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import type { IssuersResponse, RelyingPartiesResponse } from '$lib/pocketbase/types';
 import AdmZip from 'adm-zip';
 import type { DownloadMicroservicesRequestBody } from '.';
