@@ -3,7 +3,7 @@ Upstream-Name: signroom
 Upstream-Contact: Matteo Cristino <matteo@dyne.org>
 Source: https://github.com/ForkbombEu/signroom
 
-Files: admin/pb_migrations/*.js
+Files: admin/pb_migrations/*.js admin/examples/*
 Copyright: 2024 The Forkbomb Company
 License: AGPL-3.0-or-later
 
