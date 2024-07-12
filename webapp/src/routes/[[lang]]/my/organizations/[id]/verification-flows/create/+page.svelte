@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import PageContent from '$lib/components/pageContent.svelte';
 	import PageTop from '$lib/components/pageTop.svelte';

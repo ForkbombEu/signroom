@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { formFieldProxy, type SuperForm } from 'sveltekit-superforms/client';
 	import { JSONSchemaEditor } from 'json-schema-builder-svelte';
