@@ -14,3 +14,7 @@ License: AGPL-3.0-or-later
 Files: images/*.png
 Copyright: 2024 The Forkbomb Company
 License: AGPL-3.0-or-later
+
+Files: webapp/messages/* webapp/static/*.png
+Copyright: 2024 The Forkbomb Company
+License: AGPL-3.0-or-later
