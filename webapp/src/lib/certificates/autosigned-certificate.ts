@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 The Forkbomb Company
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import * as x509 from '@peculiar/x509';
 import type { AlgorithmName, Certificate, CertificateData, CertificateKey } from './types';
 import { BEGIN_EC, END_EC } from './strings';

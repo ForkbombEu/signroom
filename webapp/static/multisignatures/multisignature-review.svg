@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <svg width="272" height="131" viewBox="0 0 272 131" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect width="272" height="131" fill="#F9FAFB"/>
 <path d="M54.7656 29.6211C54.7656 43.7645 67.8353 61.1186 73.943 73.221C78.2787 81.8121 83.5349 89.7059 87.2197 98.627C88.2897 101.218 89.2433 105.13 91.6453 106.331" stroke="#8A0EE2" stroke-width="3" stroke-linecap="round"/>

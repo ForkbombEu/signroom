@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 The Forkbomb Company
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { test, expect, type Page } from '@playwright/test';
 import { userLogin, randomId } from '@utils/login';
 import { createOrganization } from '@utils/organization';

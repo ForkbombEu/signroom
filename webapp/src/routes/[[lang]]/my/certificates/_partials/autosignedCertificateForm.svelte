@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { Form, Input, createForm, FormError, SubmitButton } from '$lib/forms';
 	import { createAutosignedCertificateData } from '$lib/certificates/autosigned-certificate';

@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 # Pocketbase backend
 
 Starter for a backend that includes pocketbase and [keypairoom](https://github.com/LedgerProject/keypairoom) key generation.

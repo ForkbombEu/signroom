@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 # Initial spec and project planning
 
 https://pad.dyne.org/code/#/2/code/view/tv2svs0FVvcW3LdnqzTS5ekwu7ZD6uYTOpD0rorWxlM/
