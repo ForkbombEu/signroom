@@ -10,3 +10,7 @@ License: AGPL-3.0-or-later
 Files: screenshots/videos/*.webm screenshots/assets/*.png screenshots/assets/*.png screenshots/screens/*.png
 Copyright: 2024 The Forkbomb Company
 License: AGPL-3.0-or-later
+
+Files: images/*.png
+Copyright: 2024 The Forkbomb Company
+License: AGPL-3.0-or-later
