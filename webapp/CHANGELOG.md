@@ -1,3 +1,10 @@
+## [1.10.4](https://github.com/ForkbombEu/signroom/compare/v1.10.3...v1.10.4) (2024-07-17)
+
+
+### Bug Fixes
+
+* template parsing error ([#709](https://github.com/ForkbombEu/signroom/issues/709)) ([aa84e38](https://github.com/ForkbombEu/signroom/commit/aa84e38d8b1d28e9ab11bbf34abee23e9f1a5163))
+
 ## [1.10.3](https://github.com/ForkbombEu/signroom/compare/v1.10.2...v1.10.3) (2024-07-04)
 
 
