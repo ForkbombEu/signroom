@@ -19,13 +19,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import Textarea from '$lib/forms/fields/textarea.svelte';
 	import { m } from '$lib/i18n';
 
-	import { objectSchemaValidator } from '$lib/jsonSchema/types';
-
-	import {
-		objectSchemaToCredentialSubject,
-		flattenCredentialSubjectProperties
-	} from '@api/download-microservices/utils/credential-subject';
-
 	import OrganizationLayout from '$lib/components/organizationLayout.svelte';
 	import PageCard from '$lib/components/pageCard.svelte';
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
@@ -38,8 +31,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { createToggleStore } from '$lib/components/utils/toggleStore';
 	import { page } from '$app/stores';
 	import { ProtectedOrgUI } from '$lib/rbac';
-	import { templatesColors } from '$lib/utils/colors';
-	import { Array as A, Effect, Option as O, pipe } from 'effect';
+	import { TemplatePropertiesDisplay, templatesColors } from '$lib/templates';
 
 	//
 
@@ -147,28 +139,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	//
 
-	function getTemplatePropertyList(schemas: Array<unknown | undefined>) {
-		return pipe(
-			schemas,
-			A.map((schema) =>
-				pipe(
-					Effect.try(() =>
-						pipe(
-							objectSchemaValidator.parse(schema),
-							objectSchemaToCredentialSubject,
-							flattenCredentialSubjectProperties,
-							A.map(([credentialName, _]) => credentialName)
-						)
-					),
-					Effect.orElseSucceed(() => [] as string[]),
-					Effect.runSync
-				)
-			),
-			A.flatten,
-			A.join(', ')
-		);
-	}
-
 	//
 
 	let templateFormId: string | undefined = undefined;
@@ -219,11 +189,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 			<div class="space-y-4">
 				{#each records as template}
-					{@const propertyList = getTemplatePropertyList([
-						template.schema,
-						template.schema_secondary
-					])}
-
 					<PlainCard let:Title let:Description>
 						<div class="flex items-center gap-2">
 							<Title>{template.name}</Title>
@@ -238,13 +203,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 							<Description>{template.description}</Description>
 						{/if}
 
-						<p class="mt-2 w-fit rounded-md bg-gray-100 px-2 py-1 font-mono text-xs text-gray-500">
-							{#if Boolean(propertyList)}
-								Properties: {propertyList}
-							{:else}
-								{m.No_properties_found()}
-							{/if}
-						</p>
+						<TemplatePropertiesDisplay {template} />
 
 						<svelte:fragment slot="right">
 							<div class="flex gap-2">

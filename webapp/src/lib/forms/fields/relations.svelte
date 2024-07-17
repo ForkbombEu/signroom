@@ -40,12 +40,18 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	if (!options.name) options.name = field;
 
 	$: if (Array.isArray($value) && $value.length > 0) validate(field, $value as any);
+
+	//
+
+	function fakeTsParse(x: any): RecordGeneric {
+		return x;
+	}
 </script>
 
 <FieldWrapper {field} label={options.label}>
 	<slot slot="labelRight" name="labelRight" />
 	<RecordsManager {recordType} {collection} bind:value={$value} options={{ ...options }} let:record>
-		<slot {record}>
+		<slot record={fakeTsParse(record)}>
 			{createRecordLabel(record, options.displayFields)}
 		</slot>
 	</RecordsManager>
