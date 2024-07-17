@@ -416,5 +416,6 @@
 	"Select_your_key": "Select your key",
 	"Select_your_certificate": "Select your certificate",
 	"ECDSA_and_EdDSA_certificates_are_currently_not_supported_with_JADES_algorithm": "ECDSA and EdDSA certificates are currently not supported with JADES algorithms.",
-	"These_certificates_cannot_be_used": "These certificates cannot be used:"
+	"These_certificates_cannot_be_used": "These certificates cannot be used:",
+	"No_properties_found": "No properties found"
 }

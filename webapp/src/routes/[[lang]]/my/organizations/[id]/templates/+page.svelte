@@ -39,6 +39,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { page } from '$app/stores';
 	import { ProtectedOrgUI } from '$lib/rbac';
 	import { templatesColors } from '$lib/utils/colors';
+	import { Array as A, Effect, Option as O, pipe } from 'effect';
 
 	//
 
@@ -146,14 +147,26 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	//
 
-	function getTemplatePropertyList(schema: any) {
-		try {
-			const objectSchema = objectSchemaValidator.parse(schema);
-			const credentialSubject = objectSchemaToCredentialSubject(objectSchema);
-			return flattenCredentialSubjectProperties(credentialSubject);
-		} catch (e) {
-			return undefined;
-		}
+	function getTemplatePropertyList(schemas: Array<unknown | undefined>) {
+		return pipe(
+			schemas,
+			A.map((schema) =>
+				pipe(
+					Effect.try(() =>
+						pipe(
+							objectSchemaValidator.parse(schema),
+							objectSchemaToCredentialSubject,
+							flattenCredentialSubjectProperties,
+							A.map(([credentialName, _]) => credentialName)
+						)
+					),
+					Effect.orElseSucceed(() => [] as string[]),
+					Effect.runSync
+				)
+			),
+			A.flatten,
+			A.join(', ')
+		);
 	}
 
 	//
@@ -206,9 +219,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 			<div class="space-y-4">
 				{#each records as template}
-					{@const propertyList = getTemplatePropertyList(template.schema)
-						?.map((e) => e[0])
-						.join(', ')}
+					{@const propertyList = getTemplatePropertyList([
+						template.schema,
+						template.schema_secondary
+					])}
 
 					<PlainCard let:Title let:Description>
 						<div class="flex items-center gap-2">
@@ -224,15 +238,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 							<Description>{template.description}</Description>
 						{/if}
 
-						{#if propertyList}
-							<p
-								class="mt-2 w-fit rounded-md bg-gray-100 px-2 py-1 font-mono text-sm text-gray-500"
-							>
+						<p class="mt-2 w-fit rounded-md bg-gray-100 px-2 py-1 font-mono text-xs text-gray-500">
+							{#if Boolean(propertyList)}
 								Properties: {propertyList}
-							</p>
-						{:else}
-							<p class="text-gray-300">Template parsing error</p>
-						{/if}
+							{:else}
+								{m.No_properties_found()}
+							{/if}
+						</p>
 
 						<svelte:fragment slot="right">
 							<div class="flex gap-2">
