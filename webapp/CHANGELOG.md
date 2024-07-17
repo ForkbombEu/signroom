@@ -1,3 +1,10 @@
+## [1.10.5](https://github.com/ForkbombEu/signroom/compare/v1.10.4...v1.10.5) (2024-07-17)
+
+
+### Bug Fixes
+
+* issuance flow field order ([#711](https://github.com/ForkbombEu/signroom/issues/711)) ([d12eabc](https://github.com/ForkbombEu/signroom/commit/d12eabc4eea22c4f8efba486180e6577190f076c))
+
 ## [1.10.4](https://github.com/ForkbombEu/signroom/compare/v1.10.3...v1.10.4) (2024-07-17)
 
 
