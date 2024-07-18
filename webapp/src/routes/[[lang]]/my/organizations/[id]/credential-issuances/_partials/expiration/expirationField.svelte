@@ -29,7 +29,7 @@
 
 	//
 
-	export let expiration: Expiration = defaultValues['date'];
+	export let expiration: Expiration = defaultValues['duration'];
 
 	//
 
@@ -60,8 +60,9 @@
 	{/key}
 </div>
 
-<style>
+<style lang="postcss">
 	:global(.expiration-field > * > label) {
 		font-weight: normal !important;
+		@apply text-xs;
 	}
 </style>
