@@ -95,6 +95,7 @@
 		"clsx": "^2.1.1",
 		"codejar": "^4.2.0",
 		"date-fns": "^3.6.0",
+		"date-picker-svelte": "^2.13.0",
 		"dayjs": "^1.11.11",
 		"effect": "^3.2.8",
 		"execa": "^9.1.0",

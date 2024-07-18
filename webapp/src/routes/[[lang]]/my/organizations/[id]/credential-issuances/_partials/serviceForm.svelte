@@ -14,6 +14,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { createToggleStore } from '$lib/components/utils/toggleStore';
 	import {
 		Checkbox,
+		FieldWrapper,
 		Form,
 		Input,
 		Relations,
@@ -24,7 +25,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		createFormData
 	} from '$lib/forms';
 	import FormError from '$lib/forms/formError.svelte';
-	import { goto, m } from '$lib/i18n';
+	import { m } from '$lib/i18n';
 	import { pb } from '$lib/pocketbase/index.js';
 	import { getCollectionSchema } from '$lib/pocketbase/schema/index.js';
 	import {
@@ -47,7 +48,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { createEventDispatcher } from 'svelte';
 	import slugify from 'slugify';
 	import FieldHelpText from '$lib/forms/fields/fieldParts/fieldHelpText.svelte';
-	import TimeEditor from './timeEditor.svelte';
+	import ExpirationField from './expiration/expirationField.svelte';
+	import { expirationSchema } from '$lib/issuanceFlows/expiration';
+	import { z } from 'zod';
 
 	//
 
@@ -61,12 +64,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	//
 
-	const serviceSchema = fieldsSchemaToZod(getCollectionSchema(Collections.Services)!.schema);
+	const serviceSchema = z
+		.object({ expiration: expirationSchema })
+		.merge(fieldsSchemaToZod(getCollectionSchema(Collections.Services)!.schema));
 
 	const superform = createForm(
 		serviceSchema,
 		async (e) => {
-			const formData = createFormData(e.form.data);
+			const formData = e.form.data;
 			let record: ServicesResponse;
 			if (serviceId) {
 				record = await pb.collection('services').update(serviceId, formData);
@@ -78,6 +83,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		{
 			organization: organizationId,
 			...initialData
+		},
+		{
+			validationMethod: 'oninput'
 		}
 	);
 
@@ -133,11 +141,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		const organizationName = isExternal ? ` (@${t.expand?.organization.name})` : '';
 		return `${t.name} ${organizationName} | ${t.description}`;
 	}
-
-	//
-
-	let time_date = 1721226758992;
-	let time_duration = 1721226758992;
 </script>
 
 <Form {superform} showRequiredIndicator className="space-y-10">
@@ -147,12 +150,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 			title={m.Basic_info()}
 			description={m.issuance_flow_form_main_info_description()}
 		/>
-
-		<pre>{time_date}</pre>
-		<TimeEditor mode="date" bind:time={time_date}></TimeEditor>
-
-		<pre>{time_duration}</pre>
-		<TimeEditor mode="duration" bind:time={time_duration}></TimeEditor>
 
 		<Input
 			field="display_name"
@@ -262,6 +259,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				</svelte:fragment>
 			</Relations>
 		</div>
+
+		<FieldWrapper field="expiration">
+			<ExpirationField bind:expiration={$form['expiration']}></ExpirationField>
+		</FieldWrapper>
 	</PageCard>
 
 	<PageCard>

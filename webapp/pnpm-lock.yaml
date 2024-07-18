@@ -59,6 +59,9 @@ importers:
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
+      date-picker-svelte:
+        specifier: ^2.13.0
+        version: 2.13.0(svelte@4.2.17)
       dayjs:
         specifier: ^1.11.11
         version: 1.11.11
@@ -2029,6 +2032,11 @@ packages:
 
   date-fns@3.6.0:
     resolution: {integrity: sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==}
+
+  date-picker-svelte@2.13.0:
+    resolution: {integrity: sha512-A0MMma1uv+/sL8MwgGuEPv/UJnhR6CmWg5aR8XhYeAX/I8+RQmQh+jpwIL0Z3/g4CGo9OhNZn+VicHpvnNCCtA==}
+    peerDependencies:
+      svelte: ^3.24.0 || ^4.0.0
 
   dayjs@1.11.11:
     resolution: {integrity: sha512-okzr3f11N6WuqYtZSvm+F776mB41wRZMhKP+hc34YdW+KmtYYK9iqvHSwo2k9FEH3fhGXvOPV6yz2IcSrfRUDg==}
@@ -6744,6 +6752,10 @@ snapshots:
       is-data-view: 1.0.1
 
   date-fns@3.6.0: {}
+
+  date-picker-svelte@2.13.0(svelte@4.2.17):
+    dependencies:
+      svelte: 4.2.17
 
   dayjs@1.11.11: {}
 
