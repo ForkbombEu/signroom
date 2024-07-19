@@ -13,7 +13,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import PageCard from '$lib/components/pageCard.svelte';
 	import HomeSection from './_partials/homeSection.svelte';
 	import { Badge } from 'flowbite-svelte';
-	import { templatesColors } from '$lib/utils/colors';
+	import { templatesColors } from '$lib/templates';
 
 	export let data;
 	let {
