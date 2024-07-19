@@ -212,35 +212,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 			<Relations
 				recordType={templateTypeProp}
 				collection={Collections.TemplatesPublicData}
-				field="credential_template"
-				options={{
-					label: m.Credential_template(),
-					inputMode: 'select',
-					filter: templateFilter(TemplatesTypeOptions.issuance, organizationId),
-					expand: 'organization',
-					formatRecord: formatTeplateRecord
-				}}
-				{superform}
-			>
-				<svelte:fragment slot="labelRight">
-					<Button outline size="xs" on:click={hideCredentialTemplateDrawer.off}>
-						{m.New_credential_template()}
-						<Icon src={Plus} size={16} ml></Icon></Button
-					>
-				</svelte:fragment>
-				<svelte:fragment slot="default" let:record>
-					<div class="p-2">
-						<p>{formatTeplateRecord(record)}</p>
-						<TemplatePropertiesDisplay template={record}></TemplatePropertiesDisplay>
-					</div>
-				</svelte:fragment>
-			</Relations>
-		</div>
-
-		<div>
-			<Relations
-				recordType={templateTypeProp}
-				collection={Collections.TemplatesPublicData}
 				field="authorization_template"
 				options={{
 					label: m.Authorization_template(),
@@ -265,6 +236,35 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				</svelte:fragment>
 			</Relations>
 		</div>
+
+		<div>
+			<Relations
+				recordType={templateTypeProp}
+				collection={Collections.TemplatesPublicData}
+				field="credential_template"
+				options={{
+					label: m.Credential_template(),
+					inputMode: 'select',
+					filter: templateFilter(TemplatesTypeOptions.issuance, organizationId),
+					expand: 'organization',
+					formatRecord: formatTeplateRecord
+				}}
+				{superform}
+			>
+				<svelte:fragment slot="labelRight">
+					<Button outline size="xs" on:click={hideCredentialTemplateDrawer.off}>
+						{m.New_credential_template()}
+						<Icon src={Plus} size={16} ml></Icon></Button
+					>
+				</svelte:fragment>
+				<svelte:fragment slot="default" let:record>
+					<div class="p-2">
+						<p>{formatTeplateRecord(record)}</p>
+						<TemplatePropertiesDisplay template={record}></TemplatePropertiesDisplay>
+					</div>
+				</svelte:fragment>
+			</Relations>
+		</div>
 	</PageCard>
 
 	<PageCard>
@@ -273,27 +273,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 			title={m.Microservices()}
 			description={m.issuance_flow_form_microservices_description()}
 		/>
-
-		<div>
-			<Relations
-				recordType={issuersType}
-				collection={Collections.Issuers}
-				field="credential_issuer"
-				options={{
-					inputMode: 'select',
-					displayFields: ['name', 'endpoint'],
-					label: m.Credential_issuer()
-				}}
-				{superform}
-			>
-				<svelte:fragment slot="labelRight">
-					<Button outline size="xs" on:click={hideCredentialIssuerDrawer.off}>
-						{m.New_credential_issuer()}
-						<Icon src={Plus} size={16} ml></Icon></Button
-					>
-				</svelte:fragment>
-			</Relations>
-		</div>
 
 		<div>
 			<Relations
@@ -312,6 +291,27 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 						{m.New_authorization_server()}
 						<Icon src={Plus} size={16} ml></Icon>
 					</Button>
+				</svelte:fragment>
+			</Relations>
+		</div>
+
+		<div>
+			<Relations
+				recordType={issuersType}
+				collection={Collections.Issuers}
+				field="credential_issuer"
+				options={{
+					inputMode: 'select',
+					displayFields: ['name', 'endpoint'],
+					label: m.Credential_issuer()
+				}}
+				{superform}
+			>
+				<svelte:fragment slot="labelRight">
+					<Button outline size="xs" on:click={hideCredentialIssuerDrawer.off}>
+						{m.New_credential_issuer()}
+						<Icon src={Plus} size={16} ml></Icon></Button
+					>
 				</svelte:fragment>
 			</Relations>
 		</div>
