@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/ForkbombEu/signroom/compare/v1.10.5...v1.11.0) (2024-07-19)
+
+
+### Features
+
+* updated template display rules ([#710](https://github.com/ForkbombEu/signroom/issues/710)) ([dde0826](https://github.com/ForkbombEu/signroom/commit/dde08267dc8cbbb51a19275d7097bee9328a7143))
+
 ## [1.10.5](https://github.com/ForkbombEu/signroom/compare/v1.10.4...v1.10.5) (2024-07-17)
 
 
