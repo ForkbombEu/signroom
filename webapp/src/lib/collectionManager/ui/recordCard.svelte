@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import type { FieldsComponents, ViewAction } from './types';
 	import type { PBResponse, StringKeys } from '$lib/utils/types';
@@ -27,13 +33,13 @@
 	const outline = '!outline !outline-2 !outline-primary-600';
 </script>
 
-<Card class={`!relative !p-4 !max-w-none ${isSelected ? outline : ''}`}>
+<Card class={`!relative !max-w-none !p-4 ${isSelected ? outline : ''}`}>
 	{#if titleField}
 		<P weight="bold" class="mb-2">{record[titleField]}</P>
 	{/if}
 
 	{#if !hideActions.includes('select')}
-		<div class="absolute right-1 top-1 p-3 bg-inherit">
+		<div class="absolute right-1 top-1 bg-inherit p-3">
 			<SelectRecord {record} />
 		</div>
 	{/if}
@@ -51,7 +57,7 @@
 
 	<slot {record} />
 
-	<div class="flex justify-end items-center gap-1 pt-2">
+	<div class="flex items-center justify-end gap-1 pt-2">
 		<slot name="actions" {record} />
 		{#if !hideActions.includes('edit')}
 			<EditRecord {record} />

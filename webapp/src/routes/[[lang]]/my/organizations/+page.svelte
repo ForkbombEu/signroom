@@ -1,10 +1,15 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { OrgRoles } from '$lib/rbac';
-	import { Heading, Button, A, P, Badge, Avatar } from 'flowbite-svelte';
+	import { Button, A, P, Badge, Avatar } from 'flowbite-svelte';
 	import { Plus, UserPlus, Cog, PuzzlePiece, ArrowUturnLeft } from 'svelte-heros-v2';
 	import { c } from '$lib/utils/strings.js';
 	import { pb } from '$lib/pocketbase/index.js';
-	import { Collections } from '$lib/pocketbase/types.js';
 	import { invalidateAll } from '$app/navigation';
 	import { m } from '$lib/i18n';
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
@@ -22,7 +27,7 @@
 	const { ADMIN, OWNER } = OrgRoles;
 
 	async function deleteJoinRequest(requestId: string) {
-		await pb.collection(Collections.OrgJoinRequests).delete(requestId);
+		await pb.collection('orgJoinRequests').delete(requestId);
 		invalidateAll();
 	}
 </script>
@@ -70,11 +75,11 @@
 	<PageCard>
 		<SectionTitle tag="h5" title={m.Your_organizations()}>
 			<div slot="right" class="flex justify-end gap-2">
-				<Button size="sm" outline class="!px-4 shrink-0" href="/my/organizations/join">
+				<Button size="sm" outline class="shrink-0 !px-4" href="/my/organizations/join">
 					<span class="ml-1"> {m.Join_an_organization()} </span>
 					<Icon src={UserPlus} ml />
 				</Button>
-				<Button size="sm" class="!px-4 shrink-0" href="/my/organizations/create">
+				<Button size="sm" class="shrink-0 !px-4" href="/my/organizations/create">
 					<span class="ml-1"> {m.Create_a_new_organization()} </span>
 					<Icon src={Plus} ml />
 				</Button>

@@ -1,10 +1,14 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { ArrowLeft, Folder } from 'svelte-heros-v2';
 	import { pb } from '$lib/pocketbase';
-	import { Collections, type FoldersRecord } from '$lib/pocketbase/types';
 
 	import { Heading, Spinner, A } from 'flowbite-svelte';
-	import type { RecordModel } from 'pocketbase';
 
 	//
 
@@ -13,7 +17,7 @@
 	let folderPromise = loadFolder();
 
 	async function loadFolder() {
-		return await pb.collection(Collections.Folders).getOne<FoldersRecord & RecordModel>(folderId);
+		return await pb.collection('folders').getOne(folderId);
 	}
 </script>
 

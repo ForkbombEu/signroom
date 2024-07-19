@@ -1,7 +1,13 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts" context="module">
 	import clsx from 'clsx';
 	import type { NavigationTabProps as NavigationTab } from './navigationTab.svelte';
-	export { NavigationTab };
+	export { type NavigationTab };
 </script>
 
 <script lang="ts">

@@ -1,10 +1,16 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	export let title: string;
 	export let content: string | undefined = undefined;
 </script>
 
-<div class="p-4 border border-gray-300 rounded-lg">
-	<h5 class="text-primary-600 text-lg font-medium">{title}</h5>
+<div class="rounded-lg border border-gray-300 p-4">
+	<h5 class="text-lg font-medium text-primary-600">{title}</h5>
 	{#if content || $$slots.default}
 		<slot>
 			<p>{content}</p>

@@ -1,6 +1,12 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { pb } from '$lib/pocketbase';
-	import { Collections, OrgJoinRequestsStatusOptions } from '$lib/pocketbase/types';
+	import { OrgJoinRequestsStatusOptions } from '$lib/pocketbase/types';
 	import { goto, m } from '$lib/i18n';
 	import { z } from 'zod';
 
@@ -26,13 +32,13 @@
 
 	const superform = createForm(schema, async ({ form }) => {
 		const { data } = form;
-		const u = pb.collection(Collections.Users);
+		const u = pb.collection('users');
 		await u.create(data);
 		const { record } = await u.authWithPassword(data.email, data.password);
 		await u.requestVerification(data.email);
 		//Join organization
 		if (Boolean(join)) {
-			await pb.collection(Collections.OrgJoinRequests).create({
+			await pb.collection('orgJoinRequests').create({
 				user: record.id,
 				organization: join,
 				status: OrgJoinRequestsStatusOptions.pending,

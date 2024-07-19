@@ -1,6 +1,9 @@
+// SPDX-FileCopyrightText: 2024 The Forkbomb Company
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { browser } from '$app/environment';
 import { pb } from '$lib/pocketbase';
-import { Collections } from '$lib/pocketbase/types';
 
 // Reference: https://github.com/pocketbase/js-sdk/issues/85
 
@@ -10,7 +13,7 @@ export async function verifyUser(fetchFn = fetch): Promise<boolean> {
 
 	pb.authStore.loadFromCookie(document.cookie);
 	try {
-		await pb.collection(Collections.Users).authRefresh({ fetch: fetchFn });
+		await pb.collection('users').authRefresh({ fetch: fetchFn });
 	} catch (_) {
 		pb.authStore.clear();
 		return false;

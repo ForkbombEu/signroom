@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 The Forkbomb Company
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { z } from 'zod';
 import { persisted } from 'svelte-persisted-store';
 import {
@@ -135,12 +139,9 @@ function createMultisignature(data: CreateMultisignatureData) {
 	});
 }
 
-function createMultisignatureSeal(
-	data: MultisignatureSealsRecord
-): Effect.Effect<MultisignatureSealsResponse, ClientResponseError, never> {
+function createMultisignatureSeal(data: MultisignatureSealsRecord) {
 	return Effect.tryPromise({
-		try: () =>
-			pb.collection(Collections.MultisignatureSeals).create<MultisignatureSealsResponse>(data),
+		try: () => pb.collection('multisignature_seals').create(data),
 		catch: (e) => {
 			return e as ClientResponseError;
 		}

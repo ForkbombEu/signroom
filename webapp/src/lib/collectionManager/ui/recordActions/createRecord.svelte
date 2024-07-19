@@ -1,4 +1,12 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
+	import { createToggleStore } from '$lib/components/utils/toggleStore';
+
 	import { createEventDispatcher } from 'svelte';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { getRecordsManagerContext } from '../../collectionManager.svelte';
@@ -26,22 +34,18 @@
 		};
 	}>();
 
-	const { collection, dataManager, formFieldsSettings } = getRecordsManagerContext<RecordGeneric>();
-	const { base, create } = formFieldsSettings;
-	const fieldsSettings = { ...base, ...create };
-	const { loadRecords } = dataManager;
+	let { collection, dataManager, formFieldsSettings } = getRecordsManagerContext<RecordGeneric>();
+	let { base, create } = formFieldsSettings;
+	let fieldsSettings = { ...base, ...create };
+	let { loadRecords } = dataManager;
 
 	//
 
-	let open = false;
-
-	function openModal() {
-		open = true;
-	}
+	const show = createToggleStore(false);
 </script>
 
-<slot name="button" {openModal}>
-	<Button class="shrink-0" color="alternative" on:click={openModal}>
+<slot name="button" openModal={show.on}>
+	<Button class="shrink-0" color="alternative" on:click={show.on}>
 		<Plus size="20" />
 		<span class="ml-1">
 			<slot>Add entry</slot>
@@ -50,18 +54,20 @@
 </slot>
 
 <PortalWrapper>
-	<Modal bind:open title={modalTitle} size="md" placement="center">
+	<Modal bind:open={$show} title={modalTitle} size="md" placement="center">
 		<div class="w-full">
-			<RecordForm
-				{collection}
-				{fieldsSettings}
-				{initialData}
-				on:success={async (e) => {
-					await loadRecords();
-					dispatch('success', { record: e.detail.record });
-					open = false;
-				}}
-			/>
+			<slot name="form" closeModal={show.off}>
+				<RecordForm
+					{collection}
+					{fieldsSettings}
+					{initialData}
+					on:success={async (e) => {
+						await loadRecords();
+						dispatch('success', { record: e.detail.record });
+						show.off();
+					}}
+				/>
+			</slot>
 		</div>
 	</Modal>
 </PortalWrapper>

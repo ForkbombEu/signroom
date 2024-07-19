@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import {
 		registerUser,
@@ -13,6 +19,8 @@
 	import { InformationCircle, Plus } from 'svelte-heros-v2';
 	import { Alert, Button, Card, Heading, P, Spinner } from 'flowbite-svelte';
 	import { createTypeProp } from '$lib/utils/typeProp';
+	import SectionTitle from '$lib/components/sectionTitle.svelte';
+	import CollectionEmptyState from '$lib/collectionManager/ui/collectionEmptyState.svelte';
 
 	const platformAuthenticatorAvailable = isPlatformAuthenticatorAvailable();
 	const recordType = createTypeProp<WebauthnCredentialsResponse<{ ID: string }>>();
@@ -20,8 +28,7 @@
 	const userEmailAddress = $currentUser?.email!;
 </script>
 
-<Heading tag="h6">{m.Your_devices()}</Heading>
-<P color="gray" size="sm">{m.Manage_the_devices_you_use_to_login_()}</P>
+<SectionTitle title={m.Your_devices()} description={m.Manage_the_devices_you_use_to_login_()} />
 
 <CollectionManager
 	{recordType}
@@ -30,23 +37,25 @@
 	editFormSettings={{ exclude: ['user', 'credential'] }}
 	hideEmptyState
 >
-	<div class="space-y-2 py-4">
-		{#each records as record}
-			{@const label = Boolean(record.description) ? record.description : record.credential?.ID}
-			<Card class="max-w-none">
-				<div class="flex justify-between gap-4 items-center">
-					<div class="w-0 grow overflow-hidden">
-						<P>{label}</P>
+	{#if records.length > 0}
+		<div class="space-y-2 py-4">
+			{#each records as record}
+				{@const label = Boolean(record.description) ? record.description : record.credential?.ID}
+				<Card class="max-w-none">
+					<div class="flex items-center justify-between gap-4">
+						<div class="w-0 grow overflow-hidden">
+							<P>{label}</P>
+						</div>
+						<div class="flex gap-2">
+							<EditRecord {record} />
+							<DeleteRecord {record} />
+						</div>
 					</div>
-					<div class="flex gap-2">
-						<EditRecord {record} />
-						<DeleteRecord {record} />
-					</div>
-				</div>
-			</Card>
-		{/each}
-		<Pagination />
-	</div>
+				</Card>
+			{/each}
+			<Pagination />
+		</div>
+	{/if}
 </CollectionManager>
 
 {#await platformAuthenticatorAvailable}
@@ -67,7 +76,7 @@
 	{/if}
 {/await}
 
-<div class="flex justify-end mt-2">
+<div class="mt-2 flex justify-end">
 	<Button
 		color="alternative"
 		on:click={() => {

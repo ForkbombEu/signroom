@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <div align="center">
 
 # signroom
@@ -43,17 +48,24 @@
 
 ### 🚩 Table of Contents
 
-- [💾 Install](#-install)
-- [🎮 Quick start](#-quick-start)
-- [🚑 Community & support](#-community--support)
-- [🐋 Docker](#-docker)
-- [🐝 API](#-api)
-- [🔧 Configuration](#-configuration)
-- [📋 Testing](#-testing)
-- [🐛 Troubleshooting & debugging](#-troubleshooting--debugging)
-- [😍 Acknowledgements](#-acknowledgements)
-- [👤 Contributing](#-contributing)
-- [💼 License](#-license)
+- [signroom](#signroom)
+    - [Advanced electronic signature service based on Zenroom](#advanced-electronic-signature-service-based-on-zenroom)
+  - [signroom Features](#signroom-features)
+- [LIVE DEMO](#live-demo)
+    - [🚩 Table of Contents](#-table-of-contents)
+  - [💾 Install](#-install)
+  - [🎮 Quick start](#-quick-start)
+  - [🚑 Community \& support](#-community--support)
+  - [🐋 Docker](#-docker)
+  - [🐝 API](#-api)
+    - [POST /token](#post-token)
+    - [GET /token/${request.token}/${request.owner}](#get-tokenrequesttokenrequestowner)
+  - [🔧 Configuration](#-configuration)
+  - [📋 Testing](#-testing)
+  - [🐛 Troubleshooting \& debugging](#-troubleshooting--debugging)
+  - [😍 Acknowledgements](#-acknowledgements)
+  - [👤 Contributing](#-contributing)
+  - [💼 License](#-license)
 
 </div>
 

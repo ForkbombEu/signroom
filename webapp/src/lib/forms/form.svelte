@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts" context="module">
 	import Error from '../../routes/+error.svelte';
 
@@ -142,7 +148,9 @@
 {#if $delayed}
 	<PortalWrapper>
 		<Modal open={$delayed} dismissable={false}>
-			<Spinner />
+			<slot name="loadingModalContent" {Spinner}>
+				<Spinner />
+			</slot>
 		</Modal>
 	</PortalWrapper>
 {/if}

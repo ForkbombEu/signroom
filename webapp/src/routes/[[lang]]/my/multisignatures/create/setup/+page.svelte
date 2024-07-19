@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import {
 		Form,
@@ -44,7 +50,7 @@
 
 <Form {superform} className="space-y-0 space-x-0">
 	<PageContent layout="horizontal">
-		<div class="space-y-8 grow">
+		<div class="grow space-y-8">
 			<PageCard>
 				<SectionTitle tag="h5" title="Name" />
 				<Input

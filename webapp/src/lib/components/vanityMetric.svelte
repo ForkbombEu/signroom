@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { Heading, P } from 'flowbite-svelte';
 
@@ -6,7 +12,7 @@
 </script>
 
 <div
-	class="flex flex-col items-center bg-primary-50 rounded-lg border-primary-300 border w-fit p-6"
+	class="flex w-fit flex-col items-center rounded-lg border border-primary-300 bg-primary-50 p-6"
 >
 	<Heading tag="h3" class="w-fit" color="text-primary-600">{number}</Heading>
 	<P color="text-primary-600">{text}</P>

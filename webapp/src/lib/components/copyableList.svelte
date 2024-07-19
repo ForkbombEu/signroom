@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import CopyButton from './copyButton.svelte';
 
@@ -6,9 +12,9 @@
 
 <div class="flex flex-col">
 	{#each rows as row}
-		<div class="text-md text-black font-semibold max-w-sm">{row.title}</div>
-		<div class="flex flex-row items-center justify-between mb-4 text-md font-bold border-t">
-			<div class="text-ellipsis overflow-hidden w-full">{row.value}</div>
+		<div class="text-md max-w-sm font-semibold text-black">{row.title}</div>
+		<div class="text-md mb-4 flex flex-row items-center justify-between border-t font-bold">
+			<div class="w-full overflow-hidden text-ellipsis">{row.value}</div>
 			<CopyButton textToCopy={row.value} />
 		</div>
 	{/each}

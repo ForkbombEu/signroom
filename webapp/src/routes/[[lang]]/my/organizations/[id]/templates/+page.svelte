@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { CollectionEmptyState, CollectionManager, DeleteRecord } from '$lib/collectionManager';
 	import {
@@ -13,15 +19,10 @@
 	import Textarea from '$lib/forms/fields/textarea.svelte';
 	import { m } from '$lib/i18n';
 
-	import { objectSchemaValidator } from '$lib/jsonSchema/types';
-	import {
-		objectSchemaToCredentialSubject,
-		flattenCredentialSubjectProperties
-	} from '@api/downloadCredentialIssuer/utils';
 	import OrganizationLayout from '$lib/components/organizationLayout.svelte';
 	import PageCard from '$lib/components/pageCard.svelte';
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
-	import { ArrowLeft, Eye, Pencil, Plus, Trash } from 'svelte-heros-v2';
+	import { ArrowLeft, Pencil, Plus, Trash } from 'svelte-heros-v2';
 	import Icon from '$lib/components/icon.svelte';
 	import PlainCard from '$lib/components/plainCard.svelte';
 	import TemplateForm from './_partials/templateForm.svelte';
@@ -30,7 +31,7 @@
 	import { createToggleStore } from '$lib/components/utils/toggleStore';
 	import { page } from '$app/stores';
 	import { ProtectedOrgUI } from '$lib/rbac';
-	import { templatesColors } from '$lib/utils/colors';
+	import { TemplatePropertiesDisplay, templatesColors } from '$lib/templates';
 
 	//
 
@@ -138,16 +139,6 @@
 
 	//
 
-	function getTemplatePropertyList(schema: any) {
-		try {
-			const objectSchema = objectSchemaValidator.parse(schema);
-			const credentialSubject = objectSchemaToCredentialSubject(objectSchema);
-			return flattenCredentialSubjectProperties(credentialSubject);
-		} catch (e) {
-			return undefined;
-		}
-	}
-
 	//
 
 	let templateFormId: string | undefined = undefined;
@@ -198,10 +189,6 @@
 
 			<div class="space-y-4">
 				{#each records as template}
-					{@const propertyList = getTemplatePropertyList(template.schema)
-						?.map((e) => e[0])
-						.join(', ')}
-
 					<PlainCard let:Title let:Description>
 						<div class="flex items-center gap-2">
 							<Title>{template.name}</Title>
@@ -216,15 +203,7 @@
 							<Description>{template.description}</Description>
 						{/if}
 
-						{#if propertyList}
-							<p
-								class="text-sm font-mono text-gray-500 bg-gray-100 px-2 py-1 rounded-md mt-2 w-fit"
-							>
-								Properties: {propertyList}
-							</p>
-						{:else}
-							<p class="text-gray-300">Template parsing error</p>
-						{/if}
+						<TemplatePropertiesDisplay {template} />
 
 						<svelte:fragment slot="right">
 							<div class="flex gap-2">

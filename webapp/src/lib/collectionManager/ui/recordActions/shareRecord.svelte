@@ -1,6 +1,11 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import PortalWrapper from '$lib/components/portalWrapper.svelte';
-
 
 	import type { PBResponse } from '$lib/utils/types';
 
@@ -29,8 +34,8 @@
 	/* Load */
 
 	let authorization: AuthorizationsResponse | undefined;
-	const authorizationRequest = loadAuthorization();
-	const recordType = createTypeProp<AuthorizationsResponse>();
+	let authorizationRequest = loadAuthorization();
+	let recordType = createTypeProp<AuthorizationsResponse>();
 
 	async function loadAuthorization() {
 		try {
@@ -61,7 +66,7 @@
 	async function removeAuthorization() {
 		if (!authorization) return;
 		removeLoading = true;
-		await pb.collection(Collections.Authorizations).delete(authorization.id);
+		await pb.collection('authorizations').delete(authorization.id);
 		open = false;
 		dispatch('remove');
 	}
@@ -84,7 +89,7 @@
 {:then response}
 	<PortalWrapper>
 		<Modal bind:open size="md" title="Share signature">
-			<div class="w-full relative">
+			<div class="relative w-full">
 				{#if !removeAccess}
 					<RecordForm
 						{recordType}
@@ -107,7 +112,7 @@
 						}}
 					/>
 					{#if authorization}
-						<div class="absolute left-0 bottom-0">
+						<div class="absolute bottom-0 left-0">
 							<Button color="red" outline on:click={toggleRemoveAccess}>
 								<Trash size="20" />
 								<span class="ml-2"> Remove access </span>
@@ -118,7 +123,7 @@
 					<Spinner />
 				{:else}
 					<P>Are you sure you want to remove all access to the signature?</P>
-					<div class="flex justify-between mt-4">
+					<div class="mt-4 flex justify-between">
 						<Button class="space-x-2" color="alternative" on:click={toggleRemoveAccess}>
 							<ArrowLeft size="20" />
 							<span class="ml-2"> Undo </span>

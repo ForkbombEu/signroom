@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script>
 	import { assets } from '$app/paths';
 	import SectionTitle from '$lib/components/sectionTitle.svelte';

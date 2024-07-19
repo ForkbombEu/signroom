@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 	import { pb } from '$lib/pocketbase';
@@ -32,8 +38,8 @@
 			</NavBrand>
 			<div class="flex items-center lg:order-2">
 				<a href="/login">Log In</a>
-				<Button class="ml-4 inline-flex items-center justify-center mr-3" href="/register">
-					Register <ArrowRight size="18" class="ml-2 -mr-1" />
+				<Button class="ml-4 mr-3 inline-flex items-center justify-center" href="/register">
+					Register <ArrowRight size="18" class="-mr-1 ml-2" />
 				</Button>
 				<NavHamburger
 					on:click={toggle}
@@ -68,8 +74,8 @@
 			</svelte:fragment>
 			<svelte:fragment slot="paragraph">Using technology trusted worldwide.</svelte:fragment>
 			<a href="/">
-				<Button class="inline-flex items-center justify-center mr-3" href="/register">
-					Register <ArrowRight size="18" class="ml-2 -mr-1" />
+				<Button class="mr-3 inline-flex items-center justify-center" href="/register">
+					Register <ArrowRight size="18" class="-mr-1 ml-2" />
 				</Button>
 			</a>
 			<a href="/">
@@ -82,7 +88,7 @@
 
 	<Section>
 		<HeroHeader
-			class="max-w-screen-md mb-8 lg:mb-16"
+			class="mb-8 max-w-screen-md lg:mb-16"
 			h2Class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white"
 			pClass="text-gray-500 sm:text-xl dark:text-gray-400"
 		/>

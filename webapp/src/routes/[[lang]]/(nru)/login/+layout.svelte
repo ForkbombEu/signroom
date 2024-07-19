@@ -1,6 +1,11 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts" context="module">
 	import { writable } from 'svelte/store';
-	import { m } from '$lib/i18n';
 	export const currentEmail = writable('');
 </script>
 
@@ -9,6 +14,7 @@
 	import type { Link } from '$lib/utils/types';
 	import { A, Button, ButtonGroup, Heading, Hr, P } from 'flowbite-svelte';
 	import { featureFlags } from '$lib/features';
+	import { m } from '$lib/i18n';
 
 	const modes: Link[] = [
 		{

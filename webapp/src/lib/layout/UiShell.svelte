@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script context="module" lang="ts">
 	import type { Writable } from 'svelte/store';
 	import { getContext } from 'svelte';
@@ -50,11 +56,11 @@
 
 <svelte:window bind:innerWidth={windowWidth} />
 
-<div class="w-screen h-screen overflow-hidden flex flex-col">
+<div class="flex h-screen w-screen flex-col overflow-hidden">
 	<div class="shrink-0">
 		<slot name="top" sidebarLayoutMode={$sidebarLayoutMode} {toggleSidebar} />
 	</div>
-	<div class="h-0 grow flex items-stretch">
+	<div class="flex h-0 grow items-stretch">
 		<slot sidebarLayoutMode={$sidebarLayoutMode} {toggleSidebar} />
 	</div>
 </div>

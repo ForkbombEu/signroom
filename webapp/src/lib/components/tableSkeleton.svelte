@@ -1,6 +1,12 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts" context="module">
 	export type ColumnType =
-        | 'avatar'
+		| 'avatar'
 		| 'image'
 		| 'short text'
 		| 'long text'
@@ -12,7 +18,7 @@
 
 <script lang="ts">
 	export let columns: ColumnType[] = [
-        'avatar',
+		'avatar',
 		'image',
 		'short text',
 		'long text',
@@ -27,8 +33,8 @@
 		switch (columnType) {
 			case 'avatar':
 				return 'w-16 h-16 bg-gray-200 rounded-full animate-pulse duration-700';
-            case 'image':
-                return 'w-16 h-16 bg-gray-200 animate-pulse duration-700';
+			case 'image':
+				return 'w-16 h-16 bg-gray-200 animate-pulse duration-700';
 			case 'short text':
 				return 'w-24 h-4 bg-gray-200 animate-pulse rounded-lg duration-700';
 			case 'long text':
@@ -47,25 +53,25 @@
 	}
 </script>
 
-<div class="p-4 space-y-1 rounded-lg">
+<div class="space-y-1 rounded-lg p-4">
 	<div
-		class="flex p-4 justify-between items-center bg-gray-400 animate-pulse duration-500 rounded-lg"
+		class="flex animate-pulse items-center justify-between rounded-lg bg-gray-400 p-4 duration-500"
 	>
 		{#each Array(columns.length) as _, i}
 			<div class="w-32">
 				{#if columns[i] === 'checkbox'}
-					<div class="w-4 h-4 bg-gray-200 animate-pulse duration-700" />
+					<div class="h-4 w-4 animate-pulse bg-gray-200 duration-700" />
 				{:else if columns[i] === 'actions'}
 					<div class="w-24" />
 				{:else}
-					<div class="w-24 h-4 bg-gray-200 animate-pulse duration-700 rounded-lg" />
+					<div class="h-4 w-24 animate-pulse rounded-lg bg-gray-200 duration-700" />
 				{/if}
 			</div>
 		{/each}
 	</div>
 	{#each Array(rows) as _}
 		<div
-			class="flex p-4 justify-between items-center bg-gray-400 animate-pulse duration-500 rounded-lg"
+			class="flex animate-pulse items-center justify-between rounded-lg bg-gray-400 p-4 duration-500"
 		>
 			{#each columns as columnType}
 				<div class="w-32">

@@ -1,14 +1,20 @@
-import { json, type RequestEvent } from '@sveltejs/kit';
+// SPDX-FileCopyrightText: 2024 The Forkbomb Company
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
-const SHA256 = 'SHA256'
-const SHA512 = 'SHA512'
-const ECDSA = 'ECDSA'
-const EdDSA = 'EdDSA'
-const RSA = 'RSA'
+import type { AlgorithmName } from '$lib/certificates/types';
+import { getErrorMessage } from '$lib/errorHandling';
+import { error, json, type RequestEvent } from '@sveltejs/kit';
+
+const SHA512 = 'SHA512';
+const ECDSA = 'ECDSA';
+const RSA = 'RSA';
 
 export const POST = async (evt: RequestEvent) => {
 	const req = await evt.request.json();
 	const { fetch } = evt;
+
+	const algo = req.signatureAlgorithmName as AlgorithmName;
 
 	const params: Record<string, any> = {
 		parameters: {
@@ -61,6 +67,7 @@ export const POST = async (evt: RequestEvent) => {
 			name: 'RemoteDocument'
 		}
 	};
+
 	switch (req.algo) {
 		case 'xades':
 			params.parameters.signaturePackaging = 'ENVELOPING';
@@ -78,21 +85,22 @@ export const POST = async (evt: RequestEvent) => {
 			params.parameters.signaturePackaging = 'ENVELOPING';
 			break;
 	}
-	switch (req.signatureAlgorithmName) {
-		case ECDSA:
-			params.parameters.signatureAlgorithm = ECDSA+'_SHA256';
+
+	switch (algo) {
+		case 'ECDSA':
+			params.parameters.signatureAlgorithm = ECDSA + '_SHA256';
 			params.parameters.encryptionAlgorithm = ECDSA;
 			break;
-		case EdDSA:
+		case 'Ed25519':
 			params.parameters.signatureAlgorithm = 'ED25519';
 			params.parameters.digestAlgorithm = SHA512;
 			params.parameters.encryptionAlgorithm = 'EDDSA';
-			params.parameters.contentTimestampParameters.digestAlgorithm = SHA512
-			params.parameters.signatureTimestampParameters.digestAlgorithm = SHA512
-			params.parameters.archiveTimestampParameters.digestAlgorithm = SHA512
+			params.parameters.contentTimestampParameters.digestAlgorithm = SHA512;
+			params.parameters.signatureTimestampParameters.digestAlgorithm = SHA512;
+			params.parameters.archiveTimestampParameters.digestAlgorithm = SHA512;
 			break;
 		case 'RSASSA-PKCS1-v1_5':
-			params.parameters.signatureAlgorithm = RSA+'_SHA256';
+			params.parameters.signatureAlgorithm = RSA + '_SHA256';
 			params.parameters.encryptionAlgorithm = RSA;
 			break;
 		case '1.2.840.113549.1.1.10':
@@ -111,15 +119,11 @@ export const POST = async (evt: RequestEvent) => {
 				Accept: 'application/json'
 			}
 		}
-	).then((res) => {
-		if (!res.ok) {
-			return res.text().then((text) => {
-				throw new Error(text);
-			});
-		} else {
-			return res.json();
-		}
-	});
+	);
 
-	return json(toSign);
+	try {
+		return json(await toSign.json());
+	} catch (e) {
+		return error(500, getErrorMessage(e));
+	}
 };

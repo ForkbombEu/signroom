@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { Button, Heading } from 'flowbite-svelte';
 	import { QuestionMarkCircle, Pencil, ArrowTopRightOnSquare } from 'svelte-heros-v2';
@@ -27,7 +33,7 @@
 </PageTop>
 
 <PageContent>
-	<div class="flex gap-8 items-start">
+	<div class="flex items-start gap-8">
 		<PageCard class="grow">
 			<SectionTitle tag="h5" title={m.Verification_flow_details()}>
 				<ProtectedOrgUI slot="right" orgId={organization.id} roles={['admin', 'owner']}>
@@ -38,7 +44,7 @@
 				</ProtectedOrgUI>
 			</SectionTitle>
 
-			<div class="font-medium space-y-8">
+			<div class="space-y-8 font-medium">
 				<!-- <div class="flex gap-3 items-center pb-1">
 					<p>Logo:</p>
 					<Avatar class="object-cover border" size="lg" src={verificationFlow.logo}></Avatar>
@@ -59,14 +65,14 @@
 			</div>
 		</PageCard>
 
-		<PageCard class="!p-4 shrink-0 w-[300px] !space-y-4">
+		<PageCard class="w-[300px] shrink-0 !space-y-4 !p-4">
 			<Heading tag="h5">{m.verification_flow_qr_code_title()}</Heading>
 			<p class="text-gray-500">{m.verification_flow_qr_code_description()}</p>
 
 			<div class="flex gap-4">
 				<img
 					alt="Didroom Verifier app logo"
-					class="w-[100px] h-[100px] rounded-lg"
+					class="h-[100px] w-[100px] rounded-lg"
 					src={`${assets}/app-didroom-verifier.svg`}
 				/>
 				<div class="space-y-2">

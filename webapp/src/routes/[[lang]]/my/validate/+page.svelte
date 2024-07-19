@@ -1,100 +1,193 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
-	import TitleDescription from '$lib/components/titleDescription.svelte';
-	import { Dropzone, Helper, P } from 'flowbite-svelte';
-	import RenderSignedFile from '../signatures/_partials/RenderSignedFile.svelte';
-	import { SignaturesTypeOptions } from '$lib/pocketbase/types';
-	import type { SignedFile } from '../signatures/_partials/Files.svelte';
+	import { Dropzone, Alert, Spinner, Button } from 'flowbite-svelte';
 	import { m } from '$lib/i18n';
+	import PageTop from '$lib/components/pageTop.svelte';
+	import SectionTitle from '$lib/components/sectionTitle.svelte';
+	import PageContent from '$lib/components/pageContent.svelte';
+	import PageCard from '$lib/components/pageCard.svelte';
+	import Icon from '$lib/components/icon.svelte';
+	import { CloudArrowUp, XMark } from 'svelte-heros-v2';
+	import { readFileAsBase64 } from '$lib/utils/files';
+	import {
+		validateSignedFile,
+		isSignatureValid,
+		type ValidateSignatureResponse
+	} from '$lib/signatures';
+	import { getErrorMessage } from '$lib/errorHandling';
 
-	type SignatureFile = {
-		type: SignaturesTypeOptions;
-		signedFile: SignedFile;
-	};
+	//
 
-	let file: SignatureFile;
+	async function validateSignatureFile(file: File) {
+		const base64file = await readFileAsBase64(file);
+		return await validateSignedFile({
+			bytes: base64file,
+			digestAlgorithm: null,
+			name: file.name
+		});
+	}
 
-	let name: string;
-	let hasErrors = false;
+	//
 
-	const isSignatureFile = (obj: any): obj is SignatureFile =>
-		typeof obj === 'object' &&
-		obj !== null &&
-		'type' in obj &&
-		'signedFile' in obj &&
-		typeof obj.type === 'string' &&
-		Object.values(SignaturesTypeOptions).includes(obj.type) &&
-		typeof obj.signedFile === 'object' &&
-		obj.signedFile !== null &&
-		typeof obj.signedFile.name === 'string' &&
-		typeof obj.signedFile.bytes === 'string';
-
-	const dropHandle = async (e: any) => {
+	function handleDrop(e: DragEvent) {
 		e.preventDefault();
-		const fileUp = (e.dataTransfer as HTMLInputElement).files;
-		handleFileSelect(e, fileUp);
-	};
+		const file = e.dataTransfer?.files.item(0);
+		if (file) handleFileValidation(file);
+	}
 
-	async function handleFileSelect(e: Event, fileUploaded?: FileList | null) {
-		const fileUp = fileUploaded || (e.target as HTMLInputElement)?.files;
-		if (!fileUp) return;
-		var reader = new FileReader();
-		reader.onload = function (e) {
-			try {
-				const json = JSON.parse(e.target?.result as string);
-				if (!isSignatureFile(json)) throw new Error('Not a signature file');
-				file = json;
-				name = fileUp[0].name;
-				hasErrors = false;
-			} catch (error) {
-				hasErrors = true;
-			}
-		};
-		reader.readAsText(fileUp[0]);
+	function handleChange(e: Event) {
+		e.preventDefault();
+		const file = (e.target as HTMLInputElement)?.files?.item(0);
+		if (file) handleFileValidation(file);
+	}
+
+	//
+
+	let signatureFile: File | undefined = undefined;
+	let result: ValidateSignatureResponse | undefined = undefined;
+	let error: string | undefined = undefined;
+	let loading = false;
+
+	async function handleFileValidation(file: File) {
+		resetSubmitState();
+		loading = true;
+		signatureFile = file;
+		try {
+			result = await validateSignatureFile(file);
+			console.log(result);
+		} catch (e) {
+			error = getErrorMessage(e);
+		}
+		loading = false;
+	}
+
+	function resetSubmitState() {
+		result = undefined;
+		error = undefined;
+		loading = false;
+	}
+
+	//
+
+	function handleRemoveFile() {
+		resetSubmitState();
+		signatureFile = undefined;
+		removeFileFromDropzone();
+	}
+
+	const DROPZONE_ID = 'dropzone';
+
+	function removeFileFromDropzone() {
+		const dropzone = document.getElementById(DROPZONE_ID) as HTMLInputElement;
+		dropzone.value = '';
 	}
 </script>
 
-<div class="p-4">
-	<TitleDescription title={m.Validate()} description={m.Upload_a_signature_file_and_verify_autenticity()} />
-	<br />
-	<Dropzone
-		id="dropzone"
-		on:drop={dropHandle}
-		on:dragover={(event) => {
-			event.preventDefault();
-		}}
-		on:change={handleFileSelect}
-		multiple={false}
-		accept=".json"
-	>
-		<svg
-			aria-hidden="true"
-			class="mb-3 w-10 h-10 text-gray-400"
-			fill="none"
-			stroke="currentColor"
-			viewBox="0 0 24 24"
-			xmlns="http://www.w3.org/2000/svg"
-			><path
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				stroke-width="2"
-				d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-			/></svg
+<PageTop>
+	<SectionTitle title={m.Validate()} description={m.validate_signature_description()} />
+</PageTop>
+
+<PageContent>
+	<PageCard class="!space-y-4">
+		<SectionTitle tag="h5" title="Select file" hideLine />
+		<Dropzone
+			id={DROPZONE_ID}
+			class="max-h-[200px] hover:cursor-default"
+			on:dragover={(e) => e.preventDefault()}
+			on:drop={handleDrop}
+			on:change={handleChange}
 		>
-		<p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-			<span class="font-semibold">{m.Click_to_upload()}</span> {m.or_drag_and_drop()}
-		</p>
-		<p class="text-xs text-gray-500 dark:text-gray-400">{m.JSON_signature_downloaded_from_signroom()}</p>
-	</Dropzone>
-	{#if file}
-		<div class="flex gap-8">
-			<P>{name}</P>
-			<Helper helperClass="text-green-500">{m.FILE_VALID()}</Helper>
-		</div>
-		<RenderSignedFile signedFile={file.signedFile} type={file.type} leftButton />
+			<div
+				class="hover:border-primary-600 flex cursor-pointer flex-col items-center rounded-lg border border-gray-300 bg-white p-4 shadow-md hover:border-2"
+			>
+				<Icon src={CloudArrowUp} size={50} class="text-gray-500" />
+				<p class="text-gray-500">
+					{m.Click_to_upload_or_drag_and_drop()}
+				</p>
+			</div>
+		</Dropzone>
+
+		{#if signatureFile}
+			<Alert color="gray" dismissable class="justify-between">
+				<p class="font-bold">{signatureFile.name}</p>
+				<p>{Math.round(signatureFile.size / 1000)} KB</p>
+				<svelte:fragment slot="close-button" let:close>
+					<Button
+						size="xs"
+						color="alternative"
+						on:click={(e) => {
+							close(e);
+							handleRemoveFile();
+						}}
+					>
+						<Icon src={XMark} mr />
+						{m.Remove()}
+					</Button>
+				</svelte:fragment>
+			</Alert>
+		{/if}
+
+		{#if error}
+			<Alert color="red" title="dismissable">
+				<p class="font-bold">{m.Error()}</p>
+				<p>{error}</p>
+			</Alert>
+		{/if}
+	</PageCard>
+
+	{#if loading}
+		<PageCard class="flex flex-col items-center !space-y-2">
+			<Spinner />
+			<p>{m.Checking_file()}</p>
+		</PageCard>
 	{/if}
-	{#if hasErrors}
-		<div class="space-y-1">
-			<Helper helperClass="text-red-500">{m.FILE_REJECTED()}</Helper>
-		</div>
+
+	{#if result}
+		<PageCard class="!space-y-4">
+			<SectionTitle tag="h5" title={m.Validation_result()} />
+			{#if 'message' in result}
+				<Alert color="red">
+					<p class="font-bold">{m.Error()}</p>
+					<p>{result.message}</p>
+				</Alert>
+			{:else}
+				{@const details = result.SimpleReport.signatureOrTimestampOrEvidenceRecord}
+
+				{#if isSignatureValid(result)}
+					<Alert color="green">
+						<p class="font-bold">{m.Success()}</p>
+						<p>{m.Your_signature_file_is_valid()}</p>
+					</Alert>
+				{:else}
+					<Alert color="yellow">
+						<p class="font-bold">{m.Warning()}</p>
+						<p>{m.There_are_issues_in_the_submitted_file()}</p>
+						{#if details}
+							<p>{m.Please_see_the_report_below()}</p>
+						{/if}
+					</Alert>
+
+					{#if details}
+						{#each details as detail}
+							<Alert color="gray">
+								{@const errorTitle = detail.Signature.SubIndication}
+								{@const errors = detail.Signature.AdESValidationDetails.Error}
+								<p class="font-bold">{errorTitle}</p>
+								<ul>
+									{#each errors as error}
+										<li>{error.value}</li>
+									{/each}
+								</ul>
+							</Alert>
+						{/each}
+					{/if}
+				{/if}
+			{/if}
+		</PageCard>
 	{/if}
-</div>
+</PageContent>

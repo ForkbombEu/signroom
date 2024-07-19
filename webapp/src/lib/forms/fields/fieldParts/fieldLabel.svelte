@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { getFormContext } from '../../form.svelte';
 	import { formFieldProxy } from 'sveltekit-superforms/client';
@@ -16,7 +22,7 @@
 
 <Label
 	for={field}
-	class="label flex justify-between items-center"
+	class="label flex items-center justify-between"
 	color={fieldHasErrors($errors) ? 'red' : 'gray'}
 >
 	<div>

@@ -1,8 +1,11 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
-	import { CollectionEmptyState } from '$lib/collectionManager';
 	import CollectionManager from '$lib/collectionManager/collectionManager.svelte';
-	import CollectionManagerHeader from '$lib/collectionManager/ui/collectionManagerHeader.svelte';
-	import CollectionTable from '$lib/collectionManager/ui/collectionTable.svelte';
 	import { pb } from '$lib/pocketbase/index.js';
 	import {
 		Collections,
@@ -16,7 +19,7 @@
 	import { OrgRoles } from '$lib/rbac/roles.js';
 	import { createTypeProp } from '$lib/utils/typeProp.js';
 	import { m } from '$lib/i18n';
-	import { Button, Heading } from 'flowbite-svelte';
+	import { Button } from 'flowbite-svelte';
 	import { UserPlus, NoSymbol, UserGroup } from 'svelte-heros-v2';
 	import DeleteRecord from '$lib/collectionManager/ui/recordActions/deleteRecord.svelte';
 	import PlainCard from '$lib/components/plainCard.svelte';
@@ -40,7 +43,7 @@
 		request: OrgJoinRequestsResponse,
 		status: OrgJoinRequestsStatusOptions
 	) {
-		await pb.collection(Collections.OrgJoinRequests).update(request.id, {
+		await pb.collection('orgJoinRequests').update(request.id, {
 			status
 		} satisfies Partial<OrgJoinRequestsRecord>);
 	}
@@ -49,10 +52,10 @@
 		await updateRequestStatus(request, accepted);
 
 		const memberRole = await pb
-			.collection(Collections.OrgRoles)
+			.collection('orgRoles')
 			.getFirstListItem(`name = "${OrgRoles.MEMBER}"`);
 
-		await pb.collection(Collections.OrgAuthorizations).create({
+		await pb.collection('orgAuthorizations').create({
 			organization: organization.id,
 			user: request.user,
 			role: memberRole.id

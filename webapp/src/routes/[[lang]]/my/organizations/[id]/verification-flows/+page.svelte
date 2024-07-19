@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import {
 		Collections,
@@ -73,8 +79,8 @@
 							<div class="flex items-center gap-4">
 								<ImagePreview src={record.logo} size="w-[50px] h-[50px]" hideHelpText />
 								<div>
-									<div class="flex gap-2 items-center">
-										<p class="text-primary-700 font-semibold">{c(record.name)}</p>
+									<div class="flex items-center gap-2">
+										<p class="font-semibold text-primary-700">{c(record.name)}</p>
 										<Badge color="green">{m.Active()}</Badge>
 									</div>
 									{#if record.description}

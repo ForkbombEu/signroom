@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import {
 		availableLanguageTags,
@@ -31,7 +37,7 @@
 
 <SidebarButton {id}>
 	<div class="flex gap-3">
-		<p class="w-6 h-6 text-2xl leading-[1]">{languagesDisplay[languageTag()].flag}</p>
+		<p class="h-6 w-6 text-2xl leading-[1]">{languagesDisplay[languageTag()].flag}</p>
 		<p>{languagesDisplay[languageTag()].name}</p>
 	</div>
 	<Icon src={ArrowPath} slot="right" size={18}></Icon>
@@ -39,7 +45,7 @@
 
 <Dropdown triggeredBy={`#${id}`} class="w-[215px]">
 	<DropdownHeader>
-		<span class="block truncate text-xs font-medium text-gray-500 tracking-wide">
+		<span class="block truncate text-xs font-medium tracking-wide text-gray-500">
 			{m.Select_language()}
 		</span>
 	</DropdownHeader>

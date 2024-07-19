@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { goto } from '$lib/i18n';
 	import { pb } from '$lib/pocketbase';
@@ -17,7 +23,7 @@
 		schema,
 		async ({ form }) => {
 			const { data } = form;
-			const u = pb.collection(Collections.Users);
+			const u = pb.collection('users');
 			await u.authWithPassword(data.email, data.password);
 			await goto('/my');
 		},

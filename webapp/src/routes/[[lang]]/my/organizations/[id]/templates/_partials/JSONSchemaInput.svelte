@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { formFieldProxy, type SuperForm } from 'sveltekit-superforms/client';
 	import { JSONSchemaEditor } from 'json-schema-builder-svelte';
@@ -12,7 +18,14 @@
 	const { value } = formFieldProxy(superform, field);
 </script>
 
-<JSONSchemaEditor {label} bind:schema={$value} mode="builder" returnType="string" requiredDefault />
+<JSONSchemaEditor
+	{label}
+	bind:schema={$value}
+	mode="builder"
+	returnType="string"
+	requiredDefault
+	hideRequired
+/>
 
 <style>
 	:global(label[for*='required']) {

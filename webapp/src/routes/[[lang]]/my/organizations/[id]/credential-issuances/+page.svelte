@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { Collections, TemplatesTypeOptions, type ServicesResponse } from '$lib/pocketbase/types';
 	import { CollectionManager, DeleteRecord } from '$lib/collectionManager';
@@ -81,8 +87,8 @@
 						<PlainCard>
 							<ImagePreview slot="left" src={record.logo} size="w-[50px] h-[50px]" hideHelpText />
 
-							<div class="flex gap-2 items-center">
-								<p class="text-primary-700 font-semibold">{c(record.display_name)}</p>
+							<div class="flex items-center gap-2">
+								<p class="font-semibold text-primary-700">{c(record.display_name)}</p>
 								{#if record.public}
 									<Badge color="dark">{m.Public()}</Badge>
 								{/if}

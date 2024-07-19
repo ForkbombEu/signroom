@@ -1,12 +1,18 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { m } from '$lib/i18n';
 	import type { ObjectSchema } from '$lib/jsonSchema/types';
 	import type { TemplatesResponse } from '$lib/pocketbase/types';
 	import {
-		DEFAULT_LOCALE,
 		flattenCredentialSubjectProperties,
 		objectSchemaToCredentialSubject
-	} from '@api/downloadCredentialIssuer/utils';
+	} from '@api/download-microservices/utils/credential-subject';
+	import { DEFAULT_LOCALE } from '@api/download-microservices/utils/locale';
 	import { Effect, pipe, Either } from 'effect';
 	import EmptyState from './emptyState.svelte';
 	import { ExclamationTriangle } from 'svelte-heros-v2';
@@ -34,7 +40,7 @@
 	}
 </script>
 
-<div class="divide-y bg-gray-50 border rounded-lg">
+<div class="divide-y rounded-lg border bg-gray-50">
 	{#if propertyListEither.pipe(Either.isLeft)}
 		<EmptyState title={m.Template_parsing_error()} icon={ExclamationTriangle} />
 	{:else}

@@ -1,9 +1,14 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script>
 	import { appTitle } from '$lib/strings';
 	import { Button, NavBrand, NavHamburger, NavLi, NavUl, Navbar } from 'flowbite-svelte';
 	import { ArrowRight } from 'svelte-heros-v2';
 	import { m } from '$lib/i18n';
-
 </script>
 
 <div class="flex flex-col gap-20">
@@ -17,8 +22,9 @@
 			</NavBrand>
 			<div class="flex items-center lg:order-2">
 				<a href="/login">{m.Log_In()}</a>
-				<Button class="ml-4 inline-flex items-center justify-center mr-3" href="/register">
-					{m.Register()} <ArrowRight size="18" class="ml-2 -mr-1" />
+				<Button class="ml-4 mr-3 inline-flex items-center justify-center" href="/register">
+					{m.Register()}
+					<ArrowRight size="18" class="-mr-1 ml-2" />
 				</Button>
 				<NavHamburger
 					on:click={toggle}

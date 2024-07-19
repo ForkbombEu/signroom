@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { Button, Heading, Modal, P } from 'flowbite-svelte';
 	import { getRecordsManagerContext } from '../collectionManager.svelte';
@@ -25,17 +31,17 @@
 	}
 </script>
 
-<div class="flex justify-between items-center mb-4">
+<div class="mb-4 flex items-center justify-between">
 	<slot name="title">
 		<Heading tag={headingTag}>{collection}</Heading>
 	</slot>
 	{#if description}
-		<P class="text-slate-600 pt-6">{description}</P>
+		<P class="pt-6 text-slate-600">{description}</P>
 	{/if}
-	<div class="shrink-0 flex space-x-4 items-center">
+	<div class="flex shrink-0 items-center space-x-4">
 		{#if $selectedRecords.length > 0}
 			<P><span class="font-bold">{$selectedRecords.length}</span> selected</P>
-			<div class="flex space-x-2 items-center">
+			<div class="flex items-center space-x-2">
 				<Button color="alternative" on:click={discardSelection}>
 					<XMark size="20" />
 					<span class="ml-1">Discard</span>
@@ -51,7 +57,7 @@
 				</Button>
 			</div>
 		{:else}
-			<div class="flex gap-3 items-center">
+			<div class="flex items-center gap-3">
 				{#if !hideCreateButton}
 					<CreateRecord />
 				{/if}
@@ -63,11 +69,11 @@
 
 <PortalWrapper>
 	<Modal bind:open={showDeleteModal} title="Delete records" size="xs">
-		<div class="text-center space-y-6">
+		<div class="space-y-6 text-center">
 			<P>
 				Are you sure you want to delete <span class="font-bold">{$selectedRecords.length}</span> records?
 			</P>
-			<div class="flex gap-2 justify-center">
+			<div class="flex justify-center gap-2">
 				<Button color="red" on:click={deleteSelection}>Delete</Button>
 				<Button
 					color="alternative"

@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { nanoid } from 'nanoid';
 	import { twMerge } from 'tailwind-merge';
@@ -14,7 +20,7 @@
 </script>
 
 <button {id} class={classes} on:click>
-	<div class="flex items-center w-0 grow overflow-hidden">
+	<div class="flex w-0 grow items-center overflow-hidden">
 		<slot />
 	</div>
 	<div>

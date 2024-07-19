@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { currentUser } from '$lib/pocketbase';
 	import {
@@ -41,7 +47,7 @@
 		</CollectionManagerHeader>
 
 		<div class="space-y-4">
-			<div class="gap-4 grid grid-cols-1 md:grid-cols-2">
+			<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 				{#each records as record}
 					{@const expand = record.expand?.[expandQuery]}
 					<div class="grow">

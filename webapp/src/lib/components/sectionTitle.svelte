@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import clsx from 'clsx';
 	import { Heading, Hr } from 'flowbite-svelte';
@@ -29,7 +35,7 @@
 	{/if}
 	{#if hasDescription}
 		<slot name="description">
-			<p class="text-gray-500 text-sm">{description}</p>
+			<p class="text-sm text-gray-500">{description}</p>
 		</slot>
 	{/if}
 </div>

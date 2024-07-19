@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 The Forkbomb Company
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import jsonSchema from './db_schema.json';
 import { Collections } from '../types';
 import { FieldType, type CollectionSchema, type FieldSchema } from './types';
@@ -6,10 +10,10 @@ export * from './types';
 
 /* Main */
 
-export function getCollectionSchema(
-	collection: Collections | string
-) {
-	return jsonSchema.find((e) => e.name === collection || e.id === collection) as CollectionSchema | undefined;
+export function getCollectionSchema(collection: Collections | string) {
+	return jsonSchema.find((e) => e.name === collection || e.id === collection) as
+		| CollectionSchema
+		| undefined;
 }
 
 //

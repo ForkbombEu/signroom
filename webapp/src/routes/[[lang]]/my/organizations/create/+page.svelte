@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { A, Button, Heading } from 'flowbite-svelte';
 	import { RecordForm } from '$lib/recordForm';
@@ -36,9 +42,6 @@
 					description: m.Short_description(),
 					avatar: m.Avatar()
 				}
-			}}
-			formSettings={{
-				dataType: 'json'
 			}}
 			submitButtonText={m.Create_organization()}
 			on:success={handleSuccess}

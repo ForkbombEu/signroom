@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { onDestroy } from 'svelte';
 	import { getErrorMessage } from '$lib/errorHandling';
@@ -14,14 +20,16 @@
 	export let record: RecordGeneric;
 
 	export let modalTitle = 'Delete record';
+	export let beforeDelete = () => {};
 
-	const { dataManager } = getRecordsManagerContext();
-	const { loadRecords, recordService } = dataManager;
+	let { dataManager } = getRecordsManagerContext();
+	let { loadRecords, recordService } = dataManager;
 
 	let error: string | undefined = undefined;
 
 	async function deleteRecord() {
 		error = undefined;
+		beforeDelete();
 		try {
 			await recordService.delete(record.id);
 			loadRecords();
@@ -50,7 +58,7 @@
 
 <PortalWrapper>
 	<Modal bind:open title={modalTitle} size="xs">
-		<div class="text-center space-y-6">
+		<div class="space-y-6 text-center">
 			<P>Are you sure you want to delete this record?</P>
 
 			{#if error}
@@ -60,7 +68,7 @@
 				</Alert>
 			{/if}
 
-			<div class="flex gap-2 justify-center">
+			<div class="flex justify-center gap-2">
 				<Button color="red" on:click={deleteRecord}>
 					<Trash size="20" /><span class="ml-1">Delete</span>
 				</Button>

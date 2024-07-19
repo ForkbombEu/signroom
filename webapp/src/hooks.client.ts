@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 The Forkbomb Company
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import * as Sentry from '@sentry/sveltekit';
 import { currentUser, pb, type AuthStoreModel } from '$lib/pocketbase';
 

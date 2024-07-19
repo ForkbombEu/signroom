@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { Collections } from '$lib/pocketbase/types';
 	import { pb } from '$lib/pocketbase';
@@ -22,7 +28,7 @@
 	});
 
 	const onSubmit: SubmitFunction<typeof schema> = async ({ form }) => {
-		await pb.collection(Collections.Users).requestPasswordReset(form.data.email);
+		await pb.collection('users').requestPasswordReset(form.data.email);
 		await goto('/forgot-password/confirm');
 	};
 

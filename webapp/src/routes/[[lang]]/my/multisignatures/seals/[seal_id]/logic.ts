@@ -1,7 +1,10 @@
+// SPDX-FileCopyrightText: 2024 The Forkbomb Company
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { zencodeExec, type Keyring } from '$lib/keypairoom/keypair';
 import { pb } from '$lib/pocketbase';
 import {
-	Collections,
 	MultisignatureSealsStatusOptions,
 	type CoconutCredentialIssuersResponse,
 	type MultisignatureSealsRecord,
@@ -9,7 +12,7 @@ import {
 } from '$lib/pocketbase/types';
 import generateCredentialRequestContract from '../../../../../../../client_zencode/coconut/Coconut-1-participant-generate-credential-request.zen?raw';
 import aggregateCredentialSignaturesContract from '../../../../../../../client_zencode/coconut/Coconut-2-participant-aggregate-credential-signatures.zen?raw';
-import generateAnonymisedProofContract from '../../../../../../../client_zencode/coconut/Coconut-3-participant-generate-anonymised-proof.zen?raw';
+// import generateAnonymisedProofContract from '../../../../../../../client_zencode/coconut/Coconut-3-participant-generate-anonymised-proof.zen?raw';
 import signReflowSealContract from '../../../../../../../client_zencode/reflow/reflow-5-participant-sign-reflow-seal.zen?raw';
 
 //
@@ -102,17 +105,17 @@ export type IssuerPublicKeys = {
 	beta: string;
 };
 
-type CredentialProofResponse = {
-	credential_proof: Record<string, unknown>;
-};
+// type CredentialProofResponse = {
+// 	credential_proof: Record<string, unknown>;
+// };
 
-async function generateAnonymisedProof(
-	data: { keyring: Keyring } & AggregatedSignatureResponse & { issuer_public_key: IssuerPublicKeys }
-) {
-	return await zencodeExec<CredentialProofResponse>(generateAnonymisedProofContract, {
-		data
-	});
-}
+// async function generateAnonymisedProof(
+// 	data: { keyring: Keyring } & AggregatedSignatureResponse & { issuer_public_key: IssuerPublicKeys }
+// ) {
+// 	return await zencodeExec<CredentialProofResponse>(generateAnonymisedProofContract, {
+// 		data
+// 	});
+// }
 
 //
 
@@ -149,5 +152,5 @@ export async function saveReflowSignature(
 		signature: reflowSignatureResponse,
 		status: MultisignatureSealsStatusOptions.signed
 	};
-	await pb.collection(Collections.MultisignatureSeals).update(sealId, data);
+	await pb.collection('multisignature_seals').update(sealId, data);
 }

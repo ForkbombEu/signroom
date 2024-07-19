@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import RecordSelect from '$lib/components/records/recordSelect.svelte';
 	import { Collections } from '$lib/pocketbase/types';
@@ -11,18 +17,18 @@
 	const recordType = createTypeProp<CrudExampleResponse>();
 </script>
 
-<div class="p-8 space-y-4">
+<div class="space-y-4 p-8">
 	<p>Record select</p>
 	<RecordSelect {recordType} {collection} bind:recordId={searchValue} />
 	<pre>{JSON.stringify(searchValue)}</pre>
 </div>
 
-<div class="p-8 space-y-4">
+<div class="space-y-4 p-8">
 	<p>Record search</p>
 	<RecordSearch {collection} bind:recordId={searchValue} options={{ placeholder: 'mimmo' }} />
 </div>
 
-<div class="p-8 space-y-4">
+<div class="space-y-4 p-8">
 	<p>Records manager</p>
 
 	<RecordsManager

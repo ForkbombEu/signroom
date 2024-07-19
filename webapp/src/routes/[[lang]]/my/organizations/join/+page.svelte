@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import PortalWrapper from '$lib/components/portalWrapper.svelte';
@@ -33,7 +39,7 @@
 	}
 
 	async function sendJoinRequest() {
-		await pb.collection(Collections.OrgJoinRequests).create({
+		await pb.collection('orgJoinRequests').create({
 			user: $currentUser?.id!,
 			organization: selectedOrganization?.id!,
 			status: OrgJoinRequestsStatusOptions.pending,
@@ -68,7 +74,7 @@
 					{@const hasDescription = Boolean(org.description)}
 
 					<PlainCard let:Title let:Description>
-						<div class="flex gap-4 items-center">
+						<div class="flex items-center gap-4">
 							<Avatar src={avatarUrl} size="md" class="shrink-0" />
 							<div>
 								<Title>{org.name}</Title>
@@ -82,7 +88,7 @@
 							</div>
 						</div>
 
-						<div slot="right" class="pl-8 shrink-0 self-start">
+						<div slot="right" class="shrink-0 self-start pl-8">
 							{#if !isRequestAlreadySent(org)}
 								<Button
 									outline

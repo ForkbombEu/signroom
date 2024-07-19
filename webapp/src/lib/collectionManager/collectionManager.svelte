@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts" context="module">
 	import { getContext } from 'svelte';
 	import type { RecordService } from 'pocketbase';
@@ -192,7 +198,7 @@
 </script>
 
 {#await promise}
-	<div class="flex items-center justify-center min-h-screen justify-items-center">
+	<div class="flex min-h-screen items-center justify-center justify-items-center">
 		<GridSpinner />
 	</div>
 {:then}

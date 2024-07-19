@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { ListgroupItem } from 'flowbite-svelte';
 	import IconButton from './iconButton.svelte';
@@ -19,7 +25,7 @@
 </script>
 
 <ListgroupItem>
-	<div class="flex justify-between items-center">
+	<div class="flex items-center justify-between">
 		<slot />
 		<div>
 			<!-- {#if !hideShow}

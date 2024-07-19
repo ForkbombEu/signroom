@@ -1,23 +1,23 @@
-import preprocess from 'svelte-preprocess';
+// SPDX-FileCopyrightText: 2024 The Forkbomb Company
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import adapter from '@sveltejs/adapter-node';
-import { vitePreprocess } from '@sveltejs/kit/vite';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	// Consult https://kit.svelte.dev/docs/integrations#preprocessors
 	// for more information about preprocessors
-	preprocess: [
-		vitePreprocess(),
-		preprocess({
-			postcss: true
-		})
-	],
+	preprocess: vitePreprocess(),
 
 	kit: {
 		adapter: adapter(),
 		alias: {
+			$paraglide: './src/paraglide',
 			'@api': './src/routes/api',
-			$paraglide: './src/paraglide'
+			'@zenflows-crypto': './zenflows-crypto',
+			'@client-zencode': './client-zencode'
 		},
 		version: {
 			name: process.env.npm_package_version

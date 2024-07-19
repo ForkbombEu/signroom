@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import {
 		multisignatureFormDataSchema,
@@ -56,18 +62,18 @@
 	// Display operations
 
 	function getOwner() {
-		return pb.collection(Collections.Users).getOne<UsersResponse>($currentUser!.id);
+		return pb.collection('users').getOne($currentUser!.id);
 	}
 
 	function getParticipants() {
 		const filter = $multisignatureFormData.participants.map((id) => `id = "${id}"`).join(' || ');
-		return pb.collection(Collections.Users).getFullList<UsersResponse>({ filter });
+		return pb.collection('users').getFullList({ filter });
 	}
 
 	function getIssuer() {
 		return pb
-			.collection(Collections.CoconutCredentialIssuers)
-			.getOne<CoconutCredentialIssuersResponse>($multisignatureFormData.credentialIssuer);
+			.collection('coconut_credential_issuers')
+			.getOne($multisignatureFormData.credentialIssuer);
 	}
 </script>
 
@@ -79,7 +85,7 @@
 </PageTop>
 
 <PageContent layout="horizontal">
-	<PageCard class="p-6 space-y-5 grow">
+	<PageCard class="grow space-y-5 p-6">
 		<SectionTitle tag="h5" title="Multisignature details" />
 
 		<ReviewField label="Signature name">
@@ -125,7 +131,7 @@
 				<div class="flex justify-stretch gap-2">
 					<Button
 						color="alternative"
-						class="p-0 grow"
+						class="grow p-0"
 						href="/my/multisignatures/create/participants"
 					>
 						<ArrowLeft />

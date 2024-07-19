@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 The Forkbomb Company
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import ProtectedOrgLayout from './protectedOrgLayout.svelte';
 import ProtectedOrgUI from './protectedOrgUI.svelte';
 
@@ -43,13 +47,12 @@ export async function verifyRole(organizationId: string, roles: OrgRole[], fetch
 export async function getUserRole(organizationId: string, userId: string): Promise<OrgRole> {
 	const orgAuthorization = await pb
 		.collection(Collections.OrgAuthorizations)
-		.getFirstListItem<OrgAuthorizationsResponse<{ role: OrgRolesResponse }>>(
-			`organization.id = '${organizationId}' && user.id = '${userId}'`,
-			{
-				expand: 'role',
-				requestKey: null
-			}
-		);
+		.getFirstListItem<
+			OrgAuthorizationsResponse<{ role: OrgRolesResponse }>
+		>(`organization.id = '${organizationId}' && user.id = '${userId}'`, {
+			expand: 'role',
+			requestKey: null
+		});
 
 	return orgAuthorization.expand?.role.name as OrgRole;
 }

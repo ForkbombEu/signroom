@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import Input from '$lib/forms/fields/input.svelte';
@@ -25,7 +31,7 @@
 	>();
 </script>
 
-<div class="max-w-xl mx-auto p-4">
+<div class="mx-auto max-w-xl p-4">
 	<RecordForm
 		{recordType}
 		collection={Collections.CrudExample}

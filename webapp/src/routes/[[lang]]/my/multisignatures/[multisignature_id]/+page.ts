@@ -1,6 +1,9 @@
+// SPDX-FileCopyrightText: 2024 The Forkbomb Company
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { pb } from '$lib/pocketbase/index.js';
 import {
-	Collections,
 	type CoconutCredentialIssuersResponse,
 	type MultisignatureSealsResponse,
 	type MultisignaturesResponse,
@@ -18,7 +21,7 @@ export const load = async ({ params, fetch }) => {
 	>;
 
 	const multisignature = await pb
-		.collection(Collections.Multisignatures)
+		.collection('multisignatures')
 		.getOne<Multisignatures>(params.multisignature_id, {
 			expand: [ownerExpand, issuerExpand].join(', ')
 		});
@@ -32,7 +35,7 @@ export const load = async ({ params, fetch }) => {
 		}
 	>;
 
-	const seals = await pb.collection(Collections.MultisignatureSeals).getFullList<Seals>({
+	const seals = await pb.collection('multisignature_seals').getFullList<Seals>({
 		filter: `multisignature.id = '${multisignature.id}'`,
 		fetch,
 		expand: ownerExpand

@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { currentUser } from '$lib/pocketbase';
 	import { appTitle } from '$lib/strings';
@@ -59,8 +65,8 @@
 			</NavBrand>
 			<div class="flex items-center lg:order-2">
 				<a href="/login">Log In</a>
-				<Button class="ml-4 inline-flex items-center justify-center mr-3" href="/register">
-					Register <ArrowRight size="18" class="ml-2 -mr-1" />
+				<Button class="ml-4 mr-3 inline-flex items-center justify-center" href="/register">
+					Register <ArrowRight size="18" class="-mr-1 ml-2" />
 				</Button>
 				<NavHamburger
 					on:click={toggle}
@@ -86,7 +92,7 @@
 			pClass="max-w-2xl mb-6 font-light lg:mb-8 lg:text-3xl dark:text-gray-400"
 		>
 			<svelte:fragment slot="h1">
-				Empower your 
+				Empower your
 				<Span
 					gradient
 					gradientClass="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-purple-500"
@@ -95,8 +101,8 @@
 			</svelte:fragment>
 			<svelte:fragment slot="paragraph">Sign up and build your use case.</svelte:fragment>
 			<a href="/">
-				<Button class="inline-flex items-center justify-center mr-3" href="/register">
-					Register <ArrowRight size="18" class="ml-2 -mr-1" />
+				<Button class="mr-3 inline-flex items-center justify-center" href="/register">
+					Register <ArrowRight size="18" class="-mr-1 ml-2" />
 				</Button>
 			</a>
 			<a href="/">
@@ -109,7 +115,7 @@
 
 	<Section name="feature">
 		<HeroHeader
-			class="max-w-screen-md mb-8 lg:mb-16"
+			class="mb-8 max-w-screen-md lg:mb-16"
 			h2Class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white"
 			pClass="text-gray-500 sm:text-xl dark:text-gray-400"
 		>

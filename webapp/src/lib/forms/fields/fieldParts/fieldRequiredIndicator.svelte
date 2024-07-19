@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { getFormContext } from '../../form.svelte';
 	import { formFieldProxy } from 'sveltekit-superforms/client';
@@ -9,5 +15,5 @@
 </script>
 
 {#if $constraints?.required && showRequiredIndicator}
-	<span class="text-red-400 font-bold">*</span>
+	<span class="font-bold text-red-400">*</span>
 {/if}

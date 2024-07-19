@@ -1,10 +1,14 @@
-<script lang="ts">
-	import type { FormSettings } from '$lib/forms/form.svelte';
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
 
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
+<script lang="ts">
 	import { createTypeProp } from '$lib/utils/typeProp';
 
 	import type { PBResponse } from '$lib/utils/types';
-	import { RecordForm } from '$lib/recordForm';
+	import { RecordForm, type FieldsSettings } from '$lib/recordForm';
 
 	import PortalWrapper from '$lib/components/portalWrapper.svelte';
 	import { Button, Modal } from 'flowbite-svelte';
@@ -18,18 +22,18 @@
 	recordType;
 
 	export let record: RecordGeneric;
-	export let formSettings: Partial<FormSettings> = {};
+	export let formSettings: Partial<FieldsSettings<RecordGeneric>> = {};
 	export let modalTitle = 'Edit record';
 
 	//
 
-	const { dataManager, formFieldsSettings } = getRecordsManagerContext<RecordGeneric>();
-	const { base, edit } = formFieldsSettings;
-	const { loadRecords } = dataManager;
+	let { formFieldsSettings } = getRecordsManagerContext<RecordGeneric>();
+	let { base, edit } = formFieldsSettings;
 
-	const fieldsSettings = {
+	let fieldsSettings = {
 		...base,
-		...edit
+		...edit,
+		...formSettings
 	};
 
 	//
@@ -38,6 +42,9 @@
 
 	function openModal() {
 		open = true;
+	}
+	function closeModal() {
+		open = false;
 	}
 </script>
 
@@ -54,12 +61,8 @@
 				collection={record.collectionId}
 				recordId={record.id}
 				initialData={record}
-				{formSettings}
 				{fieldsSettings}
-				on:success={async () => {
-					await loadRecords();
-					open = false;
-				}}
+				on:success={closeModal}
 			/>
 		</div>
 	</Modal>

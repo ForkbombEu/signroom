@@ -1,9 +1,18 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import Title from './plainCardTitle.svelte';
 	import Description from './plainCardDescription.svelte';
+
+	let className = '';
+	export { className as class };
 </script>
 
-<div class="p-5 flex items-center border rounded-lg gap-4">
+<div class="flex items-center gap-4 rounded-lg border p-5 {className}">
 	{#if $$slots.left}
 		<div class="shrink-0">
 			<slot name="left" />

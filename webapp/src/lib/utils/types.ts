@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 The Forkbomb Company
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import type { BaseSystemFields } from '$lib/pocketbase/types';
 import type { XCircle } from 'svelte-heros-v2';
 
@@ -9,6 +13,10 @@ export type ArrayExtract<T> = T extends (infer U)[] ? U : T;
 // Util to extract type from T | T[]
 
 export type StringKeys<T> = Extract<keyof T, string>;
+
+export type ReplaceType<T, K extends keyof T, NewType> = {
+	[P in keyof T]: P extends K ? NewType : T[P];
+};
 
 /* Components */
 

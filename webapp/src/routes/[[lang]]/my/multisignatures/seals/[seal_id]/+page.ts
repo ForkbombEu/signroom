@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 The Forkbomb Company
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { pb } from '$lib/pocketbase/index.js';
 import {
 	Collections,
@@ -18,9 +22,9 @@ export const load = async ({ params }) => {
 
 	const issuer = await pb
 		.collection(Collections.CoconutCredentialIssuers)
-		.getOne<CoconutCredentialIssuersResponse<IssuerPublicKeys>>(
-			multisignature.coconut_credential_issuer
-		);
+		.getOne<
+			CoconutCredentialIssuersResponse<IssuerPublicKeys>
+		>(multisignature.coconut_credential_issuer);
 
 	return {
 		seal,

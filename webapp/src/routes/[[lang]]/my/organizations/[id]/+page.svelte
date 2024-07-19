@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { ProtectedOrgUI } from '$lib/rbac/index.js';
@@ -7,7 +13,7 @@
 	import PageCard from '$lib/components/pageCard.svelte';
 	import HomeSection from './_partials/homeSection.svelte';
 	import { Badge } from 'flowbite-svelte';
-	import { templatesColors } from '$lib/utils/colors';
+	import { templatesColors } from '$lib/templates';
 
 	export let data;
 	let {
@@ -23,7 +29,7 @@
 </script>
 
 <OrganizationLayout org={data.organization}>
-	<div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+	<div class="grid grid-cols-1 gap-8 sm:grid-cols-2">
 		<PageCard class="!space-y-4">
 			<HomeSection
 				title={m.Issuance_flows()}
