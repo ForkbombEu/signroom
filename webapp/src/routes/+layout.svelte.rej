@@ -1,0 +1,12 @@
+diff a/webapp/src/routes/+layout.svelte b/webapp/src/routes/+layout.svelte	(rejected hunks)
+@@ -4,7 +4,9 @@
+ 
+ 	import '../app.postcss';
+ 	import { version } from '$app/environment';
+-	console.info(`SAAS version: 🔖 ${version}`);
++	import { appTitle } from '$lib/strings';
++
++	console.info(`${appTitle} version: 🔖 ${version}`);
+ </script>
+ 
+ <ParaglideJS {i18n}>
