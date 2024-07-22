@@ -18,13 +18,14 @@ import { DEFAULT_LOCALE } from './utils/locale';
 import { objectSchemaToCredentialSubject } from './utils/credential-subject';
 import type { ObjectSchema } from '$lib/jsonSchema/types';
 import _ from 'lodash/fp';
+import type { Expiration } from '$lib/issuanceFlows/expiration';
 
 /* Data setup */
 
 type CredentialIssuerRelatedData = {
 	authorization_servers: Array<AuthorizationServersResponse>;
 	credentials: Array<{
-		issuance_flow: ServicesResponse;
+		issuance_flow: ServicesResponse<Expiration>;
 		issuance_template: TemplatesResponse;
 	}>;
 };
@@ -157,7 +158,13 @@ function addCredentialsCustomCode(
 	credential_issuer_related_data: CredentialIssuerRelatedData
 ) {
 	credential_issuer_related_data.credentials.forEach(({ issuance_flow, issuance_template }) =>
-		addCustomCode(zip, 'credential_issuer', issuance_flow.type_name, issuance_template)
+		addCustomCode(
+			zip,
+			'credential_issuer',
+			issuance_flow.type_name,
+			issuance_template,
+			issuance_flow.expiration
+		)
 	);
 }
 

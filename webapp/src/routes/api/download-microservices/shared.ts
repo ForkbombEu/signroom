@@ -5,6 +5,7 @@
 import type { TemplatesResponse } from '$lib/pocketbase/types';
 import type AdmZip from 'adm-zip';
 import { getZipRootFolder } from './utils/zip';
+import type { Expiration } from '$lib/issuanceFlows/expiration';
 
 //
 
@@ -40,11 +41,15 @@ export function addCustomCode(
 	zip: AdmZip,
 	microservice: MicroserviceFolder,
 	credential_type_name: string,
-	template: TemplatesResponse
+	template: TemplatesResponse,
+	time: Expiration | undefined | null = undefined
 ) {
 	const { zencode_data, zencode_script } = template;
 	const basePath = getCredentialCustomCodePath(zip, microservice, credential_type_name);
 	zip.addFile(`${basePath}.zen`, Buffer.from(zencode_script));
 	zip.addFile(`${basePath}.keys.json`, Buffer.from(zencode_data));
 	zip.addFile(`${basePath}.metadata.json`, Buffer.from(JSON.stringify({ hidden: true })));
+	if (Boolean(time)) {
+		zip.addFile(`${basePath}.time.json`, Buffer.from(JSON.stringify(time, null, 2)));
+	}
 }

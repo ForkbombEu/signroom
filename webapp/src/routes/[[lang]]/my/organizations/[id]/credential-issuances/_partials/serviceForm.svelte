@@ -64,9 +64,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	//
 
-	const serviceSchema = z
-		.object({ expiration: expirationSchema })
-		.merge(fieldsSchemaToZod(getCollectionSchema(Collections.Services)!.schema));
+	const serviceSchema = fieldsSchemaToZod(getCollectionSchema(Collections.Services)!.schema).extend(
+		{
+			expiration: expirationSchema
+		}
+	);
 
 	const superform = createForm(
 		serviceSchema,
