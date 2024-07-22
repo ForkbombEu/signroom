@@ -51,6 +51,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import ExpirationField from './expiration/expirationField.svelte';
 	import { expirationSchema } from '$lib/issuanceFlows/expiration';
 	import { z } from 'zod';
+	import { TemplatePropertiesDisplay } from '$lib/templates';
 
 	//
 
@@ -140,8 +141,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	function formatTeplateRecord(t: Template) {
 		const isExternal = t.organization != organizationId;
-		const organizationName = isExternal ? ` (@${t.expand?.organization.name})` : '';
-		return `${t.name} ${organizationName} | ${t.description}`;
+		let label = [t.name];
+		if (isExternal) label.push(`(@${t.expand?.organization.name})`);
+		if (Boolean(t.description)) label.push(` | ${t.description}`);
+		return label.join(' ');
 	}
 </script>
 
@@ -236,6 +239,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 						<Icon src={Plus} size={16} ml></Icon></Button
 					>
 				</svelte:fragment>
+				<svelte:fragment slot="default" let:record>
+					<div class="p-2">
+						<p>{formatTeplateRecord(record)}</p>
+						<TemplatePropertiesDisplay template={record}></TemplatePropertiesDisplay>
+					</div>
+				</svelte:fragment>
 			</Relations>
 		</div>
 
@@ -258,6 +267,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 						{m.New_credential_template()}
 						<Icon src={Plus} size={16} ml></Icon></Button
 					>
+				</svelte:fragment>
+				<svelte:fragment slot="default" let:record>
+					<div class="p-2">
+						<p>{formatTeplateRecord(record)}</p>
+						<TemplatePropertiesDisplay template={record}></TemplatePropertiesDisplay>
+					</div>
 				</svelte:fragment>
 			</Relations>
 		</div>
