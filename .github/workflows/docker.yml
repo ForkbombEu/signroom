@@ -13,10 +13,9 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
       - run: docker compose up --wait
+      - uses: dyne/pnpm@main
       - name: 📨 Run playwright
         run: |
-          npm install -g pnpm
-          pnpm i
           pnpm exec playwright install --with-deps
           pnpm exec playwright test
         working-directory: ./webapp
