@@ -1,0 +1,22 @@
+name: docker
+on:
+  pull_request:
+    branches: [ "main" ]
+permissions:
+  contents: write
+jobs:
+  docker-test:
+    name: 🧪 on 🐳
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - run: docker compose up --wait
+      - uses: dyne/pnpm@main
+        working-directory: ./webapp
+      - name: 📨 Run playwright
+        run: |
+          pnpm exec playwright install --with-deps
+          pnpm exec playwright test
+        working-directory: ./webapp
