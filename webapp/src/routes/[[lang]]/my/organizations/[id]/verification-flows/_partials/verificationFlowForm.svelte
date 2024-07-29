@@ -196,6 +196,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		/>
 
 		<div>
+			<!-- Microservices should only be visible by admins and owners of the current organization -->
+			<!-- This is to avoid that issuance flows are setup in a way that is impossible to deploy -->
 			<Relations
 				recordType={relyingPartyTypeProp}
 				collection={Collections.RelyingParties}
@@ -203,7 +205,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				options={{
 					inputMode: 'select',
 					displayFields: ['name', 'endpoint'],
-					label: m.Relying_party()
+					label: m.Relying_party(),
+					filter: `organization.id = '${organizationId}'`
 				}}
 				{superform}
 			>
