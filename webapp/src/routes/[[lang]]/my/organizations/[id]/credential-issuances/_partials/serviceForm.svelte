@@ -289,6 +289,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 			description={m.issuance_flow_form_microservices_description()}
 		/>
 
+		<!-- Microservices should only be visible by admins and owners of the current organization -->
+		<!-- This is to avoid that issuance flows are setup in a way that is impossible to deploy -->
+
 		<div>
 			<Relations
 				recordType={authorizationServersType}
@@ -297,7 +300,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				options={{
 					inputMode: 'select',
 					displayFields: ['name', 'endpoint'],
-					label: m.Authorization_server()
+					label: m.Authorization_server(),
+					filter: `organization.id = "${organizationId}"`
 				}}
 				{superform}
 			>
@@ -318,7 +322,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				options={{
 					inputMode: 'select',
 					displayFields: ['name', 'endpoint'],
-					label: m.Credential_issuer()
+					label: m.Credential_issuer(),
+					filter: `organization.id = "${organizationId}"`
 				}}
 				{superform}
 			>
