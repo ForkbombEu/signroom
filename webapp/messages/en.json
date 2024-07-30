@@ -420,5 +420,6 @@
 	"No_properties_found": "No properties found",
 	"Properties": "Properties",
 	"microservice_port_description": "microservice_port_description",
-	"Port": "Port"
+	"Port": "Port",
+	"microservice_edit_warning": "The name, the enpoint and the port, define the identity of the microservice and have effect on the the deployment and the update. Once a microservice is deployed and initialized, we recommend not change name, endpoint or port."
 }
