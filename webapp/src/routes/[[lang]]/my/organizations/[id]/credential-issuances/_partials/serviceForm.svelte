@@ -14,6 +14,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { createToggleStore } from '$lib/components/utils/toggleStore';
 	import {
 		Checkbox,
+		FieldWrapper,
 		Form,
 		Input,
 		Relations,
@@ -24,7 +25,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		createFormData
 	} from '$lib/forms';
 	import FormError from '$lib/forms/formError.svelte';
-	import { goto, m } from '$lib/i18n';
+	import { m } from '$lib/i18n';
 	import { pb } from '$lib/pocketbase/index.js';
 	import { getCollectionSchema } from '$lib/pocketbase/schema/index.js';
 	import {
@@ -47,6 +48,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { createEventDispatcher } from 'svelte';
 	import slugify from 'slugify';
 	import FieldHelpText from '$lib/forms/fields/fieldParts/fieldHelpText.svelte';
+	import ExpirationField from './expiration/expirationField.svelte';
+	import { expirationSchema } from '$lib/issuanceFlows/expiration';
+	import { z } from 'zod';
 	import { TemplatePropertiesDisplay } from '$lib/templates';
 
 	//
@@ -61,12 +65,16 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	//
 
-	const serviceSchema = fieldsSchemaToZod(getCollectionSchema(Collections.Services)!.schema);
+	const serviceSchema = fieldsSchemaToZod(getCollectionSchema(Collections.Services)!.schema).extend(
+		{
+			expiration: expirationSchema
+		}
+	);
 
 	const superform = createForm(
 		serviceSchema,
 		async (e) => {
-			const formData = createFormData(e.form.data);
+			const formData = e.form.data;
 			let record: ServicesResponse;
 			if (serviceId) {
 				record = await pb.collection('services').update(serviceId, formData);
@@ -78,6 +86,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		{
 			organization: organizationId,
 			...initialData
+		},
+		{
+			validationMethod: 'oninput'
 		}
 	);
 
@@ -265,6 +276,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				</svelte:fragment>
 			</Relations>
 		</div>
+
+		<FieldWrapper field="expiration">
+			<ExpirationField bind:expiration={$form['expiration']}></ExpirationField>
+		</FieldWrapper>
 	</PageCard>
 
 	<PageCard>

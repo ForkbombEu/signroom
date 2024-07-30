@@ -418,5 +418,15 @@
 	"ECDSA_and_EdDSA_certificates_are_currently_not_supported_with_JADES_algorithm": "ECDSA and EdDSA certificates are currently not supported with JADES algorithms.",
 	"These_certificates_cannot_be_used": "These certificates cannot be used:",
 	"No_properties_found": "No properties found",
-	"Properties": "Properties"
+  "Properties": "Properties",
+	"Years": "Years",
+	"Months": "Months",
+	"Days": "Days",
+	"Year": "Year",
+	"Month": "Month",
+	"Day": "Day",
+	"Date": "Date",
+	"Mode": "Mode",
+	"Please_add_at_least_one_day": "Please add at least one day",
+	"Date_must_be_after_today": "Date must be after today"
 }
