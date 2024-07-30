@@ -1,3 +1,10 @@
+## [1.11.1](https://github.com/ForkbombEu/signroom/compare/v1.11.0...v1.11.1) (2024-07-29)
+
+
+### Bug Fixes
+
+* **serviceForm:** show microservices to owners and admins only ([#724](https://github.com/ForkbombEu/signroom/issues/724)) ([1ebbf2d](https://github.com/ForkbombEu/signroom/commit/1ebbf2db704ab462109e3328805b39b9ed4cb2d2))
+
 # [1.11.0](https://github.com/ForkbombEu/signroom/compare/v1.10.5...v1.11.0) (2024-07-19)
 
 
