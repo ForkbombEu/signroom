@@ -201,6 +201,8 @@ test.describe('it should create an issuance flow', () => {
 		await page.locator('select[name="credential_template"]').selectOption({ index: 1 });
 		await page.locator('select[name="authorization_template"]').selectOption({ index: 1 });
 
+		await page.getByRole('spinbutton').nth(1).fill('1');
+
 		await page.locator('select[name="credential_issuer"]').selectOption({ index: 1 });
 		await page.locator('select[name="authorization_server"]').selectOption({ index: 1 });
 
