@@ -42,6 +42,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { Plus } from 'svelte-heros-v2';
 	import TemplateForm from '../../templates/_partials/templateForm.svelte';
 	import { createEventDispatcher } from 'svelte';
+	import { getRandomMicroservicePort } from '$lib/microservices';
 
 	//
 
@@ -276,6 +277,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				fieldsSettings={{
 					hide: {
 						organization: organizationId
+					},
+					defaults: {
+						port: getRandomMicroservicePort()
 					}
 				}}
 				on:success={(e) => {

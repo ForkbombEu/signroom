@@ -24,6 +24,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { getErrorMessage } from '$lib/errorHandling.js';
 	import { requestDownloadMicroservices } from '@api/download-microservices/index.js';
 	import { dowloadResponseAsZip } from '$lib/utils/clientFileDownload.js';
+	import { getRandomMicroservicePort } from '$lib/microservices';
 
 	//
 
@@ -55,12 +56,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	}
 
 	//
-
-	function getRandomPort() {
-		const MIN_PORT = 33000;
-		const MAX_PORT = 65000;
-		return MIN_PORT + Math.floor(Math.random() * (MAX_PORT - MIN_PORT));
-	}
 </script>
 
 <OrganizationLayout org={data.organization}>
@@ -94,7 +89,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 						port: m.microservice_port_description()
 					},
 					defaults: {
-						port: getRandomPort()
+						port: getRandomMicroservicePort()
 					}
 				}}
 				let:records
@@ -174,7 +169,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 						port: m.microservice_port_description()
 					},
 					defaults: {
-						port: getRandomPort()
+						port: getRandomMicroservicePort()
 					}
 				}}
 				let:records
@@ -254,7 +249,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 						port: m.microservice_port_description()
 					},
 					defaults: {
-						port: getRandomPort()
+						port: getRandomMicroservicePort()
 					}
 				}}
 				let:records

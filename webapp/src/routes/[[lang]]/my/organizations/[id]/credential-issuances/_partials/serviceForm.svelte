@@ -48,6 +48,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import slugify from 'slugify';
 	import FieldHelpText from '$lib/forms/fields/fieldParts/fieldHelpText.svelte';
 	import { TemplatePropertiesDisplay } from '$lib/templates';
+	import { getRandomMicroservicePort } from '$lib/microservices';
 
 	//
 
@@ -286,7 +287,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 					inputMode: 'select',
 					displayFields: ['name', 'endpoint'],
 					label: m.Authorization_server(),
-					filter: `organization.id = "${organizationId}"`
+					filter: `organization.id = "${organizationId}"`,
+					formSettings: {
+						defaults: {
+							port: getRandomMicroservicePort()
+						}
+					}
 				}}
 				{superform}
 			>
@@ -308,7 +314,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 					inputMode: 'select',
 					displayFields: ['name', 'endpoint'],
 					label: m.Credential_issuer(),
-					filter: `organization.id = "${organizationId}"`
+					filter: `organization.id = "${organizationId}"`,
+					formSettings: {
+						defaults: {
+							port: getRandomMicroservicePort()
+						}
+					}
 				}}
 				{superform}
 			>
@@ -403,6 +414,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				fieldsSettings={{
 					hide: {
 						organization: organizationId
+					},
+					defaults: {
+						port: getRandomMicroservicePort()
 					}
 				}}
 				on:success={(e) => {
@@ -428,6 +442,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				fieldsSettings={{
 					hide: {
 						organization: organizationId
+					},
+					defaults: {
+						port: getRandomMicroservicePort()
 					}
 				}}
 				on:success={(e) => {
