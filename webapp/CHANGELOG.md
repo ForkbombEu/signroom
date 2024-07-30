@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/ForkbombEu/signroom/compare/v1.11.1...v1.12.0) (2024-07-30)
+
+
+### Features
+
+* add credential expiry ([#718](https://github.com/ForkbombEu/signroom/issues/718)) ([efc39e5](https://github.com/ForkbombEu/signroom/commit/efc39e59a4aa11cf21694d7a771fcc787fdf707b))
+
 ## [1.11.1](https://github.com/ForkbombEu/signroom/compare/v1.11.0...v1.11.1) (2024-07-29)
 
 
