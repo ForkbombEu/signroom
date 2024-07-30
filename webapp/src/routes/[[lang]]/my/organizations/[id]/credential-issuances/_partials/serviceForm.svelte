@@ -285,7 +285,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				field="authorization_server"
 				options={{
 					inputMode: 'select',
-					displayFields: ['name', 'endpoint'],
+					displayFields: ['name', 'endpoint', 'port'],
 					label: m.Authorization_server(),
 					filter: `organization.id = "${organizationId}"`,
 					formSettings: {
@@ -312,7 +312,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				field="credential_issuer"
 				options={{
 					inputMode: 'select',
-					displayFields: ['name', 'endpoint'],
+					displayFields: ['name', 'endpoint', 'port'],
 					label: m.Credential_issuer(),
 					filter: `organization.id = "${organizationId}"`,
 					formSettings: {
