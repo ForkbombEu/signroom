@@ -53,6 +53,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		if (!response.ok) throw new Error(response.statusText);
 		dowloadResponseAsZip(response, 'microservices.zip');
 	}
+
+	//
+
+	function getRandomPort() {
+		const MIN_PORT = 33000;
+		const MAX_PORT = 65000;
+		return MIN_PORT + Math.floor(Math.random() * (MAX_PORT - MIN_PORT));
+	}
 </script>
 
 <OrganizationLayout org={data.organization}>
@@ -82,7 +90,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 					hide: { organization: data.organization.id },
 					descriptions: {
 						name: m.microservice_name_description(),
-						endpoint: m.microservice_endpoint_description()
+						endpoint: m.microservice_endpoint_description(),
+						port: m.microservice_port_description()
+					},
+					defaults: {
+						port: getRandomPort()
 					}
 				}}
 				let:records
@@ -107,8 +119,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 						<PlainCard let:Title let:Description>
 							<Title>{record.name}</Title>
 							<Description>
-								<span class="mr-2 font-bold">{m.Endpoint()}:</span>
+								<span class="font-bold">{m.Endpoint()}:</span>
 								{record.endpoint}
+							</Description>
+							<Description>
+								<span class="font-bold">{m.Port()}:</span>
+								{record.port}
 							</Description>
 
 							<svelte:fragment slot="right">
@@ -154,7 +170,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 					hide: { organization: data.organization.id },
 					descriptions: {
 						name: m.microservice_name_description(),
-						endpoint: m.microservice_endpoint_description()
+						endpoint: m.microservice_endpoint_description(),
+						port: m.microservice_port_description()
+					},
+					defaults: {
+						port: getRandomPort()
 					}
 				}}
 				let:records
@@ -179,8 +199,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 						<PlainCard let:Title let:Description>
 							<Title>{record.name}</Title>
 							<Description>
-								<span class="mr-2 font-bold">{m.Endpoint()}:</span>
+								<span class="font-bold">{m.Endpoint()}:</span>
 								{record.endpoint}
+							</Description>
+							<Description>
+								<span class="font-bold">{m.Port()}:</span>
+								{record.port}
 							</Description>
 
 							<svelte:fragment slot="right">
@@ -226,7 +250,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 					hide: { organization: data.organization.id },
 					descriptions: {
 						name: m.microservice_name_description(),
-						endpoint: m.microservice_endpoint_description()
+						endpoint: m.microservice_endpoint_description(),
+						port: m.microservice_port_description()
+					},
+					defaults: {
+						port: getRandomPort()
 					}
 				}}
 				let:records
@@ -251,8 +279,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 						<PlainCard let:Title let:Description>
 							<Title>{record.name}</Title>
 							<Description>
-								<span class="mr-2 font-bold">{m.Endpoint()}:</span>
+								<span class="font-bold">{m.Endpoint()}:</span>
 								{record.endpoint}
+							</Description>
+							<Description>
+								<span class="font-bold">{m.Port()}:</span>
+								{record.port}
 							</Description>
 
 							<svelte:fragment slot="right">

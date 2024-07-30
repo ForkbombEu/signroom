@@ -94,6 +94,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	/>
 {:else if fieldSchema.type == FieldType.TEXT || fieldSchema.type == FieldType.URL}
 	<Input {superform} {field} options={{ label, helpText: description }} />
+{:else if fieldSchema.type == FieldType.NUMBER}
+	<Input {superform} {field} options={{ label, helpText: description, type: 'number' }} />
 {:else if fieldSchema.type == FieldType.JSON}
 	<Textarea {superform} {field} options={{ label, helpText: description }} />
 {:else if fieldSchema.type == FieldType.BOOL}
