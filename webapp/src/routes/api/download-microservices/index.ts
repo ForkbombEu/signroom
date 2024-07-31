@@ -37,30 +37,19 @@ async function createDownloadMicroservicesRequestBody(
 	organizationId: string,
 	fetchFn = fetch
 ): Promise<DownloadMicroservicesRequestBody> {
-	const organization = await pb.collection('organizations').getOne(organizationId);
-
 	const pbOptions: RecordFullListOptions = {
 		filter: `organization.id = '${organizationId}'`,
 		fetch: fetchFn
 	};
 
-	const issuance_flows = await pb.collection('services').getFullList(pbOptions);
-	const verification_flows = await pb.collection('verification_flows').getFullList(pbOptions);
-
-	const templates = await pb.collection('templates').getFullList(pbOptions);
-
-	const relying_parties = await pb.collection('relying_parties').getFullList(pbOptions);
-	const credential_issuers = await pb.collection('issuers').getFullList(pbOptions);
-	const authorization_servers = await pb.collection('authorization_servers').getFullList(pbOptions);
-
 	return {
-		organization,
-		credential_issuers,
-		authorization_servers,
-		relying_parties,
-		issuance_flows,
-		verification_flows,
-		templates
+		organization: await pb.collection('organizations').getOne(organizationId),
+		issuance_flows: await pb.collection('services').getFullList(pbOptions),
+		verification_flows: await pb.collection('verification_flows').getFullList(pbOptions),
+		templates: await pb.collection('templates').getFullList(pbOptions),
+		relying_parties: await pb.collection('relying_parties').getFullList(pbOptions),
+		credential_issuers: await pb.collection('issuers').getFullList(pbOptions),
+		authorization_servers: await pb.collection('authorization_servers').getFullList(pbOptions)
 	};
 }
 

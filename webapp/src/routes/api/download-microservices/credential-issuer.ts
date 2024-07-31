@@ -45,9 +45,9 @@ export function create_credential_issuer_zip(
 	);
 
 	edit_credential_issuer_well_known(zip, credential_issuer, credential_issuer_related_data);
-	add_credentials_custom_code(zip, credential_issuer_related_data);
-	delete_unused_folders(zip, 'credential_issuer');
+	add_credentials_custom_code(zip, credential_issuer_related_data.issuance_flows);
 	add_microservice_env(zip, credential_issuer);
+	delete_unused_folders(zip, 'credential_issuer');
 
 	return zip;
 }
@@ -71,33 +71,30 @@ function get_credential_issuer_related_data_from_request_body(
 		templates: org_templates
 	} = body;
 
+	const related_issuance_flows = org_issuance_flows.filter(
+		(flow) => flow.credential_issuer == credential_issuer.id
+	);
+
 	return {
 		authorization_servers: pipe(
-			org_issuance_flows,
-			A.filter((issuance_flow) => issuance_flow.credential_issuer == credential_issuer.id),
+			related_issuance_flows,
 			A.map((issuance_flow) => issuance_flow.authorization_server),
 			(authorization_server_ids) =>
 				org_authorization_servers.filter((a) => authorization_server_ids.includes(a.id))
 		),
 
-		issuance_flows: pipe(
-			org_issuance_flows,
-			A.filter((issuance_flow) => issuance_flow.credential_issuer == credential_issuer.id),
-			A.map((issuance_flow) => ({
-				...issuance_flow,
-				template: pipe(
-					org_templates,
-					A.findFirst((t) => t.id == issuance_flow.credential_template),
-					O.getOrThrow
-				)
-			}))
-		)
+		issuance_flows: related_issuance_flows.map((issuance_flow) => ({
+			...issuance_flow,
+			template: pipe(
+				org_templates,
+				A.findFirst((t) => t.id == issuance_flow.credential_template),
+				O.getOrThrow
+			)
+		}))
 	};
 }
 
 /* Well known editing */
-
-type CredentialConfiguration = Record<string, unknown> & { readonly brand: unique symbol };
 
 function create_credential_issuer_well_known(
 	credential_issuer: IssuersResponse,
@@ -105,9 +102,8 @@ function create_credential_issuer_well_known(
 	default_well_known: WellKnown
 ): WellKnown {
 	const { authorization_servers, issuance_flows } = credential_issuer_related_data;
-
 	const credential_issuer_url = cleanUrl(credential_issuer.endpoint);
-	const authorization_servers_urls = authorization_servers.map((a) => a.endpoint).map(cleanUrl);
+	const authorization_servers_urls = authorization_servers.map((a) => cleanUrl(a.endpoint));
 
 	return pipe(
 		default_well_known,
@@ -121,15 +117,14 @@ function create_credential_issuer_well_known(
 			name: credential_issuer.name,
 			locale: DEFAULT_LOCALE
 		}),
-
 		_.set(
 			'credential_configurations_supported',
-			issuance_flows.map(convert_issuance_flow_data_to_credential_configuration)
+			issuance_flows.map(convert_issuance_flow_to_credential_configuration)
 		)
 	) as WellKnown;
 }
 
-function convert_issuance_flow_data_to_credential_configuration(
+function convert_issuance_flow_to_credential_configuration(
 	issuance_flow: IssuanceFlow
 ): CredentialConfiguration {
 	return pipe(
@@ -156,29 +151,9 @@ function convert_issuance_flow_data_to_credential_configuration(
 	) as CredentialConfiguration;
 }
 
-/* Custom code editing */
-
-function add_credentials_custom_code(
-	zip: AdmZip,
-	credential_issuer_related_data: CredentialIssuerRelatedData
-) {
-	pipe(
-		credential_issuer_related_data.issuance_flows,
-		A.forEach((issuance_flow) =>
-			add_credential_custom_code(
-				zip,
-				'credential_issuer',
-				issuance_flow.type_name,
-				issuance_flow.template
-			)
-		)
-	);
-}
+type CredentialConfiguration = Record<string, unknown> & { readonly brand: unique symbol };
 
 /* Zip editing */
-
-const CREDENTIAL_ISSUER_WELL_KNOWN_PATH =
-	'public/credential_issuer/.well-known/openid-credential-issuer';
 
 function edit_credential_issuer_well_known(
 	zip: AdmZip,
@@ -187,7 +162,7 @@ function edit_credential_issuer_well_known(
 ) {
 	update_zip_json_entry(
 		zip,
-		CREDENTIAL_ISSUER_WELL_KNOWN_PATH,
+		get_credential_issuer_well_known_path(),
 		(default_well_known) =>
 			create_credential_issuer_well_known(
 				credential_issuer,
@@ -195,5 +170,30 @@ function edit_credential_issuer_well_known(
 				default_well_known as WellKnown
 			),
 		config.json.tab_size
+	);
+}
+
+function get_credential_issuer_well_known_path() {
+	return [
+		config.folder_names.public,
+		config.folder_names.microservices.credential_issuer,
+		config.folder_names.well_known,
+		config.file_names.well_known.credential_issuer
+	].join('/');
+}
+
+/* Custom code editing */
+
+function add_credentials_custom_code(zip: AdmZip, issuance_flows: IssuanceFlow[]) {
+	pipe(
+		issuance_flows,
+		A.forEach((issuance_flow) =>
+			add_credential_custom_code(
+				zip,
+				'credential_issuer',
+				issuance_flow.type_name,
+				issuance_flow.template
+			)
+		)
 	);
 }

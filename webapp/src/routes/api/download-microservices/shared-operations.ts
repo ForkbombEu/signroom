@@ -79,13 +79,13 @@ export function get_credential_custom_code_path(
 	credential_type_name: string
 ) {
 	const zipRoot = get_zip_root_folder(zip);
-	return `${zipRoot}/${microservice}/${config.folder_names.custom_code}/${credential_type_name}`;
+	return [zipRoot, microservice, config.folder_names.custom_code, credential_type_name].join('/');
 }
 
 /* .env.example management */
 
 export function add_microservice_env(zip: AdmZip, microservice: Microservice) {
-	update_zip_entry(zip, '.env.example', () => create_microservice_env(microservice));
+	update_zip_entry(zip, config.file_names.env_example, () => create_microservice_env(microservice));
 }
 
 function create_microservice_env(microservice: Microservice): string {

@@ -9,10 +9,13 @@ export const config = {
 		},
 		well_known: '.well_known'
 	},
-	well_known_names: {
-		authz_server: 'authz_server',
-		credential_issuer: 'openid-credential-issuer',
-		relying_party: 'openid-relying-party'
+	file_names: {
+		well_known: {
+			authz_server: 'oauth-authorization-server',
+			credential_issuer: 'openid-credential-issuer',
+			relying_party: 'openid-relying-party'
+		},
+		env_example: '.env.example'
 	},
 	file_extensions: {
 		zen: 'zen',

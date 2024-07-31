@@ -13,6 +13,7 @@ import { add_microservice_env, delete_unused_folders, type WellKnown } from './s
 import { DEFAULT_LOCALE } from './utils/locale';
 import { cleanUrl } from './utils/strings';
 import { update_zip_json_entry } from './utils/zip';
+import { config } from './config';
 
 /* Main */
 
@@ -53,25 +54,31 @@ function create_relying_party_well_known(
 			name: relying_party.name,
 			locale: DEFAULT_LOCALE
 		}),
-		_.set('jwks.keys[0].kid', ''),
 		_.set('trusted_credential_issuers', trusted_credential_issuers_urls)
 	) as WellKnown;
 }
 
 /* Zip editing */
 
-const RELYING_PARTY_WELL_KNOWN_PATH = 'public/relying_party/.well-known/openid-relying-party';
-
 function edit_relying_party_well_known(
 	zip: AdmZip,
 	relying_party: RelyingPartiesResponse,
 	trusted_credential_issuers: IssuersResponse[]
 ) {
-	update_zip_json_entry(zip, RELYING_PARTY_WELL_KNOWN_PATH, (default_well_known) =>
+	update_zip_json_entry(zip, get_relying_party_well_known_path(), (default_well_known) =>
 		create_relying_party_well_known(
 			relying_party,
 			trusted_credential_issuers,
 			default_well_known as WellKnown
 		)
 	);
+}
+
+function get_relying_party_well_known_path() {
+	return [
+		config.folder_names.public,
+		config.folder_names.microservices.relying_party,
+		config.folder_names.well_known,
+		config.file_names.well_known.relying_party
+	].join('/');
 }
