@@ -7,7 +7,7 @@ export const config = {
 			credential_issuer: 'credential_issuer',
 			relying_party: 'relying_party'
 		},
-		well_known: '.well_known'
+		well_known: '.well-known'
 	},
 	file_names: {
 		well_known: {
