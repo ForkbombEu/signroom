@@ -5,11 +5,11 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import AdmZip from 'adm-zip';
 import { type DownloadMicroservicesRequestBody } from '.';
-import { createCredentialIssuerZip } from './credential-issuer';
+import { create_credential_issuer_zip } from './credential-issuer';
 import { createAuthorizationServerZip } from './authorization-server';
-import { createRelyingPartyZip } from './relying-party';
+import { create_relying_party_zip } from './relying-party';
 import { addZipAsSubfolder } from './utils/zip';
-import { createSlug } from './utils/data';
+import { createSlug } from './utils/strings';
 
 //
 
@@ -33,7 +33,9 @@ function parseRequestBody(request: Request): Promise<DownloadMicroservicesReques
 
 async function fetchZipFileAsBuffer(fetchFn = fetch): Promise<Buffer> {
 	const DIDROOM_MICROSERVICES_URL =
-		'https://github.com/ForkbombEu/DIDroom_microservices/archive/refs/heads/main.zip';
+		'https://github.com/ForkbombEu/DIDroom_microservices/archive/refs/heads/refactor/placeholders_wk.zip';
+	// const DIDROOM_MICROSERVICES_URL =
+	// 	'https://github.com/ForkbombEu/DIDroom_microservices/archive/refs/heads/main.zip';
 	const zipResponse = await fetchFn(DIDROOM_MICROSERVICES_URL);
 	return Buffer.from(await zipResponse.arrayBuffer());
 }
@@ -49,11 +51,11 @@ function createMicroservicesZip(
 		addZipAsSubfolder(zip, az, createSlug(a.name));
 	});
 	data.relying_parties.forEach((r) => {
-		const rz = createRelyingPartyZip(didroom_microservices_zip_buffer, r, data);
+		const rz = create_relying_party_zip(didroom_microservices_zip_buffer, r, data);
 		addZipAsSubfolder(zip, rz, createSlug(r.name));
 	});
 	data.credential_issuers.forEach((c) => {
-		const cz = createCredentialIssuerZip(didroom_microservices_zip_buffer, c, data);
+		const cz = create_credential_issuer_zip(didroom_microservices_zip_buffer, c, data);
 		addZipAsSubfolder(zip, cz, createSlug(c.name));
 	});
 

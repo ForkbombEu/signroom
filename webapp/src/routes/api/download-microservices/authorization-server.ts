@@ -10,17 +10,41 @@ import type {
 import { pipe, String as S, Array as A, Option as O } from 'effect';
 import type { DownloadMicroservicesRequestBody } from '.';
 import {
-	addCustomCode,
-	getCredentialCustomCodePath,
-	getFoldersToDelete,
+	add_credential_custom_code,
+	add_microservice_env,
+	delete_unused_folders,
+	get_credential_custom_code_path,
+	get_folders_paths_to_delete,
 	type WellKnown
-} from './shared';
-import { cleanUrl } from './utils/data';
+} from './shared-operations';
+import { cleanUrl } from './utils/strings';
 import _ from 'lodash/fp';
 import AdmZip from 'adm-zip';
-import { deleteZipFolder, updateZipEntryJson } from './utils/zip';
+import { delete_zip_folder, update_zip_json_entry } from './utils/zip';
 import { mergeObjectSchemas } from './utils/credential-subject';
 import type { ObjectSchema } from '$lib/jsonSchema/types';
+
+/* Main */
+
+export function createAuthorizationServerZip(
+	zip_buffer: Buffer,
+	authorization_server: AuthorizationServersResponse,
+	request_body: DownloadMicroservicesRequestBody
+) {
+	const zip = new AdmZip(zip_buffer);
+
+	const authorization_server_related_data = getAuthorizationServerRelatedDataFromRequestBody(
+		request_body,
+		authorization_server
+	);
+
+	editAuthorizationServerWellKnown(zip, authorization_server, authorization_server_related_data);
+	delete_unused_folders(zip, 'authz_server');
+	addCredentialsCustomCode(zip, authorization_server_related_data);
+	add_microservice_env(zip, authorization_server);
+
+	return zip;
+}
 
 /* Data setup */
 
@@ -85,7 +109,7 @@ function addAuthorizationTemplateSchema(
 	credential_type_name: string,
 	template: TemplatesResponse
 ) {
-	const basePath = getCredentialCustomCodePath(zip, 'authz_server', credential_type_name);
+	const basePath = get_credential_custom_code_path(zip, 'authz_server', credential_type_name);
 	const user_attributes_schema = template.schema as ObjectSchema;
 	const form_fields_schema = template.schema_secondary as ObjectSchema;
 	const schema = pipe(
@@ -103,7 +127,12 @@ function addCredentialsCustomCode(
 ) {
 	credential_issuer_related_data.credentials.forEach(
 		({ issuance_flow, authorization_template }) => {
-			addCustomCode(zip, 'authz_server', issuance_flow.type_name, authorization_template);
+			add_credential_custom_code(
+				zip,
+				'authz_server',
+				issuance_flow.type_name,
+				authorization_template
+			);
 			addAuthorizationTemplateSchema(zip, issuance_flow.type_name, authorization_template);
 		}
 	);
@@ -119,30 +148,11 @@ function editAuthorizationServerWellKnown(
 	authorization_server: AuthorizationServersResponse,
 	authorization_server_related_data: AuthorizationServerRelatedData
 ) {
-	updateZipEntryJson(zip, AUTHORIZATION_SERVER_WELL_KNOWN_PATH, (default_well_known) =>
+	update_zip_json_entry(zip, AUTHORIZATION_SERVER_WELL_KNOWN_PATH, (default_well_known) =>
 		createAuthorizationServerWellKnown(
 			authorization_server,
 			authorization_server_related_data,
 			default_well_known as WellKnown
 		)
 	);
-}
-
-export function createAuthorizationServerZip(
-	zip_buffer: Buffer,
-	authorization_server: AuthorizationServersResponse,
-	request_body: DownloadMicroservicesRequestBody
-) {
-	const zip = new AdmZip(zip_buffer);
-
-	const authorization_server_related_data = getAuthorizationServerRelatedDataFromRequestBody(
-		request_body,
-		authorization_server
-	);
-
-	editAuthorizationServerWellKnown(zip, authorization_server, authorization_server_related_data);
-	getFoldersToDelete('authz_server').forEach((path) => deleteZipFolder(zip, path));
-	addCredentialsCustomCode(zip, authorization_server_related_data);
-
-	return zip;
 }
