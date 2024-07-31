@@ -51,6 +51,7 @@ async function createDownloadMicroservicesRequestBody(
 		(rp) => verification_flows.map((vf) => vf.relying_party).includes(rp.id)
 	);
 	const credential_issuers = (await pb.collection('issuers').getFullList(pbOptions)).filter((ci) =>
+		issuance_flows.map((flow) => flow.credential_issuer).includes(ci.id)
 	);
 	const authorization_servers = (
 		await pb.collection('authorization_servers').getFullList(pbOptions)
