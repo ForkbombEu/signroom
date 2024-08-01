@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import AdmZip from 'adm-zip';
-import { pipe } from 'effect';
+import { Array as A, pipe } from 'effect';
 
 //
 
@@ -41,14 +41,13 @@ export function update_zip_json_entry(
 	);
 }
 
-export function delete_zip_folder(zip: AdmZip, folderPath: string) {
-	const entries = zip.getEntries();
-	const entriesToDelete = entries
-		.map((entry) => entry.entryName)
-		.filter((entryName) => entryName.startsWith(folderPath));
-	entriesToDelete.forEach((entryName) => {
-		zip.deleteFile(entryName);
-	});
+export function delete_zip_folder(zip: AdmZip, folder_path: string) {
+	pipe(
+		zip.getEntries(),
+		A.map((entry) => entry.entryName),
+		A.filter((entry_name) => entry_name.startsWith(folder_path)),
+		A.forEach((entry_name) => zip.deleteFile(entry_name))
+	);
 }
 
 export function addZipAsSubfolder(
