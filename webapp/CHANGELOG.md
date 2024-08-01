@@ -1,3 +1,15 @@
+# [1.13.0](https://github.com/ForkbombEu/signroom/compare/v1.12.0...v1.13.0) (2024-08-01)
+
+
+### Bug Fixes
+
+* make verification_flow visible to admin/owner members ([#723](https://github.com/ForkbombEu/signroom/issues/723)) ([ef9478a](https://github.com/ForkbombEu/signroom/commit/ef9478a1f999ae698f8701066377f7ea4d45dbf3))
+
+
+### Features
+
+* unfilter empty microservices in download. Fill ports and other info ([#726](https://github.com/ForkbombEu/signroom/issues/726)) ([a7d042c](https://github.com/ForkbombEu/signroom/commit/a7d042c65f69e4e77ed13409d9fe1cd00c3e07a7))
+
 # [1.12.0](https://github.com/ForkbombEu/signroom/compare/v1.11.1...v1.12.0) (2024-07-30)
 
 
