@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import type { Expiration } from '$lib/issuanceFlows/expiration';
 import { pb } from '$lib/pocketbase';
 import type {
 	AuthorizationServersResponse,
@@ -28,7 +29,7 @@ export type DownloadMicroservicesRequestBody = {
 	credential_issuers: IssuersResponse[];
 	relying_parties: RelyingPartiesResponse[];
 	templates: TemplatesResponse[];
-	issuance_flows: ServicesResponse[];
+	issuance_flows: ServicesResponse<Expiration>[];
 	verification_flows: VerificationFlowsResponse[];
 	organization: OrganizationsResponse;
 };
@@ -43,7 +44,9 @@ async function createDownloadMicroservicesRequestBody(
 	};
 
 	const organization = await pb.collection('organizations').getOne(organizationId);
-	const issuance_flows = await pb.collection('services').getFullList(pbOptions);
+	const issuance_flows = await pb
+		.collection('services')
+		.getFullList<ServicesResponse<Expiration>>(pbOptions);
 	const verification_flows = await pb.collection('verification_flows').getFullList(pbOptions);
 	const templates = await pb.collection('templates').getFullList(pbOptions);
 

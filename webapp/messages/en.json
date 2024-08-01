@@ -421,5 +421,15 @@
 	"Properties": "Properties",
 	"microservice_port_description": "microservice_port_description",
 	"Port": "Port",
-	"microservice_edit_warning": "The name, the enpoint and the port, define the identity of the microservice and have effect on the the deployment and the update. Once a microservice is deployed and initialized, we recommend not change name, endpoint or port."
+	"microservice_edit_warning": "The name, the enpoint and the port, define the identity of the microservice and have effect on the the deployment and the update. Once a microservice is deployed and initialized, we recommend not change name, endpoint or port.",
+	"Years": "Years",
+	"Months": "Months",
+	"Days": "Days",
+	"Year": "Year",
+	"Month": "Month",
+	"Day": "Day",
+	"Date": "Date",
+	"Mode": "Mode",
+	"Please_add_at_least_one_day": "Please add at least one day",
+	"Date_must_be_after_today": "Date must be after today"
 }
