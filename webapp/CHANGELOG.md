@@ -1,3 +1,10 @@
+## [1.13.2](https://github.com/ForkbombEu/signroom/compare/v1.13.1...v1.13.2) (2024-08-01)
+
+
+### Bug Fixes
+
+* firstly delete the files and then the folders in delete_zip_folder ([#731](https://github.com/ForkbombEu/signroom/issues/731)) ([0171bef](https://github.com/ForkbombEu/signroom/commit/0171bef2c82c6a06f9347a6e9430acc0429b7358))
+
 ## [1.13.1](https://github.com/ForkbombEu/signroom/compare/v1.13.0...v1.13.1) (2024-08-01)
 
 
