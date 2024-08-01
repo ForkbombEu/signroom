@@ -1,3 +1,10 @@
+## [1.13.1](https://github.com/ForkbombEu/signroom/compare/v1.13.0...v1.13.1) (2024-08-01)
+
+
+### Bug Fixes
+
+* update microservices zip source to ForkbombEu/didroom_microservices@main ([#729](https://github.com/ForkbombEu/signroom/issues/729)) ([d0af0cf](https://github.com/ForkbombEu/signroom/commit/d0af0cffc5f8258577cad7f78ae1bd93d007fa38))
+
 # [1.13.0](https://github.com/ForkbombEu/signroom/compare/v1.12.0...v1.13.0) (2024-08-01)
 
 
