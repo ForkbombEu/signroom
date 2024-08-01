@@ -23,6 +23,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		order: Array<Keys<R>>;
 		exclude: Array<Keys<R>>;
 		hide: { [K in Keys<R>]?: R[K] };
+		defaults: { [K in Keys<R>]?: R[K] };
 		relations: {
 			[K in Keys<R>]?: K extends keyof ExtractPBExpand<R>
 				? RecordsManagerOptions<ArrayExtract<ExtractPBExpand<R>[K]>>
@@ -76,7 +77,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		labels,
 		components,
 		relations,
-		descriptions
+		descriptions,
+		defaults
 	} = fieldsSettings;
 
 	export let formSettings: Partial<FormSettings> = {};
@@ -108,12 +110,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	let superform: SuperForm<AnyZodObject, ClientResponseErrorData>;
 
 	$: {
-		const seededData = { ...initialData };
-		if (hide) {
-			for (const [field, value] of Object.entries(hide)) {
-				seededData[field as keyof RecordGeneric] = value;
-			}
-		}
+		let seededData = { ...initialData, ...defaults };
+		if (hide) seededData = { ...seededData, ...hide };
+		if (defaults && !Boolean(recordId)) seededData = { ...seededData, ...defaults };
 
 		const mockedData = mockFileFieldsInitialData(collectionSchema, seededData);
 		const fileFieldsInitialData = getFileFieldsInitialData(collectionSchema, initialData);

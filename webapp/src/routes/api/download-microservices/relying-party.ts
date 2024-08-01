@@ -2,87 +2,83 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import type { IssuersResponse, RelyingPartiesResponse } from '$lib/pocketbase/types';
 import AdmZip from 'adm-zip';
-import type { DownloadMicroservicesRequestBody } from '.';
-import { getFoldersToDelete, type WellKnown } from './shared';
-import { DEFAULT_LOCALE } from './utils/locale';
-import { cleanUrl } from './utils/data';
-import { String as S, pipe } from 'effect';
+import { String as S, pipe, Array as A } from 'effect';
 import _ from 'lodash/fp';
-import { deleteZipFolder, updateZipEntryJson } from './utils/zip';
 
-/* Data setup */
+import type { IssuersResponse, RelyingPartiesResponse } from '$lib/pocketbase/types';
+import type { DownloadMicroservicesRequestBody } from '.';
 
-type RelyingPartyRelatedData = {
-	credential_issuers: IssuersResponse[];
-};
+import { add_microservice_env, delete_unused_folders, type WellKnown } from './shared-operations';
+import { DEFAULT_LOCALE } from './utils/locale';
+import { cleanUrl } from './utils/strings';
+import { update_zip_json_entry } from './utils/zip';
+import { config } from './config';
 
-function getRelyingPartyRelatedDataFromRequestBody(
-	body: DownloadMicroservicesRequestBody
-): RelyingPartyRelatedData {
-	return {
-		credential_issuers: body.credential_issuers
-	};
+/* Main */
+
+export function create_relying_party_zip(
+	zip_buffer: Buffer,
+	relying_party: RelyingPartiesResponse,
+	request_body: DownloadMicroservicesRequestBody
+) {
+	const zip = new AdmZip(zip_buffer);
+	edit_relying_party_well_known(zip, relying_party, request_body.credential_issuers);
+	delete_unused_folders(zip, 'relying_party');
+	add_microservice_env(zip, relying_party);
+	return zip;
 }
 
 /* Well known editing */
 
-function createRelyingPartyWellKnown(
+function create_relying_party_well_known(
 	relying_party: RelyingPartiesResponse,
-	relying_party_related_data: RelyingPartyRelatedData,
+	trusted_credential_issuers: IssuersResponse[],
 	default_well_known: WellKnown
 ): WellKnown {
 	const relying_party_url = cleanUrl(relying_party.endpoint);
-	const trusted_credential_issuers = relying_party_related_data.credential_issuers.map(
-		(issuer) => issuer.endpoint
+	const trusted_credential_issuers_urls = pipe(
+		trusted_credential_issuers,
+		A.map((issuer) => issuer.endpoint),
+		A.map(cleanUrl)
 	);
 
 	return pipe(
 		default_well_known,
 
 		JSON.stringify,
-		S.replaceAll('https://relying-party1.zenswarm.forkbomb.eu/relying_party', relying_party_url),
+		S.replaceAll('{{ rp_url }}', relying_party_url),
 		JSON.parse,
 
 		_.set('display[0]', {
 			name: relying_party.name,
 			locale: DEFAULT_LOCALE
 		}),
-		_.set('jwks.keys[0].kid', ''),
-		_.set('trusted_credential_issuers', trusted_credential_issuers)
+		_.set('trusted_credential_issuers', trusted_credential_issuers_urls)
 	) as WellKnown;
 }
 
 /* Zip editing */
 
-const RELYING_PARTY_WELL_KNOWN_PATH = 'public/relying_party/.well-known/openid-relying-party';
-
-function editRelyingPartyWellKnown(
+function edit_relying_party_well_known(
 	zip: AdmZip,
 	relying_party: RelyingPartiesResponse,
-	relying_party_related_data: RelyingPartyRelatedData
+	trusted_credential_issuers: IssuersResponse[]
 ) {
-	updateZipEntryJson(zip, RELYING_PARTY_WELL_KNOWN_PATH, (default_well_known) =>
-		createRelyingPartyWellKnown(
+	update_zip_json_entry(zip, get_relying_party_well_known_path(), (default_well_known) =>
+		create_relying_party_well_known(
 			relying_party,
-			relying_party_related_data,
+			trusted_credential_issuers,
 			default_well_known as WellKnown
 		)
 	);
 }
 
-export function createRelyingPartyZip(
-	zip_buffer: Buffer,
-	relying_party: RelyingPartiesResponse,
-	request_body: DownloadMicroservicesRequestBody
-) {
-	const zip = new AdmZip(zip_buffer);
-
-	const credential_issuer_related_data = getRelyingPartyRelatedDataFromRequestBody(request_body);
-
-	editRelyingPartyWellKnown(zip, relying_party, credential_issuer_related_data);
-	getFoldersToDelete('relying_party').forEach((path) => deleteZipFolder(zip, path));
-
-	return zip;
+function get_relying_party_well_known_path() {
+	return [
+		config.folder_names.public,
+		config.folder_names.microservices.relying_party,
+		config.folder_names.well_known,
+		config.file_names.well_known.relying_party
+	].join('/');
 }

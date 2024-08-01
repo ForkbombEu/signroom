@@ -113,3 +113,37 @@ export function flattenCredentialSubjectProperties(
 
 	return propertyList;
 }
+
+/* */
+
+const credential_configuration_template = {
+	format: 'vc+sd-jwt',
+	cryptographic_binding_methods_supported: ['jwk', 'did:dyne:sandbox.signroom'],
+	credential_signing_alg_values_supported: ['ES256'],
+	proof_types_supported: {
+		jwt: {
+			proof_signing_alg_values_supported: ['ES256']
+		}
+	},
+	display: [
+		{
+			name: '',
+			locale: '',
+			logo: {
+				url: '',
+				alt_text: ''
+			},
+			background_color: '',
+			text_color: '',
+			description: ''
+		}
+	],
+	credential_definition: {
+		type: [],
+		credentialSubject: {}
+	}
+};
+
+export function get_credential_configuration_template() {
+	return _.cloneDeep(credential_configuration_template);
+}

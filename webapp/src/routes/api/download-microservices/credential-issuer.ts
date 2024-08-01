@@ -3,36 +3,67 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import AdmZip from 'adm-zip';
-import { deleteZipFolder, updateZipEntryJson } from './utils/zip';
 import { pipe, Option as O, Array as A, String as S } from 'effect';
+import _ from 'lodash/fp';
+
 import type {
 	AuthorizationServersResponse,
 	IssuersResponse,
 	ServicesResponse,
 	TemplatesResponse
 } from '$lib/pocketbase/types';
-import type { DownloadMicroservicesRequestBody } from '.';
-import { cleanUrl } from './utils/data';
-import { addCustomCode, getFoldersToDelete, type WellKnown } from './shared';
-import { DEFAULT_LOCALE } from './utils/locale';
-import { objectSchemaToCredentialSubject } from './utils/credential-subject';
 import type { ObjectSchema } from '$lib/jsonSchema/types';
-import _ from 'lodash/fp';
-import type { Expiration } from '$lib/issuanceFlows/expiration';
+import type { DownloadMicroservicesRequestBody } from '.';
 
-/* Data setup */
+import {
+	add_credential_custom_code,
+	add_microservice_env,
+	delete_unused_folders,
+	type WellKnown
+} from './shared-operations';
+import {
+	get_credential_configuration_template,
+	objectSchemaToCredentialSubject
+} from './utils/credential-subject';
+import { update_zip_json_entry } from './utils/zip';
+import { cleanUrl } from './utils/strings';
+import { DEFAULT_LOCALE } from './utils/locale';
+import { config } from './config';
+
+/* Main */
+
+export function create_credential_issuer_zip(
+	didroom_microservices_zip_buffer: Buffer,
+	credential_issuer: IssuersResponse,
+	request_body: DownloadMicroservicesRequestBody
+) {
+	const zip = new AdmZip(didroom_microservices_zip_buffer);
+
+	const credential_issuer_related_data = get_credential_issuer_related_data_from_request_body(
+		credential_issuer,
+		request_body
+	);
+
+	edit_credential_issuer_well_known(zip, credential_issuer, credential_issuer_related_data);
+	add_credentials_custom_code(zip, credential_issuer_related_data.issuance_flows);
+	add_microservice_env(zip, credential_issuer);
+	delete_unused_folders(zip, 'credential_issuer');
+
+	return zip;
+}
+
+/* Get related data */
 
 type CredentialIssuerRelatedData = {
 	authorization_servers: Array<AuthorizationServersResponse>;
-	credentials: Array<{
-		issuance_flow: ServicesResponse<Expiration>;
-		issuance_template: TemplatesResponse;
-	}>;
+	issuance_flows: Array<IssuanceFlow>;
 };
 
-function getCredentialIssuerRelatedDataFromRequestBody(
-	body: DownloadMicroservicesRequestBody,
-	credential_issuer: IssuersResponse
+type IssuanceFlow = ServicesResponse & { template: TemplatesResponse };
+
+function get_credential_issuer_related_data_from_request_body(
+	credential_issuer: IssuersResponse,
+	body: DownloadMicroservicesRequestBody
 ): CredentialIssuerRelatedData {
 	const {
 		authorization_servers: org_authorization_servers,
@@ -40,50 +71,45 @@ function getCredentialIssuerRelatedDataFromRequestBody(
 		templates: org_templates
 	} = body;
 
+	const related_issuance_flows = org_issuance_flows.filter(
+		(flow) => flow.credential_issuer == credential_issuer.id
+	);
+
 	return {
 		authorization_servers: pipe(
-			org_issuance_flows,
-			A.filter((issuance_flow) => issuance_flow.credential_issuer == credential_issuer.id),
+			related_issuance_flows,
 			A.map((issuance_flow) => issuance_flow.authorization_server),
 			(authorization_server_ids) =>
 				org_authorization_servers.filter((a) => authorization_server_ids.includes(a.id))
 		),
 
-		credentials: pipe(
-			org_issuance_flows,
-			A.filter((issuance_flow) => issuance_flow.credential_issuer == credential_issuer.id),
-			A.map((issuance_flow) => ({
-				issuance_flow,
-				issuance_template: pipe(
-					org_templates,
-					A.findFirst((t) => t.id == issuance_flow.credential_template),
-					O.getOrThrow
-				)
-			}))
-		)
+		issuance_flows: related_issuance_flows.map((issuance_flow) => ({
+			...issuance_flow,
+			template: pipe(
+				org_templates,
+				A.findFirst((t) => t.id == issuance_flow.credential_template),
+				O.getOrThrow
+			)
+		}))
 	};
 }
 
 /* Well known editing */
 
-type CredentialConfiguration = Record<string, unknown> & { readonly brand: unique symbol };
-
-function createCredentialIssuerWellKnown(
+function create_credential_issuer_well_known(
 	credential_issuer: IssuersResponse,
 	credential_issuer_related_data: CredentialIssuerRelatedData,
 	default_well_known: WellKnown
 ): WellKnown {
-	const { authorization_servers } = credential_issuer_related_data;
-
+	const { authorization_servers, issuance_flows } = credential_issuer_related_data;
 	const credential_issuer_url = cleanUrl(credential_issuer.endpoint);
-	const authorization_servers_urls = authorization_servers.map((a) => a.endpoint).map(cleanUrl);
-	const credential_configuration_sample = getCredentialConfigurationSample(default_well_known);
+	const authorization_servers_urls = authorization_servers.map((a) => cleanUrl(a.endpoint));
 
 	return pipe(
 		default_well_known,
 
 		JSON.stringify,
-		S.replaceAll('https://issuer1.zenswarm.forkbomb.eu/credential_issuer', credential_issuer_url),
+		S.replaceAll('{{ ci_url }}', credential_issuer_url),
 		JSON.parse,
 
 		_.set('authorization_servers', authorization_servers_urls),
@@ -91,44 +117,18 @@ function createCredentialIssuerWellKnown(
 			name: credential_issuer.name,
 			locale: DEFAULT_LOCALE
 		}),
-		_.set('jwks.keys[0].kid', ''),
 		_.set(
 			'credential_configurations_supported',
-			convertIssuerRelatedDataToCredentialConfigurationsSupported(
-				credential_issuer_related_data,
-				credential_configuration_sample
-			)
+			issuance_flows.map(convert_issuance_flow_to_credential_configuration)
 		)
 	) as WellKnown;
 }
 
-function getCredentialConfigurationSample(default_well_known: WellKnown): CredentialConfiguration {
-	return pipe(
-		default_well_known,
-		_.get('credential_configurations_supported[0]')
-	) as CredentialConfiguration;
-}
-
-function convertIssuerRelatedDataToCredentialConfigurationsSupported(
-	data: CredentialIssuerRelatedData,
-	credential_configuration_sample: CredentialConfiguration
-): CredentialConfiguration[] {
-	return data.credentials.map(({ issuance_flow, issuance_template }) =>
-		convertIssuanceFlowToCredentialConfiguration(
-			issuance_flow,
-			issuance_template,
-			credential_configuration_sample
-		)
-	);
-}
-
-function convertIssuanceFlowToCredentialConfiguration(
-	issuance_flow: ServicesResponse,
-	issuance_template: TemplatesResponse,
-	credential_configuration_sample: CredentialConfiguration
+function convert_issuance_flow_to_credential_configuration(
+	issuance_flow: IssuanceFlow
 ): CredentialConfiguration {
 	return pipe(
-		credential_configuration_sample,
+		get_credential_configuration_template(),
 
 		_.set('display[0]', {
 			name: issuance_flow.display_name,
@@ -146,114 +146,54 @@ function convertIssuanceFlowToCredentialConfiguration(
 
 		_.set(
 			'credential_definition.credentialSubject',
-			objectSchemaToCredentialSubject(issuance_template.schema as ObjectSchema, DEFAULT_LOCALE)
+			objectSchemaToCredentialSubject(issuance_flow.template.schema as ObjectSchema, DEFAULT_LOCALE)
 		)
 	) as CredentialConfiguration;
 }
 
-/* Custom code editing */
-
-function addCredentialsCustomCode(
-	zip: AdmZip,
-	credential_issuer_related_data: CredentialIssuerRelatedData
-) {
-	credential_issuer_related_data.credentials.forEach(({ issuance_flow, issuance_template }) =>
-		addCustomCode(
-			zip,
-			'credential_issuer',
-			issuance_flow.type_name,
-			issuance_template,
-			issuance_flow.expiration
-		)
-	);
-}
+type CredentialConfiguration = Record<string, unknown> & { readonly brand: unique symbol };
 
 /* Zip editing */
 
-const CREDENTIAL_ISSUER_WELL_KNOWN_PATH =
-	'public/credential_issuer/.well-known/openid-credential-issuer';
-
-function editCredentialIssuerWellKnown(
+function edit_credential_issuer_well_known(
 	zip: AdmZip,
 	credential_issuer: IssuersResponse,
 	credential_issuer_related_data: CredentialIssuerRelatedData
 ) {
-	updateZipEntryJson(zip, CREDENTIAL_ISSUER_WELL_KNOWN_PATH, (default_well_known) =>
-		createCredentialIssuerWellKnown(
-			credential_issuer,
-			credential_issuer_related_data,
-			default_well_known as WellKnown
+	update_zip_json_entry(
+		zip,
+		get_credential_issuer_well_known_path(),
+		(default_well_known) =>
+			create_credential_issuer_well_known(
+				credential_issuer,
+				credential_issuer_related_data,
+				default_well_known as WellKnown
+			),
+		config.json.tab_size
+	);
+}
+
+function get_credential_issuer_well_known_path() {
+	return [
+		config.folder_names.public,
+		config.folder_names.microservices.credential_issuer,
+		config.folder_names.well_known,
+		config.file_names.well_known.credential_issuer
+	].join('/');
+}
+
+/* Custom code editing */
+
+function add_credentials_custom_code(zip: AdmZip, issuance_flows: IssuanceFlow[]) {
+	pipe(
+		issuance_flows,
+		A.forEach((issuance_flow) =>
+			add_credential_custom_code(
+				zip,
+				'credential_issuer',
+				issuance_flow.type_name,
+				issuance_flow.template
+			)
 		)
 	);
 }
-
-export function createCredentialIssuerZip(
-	zip_buffer: Buffer,
-	credential_issuer: IssuersResponse,
-	request_body: DownloadMicroservicesRequestBody
-) {
-	const zip = new AdmZip(zip_buffer);
-
-	const credential_issuer_related_data = getCredentialIssuerRelatedDataFromRequestBody(
-		request_body,
-		credential_issuer
-	);
-
-	editCredentialIssuerWellKnown(zip, credential_issuer, credential_issuer_related_data);
-	getFoldersToDelete('credential_issuer').forEach((path) => deleteZipFolder(zip, path));
-	addCredentialsCustomCode(zip, credential_issuer_related_data);
-
-	return zip;
-}
-
-/* Old code */
-
-// //
-
-// function updateCredentialKeysJson(
-// 	zip: AdmZip,
-// 	data: RequestBody,
-// 	id: string,
-// 	locale = DEFAULT_LOCALE
-// ) {
-// 	const credentialSubject = mergeObjectSchemasIntoCredentialSubject(
-// 		[data.credential_template],
-// 		locale
-// 	);
-
-// 	updateZipFileContent(
-// 		zip,
-// 		'credential_issuer/credential.keys.json',
-
-// 		(content) =>
-// 			pipe(
-// 				content,
-// 				S.replaceAll('http://issuer.example.org', cleanUrl(data.credential_issuer_url)),
-
-// 				JSON.parse,
-// 				_.set(
-// 					'supported_selective_disclosure.credentials_supported[0].credentialSubject',
-// 					credentialSubject
-// 				),
-// 				_.set(
-// 					'supported_selective_disclosure.credentials_supported[0].display[0].name',
-// 					data.credential_display_name
-// 				),
-// 				_.set('supported_selective_disclosure.credentials_supported[0].display[0].locale', locale),
-// 				_.set('supported_selective_disclosure.credentials_supported[0].id', id),
-// 				_.set(
-// 					'supported_selective_disclosure.credentials_supported[0].order',
-// 					Object.keys(credentialSubject)
-// 				),
-// 				_.set(
-// 					'supported_selective_disclosure.credentials_supported[0].types[1]',
-// 					data.credential_type_name
-// 				),
-// 				_.set('supported_selective_disclosure.scopes_supported[1]', data.credential_type_name),
-// 				_.set('object', {}),
-// 				_.set('id', id),
-
-// 				(json) => JSON.stringify(json, null, 4)
-// 			)
-// 	);
-// }

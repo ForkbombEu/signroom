@@ -57,6 +57,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <PortalWrapper>
 	<Modal bind:open title={modalTitle} size="md">
 		<div class="w-full">
+			<slot name="beforeForm"></slot>
 			<RecordForm
 				collection={record.collectionId}
 				recordId={record.id}
@@ -64,6 +65,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				{fieldsSettings}
 				on:success={closeModal}
 			/>
+			<slot name="afterForm"></slot>
 		</div>
 	</Modal>
 </PortalWrapper>

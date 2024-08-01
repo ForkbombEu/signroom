@@ -42,6 +42,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { Plus } from 'svelte-heros-v2';
 	import TemplateForm from '../../templates/_partials/templateForm.svelte';
 	import { createEventDispatcher } from 'svelte';
+	import { getRandomMicroservicePort } from '$lib/microservices';
 
 	//
 
@@ -204,7 +205,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				field="relying_party"
 				options={{
 					inputMode: 'select',
-					displayFields: ['name', 'endpoint'],
+					displayFields: ['name', 'endpoint', 'port'],
 					label: m.Relying_party(),
 					filter: `organization.id = '${organizationId}'`
 				}}
@@ -276,6 +277,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				fieldsSettings={{
 					hide: {
 						organization: organizationId
+					},
+					defaults: {
+						port: getRandomMicroservicePort()
 					}
 				}}
 				on:success={(e) => {

@@ -24,6 +24,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { getErrorMessage } from '$lib/errorHandling.js';
 	import { requestDownloadMicroservices } from '@api/download-microservices/index.js';
 	import { dowloadResponseAsZip } from '$lib/utils/clientFileDownload.js';
+	import { getRandomMicroservicePort } from '$lib/microservices';
+	import MicroserviceCollectionManager from './_partials/microserviceCollectionManager.svelte';
 
 	//
 
@@ -53,6 +55,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		if (!response.ok) throw new Error(response.statusText);
 		dowloadResponseAsZip(response, 'microservices.zip');
 	}
+
+	//
 </script>
 
 <OrganizationLayout org={data.organization}>
@@ -72,219 +76,24 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		</ProtectedOrgUI>
 
 		<PageCard>
-			<CollectionManager
-				{recordType}
-				collection={Collections.Issuers}
-				initialQueryParams={{
-					filter: `organization.id = '${organization.id}'`
-				}}
-				formSettings={{
-					hide: { organization: data.organization.id },
-					descriptions: {
-						name: m.microservice_name_description(),
-						endpoint: m.microservice_endpoint_description()
-					}
-				}}
-				let:records
-			>
-				<SectionTitle
-					tag="h5"
-					title={m.Credential_issuers()}
-					description={m.credential_issuer_description()}
-				>
-					<CreateRecord slot="right" modalTitle={`${m.Add_new()} – ${m.Credential_issuer()}`}>
-						<svelte:fragment slot="button" let:openModal>
-							<Button on:click={openModal}>
-								{m.Add_new()}
-								<Icon src={Plus} ml></Icon>
-							</Button>
-						</svelte:fragment>
-					</CreateRecord>
-				</SectionTitle>
-
-				<div class="space-y-4">
-					{#each records as record}
-						<PlainCard let:Title let:Description>
-							<Title>{record.name}</Title>
-							<Description>
-								<span class="mr-2 font-bold">{m.Endpoint()}:</span>
-								{record.endpoint}
-							</Description>
-
-							<svelte:fragment slot="right">
-								<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
-									<div class="flex gap-2">
-										<EditRecord
-											{record}
-											let:openModal
-											modalTitle={`${m.Edit()} – ${m.Credential_issuer()}`}
-										>
-											<Button outline on:click={openModal}>
-												{m.Edit()}
-												<Icon src={Pencil} ml></Icon>
-											</Button>
-										</EditRecord>
-
-										<DeleteRecord
-											{record}
-											let:openModal
-											modalTitle={`${m.Delete()} – ${m.Credential_issuer()}`}
-										>
-											<Button outline on:click={openModal}>
-												<Icon src={Trash} />
-											</Button>
-										</DeleteRecord>
-									</div>
-								</ProtectedOrgUI>
-							</svelte:fragment>
-						</PlainCard>
-					{/each}
-				</div>
-			</CollectionManager>
+			<MicroserviceCollectionManager
+				microserviceType={Collections.Issuers}
+				organizationId={organization.id}
+			/>
 		</PageCard>
 
 		<PageCard>
-			<CollectionManager
-				{recordType}
-				collection={Collections.AuthorizationServers}
-				initialQueryParams={{
-					filter: `organization.id = '${organization.id}'`
-				}}
-				formSettings={{
-					hide: { organization: data.organization.id },
-					descriptions: {
-						name: m.microservice_name_description(),
-						endpoint: m.microservice_endpoint_description()
-					}
-				}}
-				let:records
-			>
-				<SectionTitle
-					tag="h5"
-					title={m.Authorization_servers()}
-					description={m.authorization_server_description()}
-				>
-					<CreateRecord slot="right" modalTitle={`${m.Add_new()} – ${m.Authorization_server()}`}>
-						<svelte:fragment slot="button" let:openModal>
-							<Button on:click={openModal}>
-								{m.Add_new()}
-								<Icon src={Plus} ml></Icon>
-							</Button>
-						</svelte:fragment>
-					</CreateRecord>
-				</SectionTitle>
-
-				<div class="space-y-4">
-					{#each records as record}
-						<PlainCard let:Title let:Description>
-							<Title>{record.name}</Title>
-							<Description>
-								<span class="mr-2 font-bold">{m.Endpoint()}:</span>
-								{record.endpoint}
-							</Description>
-
-							<svelte:fragment slot="right">
-								<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
-									<div class="flex gap-2">
-										<EditRecord
-											{record}
-											let:openModal
-											modalTitle={`${m.Edit()} – ${m.Authorization_server()}`}
-										>
-											<Button outline on:click={openModal}>
-												{m.Edit()}
-												<Icon src={Pencil} ml></Icon>
-											</Button>
-										</EditRecord>
-
-										<DeleteRecord
-											{record}
-											let:openModal
-											modalTitle={`${m.Delete()} – ${m.Authorization_server()}`}
-										>
-											<Button outline on:click={openModal}>
-												<Icon src={Trash} />
-											</Button>
-										</DeleteRecord>
-									</div>
-								</ProtectedOrgUI>
-							</svelte:fragment>
-						</PlainCard>
-					{/each}
-				</div>
-			</CollectionManager>
+			<MicroserviceCollectionManager
+				microserviceType={Collections.AuthorizationServers}
+				organizationId={organization.id}
+			/>
 		</PageCard>
 
 		<PageCard>
-			<CollectionManager
-				{recordType}
-				collection={Collections.RelyingParties}
-				initialQueryParams={{
-					filter: `organization.id = '${organization.id}'`
-				}}
-				formSettings={{
-					hide: { organization: data.organization.id },
-					descriptions: {
-						name: m.microservice_name_description(),
-						endpoint: m.microservice_endpoint_description()
-					}
-				}}
-				let:records
-			>
-				<SectionTitle
-					tag="h5"
-					title={m.Relying_parties()}
-					description={m.relying_party_description()}
-				>
-					<CreateRecord slot="right" modalTitle={`${m.Add_new()} – ${m.Relying_party()}`}>
-						<svelte:fragment slot="button" let:openModal>
-							<Button on:click={openModal}>
-								{m.Add_new()}
-								<Icon src={Plus} ml></Icon>
-							</Button>
-						</svelte:fragment>
-					</CreateRecord>
-				</SectionTitle>
-
-				<div class="space-y-4">
-					{#each records as record}
-						<PlainCard let:Title let:Description>
-							<Title>{record.name}</Title>
-							<Description>
-								<span class="mr-2 font-bold">{m.Endpoint()}:</span>
-								{record.endpoint}
-							</Description>
-
-							<svelte:fragment slot="right">
-								<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
-									<div class="flex gap-2">
-										<EditRecord
-											{record}
-											let:openModal
-											modalTitle={`${m.Edit()} – ${m.Relying_party()}`}
-										>
-											<Button outline on:click={openModal}>
-												{m.Edit()}
-												<Icon src={Pencil} ml></Icon>
-											</Button>
-										</EditRecord>
-
-										<DeleteRecord
-											{record}
-											let:openModal
-											modalTitle={`${m.Delete()} – ${m.Relying_party()}`}
-										>
-											<Button outline on:click={openModal}>
-												<Icon src={Trash} />
-											</Button>
-										</DeleteRecord>
-									</div>
-								</ProtectedOrgUI>
-							</svelte:fragment>
-						</PlainCard>
-					{/each}
-				</div>
-			</CollectionManager>
+			<MicroserviceCollectionManager
+				microserviceType={Collections.RelyingParties}
+				organizationId={organization.id}
+			/>
 		</PageCard>
 	</div>
 </OrganizationLayout>

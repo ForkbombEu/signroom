@@ -52,6 +52,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { expirationSchema } from '$lib/issuanceFlows/expiration';
 	import { z } from 'zod';
 	import { TemplatePropertiesDisplay } from '$lib/templates';
+	import { getRandomMicroservicePort } from '$lib/microservices';
 
 	//
 
@@ -299,9 +300,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				field="authorization_server"
 				options={{
 					inputMode: 'select',
-					displayFields: ['name', 'endpoint'],
+					displayFields: ['name', 'endpoint', 'port'],
 					label: m.Authorization_server(),
-					filter: `organization.id = "${organizationId}"`
+					filter: `organization.id = "${organizationId}"`,
+					formSettings: {
+						defaults: {
+							port: getRandomMicroservicePort()
+						}
+					}
 				}}
 				{superform}
 			>
@@ -321,9 +327,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				field="credential_issuer"
 				options={{
 					inputMode: 'select',
-					displayFields: ['name', 'endpoint'],
+					displayFields: ['name', 'endpoint', 'port'],
 					label: m.Credential_issuer(),
-					filter: `organization.id = "${organizationId}"`
+					filter: `organization.id = "${organizationId}"`,
+					formSettings: {
+						defaults: {
+							port: getRandomMicroservicePort()
+						}
+					}
 				}}
 				{superform}
 			>
@@ -418,6 +429,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				fieldsSettings={{
 					hide: {
 						organization: organizationId
+					},
+					defaults: {
+						port: getRandomMicroservicePort()
 					}
 				}}
 				on:success={(e) => {
@@ -443,6 +457,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				fieldsSettings={{
 					hide: {
 						organization: organizationId
+					},
+					defaults: {
+						port: getRandomMicroservicePort()
 					}
 				}}
 				on:success={(e) => {
