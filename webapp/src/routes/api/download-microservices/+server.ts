@@ -14,9 +14,7 @@ import { createSlug } from './utils/strings';
 //
 
 const DIDROOM_MICROSERVICES_URL =
-	'https://github.com/ForkbombEu/DIDroom_microservices/archive/refs/heads/refactor/placeholders_wk.zip';
-// const DIDROOM_MICROSERVICES_URL =
-// 	'https://github.com/ForkbombEu/DIDroom_microservices/archive/refs/heads/main.zip';
+	'https://github.com/ForkbombEu/DIDroom_microservices/archive/refs/heads/main.zip';
 
 export const POST: RequestHandler = async ({ fetch, request }) => {
 	try {
