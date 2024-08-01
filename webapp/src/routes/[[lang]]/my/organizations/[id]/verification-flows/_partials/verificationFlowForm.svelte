@@ -226,7 +226,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 			title={m.Advanced_settings()}
 			description={m.advanced_settings_description()}
 		/>
-		<Checkbox field="public" {superform}>
+		<Checkbox field="public" {superform} options={{ disabled: true }}>
 			{m.Is_public()}: {m.is_public_description()}
 		</Checkbox>
 	</PageCard>
