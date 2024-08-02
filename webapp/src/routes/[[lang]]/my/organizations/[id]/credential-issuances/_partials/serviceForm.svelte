@@ -69,6 +69,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	const serviceSchema = fieldsSchemaToZod(getCollectionSchema(Collections.Services)!.schema).extend(
 		{
 			expiration: expirationSchema
+				.nullable()
+				.transform(
+					(value) => value ?? { mode: 'duration', duration: { years: 0, months: 0, days: 0 } }
+				)
 		}
 	);
 
