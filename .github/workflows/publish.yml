@@ -14,14 +14,14 @@ permissions:
 
 jobs:
   reuse:
-    name: 🚨
+    name: 🚨 reuse
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: fsfe/reuse-action@v4
       
   test:
-    name: 🧪
+    name: 🧪 tests
     runs-on: ubuntu-latest
     steps:
       - uses: dyne/pnpm@main
@@ -40,7 +40,7 @@ jobs:
           retention-days: 10
 
   release:
-    name: 🔖
+    name: 🔖 semantic release
     needs: test
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
