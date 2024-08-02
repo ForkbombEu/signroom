@@ -1,3 +1,8 @@
+# SPDX-FileCopyrightText: 2024 Puria Nafisi Azizi 
+# SPDX-FileCopyrightText: 2024 The Forkbomb Company
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 version = 1
 SPDX-PackageName = "signroom"
 SPDX-PackageSupplier = "Matteo Cristino <matteo@dyne.org>"
