@@ -373,6 +373,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <PortalWrapper>
 	<Drawer
+		closeOnClickOutside={false}
 		width="w-[800px]"
 		placement="right"
 		bind:hidden={$hideCredentialTemplateDrawer}
@@ -395,6 +396,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <PortalWrapper>
 	<Drawer
+		closeOnClickOutside={false}
 		width="w-[800px]"
 		placement="right"
 		bind:hidden={$hideAuthorizationTemplateDrawer}
@@ -417,6 +419,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <PortalWrapper>
 	<Drawer
+		closeOnClickOutside={false}
 		width="w-[700px]"
 		placement="right"
 		bind:hidden={$hideCredentialIssuerDrawer}
@@ -445,6 +448,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <PortalWrapper>
 	<Drawer
+		closeOnClickOutside={false}
 		width="w-[700px]"
 		placement="right"
 		bind:hidden={$hideAuthorizationServerDrawer}
