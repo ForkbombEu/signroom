@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <script lang="ts">
-	import { Button, Heading, Spinner } from 'flowbite-svelte';
+	import { Button, Heading } from 'flowbite-svelte';
 	import { ArrowTopRightOnSquare, Pencil, QuestionMarkCircle } from 'svelte-heros-v2';
 	import { generateQr } from '$lib/qrcode';
 	import { m } from '$lib/i18n';
