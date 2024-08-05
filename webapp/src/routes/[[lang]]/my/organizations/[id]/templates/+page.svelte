@@ -236,7 +236,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </OrganizationLayout>
 
 <PortalWrapper>
-	<Drawer width="w-[800px]" placement="right" bind:hidden={$hideDrawer} title={button}>
+	<Drawer
+		width="w-[800px]"
+		placement="right"
+		bind:hidden={$hideDrawer}
+		title={button}
+		closeOnClickOutside={false}
+	>
 		{@const defaultTemplateType = choice(
 			templateFilter,
 			TemplatesTypeOptions.issuance,
