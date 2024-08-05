@@ -1,3 +1,10 @@
+## [1.13.3](https://github.com/ForkbombEu/signroom/compare/v1.13.2...v1.13.3) (2024-08-05)
+
+
+### Bug Fixes
+
+* remove close drawer on click outside ([#745](https://github.com/ForkbombEu/signroom/issues/745)) ([597ad8c](https://github.com/ForkbombEu/signroom/commit/597ad8c0befb4d3dfcb84b8b97bd353a4d64dbc1))
+
 ## [1.13.2](https://github.com/ForkbombEu/signroom/compare/v1.13.1...v1.13.2) (2024-08-01)
 
 
