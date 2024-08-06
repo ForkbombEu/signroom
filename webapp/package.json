@@ -88,7 +88,7 @@
 		"@tailwindcss/line-clamp": "^0.4.4",
 		"@types/adm-zip": "^0.5.5",
 		"@types/prismjs": "^1.26.4",
-		"adm-zip": "^0.5.14",
+		"adm-zip": "^0.5.15",
 		"asn1js": "^3.0.5",
 		"buffer": "^6.0.3",
 		"classnames": "^2.5.1",
