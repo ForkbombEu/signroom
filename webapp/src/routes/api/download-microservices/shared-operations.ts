@@ -42,7 +42,7 @@ export function get_folders_paths_to_delete(microservice_to_keep: MicroserviceFo
 	return pipe(
 		config.folder_names.microservices,
 		R.filter((folder_name) => folder_name != microservice_to_keep),
-		R.map((folder_name) => [folder_name, `${config.folder_names.public}/${folder_name}`]),
+		R.map((folder_name) => [`${folder_name}/`, `${config.folder_names.public}/${folder_name}/`]),
 		R.toEntries,
 		A.map((entry) => entry[1]),
 		A.flatten
