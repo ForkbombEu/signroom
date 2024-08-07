@@ -1,0 +1,54 @@
+# SPDX-FileCopyrightText: 2024 The Forkbomb Company
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+name: 🦼 Staging deployment
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read # for checkout@v4
+
+jobs:
+  setup:
+    steps:
+      - uses: actions/checkout@v4
+      - run: make build
+      - name: configure 🔒🐚
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_SKEY" > ~/.ssh/staging.key
+          chmod 600 ~/.ssh/staging.key
+          cat >>~/.ssh/config <<END
+          Host remote
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/staging.key
+            IdentitiesOnly yes
+            StrictHostKeyChecking no
+            Port $SSH_PORT
+          END
+        env:
+          SSH_USER: ${{ secrets.GA_DEPLOY_USER }}
+          SSH_SKEY: ${{ secrets.GA_DEPLOY_SK }}
+          SSH_HOST: ${{ secrets.GA_DEPLOY_HOST }}
+          SSH_PORT: ${{ secrets.GA_DEPLOY_PORT }}
+      - run: |
+          tar czvf staging.tar.gz \
+            .bin/zenroom \
+            .bin/zencode-exec \
+            admin/pb \
+            admin/pb_migrations \
+            webapp/build \
+            webapp/node_modules
+          scp staging.tar.gz remote:staging/
+          ssh remote 'staging/DEPLOY.sh'
+
+
