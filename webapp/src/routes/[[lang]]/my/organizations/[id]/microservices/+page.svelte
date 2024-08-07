@@ -5,34 +5,24 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <script lang="ts">
-	import { CollectionManager, DeleteRecord } from '$lib/collectionManager';
-	import { Collections, type IssuersResponse } from '$lib/pocketbase/types';
-	import { createTypeProp } from '$lib/utils/typeProp';
-	import { Alert, Button, Modal, P, Spinner } from 'flowbite-svelte';
+	import { Collections } from '$lib/pocketbase/types';
+	import { Alert, Button, Modal, Spinner } from 'flowbite-svelte';
 	import { m } from '$lib/i18n';
-	import SectionTitle from '$lib/components/sectionTitle.svelte';
-	import CreateRecord from '$lib/collectionManager/ui/recordActions/createRecord.svelte';
 	import OrganizationLayout from '$lib/components/organizationLayout.svelte';
 	import PageCard from '$lib/components/pageCard.svelte';
-	import { ArrowDownTray, Plus, Trash } from 'svelte-heros-v2';
+	import { ArrowDownTray } from 'svelte-heros-v2';
 	import Icon from '$lib/components/icon.svelte';
-	import PlainCard from '$lib/components/plainCard.svelte';
-	import EditRecord from '$lib/collectionManager/ui/recordActions/editRecord.svelte';
-	import { Pencil } from 'svelte-heros';
 	import { ProtectedOrgUI } from '$lib/rbac';
 	import PortalWrapper from '$lib/components/portalWrapper.svelte';
 	import { getErrorMessage } from '$lib/errorHandling.js';
 	import { requestDownloadMicroservices } from '@api/download-microservices/index.js';
 	import { dowloadResponseAsZip } from '$lib/utils/clientFileDownload.js';
-	import { getRandomMicroservicePort } from '$lib/microservices';
 	import MicroserviceCollectionManager from './_partials/microserviceCollectionManager.svelte';
 
 	//
 
 	export let data;
 	let { organization } = data;
-
-	const recordType = createTypeProp<IssuersResponse>();
 
 	//
 
