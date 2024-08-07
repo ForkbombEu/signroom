@@ -35,7 +35,10 @@ export function delete_unused_folders(zip: AdmZip, microservice_to_keep: Microse
 	pipe(
 		get_folders_paths_to_delete(microservice_to_keep),
 		A.map((folder_path) => prepend_zip_root_folder(zip, folder_path)),
-		A.forEach((path) => delete_zip_folder(zip, path))
+		A.map((folder_path) => zip.getEntry(folder_path)),
+		A.forEach((folder_entry) => {
+			if (folder_entry) zip.deleteFile(folder_entry);
+		})
 	);
 }
 
