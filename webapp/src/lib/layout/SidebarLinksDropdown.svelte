@@ -39,7 +39,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <SidebarDropdownWrapper label={props.text} {ulClass} class={baseClass} bind:isOpen>
 	<svelte:fragment slot="icon">
 		{#if typeof props.icon == 'string'}
-			<Avatar src={props.icon} size="sm" class="ring-1 ring-gray-500" />
+			<!-- @ts-ignore -->
+			<Avatar rounded="false" src={props.icon} size="sm" class="ring-1 ring-gray-500" />
 		{:else}
 			<svelte:component this={props.icon} />
 		{/if}
