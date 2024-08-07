@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.14.0
+          node-version: 20.3.0
       - uses: pnpm/action-setup@v4
         with:
           version: 9.1.4
@@ -54,6 +54,7 @@ jobs:
             admin/pb \
             admin/pb_migrations \
             webapp/build \
+            webapp/package.json \
             webapp/node_modules
           scp staging.tar.gz remote:staging/
       - run: |
