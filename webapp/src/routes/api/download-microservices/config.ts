@@ -24,7 +24,8 @@ export const config = {
 	file_extensions: {
 		zen: 'zen',
 		keys: 'keys.json',
-		metadata: 'metadata.json'
+		metadata: 'metadata.json',
+		time: 'time.json'
 	},
 	json: {
 		tab_size: 4
