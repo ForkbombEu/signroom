@@ -1,3 +1,10 @@
+## [1.14.1](https://github.com/ForkbombEu/signroom/compare/v1.14.0...v1.14.1) (2024-08-07)
+
+
+### Bug Fixes
+
+* download microservices url handling ([#752](https://github.com/ForkbombEu/signroom/issues/752)) ([5b741a6](https://github.com/ForkbombEu/signroom/commit/5b741a631060d50f14e4a79b899c187b37ccc20a))
+
 # [1.14.0](https://github.com/ForkbombEu/signroom/compare/v1.13.5...v1.14.0) (2024-08-07)
 
 
