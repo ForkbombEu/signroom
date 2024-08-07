@@ -120,5 +120,11 @@ type Microservice = IssuersRecord | RelyingPartiesRecord | AuthorizationServersR
 //
 
 export function formatMicroserviceUrl(url: string, microservice: MicroserviceFolder) {
-	return pipe(url, cleanUrl, (url) => `${url}/${microservice}`);
+	return pipe(url, cleanUrl, (url) => appendMicroserviceFolderToUrl(url, microservice));
+}
+
+function appendMicroserviceFolderToUrl(url: string, microservice: MicroserviceFolder) {
+	const toAppend = `/${microservice}`;
+	if (!url.endsWith(toAppend)) return `${url}${toAppend}`;
+	else return url;
 }
