@@ -28,7 +28,7 @@ jobs:
         with:
           version: 9.1.4
       - run: make build
-      - name: configure 🔒🐚
+      - name: Configure 🔒🐚
         run: |
           mkdir -p ~/.ssh/
           echo "$SSH_SKEY" > ~/.ssh/staging.key
@@ -48,7 +48,7 @@ jobs:
           SSH_HOST: ${{ secrets.GA_DEPLOY_HOST }}
           SSH_PORT: ${{ secrets.GA_DEPLOY_PORT }}
       - run: |
-          tar czvf staging.tar.gz \
+          tar czf staging.tar.gz \
             .bin/zenroom \
             .bin/zencode-exec \
             admin/pb \
@@ -56,6 +56,7 @@ jobs:
             webapp/build \
             webapp/node_modules
           scp staging.tar.gz remote:staging/
+      - run: |
           ssh remote 'staging/DEPLOY.sh'
 
 
