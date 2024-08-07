@@ -88,7 +88,7 @@ importers:
         version: 11.10.0
       json-schema-builder-svelte:
         specifier: github:dyne/json-schema-builder-svelte
-        version: https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/e35fc4c76632f61de424695ddbb397576fc1bd43(svelte@4.2.18)
+        version: https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/c914b30096f165177128712b3ececa02ca75635a(svelte@4.2.18)
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -2848,9 +2848,9 @@ packages:
   json-parse-even-better-errors@2.3.1:
     resolution: {integrity: sha512-xyFwyhro/JEof6Ghe2iz2NcXoj2sloNsWr/XsERDK/oiPCfaNhl5ONfp+jQdAZRQQ0IJWNzH9zIZF7li91kh2w==}
 
-  json-schema-builder-svelte@https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/e35fc4c76632f61de424695ddbb397576fc1bd43:
-    resolution: {tarball: https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/e35fc4c76632f61de424695ddbb397576fc1bd43}
-    version: 0.1.13
+  json-schema-builder-svelte@https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/c914b30096f165177128712b3ececa02ca75635a:
+    resolution: {tarball: https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/c914b30096f165177128712b3ececa02ca75635a}
+    version: 0.1.15
     peerDependencies:
       svelte: ^4.0.0
 
@@ -7625,7 +7625,7 @@ snapshots:
 
   json-parse-even-better-errors@2.3.1: {}
 
-  json-schema-builder-svelte@https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/e35fc4c76632f61de424695ddbb397576fc1bd43(svelte@4.2.18):
+  json-schema-builder-svelte@https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/c914b30096f165177128712b3ececa02ca75635a(svelte@4.2.18):
     dependencies:
       '@sinclair/typebox': 0.32.31
       ajv: 8.16.0
