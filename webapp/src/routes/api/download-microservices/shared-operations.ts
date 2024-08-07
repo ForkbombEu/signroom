@@ -27,7 +27,7 @@ import { String as S } from 'effect';
 
 export type WellKnown = Record<string, unknown> & { readonly brand: unique symbol };
 
-type MicroserviceFolder = ValueOf<(typeof config)['folder_names']['microservices']>;
+export type MicroserviceFolder = ValueOf<(typeof config)['folder_names']['microservices']>;
 
 /* Delete unused folders */
 

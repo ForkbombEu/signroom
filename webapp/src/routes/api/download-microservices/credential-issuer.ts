@@ -20,6 +20,7 @@ import {
 	add_microservice_env,
 	delete_unused_folders,
 	formatMicroserviceUrl,
+	get_credential_custom_code_path,
 	type WellKnown
 } from './shared-operations';
 import {
@@ -29,6 +30,7 @@ import {
 import { update_zip_json_entry } from './utils/zip';
 import { DEFAULT_LOCALE } from './utils/locale';
 import { config } from './config';
+import type { Expiration } from '$lib/issuanceFlows/expiration';
 
 /* Main */
 
@@ -59,7 +61,7 @@ type CredentialIssuerRelatedData = {
 	issuance_flows: Array<IssuanceFlow>;
 };
 
-type IssuanceFlow = ServicesResponse & { template: TemplatesResponse };
+type IssuanceFlow = ServicesResponse<Expiration> & { template: TemplatesResponse };
 
 function get_credential_issuer_related_data_from_request_body(
 	credential_issuer: IssuersResponse,
@@ -192,13 +194,25 @@ function get_credential_issuer_well_known_path() {
 function add_credentials_custom_code(zip: AdmZip, issuance_flows: IssuanceFlow[]) {
 	pipe(
 		issuance_flows,
-		A.forEach((issuance_flow) =>
+		A.forEach((issuance_flow) => {
 			add_credential_custom_code(
 				zip,
 				'credential_issuer',
 				issuance_flow.type_name,
 				issuance_flow.template
-			)
-		)
+			);
+			add_credential_time(zip, issuance_flow);
+		})
 	);
+}
+
+function add_credential_time(zip: AdmZip, issuance_flow: ServicesResponse<Expiration>) {
+	const base_path = get_credential_custom_code_path(
+		zip,
+		'credential_issuer',
+		issuance_flow.type_name
+	);
+	const path = `${base_path}.${config.file_extensions.time}`;
+	const content = JSON.stringify(issuance_flow.expiration, null, config.json.tab_size);
+	zip.addFile(path, Buffer.from(content));
 }
