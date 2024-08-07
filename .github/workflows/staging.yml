@@ -28,6 +28,8 @@ jobs:
         with:
           version: 9.1.4
       - run: make build
+        env:
+          PUBLIC_POCKETBASE_URL: "https://staging.admin.didroom.com/"
       - name: Configure 🔒🐚
         run: |
           mkdir -p ~/.ssh/
