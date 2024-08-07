@@ -19,8 +19,8 @@ import {
 	add_credential_custom_code,
 	add_microservice_env,
 	delete_unused_folders,
+	formatMicroserviceUrl,
 	get_credential_custom_code_path,
-	type MicroserviceFolder,
 	type WellKnown
 } from './shared-operations';
 import {
@@ -28,7 +28,6 @@ import {
 	objectSchemaToCredentialSubject
 } from './utils/credential-subject';
 import { update_zip_json_entry } from './utils/zip';
-import { cleanUrl } from './utils/strings';
 import { DEFAULT_LOCALE } from './utils/locale';
 import { config } from './config';
 import type { Expiration } from '$lib/issuanceFlows/expiration';
@@ -105,8 +104,13 @@ function create_credential_issuer_well_known(
 	default_well_known: WellKnown
 ): WellKnown {
 	const { authorization_servers, issuance_flows } = credential_issuer_related_data;
-	const credential_issuer_url = cleanUrl(credential_issuer.endpoint);
-	const authorization_servers_urls = authorization_servers.map((a) => cleanUrl(a.endpoint));
+	const credential_issuer_url = formatMicroserviceUrl(
+		credential_issuer.endpoint,
+		'credential_issuer'
+	);
+	const authorization_servers_urls = authorization_servers.map((a) =>
+		formatMicroserviceUrl(a.endpoint, 'authz_server')
+	);
 
 	return pipe(
 		default_well_known,

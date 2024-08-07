@@ -21,6 +21,7 @@ import {
 	update_zip_entry
 } from './utils/zip';
 import { cleanUrl, createSlug } from './utils/strings';
+import { String as S } from 'effect';
 
 /* Types */
 
@@ -115,3 +116,15 @@ MS_URL=${MS_URL}
 }
 
 type Microservice = IssuersRecord | RelyingPartiesRecord | AuthorizationServersRecord;
+
+//
+
+export function formatMicroserviceUrl(url: string, microservice: MicroserviceFolder) {
+	return pipe(url, cleanUrl, (url) => appendMicroserviceFolderToUrl(url, microservice));
+}
+
+function appendMicroserviceFolderToUrl(url: string, microservice: MicroserviceFolder) {
+	const toAppend = `/${microservice}`;
+	if (!url.endsWith(toAppend)) return `${url}${toAppend}`;
+	else return url;
+}
