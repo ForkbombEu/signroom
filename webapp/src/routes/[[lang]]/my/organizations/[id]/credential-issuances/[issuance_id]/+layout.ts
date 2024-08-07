@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import type { Expiration } from '$lib/issuanceFlows/expiration.js';
 import { pb } from '$lib/pocketbase';
 import {
 	Collections,
@@ -21,12 +22,15 @@ const authorizationServerExpand = 'authorization_server';
 
 //
 
-export type Service = ServicesResponse<{
-	[credentialTemplateExpand]: TemplatesResponse;
-	[authorizationTemplateExpand]: TemplatesResponse;
-	[credentialIssuerExpand]: IssuersResponse;
-	[authorizationServerExpand]: AuthorizationServersResponse;
-}>;
+export type Service = ServicesResponse<
+	Expiration,
+	{
+		[credentialTemplateExpand]: TemplatesResponse;
+		[authorizationTemplateExpand]: TemplatesResponse;
+		[credentialIssuerExpand]: IssuersResponse;
+		[authorizationServerExpand]: AuthorizationServersResponse;
+	}
+>;
 
 export const load = async ({ params, fetch }) => {
 	const expand = [
