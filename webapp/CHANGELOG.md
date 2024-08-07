@@ -1,3 +1,10 @@
+## [1.13.5](https://github.com/ForkbombEu/signroom/compare/v1.13.4...v1.13.5) (2024-08-07)
+
+
+### Bug Fixes
+
+* port range ([#744](https://github.com/ForkbombEu/signroom/issues/744)) ([e04a02f](https://github.com/ForkbombEu/signroom/commit/e04a02f3309ad62784d9dc91f9faa0e4949911f7))
+
 ## [1.13.4](https://github.com/ForkbombEu/signroom/compare/v1.13.3...v1.13.4) (2024-08-07)
 
 
