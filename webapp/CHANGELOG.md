@@ -1,3 +1,10 @@
+## [1.13.4](https://github.com/ForkbombEu/signroom/compare/v1.13.3...v1.13.4) (2024-08-07)
+
+
+### Bug Fixes
+
+* add default values to expiration in case of null value ([#733](https://github.com/ForkbombEu/signroom/issues/733)) ([48d7d6a](https://github.com/ForkbombEu/signroom/commit/48d7d6acb4fdd6c51a21e480e2b9eb80b0e112f6))
+
 ## [1.13.3](https://github.com/ForkbombEu/signroom/compare/v1.13.2...v1.13.3) (2024-08-05)
 
 
