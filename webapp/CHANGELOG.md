@@ -1,3 +1,16 @@
+# [1.14.0](https://github.com/ForkbombEu/signroom/compare/v1.13.5...v1.14.0) (2024-08-07)
+
+
+### Bug Fixes
+
+* record form defaults loading ([#748](https://github.com/ForkbombEu/signroom/issues/748)) ([73c649f](https://github.com/ForkbombEu/signroom/commit/73c649f4b9fa1c6cb50c5f68f1fcf144c0f7e6df))
+
+
+### Features
+
+* add link for slangroom editor ([#751](https://github.com/ForkbombEu/signroom/issues/751)) ([4d438ac](https://github.com/ForkbombEu/signroom/commit/4d438ac9494b7d330d450f4295ce6584799adfac))
+* save expiration data in microservice ([#746](https://github.com/ForkbombEu/signroom/issues/746)) ([f32c12f](https://github.com/ForkbombEu/signroom/commit/f32c12fd1013c340b5f7f64dcb67d185d80bf6c8))
+
 ## [1.13.5](https://github.com/ForkbombEu/signroom/compare/v1.13.4...v1.13.5) (2024-08-07)
 
 
