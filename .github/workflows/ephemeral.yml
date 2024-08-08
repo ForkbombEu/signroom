@@ -28,7 +28,9 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           version: 9.1.4
-      - run: pnpm build
+      - run: |
+          pnpm i
+          pnpm build
         working-directory: webapp
         env:
           PUBLIC_POCKETBASE_URL: "https://staging.admin.didroom.com/"
