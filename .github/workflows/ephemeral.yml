@@ -57,7 +57,7 @@ jobs:
             .bin/zencode-exec \
             webapp/build \
             webapp/package.json \
-            webapp/node_modules \
+            webapp/node_modules
           scp bolus.tar.gz remote:ephemeral/${{ github.event.number }}
       - run: |
           ssh remote 'ephemeral_deploy.sh ${{ github.event.number }}'
