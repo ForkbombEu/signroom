@@ -21,16 +21,12 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: dyne/pnpm@main
         with:
           node-version: 20.14.0
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9.1.4
-      - run: |
-          pnpm i
-          pnpm build
+          pnpm-version: 9.1.4
+          working-directory: webapp
+      - run: pnpm build
         working-directory: webapp
         env:
           PUBLIC_POCKETBASE_URL: "https://staging.admin.didroom.com/"
