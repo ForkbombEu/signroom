@@ -21,15 +21,20 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     steps:
-      - uses: dyne/pnpm@main
+      - uses: dyne/pnpm@build
         with:
           node-version: 20.14.0
           pnpm-version: 9.1.4
           working-directory: webapp
-      - run: pnpm build
-        working-directory: webapp
+          build: pnpm build
         env:
+          PB_ADMIN_USER: ${{ secrets.PB_USER }}
+          PB_ADMIN_PASS: ${{ secrets.PB_PASS }}
+          PB_TYPEGEN_EMAIL: ${{ secrets.PB_USER }}
+          PB_TYPEGEN_PASSWORD: ${{ secrets.PB_PASS }}
+          PB_TYPEGEN_URL: "https://staging.admin.didroom.com/"
           PUBLIC_POCKETBASE_URL: "https://staging.admin.didroom.com/"
+
       - name: Configure 🔒🐚
         run: |
           mkdir -p ~/.ssh/
@@ -46,9 +51,9 @@ jobs:
           END
         env:
           SSH_USER: ${{ secrets.GA_DEPLOY_USER }}
-          SSH_SKEY: ${{ secrets.GA_DEPLOY_SK }}
           SSH_HOST: ${{ secrets.GA_DEPLOY_HOST }}
           SSH_PORT: ${{ secrets.GA_DEPLOY_PORT }}
+          SSH_SKEY: ${{ secrets.GA_DEPLOY_SK }}
       - run: ssh remote 'mkdir -p ephemeral/${{ github.event.number }}'
       - run: |
           tar czf bolus.tar.gz \
