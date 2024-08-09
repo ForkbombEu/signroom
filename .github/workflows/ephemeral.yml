@@ -21,12 +21,13 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     steps:
-      - uses: dyne/pnpm@build
+      - uses: dyne/pnpm@main
         with:
-          node-version: 20.14.0
-          pnpm-version: 9.1.4
-          working-directory: webapp
+          submodules: true
           build: pnpm build
+          pnpm-version: 9.1.4
+          node-version: 20.14.0
+          working-directory: webapp
         env:
           PB_ADMIN_USER: ${{ secrets.PB_USER }}
           PB_ADMIN_PASS: ${{ secrets.PB_PASS }}
