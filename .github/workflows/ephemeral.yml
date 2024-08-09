@@ -58,8 +58,6 @@ jobs:
       - run: ssh remote 'mkdir -p ephemeral/${{ github.event.number }}'
       - run: |
           tar czf bolus.tar.gz \
-            .bin/zenroom \
-            .bin/zencode-exec \
             webapp/build \
             webapp/package.json \
             webapp/node_modules
