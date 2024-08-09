@@ -63,6 +63,6 @@ jobs:
             webapp/node_modules
           scp bolus.tar.gz remote:ephemeral/${{ github.event.number }}
       - run: |
-          ssh remote 'ephemeral_deploy.sh ${{ github.event.number }}'
+          ssh remote './ephemeral_deploy.sh ${{ github.event.number }}'
 
 
