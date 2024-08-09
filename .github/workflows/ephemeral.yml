@@ -32,7 +32,7 @@ jobs:
           PB_ADMIN_PASS: ${{ secrets.PB_PASS }}
           PB_TYPEGEN_EMAIL: ${{ secrets.PB_USER }}
           PB_TYPEGEN_PASSWORD: ${{ secrets.PB_PASS }}
-          PB_TYPEGEN_URL: "https://staging.admin.didroom.com/"
+          PB_TYPEGEN_URL: "https://staging.admin.didroom.com"
           PUBLIC_POCKETBASE_URL: "https://staging.admin.didroom.com/"
 
       - name: Configure 🔒🐚
