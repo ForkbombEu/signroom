@@ -15,7 +15,8 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: read # for checkout@v4
+  contents: read
+  pull-requests: write
 
 jobs:
   setup:
