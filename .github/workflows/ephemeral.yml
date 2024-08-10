@@ -64,5 +64,10 @@ jobs:
           scp bolus.tar.gz remote:ephemeral/${{ github.event.number }}
       - run: |
           ssh remote './ephemeral_deploy.sh ${{ github.event.number }}'
+      - uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          recreate: true
+          message: |
+            Release ${{ github.sha }} to <https://${{ github.event.number }}.pr.didroom.com>
 
 
