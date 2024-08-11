@@ -31,7 +31,7 @@ jobs:
       - uses: dyne/pnpm@main
         with:
           working-directory: webapp
-          build: make build
+      - run: make build
       - run: npx playwright install --with-deps
         working-directory: webapp
       - run: pnpm t
