@@ -1,4 +1,10 @@
 #!/bin/env bash
+
+# SPDX-FileCopyrightText: 2024 Puria Nafisi Azizi 
+# SPDX-FileCopyrightText: 2024 The Forkbomb Company
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 # set -euxo pipefail
 
 PR_NUMBER="${1}"
