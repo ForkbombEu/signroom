@@ -10,6 +10,7 @@ import { createAuthorizationServerZip } from './authorization-server';
 import { create_relying_party_zip } from './relying-party';
 import { addZipAsSubfolder } from './utils/zip';
 import { createSlug } from './utils/strings';
+import { startDockerCompose, endDockerCompose, setupDockerCompose } from './utils/dockercompose';
 
 //
 
@@ -36,19 +37,31 @@ function createMicroservicesZip(
 ): AdmZip {
 	const zip = new AdmZip();
 
+	// intialize docker-compose files
+	const dockerComposeFiles = {
+		dockerCompose: startDockerCompose(),
+		caddyfile: ''
+	};
+
 	data.authorization_servers.forEach((a) => {
+		setupDockerCompose(dockerComposeFiles, a, 'authz_server');
 		const az = createAuthorizationServerZip(didroom_microservices_zip_buffer, a, data);
 		addZipAsSubfolder(zip, az, createSlug(a.name));
 	});
 	data.relying_parties.forEach((r) => {
+		setupDockerCompose(dockerComposeFiles, r, 'relying_party');
 		const rz = create_relying_party_zip(didroom_microservices_zip_buffer, r, data);
 		addZipAsSubfolder(zip, rz, createSlug(r.name));
 	});
 	data.credential_issuers.forEach((c) => {
+		setupDockerCompose(dockerComposeFiles, c, 'credential_issuer');
 		const cz = create_credential_issuer_zip(didroom_microservices_zip_buffer, c, data);
 		addZipAsSubfolder(zip, cz, createSlug(c.name));
 	});
 
+	dockerComposeFiles.dockerCompose += endDockerCompose();
+	zip.addFile('docker-compose.yaml', Buffer.from(dockerComposeFiles.dockerCompose, 'utf-8'));
+	zip.addFile('Caddyfile', Buffer.from(dockerComposeFiles.caddyfile, 'utf-8'));
 	return zip;
 }
 
