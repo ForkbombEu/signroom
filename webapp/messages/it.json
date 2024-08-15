@@ -200,6 +200,7 @@
 	"New_authorization_template": "Nuovo modello di autorizzazione",
 	"Authorization_template": "Modello di autorizzazione",
 	"issuance_flow_form_main_info_description": "Il flusso di emissione definisce quando e come verrà emessa una credenziale e cosa conterrà la credenziale. per impostare un flusso di emissione è necessario selezionare la crittografia e il formato utilizzato, selezionare selezionare i microservizi che emetteranno la credenziale e un template per definire le attestazioni, i parametri e la logica dell'emissione.",
+	"issuance_flow_form_description_placeholder": "Scrivi qui una descrizione del contenuto della credenziale e di cosa ha bisogno l'utente per riceverla. È leggibile da utenti e microservizi.",
 	"issuance_flow_form_credential_info_description": "In questa sezione è possibile selezionare la crittografia e i formati delle credenziali, insieme ai modelli per la credenziale e il flusso di autorizzazione. I modelli definiscono i parametri, il contenuto dei flussi di emissione. Puoi creare e modificare modelli e riutilizzarli in più flussi.",
 	"issuance_flow_form_microservices_description": "Seleziona l'emittente delle credenziali che produrrà le credenziali e il server di autorizzazione che autenticherà l'utente che richiede le credenziali. ",
 	"is_public_description": "questa credenziale può essere richiesta da chiunque, anche al di fuori di questa organizzazione",
