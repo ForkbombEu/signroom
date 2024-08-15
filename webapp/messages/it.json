@@ -26,6 +26,7 @@
 	"Register_here": "Registrati qui",
 	"Log_in": "Login",
 	"Your_password": "La tua password",
+	"PASSWORDS_DO_NOT_MATCH": "La password e la password di conferma non corrispondono!",
 	"Full_name": "Il tuo nome",
 	"Organizations_and_other_users_will_identify_you_by_your_name_": "Organizzazioni e altri utenti ti identificheranno con il tuo nome.",
 	"Confirm_password": "Conferma password",

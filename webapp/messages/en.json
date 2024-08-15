@@ -28,7 +28,7 @@
 	"Register_here": "Register here",
 	"Log_in": "Log in",
 	"Your_password": "Your password",
-	"PASSWORDS_DO_NOT_MATCH": "PASSWORDS_DO_NOT_MATCH",
+	"PASSWORDS_DO_NOT_MATCH": "The password and the confirmation password do not match!",
 	"Full_name": "Your name",
 	"John_Doe": "John Doe",
 	"Organizations_and_other_users_will_identify_you_by_your_name_": "Organizations and other users will identify you by your name.",

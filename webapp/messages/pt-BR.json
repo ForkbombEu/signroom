@@ -26,6 +26,7 @@
 	"Register_here": "Registre-se aqui",
 	"Log_in": "Conecte-se",
 	"Your_password": "Sua senha",
+	"PASSWORDS_DO_NOT_MATCH": "A senha e a senha de confirmação não correspondem!",
 	"Full_name": "Seu nome",
 	"Organizations_and_other_users_will_identify_you_by_your_name_": "Organizações e outros usuários irão identificá-lo pelo seu nome.",
 	"Confirm_password": "Confirme sua senha",
