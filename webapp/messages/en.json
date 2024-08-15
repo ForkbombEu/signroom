@@ -246,7 +246,7 @@
 	"Pending_membership_requests": "Pending membership requests",
 	"Decline": "Decline",
 	"No_new_membership_requests": "No new membership requests",
-	"new_issuance_flow_description": "Create seamless and secure credential issuance experiences for your organization.",
+	"new_issuance_flow_description": "Create seamless and secure credential issuance experiences for your users.",
 	"Close_and_discard": "Close and discard",
 	"This_is_an_issuance_flow": "This is an issuance flow",
 	"issuance_flow_description": "Issuance flows facilitates the creation and issuance of digital credentials to individuals or entities.",

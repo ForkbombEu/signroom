@@ -182,6 +182,7 @@
 	"New_credential_template": "Nouveau modèle de credential",
 	"Delete": "Supprimer",
 	"Pending_membership_requests": "Demandes d'adhésion en attente",
+	"new_issuance_flow_description": "Créez des expériences d’émission de credentiales transparentes et sécurisées pour votre organisation.",
 	"Template": "Modèle",
 	"Required": "Requis",
 	"Basic_info": "Informations de base",
