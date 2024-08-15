@@ -203,6 +203,7 @@
 	"issuance_flow_form_description_placeholder": "Écrivez ici une description du contenu des credentiales et de ce dont l'utilisateur a besoin pour les recevoir. Elle est lisible par les utilisateurs et les microservices.",
 	"issuance_flow_form_credential_info_description": "Dans cette section, vous pouvez sélectionner les formats de cryptographie et des credentials, ainsi que les modèles pour les credentials et le flux d'autorisation. Les modèles définissent les paramètres, le contenu des flux d'émission. Vous pouvez créer et modifier des modèles et les réutiliser dans plusieurs flux.",
 	"issuance_flow_form_microservices_description": "Sélectionnez l'émetteur de credential qui produira la credential et le serveur d'autorisation qui authentifiera l'utilisateur demandant les credential. ",
+	"Is_public": "Est public",
 	"is_public_description": "cette credential peut être demandée par n'importe qui, même en dehors de cette organisation",
 	"advanced_settings_description": "Cette section est dédiée à d'autres paramètres qui ne pouvaient pas correspondre aux sections précédentes.",
 	"Use_only_lowercase_and_uppercase_letters_no_spaces": "Utilisez uniquement des chiffres, des caractères minuscules ou majuscules, mais pas d'espaces.",

@@ -203,6 +203,7 @@
 	"issuance_flow_form_description_placeholder": "Schreiben Sie hier eine Beschreibung des Inhalts der Credential und was der Benutzer benötigt, um sie zu erhalten. Sie ist für Benutzer und Microservices lesbar.",
 	"issuance_flow_form_credential_info_description": "In diesem Abschnitt können Sie die Kryptografie- und Credentials-formate sowie die Vorlagen für die Credentials und den Autorisierungsablauf auswählen. Die Vorlagen definieren die Parameter und den Inhalt der Ausgabeabläufe. Sie können Vorlagen erstellen und bearbeiten und sie in mehreren Abläufen wiederverwenden.",
 	"issuance_flow_form_microservices_description": "Wählen Sie den Credential-aussteller aus, der die Credential erstellen wird, und den Autorisierungsserver, der den Benutzer authentifiziert, der die Credential anfordert. ",
+	"Is_public": "Ist öffentlich",
 	"is_public_description": "Diese Credential kann von jedem, auch außerhalb dieser Organisation, beantragt werden",
 	"advanced_settings_description": "Dieser Abschnitt ist anderen Einstellungen gewidmet, die nicht in die vorherigen Abschnitte gepasst haben.",
 	"Use_only_lowercase_and_uppercase_letters_no_spaces": "Verwenden Sie nur Zahlen, Klein- oder Großbuchstaben, aber keine Leerzeichen.",
