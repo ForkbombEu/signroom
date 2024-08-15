@@ -120,7 +120,7 @@
 	"Your_device_does_not_have_integrated_Webauthn_support_An_external_authenticator_is_required_": "Votre appareil ne dispose pas de support Webauthn intégré. Un authentificateur externe est\nrequis.",
 	"Add_a_device": "Ajouter un appareil",
 	"Your_devices": "Vos appareils",
-	"Manage_the_devices_you_use_to_login_": "Gérez les appareils que vous utilisez pour vous connecter.",
+	"Manage_the_devices_you_use_to_login_": "Gérez les appareils que vous utilisez pour vous connecter, à l'aide de la technologie WebAuthn.",
 	"Your_organizations": "Vos organisations",
 	"Join_an_organization": "Rejoindre une organisation",
 	"Create_a_new_organization": "Créer une nouvelle organisation",

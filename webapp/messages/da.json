@@ -120,7 +120,7 @@
 	"Your_device_does_not_have_integrated_Webauthn_support_An_external_authenticator_is_required_": "Din enhed har ikke integreret Webauthn-understøttelse. En ekstern autentificering er\npåkrævet.",
 	"Add_a_device": "Tilføj en enhed",
 	"Your_devices": "Dine enheder",
-	"Manage_the_devices_you_use_to_login_": "Administrer de enheder, du bruger til at logge på.",
+	"Manage_the_devices_you_use_to_login_": "Administrer de enheder, du bruger til at logge på, ved hjælp af WebAuthn-teknologien.",
 	"Your_organizations": "Dine organisationer",
 	"Join_an_organization": "Deltag i en organisation",
 	"Create_a_new_organization": "Opret en ny organisation",
