@@ -4,9 +4,6 @@
 
 name: Destroy Ephemeral deployment
 on:
-  push:
-    branches:
-      - main
   pull_request:
     types: [closed]
 

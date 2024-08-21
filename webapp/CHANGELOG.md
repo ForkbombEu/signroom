@@ -1,3 +1,17 @@
+## [1.14.3](https://github.com/ForkbombEu/signroom/compare/v1.14.2...v1.14.3) (2024-08-21)
+
+
+### Bug Fixes
+
+* Didroom to DIDroom in Welcome page ([#763](https://github.com/ForkbombEu/signroom/issues/763)) ([1c66ef8](https://github.com/ForkbombEu/signroom/commit/1c66ef8717e874457a5175006bfb30ad663cf49a))
+
+## [1.14.2](https://github.com/ForkbombEu/signroom/compare/v1.14.1...v1.14.2) (2024-08-11)
+
+
+### Bug Fixes
+
+* bad habits do not die! remove ED on main ([5b27492](https://github.com/ForkbombEu/signroom/commit/5b274925fb2df817799535166ca44a9d500b90bf))
+
 ## [1.14.1](https://github.com/ForkbombEu/signroom/compare/v1.14.0...v1.14.1) (2024-08-07)
 
 
