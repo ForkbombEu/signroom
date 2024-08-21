@@ -1,3 +1,10 @@
+## [1.14.4](https://github.com/ForkbombEu/signroom/compare/v1.14.3...v1.14.4) (2024-08-21)
+
+
+### Bug Fixes
+
+* add cascade delete for organization relations ([#743](https://github.com/ForkbombEu/signroom/issues/743)) ([27abcb5](https://github.com/ForkbombEu/signroom/commit/27abcb5e940bc23c5f9698fe327a73874f080d26))
+
 ## [1.14.3](https://github.com/ForkbombEu/signroom/compare/v1.14.2...v1.14.3) (2024-08-21)
 
 
