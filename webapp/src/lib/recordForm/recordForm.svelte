@@ -78,7 +78,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		components,
 		relations,
 		descriptions,
-		defaults
+		defaults = {}
 	} = fieldsSettings;
 
 	export let formSettings: Partial<FormSettings> = {};
@@ -110,9 +110,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	let superform: SuperForm<AnyZodObject, ClientResponseErrorData>;
 
 	$: {
-		let seededData = { ...initialData, ...defaults };
+		let seededData = { ...defaults, ...initialData }; // "defaults" must be overwritten by "initialData"
 		if (hide) seededData = { ...seededData, ...hide };
-		if (defaults && !Boolean(recordId)) seededData = { ...seededData, ...defaults };
 
 		const mockedData = mockFileFieldsInitialData(collectionSchema, seededData);
 		const fileFieldsInitialData = getFileFieldsInitialData(collectionSchema, initialData);

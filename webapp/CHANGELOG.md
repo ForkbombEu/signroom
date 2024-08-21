@@ -1,3 +1,51 @@
+## [1.14.2](https://github.com/ForkbombEu/signroom/compare/v1.14.1...v1.14.2) (2024-08-11)
+
+
+### Bug Fixes
+
+* bad habits do not die! remove ED on main ([5b27492](https://github.com/ForkbombEu/signroom/commit/5b274925fb2df817799535166ca44a9d500b90bf))
+
+## [1.14.1](https://github.com/ForkbombEu/signroom/compare/v1.14.0...v1.14.1) (2024-08-07)
+
+
+### Bug Fixes
+
+* download microservices url handling ([#752](https://github.com/ForkbombEu/signroom/issues/752)) ([5b741a6](https://github.com/ForkbombEu/signroom/commit/5b741a631060d50f14e4a79b899c187b37ccc20a))
+
+# [1.14.0](https://github.com/ForkbombEu/signroom/compare/v1.13.5...v1.14.0) (2024-08-07)
+
+
+### Bug Fixes
+
+* record form defaults loading ([#748](https://github.com/ForkbombEu/signroom/issues/748)) ([73c649f](https://github.com/ForkbombEu/signroom/commit/73c649f4b9fa1c6cb50c5f68f1fcf144c0f7e6df))
+
+
+### Features
+
+* add link for slangroom editor ([#751](https://github.com/ForkbombEu/signroom/issues/751)) ([4d438ac](https://github.com/ForkbombEu/signroom/commit/4d438ac9494b7d330d450f4295ce6584799adfac))
+* save expiration data in microservice ([#746](https://github.com/ForkbombEu/signroom/issues/746)) ([f32c12f](https://github.com/ForkbombEu/signroom/commit/f32c12fd1013c340b5f7f64dcb67d185d80bf6c8))
+
+## [1.13.5](https://github.com/ForkbombEu/signroom/compare/v1.13.4...v1.13.5) (2024-08-07)
+
+
+### Bug Fixes
+
+* port range ([#744](https://github.com/ForkbombEu/signroom/issues/744)) ([e04a02f](https://github.com/ForkbombEu/signroom/commit/e04a02f3309ad62784d9dc91f9faa0e4949911f7))
+
+## [1.13.4](https://github.com/ForkbombEu/signroom/compare/v1.13.3...v1.13.4) (2024-08-07)
+
+
+### Bug Fixes
+
+* add default values to expiration in case of null value ([#733](https://github.com/ForkbombEu/signroom/issues/733)) ([48d7d6a](https://github.com/ForkbombEu/signroom/commit/48d7d6acb4fdd6c51a21e480e2b9eb80b0e112f6))
+
+## [1.13.3](https://github.com/ForkbombEu/signroom/compare/v1.13.2...v1.13.3) (2024-08-05)
+
+
+### Bug Fixes
+
+* remove close drawer on click outside ([#745](https://github.com/ForkbombEu/signroom/issues/745)) ([597ad8c](https://github.com/ForkbombEu/signroom/commit/597ad8c0befb4d3dfcb84b8b97bd353a4d64dbc1))
+
 ## [1.13.2](https://github.com/ForkbombEu/signroom/compare/v1.13.1...v1.13.2) (2024-08-01)
 
 

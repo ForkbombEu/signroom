@@ -9,9 +9,13 @@ import _ from 'lodash/fp';
 import type { IssuersResponse, RelyingPartiesResponse } from '$lib/pocketbase/types';
 import type { DownloadMicroservicesRequestBody } from '.';
 
-import { add_microservice_env, delete_unused_folders, type WellKnown } from './shared-operations';
+import {
+	add_microservice_env,
+	delete_unused_folders,
+	formatMicroserviceUrl,
+	type WellKnown
+} from './shared-operations';
 import { DEFAULT_LOCALE } from './utils/locale';
-import { cleanUrl } from './utils/strings';
 import { update_zip_json_entry } from './utils/zip';
 import { config } from './config';
 
@@ -36,11 +40,11 @@ function create_relying_party_well_known(
 	trusted_credential_issuers: IssuersResponse[],
 	default_well_known: WellKnown
 ): WellKnown {
-	const relying_party_url = cleanUrl(relying_party.endpoint);
+	const relying_party_url = formatMicroserviceUrl(relying_party.endpoint, 'relying_party');
 	const trusted_credential_issuers_urls = pipe(
 		trusted_credential_issuers,
 		A.map((issuer) => issuer.endpoint),
-		A.map(cleanUrl)
+		A.map((url) => formatMicroserviceUrl(url, 'credential_issuer'))
 	);
 
 	return pipe(

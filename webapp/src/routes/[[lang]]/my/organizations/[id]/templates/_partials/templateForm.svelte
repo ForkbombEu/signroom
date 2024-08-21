@@ -19,13 +19,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		type TemplatesRecord
 	} from '$lib/pocketbase/types';
 	import { fieldsSchemaToZod } from '$lib/pocketbaseToZod';
-	import { Hr, Select } from 'flowbite-svelte';
+	import { A, Alert, Hr, Select } from 'flowbite-svelte';
 	import JSONSchemaInput from './JSONSchemaInput.svelte';
 	import SubmitButton from '$lib/forms/submitButton.svelte';
 	import FormError from '$lib/forms/formError.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { templatePresetOptions, type TemplatePreset } from './templatePresets';
 	import CodeEditorField from './codeEditorField.svelte';
+	import Icon from '$lib/components/icon.svelte';
+	import { ArrowTopRightOnSquare } from 'svelte-heros-v2';
 
 	//
 
@@ -156,6 +158,18 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	<div class="space-y-8">
 		<SectionTitle tag="h5" title="{m.Custom_code()}*" description={m.custom_code_description()} />
+		<Alert>
+			<div class="flex justify-between">
+				<p>Test your code with the slangroom editor!</p>
+				<a
+					href="https://dyne.org/slangroom/playground/"
+					class=" underline hover:no-underline"
+					target="_blank"
+				>
+					Slangroom Playground [↗]
+				</a>
+			</div>
+		</Alert>
 		<CodeEditorField {superform} field="zencode_script" label={m.zencode_script()} lang="gherkin" />
 		<CodeEditorField {superform} field="zencode_data" label={m.zencode_data()} lang="json" />
 	</div>

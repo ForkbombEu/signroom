@@ -50,9 +50,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import FieldHelpText from '$lib/forms/fields/fieldParts/fieldHelpText.svelte';
 	import ExpirationField from './expiration/expirationField.svelte';
 	import { expirationSchema } from '$lib/issuanceFlows/expiration';
-	import { z } from 'zod';
 	import { TemplatePropertiesDisplay } from '$lib/templates';
 	import { getRandomMicroservicePort } from '$lib/microservices';
+	import { pipe, Array as A, Record as R } from 'effect';
 
 	//
 
@@ -86,7 +86,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		},
 		{
 			organization: organizationId,
-			...initialData
+			...cleanInitialData(initialData)
 		},
 		{
 			validationMethod: 'oninput'
@@ -146,6 +146,16 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		if (isExternal) label.push(`(@${t.expand?.organization.name})`);
 		if (Boolean(t.description)) label.push(` | ${t.description}`);
 		return label.join(' ');
+	}
+
+	// -- utils
+
+	function cleanInitialData(record: Record<string, unknown>) {
+		return pipe(
+			Object.entries(record),
+			R.fromEntries,
+			R.map((value) => (Boolean(value) ? value : undefined))
+		);
 	}
 </script>
 
@@ -373,6 +383,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <PortalWrapper>
 	<Drawer
+		closeOnClickOutside={false}
 		width="w-[800px]"
 		placement="right"
 		bind:hidden={$hideCredentialTemplateDrawer}
@@ -395,6 +406,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <PortalWrapper>
 	<Drawer
+		closeOnClickOutside={false}
 		width="w-[800px]"
 		placement="right"
 		bind:hidden={$hideAuthorizationTemplateDrawer}
@@ -417,6 +429,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <PortalWrapper>
 	<Drawer
+		closeOnClickOutside={false}
 		width="w-[700px]"
 		placement="right"
 		bind:hidden={$hideCredentialIssuerDrawer}
@@ -445,6 +458,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <PortalWrapper>
 	<Drawer
+		closeOnClickOutside={false}
 		width="w-[700px]"
 		placement="right"
 		bind:hidden={$hideAuthorizationServerDrawer}

@@ -18,10 +18,10 @@ import {
 	add_credential_custom_code,
 	add_microservice_env,
 	delete_unused_folders,
+	formatMicroserviceUrl,
 	get_credential_custom_code_path,
 	type WellKnown
 } from './shared-operations';
-import { cleanUrl } from './utils/strings';
 import { update_zip_json_entry } from './utils/zip';
 import { mergeObjectSchemas } from './utils/credential-subject';
 import { config } from './config';
@@ -88,7 +88,10 @@ function create_authorization_server_well_known(
 	authorization_server_related_data: AuthorizationServerRelatedData,
 	default_well_known: WellKnown
 ): WellKnown {
-	const authorization_server_url = cleanUrl(authorization_server.endpoint);
+	const authorization_server_url = formatMicroserviceUrl(
+		authorization_server.endpoint,
+		'authz_server'
+	);
 	const scopes_supported = authorization_server_related_data.credentials.map(
 		({ issuance_flow }) => issuance_flow.type_name
 	);

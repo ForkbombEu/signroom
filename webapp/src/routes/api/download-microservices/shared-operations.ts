@@ -21,12 +21,13 @@ import {
 	update_zip_entry
 } from './utils/zip';
 import { cleanUrl, createSlug } from './utils/strings';
+import { String as S } from 'effect';
 
 /* Types */
 
 export type WellKnown = Record<string, unknown> & { readonly brand: unique symbol };
 
-type MicroserviceFolder = ValueOf<(typeof config)['folder_names']['microservices']>;
+export type MicroserviceFolder = ValueOf<(typeof config)['folder_names']['microservices']>;
 
 /* Delete unused folders */
 
@@ -42,7 +43,7 @@ export function get_folders_paths_to_delete(microservice_to_keep: MicroserviceFo
 	return pipe(
 		config.folder_names.microservices,
 		R.filter((folder_name) => folder_name != microservice_to_keep),
-		R.map((folder_name) => [folder_name, `${config.folder_names.public}/${folder_name}`]),
+		R.map((folder_name) => [`${folder_name}/`, `${config.folder_names.public}/${folder_name}/`]),
 		R.toEntries,
 		A.map((entry) => entry[1]),
 		A.flatten
@@ -115,3 +116,15 @@ MS_URL=${MS_URL}
 }
 
 type Microservice = IssuersRecord | RelyingPartiesRecord | AuthorizationServersRecord;
+
+//
+
+export function formatMicroserviceUrl(url: string, microservice: MicroserviceFolder) {
+	return pipe(url, cleanUrl, (url) => appendMicroserviceFolderToUrl(url, microservice));
+}
+
+function appendMicroserviceFolderToUrl(url: string, microservice: MicroserviceFolder) {
+	const toAppend = `/${microservice}`;
+	if (!url.endsWith(toAppend)) return `${url}${toAppend}`;
+	else return url;
+}
