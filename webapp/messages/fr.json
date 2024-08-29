@@ -198,7 +198,7 @@
 	"Attributes_needed": "Attributs nécessaires",
 	"form_structure_description": "Définissez ici les attributs que l'utilisateur doit saisir manuellement, dans le formulaire fourni par le serveur d'autorisation.",
 	"Custom_code": "Code personnalisé",
-	"custom_code_description": "Ce code contient la logique métier du flux que nous définissons maintenant : le code est écrit en Zencode, partez des exemples et suivez la documentation pour en savoir plus",
+	"custom_code_description": "Ce code contient la logique du flux que nous définissons maintenant: le code est écrit en Zencode, partez des exemples et suivez la documentation pour en savoir plus.",
 	"select_code_sample": "Sélectionnez Zencode parmi les exemples",
 	"Create_template": "Créer un modèle",
 	"Update_template": "Mettre à jour le modèle",

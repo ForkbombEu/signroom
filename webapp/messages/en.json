@@ -268,7 +268,7 @@
 	"Form_structure": "Form structure",
 	"form_structure_description": "Define here the attributes that the user has to enter manually, in the form provided by the authorization server",
 	"Custom_code": "Custom code",
-	"custom_code_description": "This code contains the business logic of the flow we are defining now: the code is written in Zencode, start from the examples and follow the documentation to learn more",
+	"custom_code_description": "This code contains the business logic of the flow we are defining now: the code is written in Zencode, start from the examples and follow the documentation to learn more.",
 	"select_code_sample": "Select Zencode from the examples",
 	"Allow_extra_attributes": "Allow extra attributes",
 	"Create_template": "Create template",
