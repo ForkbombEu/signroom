@@ -1,3 +1,17 @@
+## [1.14.4](https://github.com/ForkbombEu/signroom/compare/v1.14.3...v1.14.4) (2024-08-21)
+
+
+### Bug Fixes
+
+* add cascade delete for organization relations ([#743](https://github.com/ForkbombEu/signroom/issues/743)) ([27abcb5](https://github.com/ForkbombEu/signroom/commit/27abcb5e940bc23c5f9698fe327a73874f080d26))
+
+## [1.14.3](https://github.com/ForkbombEu/signroom/compare/v1.14.2...v1.14.3) (2024-08-21)
+
+
+### Bug Fixes
+
+* Didroom to DIDroom in Welcome page ([#763](https://github.com/ForkbombEu/signroom/issues/763)) ([1c66ef8](https://github.com/ForkbombEu/signroom/commit/1c66ef8717e874457a5175006bfb30ad663cf49a))
+
 ## [1.14.2](https://github.com/ForkbombEu/signroom/compare/v1.14.1...v1.14.2) (2024-08-11)
 
 
