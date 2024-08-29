@@ -235,7 +235,7 @@
 	"pending_membership_requests_description": "Ici vous pouvez voir la liste des utilisateurs qui ont demandé à être membres de cette organisation",
 	"members_description": "Liste des membres existants de l'organisation : les membres peuvent avoir différents rôles leur permettant différents privilèges ",
 	"verification_flow_description": "La vérification est gérée principalement par l'application DIDroom Verifier. Installez l'application de vérification, connectez-vous avec un compte connecté à cette organisation et démarrez le flux de vérification à partir de là.",
-	"microservice_name_description": "Il s'agit du nom des microservices, qui seront visibles par les utilisateurs finaux",
+	"microservice_name_description": "Il s'agit du nom du microservice, qui sera visible par les utilisateurs finaux",
 	"microservice_endpoint_description": "URL du microservice, utilisé par les protocoles de communication et visible par les utilisateurs finaux et les autres microservices",
 	"Select_language": "Sélectionner la langue",
 	"verification_flow_qr_code_title": "Générer des codes QR de vérification à l'aide de l'application Verifier",
