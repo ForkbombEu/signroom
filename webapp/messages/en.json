@@ -419,7 +419,7 @@
 	"These_certificates_cannot_be_used": "These certificates cannot be used:",
 	"No_properties_found": "No properties found",
 	"Properties": "Properties",
-	"microservice_port_description": "This microservice will run a the port you set here, see the manual for more info.",
+	"microservice_port_description": "This microservice will run at the port you set here, see the manual for more info.",
 	"Port": "Port",
 	"microservice_edit_warning": "⚠️ Important: ⚠️ The name, the enpoint and the port, define the identity of the microservice and have effects on the the provisioning and the update. Once a microservice is deployed and initialized, we recommend not change name, endpoint or port.",
 	"Years": "Years",

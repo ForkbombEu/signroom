@@ -303,7 +303,7 @@
 	"These_certificates_cannot_be_used": "Ces certificats ne peuvent pas être utilisés :",
 	"No_properties_found": "Aucune propriété trouvée",
 	"Properties": "Propriétés",
-	"microservice_port_description": "Ce microservice exécutera le port que vous avez défini ici, consultez le manuel pour plus d'informations.",
+	"microservice_port_description": "Ce microservice s'exécutera sur la porte que vous avez défini ici, consultez le manuel pour plus d'informations.",
 	"Port": "Port",
 	"microservice_edit_warning": "⚠️ Important: ⚠️ Le nom, le URL et le port définissent l'identité du microservice et ont des effets sur le provisionnement et la mise à jour. Une fois qu'un microservice est déployé et initialisé, nous vous recommandons de ne pas modifier le nom, le point d'extrémité ou le port.",
 	"Years": "Années",
