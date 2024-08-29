@@ -227,7 +227,7 @@
 	"verification_flow_form_microservices_description": "Le Relying Party est un microservice qui reçoit une présentation vérifiable (ou un identifiant, ou une zero knowledge proof), la vérifie et renvoie le résultat au vérificateur. Sélectionnez le Relying Party qui effectuera la vérification.",
 	"Relying_party": "Relying Party",
 	"Authorization_templates": "Modèles d'autorisation",
-	"attributes_needed_description_credential": "Définissez ici les informazine que l'émetteur des identifiants écrira dans le justificatif d'identité.  ",
+	"attributes_needed_description_credential": "Définissez ici les informations que l'émetteur des identifiants écrira dans l'identifiant.  ",
 	"attributes_needed_description_verification": "Définissez ici les paramètres que le relying party utilisera pour vérifier l'identifiant",
 	"attributes_needed_description_authorization": "Définissez ici les attributs que le wallet enverra automatiquement au serveur d'autorisation",
 	"templates_description_verification": "Voici vos modèles de vérification: ils contiennent les paramètres et la logique du processus de vérification de l'identifiant.",
