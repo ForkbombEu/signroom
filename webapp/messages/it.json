@@ -179,6 +179,8 @@
 	"relying_party_description": "Il relying party verifica l'autenticità e la validità di una credenziale durante il flusso di verifica.",
 	"Template_parsing_error": "Errore di analisi del modello",
 	"Credential_logo_URL": "URL del logo della credenziale",
+	"Issuance_flows": "Flussi di emissione",
+	"Back_to_issuance_flows": "Torna ai flussi di emissione",
 	"New_credential_template": "Nuovo modello di credenziale",
 	"Delete": "Eliminare",
 	"Pending_membership_requests": "Richieste di iscrizione in sospeso",

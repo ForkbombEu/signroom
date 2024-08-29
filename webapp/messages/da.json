@@ -179,6 +179,8 @@
 	"relying_party_description": "Den relying party verificerer ægtheden og gyldigheden af en credential under verifikationsforløbet.",
 	"Template_parsing_error": "Skabelonparsingsfejl",
 	"Credential_logo_URL": "URL for credentialslogo",
+	"Issuance_flows": "Udstedelsesstrømme",
+	"Back_to_issuance_flows": "Tilbage til udstedelsesstrømme",
 	"New_credential_template": "Ny credentialskabelon",
 	"Delete": "Slet",
 	"Pending_membership_requests": "Afventende medlemsanmodninger",
