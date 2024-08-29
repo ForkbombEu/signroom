@@ -207,7 +207,7 @@
 	"New_authorization_template": "Nouveau modèle d'autorisation",
 	"Authorization_template": "Modèle d'autorisation",
 	"issuance_flow_form_main_info_description": "Le flux d'émission définit quand et comment un de identifiant sera émis, ainsi que ce qu'il contiendra. Afin de configurer un flux d'émission, vous devez sélectionner la cryptographie et le format utilisé, sélectionner les microservices qui émettront le émetteurs de identifiant et un modèle pour définir les informations, les paramètres et la logique de l'émission.",
-	"issuance_flow_form_description_placeholder": "Écrivez ici une description du contenu des credentiales et de ce dont l'utilisateur a besoin pour les recevoir. Elle est lisible par les utilisateurs et les microservices.",
+	"issuance_flow_form_description_placeholder": "Écrivez ici une description du contenu des identifiants et de ce dont l'utilisateur a besoin pour les recevoir. Elle est lisible par les utilisateurs et les microservices.",
 	"Credential_info": "Informations de l'identifiant",
 	"issuance_flow_form_credential_info_description": "Dans cette section, vous pouvez sélectionner les formats de cryptographie et des identifiants, ainsi que les modèles pour les identifiants et le flux d'autorisation. Les modèles définissent les paramètres et le contenu des flux d'émission. Vous pouvez créer et modifier des modèles et les réutiliser dans plusieurs flux.",
 	"issuance_flow_form_microservices_description": "Sélectionnez l’émetteur des identifiants qui produira les identifiants et le serveur d’autorisation qui authentifiera l’utilisateur demandant les identifiants. ",
