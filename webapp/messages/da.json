@@ -178,7 +178,7 @@
 	"authorization_server_description": "Autorisationsserveren er en mikrotjeneste, hvis adfærd er defineret i Opein4VC- og Oauth 2.0-specifikationerne, ansvarlig for styring af adgangskontrol og godkendelsesbeslutninger.",
 	"relying_party_description": "Den relying party verificerer ægtheden og gyldigheden af en credential under verifikationsforløbet.",
 	"Template_parsing_error": "Skabelonparsingsfejl",
-	"Credential_logo_URL": "URL for credentialslogo",
+	"Credential_logo_URL": "Credentiallogo-URL",
 	"Issuance_flows": "Udstedelsesstrømme",
 	"Back_to_issuance_flows": "Tilbage til udstedelsesstrømme",
 	"New_credential_template": "Ny credentialskabelon",

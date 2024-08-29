@@ -178,7 +178,7 @@
 	"authorization_server_description": "Der Autorisierungsserver ist ein Mikrodienst, dessen Verhalten in den Spezifikationen Opein4VC und Oauth 2.0 definiert ist und der für die Verwaltung der Zugriffskontrolle und Autorisierungsentscheidungen verantwortlich ist.",
 	"relying_party_description": "Die relying party überprüft während des Überprüfungsablaufs die Authentizität und Gültigkeit einer Credential.",
 	"Template_parsing_error": "Fehler beim Parsen der Vorlage",
-	"Credential_logo_URL": "URL des Credential-Logos",
+	"Credential_logo_URL": "URL des Berechtigungsnachweislogo",
 	"Issuance_flows": "Ausstellungsprozesse",
 	"Back_to_issuance_flows": "Zurück zu den Ausstellungsprozesse",
 	"New_credential_template": "Neue Credentialsvorlage",
