@@ -234,6 +234,7 @@
 	"templates_description": "Retrouvez ici tous les modèles pour les flux d'émission et de vérification. Les modèles peuvent être de trois types: Autorisation, Émission ou Vérification. Les modèles jouent un rôle central dans le fonctionnement des flux d'émission et de vérification des identifiants et donc dans le comportement de leurs microservices respectifs (Serveur d'autorisation, Émetteur d'identifiants et Relying Party). ",
 	"pending_membership_requests_description": "Ici vous pouvez voir la liste des utilisateurs qui ont demandé à être membres de cette organisation",
 	"members_description": "Liste des membres existants de l'organisation : les membres peuvent avoir différents rôles leur permettant différents privilèges ",
+	"template_is_public_description": "Ce modèle peut également être utilisé par d'autres organisations",
 	"verification_flow_description": "La vérification est gérée principalement par l'application DIDroom Verifier. Installez l'application de vérification, connectez-vous avec un compte connecté à cette organisation et démarrez le flux de vérification à partir de là.",
 	"microservice_name_description": "Il s'agit du nom du microservice, qui sera visible par les utilisateurs finaux",
 	"microservice_endpoint_description": "URL du microservice, utilisé par les protocoles de communication et visible par les utilisateurs finaux et les autres microservices",

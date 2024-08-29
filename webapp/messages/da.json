@@ -226,6 +226,7 @@
 	"templates_description": "Find alle skabelonerne til udstedelses- og verifikationsstrømmene her. Skabeloner kan være af tre typer: Autorisation, Issuance eller Verification. Skabeloner spiller en central rolle i funktionen af credentialsudstedelsen og verifikationsstrømmene og derfor i adfærden af deres respektive mikrotjenester (Authorization Server, Credential Issuer and Relying Party). ",
 	"pending_membership_requests_description": "Her kan du se listen over brugere, der har anmodet om at blive medlem af denne organisation",
 	"members_description": "Liste over eksisterende medlemmer af organisationen: medlemmer kan have forskellige roller, hvilket giver dem forskellige privilegier ",
+	"template_is_public_description": "Denne skabelon kan også bruges af andre organisationer",
 	"verification_flow_description": "Verifikationen administreres for det meste af DIDroom Verifier-appen. Installer verifikationsappen, log ind med en konto, der er forbundet med denne organisation, og start verifikationsflowet derfra.",
 	"microservice_name_description": "Dette er navnet på mikrotjenesterne, som vil være synlige for slutbrugere",
 	"microservice_endpoint_description": "Slutpunkt for mikrotjenesterne, brugt af kommunikationsprotokoller og synligt af slutbrugere og andre mikrotjenester",
