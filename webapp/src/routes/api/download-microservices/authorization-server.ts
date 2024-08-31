@@ -45,9 +45,9 @@ export function createAuthorizationServerZip(
 		authorization_server,
 		authorization_server_related_data
 	);
-	delete_unused_folders(zip, 'authz_server');
 	add_credentials_custom_code(zip, authorization_server_related_data);
 	add_microservice_env(zip, authorization_server);
+	delete_unused_folders(zip, 'authz_server');
 
 	return zip;
 }

@@ -28,8 +28,8 @@ export function create_relying_party_zip(
 ) {
 	const zip = new AdmZip(zip_buffer);
 	edit_relying_party_well_known(zip, relying_party, request_body.credential_issuers);
-	delete_unused_folders(zip, 'relying_party');
 	add_microservice_env(zip, relying_party);
+	delete_unused_folders(zip, 'relying_party');
 	return zip;
 }
 
