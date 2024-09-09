@@ -1,3 +1,10 @@
+# [1.15.0](https://github.com/ForkbombEu/signroom/compare/v1.14.5...v1.15.0) (2024-09-09)
+
+
+### Features
+
+* changed user avatar max size ([#781](https://github.com/ForkbombEu/signroom/issues/781)) ([7252ef9](https://github.com/ForkbombEu/signroom/commit/7252ef98cee9edcc65a11f464fc19fb38256f6a1))
+
 ## [1.14.5](https://github.com/ForkbombEu/signroom/compare/v1.14.4...v1.14.5) (2024-08-31)
 
 
