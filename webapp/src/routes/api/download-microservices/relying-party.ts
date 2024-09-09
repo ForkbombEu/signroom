@@ -11,6 +11,7 @@ import type { DownloadMicroservicesRequestBody } from '.';
 
 import {
 	add_microservice_env,
+	delete_tests,
 	delete_unused_folders,
 	formatMicroserviceUrl,
 	type WellKnown
@@ -30,6 +31,7 @@ export function create_relying_party_zip(
 	edit_relying_party_well_known(zip, relying_party, request_body.credential_issuers);
 	add_microservice_env(zip, relying_party);
 	delete_unused_folders(zip, 'relying_party');
+	delete_tests(zip);
 	return zip;
 }
 

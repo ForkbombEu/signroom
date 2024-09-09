@@ -14,14 +14,8 @@ import type {
 import type { ValueOf } from '$lib/utils/types';
 
 import { config } from './config';
-import {
-	delete_zip_folder,
-	get_zip_root_folder,
-	prepend_zip_root_folder,
-	update_zip_entry
-} from './utils/zip';
+import { get_zip_root_folder, prepend_zip_root_folder, update_zip_entry } from './utils/zip';
 import { cleanUrl, createSlug } from './utils/strings';
-import { String as S } from 'effect';
 
 /* Types */
 
@@ -130,4 +124,11 @@ function appendMicroserviceFolderToUrl(url: string, microservice: MicroserviceFo
 	const toAppend = `/${microservice}`;
 	if (!url.endsWith(toAppend)) return `${url}${toAppend}`;
 	else return url;
+}
+
+//
+
+export function delete_tests(zip: AdmZip) {
+	const tests_path = prepend_zip_root_folder(zip, 'tests/');
+	zip.deleteFile(tests_path);
 }
