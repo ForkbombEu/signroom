@@ -258,6 +258,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 					$form['template'] = e.detail.id;
 					hideVerificationTemplateDrawer.on();
 				}}
+				on:cancel={hideVerificationTemplateDrawer.on}
 			/>
 		</div>
 	</Drawer>
@@ -286,6 +287,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 					$form['relying_party'] = e.detail.record.id;
 					hideRelyingPartyDrawer.on();
 				}}
+				showCancelButton
+				on:cancel={hideRelyingPartyDrawer.on}
 			/>
 		</div>
 	</Drawer>

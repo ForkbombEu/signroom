@@ -19,7 +19,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		type TemplatesRecord
 	} from '$lib/pocketbase/types';
 	import { fieldsSchemaToZod } from '$lib/pocketbaseToZod';
-	import { A, Alert, Hr, Select } from 'flowbite-svelte';
+	import { A, Alert, Button, Hr, Select } from 'flowbite-svelte';
 	import JSONSchemaInput from './JSONSchemaInput.svelte';
 	import SubmitButton from '$lib/forms/submitButton.svelte';
 	import FormError from '$lib/forms/formError.svelte';
@@ -35,12 +35,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	export let initialData: Partial<TemplatesRecord> = {
 		type: TemplatesTypeOptions.issuance
 	};
+	export let hideCancelButton = false;
 
 	//
 
 	let schema = fieldsSchemaToZod(getCollectionSchema(Collections.Templates)!.schema);
 
-	let dispatch = createEventDispatcher<{ success: TemplatesResponse }>();
+	let dispatch = createEventDispatcher<{ success: TemplatesResponse; cancel: {} }>();
 
 	let superform = createForm(
 		schema,
@@ -186,7 +187,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	<FormError />
 
-	<div class="flex justify-end">
+	<div class="flex justify-end gap-2">
+		{#if !hideCancelButton}
+			<Button color="alternative" on:click={() => dispatch('cancel', {})}>
+				{m.Cancel()}
+			</Button>
+		{/if}
 		<SubmitButton>{templateId ? m.Update_template() : m.Create_template()}</SubmitButton>
 	</div>
 </Form>
