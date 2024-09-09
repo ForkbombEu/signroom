@@ -124,8 +124,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	</div>
 
 	<div class="space-y-4">
-		<SectionTitle tag="h5" title="Load preset" description="load_preset_description" />
-		<Select items={templatePresetOptions} bind:value={preset} placeholder="Select option" />
+		<SectionTitle tag="h5" title="Load preset" description={m.load_preset_description()} />
+		<Select items={templatePresetOptions} bind:value={preset} placeholder={m.Select_option()} />
 	</div>
 
 	<div class="space-y-8">
