@@ -1,3 +1,10 @@
+## [1.14.5](https://github.com/ForkbombEu/signroom/compare/v1.14.4...v1.14.5) (2024-08-31)
+
+
+### Bug Fixes
+
+* change delete of unused microservices ([#755](https://github.com/ForkbombEu/signroom/issues/755)) ([68f8555](https://github.com/ForkbombEu/signroom/commit/68f85554920cb447faf0b930f35183e406ef7bff))
+
 ## [1.14.4](https://github.com/ForkbombEu/signroom/compare/v1.14.3...v1.14.4) (2024-08-21)
 
 

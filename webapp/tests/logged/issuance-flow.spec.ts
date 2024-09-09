@@ -41,7 +41,7 @@ test.describe('it should create an issuance flow', () => {
 		await page.locator('input[name="name"]').fill('auth-serve-1');
 		await page.locator('input[name="name"]').press('Tab');
 		await page.locator('input[name="name"]').press('Tab');
-		await page.getByText('Endpoint * microservice_endpoint_description').click();
+		await page.getByText('Endpoint * Endpoint of the microservices, used by communication protocols and visible by end-users and other microservices').click();
 		await page.locator('input[name="endpoint"]').fill('http://www.auth-serv.com');
 		await page.getByRole('button', { name: 'Create record' }).click();
 	});
@@ -195,8 +195,8 @@ test.describe('it should create an issuance flow', () => {
 		await page.locator('input[name="type_name"]').click();
 		await page.locator('input[name="type_name"]').fill('issuance_test_1');
 
-		await page.getByPlaceholder('Issuance flow for Age').click();
-		await page.getByPlaceholder('Issuance flow for Age').fill('Issuance test creation');
+		await page.getByPlaceholder('Write here a description of the content of the credential and what the user needs to receive it. It is readable by users and microservices.').click();
+		await page.getByPlaceholder('Write here a description of the content of the credential and what the user needs to receive it. It is readable by users and microservices.').fill('Issuance test creation');
 
 		await page.locator('select[name="credential_template"]').selectOption({ index: 1 });
 		await page.locator('select[name="authorization_template"]').selectOption({ index: 1 });
@@ -214,7 +214,7 @@ test.describe('it should create an issuance flow', () => {
 	});
 
 	test('it should update the issuance flow', async () => {
-		await page.getByRole('button', { name: 'Make changes' }).click();
+		await page.getByRole('button', { name: 'Edit' }).click();
 		await expect(page).toHaveURL(/edit/);
 		await page.getByPlaceholder('Age verification', { exact: true }).click();
 		await page.getByPlaceholder('Age verification', { exact: true }).fill('Issuance Test Updated');

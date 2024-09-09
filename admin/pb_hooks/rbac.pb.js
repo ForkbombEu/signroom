@@ -64,7 +64,7 @@ routerAdd("POST", "/verify-org-authorization", (c) => {
     const userId = utils.getUserFromContext(c).id;
     if (!userId) throw new Error("User must be logged!");
 
-    /**  @type {organizationId: string, url: string}*/
+    /**  @type {organizationId: string, url: string} */
     const { organizationId, url } = $apis.requestInfo(c).data;
     if (!organizationId || !url) throw new Error("Missing data in request");
 
