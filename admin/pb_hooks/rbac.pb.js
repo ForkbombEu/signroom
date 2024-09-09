@@ -58,45 +58,45 @@ onRecordBeforeDeleteRequest((e) => {
 routerAdd("POST", "/verify-org-authorization", (c) => {
     console.log("Route - Checking if user has the correct org authorization");
 
-    // /** @type {Utils} */
-    // const utils = require(`${__hooks}/utils.js`);
+    /** @type {Utils} */
+    const utils = require(`${__hooks}/utils.js`);
 
-    // const userId = utils.getUserFromContext(c).id;
-    // if (!userId) throw new Error("User must be logged!");
+    const userId = utils.getUserFromContext(c).id;
+    if (!userId) throw new Error("User must be logged!");
 
-    // /**  @type {organizationId: string, url: string}*/
-    // const { organizationId, url } = $apis.requestInfo(c).data;
-    // if (!organizationId || !url) throw new Error("Missing data in request");
+    /**  @type {organizationId: string, url: string} */
+    const { organizationId, url } = $apis.requestInfo(c).data;
+    if (!organizationId || !url) throw new Error("Missing data in request");
 
-    // const userAuthorization = $app
-    //     .dao()
-    //     .findFirstRecordByFilter(
-    //         "orgAuthorizations",
-    //         `organization="${organizationId}" && user="${userId}"`
-    //     );
-    // // Here we assume that there is only one role for each organization
-    // // Also enforced by API rules
-    // if (!userAuthorization) throw new Error("Not authorized");
-    // const userRole = userAuthorization.get("role");
+    const userAuthorization = $app
+        .dao()
+        .findFirstRecordByFilter(
+            "orgAuthorizations",
+            `organization="${organizationId}" && user="${userId}"`
+        );
+    // Here we assume that there is only one role for each organization
+    // Also enforced by API rules
+    if (!userAuthorization) throw new Error("Not authorized");
+    const userRole = userAuthorization.get("role");
 
-    // const protectedPaths = $app
-    //     .dao()
-    //     .findRecordsByFilter("orgProtectedPaths", "pathRegex != ''");
+    const protectedPaths = $app
+        .dao()
+        .findRecordsByFilter("orgProtectedPaths", "pathRegex != ''");
 
-    // const matchingPaths = protectedPaths.filter((p) => {
-    //     const regex = new RegExp(p.get("pathRegex"));
-    //     return regex.test(url);
-    // });
+    const matchingPaths = protectedPaths.filter((p) => {
+        const regex = new RegExp(p.get("pathRegex"));
+        return regex.test(url);
+    });
 
-    // const isAllowed = matchingPaths
-    //     .map((p) => {
-    //         /** @type {string[]} */
-    //         const roles = p.get("roles");
-    //         return roles;
-    //     })
-    //     .every((roles) => roles.includes(userRole));
+    const isAllowed = matchingPaths
+        .map((p) => {
+            /** @type {string[]} */
+            const roles = p.get("roles");
+            return roles;
+        })
+        .every((roles) => roles.includes(userRole));
 
-    // if (!isAllowed) throw new Error("Not authorized");
+    if (!isAllowed) throw new Error("Not authorized");
 });
 
 routerAdd("POST", "/verify-user-role", (c) => {
