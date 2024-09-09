@@ -1,3 +1,10 @@
+# [1.16.0](https://github.com/ForkbombEu/signroom/compare/v1.15.0...v1.16.0) (2024-09-09)
+
+
+### Features
+
+* add policy and terms links ([#782](https://github.com/ForkbombEu/signroom/issues/782)) ([abf52cc](https://github.com/ForkbombEu/signroom/commit/abf52cca26c0b357222087d6d8203e17f6d37085))
+
 # [1.15.0](https://github.com/ForkbombEu/signroom/compare/v1.14.5...v1.15.0) (2024-09-09)
 
 
