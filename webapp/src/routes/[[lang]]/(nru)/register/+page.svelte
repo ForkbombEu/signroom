@@ -97,7 +97,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	/>
 
 	<Checkbox {superform} field="acceptTerms">
-		{m.I_accept_the()}<A class="ml-1" href="/">{m.Terms_and_Conditions()}</A>
+		{m.I_accept_the()}
+		<A href="https://didroom.com/guides/7_terms-and-conditions/" target="_blank">
+			{m.Terms_and_Conditions()}
+		</A>
+		{m.and()}
+		<A href="https://didroom.com/guides/7_terms-and-conditions/privacy-policy.html" target="_blank">
+			{m.privacy_policy()}
+		</A>
 	</Checkbox>
 
 	<FormError />
@@ -107,9 +114,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	</div>
 </Form>
 
-<div class="flex flex-col items-center gap-4">
-	<Hr />
-	<P color="text-gray-500 dark:text-gray-400" size="sm">
+<div class="flex flex-col gap-4">
+	<Hr hrClass="!m-0" />
+	<P class="text-center" color="text-gray-500 dark:text-gray-400" size="sm">
 		{m.Already_have_an_account()}
 		<A href="/login">{m.Login_here()}</A>
 	</P>
