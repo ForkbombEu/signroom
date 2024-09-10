@@ -20,16 +20,6 @@ const preset_1: TemplatePreset = {
 	schema: {
 		type: 'object',
 		properties: {
-			did: {
-				type: 'string',
-				title: 'did'
-			}
-		},
-		required: ['did']
-	},
-	schema_secondary: {
-		type: 'object',
-		properties: {
 			email: {
 				type: 'string',
 				title: 'email'
@@ -40,6 +30,11 @@ const preset_1: TemplatePreset = {
 			}
 		},
 		required: ['email', 'password']
+	},
+	schema_secondary: {
+		type: 'object',
+		properties: {},
+		required: []
 	}
 };
 

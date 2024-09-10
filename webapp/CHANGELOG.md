@@ -1,3 +1,31 @@
+## [1.16.2](https://github.com/ForkbombEu/signroom/compare/v1.16.1...v1.16.2) (2024-09-10)
+
+
+### Bug Fixes
+
+* add js hooks to staging env ([a3fca8d](https://github.com/ForkbombEu/signroom/commit/a3fca8dcbbab8cbd364a7b59884a8848ed50e748))
+
+## [1.16.1](https://github.com/ForkbombEu/signroom/compare/v1.16.0...v1.16.1) (2024-09-10)
+
+
+### Bug Fixes
+
+* **templates:** fix reactivity issues ([#785](https://github.com/ForkbombEu/signroom/issues/785)) ([b8717a7](https://github.com/ForkbombEu/signroom/commit/b8717a7c637cd80b4f8fd532d52d716d2c232479))
+
+# [1.16.0](https://github.com/ForkbombEu/signroom/compare/v1.15.0...v1.16.0) (2024-09-09)
+
+
+### Features
+
+* add policy and terms links ([#782](https://github.com/ForkbombEu/signroom/issues/782)) ([abf52cc](https://github.com/ForkbombEu/signroom/commit/abf52cca26c0b357222087d6d8203e17f6d37085))
+
+# [1.15.0](https://github.com/ForkbombEu/signroom/compare/v1.14.5...v1.15.0) (2024-09-09)
+
+
+### Features
+
+* changed user avatar max size ([#781](https://github.com/ForkbombEu/signroom/issues/781)) ([7252ef9](https://github.com/ForkbombEu/signroom/commit/7252ef98cee9edcc65a11f464fc19fb38256f6a1))
+
 ## [1.14.5](https://github.com/ForkbombEu/signroom/compare/v1.14.4...v1.14.5) (2024-08-31)
 
 

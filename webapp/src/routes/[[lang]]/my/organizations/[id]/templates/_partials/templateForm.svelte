@@ -131,25 +131,25 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	<div class="space-y-8">
 		<SectionTitle
 			tag="h5"
-			title="{m.Attributes_needed()} *"
-			description={type == TemplatesTypeOptions.issuance
-				? m.attributes_needed_description_credential()
-				: type == TemplatesTypeOptions.authorization
-					? m.attributes_needed_description_authorization()
-					: type == TemplatesTypeOptions.verification
-						? m.attributes_needed_description_verification()
-						: ''}
+			title="{m.Form_structure()} *"
+			description={m.form_structure_description()}
 		/>
 
 		<JSONSchemaInput {superform} field="schema" />
 	</div>
 
 	{#if type == TemplatesTypeOptions.authorization}
-		<div class="space-y-8">
+		<div class="pointer-events-none cursor-none space-y-8 opacity-30">
 			<SectionTitle
 				tag="h5"
-				title="{m.Form_structure()} *"
-				description={m.form_structure_description()}
+				title="{m.Attributes_needed()} *"
+				description={type == TemplatesTypeOptions.issuance
+					? m.attributes_needed_description_credential()
+					: type == TemplatesTypeOptions.authorization
+						? m.attributes_needed_description_authorization()
+						: type == TemplatesTypeOptions.verification
+							? m.attributes_needed_description_verification()
+							: ''}
 			/>
 
 			<JSONSchemaInput {superform} field="schema_secondary" />
