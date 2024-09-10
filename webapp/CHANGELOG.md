@@ -1,3 +1,12 @@
+# [1.17.0](https://github.com/ForkbombEu/signroom/compare/v1.16.2...v1.17.0) (2024-09-10)
+
+
+### Features
+
+* add my certificates description ([#787](https://github.com/ForkbombEu/signroom/issues/787)) ([9d8a65a](https://github.com/ForkbombEu/signroom/commit/9d8a65a229ed6209165c013aedaecd2c0dcd0644))
+* **forms:** add cancel buttons ([#786](https://github.com/ForkbombEu/signroom/issues/786)) ([8ea342c](https://github.com/ForkbombEu/signroom/commit/8ea342c108ad4eafb8fc167157a071437d30ebd6))
+* gray-out attributes needed ([#783](https://github.com/ForkbombEu/signroom/issues/783)) ([88bcd42](https://github.com/ForkbombEu/signroom/commit/88bcd42ed0fe10ba931bd325085dfcb2e015040f))
+
 ## [1.16.2](https://github.com/ForkbombEu/signroom/compare/v1.16.1...v1.16.2) (2024-09-10)
 
 
