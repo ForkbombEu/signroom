@@ -19,7 +19,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		type TemplatesRecord
 	} from '$lib/pocketbase/types';
 	import { fieldsSchemaToZod } from '$lib/pocketbaseToZod';
-	import { A, Alert, Hr, Select } from 'flowbite-svelte';
+	import { A, Alert, Button, Hr, Select } from 'flowbite-svelte';
 	import JSONSchemaInput from './JSONSchemaInput.svelte';
 	import SubmitButton from '$lib/forms/submitButton.svelte';
 	import FormError from '$lib/forms/formError.svelte';
@@ -35,12 +35,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	export let initialData: Partial<TemplatesRecord> = {
 		type: TemplatesTypeOptions.issuance
 	};
+	export let hideCancelButton = false;
 
 	//
 
 	let schema = fieldsSchemaToZod(getCollectionSchema(Collections.Templates)!.schema);
 
-	let dispatch = createEventDispatcher<{ success: TemplatesResponse }>();
+	let dispatch = createEventDispatcher<{ success: TemplatesResponse; cancel: {} }>();
 
 	let superform = createForm(
 		schema,
@@ -131,25 +132,25 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	<div class="space-y-8">
 		<SectionTitle
 			tag="h5"
-			title="{m.Attributes_needed()} *"
-			description={type == TemplatesTypeOptions.issuance
-				? m.attributes_needed_description_credential()
-				: type == TemplatesTypeOptions.authorization
-					? m.attributes_needed_description_authorization()
-					: type == TemplatesTypeOptions.verification
-						? m.attributes_needed_description_verification()
-						: ''}
+			title="{m.Form_structure()} *"
+			description={m.form_structure_description()}
 		/>
 
 		<JSONSchemaInput {superform} field="schema" />
 	</div>
 
 	{#if type == TemplatesTypeOptions.authorization}
-		<div class="space-y-8">
+		<div class="pointer-events-none cursor-none space-y-8 opacity-30">
 			<SectionTitle
 				tag="h5"
-				title="{m.Form_structure()} *"
-				description={m.form_structure_description()}
+				title="{m.Attributes_needed()} *"
+				description={type == TemplatesTypeOptions.issuance
+					? m.attributes_needed_description_credential()
+					: type == TemplatesTypeOptions.authorization
+						? m.attributes_needed_description_authorization()
+						: type == TemplatesTypeOptions.verification
+							? m.attributes_needed_description_verification()
+							: ''}
 			/>
 
 			<JSONSchemaInput {superform} field="schema_secondary" />
@@ -186,7 +187,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	<FormError />
 
-	<div class="flex justify-end">
+	<div class="flex justify-end gap-2">
+		{#if !hideCancelButton}
+			<Button color="alternative" on:click={() => dispatch('cancel', {})}>
+				{m.Cancel()}
+			</Button>
+		{/if}
 		<SubmitButton>{templateId ? m.Update_template() : m.Create_template()}</SubmitButton>
 	</div>
 </Form>

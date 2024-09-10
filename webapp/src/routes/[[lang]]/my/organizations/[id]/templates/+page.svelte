@@ -139,12 +139,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	//
 
-	//
-
 	let templateFormId: string | undefined = undefined;
 	let templateFormInitialData: TemplatesRecord | undefined = undefined;
 
 	$: hideDrawer = createToggleStore(true);
+	$: if ($hideDrawer == true) {
+		templateFormId = undefined;
+		templateFormInitialData = undefined;
+	}
 </script>
 
 <OrganizationLayout org={data.organization}>
@@ -240,7 +242,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		width="w-[800px]"
 		placement="right"
 		bind:hidden={$hideDrawer}
-		title={button}
+		title={Boolean(templateFormId) ? m.Edit_template() : button}
 		closeOnClickOutside={false}
 	>
 		{@const defaultTemplateType = choice(
@@ -263,6 +265,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 					templateFormInitialData = undefined;
 					hideDrawer.on();
 				}}
+				on:cancel={hideDrawer.on}
 			/>
 		</div>
 	</Drawer>

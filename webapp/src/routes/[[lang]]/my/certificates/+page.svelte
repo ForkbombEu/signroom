@@ -51,24 +51,24 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <PageContent>
 	<PageCard>
-		<div class="space-y-4 rounded-lg border-slate-200 p-4">
+		<div class="space-y-8 rounded-lg border-slate-200 p-4">
+			<SectionTitle title="My Certificates" description={m.my_certificates_description()}>
+				<svelte:fragment slot="right">
+					<div class="flex items-center gap-2">
+						<Button on:click={showCertificateModal.on}>
+							<Icon src={Plus} mr />
+							{m.Add_a_Key_Certificate_Pair()}
+						</Button>
+					</div>
+				</svelte:fragment>
+			</SectionTitle>
+
 			<CollectionManager
 				collection={Collections.Certificates}
 				{recordType}
 				let:records
 				hideEmptyState
 			>
-				<SectionTitle title="My Certificates">
-					<svelte:fragment slot="right">
-						<div class="flex items-center gap-2">
-							<Button on:click={showCertificateModal.on}>
-								<Icon src={Plus} mr />
-								{m.Add_a_Key_Certificate_Pair()}
-							</Button>
-						</div>
-					</svelte:fragment>
-				</SectionTitle>
-
 				<CollectionTable
 					{records}
 					fields={['name']}

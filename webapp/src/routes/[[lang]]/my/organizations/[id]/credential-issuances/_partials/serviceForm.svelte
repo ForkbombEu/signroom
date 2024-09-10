@@ -399,6 +399,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 					$form['credential_template'] = e.detail.id;
 					hideCredentialTemplateDrawer.on();
 				}}
+				on:cancel={hideCredentialTemplateDrawer.on}
 			/>
 		</div>
 	</Drawer>
@@ -422,6 +423,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 					$form['authorization_template'] = e.detail.id;
 					hideAuthorizationTemplateDrawer.on();
 				}}
+				on:cancel={hideAuthorizationTemplateDrawer.on}
 			/>
 		</div>
 	</Drawer>
@@ -451,6 +453,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 					$form['credential_issuer'] = e.detail.record.id;
 					hideCredentialIssuerDrawer.on();
 				}}
+				showCancelButton
+				on:cancel={hideCredentialIssuerDrawer.on}
 			/>
 		</div>
 	</Drawer>
@@ -480,6 +484,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 					$form['authorization_server'] = e.detail.record.id;
 					hideAuthorizationServerDrawer.on();
 				}}
+				showCancelButton
+				on:cancel={hideAuthorizationServerDrawer.on}
 			/>
 		</div>
 	</Drawer>
