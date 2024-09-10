@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 /// <reference path="../pb_data/types.d.ts" />
-/**
- * @typedef {import('./utils.js')} Utils
- */
+/** @typedef {import('./utils.js')} Utils */
+/** @typedef {import("../../webapp/src/lib/pocketbase/types.js").OrgAuthorizationsRecord} OrgAuthorization */
+/** @typedef {import("../../webapp/src/lib/pocketbase/types.js").OrgRolesResponse} OrgRole */
 
 onRecordAfterCreateRequest((e) => {
     console.log("Hook - Creating owner role for new organization");
@@ -31,6 +31,8 @@ onRecordAfterCreateRequest((e) => {
     $app.dao().saveRecord(record);
 }, "organizations");
 
+//
+
 onRecordBeforeDeleteRequest((e) => {
     console.log("Hook - Checking if deleting owner role is possible");
 
@@ -54,6 +56,8 @@ onRecordBeforeDeleteRequest((e) => {
 
     throw new Error("Can't remove the last owner role!");
 }, "orgAuthorizations");
+
+//
 
 routerAdd("POST", "/verify-org-authorization", (c) => {
     console.log("Route - Checking if user has the correct org authorization");
@@ -99,6 +103,8 @@ routerAdd("POST", "/verify-org-authorization", (c) => {
     if (!isAllowed) throw new Error("Not authorized");
 });
 
+//
+
 routerAdd("POST", "/verify-user-role", (c) => {
     console.log("Route - Checking if user has the required role");
 
@@ -108,7 +114,7 @@ routerAdd("POST", "/verify-user-role", (c) => {
     const userId = utils.getUserFromContext(c).id;
     if (!userId) throw new Error("User must be logged!");
 
-    /**  @type {organizationId: string, roles: string[]}*/
+    /**  @type {{organizationId: string, roles: string[]}}*/
     const { organizationId, roles } = $apis.requestInfo(c).data;
     if (!organizationId || !roles || roles.length === 0)
         throw new Error("Missing data in request");
@@ -127,3 +133,87 @@ routerAdd("POST", "/verify-user-role", (c) => {
     // Also enforced by API rules
     if (!userAuthorization) throw new Error("Not authorized");
 });
+
+//
+
+onRecordBeforeUpdateRequest(
+    (e) => {
+        /** @type {Utils} */
+        const utils = require(`${__hooks}/utils.js`);
+
+        // Getting previous role
+
+        const originalAuthorization = e.record.originalCopy();
+        $app.dao().expandRecord(originalAuthorization, ["role"], null);
+        const previousRole = originalAuthorization.expandedOne("role");
+
+        // Getting requested role
+
+        /** @type {Partial<OrgAuthorization>} */
+        const { role: newRoleId } = $apis.requestInfo(e.httpContext).data;
+        const newRole = $app.dao().findRecordById("orgRoles", newRoleId);
+
+        // Getting role of user requesting the change
+
+        /** @type {string} */
+        const organizationId = e.record.get("organization");
+
+        const requestingUserId = utils
+            .getUserFromContext(e.httpContext)
+            .getId();
+        const requestingUserAuthorization = $app
+            .dao()
+            .findFirstRecordByFilter(
+                "orgAuthorizations",
+                `organization="${organizationId}" && user="${requestingUserId}"`
+            );
+        $app.dao().expandRecord(requestingUserAuthorization, ["role"], null);
+        const requestingUserRole =
+            requestingUserAuthorization.expandedOne("role");
+
+        // Role order
+
+        const roleOrder = ["member", "admin", "owner"];
+
+        const previousRoleLevel = roleOrder.indexOf(previousRole.get("name"));
+        const newRoleLevel = roleOrder.indexOf(newRole.get("name"));
+        const requestingUserRoleLevel = roleOrder.indexOf(
+            requestingUserRole.get("name")
+        );
+
+        const isChangeAllowed =
+            // The previous role cannot be higher than the one of the user requesting the change
+            requestingUserRoleLevel > previousRoleLevel &&
+            // The new role cannot be higher than the one of the user requesting the change
+            requestingUserRoleLevel > newRoleLevel;
+
+        if (!isChangeAllowed) throw new ForbiddenError("NOT_ENOUGH_PRIVILEGES");
+    },
+    ["orgAuthorizations"]
+);
+
+// TODO - Owner cannot leave its role if there are no other owners
+
+// onRecordBeforeUpdateRequest((e) => {
+//     console.log("Hook - Checking if deleting owner role is possible");
+
+//     /** @type {Utils} */
+//     const utils = require(`${__hooks}/utils.js`);
+
+//     const organizationId = e.record.get("organization");
+//     const roleId = e.record.get("role");
+//     const ownerRoleId = utils.getOwnerRole().id;
+
+//     if (roleId !== ownerRoleId) return;
+
+//     const adminAuthorizations = $app
+//         .dao()
+//         .findRecordsByFilter(
+//             "orgAuthorizations",
+//             `organization="${organizationId}" && role="${ownerRoleId}"`
+//         );
+
+//     if (adminAuthorizations.length > 1) return;
+
+//     throw new Error("Can't remove the last owner role!");
+// }, "orgAuthorizations");
