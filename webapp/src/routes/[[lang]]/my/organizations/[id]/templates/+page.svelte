@@ -265,6 +265,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 					templateFormInitialData = undefined;
 					hideDrawer.on();
 				}}
+				on:cancel={hideDrawer.on}
 			/>
 		</div>
 	</Drawer>

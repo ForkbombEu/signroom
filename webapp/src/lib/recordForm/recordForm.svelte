@@ -34,6 +34,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </script>
 
 <script lang="ts">
+	import { m } from '$lib/i18n';
+
 	import { c } from '$lib/utils/strings';
 
 	import type { FormSettings } from '$lib/forms/form.svelte';
@@ -56,6 +58,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { getCollectionSchema } from '$lib/pocketbase/schema';
 	import { fieldsSchemaToZod } from '$lib/pocketbaseToZod';
 	import FieldSchemaToInput from './fieldSchemaToInput.svelte';
+	import { Button } from 'flowbite-svelte';
 
 	//
 
@@ -84,6 +87,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	export let formSettings: Partial<FormSettings> = {};
 
 	export let submitButtonText = '';
+	export let showCancelButton = false;
 
 	//
 
@@ -97,6 +101,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		create: {
 			record: RecordGeneric;
 		};
+		cancel: {};
 	}>();
 
 	/* Schema generation */
@@ -189,7 +194,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	<FormError />
 
-	<div class="flex justify-end">
+	<div class="flex justify-end gap-2">
+		{#if showCancelButton}
+			<Button color="alternative" on:click={() => dispatch('cancel', {})}>{m.Cancel()}</Button>
+		{/if}
 		<SubmitButton>{submitButtonText}</SubmitButton>
 	</div>
 </Form>
