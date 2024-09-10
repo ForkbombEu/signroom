@@ -1,3 +1,10 @@
+## [1.16.1](https://github.com/ForkbombEu/signroom/compare/v1.16.0...v1.16.1) (2024-09-10)
+
+
+### Bug Fixes
+
+* **templates:** fix reactivity issues ([#785](https://github.com/ForkbombEu/signroom/issues/785)) ([b8717a7](https://github.com/ForkbombEu/signroom/commit/b8717a7c637cd80b4f8fd532d52d716d2c232479))
+
 # [1.16.0](https://github.com/ForkbombEu/signroom/compare/v1.15.0...v1.16.0) (2024-09-09)
 
 
