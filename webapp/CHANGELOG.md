@@ -1,3 +1,17 @@
+## [1.16.2](https://github.com/ForkbombEu/signroom/compare/v1.16.1...v1.16.2) (2024-09-10)
+
+
+### Bug Fixes
+
+* add js hooks to staging env ([a3fca8d](https://github.com/ForkbombEu/signroom/commit/a3fca8dcbbab8cbd364a7b59884a8848ed50e748))
+
+## [1.16.1](https://github.com/ForkbombEu/signroom/compare/v1.16.0...v1.16.1) (2024-09-10)
+
+
+### Bug Fixes
+
+* **templates:** fix reactivity issues ([#785](https://github.com/ForkbombEu/signroom/issues/785)) ([b8717a7](https://github.com/ForkbombEu/signroom/commit/b8717a7c637cd80b4f8fd532d52d716d2c232479))
+
 # [1.16.0](https://github.com/ForkbombEu/signroom/compare/v1.15.0...v1.16.0) (2024-09-09)
 
 

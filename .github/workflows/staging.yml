@@ -54,6 +54,8 @@ jobs:
             .bin/zencode-exec \
             admin/pb \
             admin/pb_migrations \
+            admin/pb_hooks \
+            admin/hooks \
             webapp/build \
             webapp/package.json \
             webapp/node_modules
