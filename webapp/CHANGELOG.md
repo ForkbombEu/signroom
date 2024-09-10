@@ -1,3 +1,10 @@
+## [1.16.2](https://github.com/ForkbombEu/signroom/compare/v1.16.1...v1.16.2) (2024-09-10)
+
+
+### Bug Fixes
+
+* add js hooks to staging env ([a3fca8d](https://github.com/ForkbombEu/signroom/commit/a3fca8dcbbab8cbd364a7b59884a8848ed50e748))
+
 ## [1.16.1](https://github.com/ForkbombEu/signroom/compare/v1.16.0...v1.16.1) (2024-09-10)
 
 
