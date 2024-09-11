@@ -37,11 +37,7 @@ function createMicroservicesZip(
 ): AdmZip {
 	const zip = new AdmZip();
 
-	// intialize docker-compose files
-	const dockerComposeFiles = {
-		dockerCompose: startDockerCompose(),
-		caddyfile: ''
-	};
+	const dockerComposeFiles = startDockerCompose();
 
 	data.authorization_servers.forEach((a) => {
 		setupDockerCompose(dockerComposeFiles, a, 'authz_server');
@@ -59,9 +55,7 @@ function createMicroservicesZip(
 		addZipAsSubfolder(zip, cz, createSlug(c.name));
 	});
 
-	dockerComposeFiles.dockerCompose += endDockerCompose();
-	zip.addFile('docker-compose.yaml', Buffer.from(dockerComposeFiles.dockerCompose, 'utf-8'));
-	zip.addFile('Caddyfile', Buffer.from(dockerComposeFiles.caddyfile, 'utf-8'));
+	endDockerCompose(zip, dockerComposeFiles);
 	return zip;
 }
 
