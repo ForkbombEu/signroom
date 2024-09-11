@@ -2,24 +2,60 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+// @ts-check
+
 /// <reference path="../pb_data/types.d.ts" />
 
 module.exports = {
     /**
-     * @param {core.RecordCreateEvent} e
+     * @param {echo.Context} c
      * @returns {models.Record | undefined}
      */
     getUserFromContext: (c) => {
         return $apis.requestInfo(c).authRecord;
     },
+
     /**
-     * @returns {models.Record | undefined}
+     * @param {string} name
      */
-    getOwnerRole: () => {
-        const ownerRole = $app
+    getRoleByName: (name) => {
+        try {
+            return $app.dao().findFirstRecordByData("orgRoles", "name", name);
+        } catch {
+            return undefined;
+        }
+    },
+
+    /**
+     *
+     * @param {string} collection
+     * @param {string} filter
+     * @returns {Array<models.Record>}
+     */
+    findRecordsByFilter: (collection, filter) => {
+        return $app
             .dao()
-            .findFirstRecordByData("orgRoles", "name", "owner");
-        if (!ownerRole) throw new Error("missing owner role!");
-        return ownerRole;
+            .findRecordsByFilter(collection, filter, "", 0, 0)
+            .filter((v) => v != undefined);
+    },
+
+    /**
+     *
+     * @param {models.Record} orgAuthorization
+     * @returns
+     */
+    isLastOwnerAuthorization: (orgAuthorization) => {
+        const organizationId = orgAuthorization.get("organization");
+        const roleId = orgAuthorization.get("role");
+        const ownerRoleId = this.getRoleByName("owner")?.getId();
+
+        if (roleId !== ownerRoleId) return false;
+
+        const ownerAuthorizations = this.findRecordsByFilter(
+            "orgAuthorizations",
+            `organization="${organizationId}" && role="${ownerRoleId}"`
+        );
+
+        return ownerAuthorizations.length == 1;
     },
 };
