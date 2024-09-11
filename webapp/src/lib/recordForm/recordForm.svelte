@@ -20,6 +20,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	export type FieldsSettings<R extends PBResponse = PBResponse> = {
 		labels: { [K in Keys<R>]?: string };
 		descriptions: { [K in Keys<R>]?: string };
+		placeholders: { [K in Keys<R>]?: string };
 		order: Array<Keys<R>>;
 		exclude: Array<Keys<R>>;
 		hide: { [K in Keys<R>]?: R[K] };
@@ -80,6 +81,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		labels,
 		components,
 		relations,
+		placeholders,
 		descriptions,
 		defaults = {}
 	} = fieldsSettings;
@@ -182,6 +184,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		{@const component = components?.[name]}
 		{@const relationInputOptions = relations?.[name] ?? {}}
 		{@const description = descriptions?.[name]}
+		{@const placeholder = placeholders?.[name]}
 		<FieldSchemaToInput
 			{description}
 			{label}
@@ -189,6 +192,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 			{hidden}
 			{component}
 			{relationInputOptions}
+			{placeholder}
 		/>
 	{/each}
 
