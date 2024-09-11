@@ -19,11 +19,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	$: input(date);
 	$: output(internal);
+
+	const format = 'yyyy-MM-dd HH:mm';
+	const min = new Date();
+	const max = dayjs(min).add(10, 'years').toDate();
 </script>
 
 <div class="space-y-2">
 	<Label>{m.Date()}</Label>
-	<DateInput format="yyyy-MM-dd HH:mm" bind:value={internal} />
+	<DateInput {min} {max} {format} bind:value={internal} />
 </div>
 
 <style>
