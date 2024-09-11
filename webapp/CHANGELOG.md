@@ -1,3 +1,10 @@
+# [1.20.0](https://github.com/ForkbombEu/signroom/compare/v1.19.0...v1.20.0) (2024-09-11)
+
+
+### Features
+
+* delete tests folder in microservices .zip ([#788](https://github.com/ForkbombEu/signroom/issues/788)) ([38ce9b9](https://github.com/ForkbombEu/signroom/commit/38ce9b9d48db7933e86a785e1c079908ff427550))
+
 # [1.19.0](https://github.com/ForkbombEu/signroom/compare/v1.18.0...v1.19.0) (2024-09-11)
 
 
