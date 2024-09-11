@@ -1,3 +1,10 @@
+# [1.18.0](https://github.com/ForkbombEu/signroom/compare/v1.17.0...v1.18.0) (2024-09-11)
+
+
+### Features
+
+* add missing strings ([#784](https://github.com/ForkbombEu/signroom/issues/784)) ([02dcaf3](https://github.com/ForkbombEu/signroom/commit/02dcaf3e8d0988e7fc87ac06edf29f3d5417eb39))
+
 # [1.17.0](https://github.com/ForkbombEu/signroom/compare/v1.16.2...v1.17.0) (2024-09-10)
 
 
