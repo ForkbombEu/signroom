@@ -17,6 +17,7 @@ import type { ObjectSchema } from '$lib/jsonSchema/types';
 import {
 	add_credential_custom_code,
 	add_microservice_env,
+	delete_tests,
 	delete_unused_folders,
 	formatMicroserviceUrl,
 	get_credential_custom_code_path,
@@ -48,6 +49,7 @@ export function createAuthorizationServerZip(
 	add_credentials_custom_code(zip, authorization_server_related_data);
 	add_microservice_env(zip, authorization_server);
 	delete_unused_folders(zip, 'authz_server');
+	delete_tests(zip);
 
 	return zip;
 }
