@@ -53,7 +53,6 @@ jobs:
           SSH_HOST: ${{ secrets.GA_DEPLOY_HOST }}
           SSH_PORT: ${{ secrets.GA_DEPLOY_PORT }}
           SSH_SKEY: ${{ secrets.GA_DEPLOY_SK }}
-      - run: ssh remote 'mkdir -p ephemeral/${{ github.event.number }}'
       - run: |
           tar czf bolus.tar.gz \
             webapp/build \
