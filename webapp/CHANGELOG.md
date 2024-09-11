@@ -1,3 +1,10 @@
+# [1.19.0](https://github.com/ForkbombEu/signroom/compare/v1.18.0...v1.19.0) (2024-09-11)
+
+
+### Features
+
+* add string placeholders in microservices form inputs ([#793](https://github.com/ForkbombEu/signroom/issues/793)) ([3467397](https://github.com/ForkbombEu/signroom/commit/34673976adb5953fc511a0f3d1e51fe0ecf49de0))
+
 # [1.18.0](https://github.com/ForkbombEu/signroom/compare/v1.17.0...v1.18.0) (2024-09-11)
 
 
