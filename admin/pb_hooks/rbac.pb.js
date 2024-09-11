@@ -37,19 +37,6 @@ onRecordAfterCreateRequest((e) => {
 
 //
 
-onRecordBeforeDeleteRequest((e) => {
-    console.log("Hook - Checking if deleting owner role is possible");
-
-    /** @type {Utils} */
-    const utils = require(`${__hooks}/utils.js`);
-
-    if (e.record && utils.isLastOwnerAuthorization(e.record)) {
-        throw new Error("Can't remove the last owner role!");
-    }
-}, "orgAuthorizations");
-
-//
-
 routerAdd("POST", "/verify-org-authorization", (c) => {
     console.log("Route - Checking if user has the correct org authorization");
 
@@ -130,11 +117,44 @@ routerAdd("POST", "/verify-user-role", (c) => {
 
 //
 
+// Cannot create a role higher than your permissions
+
+onRecordBeforeCreateRequest((e) => {
+    console.log("Hook - Checking if creating authorization is possible");
+
+    /** @type {Utils} */
+    const utils = require(`${__hooks}/utils.js`);
+
+    if (utils.isAdminContext(e.httpContext)) return;
+
+    // Getting requesting user role level
+
+    /** @type {string | undefined} */
+    const organizationId = e.record?.get("organization");
+    const userId = utils.getUserFromContext(e.httpContext)?.getId();
+    if (!userId || !organizationId)
+        throw utils.createMissingDataError("userId, organizationId");
+    const userRole = utils.getUserRole(userId, organizationId);
+    if (!userRole) throw utils.createMissingDataError("userRole");
+    const userRoleLevel = utils.getRoleLevel(userRole);
+
+    // Getting requested role level
+
+    if (!e.record) throw utils.createMissingDataError("orgAuthorization");
+    const requestedRole = utils.getExpanded(e.record, "role");
+    if (!requestedRole) throw utils.createMissingDataError("requestedRole");
+    const requestedRoleLevel = utils.getRoleLevel(requestedRole);
+
+    if (requestedRoleLevel <= userRoleLevel) {
+        throw new ForbiddenError("Cannot give a user a role higher than yours");
+    }
+}, "orgAuthorizations");
+
 onRecordBeforeUpdateRequest((e) => {
     /** @type {Utils} */
     const utils = require(`${__hooks}/utils.js`);
 
-    // Getting previous role
+    // Getting previous role (unmodified)
 
     const originalAuthorization = e.record?.originalCopy();
     if (!originalAuthorization) throw new Error();
@@ -151,47 +171,61 @@ onRecordBeforeUpdateRequest((e) => {
 
     // Getting role of user requesting the change
 
-    /** @type {string} */
+    /** @type {string | undefined} */
     const organizationId = e.record?.get("organization");
 
     const requestingUserId = utils.getUserFromContext(e.httpContext)?.getId();
-    const requestingUserAuthorization = $app
-        .dao()
-        .findFirstRecordByFilter(
-            "orgAuthorizations",
-            `organization="${organizationId}" && user="${requestingUserId}"`
-        );
-    // @ts-ignore
-    $app.dao().expandRecord(requestingUserAuthorization, ["role"], null);
-    const requestingUserRole = requestingUserAuthorization.expandedOne("role");
+    if (!requestingUserId || !organizationId) throw new Error("Missing data");
 
-    // Role order
+    const requestingUserRole = utils.getUserRole(
+        requestingUserId,
+        organizationId
+    );
+    if (!requestingUserRole) throw new Error("Missing data");
+
+    // Check if the user requesting the change is owner of the authorization
+
+    const targetUserId = originalAuthorization.get("user");
+    const isSelf = targetUserId == requestingUserId;
+
+    // Levels
 
     /** @type {number} */
     const previousRoleLevel = previousRole.get("level");
     /** @type {number} */
-    const newRoleLevel = newRole.get("name");
+    const newRoleLevel = newRole.get("level");
     /** @type {number} */
     const requestingUserRoleLevel = requestingUserRole.get("level");
 
-    const isChangeAllowed =
-        // The previous role cannot be higher than the one of the user requesting the change
-        requestingUserRoleLevel < previousRoleLevel &&
-        // The new role cannot be higher than the one of the user requesting the change
-        requestingUserRoleLevel < newRoleLevel;
+    const error = new ForbiddenError("NOT_ENOUGH_PRIVILEGES");
 
-    if (!isChangeAllowed) throw new ForbiddenError("NOT_ENOUGH_PRIVILEGES");
-}, "orgAuthorizations");
-
-// TODO - Owner cannot leave its role if there are no other owners
-
-onRecordBeforeUpdateRequest((e) => {
-    console.log("Hook - Checking if editing owner role is possible");
-
-    /** @type {Utils} */
-    const utils = require(`${__hooks}/utils.js`);
-
-    if (e.record && utils.isLastOwnerAuthorization(e.record)) {
-        throw new Error("Can't edit the last owner role!");
+    if (isSelf) {
+        if (newRoleLevel < previousRoleLevel) throw error;
+    } else {
+        if (previousRoleLevel < requestingUserRoleLevel) throw error;
+        if (newRoleLevel < requestingUserRoleLevel) throw error;
     }
 }, "orgAuthorizations");
+
+// onRecordBeforeUpdateRequest((e) => {
+//     console.log("Hook - Checking if editing owner role is possible");
+
+//     /** @type {Utils} */
+//     const utils = require(`${__hooks}/utils.js`);
+
+//     const originalRecord = e.record?.originalCopy();
+//     if (originalRecord && utils.isLastOwnerAuthorization(originalRecord)) {
+//         throw new ForbiddenError("Can't edit the last owner role!");
+//     }
+// }, "orgAuthorizations");
+
+// onRecordBeforeDeleteRequest((e) => {
+//     console.log("Hook - Checking if deleting owner role is possible");
+
+//     /** @type {Utils} */
+//     const utils = require(`${__hooks}/utils.js`);
+
+//     if (e.record && utils.isLastOwnerAuthorization(e.record)) {
+//         throw new Error("Can't remove the last owner role!");
+//     }
+// }, "orgAuthorizations");
