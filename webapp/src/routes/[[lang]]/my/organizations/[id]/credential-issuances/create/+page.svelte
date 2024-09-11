@@ -34,6 +34,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 			cryptography: ServicesCryptographyOptions['sd-jwt'],
 			api_available: true
 		}}
+		usedTypeNames={data.usedIssuanceFlowTypeNames}
 		on:success={(e) => {
 			window.location.replace(
 				`/my/organizations/${data.organization.id}/credential-issuances/${e.detail.record.id}`

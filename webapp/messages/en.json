@@ -435,5 +435,7 @@
 	"privacy_policy": "Privacy policy",
 	"and": "and",
 	"Edit_template": "Edit template",
-	"my_certificates_description": "my_certificates_description"
+	"my_certificates_description": "my_certificates_description",
+	"service_type_name_placeholder": "age_verification",
+	"Type_name_is_already_in_use": "Type name is already in use"
 }
