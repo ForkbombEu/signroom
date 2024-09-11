@@ -70,6 +70,7 @@ else
   exit 1
 fi
 
+rm -rf "${ROOT}/*"
 tar xzf "${ROOT}/bolus.tar.gz" -C "${ROOT}"
 
 CADDY_CONFIG=$(
