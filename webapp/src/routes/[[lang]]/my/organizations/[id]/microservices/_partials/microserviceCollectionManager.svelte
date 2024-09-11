@@ -78,6 +78,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		},
 		defaults: {
 			port: getRandomMicroservicePort()
+		},
+		placeholders: {
+			endpoint: 'https://microservice.com/endpoint',
+			name: 'My microservice'
 		}
 	}}
 	let:records

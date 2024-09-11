@@ -177,7 +177,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 			field="type_name"
 			options={{
 				label: m.Type_name(),
-				helpText: m.Use_only_lowercase_and_uppercase_letters_no_spaces()
+				helpText: m.Use_only_lowercase_and_uppercase_letters_no_spaces(),
+				placeholder: m.service_type_name_placeholder()
 			}}
 			{superform}
 		/>
