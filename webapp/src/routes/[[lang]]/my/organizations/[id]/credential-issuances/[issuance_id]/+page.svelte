@@ -47,7 +47,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	let microservicesTemplates = [
 		{
 			label: m.Credential_template(),
-			name: credential_template.name,
+			name: credential_template?.name,
 			template: credential_template
 		},
 		{

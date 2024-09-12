@@ -4,8 +4,6 @@
 
 import qrcode from 'qrcode-generator';
 
-const baseUrl = 'DIDroom4VP://';
-
 type CredentialConfig = {
 	credential_configuration_ids: string[];
 	credential_issuer: string;
@@ -16,7 +14,7 @@ export function createIntentUrl(data: CredentialConfig): string {
 		data.credential_configuration_ids.join(',')
 	);
 	const credentialIssuer = encodeURIComponent(data.credential_issuer);
-	return `${baseUrl}?credential_configuration_ids=${credentialConfigurationIds}&credential_issuer=${credentialIssuer}`;
+	return `DIDroom4VP://?credential_configuration_ids=${credentialConfigurationIds}&credential_issuer=${credentialIssuer}`;
 }
 
 export function generateQr(text: string, cellSize = 20) {
