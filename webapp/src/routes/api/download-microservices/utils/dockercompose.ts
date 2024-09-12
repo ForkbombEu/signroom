@@ -13,6 +13,7 @@ import type {
 type dockerFiles = {
 	dockerCompose: string;
 	caddyfile: JSON;
+	dependsOn: string;
 };
 
 enum msTypes {
@@ -21,12 +22,24 @@ enum msTypes {
 	relying_party
 }
 
+const serviceNamePrefix = {
+	authz_server: 'as',
+	credential_issuer: 'ci',
+	relying_party: 'rp'
+}
+
 export function startDockerCompose(): dockerFiles {
 	return {
-		dockerCompose: `
-services:
-  # this define caddy server, everythhing is handled by the Caddyfile
+		dockerCompose: 'services:',
+		caddyfile: {},
+		dependsOn: ''
+	}
+}
+
+export function endDockerCompose(zip: AdmZip, dockerComposeFiles: dockerFiles): void {
+	dockerComposeFiles.dockerCompose += `
   caddy:
+    depends_on: ${dockerComposeFiles.dependsOn}
     container_name: caddy
     image: caddy:alpine
     restart: unless-stopped
@@ -39,13 +52,7 @@ services:
       - ./site:/srv
       - caddy_data:/data
       - caddy_config:/config
-`,
-		caddyfile: {}
-	}
-}
 
-export function endDockerCompose(zip: AdmZip, dockerComposeFiles: dockerFiles): void {
-	dockerComposeFiles.dockerCompose += `
 volumes:
   caddy_data:
   caddy_config:
@@ -65,8 +72,9 @@ export function setupDockerCompose(
 ): void {
 	const msName = createSlug(ms.name);
 	const msUrl = cleanUrl(ms.endpoint);
-	const dockerCompose = dockerComposeTemplate(msName, msUrl, msType);
-	dockerComposeFiles.dockerCompose += dockerCompose;
+	const serviceFullName = `${serviceNamePrefix[msType]}_${msName}`;
+	dockerComposeFiles.dockerCompose += dockerComposeTemplate(serviceFullName, msName, msUrl, msType);
+	dockerComposeFiles.dependsOn += `\n      ${serviceFullName}:\n        condition: service_started`;
 	const [protocol, _, host] = msUrl.split('/');
 	const msBaseUrl = protocol + '//' + host;
 	if (!dockerComposeFiles.caddyfile[msBaseUrl])
@@ -75,9 +83,9 @@ export function setupDockerCompose(
 		dockerComposeFiles.caddyfile[msBaseUrl] += caddyfileTemplate(msName, msType);
 }
 
-function dockerComposeTemplate(msName: string, msUrl: string, msType: msTypes): string {
+function dockerComposeTemplate(serviceFullName: string, msName: string, msUrl: string, msType: msTypes): string {
 	return `
-  ${msName}:
+  ${serviceFullName}:
       container_name: ${msName}
       image: ghcr.io/forkbombeu/didroom_microservices:latest
       environment:
