@@ -78,9 +78,9 @@ export function setupDockerCompose(
 	const [protocol, _, host] = msUrl.split('/');
 	const msBaseUrl = protocol + '//' + host;
 	if (!dockerComposeFiles.caddyfile[msBaseUrl])
-		dockerComposeFiles.caddyfile[msBaseUrl] = caddyfileTemplate(msName, msType);
+		dockerComposeFiles.caddyfile[msBaseUrl] = caddyfileTemplate(serviceFullName, msType);
 	else
-		dockerComposeFiles.caddyfile[msBaseUrl] += caddyfileTemplate(msName, msType);
+		dockerComposeFiles.caddyfile[msBaseUrl] += caddyfileTemplate(serviceFullName, msType);
 }
 
 function dockerComposeTemplate(serviceFullName: string, msName: string, msUrl: string, msType: msTypes): string {
