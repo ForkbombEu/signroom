@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script lang="ts">
 	import { Button, Heading } from 'flowbite-svelte';
 	import { ArrowTopRightOnSquare, Pencil, QuestionMarkCircle } from 'svelte-heros-v2';
-	import { generateQr } from '$lib/qrcode';
+	import { createIntentUrl, generateQr } from '$lib/qrcode';
 	import { m } from '$lib/i18n';
 	import PageTop from '$lib/components/pageTop.svelte';
 	import PageContent from '$lib/components/pageContent.svelte';
@@ -31,7 +31,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	//
 
 	const issuanceFlowQr = generateQr(
-		JSON.stringify({
+		createIntentUrl({
 			credential_configuration_ids: [service.type_name],
 			credential_issuer: credential_issuer.endpoint
 		})
