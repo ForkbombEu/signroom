@@ -39,6 +39,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		organizationId={data.organization.id}
 		serviceId={data.service.id}
 		initialData={data.service}
+		usedTypeNames={data.usedIssuanceFlowTypeNames}
 		on:success={async (e) => {
 			await invalidateAll();
 			goto(`/my/organizations/${data.organization.id}/credential-issuances/${e.detail.record.id}`);
