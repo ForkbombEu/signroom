@@ -84,10 +84,12 @@ export function setupDockerCompose(
 }
 
 function dockerComposeTemplate(serviceFullName: string, msUrl: string, msType: msTypes): string {
+	let entrypoint = '';
+	if (msType == 'authz_server') entrypoint = '\n    entrypoint: sh -c "make -C /app authorize && ./ncr"';
 	return `
   ${serviceFullName}:
     container_name: ${serviceFullName}
-    image: ghcr.io/forkbombeu/didroom_microservices:latest
+    image: ghcr.io/forkbombeu/didroom_microservices:latest${entrypoint}
     environment:
       MS_URL: ${msUrl}
       MS_NAME: ${serviceFullName}
