@@ -1,3 +1,11 @@
+# [1.21.0](https://github.com/ForkbombEu/signroom/compare/v1.20.0...v1.21.0) (2024-09-12)
+
+
+### Features
+
+* add docker compose setup in the microservices zip ([#759](https://github.com/ForkbombEu/signroom/issues/759)) ([109d11e](https://github.com/ForkbombEu/signroom/commit/109d11e265e0dc8ee0978ba99e7ee069e0924cca))
+* validate unique names for microservices within organization ([#794](https://github.com/ForkbombEu/signroom/issues/794)) ([dccba4e](https://github.com/ForkbombEu/signroom/commit/dccba4ec5c8833d0a11d7c65ad195521a6a5e1ea))
+
 # [1.20.0](https://github.com/ForkbombEu/signroom/compare/v1.19.0...v1.20.0) (2024-09-11)
 
 
