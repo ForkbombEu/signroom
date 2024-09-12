@@ -73,7 +73,7 @@ export function setupDockerCompose(
 	const msName = createSlug(ms.name);
 	const msUrl = cleanUrl(ms.endpoint);
 	const serviceFullName = `${serviceNamePrefix[msType]}_${msName}`;
-	dockerComposeFiles.dockerCompose += dockerComposeTemplate(serviceFullName, msName, msUrl, msType);
+	dockerComposeFiles.dockerCompose += dockerComposeTemplate(serviceFullName, msUrl, msType);
 	dockerComposeFiles.dependsOn += `\n      ${serviceFullName}:\n        condition: service_started`;
 	const [protocol, _, host] = msUrl.split('/');
 	const msBaseUrl = protocol + '//' + host;
@@ -83,29 +83,29 @@ export function setupDockerCompose(
 		dockerComposeFiles.caddyfile[msBaseUrl] += caddyfileTemplate(serviceFullName, msType);
 }
 
-function dockerComposeTemplate(serviceFullName: string, msName: string, msUrl: string, msType: msTypes): string {
+function dockerComposeTemplate(serviceFullName: string, msUrl: string, msType: msTypes): string {
 	return `
   ${serviceFullName}:
-      container_name: ${msName}
-      image: ghcr.io/forkbombeu/didroom_microservices:latest
-      environment:
-        MS_URL: ${msUrl}
-        MS_NAME: ${msName}
-        ZENCODE_DIR: /app/${msType}
-        PUBLIC_DIR: /app/public/${msType}
-        BASEPATH: /${msType}
-      volumes:
-        - type: bind
-          source: ./${msName}/${msType}
-          target: /app/${msType}
-        - type: bind
-          source: ./${msName}/public
-          target: /app/public
+    container_name: ${serviceFullName}
+    image: ghcr.io/forkbombeu/didroom_microservices:latest
+    environment:
+      MS_URL: ${msUrl}
+      MS_NAME: ${serviceFullName}
+      ZENCODE_DIR: /app/${msType}
+      PUBLIC_DIR: /app/public/${msType}
+      BASEPATH: /${msType}
+    volumes:
+    - type: bind
+      source: ./${serviceFullName}/${msType}
+      target: /app/${msType}
+    - type: bind
+      source: ./${serviceFullName}/public
+      target: /app/public
 `;
 }
 
-function caddyfileTemplate(msName: string, msType: msTypes): string {
+function caddyfileTemplate(serviceFullName: string, msType: msTypes): string {
 	return `
-	reverse_proxy /${msType}/* ${msName}:3000
+	reverse_proxy /${msType}/* ${serviceFullName}:3000
 `;
 }
