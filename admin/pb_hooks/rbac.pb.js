@@ -11,32 +11,6 @@
 
 //
 
-onRecordAfterCreateRequest((e) => {
-    console.log("Hook - Creating owner role for new organization");
-
-    // Don't create auth if organization is created from admin panel
-    if ($apis.requestInfo(e.httpContext).admin) return;
-
-    /** @type {Utils} */
-    const utils = require(`${__hooks}/utils.js`);
-
-    const userId = utils.getUserFromContext(e.httpContext)?.getId();
-    const organizationId = e.record?.getId();
-
-    const ownerRole = utils.getRoleByName("owner");
-    const ownerRoleId = ownerRole?.getId();
-
-    const collection = $app.dao().findCollectionByNameOrId("orgAuthorizations");
-    const record = new Record(collection, {
-        organization: organizationId,
-        role: ownerRoleId,
-        user: userId,
-    });
-    $app.dao().saveRecord(record);
-}, "organizations");
-
-//
-
 routerAdd("POST", "/verify-org-authorization", (c) => {
     console.log("Route - Checking if user has the correct org authorization");
 
@@ -80,7 +54,7 @@ routerAdd("POST", "/verify-org-authorization", (c) => {
         })
         .every((roles) => roles.includes(userRole));
 
-    if (!isAllowed) throw new Error("Not authorized");
+    if (!isAllowed) throw new ForbiddenError("Not authorized");
 });
 
 //
@@ -112,31 +86,48 @@ routerAdd("POST", "/verify-user-role", (c) => {
         );
     // Here we assume that there is only one role for each organization
     // Also enforced by API rules
-    if (!userAuthorization) throw new Error("Not authorized");
+    if (!userAuthorization) throw new ForbiddenError("Not authorized");
 });
 
-//
+/* On Organization Create – Creating owner authorization */
 
-// Cannot create a role higher than your permissions
+onRecordAfterCreateRequest((e) => {
+    /** @type {Utils} */
+    const utils = require(`${__hooks}/utils.js`);
+
+    // Don't create orgAuthorization if organization is created from admin panel
+    if (utils.isAdminContext(e.httpContext)) return;
+
+    const userId = utils.getUserFromContext(e.httpContext)?.getId();
+    const organizationId = e.record?.getId();
+
+    const ownerRole = utils.getRoleByName("owner");
+    const ownerRoleId = ownerRole?.getId();
+
+    const collection = $app.dao().findCollectionByNameOrId("orgAuthorizations");
+    const record = new Record(collection, {
+        organization: organizationId,
+        role: ownerRoleId,
+        user: userId,
+    });
+    $app.dao().saveRecord(record);
+}, "organizations");
+
+/* on OrgAuthorization Create - Cannot create an authorization with a level higher than or equal to your permissions */
 
 onRecordBeforeCreateRequest((e) => {
-    console.log("Hook - Checking if creating authorization is possible");
-
     /** @type {Utils} */
     const utils = require(`${__hooks}/utils.js`);
 
     if (utils.isAdminContext(e.httpContext)) return;
 
-    // Getting requesting user role level
+    const { isSelf, userRoleLevel } =
+        utils.getUserContextInOrgAuthorizationHookEvent(e);
 
-    /** @type {string | undefined} */
-    const organizationId = e.record?.get("organization");
-    const userId = utils.getUserFromContext(e.httpContext)?.getId();
-    if (!userId || !organizationId)
-        throw utils.createMissingDataError("userId, organizationId");
-    const userRole = utils.getUserRole(userId, organizationId);
-    if (!userRole) throw utils.createMissingDataError("userRole");
-    const userRoleLevel = utils.getRoleLevel(userRole);
+    if (isSelf)
+        throw new BadRequestError(
+            "Cannot create an authorization for yourself"
+        );
 
     // Getting requested role level
 
@@ -145,87 +136,119 @@ onRecordBeforeCreateRequest((e) => {
     if (!requestedRole) throw utils.createMissingDataError("requestedRole");
     const requestedRoleLevel = utils.getRoleLevel(requestedRole);
 
+    // Matching
+
     if (requestedRoleLevel <= userRoleLevel) {
-        throw new ForbiddenError("Cannot give a user a role higher than yours");
+        throw new BadRequestError(
+            "Cannot give a user a role higher than or equal to yours"
+        );
     }
 }, "orgAuthorizations");
+
+/* on OrgAuthorization Update */
 
 onRecordBeforeUpdateRequest((e) => {
     /** @type {Utils} */
     const utils = require(`${__hooks}/utils.js`);
 
-    // Getting previous role (unmodified)
+    if (utils.isAdminContext(e.httpContext)) return;
+
+    const { isSelf, userRoleLevel: requestingUserRoleLevel } =
+        utils.getUserContextInOrgAuthorizationHookEvent(e);
+
+    // Getting role before edit (unmodified)
 
     const originalAuthorization = e.record?.originalCopy();
-    if (!originalAuthorization) throw new Error();
-    // @ts-ignore
-    $app.dao().expandRecord(originalAuthorization, ["role"], null);
-    const previousRole = originalAuthorization.expandedOne("role");
+    if (!originalAuthorization)
+        throw utils.createMissingDataError("originalAuthorization");
+
+    const originalRole = utils.getExpanded(originalAuthorization, "role");
+    if (!originalRole) throw utils.createMissingDataError("previousRole");
+
+    const originalRoleLevel = utils.getRoleLevel(originalRole);
+
+    // First check
+
+    if (originalRoleLevel <= requestingUserRoleLevel && !isSelf)
+        throw new ForbiddenError(
+            "Cannot update an authorization with a level higher than or equal to yours"
+        );
 
     // Getting requested role
 
     /** @type {Partial<OrgAuthorization>} */
     const { role: newRoleId } = $apis.requestInfo(e.httpContext).data;
-    if (!newRoleId) throw new Error();
+
+    if (!newRoleId) throw utils.createMissingDataError("newRoleId");
     const newRole = $app.dao().findRecordById("orgRoles", newRoleId);
 
-    // Getting role of user requesting the change
+    const newRoleLevel = utils.getRoleLevel(newRole);
 
-    /** @type {string | undefined} */
-    const organizationId = e.record?.get("organization");
+    // Second check
 
-    const requestingUserId = utils.getUserFromContext(e.httpContext)?.getId();
-    if (!requestingUserId || !organizationId) throw new Error("Missing data");
+    if (newRoleLevel <= requestingUserRoleLevel)
+        throw new ForbiddenError(
+            "Cannot update an authorization to a level higher than or equal to yours"
+        );
+}, "orgAuthorizations");
 
-    const requestingUserRole = utils.getUserRole(
-        requestingUserId,
-        organizationId
-    );
-    if (!requestingUserRole) throw new Error("Missing data");
+/* on OrgAuthorization Delete - Cannot delete an authorization with a level higher than or equal to yours */
 
-    // Check if the user requesting the change is owner of the authorization
+onRecordBeforeDeleteRequest((e) => {
+    /** @type {Utils} */
+    const utils = require(`${__hooks}/utils.js`);
 
-    const targetUserId = originalAuthorization.get("user");
-    const isSelf = targetUserId == requestingUserId;
+    if (utils.isAdminContext(e.httpContext)) return;
 
-    // Levels
+    const { isSelf, userRoleLevel: requestingUserRoleLevel } =
+        utils.getUserContextInOrgAuthorizationHookEvent(e);
 
-    /** @type {number} */
-    const previousRoleLevel = previousRole.get("level");
-    /** @type {number} */
-    const newRoleLevel = newRole.get("level");
-    /** @type {number} */
-    const requestingUserRoleLevel = requestingUserRole.get("level");
+    // If user requests delete for itself, it's fine
+    if (isSelf) return;
 
-    const error = new ForbiddenError("NOT_ENOUGH_PRIVILEGES");
+    // Getting role of authorization to delete
 
-    if (isSelf) {
-        if (newRoleLevel < previousRoleLevel) throw error;
-    } else {
-        if (previousRoleLevel < requestingUserRoleLevel) throw error;
-        if (newRoleLevel < requestingUserRoleLevel) throw error;
+    if (!e.record) throw utils.createMissingDataError("originalAuthorization");
+
+    const roleToDelete = utils.getExpanded(e.record, "role");
+    if (!roleToDelete) throw utils.createMissingDataError("roleToDelete");
+
+    const roleToDeleteLevel = utils.getRoleLevel(roleToDelete);
+
+    // Comparing levels
+
+    if (roleToDeleteLevel <= requestingUserRoleLevel)
+        throw new ForbiddenError(
+            "Cannot delete an authorization with a level higher than or equal to yours"
+        );
+}, "orgAuthorizations");
+
+/* On OrgAuthorization Delete – Cannot delete last owner role */
+
+onRecordBeforeDeleteRequest((e) => {
+    /** @type {Utils} */
+    const utils = require(`${__hooks}/utils.js`);
+
+    if (utils.isAdminContext(e.httpContext)) return;
+
+    if (e.record && utils.isLastOwnerAuthorization(e.record)) {
+        throw new BadRequestError("Can't remove the last owner role!");
     }
 }, "orgAuthorizations");
 
-// onRecordBeforeUpdateRequest((e) => {
-//     console.log("Hook - Checking if editing owner role is possible");
+/* On OrgAuthorization Update – Cannot edit last owner role */
 
-//     /** @type {Utils} */
-//     const utils = require(`${__hooks}/utils.js`);
+onRecordBeforeUpdateRequest((e) => {
+    /** @type {Utils} */
+    const utils = require(`${__hooks}/utils.js`);
 
-//     const originalRecord = e.record?.originalCopy();
-//     if (originalRecord && utils.isLastOwnerAuthorization(originalRecord)) {
-//         throw new ForbiddenError("Can't edit the last owner role!");
-//     }
-// }, "orgAuthorizations");
+    if (utils.isAdminContext(e.httpContext)) return;
 
-// onRecordBeforeDeleteRequest((e) => {
-//     console.log("Hook - Checking if deleting owner role is possible");
+    const originalRecord = e.record?.originalCopy();
+    // e.record is already the "modified" version, so it is not a "owner" role anymore
+    // to check if it's the last one, we need to get the "original" record
 
-//     /** @type {Utils} */
-//     const utils = require(`${__hooks}/utils.js`);
-
-//     if (e.record && utils.isLastOwnerAuthorization(e.record)) {
-//         throw new Error("Can't remove the last owner role!");
-//     }
-// }, "orgAuthorizations");
+    if (originalRecord && utils.isLastOwnerAuthorization(originalRecord)) {
+        throw new BadRequestError("Can't edit the last owner role!");
+    }
+}, "orgAuthorizations");

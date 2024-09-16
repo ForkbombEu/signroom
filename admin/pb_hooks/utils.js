@@ -5,6 +5,10 @@
 // @ts-check
 
 /// <reference path="../pb_data/types.d.ts" />
+/// <reference path="./ambient.d.ts" />
+/** @typedef {import("../../webapp/src/lib/pocketbase/types").OrgRolesRecord} OrgRole */
+/** @typedef {import("../../webapp/src/lib/pocketbase/types").OrgAuthorizationsRecord} OrgAuthorization */
+/** @typedef {import("../../webapp/src/lib/pocketbase/types").UsersRecord} User */
 
 //
 
@@ -19,12 +23,14 @@ module.exports = {
     isAdminContext,
     getRoleLevel,
     createMissingDataError,
+    getUserContextInOrgAuthorizationHookEvent,
 };
 
 /* -- RBAC Utils -- */
 
 /**
  * @param {string} name
+ * @returns {RecordModel<OrgRole> | undefined}
  */
 function getRoleByName(name) {
     try {
@@ -56,7 +62,6 @@ function isLastOwnerAuthorization(orgAuthorization) {
         "orgAuthorizations",
         `organization="${organizationId}" && role="${ownerRoleId}"`
     );
-    console.log(JSON.stringify(ownerAuthorizations));
 
     return ownerAuthorizations.length == 1;
 }
@@ -64,6 +69,7 @@ function isLastOwnerAuthorization(orgAuthorization) {
 /**
  * @param {string} userId
  * @param {string} organizationId
+ * @returns {RecordModel<OrgRole> | undefined}
  */
 function getUserRole(userId, organizationId) {
     const authorization = findFirstRecordByFilter(
@@ -74,11 +80,34 @@ function getUserRole(userId, organizationId) {
     return getExpanded(authorization, "role");
 }
 
+/**
+ *
+ * @param {core.RecordUpdateEvent|core.RecordDeleteEvent|core.RecordViewEvent|core.RecordCreateEvent} e
+ */
+function getUserContextInOrgAuthorizationHookEvent(e) {
+    const userId = getUserFromContext(e.httpContext)?.getId();
+
+    /** @type {string | undefined} */
+    const organizationId = e.record?.get("organization");
+
+    if (!userId || !organizationId)
+        throw createMissingDataError("requestingUserId", "organizationId");
+
+    const isSelf = userId === e.record?.get("user");
+
+    const userRole = getUserRole(userId, organizationId);
+    if (!userRole) throw createMissingDataError("requestingUserRole");
+
+    const userRoleLevel = getRoleLevel(userRole);
+
+    return { userId, userRole, isSelf, userRoleLevel };
+}
+
 /* -- Pocketbase utils -- */
 
 /**
  * @param {echo.Context} c
- * @returns {models.Record | undefined}
+ * @returns {RecordModel<User> | undefined}
  */
 function getUserFromContext(c) {
     return $apis.requestInfo(c).authRecord;
@@ -131,8 +160,8 @@ function isAdminContext(c) {
 }
 
 /**
- * @param {string} text
+ * @param {string[]} args
  */
-function createMissingDataError(text) {
-    return new BadRequestError("Missing data: " + text);
+function createMissingDataError(...args) {
+    return new BadRequestError("Missing data: " + args.join(", "));
 }
