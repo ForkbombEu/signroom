@@ -12,18 +12,25 @@
 
 //
 
-module.exports = {
-    getUserFromContext,
-    getRoleByName,
-    findRecordsByFilter,
-    isLastOwnerAuthorization,
-    findFirstRecordByFilter,
-    getUserRole,
-    getExpanded,
-    isAdminContext,
-    getRoleLevel,
-    createMissingDataError,
-    getUserContextInOrgAuthorizationHookEvent,
+/* -- Error codes -- */
+
+const errors = {
+    not_authorized: "not_authorized",
+    missing_data: "missing_data",
+    user_not_logged: "user_not_logged",
+
+    cant_create_an_authorization_for_yourself:
+        "cant_create_an_authorization_for_yourself",
+
+    cant_edit_last_owner_role: "cant_edit_last_owner_role",
+    cant_delete_last_owner_role: "cant_delete_last_owner_role",
+
+    cant_create_role_higher_than_or_equal_to_yours:
+        "cant_create_role_higher_than_or_equal_to_yours",
+    cant_edit_role_higher_than_or_equal_to_yours:
+        "cant_edit_role_higher_than_or_equal_to_yours",
+    cant_delete_role_higher_than_or_equal_to_yours:
+        "cant_delete_role_higher_than_or_equal_to_yours",
 };
 
 /* -- RBAC Utils -- */
@@ -163,5 +170,22 @@ function isAdminContext(c) {
  * @param {string[]} args
  */
 function createMissingDataError(...args) {
-    return new BadRequestError("Missing data: " + args.join(", "));
+    return new BadRequestError(errors.missing_data, args.join(", "));
 }
+
+//
+
+module.exports = {
+    getUserFromContext,
+    getRoleByName,
+    findRecordsByFilter,
+    isLastOwnerAuthorization,
+    findFirstRecordByFilter,
+    getUserRole,
+    getExpanded,
+    isAdminContext,
+    getRoleLevel,
+    createMissingDataError,
+    getUserContextInOrgAuthorizationHookEvent,
+    errors,
+};

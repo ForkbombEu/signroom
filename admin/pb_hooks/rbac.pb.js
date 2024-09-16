@@ -18,12 +18,13 @@ routerAdd("POST", "/verify-org-authorization", (c) => {
     const utils = require(`${__hooks}/utils.js`);
 
     const userId = utils.getUserFromContext(c)?.getId();
-    if (!userId) throw new Error("User must be logged!");
+    if (!userId) throw new BadRequestError(utils.errors.user_not_logged);
 
     /**  @type {{organizationId: string, url: string}} */
     // @ts-ignore
     const { organizationId, url } = $apis.requestInfo(c).data;
-    if (!organizationId || !url) throw new Error("Missing data in request");
+    if (!organizationId || !url)
+        throw utils.createMissingDataError("organizationId", "url");
 
     const userAuthorization = $app
         .dao()
@@ -54,7 +55,7 @@ routerAdd("POST", "/verify-org-authorization", (c) => {
         })
         .every((roles) => roles.includes(userRole));
 
-    if (!isAllowed) throw new ForbiddenError("Not authorized");
+    if (!isAllowed) throw new ForbiddenError(utils.errors.not_authorized);
 });
 
 //
@@ -66,13 +67,12 @@ routerAdd("POST", "/verify-user-role", (c) => {
     const utils = require(`${__hooks}/utils.js`);
 
     const userId = utils.getUserFromContext(c)?.getId();
-    if (!userId) throw new Error("User must be logged!");
 
     /** @type {{organizationId: string, roles: string[]}}*/
     // @ts-ignore
     const { organizationId, roles } = $apis.requestInfo(c).data;
     if (!organizationId || !roles || roles.length === 0)
-        throw new Error("Missing data in request");
+        throw utils.createMissingDataError();
 
     const roleFilter = `( ${roles
         .map((r) => `role.name="${r}"`)
@@ -86,7 +86,8 @@ routerAdd("POST", "/verify-user-role", (c) => {
         );
     // Here we assume that there is only one role for each organization
     // Also enforced by API rules
-    if (!userAuthorization) throw new ForbiddenError("Not authorized");
+    if (!userAuthorization)
+        throw new ForbiddenError(utils.errors.not_authorized);
 });
 
 /* On Organization Create – Creating owner authorization */
@@ -126,7 +127,7 @@ onRecordBeforeCreateRequest((e) => {
 
     if (isSelf)
         throw new BadRequestError(
-            "Cannot create an authorization for yourself"
+            utils.errors.cant_create_an_authorization_for_yourself
         );
 
     // Getting requested role level
@@ -140,7 +141,7 @@ onRecordBeforeCreateRequest((e) => {
 
     if (requestedRoleLevel <= userRoleLevel) {
         throw new BadRequestError(
-            "Cannot give a user a role higher than or equal to yours"
+            utils.errors.cant_create_role_higher_than_or_equal_to_yours
         );
     }
 }, "orgAuthorizations");
@@ -171,7 +172,7 @@ onRecordBeforeUpdateRequest((e) => {
 
     if (originalRoleLevel <= requestingUserRoleLevel && !isSelf)
         throw new ForbiddenError(
-            "Cannot update an authorization with a level higher than or equal to yours"
+            utils.errors.cant_edit_role_higher_than_or_equal_to_yours
         );
 
     // Getting requested role
@@ -188,7 +189,7 @@ onRecordBeforeUpdateRequest((e) => {
 
     if (newRoleLevel <= requestingUserRoleLevel)
         throw new ForbiddenError(
-            "Cannot update an authorization to a level higher than or equal to yours"
+            utils.errors.cant_edit_role_higher_than_or_equal_to_yours
         );
 }, "orgAuthorizations");
 
@@ -219,7 +220,7 @@ onRecordBeforeDeleteRequest((e) => {
 
     if (roleToDeleteLevel <= requestingUserRoleLevel)
         throw new ForbiddenError(
-            "Cannot delete an authorization with a level higher than or equal to yours"
+            utils.errors.cant_delete_role_higher_than_or_equal_to_yours
         );
 }, "orgAuthorizations");
 
@@ -232,7 +233,7 @@ onRecordBeforeDeleteRequest((e) => {
     if (utils.isAdminContext(e.httpContext)) return;
 
     if (e.record && utils.isLastOwnerAuthorization(e.record)) {
-        throw new BadRequestError("Can't remove the last owner role!");
+        throw new BadRequestError(utils.errors.cant_edit_last_owner_role);
     }
 }, "orgAuthorizations");
 
@@ -249,6 +250,6 @@ onRecordBeforeUpdateRequest((e) => {
     // to check if it's the last one, we need to get the "original" record
 
     if (originalRecord && utils.isLastOwnerAuthorization(originalRecord)) {
-        throw new BadRequestError("Can't edit the last owner role!");
+        throw new BadRequestError(utils.errors.cant_delete_last_owner_role);
     }
 }, "orgAuthorizations");
