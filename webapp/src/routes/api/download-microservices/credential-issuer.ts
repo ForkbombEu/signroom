@@ -18,6 +18,7 @@ import type { DownloadMicroservicesRequestBody } from '.';
 import {
 	add_credential_custom_code,
 	add_microservice_env,
+	delete_tests,
 	delete_unused_folders,
 	formatMicroserviceUrl,
 	get_credential_custom_code_path,
@@ -50,6 +51,7 @@ export function create_credential_issuer_zip(
 	add_credentials_custom_code(zip, credential_issuer_related_data.issuance_flows);
 	add_microservice_env(zip, credential_issuer);
 	delete_unused_folders(zip, 'credential_issuer');
+	delete_tests(zip);
 
 	return zip;
 }

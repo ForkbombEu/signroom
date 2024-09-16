@@ -10,7 +10,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
 	import { goto, m } from '$lib/i18n';
 	import { Button } from 'flowbite-svelte';
-	import ServiceForm from '../../_partials/verificationFlowForm.svelte';
+	import VerificationFlowForm from '../../_partials/verificationFlowForm.svelte';
 	import Icon from '$lib/components/icon.svelte';
 	import { ArrowLeft } from 'svelte-heros-v2';
 	import OrganizationBreadcrumbs from '$lib/components/organizationBreadcrumbs.svelte';
@@ -35,7 +35,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </PageTop>
 
 <PageContent>
-	<ServiceForm
+	<VerificationFlowForm
 		organizationId={data.organization.id}
 		verificationFlowId={data.verificationFlow.id}
 		initialData={data.verificationFlow}

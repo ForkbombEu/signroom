@@ -21,8 +21,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		Select,
 		SubmitButton,
 		Textarea,
-		createForm,
-		createFormData
+		createForm
 	} from '$lib/forms';
 	import FormError from '$lib/forms/formError.svelte';
 	import { m } from '$lib/i18n';
@@ -53,12 +52,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { TemplatePropertiesDisplay } from '$lib/templates';
 	import { getRandomMicroservicePort } from '$lib/microservices';
 	import { pipe, Array as A, Record as R } from 'effect';
+	import { z } from 'zod';
 
 	//
 
 	export let organizationId: string;
 	export let serviceId: string | undefined = undefined;
 	export let initialData: Partial<ServicesRecord> = {};
+	export let usedTypeNames: string[] = [];
 
 	//
 
@@ -68,7 +69,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	const serviceSchema = fieldsSchemaToZod(getCollectionSchema(Collections.Services)!.schema).extend(
 		{
-			expiration: expirationSchema
+			expiration: expirationSchema,
+			type_name: z
+				.string()
+				.refine(
+					(s) => !usedTypeNames.filter((s) => s != initialData.type_name).includes(s),
+					m.Type_name_is_already_in_use()
+				)
 		}
 	);
 
@@ -97,6 +104,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	//
 
+	// @ts-expect-error type_name is not a string
 	$: slugifyText($form['type_name']);
 
 	function slugifyText(text: string) {
@@ -177,7 +185,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 			field="type_name"
 			options={{
 				label: m.Type_name(),
-				helpText: m.Use_only_lowercase_and_uppercase_letters_no_spaces()
+				helpText: m.Use_only_lowercase_and_uppercase_letters_no_spaces(),
+				placeholder: m.service_type_name_placeholder()
 			}}
 			{superform}
 		/>

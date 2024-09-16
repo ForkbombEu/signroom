@@ -109,6 +109,7 @@ else
     -d "$CADDY_CONFIG"
 fi
 
+pkill -F "${ROOT}/pid"
 NODE_COMMAND="/root/.local/share/mise/installs/node/${NODE_VERSION}/bin/node"
 PORT=${PORT} nohup "${NODE_COMMAND}" "${ROOT}/webapp/build/index.js" >nohup.out 2>nohup.err </dev/null &
 PR_PID=$!
