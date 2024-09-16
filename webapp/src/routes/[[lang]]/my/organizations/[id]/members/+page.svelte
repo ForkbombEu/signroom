@@ -36,6 +36,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	export let data;
 	$: organization = data.organization;
+	$: userRole = data.userRole;
 
 	type AuthorizationWithUser = OrgAuthorizationsResponse<{
 		user: UsersResponse;
@@ -84,7 +85,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				{#each records as record}
 					{@const user = record.expand?.user}
 					{@const role = record.expand?.role}
-					{#if user && role}
+					{#if user && role && userRole}
 						<PlainCard>
 							<div class="flex items-center gap-4">
 								<UserAvatar size="md" {user}></UserAvatar>
@@ -104,19 +105,21 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 							<svelte:fragment slot="right">
 								<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
 									<div class="space-x-1">
-										<EditRecord {record} let:openModal>
-											<Button outline color="primary" size="sm" on:click={openModal}>
-												Edit role
-												<Pencil size="20" class="ml-2"></Pencil>
-											</Button>
-										</EditRecord>
+										{#if userRole.level < role.level}
+											<EditRecord {record} let:openModal>
+												<Button outline color="primary" size="sm" on:click={openModal}>
+													Edit role
+													<Pencil size="20" class="ml-2"></Pencil>
+												</Button>
+											</EditRecord>
 
-										<DeleteRecord {record} let:openModal>
-											<Button outline color="primary" size="sm" on:click={openModal}>
-												Remove
-												<XMark size="20" class="ml-2"></XMark>
-											</Button>
-										</DeleteRecord>
+											<DeleteRecord {record} let:openModal>
+												<Button outline color="primary" size="sm" on:click={openModal}>
+													Remove
+													<XMark size="20" class="ml-2"></XMark>
+												</Button>
+											</DeleteRecord>
+										{/if}
 									</div>
 								</ProtectedOrgUI>
 							</svelte:fragment>
