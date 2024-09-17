@@ -14,9 +14,13 @@ export const load = async ({ params, fetch }) => {
 			requestKey: null
 		});
 
-	const usedIssuanceFlowTypeNames = (
-		await pb.collection('services').getFullList({ requestKey: null })
-	).map((issuanceFlow) => issuanceFlow.type_name);
+	const issuanceFlows = await pb.collection('services').getFullList({
+		filter: `organization.id = '${params.id}'`,
+		fetch,
+		requestKey: null
+	});
+
+	const usedIssuanceFlowTypeNames = issuanceFlows.map((issuanceFlow) => issuanceFlow.type_name);
 
 	return { organization, usedIssuanceFlowTypeNames };
 };
