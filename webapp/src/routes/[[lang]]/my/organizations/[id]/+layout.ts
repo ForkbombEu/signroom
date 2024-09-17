@@ -14,6 +14,7 @@ export const load = async ({ params, fetch }) => {
 			requestKey: null
 		});
 
+<<<<<<< fix-org-microservice-unique
 	const issuanceFlows = await pb.collection('services').getFullList({
 		filter: `organization.id = '${params.id}'`,
 		fetch,
@@ -21,6 +22,11 @@ export const load = async ({ params, fetch }) => {
 	});
 
 	const usedIssuanceFlowTypeNames = issuanceFlows.map((issuanceFlow) => issuanceFlow.type_name);
+=======
+	const usedIssuanceFlowTypeNames = (
+		await pb.collection('services').getFullList({ requestKey: null })
+	).map((issuanceFlow) => issuanceFlow.type_name);
+>>>>>>> main
 
 	return { organization, usedIssuanceFlowTypeNames };
 };

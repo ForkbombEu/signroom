@@ -14,6 +14,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import HomeSection from './_partials/homeSection.svelte';
 	import { Badge } from 'flowbite-svelte';
 	import { templatesColors } from '$lib/templates';
+	import MicroserviceBadge from '$lib/microservices/microserviceBadge.svelte';
 
 	export let data;
 	let {
@@ -68,7 +69,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				buttonHref={base('/microservices')}
 				let:item
 			>
-				{item.name}
+				<div class="flex items-center gap-2">
+					{item.name}
+					<MicroserviceBadge type={item.collectionName} />
+				</div>
 			</HomeSection>
 		</PageCard>
 

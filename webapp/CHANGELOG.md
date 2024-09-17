@@ -1,3 +1,15 @@
+# [1.22.0](https://github.com/ForkbombEu/signroom/compare/v1.21.0...v1.22.0) (2024-09-17)
+
+
+### Bug Fixes
+
+* remove verification flow image ([#797](https://github.com/ForkbombEu/signroom/issues/797)) ([d835844](https://github.com/ForkbombEu/signroom/commit/d83584414b05b7dd8d23f5144fcef0959515d773))
+
+
+### Features
+
+* add microservice pills tags ([#799](https://github.com/ForkbombEu/signroom/issues/799)) ([42de60d](https://github.com/ForkbombEu/signroom/commit/42de60d5f8c2ae096a421644ef2cb889b6ef04d3))
+
 # [1.21.0](https://github.com/ForkbombEu/signroom/compare/v1.20.0...v1.21.0) (2024-09-12)
 
 
