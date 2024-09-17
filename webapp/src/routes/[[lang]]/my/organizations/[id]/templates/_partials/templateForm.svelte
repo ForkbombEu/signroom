@@ -19,15 +19,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		type TemplatesRecord
 	} from '$lib/pocketbase/types';
 	import { fieldsSchemaToZod } from '$lib/pocketbaseToZod';
-	import { A, Alert, Button, Hr, Select } from 'flowbite-svelte';
+	import { A, Alert, Button, Hr, Select, type SelectOptionType } from 'flowbite-svelte';
 	import JSONSchemaInput from './JSONSchemaInput.svelte';
 	import SubmitButton from '$lib/forms/submitButton.svelte';
 	import FormError from '$lib/forms/formError.svelte';
 	import { createEventDispatcher } from 'svelte';
-	import { templatePresetOptions, type TemplatePreset } from './templatePresets';
 	import CodeEditorField from './codeEditorField.svelte';
-	import Icon from '$lib/components/icon.svelte';
-	import { ArrowTopRightOnSquare } from 'svelte-heros-v2';
 
 	//
 
@@ -64,23 +61,33 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	/* Preset application */
 
-	let preset: TemplatePreset | undefined = undefined;
+	const presetsPromise: Promise<SelectOptionType<TemplatesRecord>[]> = pb
+		.collection('templates')
+		.getFullList({ filter: 'is_preset = true' })
+		.then((templates) => templates.map((t) => ({ name: t.name, value: t })));
+
+	let preset: TemplatesRecord | undefined = undefined;
 	$: handlePresetSelection(preset);
 
-	function handlePresetSelection(selectedPreset: TemplatePreset | undefined) {
+	function handlePresetSelection(selectedPreset: TemplatesRecord | undefined) {
 		if (!selectedPreset) return;
 		applyPreset(selectedPreset);
 		preset = undefined;
 	}
 
-	function applyPreset(preset: TemplatePreset) {
-		$form['zencode_script'] = preset.zencode_script;
-		$form['zencode_data'] = preset.zencode_data;
-		$form['schema'] = JSON.stringify(preset.schema);
-		$form['schema_secondary'] = JSON.stringify(preset.schema_secondary);
+	function applyPreset({
+		zencode_data,
+		zencode_script,
+		schema,
+		schema_secondary
+	}: TemplatesRecord) {
+		if (zencode_script) $form['zencode_script'] = zencode_script;
+		if (zencode_data) $form['zencode_data'] = zencode_data;
+		$form['schema'] = JSON.stringify(schema, null, 4);
+		if (schema_secondary) $form['schema_secondary'] = JSON.stringify(schema_secondary, null, 4);
 	}
 
-	//
+	// Utils
 
 	$: type = getType($form);
 
@@ -126,7 +133,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	<div class="space-y-4">
 		<SectionTitle tag="h5" title="Load preset" description={m.load_preset_description()} />
-		<Select items={templatePresetOptions} bind:value={preset} placeholder={m.Select_option()} />
+		{#await presetsPromise then presets}
+			<Select items={presets} bind:value={preset} placeholder={m.Select_option()} />
+		{:catch _}
+			<Alert color="yellow">
+				<p>{m.error_loading_presets()}</p>
+			</Alert>
+		{/await}
 	</div>
 
 	<div class="space-y-8">
