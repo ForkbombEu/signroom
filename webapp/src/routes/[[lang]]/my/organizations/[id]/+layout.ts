@@ -14,9 +14,9 @@ export const load = async ({ params, fetch }) => {
 			requestKey: null
 		});
 
-	const usedIssuanceFlowTypeNames = (await pb.collection('services').getFullList()).map(
-		(issuanceFlow) => issuanceFlow.type_name
-	);
+	const usedIssuanceFlowTypeNames = (
+		await pb.collection('services').getFullList({ requestKey: null })
+	).map((issuanceFlow) => issuanceFlow.type_name);
 
 	return { organization, usedIssuanceFlowTypeNames };
 };
