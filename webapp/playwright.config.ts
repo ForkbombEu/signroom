@@ -15,7 +15,10 @@ const config: PlaywrightTestConfig = {
 		{
 			name: 'loggedTests',
 			testMatch: /logged\/.*\.spec\.ts/,
-			use: { storageState },
+			use: {
+				storageState,
+				video: 'retain-on-failure'
+			},
 			dependencies: ['setup']
 		}
 	],

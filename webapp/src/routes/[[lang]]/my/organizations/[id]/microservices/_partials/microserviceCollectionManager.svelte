@@ -5,16 +5,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <script lang="ts" context="module">
-	type Microservices = {
-		[Collections.RelyingParties]: RelyingPartiesResponse;
-		[Collections.AuthorizationServers]: AuthorizationServersResponse;
-		[Collections.Issuers]: IssuersResponse;
-	};
-
-	type Microservice = Microservices[keyof Microservices];
+	import type { MicroserviceType, Microservice } from '$lib/microservices';
 </script>
 
-<script lang="ts" generics="MicroserviceType extends keyof Microservices">
+<script lang="ts" generics="T extends MicroserviceType">
 	import {
 		CollectionManager,
 		CreateRecord,
@@ -26,24 +20,20 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
 	import { m } from '$lib/i18n';
 	import { getRandomMicroservicePort } from '$lib/microservices';
-	import {
-		type RelyingPartiesResponse,
-		type AuthorizationServersResponse,
-		type IssuersResponse,
-		Collections
-	} from '$lib/pocketbase/types';
+	import MicroserviceBadge from '$lib/microservices/microserviceBadge.svelte';
+
 	import { ProtectedOrgUI } from '$lib/rbac';
 	import { createTypeProp } from '$lib/utils/typeProp';
-	import { Alert, Button } from 'flowbite-svelte';
+	import { Alert, Badge, Button } from 'flowbite-svelte';
 	import { Pencil, Plus, Trash } from 'svelte-heros-v2';
 
-	export let microserviceType: MicroserviceType;
+	export let microserviceType: T;
 	export let organizationId: string;
 
 	const recordType = createTypeProp<Microservice>();
 
 	const microservicesStrings: Record<
-		keyof Microservices,
+		MicroserviceType,
 		{ name: { singular: string; plural: string }; description: string }
 	> = {
 		authorization_servers: {
@@ -100,7 +90,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	<div class="space-y-4">
 		{#each records as record}
 			<PlainCard let:Title let:Description>
-				<Title>{record.name}</Title>
+				<div class="flex items-center gap-2">
+					<Title>{record.name}</Title>
+					<MicroserviceBadge type={microserviceType} />
+				</div>
 				<Description>
 					<span class="font-bold">{m.Endpoint()}:</span>
 					{record.endpoint}
