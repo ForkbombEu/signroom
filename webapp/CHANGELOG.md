@@ -1,3 +1,15 @@
+# [1.23.0](https://github.com/ForkbombEu/signroom/compare/v1.22.0...v1.23.0) (2024-09-17)
+
+
+### Bug Fixes
+
+* roles management ([#796](https://github.com/ForkbombEu/signroom/issues/796)) ([d1805e5](https://github.com/ForkbombEu/signroom/commit/d1805e5b7469e072b9fbdb3c73a5926eae3e5476))
+
+
+### Features
+
+* credential-issuance qr code contains intent-url ([#795](https://github.com/ForkbombEu/signroom/issues/795)) ([20b3dfc](https://github.com/ForkbombEu/signroom/commit/20b3dfc9591cfb3b6131a1c9d9223259da2221e4))
+
 # [1.22.0](https://github.com/ForkbombEu/signroom/compare/v1.21.0...v1.22.0) (2024-09-17)
 
 
