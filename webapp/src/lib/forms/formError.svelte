@@ -8,11 +8,24 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { Alert } from 'flowbite-svelte';
 	import { getFormContext } from './form.svelte';
 	import { m } from '$lib/i18n';
+	import { pipe } from 'effect';
 
 	const { superform } = getFormContext();
 	const { message, allErrors } = superform;
 
 	$: error = $allErrors.at(0);
+
+	function getTranslationStringByName(messageName: string) {
+		return Object.entries(m).find(([stringName]) => stringName == messageName)?.[1];
+	}
+
+	function normalizeErrorTitle(message: string) {
+		return message.toLowerCase().replace('.', '');
+	}
+
+	function getErrorTranslation(message: string) {
+		return pipe(message, normalizeErrorTitle, getTranslationStringByName) as () => string;
+	}
 </script>
 
 {#if error}
@@ -32,7 +45,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 {#if $message}
 	<Alert color="red" dismissable>
-		<p>{$message.message}</p>
+		{@const messageText = $message.message}
+		{@const errorTranslation = getErrorTranslation(messageText)}
+		<p>
+			{#if errorTranslation}
+				{errorTranslation()}
+			{:else}
+				{messageText}
+			{/if}
+		</p>
 		{#if $message.data && Object.keys($message.data).length > 0}
 			<ul class="mt-2 space-y-2">
 				{#each Object.entries($message.data) as [key, value]}

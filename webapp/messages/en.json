@@ -438,6 +438,15 @@
 	"and": "and",
 	"Edit_template": "Edit template",
 	"my_certificates_description": "my_certificates_description",
-	"service_type_name_placeholder": "age_verification",
-	"Type_name_is_already_in_use": "Type name is already in use"
+  "service_type_name_placeholder": "age_verification",
+	"Type_name_is_already_in_use": "Type name is already in use",
+	"not_authorized": "Not authorized",
+	"missing_data": "Missing data",
+	"user_not_logged": "User must be logged in",
+	"cant_create_an_authorization_for_yourself": "You can't create an authorization for yourself",
+	"cant_edit_last_owner_role": "Cannot edit last owner role",
+	"cant_delete_last_owner_role": "Cannot delete last owner role",
+	"cant_create_role_higher_than_or_equal_to_yours": "Cannot create a role higher than or equal to yours",
+	"cant_edit_role_higher_than_or_equal_to_yours": "Cannot update a role higher than or equal to yours",
+	"cant_delete_role_higher_than_or_equal_to_yours": "Cannot delete a role higher than or equal to yours"
 }
