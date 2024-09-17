@@ -2,11 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import type { TemplatesTypeOptions } from '$lib/pocketbase/types';
-import type { Badge } from 'flowbite-svelte';
-import type { ComponentProps } from 'svelte';
-
-type BadgeColor = ComponentProps<Badge>['color'];
+import type { BadgeColor } from '$lib/components/utils/badge';
+import { type TemplatesTypeOptions } from '$lib/pocketbase/types';
 
 export const templatesColors: Record<TemplatesTypeOptions, BadgeColor> = {
 	issuance: 'green',
