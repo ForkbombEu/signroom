@@ -179,6 +179,7 @@ clean: ## 🧹 Clean the project
 	@rm -rf $(AZC) $(WZC) $(WCZ) $(BIN) $(PB)
 	@rm -fr webapp/node_modules
 	@rm -fr webapp/build
+	@rm -fr webapp/.svelte-kit
 	@rm -f webapp/src/lib/pocketbase/types.ts
 	@rm -f webapp/src/lib/pocketbase/schema/db_schema.json
 	@rm -f webapp/src/lib/rbac/roles.ts
