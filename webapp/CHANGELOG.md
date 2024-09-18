@@ -1,3 +1,10 @@
+## [1.23.1](https://github.com/ForkbombEu/signroom/compare/v1.23.0...v1.23.1) (2024-09-18)
+
+
+### Bug Fixes
+
+* tests video retantion ([#802](https://github.com/ForkbombEu/signroom/issues/802)) ([6c2ca1b](https://github.com/ForkbombEu/signroom/commit/6c2ca1b39e19e6315ae5b9f4075bfe91d2270e13))
+
 # [1.23.0](https://github.com/ForkbombEu/signroom/compare/v1.22.0...v1.23.0) (2024-09-17)
 
 
