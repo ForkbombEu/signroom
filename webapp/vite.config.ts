@@ -22,6 +22,6 @@ export default defineConfig({
 		include: ['src/**/*.{test,spec}.{js,ts}']
 	},
 	optimizeDeps: {
-		exclude: ['chunk-XHDSA73M.js']
+		exclude: ['chunk-XHDSA73M.js', 'chunk-LDSJFPKP.js']
 	}
 });
