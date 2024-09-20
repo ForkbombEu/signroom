@@ -31,6 +31,9 @@ function getAllFilesInFolder(dirPath, arrayOfFiles = []) {
  */
 function extractKeysFromFiles(files) {
 	const keyRegex = /(^|[^a-zA-Z_])m\.([a-zA-Z_]+)/g;
+	// This regex finds all strings between "m." and the next char that is not a letter or an underscore
+	// Also, before "m." must be no letters or underscorses
+
 	const validKeys = new Set();
 
 	files.forEach((file) => {
