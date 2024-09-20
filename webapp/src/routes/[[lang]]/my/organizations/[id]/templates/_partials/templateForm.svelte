@@ -43,6 +43,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	let superform = createForm(
 		schema,
 		async (e) => {
+			console.log(e.form.data);
 			let record: TemplatesResponse;
 			if (templateId) {
 				record = await pb.collection('templates').update(templateId, e.form.data);
@@ -166,7 +167,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 							: ''}
 			/>
 
-			<JSONSchemaInput {superform} field="schema_secondary" />
+			<!-- <JSONSchemaInput {superform} field="schema_secondary" /> -->
 		</div>
 	{/if}
 
