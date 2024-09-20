@@ -41,7 +41,11 @@ test.describe('it should create an issuance flow', () => {
 		await page.locator('input[name="name"]').fill('auth-serve-1');
 		await page.locator('input[name="name"]').press('Tab');
 		await page.locator('input[name="name"]').press('Tab');
-		await page.getByText('Endpoint * Endpoint of the microservices, used by communication protocols and visible by end-users and other microservices').click();
+		await page
+			.getByText(
+				'Endpoint * Endpoint of the microservices, used by communication protocols and visible by end-users and other microservices'
+			)
+			.click();
 		await page.locator('input[name="endpoint"]').fill('http://www.auth-serv.com');
 		await page.getByRole('button', { name: 'Create record' }).click();
 	});
@@ -127,19 +131,19 @@ test.describe('it should create an issuance flow', () => {
 
 		// it should select a preset
 
-		await page
-			.locator('form div')
-			.filter({ hasText: 'Load preset load_preset_description Select optionGeneric HTTP Preset' })
-			.getByRole('combobox')
-			.selectOption({ index: 1 });
+		// await page
+		// 	.locator('form div')
+		// 	.filter({ hasText: 'Load preset load_preset_description Select optionGeneric HTTP Preset' })
+		// 	.getByRole('combobox')
+		// 	.selectOption({ index: 1 });
 
 		// // it should add properties to the auth template (1)
 
-		// await page.getByPlaceholder('property_id').first().click();
-		// await page.getByPlaceholder('property_id').first().fill('full_name');
+		await page.getByPlaceholder('property_id').first().click();
+		await page.getByPlaceholder('property_id').first().fill('full_name');
 
-		// await page.getByPlaceholder('Display name').first().click();
-		// await page.getByPlaceholder('Display name').first().fill('Full Name');
+		await page.getByPlaceholder('Display name').first().click();
+		await page.getByPlaceholder('Display name').first().fill('Full Name');
 
 		// // it should add properties to the auth template (2)
 
@@ -195,8 +199,16 @@ test.describe('it should create an issuance flow', () => {
 		await page.locator('input[name="type_name"]').click();
 		await page.locator('input[name="type_name"]').fill('issuance_test_1');
 
-		await page.getByPlaceholder('Write here a description of the content of the credential and what the user needs to receive it. It is readable by users and microservices.').click();
-		await page.getByPlaceholder('Write here a description of the content of the credential and what the user needs to receive it. It is readable by users and microservices.').fill('Issuance test creation');
+		await page
+			.getByPlaceholder(
+				'Write here a description of the content of the credential and what the user needs to receive it. It is readable by users and microservices.'
+			)
+			.click();
+		await page
+			.getByPlaceholder(
+				'Write here a description of the content of the credential and what the user needs to receive it. It is readable by users and microservices.'
+			)
+			.fill('Issuance test creation');
 
 		await page.locator('select[name="credential_template"]').selectOption({ index: 1 });
 		await page.locator('select[name="authorization_template"]').selectOption({ index: 1 });
