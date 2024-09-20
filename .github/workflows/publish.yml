@@ -39,8 +39,8 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: playwright-results
-          path: playwright-results/
+          name: tests-results
+          path: webapp/tests-results/
           retention-days: 10
 
   release:
