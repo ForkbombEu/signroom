@@ -96,10 +96,10 @@ function create_microservice_env(microservice: Microservice): string {
 
 function microservice_env_template(port: string | number, MS_NAME: string, MS_URL: string) {
 	return `# Don't change, never ever!
-FILES_DIR=.     
+FILES_DIR=.
 
 # Don't change, unless you have something else running on port 8000
-ANN_PORT=8000  
+ANN_PORT=8000
 
 # The microservice will run on this port 
 UP_PORT=${port}
