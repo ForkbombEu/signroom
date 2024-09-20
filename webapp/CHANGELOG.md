@@ -1,3 +1,15 @@
+# [1.24.0](https://github.com/ForkbombEu/signroom/compare/v1.23.1...v1.24.0) (2024-09-20)
+
+
+### Bug Fixes
+
+* remove trailing whitespace in microservices .env ([#806](https://github.com/ForkbombEu/signroom/issues/806)) ([92bb116](https://github.com/ForkbombEu/signroom/commit/92bb1169a66353b447120e9326188c86fc4586e2))
+
+
+### Features
+
+* load presets from backend ([#800](https://github.com/ForkbombEu/signroom/issues/800)) ([7b2b847](https://github.com/ForkbombEu/signroom/commit/7b2b847b1b49a1603089525046f64fd19bb76faa))
+
 ## [1.23.1](https://github.com/ForkbombEu/signroom/compare/v1.23.0...v1.23.1) (2024-09-18)
 
 
