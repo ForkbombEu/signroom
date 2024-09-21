@@ -1,3 +1,10 @@
+# [1.26.0](https://github.com/ForkbombEu/signroom/compare/v1.25.0...v1.26.0) (2024-09-21)
+
+
+### Features
+
+* add Ninja GitHub action 🥷 ([d0f9e20](https://github.com/ForkbombEu/signroom/commit/d0f9e20c4bb50438aa52b4903cbf4820f832c8d0))
+
 # [1.25.0](https://github.com/ForkbombEu/signroom/compare/v1.24.0...v1.25.0) (2024-09-21)
 
 
