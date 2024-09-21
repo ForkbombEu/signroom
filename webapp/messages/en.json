@@ -439,7 +439,7 @@
 	"Edit_template": "Edit template",
 	"my_certificates_description": "my_certificates_description",
 	"error_loading_presets": "error_loading_presets",
-  "service_type_name_placeholder": "age_verification",
+	"service_type_name_placeholder": "age_verification",
 	"Type_name_is_already_in_use": "Type name is already in use",
 	"not_authorized": "Not authorized",
 	"missing_data": "Missing data",
