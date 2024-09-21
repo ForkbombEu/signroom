@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   ninja-i18n:
-    name: Ninja i18n - GitHub Lint Action
+    name: 🌐 i18n checks
     runs-on: ubuntu-latest
 
     steps:
