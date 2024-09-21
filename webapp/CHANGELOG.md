@@ -1,3 +1,10 @@
+# [1.25.0](https://github.com/ForkbombEu/signroom/compare/v1.24.0...v1.25.0) (2024-09-21)
+
+
+### Features
+
+* add checks on microservices ([#798](https://github.com/ForkbombEu/signroom/issues/798)) ([60c731e](https://github.com/ForkbombEu/signroom/commit/60c731e96efdc1202275fb79ef24c90b7c6b9082)), closes [#791](https://github.com/ForkbombEu/signroom/issues/791)
+
 # [1.24.0](https://github.com/ForkbombEu/signroom/compare/v1.23.1...v1.24.0) (2024-09-20)
 
 
