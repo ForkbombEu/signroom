@@ -18,6 +18,7 @@ permissions:
 jobs:
   setup:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.pull_request.labels.*.name, 'SKIP_EPHEMERAL_DEPLOYMENT')"
     steps:
       - uses: dyne/pnpm@main
         with:
