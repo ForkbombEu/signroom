@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-name: Ninja i18n action
+name: 🌐 i18n checks
 
 on: pull_request_target
 
