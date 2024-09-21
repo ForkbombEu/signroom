@@ -1,6 +1,5 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"my_folders": "My folders",
 	"my_signatures": "My signatures",
 	"validate_signatures": "Validate signatures",
 	"multisignatures": "Multisignatures",
