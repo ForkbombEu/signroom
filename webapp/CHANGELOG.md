@@ -1,3 +1,10 @@
+# [1.28.0](https://github.com/ForkbombEu/signroom/compare/v1.27.1...v1.28.0) (2024-09-23)
+
+
+### Features
+
+* remove schema_secondary field and merge old ones ([#810](https://github.com/ForkbombEu/signroom/issues/810)) ([f97b019](https://github.com/ForkbombEu/signroom/commit/f97b019a2080bbc069d9d7423884cc023cb3f75f))
+
 ## [1.27.1](https://github.com/ForkbombEu/signroom/compare/v1.27.0...v1.27.1) (2024-09-23)
 
 
