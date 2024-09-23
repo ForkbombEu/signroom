@@ -1,3 +1,10 @@
+## [1.27.1](https://github.com/ForkbombEu/signroom/compare/v1.27.0...v1.27.1) (2024-09-23)
+
+
+### Bug Fixes
+
+* typo in dialog ([#809](https://github.com/ForkbombEu/signroom/issues/809)) ([36458f2](https://github.com/ForkbombEu/signroom/commit/36458f2d83126536609b9245221937e635c3b0cf)), closes [#808](https://github.com/ForkbombEu/signroom/issues/808)
+
 # [1.27.0](https://github.com/ForkbombEu/signroom/compare/v1.26.0...v1.27.0) (2024-09-23)
 
 
