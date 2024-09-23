@@ -132,14 +132,7 @@ function add_authorization_template_schema(
 	template: TemplatesResponse
 ) {
 	const basePath = get_credential_custom_code_path(zip, 'authz_server', credential_type_name);
-	const user_attributes_schema = template.schema as ObjectSchema;
-	const form_fields_schema = template.schema_secondary as ObjectSchema;
-	const schema = pipe(
-		[form_fields_schema, user_attributes_schema],
-		mergeObjectSchemas,
-		_.set('form_fields', Object.keys(form_fields_schema.properties)),
-		_.set('user_attributes', Object.keys(user_attributes_schema.properties))
-	);
+	const schema = template.schema as ObjectSchema;
 	zip.addFile(`${basePath}.schema.json`, Buffer.from(JSON.stringify(schema, null, 4)));
 }
 
