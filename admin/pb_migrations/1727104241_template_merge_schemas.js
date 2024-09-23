@@ -19,9 +19,9 @@ migrate(
             if (!template) continue;
 
             /** @type {ObjectSchema | null | undefined} */
-            const schema = JSON.parse(template.get("schema"));
+            const schema = parseUnknown(template.get("schema"));
             /** @type {ObjectSchema | null | undefined} */
-            const schema_secondary = JSON.parse(
+            const schema_secondary = parseUnknown(
                 template.get("schema_secondary")
             );
 
@@ -58,4 +58,14 @@ function mergeObjectSchemas(schemas) {
         required,
         properties: Object.fromEntries(properties),
     };
+}
+
+/** @param {any} data */
+function parseUnknown(data) {
+    try {
+        return JSON.parse(data);
+    } catch (e) {
+        console.log("Couldn't parse: ", data);
+        return undefined;
+    }
 }
