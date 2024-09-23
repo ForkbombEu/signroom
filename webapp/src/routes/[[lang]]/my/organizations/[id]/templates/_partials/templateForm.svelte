@@ -76,16 +76,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		preset = undefined;
 	}
 
-	function applyPreset({
-		zencode_data,
-		zencode_script,
-		schema,
-		schema_secondary
-	}: TemplatesRecord) {
+	function applyPreset({ zencode_data, zencode_script, schema }: TemplatesRecord) {
 		if (zencode_script) $form['zencode_script'] = zencode_script;
 		if (zencode_data) $form['zencode_data'] = zencode_data;
 		$form['schema'] = JSON.stringify(schema, null, 4);
-		if (schema_secondary) $form['schema_secondary'] = JSON.stringify(schema_secondary, null, 4);
 	}
 
 	// Utils
@@ -152,24 +146,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 		<JSONSchemaInput {superform} field="schema" />
 	</div>
-
-	{#if type == TemplatesTypeOptions.authorization}
-		<div class="pointer-events-none cursor-none space-y-8 opacity-30">
-			<SectionTitle
-				tag="h5"
-				title="{m.Attributes_needed()} *"
-				description={type == TemplatesTypeOptions.issuance
-					? m.attributes_needed_description_credential()
-					: type == TemplatesTypeOptions.authorization
-						? m.attributes_needed_description_authorization()
-						: type == TemplatesTypeOptions.verification
-							? m.attributes_needed_description_verification()
-							: ''}
-			/>
-
-			<!-- <JSONSchemaInput {superform} field="schema_secondary" /> -->
-		</div>
-	{/if}
 
 	<div class="space-y-8">
 		<SectionTitle tag="h5" title="{m.Custom_code()}*" description={m.custom_code_description()} />
