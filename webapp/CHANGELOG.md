@@ -1,3 +1,10 @@
+## [1.28.1](https://github.com/ForkbombEu/signroom/compare/v1.28.0...v1.28.1) (2024-09-23)
+
+
+### Bug Fixes
+
+* Update 1727104241_template_merge_schemas.js ([#812](https://github.com/ForkbombEu/signroom/issues/812)) ([2403667](https://github.com/ForkbombEu/signroom/commit/24036678804064d9f9eb2b39c9a714ee2d1764d1))
+
 # [1.28.0](https://github.com/ForkbombEu/signroom/compare/v1.27.1...v1.28.0) (2024-09-23)
 
 
