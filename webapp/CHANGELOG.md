@@ -1,3 +1,10 @@
+# [1.27.0](https://github.com/ForkbombEu/signroom/compare/v1.26.0...v1.27.0) (2024-09-23)
+
+
+### Features
+
+* run i18n linting and translations check ([#807](https://github.com/ForkbombEu/signroom/issues/807)) ([0f3a8f5](https://github.com/ForkbombEu/signroom/commit/0f3a8f5b5b18a6aa3828a6fdde85e60262a77d6a))
+
 # [1.26.0](https://github.com/ForkbombEu/signroom/compare/v1.25.0...v1.26.0) (2024-09-21)
 
 
