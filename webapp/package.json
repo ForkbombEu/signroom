@@ -5,7 +5,7 @@
 		"email": "puria@dyne.org"
 	},
 	"description": "Advanced electronic signature service based on Zenroom",
-	"version": "1.23.1",
+	"version": "1.27.0",
 	"private": true,
 	"engines": {
 		"node": ">=17",
@@ -30,9 +30,11 @@
 		"schema": "node ./src/lib/pocketbase/schema/generateSchema.mjs",
 		"definitions": "pnpm types && pnpm schema && pnpm features && pnpm roles",
 		"serve": "pnpm build && pnpm preview --host",
-		"remove-unused-strings": "node ./src/lib/i18n/removeUnusedStrings.mjs"
+		"remove-unused-strings": "node ./src/lib/i18n/removeUnusedStrings.mjs",
+		"i18n:lint": "pnpm inlang lint --project ./project.inlang"
 	},
 	"devDependencies": {
+		"@inlang/cli": "^2.18.1",
 		"@inlang/paraglide-js": "1.11.2",
 		"@playwright/test": "^1.45.3",
 		"@semantic-release/changelog": "^6.0.3",

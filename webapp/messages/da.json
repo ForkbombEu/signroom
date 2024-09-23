@@ -1,6 +1,5 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"start": "Start",
 	"my_folders": "Mapper",
 	"my_signatures": "Signaturer",
 	"validate_signatures": "Validere signaturer",
@@ -312,5 +311,6 @@
 	"Day": "Dag",
 	"Date": "Dato",
 	"Please_add_at_least_one_day": "Tilføj venligst mindst én dag",
-	"Date_must_be_after_today": "Datoen skal være efter i dag"
+	"Date_must_be_after_today": "Datoen skal være efter i dag",
+	"start": "Starte"
 }

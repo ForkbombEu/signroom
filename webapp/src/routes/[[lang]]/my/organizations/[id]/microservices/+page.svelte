@@ -93,7 +93,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		<div class="flex flex-col items-center justify-center text-sm">
 			<Spinner />
 			<p class="mt-4 font-bold">{m.Downloading_microservices()}</p>
-			<p>P{m.Please_wait()}</p>
+			<p>{m.Please_wait()}</p>
 		</div>
 	</Modal>
 </PortalWrapper>

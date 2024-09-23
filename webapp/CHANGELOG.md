@@ -1,3 +1,36 @@
+# [1.27.0](https://github.com/ForkbombEu/signroom/compare/v1.26.0...v1.27.0) (2024-09-23)
+
+
+### Features
+
+* run i18n linting and translations check ([#807](https://github.com/ForkbombEu/signroom/issues/807)) ([0f3a8f5](https://github.com/ForkbombEu/signroom/commit/0f3a8f5b5b18a6aa3828a6fdde85e60262a77d6a))
+
+# [1.26.0](https://github.com/ForkbombEu/signroom/compare/v1.25.0...v1.26.0) (2024-09-21)
+
+
+### Features
+
+* add Ninja GitHub action 🥷 ([d0f9e20](https://github.com/ForkbombEu/signroom/commit/d0f9e20c4bb50438aa52b4903cbf4820f832c8d0))
+
+# [1.25.0](https://github.com/ForkbombEu/signroom/compare/v1.24.0...v1.25.0) (2024-09-21)
+
+
+### Features
+
+* add checks on microservices ([#798](https://github.com/ForkbombEu/signroom/issues/798)) ([60c731e](https://github.com/ForkbombEu/signroom/commit/60c731e96efdc1202275fb79ef24c90b7c6b9082)), closes [#791](https://github.com/ForkbombEu/signroom/issues/791)
+
+# [1.24.0](https://github.com/ForkbombEu/signroom/compare/v1.23.1...v1.24.0) (2024-09-20)
+
+
+### Bug Fixes
+
+* remove trailing whitespace in microservices .env ([#806](https://github.com/ForkbombEu/signroom/issues/806)) ([92bb116](https://github.com/ForkbombEu/signroom/commit/92bb1169a66353b447120e9326188c86fc4586e2))
+
+
+### Features
+
+* load presets from backend ([#800](https://github.com/ForkbombEu/signroom/issues/800)) ([7b2b847](https://github.com/ForkbombEu/signroom/commit/7b2b847b1b49a1603089525046f64fd19bb76faa))
+
 ## [1.23.1](https://github.com/ForkbombEu/signroom/compare/v1.23.0...v1.23.1) (2024-09-18)
 
 

@@ -6,11 +6,6 @@ import { pb } from '$lib/pocketbase';
 import { OrgJoinRequestsStatusOptions } from '$lib/pocketbase/types.js';
 
 export const load = async ({ params, fetch }) => {
-	const issuanceFlows = await pb.collection('services').getFullList({
-		filter: `organization.id = '${params.id}'`,
-		fetch
-	});
-
 	const verificationFlows = await pb.collection('verification_flows').getFullList({
 		filter: `organization.id = '${params.id}'`,
 		fetch
@@ -40,5 +35,5 @@ export const load = async ({ params, fetch }) => {
 		fetch
 	});
 
-	return { issuanceFlows, verificationFlows, templates, microservices, membershipRequests };
+	return { verificationFlows, templates, microservices, membershipRequests };
 };

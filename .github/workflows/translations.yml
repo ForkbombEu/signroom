@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2024 The Forkbomb Company
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+name: 🌐 i18n checks
+
+on: pull_request_target
+
+permissions:
+  pull-requests: write
+  issues: read
+  contents: read
+
+jobs:
+  ninja-i18n:
+    name: 🌐 i18n checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: opral/ninja-i18n-action@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
