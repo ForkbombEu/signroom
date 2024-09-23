@@ -1,7 +1,5 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"start": "Start",
-	"my_folders": "My folders",
 	"my_signatures": "My signatures",
 	"validate_signatures": "Validate signatures",
 	"multisignatures": "Multisignatures",
@@ -449,5 +447,6 @@
 	"cant_delete_last_owner_role": "Cannot delete last owner role",
 	"cant_create_role_higher_than_or_equal_to_yours": "Cannot create a role higher than or equal to yours",
 	"cant_edit_role_higher_than_or_equal_to_yours": "Cannot update a role higher than or equal to yours",
-	"cant_delete_role_higher_than_or_equal_to_yours": "Cannot delete a role higher than or equal to yours"
+	"cant_delete_role_higher_than_or_equal_to_yours": "Cannot delete a role higher than or equal to yours",
+	"start": "Start"
 }

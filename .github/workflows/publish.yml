@@ -32,6 +32,8 @@ jobs:
         with:
           working-directory: webapp
       - run: make build
+      - run: pnpm i18n:lint
+        working-directory: webapp
       - run: npx playwright install --with-deps
         working-directory: webapp
       - run: pnpm t

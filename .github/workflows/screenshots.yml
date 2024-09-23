@@ -4,7 +4,7 @@
 
 name: Create screenshots
 on:
-  pull_request:
+  push:
     branches: [ "main" ]
 permissions:
   contents: write
