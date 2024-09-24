@@ -1,7 +1,7 @@
 {
   "template": "https://github.com/dyne/starters",
-  "checkout": null,
-  "commit": "8056b60d7d177cd3f259db43834eb0e150e24b1b",
+  "checkout": "audit-logs",
+  "commit": "72c74f83a571627d88d404c34ec2898b504e9c83",
   "context": {
     "cookiecutter": {
       "project_name": "signroom",
@@ -11,7 +11,8 @@
       "project_slug": "signroom",
       "repo": "https://github.com/forkbombeu/signroom",
       "_copy_without_render": [
-        "*.svelte"
+        "*.svelte",
+        "admin/pb_hooks/rbac.pb.js"
       ],
       "_template": "https://github.com/dyne/starters"
     }
