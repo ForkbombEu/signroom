@@ -1,3 +1,5 @@
+// @ts-check
+
 /// <reference path="../pb_data/types.d.ts" />
 /**
  * @typedef {import('../../webapp/src/lib/pocketbase/types').FeaturesRecord} Feature
@@ -33,7 +35,19 @@ const features = [
         name: "maintenance",
         envVariables: {},
         active: false,
-    }
+    },
+    {
+        name: "organizations",
+        envVariables: {},
+    },
+    {
+        name: "webauthn",
+        envVariables: {
+            DISPLAY_NAME: "signroom",
+            RPID: "localhost",
+            RPORIGINS: "http://localhost:5173",
+        },
+    },
 ];
 
 migrate(
@@ -44,12 +58,21 @@ migrate(
         );
 
         for (const feature of features) {
-            const record = new Record(collection, {
-                name: feature.name,
-                envVariables: feature.envVariables,
-                active: feature.active ?? true,
-            });
-
+            /** @type {models.Record} */
+            let record;
+            try {
+                record = dao.findFirstRecordByData(
+                    FEATURES_COLLECTION_NAME,
+                    "name",
+                    feature.name
+                );
+            } catch (e) {
+                record = new Record(collection, {
+                    name: feature.name,
+                });
+            }
+            record.set("envVariables", feature.envVariables);
+            record.set("active", feature.active ?? true);
             dao.saveRecord(record);
         }
     },
