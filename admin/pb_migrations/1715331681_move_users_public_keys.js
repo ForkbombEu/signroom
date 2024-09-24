@@ -16,14 +16,23 @@ migrate(
 
         for (const user of users) {
             if (user) {
-                const userPublicKeys = new Record(usersPublicKeysCollection, {
-                    owner: user.getId(),
+                const keys = {
                     bitcoin_public_key: user.get("bitcoin_public_key"),
                     ecdh_public_key: user.get("ecdh_public_key"),
                     eddsa_public_key: user.get("eddsa_public_key"),
                     ethereum_address: user.get("ethereum_address"),
                     reflow_public_key: user.get("reflow_public_key"),
                     es256_public_key: user.get("es256_public_key"),
+                };
+
+                const userHasKeys = Object.values(keys)
+                    .map(Boolean)
+                    .every((v) => v);
+                if (!userHasKeys) continue;
+
+                const userPublicKeys = new Record(usersPublicKeysCollection, {
+                    owner: user.getId(),
+                    ...keys,
                 });
 
                 dao.saveRecord(userPublicKeys);
