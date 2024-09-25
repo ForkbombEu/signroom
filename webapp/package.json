@@ -30,6 +30,7 @@
 		"schema": "node ./src/lib/pocketbase/schema/generateSchema.mjs",
 		"definitions": "pnpm types && pnpm schema && pnpm features && pnpm roles",
 		"serve": "pnpm build && pnpm preview --host",
+		"remove-unused-strings": "node ./src/lib/i18n/removeUnusedStrings.mjs",
 		"i18n:lint": "pnpm inlang lint --project ./project.inlang"
 	},
 	"devDependencies": {
