@@ -95,7 +95,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	});
 
 	$: $queryParams = {
-		$autoCancel: false,
+		requestKey: null,
 		...$queryParams,
 		...initialQueryParams
 	};
