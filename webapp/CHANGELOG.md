@@ -1,3 +1,10 @@
+# [1.29.0](https://github.com/ForkbombEu/signroom/compare/v1.28.1...v1.29.0) (2024-09-26)
+
+
+### Features
+
+* add script to remove unused strings ([#805](https://github.com/ForkbombEu/signroom/issues/805)) ([7284209](https://github.com/ForkbombEu/signroom/commit/7284209bb79fac435ca856bdeb81e471b9423a32))
+
 ## [1.28.1](https://github.com/ForkbombEu/signroom/compare/v1.28.0...v1.28.1) (2024-09-23)
 
 
