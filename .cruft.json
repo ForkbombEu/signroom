@@ -1,7 +1,7 @@
 {
   "template": "https://github.com/dyne/starters",
   "checkout": "remove-protected-org-routes",
-  "commit": "480b8265865117bfecc2e39c83d048b758ae26a2",
+  "commit": "dd4c2f3b02f42dadd726f3d7a6af709c68c9c555",
   "context": {
     "cookiecutter": {
       "project_name": "signroom",

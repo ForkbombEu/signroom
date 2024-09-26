@@ -10,3 +10,4 @@ export * from './roles';
 export * from './verify-authorizations';
 export * from './utils';
 export * from './links';
+export * from './guards';

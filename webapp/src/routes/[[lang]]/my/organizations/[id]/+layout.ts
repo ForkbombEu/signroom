@@ -3,14 +3,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { pb } from '$lib/pocketbase';
-import { verifyUserMembership } from '$lib/organizations';
-import { error } from '@sveltejs/kit';
+import { blockNonMembers } from '$lib/organizations';
 
 export const load = async ({ params, fetch }) => {
 	const organizationId = params.id;
 
-	const { isMember } = await verifyUserMembership(organizationId, fetch);
-	if (!isMember) error(404);
+	await blockNonMembers(organizationId, fetch);
 
 	const organization = await pb.collection('organizations').getOne(organizationId, {
 		fetch,
