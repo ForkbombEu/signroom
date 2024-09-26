@@ -19,7 +19,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { c } from '$lib/utils/strings.js';
 	import ImagePreview from '$lib/components/imagePreview.svelte';
 	import CollectionEmptyState from '$lib/collectionManager/ui/collectionEmptyState.svelte';
-	import { ProtectedOrgUI } from '$lib/rbac/index.js';
+	import { ProtectedOrgUI } from '$lib/organizations/index.js';
 	import Icon from '$lib/components/icon.svelte';
 
 	export let data;

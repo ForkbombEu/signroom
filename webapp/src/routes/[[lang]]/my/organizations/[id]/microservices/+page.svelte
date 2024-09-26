@@ -12,7 +12,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import PageCard from '$lib/components/pageCard.svelte';
 	import { ArrowDownTray } from 'svelte-heros-v2';
 	import Icon from '$lib/components/icon.svelte';
-	import { ProtectedOrgUI } from '$lib/rbac';
+	import { ProtectedOrgUI } from '$lib/organizations';
 	import PortalWrapper from '$lib/components/portalWrapper.svelte';
 	import { getErrorMessage } from '$lib/errorHandling.js';
 	import { requestDownloadMicroservices } from '@api/download-microservices/index.js';

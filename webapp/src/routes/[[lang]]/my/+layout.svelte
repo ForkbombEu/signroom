@@ -35,7 +35,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		RectangleStack,
 		User,
 		EllipsisHorizontal,
-		Document
+		Document,
+		Users,
+		LockClosed
 	} from 'svelte-heros-v2';
 	import { createOrganizationSidebarLinks, getUserRole } from '$lib/organizations';
 	import { m } from '$lib/i18n';
@@ -72,7 +74,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 						{#if $currentUser}
 							<span class="whitespace-nowrap">
 								{m.hello()},
-								<span class="font-semibold text-primary-600">
+								<span class="text-primary-600 font-semibold">
 									{getUserDisplayName($currentUser)}
 								</span>
 							</span>

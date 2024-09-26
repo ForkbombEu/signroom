@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { ProtectedOrgUI } from '$lib/rbac/index.js';
+	import { ProtectedOrgUI } from '$lib/organizations/index.js';
 	import { m } from '$lib/i18n';
 
 	import OrganizationLayout from '$lib/components/organizationLayout.svelte';
