@@ -1,7 +1,7 @@
 {
   "template": "https://github.com/dyne/starters",
-  "checkout": null,
-  "commit": "95d85b352dbbbbb782902198f96da565cc21d0ac",
+  "checkout": "remove-protected-org-routes",
+  "commit": "480b8265865117bfecc2e39c83d048b758ae26a2",
   "context": {
     "cookiecutter": {
       "project_name": "signroom",
@@ -12,7 +12,8 @@
       "repo": "https://github.com/forkbombeu/signroom",
       "_copy_without_render": [
         "*.svelte",
-        "admin/pb_hooks/rbac.pb.js"
+        "admin/pb_hooks/rbac.pb.js",
+        "admin/pb_hooks/organizations.routes.pb.js"
       ],
       "_template": "https://github.com/dyne/starters"
     }
