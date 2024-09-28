@@ -1,41 +1,20 @@
-// SPDX-FileCopyrightText: 2024 The Forkbomb Company
-//
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
 // @ts-check
 
 /// <reference path="../pb_data/types.d.ts" />
 /** @typedef {import('./utils.js')} Utils */
-/** @typedef {import("../../webapp/src/lib/pocketbase/types").OrgAuthorizationsRecord} OrgAuthorization */
-/** @typedef {import("../../webapp/src/lib/pocketbase/types").OrgRolesResponse} OrgRole */
+/** @typedef {import('./auditLogger.js')} AuditLogger */
+/** @typedef {import("../../webapp/src/lib/pocketbase/types.js").OrgAuthorizationsRecord} OrgAuthorization */
+/** @typedef {import("../../webapp/src/lib/pocketbase/types.js").OrgRolesResponse} OrgRole */
 
-//
+/**
+ * INDEX
+ * - guard hooks (protecting orgAuthorizations from invalid CRUD operations)
+ * - audit + email hooks
+ */
 
-/* On Organization Create – Creating owner authorization */
+/* Guard hooks */
 
-onRecordAfterCreateRequest((e) => {
-    /** @type {Utils} */
-    const utils = require(`${__hooks}/utils.js`);
-
-    // Don't create orgAuthorization if organization is created from admin panel
-    if (utils.isAdminContext(e.httpContext)) return;
-
-    const userId = utils.getUserFromContext(e.httpContext)?.getId();
-    const organizationId = e.record?.getId();
-
-    const ownerRole = utils.getRoleByName("owner");
-    const ownerRoleId = ownerRole?.getId();
-
-    const collection = $app.dao().findCollectionByNameOrId("orgAuthorizations");
-    const record = new Record(collection, {
-        organization: organizationId,
-        role: ownerRoleId,
-        user: userId,
-    });
-    $app.dao().saveRecord(record);
-}, "organizations");
-
-/* on OrgAuthorization Create - Cannot create an authorization with a level higher than or equal to your permissions */
+// [CREATE] Cannot create an authorization with a level higher than or equal to your permissions
 
 onRecordBeforeCreateRequest((e) => {
     /** @type {Utils} */
@@ -67,7 +46,7 @@ onRecordBeforeCreateRequest((e) => {
     }
 }, "orgAuthorizations");
 
-/* on OrgAuthorization Update */
+// [UPDATE] Cannot update to/from a role higher than the user
 
 onRecordBeforeUpdateRequest((e) => {
     /** @type {Utils} */
@@ -114,7 +93,7 @@ onRecordBeforeUpdateRequest((e) => {
         );
 }, "orgAuthorizations");
 
-/* on OrgAuthorization Delete - Cannot delete an authorization with a level higher than or equal to yours */
+// [DELETE] Cannot delete an authorization with a level higher than or equal to yours
 
 onRecordBeforeDeleteRequest((e) => {
     /** @type {Utils} */
@@ -145,7 +124,7 @@ onRecordBeforeDeleteRequest((e) => {
         );
 }, "orgAuthorizations");
 
-/* On OrgAuthorization Delete – Cannot delete last owner role */
+// [DELETE] Cannot delete last owner role
 
 onRecordBeforeDeleteRequest((e) => {
     /** @type {Utils} */
@@ -158,7 +137,7 @@ onRecordBeforeDeleteRequest((e) => {
     }
 }, "orgAuthorizations");
 
-/* On OrgAuthorization Update – Cannot edit last owner role */
+// [UPDATE] Cannot edit last owner role
 
 onRecordBeforeUpdateRequest((e) => {
     /** @type {Utils} */
@@ -172,5 +151,130 @@ onRecordBeforeUpdateRequest((e) => {
 
     if (originalRecord && utils.isLastOwnerAuthorization(originalRecord)) {
         throw new BadRequestError(utils.errors.cant_delete_last_owner_role);
+    }
+}, "orgAuthorizations");
+
+/* Audit + Email hooks */
+
+onRecordAfterCreateRequest((e) => {
+    /** @type {AuditLogger} */
+    const auditLogger = require(`${__hooks}/auditLogger.js`);
+
+    /** @type {Utils} */
+    const utils = require(`${__hooks}/utils.js`);
+
+    if (!e.record) return;
+
+    const organization = utils.getExpanded(e.record, "organization");
+    const user = utils.getExpanded(e.record, "user");
+    const role = utils.getExpanded(e.record, "role");
+
+    auditLogger(e.httpContext).info(
+        "Created organization authorization",
+        "organizationId",
+        organization?.getId(),
+        "organizationName",
+        organization?.get("name"),
+        "userId",
+        user?.getId(),
+        "userName",
+        user?.get("name"),
+        "roleId",
+        role?.getId(),
+        "roleName",
+        role?.get("name")
+    );
+}, "orgAuthorizations");
+
+onRecordAfterUpdateRequest((e) => {
+    /** @type {AuditLogger} */
+    const auditLogger = require(`${__hooks}/auditLogger.js`);
+
+    /** @type {Utils} */
+    const utils = require(`${__hooks}/utils.js`);
+
+    if (!e.record) return;
+
+    const organization = utils.getExpanded(e.record, "organization");
+    const organizationName = organization?.get("name");
+
+    const user = utils.getExpanded(e.record, "user");
+    if (!user) throw utils.createMissingDataError("user of orgAuthorization");
+
+    const previousRole = utils.getExpanded(e.record.originalCopy(), "role");
+    const role = utils.getExpanded(e.record, "role");
+
+    auditLogger(e.httpContext).info(
+        "Updated organization authorization",
+        "organizationId",
+        organization?.getId(),
+        "organizationName",
+        organizationName,
+        "userId",
+        user?.getId(),
+        "userName",
+        user?.get("name"),
+        "previousRoleId",
+        previousRole?.getId(),
+        "previousRoleName",
+        previousRole?.get("name"),
+        "newRoleId",
+        role?.getId(),
+        "newRoleName",
+        role?.get("name")
+    );
+
+    const res = utils.sendEmail({
+        to: utils.getUserEmailAddressData(user),
+        subject: `${organizationName} | Your organization role has changed"`,
+        html: "",
+    });
+    if (res instanceof Error) {
+        console.error(res);
+    }
+}, "orgAuthorizations");
+
+onRecordAfterDeleteRequest((e) => {
+    /** @type {AuditLogger} */
+    const auditLogger = require(`${__hooks}/auditLogger.js`);
+
+    /** @type {Utils} */
+    const utils = require(`${__hooks}/utils.js`);
+
+    if (!e.record) return;
+
+    const record = e.record.originalCopy();
+
+    const organization = utils.getExpanded(record, "organization");
+    const organizationName = organization?.get("name");
+
+    const user = utils.getExpanded(record, "user");
+    const role = utils.getExpanded(record, "role");
+
+    if (!user) throw utils.createMissingDataError("user of orgAuthorization");
+
+    auditLogger(e.httpContext).info(
+        "Deleted organization authorization",
+        "organizationId",
+        organization?.getId(),
+        "organizationName",
+        organizationName,
+        "userId",
+        user?.getId(),
+        "userName",
+        user?.get("name"),
+        "roleId",
+        role?.getId(),
+        "roleName",
+        role?.get("name")
+    );
+
+    const res = utils.sendEmail({
+        to: utils.getUserEmailAddressData(user),
+        subject: `${organizationName} | Your organization role has been deleted"`,
+        html: "",
+    });
+    if (res instanceof Error) {
+        console.error(res);
     }
 }, "orgAuthorizations");
