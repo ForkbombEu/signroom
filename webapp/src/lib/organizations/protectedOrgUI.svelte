@@ -5,13 +5,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <script lang="ts">
-	import { verifyRole } from '.';
+	import { verifyUserRole } from './verify-authorizations';
 	import type { OrgRole } from './roles';
 
 	export let orgId: string;
 	export let roles: OrgRole[];
 </script>
 
-{#await verifyRole(orgId, roles) then _}
-	<slot />
+{#await verifyUserRole(orgId, roles) then response}
+	{#if response.hasRole}
+		<slot />
+	{/if}
 {/await}

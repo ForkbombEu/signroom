@@ -334,5 +334,7 @@
 	"cant_create_role_higher_than_or_equal_to_yours": "Cannot create a role higher than or equal to yours",
 	"cant_edit_role_higher_than_or_equal_to_yours": "Cannot update a role higher than or equal to yours",
 	"cant_delete_role_higher_than_or_equal_to_yours": "Cannot delete a role higher than or equal to yours",
-	"start": "Start"
+	"start": "Start",
+	"decline_membership_request": "decline_membership_request",
+	"decline_membership_request_warning": "decline_membership_request_warning"
 }

@@ -15,7 +15,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	} from '$lib/pocketbase/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { m } from '$lib/i18n';
-	import { OrgRoles, ProtectedOrgUI } from '$lib/rbac';
+	import { OrgRoles, ProtectedOrgUI } from '$lib/organizations';
 
 	import { Button, Badge } from 'flowbite-svelte';
 	import { Pencil, Plus, XMark } from 'svelte-heros-v2';
@@ -71,17 +71,19 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 			let:records
 		>
 			<SectionTitle tag="h5" title={m.Members()} description={m.members_description()}>
-				<CreateRecord {recordType} slot="right">
-					<svelte:fragment slot="button" let:openModal>
-						<Button on:click={openModal} class="shrink-0">
-							<Plus size="20" class="mr-2" />
-							{m.Add_new_member()}
-						</Button>
-					</svelte:fragment>
-				</CreateRecord>
+				<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']} slot="right">
+					<CreateRecord {recordType}>
+						<svelte:fragment slot="button" let:openModal>
+							<Button on:click={openModal} class="shrink-0">
+								<Plus size="20" class="mr-2" />
+								{m.Add_new_member()}
+							</Button>
+						</svelte:fragment>
+					</CreateRecord>
+				</ProtectedOrgUI>
 			</SectionTitle>
 
-			<div class="space-y-4">
+			<div class="space-y-2">
 				{#each records as record}
 					{@const user = record.expand?.user}
 					{@const role = record.expand?.role}

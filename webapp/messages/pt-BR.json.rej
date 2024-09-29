@@ -1,0 +1,19 @@
+diff a/webapp/messages/pt-BR.json b/webapp/messages/pt-BR.json	(rejected hunks)
+@@ -1,7 +1,5 @@
+ {
+ 	"$schema": "https://inlang.com/schema/inlang-message-format",
+-	"start": "Começar",
+-	"my_folders": "Pastas",
+ 	"my_signatures": "Assinaturas",
+ 	"validate_signatures": "Validar assinaturas",
+ 	"multisignatures": "Multiassinaturas",
+@@ -124,5 +122,7 @@
+ 	"templates_description": "Encontre aqui todos os templates dos fluxos de emissão e verificação. Os modelos podem ser de três tipos: Autorização, Emissão ou Verificação. Os templates desempenham um papel central no funcionamento dos fluxos de emissão e verificação de credenciais e, portanto, no comportamento dos seus respectivos microsserviços (Authorization Server, Credential Issuer and Relying Party). ",
+ 	"pending_membership_requests_description": "Aqui você pode ver a lista de usuários que solicitaram ser membros desta organização",
+ 	"members_description": "Lista dos membros existentes da organização: os membros podem ter diferentes funções, permitindo-lhes diferentes privilégios ",
+-	"verification_flow_description": "A verificação é gerenciada principalmente pelo aplicativo DIDroom Verifier. Instale o aplicativo verificador, faça login com uma conta conectada a esta organização e inicie o fluxo de verificação a partir daí."
++	"verification_flow_description": "A verificação é gerenciada principalmente pelo aplicativo DIDroom Verifier. Instale o aplicativo verificador, faça login com uma conta conectada a esta organização e inicie o fluxo de verificação a partir daí.",
++	"start": "Começar",
++	"my_folders": "Pastas"
+ }
+\ No newline at end of file

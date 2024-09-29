@@ -1,0 +1,19 @@
+diff a/webapp/messages/fr.json b/webapp/messages/fr.json	(rejected hunks)
+@@ -1,7 +1,5 @@
+ {
+ 	"$schema": "https://inlang.com/schema/inlang-message-format",
+-	"start": "Commencer",
+-	"my_folders": "Dossiers",
+ 	"my_signatures": "Signatures",
+ 	"validate_signatures": "Valider les signatures",
+ 	"multisignatures": "Multisignatures",
+@@ -124,5 +122,7 @@
+ 	"templates_description": "Retrouvez ici tous les modèles pour les flux d'émission de credentials et de vérification. Les modèles peuvent être de trois types : autorisation, issuance ou vérification. Les modèles jouent un rôle central dans le fonctionnement des flux de issuance et de vérification des credentials et donc dans le comportement de leurs microservices respectifs (Authorization Server, Credential Issuer and Relying Party). ",
+ 	"pending_membership_requests_description": "Ici vous pouvez voir la liste des utilisateurs qui ont demandé à être membres de cette organisation",
+ 	"members_description": "Liste des membres existants de l'organisation : les membres peuvent avoir différents rôles leur permettant différents privilèges ",
+-	"verification_flow_description": "La vérification est gérée principalement par l'application DIDroom Verifier. Installez l'application de vérification, connectez-vous avec un compte connecté à cette organisation et démarrez le flux de vérification à partir de là."
++	"verification_flow_description": "La vérification est gérée principalement par l'application DIDroom Verifier. Installez l'application de vérification, connectez-vous avec un compte connecté à cette organisation et démarrez le flux de vérification à partir de là.",
++	"start": "Commencer",
++	"my_folders": "Dossiers"
+ }
+\ No newline at end of file

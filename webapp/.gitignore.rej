@@ -1,0 +1,9 @@
+diff a/webapp/.gitignore b/webapp/.gitignore	(rejected hunks)
+@@ -13,4 +13,4 @@ vite.config.ts.timestamp-*
+ src/lib/pocketbase/schema/db_schema.json
+ src/lib/pocketbase/types.ts
+ src/lib/features/list.ts
+-src/lib/rbac/roles.ts
+\ No newline at end of file
++src/lib/organizations/roles.ts
+\ No newline at end of file
