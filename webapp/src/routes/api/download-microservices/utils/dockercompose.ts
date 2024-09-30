@@ -9,34 +9,29 @@ import type {
 	IssuersResponse,
 	RelyingPartiesResponse
 } from '$lib/pocketbase/types';
+import type { MicroserviceFolder } from '../shared-operations';
 
-type dockerFiles = {
+type DockerFiles = {
 	dockerCompose: string;
-	caddyfile: JSON;
+	caddyfile: Record<string, unknown>;
 	dependsOn: string;
 };
-
-enum msTypes {
-	authz_server,
-	credential_issuer,
-	relying_party
-}
 
 const serviceNamePrefix = {
 	authz_server: 'as',
 	credential_issuer: 'ci',
 	relying_party: 'rp'
-}
+};
 
-export function startDockerCompose(): dockerFiles {
+export function startDockerCompose(): DockerFiles {
 	return {
 		dockerCompose: 'services:',
 		caddyfile: {},
 		dependsOn: ''
-	}
+	};
 }
 
-export function endDockerCompose(zip: AdmZip, dockerComposeFiles: dockerFiles): void {
+export function endDockerCompose(zip: AdmZip, dockerComposeFiles: DockerFiles): void {
 	dockerComposeFiles.dockerCompose += `
   caddy:
     depends_on: ${dockerComposeFiles.dependsOn}
@@ -66,9 +61,9 @@ volumes:
 }
 
 export function setupDockerCompose(
-	dockerComposeFiles: dockerFiles,
+	dockerComposeFiles: DockerFiles,
 	ms: AuthorizationServersResponse | IssuersResponse | RelyingPartiesResponse,
-	msType: msTypes
+	msType: MicroserviceFolder
 ): void {
 	const msName = createSlug(ms.name);
 	const msUrl = cleanUrl(ms.endpoint);
@@ -79,13 +74,17 @@ export function setupDockerCompose(
 	const msBaseUrl = protocol + '//' + host;
 	if (!dockerComposeFiles.caddyfile[msBaseUrl])
 		dockerComposeFiles.caddyfile[msBaseUrl] = caddyfileTemplate(serviceFullName, msType);
-	else
-		dockerComposeFiles.caddyfile[msBaseUrl] += caddyfileTemplate(serviceFullName, msType);
+	else dockerComposeFiles.caddyfile[msBaseUrl] += caddyfileTemplate(serviceFullName, msType);
 }
 
-function dockerComposeTemplate(serviceFullName: string, msUrl: string, msType: msTypes): string {
+function dockerComposeTemplate(
+	serviceFullName: string,
+	msUrl: string,
+	msType: MicroserviceFolder
+): string {
 	let entrypoint = '';
-	if (msType == 'authz_server') entrypoint = '\n    entrypoint: sh -c "make -C /app authorize && ./ncr"';
+	if (msType == 'authz_server')
+		entrypoint = '\n    entrypoint: sh -c "make -C /app authorize && ./ncr"';
 	return `
   ${serviceFullName}:
     container_name: ${serviceFullName}
@@ -106,7 +105,7 @@ function dockerComposeTemplate(serviceFullName: string, msUrl: string, msType: m
 `;
 }
 
-function caddyfileTemplate(serviceFullName: string, msType: msTypes): string {
+function caddyfileTemplate(serviceFullName: string, msType: MicroserviceFolder): string {
 	return `
 	reverse_proxy /${msType}/* ${serviceFullName}:3000
 `;

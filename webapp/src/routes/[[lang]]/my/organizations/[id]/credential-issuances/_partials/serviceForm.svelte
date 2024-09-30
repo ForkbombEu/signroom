@@ -144,7 +144,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		return `type = '${type}' && ( organization.id = '${organizationId}' || public = true )`;
 	}
 
-	type Template = TemplatesResponse<unknown, unknown, { organization: OrganizationsResponse }>;
+	type Template = TemplatesResponse<unknown, { organization: OrganizationsResponse }>;
 
 	const templateTypeProp = createTypeProp<Template>();
 
