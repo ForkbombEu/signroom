@@ -8,7 +8,7 @@ import type { NavigationTab } from '$lib/components/navigationTabs.svelte';
 import { Cog, Document, Fire, GlobeAlt, HandRaised, Home, Users } from 'svelte-heros-v2';
 import type { SidebarItemProps } from '$lib/layout/SidebarLinks.svelte';
 import { pb } from '$lib/pocketbase';
-import type { OrgRole } from '$lib/rbac';
+import type { OrgRole } from '$lib/organizations';
 
 export function createOrganizationLinks(
 	organizationId: string,

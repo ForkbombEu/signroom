@@ -30,7 +30,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import Drawer from '$lib/components/drawer.svelte';
 	import { createToggleStore } from '$lib/components/utils/toggleStore';
 	import { page } from '$app/stores';
-	import { ProtectedOrgUI } from '$lib/rbac';
+	import { ProtectedOrgUI } from '$lib/organizations';
 	import { TemplatePropertiesDisplay, templatesColors } from '$lib/templates';
 
 	//

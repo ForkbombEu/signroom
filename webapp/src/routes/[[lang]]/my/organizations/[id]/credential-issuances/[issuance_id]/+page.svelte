@@ -17,7 +17,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import Icon from '$lib/components/icon.svelte';
 	import { page } from '$app/stores';
 	import { Avatar } from 'flowbite-svelte';
-	import { ProtectedOrgUI } from '$lib/rbac';
+	import { ProtectedOrgUI } from '$lib/organizations';
 	import TemplateSchemaDisplay from '$lib/components/templateSchemaDisplay.svelte';
 	import { assets } from '$app/paths';
 

@@ -5,14 +5,16 @@
 import { browser } from '$app/environment';
 import { pb } from '$lib/pocketbase';
 
-export const load = async ({ params }) => {
+export const load = async ({ params, fetch }) => {
 	if (!browser) return;
 
 	const userAuthorization = await pb
 		.collection('orgAuthorizations')
-		.getFirstListItem(`user = "${pb.authStore.model!.id}" && organization = "${params.id}"`);
+		.getFirstListItem(`user = "${pb.authStore.model!.id}" && organization = "${params.id}"`, {
+			fetch
+		});
 
-	const userRole = await pb.collection('orgRoles').getOne(userAuthorization.role);
+	const userRole = await pb.collection('orgRoles').getOne(userAuthorization.role, { fetch });
 
 	return {
 		userAuthorization,

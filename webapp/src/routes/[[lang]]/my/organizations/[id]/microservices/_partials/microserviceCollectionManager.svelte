@@ -22,7 +22,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { getRandomMicroservicePort } from '$lib/microservices';
 	import MicroserviceBadge from '$lib/microservices/microserviceBadge.svelte';
 
-	import { ProtectedOrgUI } from '$lib/rbac';
+	import { ProtectedOrgUI } from '$lib/organizations';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { Alert, Badge, Button } from 'flowbite-svelte';
 	import { Pencil, Plus, Trash } from 'svelte-heros-v2';

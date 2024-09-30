@@ -24,7 +24,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import ImagePreview from '$lib/components/imagePreview.svelte';
 	import DeleteRecord from '$lib/collectionManager/ui/recordActions/deleteRecord.svelte';
 	import Icon from '$lib/components/icon.svelte';
-	import { ProtectedOrgUI } from '$lib/rbac/index.js';
+	import { ProtectedOrgUI } from '$lib/organizations/index.js';
 
 	export let data;
 	let { organization } = data;

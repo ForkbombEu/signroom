@@ -3,16 +3,17 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { pb } from '$lib/pocketbase';
-import { Collections, type OrganizationsResponse } from '$lib/pocketbase/types';
+import { blockNonMembers } from '$lib/organizations';
 
 export const load = async ({ params, fetch }) => {
 	const organizationId = params.id;
-	const organization = await pb
-		.collection(Collections.Organizations)
-		.getOne<OrganizationsResponse>(organizationId, {
-			fetch,
-			requestKey: null
-		});
+
+	await blockNonMembers(organizationId, fetch);
+
+	const organization = await pb.collection('organizations').getOne(organizationId, {
+		fetch,
+		requestKey: null
+	});
 
 	const issuanceFlows = await pb.collection('services').getFullList({
 		filter: `organization.id = '${params.id}'`,

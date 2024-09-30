@@ -34,13 +34,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		QuestionMarkCircle,
 		RectangleStack,
 		User,
-		Users,
 		EllipsisHorizontal,
-		LockClosed,
-		Document
+		Document,
+		Users,
+		LockClosed
 	} from 'svelte-heros-v2';
-	import { createOrganizationSidebarLinks } from '$lib/utils/organizations.js';
-	import { getUserRole } from '$lib/rbac';
+	import { createOrganizationSidebarLinks, getUserRole } from '$lib/organizations';
 	import { m } from '$lib/i18n';
 	import UserAvatar from '$lib/components/userAvatar.svelte';
 	import { getUserDisplayName } from '$lib/utils/pb';
@@ -75,7 +74,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 						{#if $currentUser}
 							<span class="whitespace-nowrap">
 								{m.hello()},
-								<span class="font-semibold text-primary-600">
+								<span class="text-primary-600 font-semibold">
 									{getUserDisplayName($currentUser)}
 								</span>
 							</span>
