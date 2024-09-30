@@ -1,0 +1,19 @@
+diff a/webapp/messages/de.json b/webapp/messages/de.json	(rejected hunks)
+@@ -1,7 +1,5 @@
+ {
+ 	"$schema": "https://inlang.com/schema/inlang-message-format",
+-	"start": "Start",
+-	"my_folders": "Ordner",
+ 	"my_signatures": "Signaturen",
+ 	"validate_signatures": "Signaturen validieren",
+ 	"multisignatures": "Multisignaturen",
+@@ -124,5 +122,7 @@
+ 	"templates_description": "Hier finden Sie alle Vorlagen für die Issuance- und Verifizierungsabläufe. Es gibt drei Arten von Vorlagen: Autorisierung, Issuance oder Verifizierung. Vorlagen spielen eine zentrale Rolle für das Funktionieren der Issuance- und Verifizierungsabläufe für Credentialen und damit für das Verhalten ihrer jeweiligen Mikrodienste (Authorization Server, Credential Issuer and Relying Party). ",
+ 	"pending_membership_requests_description": "Hier können Sie die Liste der Benutzer sehen, die eine Mitgliedschaft in dieser Organisation beantragt haben",
+ 	"members_description": "Liste der bestehenden Mitglieder der Organisation: Mitglieder können unterschiedliche Rollen haben, die ihnen unterschiedliche Berechtigungen verleihen ",
+-	"verification_flow_description": "Die Verifizierung wird größtenteils von der DIDroom Verifier-App verwaltet. Installieren Sie die Verifier-App, melden Sie sich mit einem mit dieser Organisation verknüpften Konto an und starten Sie von dort aus den Verifizierungsablauf."
++	"verification_flow_description": "Die Verifizierung wird größtenteils von der DIDroom Verifier-App verwaltet. Installieren Sie die Verifier-App, melden Sie sich mit einem mit dieser Organisation verknüpften Konto an und starten Sie von dort aus den Verifizierungsablauf.",
++	"start": "Start",
++	"my_folders": "Ordner"
+ }
+\ No newline at end of file

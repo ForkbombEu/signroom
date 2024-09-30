@@ -6,10 +6,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
-	import PortalWrapper from '$lib/components/portalWrapper.svelte';
 	import { currentUser, pb } from '$lib/pocketbase/index.js';
 	import {
-		Collections,
 		OrgJoinRequestsStatusOptions,
 		type OrgJoinRequestsRecord,
 		type OrganizationsResponse
@@ -24,6 +22,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import PageCard from '$lib/components/pageCard.svelte';
 	import EmptyState from '$lib/components/emptyState.svelte';
 	import PlainCard from '$lib/components/plainCard.svelte';
+	import ModalWrapper from '$lib/components/modalWrapper.svelte';
 
 	//
 
@@ -33,24 +32,18 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	//
 
-	let selectedOrganization: OrganizationsResponse | undefined = undefined;
-	function selectOrganization(org: OrganizationsResponse) {
-		selectedOrganization = org;
-	}
-
-	async function sendJoinRequest() {
+	async function sendJoinRequest(org: OrganizationsResponse) {
 		await pb.collection('orgJoinRequests').create({
 			user: $currentUser?.id!,
-			organization: selectedOrganization?.id!,
+			organization: org.id!,
 			status: OrgJoinRequestsStatusOptions.pending,
 			reminders: 0
 		} satisfies OrgJoinRequestsRecord);
-		selectedOrganization = undefined;
 		invalidateAll();
 	}
 
-	function isRequestAlreadySent(organization: OrganizationsResponse): boolean {
-		return Boolean(orgJoinRequests.find((request) => request.organization == organization.id));
+	function isRequestAlreadySent(org: OrganizationsResponse): boolean {
+		return Boolean(orgJoinRequests.find((request) => request.organization == org.id));
 	}
 </script>
 
@@ -90,15 +83,24 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 						<div slot="right" class="shrink-0 self-start pl-8">
 							{#if !isRequestAlreadySent(org)}
-								<Button
-									outline
-									on:click={() => {
-										selectOrganization(org);
-									}}
-								>
-									{m.Join()}
-									<Icon src={UserPlus} ml></Icon>
-								</Button>
+								<ModalWrapper title={`${m.Send_a_request_to()} ${org.name}`} let:openModal>
+									<Button outline on:click={openModal}>
+										{m.Join()}
+										<Icon src={UserPlus} ml></Icon>
+									</Button>
+
+									<svelte:fragment slot="modal" let:closeModal>
+										<P>{m.Please_confirm_that_you_want_to_join_this_organization_()}</P>
+										<div class="flex items-center justify-center gap-2">
+											<Button color="alternative" on:click={closeModal}>
+												{m.Cancel()}
+											</Button>
+											<Button on:click={() => sendJoinRequest(org).then(closeModal)}>
+												{m.Send_join_request()}
+											</Button>
+										</div>
+									</svelte:fragment>
+								</ModalWrapper>
 							{:else}
 								<Button color="alternative" disabled>{m.Request_sent()}</Button>
 							{/if}
@@ -109,15 +111,3 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		{/if}
 	</PageCard>
 </PageContent>
-
-<PortalWrapper>
-	<Modal
-		title={`${m.Send_a_request_to()} ${selectedOrganization?.name}`}
-		open={Boolean(selectedOrganization)}
-	>
-		<P>{m.Please_confirm_that_you_want_to_join_this_organization_()}</P>
-		<div class="flex justify-end">
-			<Button on:click={sendJoinRequest}>{m.Send_join_request()}</Button>
-		</div>
-	</Modal>
-</PortalWrapper>

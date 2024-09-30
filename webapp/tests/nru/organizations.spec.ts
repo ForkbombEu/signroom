@@ -24,7 +24,7 @@ test.describe('it should test organizations and members', () => {
 		browser.close;
 	});
 
-	test('it should create an organization', async ({ browser }) => {
+	test('userA should create an organization', async ({ browser }) => {
 		page = await userLogin(browser, 'A');
 		await createOrganization(page);
 		orgId = page.url().split('/').at(-1);
@@ -39,10 +39,21 @@ test.describe('it should test organizations and members', () => {
 		orgName = `org-${randomId()}`;
 		await page.locator('input[name="name"]').fill(orgName);
 		await page.getByRole('button', { name: 'Save changes' }).click();
-		// await expect(page.getByRole('heading', { name: orgName })).toBeVisible();
+		await expect(page.getByRole('heading', { name: orgName })).toBeVisible();
 	});
 
-	test('it should add user B to the organization as admin', async () => {
+	test('userB should not see the organization page', async ({ browser }) => {
+		page.close();
+		page = await userLogin(browser, 'B');
+		await page.goto(`/my/organizations/${orgId}`);
+		await expect(page.getByText('404').first()).toBeVisible();
+		page.close();
+	});
+
+	test('it should add user B to the organization as admin', async ({ browser }) => {
+		page = await userLogin(browser, 'A');
+		await page.goto(`/my/organizations/${orgId}`);
+
 		await page.getByRole('tab', { name: 'Members' }).click();
 		await expect(page).toHaveURL(/my\/organizations\/[^/]+\/members/);
 
@@ -65,7 +76,7 @@ test.describe('it should test organizations and members', () => {
 		await expect(page.getByText('Failed to create record.')).toBeVisible();
 	});
 
-	test.skip("it should hide the 'settings' section to admin", async ({ browser, page }) => {
+	test("it should hide the 'settings' page to admin", async ({ browser, page }) => {
 		page.close();
 		page = await userLogin(browser, 'B');
 		await page.goto('/my/organizations');
@@ -75,14 +86,14 @@ test.describe('it should test organizations and members', () => {
 		const settingsButton = page.getByTestId(`${orgName} link`);
 		await expect(settingsButton).toBeHidden();
 
-		await page.getByRole('main').getByRole('button', { name: orgName }).click();
+		await page.getByRole('main').getByRole('link', { name: orgName }).click();
 		await expect(page.getByRole('tab', { name: 'cog Settings' })).toBeHidden();
 
 		await page.goto(`/my/organizations/${orgId}/settings`);
-		await expect(page.getByText('unauthorized')).toBeVisible();
+		await expect(page.getByText('404').first()).toBeVisible();
 	});
 
-	test.skip("it should hide the 'settings' section to user", async ({ browser, page }) => {
+	test("it should hide the 'settings' section to user", async ({ browser, page }) => {
 		page.close();
 		page = await userLogin(browser, 'C');
 		await page.goto('/my/organizations');
@@ -94,7 +105,6 @@ test.describe('it should test organizations and members', () => {
 
 		await page.getByRole('main').getByRole('link', { name: orgName }).click();
 		await expect(page.getByRole('tab', { name: 'cog Settings' })).toBeHidden();
-		await expect(page.getByRole('tab', { name: 'users Members' })).toBeHidden();
 	});
 });
 

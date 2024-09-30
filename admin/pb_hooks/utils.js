@@ -10,6 +10,8 @@
 /** @typedef {import("../../webapp/src/lib/pocketbase/types").OrgAuthorizationsRecord} OrgAuthorization */
 /** @typedef {import("../../webapp/src/lib/pocketbase/types").UsersRecord} User */
 
+/** @typedef {Omit<mail.Address, "string">} Address */
+
 //
 
 /* -- Error codes -- */
@@ -31,6 +33,8 @@ const errors = {
         "cant_edit_role_higher_than_or_equal_to_yours",
     cant_delete_role_higher_than_or_equal_to_yours:
         "cant_delete_role_higher_than_or_equal_to_yours",
+
+    user_is_already_member: "user_is_already_member",
 };
 
 /* -- RBAC Utils -- */
@@ -173,6 +177,82 @@ function createMissingDataError(...args) {
     return new BadRequestError(errors.missing_data, args.join(", "));
 }
 
+/**
+ * @param {models.Record} user
+ * @returns {Address}
+ */
+function getUserEmailAddressData(user) {
+    /** @type {string} */
+    const name = user.get("name");
+    /** @type {string} */
+    const address = user.get("email");
+    if (!name || !address)
+        throw createMissingDataError("userEmail", "userName");
+    return {
+        name,
+        address,
+    };
+}
+
+/**
+ * @param {{from?: Address, to: Address[] | Address, subject: string, html: string}} data
+ * @return {Error | undefined}
+ */
+function sendEmail(data) {
+    try {
+        const message = new MailerMessage({
+            // @ts-expect-error Missing string() object
+            from: {
+                address:
+                    data.from?.address ?? $app.settings().meta.senderAddress,
+                name: data.from?.name ?? $app.settings().meta.senderName,
+            },
+            // @ts-expect-error Missing string() object
+            to: Array.isArray(data.to) ? data.to : [data.to],
+            subject: data.subject,
+            html: data.html,
+        });
+
+        $app.newMailClient().send(message);
+    } catch (e) {
+        return e;
+    }
+}
+
+/**
+ * @param {string} string
+ * @returns {string}
+ */
+function removeTrailingSlash(string) {
+    if (string.endsWith("/")) return string.slice(0, -1);
+    else return string;
+}
+
+/**
+ * @param {string} organizationId
+ * @returns {Address[]}
+ */
+function getOrganizationAdminsAddresses(organizationId) {
+    const recipients = findRecordsByFilter(
+        "orgAuthorizations",
+        `organization.id = "${organizationId}" && ( role.name = "admin" || role.name = "owner" )`
+    );
+
+    return recipients
+        .map((r) => getExpanded(r, "user"))
+        .filter((u) => u != undefined)
+        .map((u) => getUserEmailAddressData(u));
+}
+
+/**
+ * @param {string} organizationId
+ * @returns {string}
+ */
+function getOrganizationMembersPageUrl(organizationId) {
+    const basePath = removeTrailingSlash($app.settings().meta.appUrl);
+    return `${basePath}/my/organizations/${organizationId}/members`;
+}
+
 //
 
 module.exports = {
@@ -187,5 +267,10 @@ module.exports = {
     getRoleLevel,
     createMissingDataError,
     getUserContextInOrgAuthorizationHookEvent,
+    getUserEmailAddressData,
+    sendEmail,
+    removeTrailingSlash,
+    getOrganizationAdminsAddresses,
+    getOrganizationMembersPageUrl,
     errors,
 };

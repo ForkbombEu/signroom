@@ -1,0 +1,10 @@
+diff a/webapp/src/lib/organizations/links.ts b/webapp/src/lib/organizations/links.ts	(rejected hunks)
+@@ -8,7 +8,7 @@ import type { NavigationTab } from '$lib/components/navigationTabs.svelte';
+ import { Cog, Home, Users } from 'svelte-heros-v2';
+ import type { SidebarItemProps } from '$lib/layout/SidebarLinks.svelte';
+ import { pb } from '$lib/pocketbase';
+-import type { OrgRole } from '$lib/rbac';
++import type { OrgRole } from './roles';
+ 
+ export function createOrganizationLinks(
+ 	organizationId: string,

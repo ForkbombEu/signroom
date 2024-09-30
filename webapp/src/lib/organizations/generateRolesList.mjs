@@ -6,11 +6,16 @@ import fs from 'fs';
 import PocketBase from 'pocketbase';
 import 'dotenv/config';
 
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 //
+
+console.log(dirname());
 
 const objectName = 'OrgRoles';
 const typeName = 'OrgRole';
-const filePath = './src/lib/rbac/roles.ts';
+const fileName = 'roles.ts';
 
 // Pocketbase setup
 
@@ -34,5 +39,14 @@ file += '} as const;\n';
 file += '\n';
 file += `export type ${typeName} = typeof ${objectName} [keyof typeof ${objectName}];`;
 
+const filePath = path.join(dirname(), fileName);
 fs.writeFileSync(filePath, file);
 console.log(`📦 Generated ${objectName} list in: ${filePath}`);
+
+//
+
+function dirname() {
+	const __filename = fileURLToPath(import.meta.url);
+	const __dirname = path.dirname(__filename);
+	return __dirname;
+}

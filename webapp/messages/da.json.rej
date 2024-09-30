@@ -1,0 +1,19 @@
+diff a/webapp/messages/da.json b/webapp/messages/da.json	(rejected hunks)
+@@ -1,7 +1,5 @@
+ {
+ 	"$schema": "https://inlang.com/schema/inlang-message-format",
+-	"start": "Start",
+-	"my_folders": "Mapper",
+ 	"my_signatures": "Signaturer",
+ 	"validate_signatures": "Validere signaturer",
+ 	"multisignatures": "Multisignaturer",
+@@ -124,5 +122,7 @@
+ 	"templates_description": "Find alle skabelonerne til udstedelses- og verifikationsstrømmene her. Skabeloner kan være af tre typer: Autorisation, Issuance eller Verification. Skabeloner spiller en central rolle i funktionen af credentialsudstedelsen og verifikationsstrømmene og derfor i adfærden af deres respektive mikrotjenester (Authorization Server, Credential Issuer and Relying Party). ",
+ 	"pending_membership_requests_description": "Her kan du se listen over brugere, der har anmodet om at blive medlem af denne organisation",
+ 	"members_description": "Liste over eksisterende medlemmer af organisationen: medlemmer kan have forskellige roller, hvilket giver dem forskellige privilegier ",
+-	"verification_flow_description": "Verifikationen administreres for det meste af DIDroom Verifier-appen. Installer verifikationsappen, log ind med en konto, der er forbundet med denne organisation, og start verifikationsflowet derfra."
++	"verification_flow_description": "Verifikationen administreres for det meste af DIDroom Verifier-appen. Installer verifikationsappen, log ind med en konto, der er forbundet med denne organisation, og start verifikationsflowet derfra.",
++	"start": "Start",
++	"my_folders": "Mapper"
+ }
+\ No newline at end of file
