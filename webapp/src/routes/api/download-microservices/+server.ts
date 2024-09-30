@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import type { RequestHandler } from '@sveltejs/kit';
+import { json, type RequestHandler } from '@sveltejs/kit';
 import AdmZip from 'adm-zip';
 import { type DownloadMicroservicesRequestBody } from '.';
 import { create_credential_issuer_zip } from './credential-issuer';
@@ -12,21 +12,99 @@ import { addZipAsSubfolder } from './utils/zip';
 import { createSlug } from './utils/strings';
 import { startDockerCompose, endDockerCompose, setupDockerCompose } from './utils/dockercompose';
 
+import PocketBase, { type RecordFullListOptions } from 'pocketbase';
+import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
+import type {
+	AuthorizationServersResponse,
+	IssuersResponse,
+	OrganizationsResponse,
+	RelyingPartiesResponse,
+	ServicesResponse,
+	TemplatesResponse,
+	TypedPocketBase,
+	VerificationFlowsResponse
+} from '$lib/pocketbase/types';
+import type { Expiration } from '$lib/issuanceFlows/expiration';
+
 //
 
 const DIDROOM_MICROSERVICES_URL =
 	'https://github.com/ForkbombEu/DIDroom_microservices/archive/refs/heads/main.zip';
 
 export const POST: RequestHandler = async ({ fetch, request }) => {
-	try {
-		const didroom_microservices_zip = await fetchZipFileAsBuffer(DIDROOM_MICROSERVICES_URL, fetch);
-		const data = await parseRequestBody(request);
-		const zip = createMicroservicesZip(didroom_microservices_zip, data);
-		return zipResponse(zip);
-	} catch (e) {
-		console.log(e);
-		return errorResponse(e);
-	}
+	const pb = new PocketBase(PUBLIC_POCKETBASE_URL) as TypedPocketBase;
+
+	const token = request.headers.get('Authorization');
+	if (!token) return errorResponse('missing_token', 401);
+	pb.authStore.save(token, null);
+
+	const org = await pb.collection('services').getFullList();
+	// await fetchRequestedData(pb, )
+
+	console.log(org.length);
+
+	return json({ ok: 'ok' });
+
+	// try {
+	// 	const didroom_microservices_zip = await fetchZipFileAsBuffer(DIDROOM_MICROSERVICES_URL, fetch);
+	// 	const data = await parseRequestBody(request);
+	// 	const zip = createMicroservicesZip(didroom_microservices_zip, data);
+	// 	return zipResponse(zip);
+	// } catch (e) {
+	// 	console.log(e);
+	// 	return errorResponse(e);
+	// }
+};
+
+//
+
+async function fetchRequestedData(
+	pb: TypedPocketBase,
+	organizationId: string,
+	fetchFn = fetch
+): Promise<DownloadMicroservicesData> {
+	const pbOptions: RecordFullListOptions = {
+		filter: `organization.id = '${organizationId}'`,
+		fetch: fetchFn
+	};
+
+	const organization = await pb.collection('organizations').getOne(organizationId);
+	const issuance_flows = await pb
+		.collection('services')
+		.getFullList<ServicesResponse<Expiration>>(pbOptions);
+
+	const verification_flows = await pb.collection('verification_flows').getFullList(pbOptions);
+	const templates = await pb.collection('templates').getFullList(pbOptions);
+
+	const relying_parties = (await pb.collection('relying_parties').getFullList(pbOptions)).filter(
+		(rp) => verification_flows.map((vf) => vf.relying_party).includes(rp.id)
+	);
+	const credential_issuers = (await pb.collection('issuers').getFullList(pbOptions)).filter((ci) =>
+		issuance_flows.map((flow) => flow.credential_issuer).includes(ci.id)
+	);
+	const authorization_servers = (
+		await pb.collection('authorization_servers').getFullList(pbOptions)
+	).filter((as) => issuance_flows.map((flow) => flow.authorization_server).includes(as.id));
+
+	return {
+		organization,
+		issuance_flows,
+		verification_flows,
+		templates,
+		relying_parties,
+		credential_issuers,
+		authorization_servers
+	};
+}
+
+export type DownloadMicroservicesData = {
+	authorization_servers: AuthorizationServersResponse[];
+	credential_issuers: IssuersResponse[];
+	relying_parties: RelyingPartiesResponse[];
+	templates: TemplatesResponse[];
+	issuance_flows: ServicesResponse<Expiration>[];
+	verification_flows: VerificationFlowsResponse[];
+	organization: OrganizationsResponse;
 };
 
 //
@@ -79,8 +157,12 @@ function zipResponse(zip: AdmZip) {
 	});
 }
 
-function errorResponse(e: unknown) {
-	return new Response(e instanceof Error ? e.message : 'Internal Server Error', {
-		status: 500
+function errorResponse(e: unknown, status = 500) {
+	let message = 'Internal Server Error';
+	if (e instanceof Error) message = e.message;
+	else if (typeof e == 'string') message = e;
+
+	return new Response(message, {
+		status
 	});
 }
