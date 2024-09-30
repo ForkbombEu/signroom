@@ -11,7 +11,6 @@ import type {
 	ServicesResponse,
 	TemplatesResponse
 } from '$lib/pocketbase/types';
-import type { DownloadMicroservicesRequestBody } from '.';
 import type { ObjectSchema } from '$lib/jsonSchema/types';
 
 import {
@@ -26,18 +25,19 @@ import {
 import { update_zip_json_entry } from './utils/zip';
 import { mergeObjectSchemas } from './utils/credential-subject';
 import { config } from './config';
+import type { DownloadMicroservicesData } from './+server';
 
 /* Main */
 
 export function createAuthorizationServerZip(
 	zip_buffer: Buffer,
 	authorization_server: AuthorizationServersResponse,
-	request_body: DownloadMicroservicesRequestBody
+	data: DownloadMicroservicesData
 ) {
 	const zip = new AdmZip(zip_buffer);
 
 	const authorization_server_related_data = get_authorization_server_related_data_from_request_body(
-		request_body,
+		data,
 		authorization_server
 	);
 
@@ -64,17 +64,17 @@ type AuthorizationServerRelatedData = {
 };
 
 function get_authorization_server_related_data_from_request_body(
-	body: DownloadMicroservicesRequestBody,
+	data: DownloadMicroservicesData,
 	authorization_server: AuthorizationServersResponse
 ): AuthorizationServerRelatedData {
 	return {
 		credentials: pipe(
-			body.issuance_flows,
+			data.issuance_flows,
 			A.filter((issuance_flow) => issuance_flow.authorization_server == authorization_server.id),
 			A.map((issuance_flow) => ({
 				issuance_flow,
 				authorization_template: pipe(
-					body.templates,
+					data.templates,
 					A.findFirst((t) => t.id == issuance_flow.authorization_template),
 					O.getOrThrow
 				)

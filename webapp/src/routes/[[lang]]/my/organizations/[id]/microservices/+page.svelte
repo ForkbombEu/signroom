@@ -15,7 +15,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { ProtectedOrgUI } from '$lib/organizations';
 	import PortalWrapper from '$lib/components/portalWrapper.svelte';
 	import { getErrorMessage } from '$lib/errorHandling.js';
-	import { requestDownloadMicroservices } from '@api/download-microservices/index.js';
+	import { requestDownloadMicroservices } from '@api/download-microservices/utils.js';
 	import { dowloadResponseAsZip } from '$lib/utils/clientFileDownload.js';
 	import MicroserviceCollectionManager from './_partials/microserviceCollectionManager.svelte';
 
@@ -45,8 +45,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		if (!response.ok) throw new Error(response.statusText);
 		dowloadResponseAsZip(response, 'microservices.zip');
 	}
-
-	//
 </script>
 
 <OrganizationLayout org={data.organization}>

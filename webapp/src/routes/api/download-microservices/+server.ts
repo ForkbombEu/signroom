@@ -4,7 +4,6 @@
 
 import { json, type RequestHandler } from '@sveltejs/kit';
 import AdmZip from 'adm-zip';
-import { type DownloadMicroservicesRequestBody } from '.';
 import { create_credential_issuer_zip } from './credential-issuer';
 import { createAuthorizationServerZip } from './authorization-server';
 import { create_relying_party_zip } from './relying-party';
@@ -32,28 +31,26 @@ const DIDROOM_MICROSERVICES_URL =
 	'https://github.com/ForkbombEu/DIDroom_microservices/archive/refs/heads/main.zip';
 
 export const POST: RequestHandler = async ({ fetch, request }) => {
-	const pb = new PocketBase(PUBLIC_POCKETBASE_URL) as TypedPocketBase;
-
 	const token = request.headers.get('Authorization');
 	if (!token) return errorResponse('missing_token', 401);
+
+	const res = await parseRequestBody(request);
+	if (res instanceof Response) return res;
+	const { organizationId } = res;
+
+	const pb = new PocketBase(PUBLIC_POCKETBASE_URL) as TypedPocketBase;
 	pb.authStore.save(token, null);
 
-	const org = await pb.collection('services').getFullList();
-	// await fetchRequestedData(pb, )
+	const data = await fetchRequestedData(pb, organizationId, fetch);
 
-	console.log(org.length);
-
-	return json({ ok: 'ok' });
-
-	// try {
-	// 	const didroom_microservices_zip = await fetchZipFileAsBuffer(DIDROOM_MICROSERVICES_URL, fetch);
-	// 	const data = await parseRequestBody(request);
-	// 	const zip = createMicroservicesZip(didroom_microservices_zip, data);
-	// 	return zipResponse(zip);
-	// } catch (e) {
-	// 	console.log(e);
-	// 	return errorResponse(e);
-	// }
+	try {
+		const didroom_microservices_zip = await fetchZipFileAsBuffer(DIDROOM_MICROSERVICES_URL, fetch);
+		const zip = createMicroservicesZip(didroom_microservices_zip, data);
+		return zipResponse(zip);
+	} catch (e) {
+		console.log(e);
+		return errorResponse(e);
+	}
 };
 
 //
@@ -111,7 +108,7 @@ export type DownloadMicroservicesData = {
 
 function createMicroservicesZip(
 	didroom_microservices_zip_buffer: Buffer,
-	data: DownloadMicroservicesRequestBody
+	data: DownloadMicroservicesData
 ): AdmZip {
 	const zip = new AdmZip();
 
@@ -139,8 +136,16 @@ function createMicroservicesZip(
 
 //
 
-function parseRequestBody(request: Request): Promise<DownloadMicroservicesRequestBody> {
-	return request.json();
+async function parseRequestBody(request: Request): Promise<{ organizationId: string } | Response> {
+	try {
+		const content = await request.json();
+		if (!('organizationId' in content)) throw new Error('missing_organizationId');
+		const organizationId = content.organizationId;
+		if (typeof organizationId != 'string') throw new Error('bad_organizationId');
+		return { organizationId };
+	} catch (e) {
+		return errorResponse(e, 400);
+	}
 }
 
 async function fetchZipFileAsBuffer(url: string, fetchFn = fetch): Promise<Buffer> {
