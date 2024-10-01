@@ -7,7 +7,6 @@ import { String as S, pipe, Array as A } from 'effect';
 import _ from 'lodash/fp';
 
 import type { IssuersResponse, RelyingPartiesResponse } from '$lib/pocketbase/types';
-import type { DownloadMicroservicesRequestBody } from '.';
 
 import {
 	add_microservice_env,
@@ -19,16 +18,17 @@ import {
 import { DEFAULT_LOCALE } from './utils/locale';
 import { update_zip_json_entry } from './utils/zip';
 import { config } from './config';
+import type { DownloadMicroservicesData } from './+server';
 
 /* Main */
 
 export function create_relying_party_zip(
 	zip_buffer: Buffer,
 	relying_party: RelyingPartiesResponse,
-	request_body: DownloadMicroservicesRequestBody
+	data: DownloadMicroservicesData
 ) {
 	const zip = new AdmZip(zip_buffer);
-	edit_relying_party_well_known(zip, relying_party, request_body.credential_issuers);
+	edit_relying_party_well_known(zip, relying_party, data.credential_issuers);
 	add_microservice_env(zip, relying_party);
 	delete_unused_folders(zip, 'relying_party');
 	delete_tests(zip);
