@@ -323,7 +323,6 @@
 	"my_certificates_description": "my_certificates_description",
 	"service_type_name_placeholder": "age_verification",
 	"error_loading_presets": "error_loading_presets",
-	"service_type_name_placeholder": "age_verification",
 	"Type_name_is_already_in_use": "Type name is already in use",
 	"not_authorized": "Not authorized",
 	"missing_data": "Missing data",
@@ -336,5 +335,6 @@
 	"cant_delete_role_higher_than_or_equal_to_yours": "Cannot delete a role higher than or equal to yours",
 	"start": "Start",
 	"decline_membership_request": "decline_membership_request",
-	"decline_membership_request_warning": "decline_membership_request_warning"
+	"decline_membership_request_warning": "decline_membership_request_warning",
+	"Copy_update_script": "Copy update script"
 }
