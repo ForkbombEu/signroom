@@ -245,6 +245,7 @@
 	"Please_add_at_least_one_day": "Si prega di aggiungere almeno un giorno",
 	"Date_must_be_after_today": "La data deve essere successiva a oggi",
 	"start": "Inizio",
+	"Copy_update_script": "Copia lo script di aggiornamento",
 	"my_folders": "Cartelle",
 	"identity": "Identità",
 	"my_verifiable_credentials": "Le mie Verifiable Credentials",
