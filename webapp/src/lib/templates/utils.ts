@@ -8,7 +8,7 @@ import { objectSchemaValidator } from '$lib/jsonSchema/types';
 import {
 	objectSchemaToCredentialSubject,
 	flattenCredentialSubjectProperties
-} from '@api/download-microservices/utils/credential-subject';
+} from '@api/download-microservices-[orgId]/utils/credential-subject';
 
 //
 

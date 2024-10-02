@@ -30,18 +30,14 @@ import type { Expiration } from '$lib/issuanceFlows/expiration';
 const DIDROOM_MICROSERVICES_URL =
 	'https://github.com/ForkbombEu/DIDroom_microservices/archive/refs/heads/main.zip';
 
-export const POST: RequestHandler = async ({ fetch, request }) => {
+export const GET: RequestHandler = async ({ fetch, request, params }) => {
 	const token = request.headers.get('Authorization');
 	if (!token) return errorResponse('missing_token', 401);
-
-	const res = await parseRequestBody(request);
-	if (res instanceof Response) return res;
-	const { organizationId } = res;
 
 	const pb = new PocketBase(PUBLIC_POCKETBASE_URL) as TypedPocketBase;
 	pb.authStore.save(token, null);
 
-	const data = await fetchRequestedData(pb, organizationId, fetch);
+	const data = await fetchRequestedData(pb, params.orgId!, fetch);
 
 	try {
 		const didroom_microservices_zip = await fetchZipFileAsBuffer(DIDROOM_MICROSERVICES_URL, fetch);
@@ -135,18 +131,6 @@ function createMicroservicesZip(
 }
 
 //
-
-async function parseRequestBody(request: Request): Promise<{ organizationId: string } | Response> {
-	try {
-		const content = await request.json();
-		if (!('organizationId' in content)) throw new Error('missing_organizationId');
-		const organizationId = content.organizationId;
-		if (typeof organizationId != 'string') throw new Error('bad_organizationId');
-		return { organizationId };
-	} catch (e) {
-		return errorResponse(e, 400);
-	}
-}
 
 async function fetchZipFileAsBuffer(url: string, fetchFn = fetch): Promise<Buffer> {
 	const zipResponse = await fetchFn(url);

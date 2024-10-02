@@ -7,11 +7,9 @@ import { pb } from '$lib/pocketbase';
 //
 
 export async function requestDownloadMicroservices(organizationId: string, fetchFn = fetch) {
-	return await fetchFn('/api/download-microservices', {
-		method: 'POST',
-		body: JSON.stringify({ organizationId }),
+	return await fetchFn(`/api/download-microservices-${organizationId}`, {
+		method: 'GET',
 		headers: {
-			'content-type': 'application/json',
 			Authorization: `Bearer ${pb.authStore.token}`
 		}
 	});

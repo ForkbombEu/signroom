@@ -9,7 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </script>
 
 <script lang="ts" generics="T extends MicroserviceType">
-	import type { MicroserviceFolder } from '@api/download-microservices/shared-operations';
+	import type { MicroserviceFolder } from '@api/download-microservices-[orgId]/shared-operations';
 
 	import {
 		CollectionManager,

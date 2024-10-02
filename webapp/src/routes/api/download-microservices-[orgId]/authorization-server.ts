@@ -23,7 +23,6 @@ import {
 	type WellKnown
 } from './shared-operations';
 import { update_zip_json_entry } from './utils/zip';
-import { mergeObjectSchemas } from './utils/credential-subject';
 import { config } from './config';
 import type { DownloadMicroservicesData } from './+server';
 
