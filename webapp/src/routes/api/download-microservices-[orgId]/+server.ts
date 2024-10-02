@@ -34,12 +34,10 @@ export const GET: RequestHandler = async ({ fetch, request, params }) => {
 	const token = request.headers.get('Authorization');
 	if (!token) return errorResponse('missing_token', 401);
 
-	const pb = new PocketBase(PUBLIC_POCKETBASE_URL) as TypedPocketBase;
-	pb.authStore.save(token, null);
-
-	const data = await fetchRequestedData(pb, params.orgId!, fetch);
-
 	try {
+		const pb = new PocketBase(PUBLIC_POCKETBASE_URL) as TypedPocketBase;
+		pb.authStore.save(token, null);
+		const data = await fetchRequestedData(pb, params.orgId!, fetch);
 		const didroom_microservices_zip = await fetchZipFileAsBuffer(DIDROOM_MICROSERVICES_URL, fetch);
 		const zip = createMicroservicesZip(didroom_microservices_zip, data);
 		return zipResponse(zip);
