@@ -7,7 +7,7 @@
         <mj-divider border-color="#7d2fb5"></mj-divider>
 
         <mj-text font-size="22px" color="#000000" font-family="Arial, sans-serif" align="center">
-          Issuance Flow Advanced Settings Updated!
+          Issuance Flow Cryptography or Expiration Updated!
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
@@ -15,12 +15,18 @@
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          The advanced settings in your issuance flow in organization <strong>[OrganizationName]</strong> have been updated.
+          Your issuance flow <strong>{{. FlowName }}</strong> in organization <strong> {{. OrganizationName }}</strong> has been updated with new cryptography or expiration settings.
+        </mj-text>
+
+        <!-- Conditional formatting: If <editor> and <user> match then display "You" -->
+        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+        Changes were made by <strong>{{. Editor }}</strong>.         
+        If you have any questions or need further details, reach out to your admin team.
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          - <strong>Visibility</strong>: [UpdatedIsPublic]<br />
-          - <strong>Can be requested via API</strong>: [UpdatedAPI]
+          - <strong>Cryptography</strong>: {{. UpdatedCryptography }}<br />
+          - <strong>Expiration</strong>: {{. UpdatedExpiration }}
         </mj-text>
 
         <mj-button href="https://www.didroom.com/flows/manage" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">

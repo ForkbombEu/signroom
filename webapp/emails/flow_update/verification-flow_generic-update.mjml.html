@@ -15,7 +15,13 @@
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          We’d like to inform you that your verification flow has been updated successfully in your organization, <strong>[OrganizationName]</strong>.
+          We’d like to inform you that your verification flow <strong>{{. FlowName }}</strong> has been updated successfully in your organization, <strong>{{. OrganizationName }}</strong>.
+        </mj-text>
+
+                <!-- Conditional formatting: If <editor> and <user> match then display "You" -->
+        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+        Changes were made by <strong>{{. Editor }}</strong>.         
+        If you have any questions or need further details, reach out to your admin team.
         </mj-text>
 
 <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
@@ -24,7 +30,7 @@
 
         <!-- Condizione: Se FlowName è stato aggiornato -->
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          - <strong>Flow Name</strong>: [UpdatedFlowName]<br />
+          - <strong>Flow Name</strong>: {{. UpdatedFlowName }}<br />
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
@@ -32,7 +38,7 @@
         </mj-text>
         <!-- Condizione: Se VerificationTemplateName è stato aggiornato-->
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-         - <strong>[UpdatedVerificationTemplateName]</strong><br />
+         - <strong>{{. UpdatedVerificationTemplateName }}</strong><br />
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
@@ -40,7 +46,7 @@
         </mj-text>
         <!-- Condizione: Se RelyingParty è stato aggiornato -->
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          - <strong>Relying Party</strong>: [UpdatedRelyingParty]<br />
+          - <strong>Relying Party</strong>: {{. UpdatedRelyingParty }}<br />
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
@@ -48,7 +54,7 @@
         </mj-text>
         <!-- Condizione: Se IsPublic è stato aggiornato -->
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          - <strong>Visibility</strong>: [UpdatedIsPublic]<br />
+          - <strong>Visibility</strong>: {{. UpdatedIsPublic }}<br />
         </mj-text>
 
 

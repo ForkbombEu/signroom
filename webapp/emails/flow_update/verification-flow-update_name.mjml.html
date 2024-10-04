@@ -7,7 +7,7 @@
         <mj-divider border-color="#7d2fb5"></mj-divider>
 
         <mj-text font-size="22px" color="#000000" font-family="Arial, sans-serif" align="center">
-          Issuance Flow Cryptography or Expiration Updated!
+          Verification Flow Name Updated!
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
@@ -15,16 +15,21 @@
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          Your issuance flow in organization <strong>[OrganizationName]</strong> has been updated with new cryptography or expiration settings.
+          The name of your verification flow <strong>{{. FlowName }}</strong> in organization <strong>{{. OrganizationName }}</strong> has been updated.
+        </mj-text>
+
+        <!-- Conditional formatting: If <editor> and <user> match then display "You" -->
+        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+        Changes were made by <strong>{{. Editor }}</strong>.         
+        If you have any questions or need further details, reach out to your admin team.
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          - <strong>Cryptography</strong>: [UpdatedCryptography]<br />
-          - <strong>Expiration</strong>: [UpdatedExpiration]
+          - <strong>New Verification Flow Name</strong>: {{. UpdatedVerificationFlowName }}
         </mj-text>
 
         <mj-button href="https://www.didroom.com/flows/manage" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
-          Review Updated Flow
+          Review Updated Verification Flow
         </mj-button>
 
         <mj-divider border-color="#7d2fb5"></mj-divider>
