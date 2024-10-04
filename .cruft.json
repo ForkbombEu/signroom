@@ -1,7 +1,7 @@
 {
   "template": "https://github.com/dyne/starters",
   "checkout": "main",
-  "commit": "4f6434f9dfd726cb5fb8e18604d38e814a0c4b4d",
+  "commit": "962fd47a5b5b5e33814b93e07705ba6372d1ed29",
   "context": {
     "cookiecutter": {
       "project_name": "signroom",
@@ -14,6 +14,7 @@
         "*.svelte",
         "admin/pb_hooks/rbac.pb.js",
         "admin/pb_hooks/organizations.pb.js",
+        "admin/pb_hooks/organizations_invites.pb.js",
         "admin/pb_hooks/utils.js"
       ],
       "_template": "https://github.com/dyne/starters"

@@ -20,7 +20,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { createTypeProp } from '$lib/utils/typeProp';
 
 	export let data;
-	console.log(data.item);
 
 	const recordType = createTypeProp<
 		CrudExampleResponse<{

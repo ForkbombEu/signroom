@@ -217,6 +217,21 @@ onRecordAfterUpdateRequest((e) => {
     );
 }, "orgJoinRequests");
 
+onRecordAfterDeleteRequest((e) => {
+    /** @type {AuditLogger} */
+    const auditLogger = require(`${__hooks}/auditLogger.js`);
+
+    auditLogger(e.httpContext).info(
+        "Deleted membership request",
+        "organizationId",
+        e.record?.get("organization"),
+        "status",
+        e.record?.get("status"),
+        "requestId",
+        e.record?.getId()
+    );
+}, "orgJoinRequests");
+
 /* IMPORTANT: This hook must be registered last */
 
 onRecordAfterUpdateRequest((e) => {

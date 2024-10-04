@@ -7,7 +7,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script lang="ts">
 	import { goto } from '$lib/i18n';
 	import { pb } from '$lib/pocketbase';
-	import { Collections } from '$lib/pocketbase/types';
 	import { A } from 'flowbite-svelte';
 	import { Form, createForm, FormError, SubmitButton, Input } from '$lib/forms';
 	import { z } from 'zod';

@@ -52,12 +52,34 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { featureFlags } from '$lib/features';
 	import { getUserDidUrl } from '$lib/did/index.js';
 
+	import { pb } from '$lib/pocketbase';
+	import type {
+		OrgAuthorizationsResponse,
+		OrgRolesResponse,
+		OrganizationsResponse
+	} from '$lib/pocketbase/types';
+
 	//
 
-	export let data;
-	let { authorizations } = data;
-
 	let sidebarLayoutBreakpoint = 1024;
+
+	//
+
+	function getOrgAuthorizations() {
+		type Authorizations = Required<
+			OrgAuthorizationsResponse<{
+				organization: OrganizationsResponse;
+				role: OrgRolesResponse;
+			}>
+		>;
+
+		return pb.collection('orgAuthorizations').getFullList<Authorizations>({
+			filter: `user = "${pb.authStore.model!.id}"`,
+			expand: 'organization,role',
+			fetch,
+			requestKey: null
+		});
+	}
 </script>
 
 <UIShell {sidebarLayoutBreakpoint} let:toggleSidebar>
@@ -170,16 +192,18 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 						]}
 					/>
 
-					{#if authorizations}
-						{#each authorizations as authorization}
-							{@const organization = authorization.expand.organization}
-							{@const organizationId = organization.id}
-							{@const userId = $currentUser?.id ?? ''}
-							{#await getUserRole(organizationId, userId) then userRole}
-								{@const links = createOrganizationSidebarLinks(organization, m, userRole)}
-								<SidebarLinks {links} />
-							{/await}
-						{/each}
+					{#if $featureFlags.ORGANIZATIONS}
+						{#await getOrgAuthorizations() then authorizations}
+							{#each authorizations as authorization}
+								{@const organization = authorization.expand.organization}
+								{@const organizationId = organization.id}
+								{@const userId = $currentUser?.id ?? ''}
+								{#await getUserRole(organizationId, userId) then userRole}
+									{@const links = createOrganizationSidebarLinks(organization, m, userRole)}
+									<SidebarLinks {links} />
+								{/await}
+							{/each}
+						{/await}
 					{/if}
 				</div>
 			</SidebarGroup>
