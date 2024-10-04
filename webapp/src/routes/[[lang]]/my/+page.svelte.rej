@@ -1,0 +1,11 @@
+diff a/webapp/src/routes/[[lang]]/my/+page.svelte b/webapp/src/routes/[[lang]]/my/+page.svelte	(rejected hunks)
+@@ -1,6 +1,9 @@
+ <script>
+ 	import { A } from 'flowbite-svelte';
+ 	import { featureFlags } from '$lib/features';
++	import { WelcomeSession } from '$lib/utils/welcome';
++
++	if (WelcomeSession.isActive()) WelcomeSession.end();
+ </script>
+ 
+ <div class="flex flex-col p-4">

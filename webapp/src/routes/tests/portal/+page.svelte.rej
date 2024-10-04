@@ -1,0 +1,8 @@
+diff a/webapp/src/routes/tests/portal/+page.svelte b/webapp/src/routes/tests/portal/+page.svelte	(rejected hunks)
+@@ -1,5 +1,6 @@
+ <script lang="ts">
+ 	import { portal } from '$lib/components/utils/portal';
++	import { log } from '$lib/utils/devLog';
+ 	import { Input, Button } from 'flowbite-svelte';
+ </script>
+ 

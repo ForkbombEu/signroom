@@ -12,6 +12,6 @@ export const load = async ({ url }) => {
 
 	if (KEYPAIROOM && AUTH) {
 		const publicKeys = await getUserPublicKeys();
-		if (!publicKeys) redirect(`/my/keypairoom?${welcomeSearchParam}`, url);
+		if (!publicKeys) redirect('/my/keypairoom', url);
 	}
 };

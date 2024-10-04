@@ -52,7 +52,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { page } from '$app/stores';
 
 	import { pb } from '$lib/pocketbase';
-	import type { Collections } from '$lib/pocketbase/types';
+	import type { CollectionRecords, Collections } from '$lib/pocketbase/types';
 	import type { PBResponse } from '$lib/utils/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
 
@@ -69,7 +69,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	//
 
-	export let collection: Collections | string;
+	export let collection: keyof CollectionRecords;
 
 	export let formSettings: Partial<FieldsSettings<RecordGeneric>> = {};
 	export let createFormSettings: Partial<FieldsSettings<RecordGeneric>> = {};
@@ -78,7 +78,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	export let hideEmptyState = false;
 
 	export let initialQueryParams: RecordFullListOptions = {};
-	export let subscribe: string[] = [];
+	export let subscribe: (keyof CollectionRecords)[] = [];
 
 	export let perPage = 25;
 	export let disablePagination = false;

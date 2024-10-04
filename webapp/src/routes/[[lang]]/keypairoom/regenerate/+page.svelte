@@ -36,25 +36,26 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	const superform = createForm(schema, async ({ form }) => {
 		const hmac = await getHMAC(form.data.email);
+
 		let keyring: Keyring;
 		try {
 			const keypair = await regenerateKeypair(form.data.seed, hmac);
 			keyring = keypair.keyring;
 		} catch (e) {
-			throw new Error('Invalid seed');
+			throw new Error(m.Invalid_seed());
 		}
 
 		if ($featureFlags.AUTH && $currentUser) {
 			const publicKeys = await getUserPublicKeys();
 			if (!publicKeys) {
 				throw new Error(
-					'User public keys are missing. Please generate them using the security questions.'
+					m.User_public_keys_are_missing_Please_generate_them_using_the_security_questions_()
 				);
 			} else {
 				try {
 					await matchPublicAndPrivateKeys(publicKeys, keyring);
 				} catch (e) {
-					throw new Error('Invalid seed');
+					throw new Error(m.Invalid_seed());
 				}
 			}
 

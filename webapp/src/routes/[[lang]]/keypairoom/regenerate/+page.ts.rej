@@ -1,0 +1,8 @@
+diff a/webapp/src/routes/[[lang]]/keypairoom/regenerate/+page.ts b/webapp/src/routes/[[lang]]/keypairoom/regenerate/+page.ts	(rejected hunks)
+@@ -1,6 +1,5 @@
+ import { loadFeatureFlags } from '$lib/features';
+ import { getUserPublicKeys } from '$lib/keypairoom/utils';
+-import { welcomeSearchParam } from '$lib/utils/constants';
+ import { redirect } from '$lib/i18n';
+ 
+ export const load = async ({ url }) => {

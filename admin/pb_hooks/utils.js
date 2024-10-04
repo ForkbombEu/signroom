@@ -82,13 +82,14 @@ function isLastOwnerAuthorization(orgAuthorization) {
  * @param {string} organizationId
  * @returns {RecordModel<OrgRole> | undefined}
  */
-function getUserRole(userId, organizationId) {
+function getUserRole(userId, organizationId, dao = $app.dao()) {
     const authorization = findFirstRecordByFilter(
         "orgAuthorizations",
-        `user = "${userId}" && organization = "${organizationId}"`
+        `user = "${userId}" && organization = "${organizationId}"`,
+        dao
     );
     if (!authorization) return undefined;
-    return getExpanded(authorization, "role");
+    return getExpanded(authorization, "role", dao);
 }
 
 /**
@@ -140,9 +141,9 @@ function findRecordsByFilter(collection, filter) {
  * @param {string} collection
  * @param {string} filter
  */
-function findFirstRecordByFilter(collection, filter) {
+function findFirstRecordByFilter(collection, filter, dao = $app.dao()) {
     try {
-        return $app.dao().findFirstRecordByFilter(collection, filter);
+        return dao.findFirstRecordByFilter(collection, filter);
     } catch {
         return undefined;
     }
@@ -153,10 +154,10 @@ function findFirstRecordByFilter(collection, filter) {
  * @param {string} key
  * @returns {models.Record | undefined}
  */
-function getExpanded(record, key) {
+function getExpanded(record, key, dao = $app.dao()) {
     try {
         // @ts-ignore
-        $app.dao().expandRecord(record, [key], null);
+        dao.expandRecord(record, [key], null);
         return record.expandedOne(key);
     } catch (e) {
         return undefined;
@@ -244,13 +245,40 @@ function getOrganizationAdminsAddresses(organizationId) {
         .map((u) => getUserEmailAddressData(u));
 }
 
+/** @returns {string} */
+function getAppUrl() {
+    return removeTrailingSlash($app.settings().meta.appUrl);
+}
+
 /**
  * @param {string} organizationId
  * @returns {string}
  */
 function getOrganizationMembersPageUrl(organizationId) {
-    const basePath = removeTrailingSlash($app.settings().meta.appUrl);
-    return `${basePath}/my/organizations/${organizationId}/members`;
+    return `${getAppUrl()}/my/organizations/${organizationId}/members`;
+}
+
+/**
+ * @param {echo.Context} c
+ */
+function runOrganizationInviteEndpointChecks(c) {
+    /** @type {{inviteId: string | undefined}} */
+    // @ts-ignore
+    const data = $apis.requestInfo(c).data;
+    const { inviteId } = data;
+    if (!inviteId || typeof inviteId != "string")
+        throw createMissingDataError("inviteId");
+
+    const userId = getUserFromContext(c)?.getId();
+    if (!userId) throw createMissingDataError("userId");
+
+    const invite = findFirstRecordByFilter("org_invites", `id = "${inviteId}"`);
+    if (!invite) throw createMissingDataError("organization invite");
+
+    const isOwner = invite.get("user") == userId;
+    if (!isOwner) throw new ForbiddenError();
+
+    return { userId, invite, isOwner };
 }
 
 //
@@ -272,5 +300,7 @@ module.exports = {
     removeTrailingSlash,
     getOrganizationAdminsAddresses,
     getOrganizationMembersPageUrl,
+    getAppUrl,
+    runOrganizationInviteEndpointChecks,
     errors,
 };
