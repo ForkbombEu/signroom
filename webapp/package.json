@@ -31,7 +31,8 @@
 		"definitions": "pnpm types && pnpm schema && pnpm features && pnpm roles",
 		"serve": "pnpm build && pnpm preview --host",
 		"remove-unused-strings": "node ./src/lib/i18n/removeUnusedStrings.mjs",
-		"i18n:lint": "pnpm inlang lint --project ./project.inlang"
+		"i18n:lint": "pnpm inlang lint --project ./project.inlang",
+		"i18n:lint:en": "pnpm inlang lint --project ./project.inlang --languageTags en"
 	},
 	"devDependencies": {
 		"@inlang/cli": "^2.18.1",

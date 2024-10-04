@@ -19,8 +19,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { createFieldComponent } from '$lib/recordForm/fieldSchemaToInput.svelte';
 	import { createTypeProp } from '$lib/utils/typeProp';
 
-	export let data;
-
 	const recordType = createTypeProp<
 		CrudExampleResponse<{
 			relation: FeaturesResponse[];
