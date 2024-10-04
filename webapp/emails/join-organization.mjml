@@ -1,0 +1,42 @@
+<mjml>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+        <mj-image width="200px" src="https://forkbomb.solutions/wp-content/uploads/2023/05/DIDroom_logo.svg" alt="DIDroom Logo"></mj-image>
+
+        <mj-divider border-color="#7d2fb5"></mj-divider>
+
+        <mj-text font-size="22px" color="#000000" font-family="Arial, sans-serif" align="center">
+          You're Invited to Join [OrganizationName] on DIDroom!
+        </mj-text>
+
+        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+          Hello [UserName],
+        </mj-text>
+
+        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+          You have been invited to join the organization <strong>[OrganizationName]</strong> on DIDroom. 
+        </mj-text>
+
+        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+          To get started, simply accept the invitation by following the link below:
+        </mj-text>
+
+        <mj-button href="https://www.didroom.com/invitations" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+          Accept Invitation
+        </mj-button>
+
+        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+          If you’re not a member yet, you will be prompted to create an account on DIDroom.
+        </mj-text>
+
+        <mj-divider border-color="#7d2fb5"></mj-divider>
+
+        <mj-text font-size="14px" color="#888888" font-family="Arial, sans-serif" align="center">
+          Need help? Contact our support at <a href="mailto:support@didroom.com" style="color:#7d2fb5">support@didroom.com</a>
+        </mj-text>
+
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
