@@ -11,11 +11,17 @@
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          Hello [UserName],
+          Hello [UserName], <br />
         </mj-text>
 
+          <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+          The issuance flow, <strong>{{. user }}</strong>, in your organization <strong>{{. OrganizationName }}</strong> has been successfully updated.
+        </mj-text>
+        
+        <!-- Conditional formatting: If <editor> and <user> match then display "You" -->
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          The issuance flow, <strong>[FlowName]</strong>, in your organization <strong>[OrganizationName]</strong> has been successfully updated.
+        Changes were made by <strong>{{. Editor }}</strong>.         
+        If you have any questions or need further details, reach out to your admin team.
         </mj-text>
 
         <mj-image width="80px" align=left border-radius=50% src="https://admin.didroom.com/api/files/aako88kt3br4npt/rop0hn1jcso547j/screenshot_2023_10_12_alle_18_53_q9XokseNPI.32.png" alt="[IssuanceFlow]"></mj-image>   
@@ -26,7 +32,7 @@
 
         <!-- Condizione: Se FlowName è stato aggiornato -->
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          - <strong>Flow Name</strong>: [UpdatedFlowName]<br />
+          - <strong>Flow Name</strong>: {{. UpdatedFlowName }}<br />
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
@@ -34,20 +40,20 @@
         </mj-text>
         <!-- Condizione: Se cryptography o expiration sono state aggiornate -->
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          - <strong>Cryptography</strong>: [UpdatedCryptography]<br />
-          - <strong>Expiration</strong>: [UpdatedExpiration]<br />
+          - <strong>Cryptography</strong>: {{. UpdatedCryptography }}<br />
+          - <strong>Expiration</strong>: {{. UpdatedExpiration }}<br />
         </mj-text>
 
         <!-- Condizione: Se AuthTemplateName è stato aggiornato -->
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          - <strong>[UpdatedAuthTemplateName]</strong><br />
-          [UpdatedCredentialTemplateDescription]<br />
+          - <strong>{{. UpdatedAuthTemplateName }}</strong><br />
+          {{. UpdatedCredentialTemplateDescription }}<br />
         </mj-text>
 
         <!-- Condizione: Se CredentialTemplateName o CredentialTemplateDescription sono stati aggiornati -->
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          - <strong>[UpdatedCredentialTemplateName]</strong><br />
-          [UpdatedCredentialTemplateDescription]<br />
+          - <strong>{{. UpdatedCredentialTemplateName }}</strong><br />
+          {{. UpdatedCredentialTemplateDescription }}<br />
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
@@ -55,8 +61,8 @@
         </mj-text>
         <!-- Condizione: Se AuthServer o CredentialIssuer sono stati aggiornati -->
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          - <strong>Authorization Server</strong>: [UpdatedAuthServer]<br />
-          - <strong>Credential Issuer</strong>: [UpdatedCredentialIssuer]<br />
+          - <strong>Authorization Server</strong>: {{. UpdatedAuthServer }}<br />
+          - <strong>Credential Issuer</strong>: {{. UpdatedCredentialIssuer }}<br />
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
@@ -64,8 +70,8 @@
         </mj-text>
         <!-- Condizione: Se IsPublic o API sono state aggiornate -->
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          - <strong>Visibility</strong>: [UpdatedIsPublic]<br />
-          - <strong>Can be requested via API</strong>: [UpdatedAPI]
+          - <strong>Visibility</strong>: {{. UpdatedIsPublic }}<br />
+          - <strong>Can be requested via API</strong>: {{. UpdatedAPI }}
         </mj-text>
 
         <mj-button href="https://www.didroom.com/flows/manage" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">

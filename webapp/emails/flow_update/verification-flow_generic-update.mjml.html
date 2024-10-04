@@ -15,7 +15,13 @@
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          We’d like to inform you that your verification flow has been updated successfully in your organization, <strong>[OrganizationName]</strong>.
+          We’d like to inform you that your verification flow <strong>{{. FlowName }}</strong> has been updated successfully in your organization, <strong>[OrganizationName]</strong>.
+        </mj-text>
+
+                <!-- Conditional formatting: If <editor> and <user> match then display "You" -->
+        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+        Changes were made by <strong>{{. Editor }}</strong>.         
+        If you have any questions or need further details, reach out to your admin team.
         </mj-text>
 
 <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
