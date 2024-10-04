@@ -15,7 +15,7 @@
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          The Verification template in your issuance flow <strong>{{. FlowName }}</strong> for <strong>[OrganizationName]</strong> has been updated.
+          The Verification template in your issuance flow <strong>{{. FlowName }}</strong> for <strong>{{. OrganizationName }}</strong> has been updated.
         </mj-text>
 
                 <!-- Conditional formatting: If <editor> and <user> match then display "You" -->
@@ -25,7 +25,7 @@
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          - <strong>New Verification Template</strong>: [UpdatedVerificationTemplateName]<br />
+          - <strong>New Verification Template</strong>: {{. UpdatedVerificationTemplateName }}<br />
         </mj-text>
 
         <mj-button href="https://www.didroom.com/flows/manage" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
