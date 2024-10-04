@@ -1,3 +1,11 @@
+# [1.30.0](https://github.com/ForkbombEu/signroom/compare/v1.29.0...v1.30.0) (2024-10-04)
+
+
+### Features
+
+* invite external users by email ([#834](https://github.com/ForkbombEu/signroom/issues/834)) ([80b5b03](https://github.com/ForkbombEu/signroom/commit/80b5b0353a54bce1586755482837db010a40eea7))
+* transactional emails render and templates ([#833](https://github.com/ForkbombEu/signroom/issues/833)) ([f0f09b2](https://github.com/ForkbombEu/signroom/commit/f0f09b292fc2f688092504dbf7b516d59d4f8727)), closes [#773](https://github.com/ForkbombEu/signroom/issues/773)
+
 # [1.29.0](https://github.com/ForkbombEu/signroom/compare/v1.28.1...v1.29.0) (2024-09-26)
 
 
