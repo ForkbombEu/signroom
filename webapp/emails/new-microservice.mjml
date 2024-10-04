@@ -7,15 +7,15 @@
         <mj-divider border-color="#7d2fb5"></mj-divider>
 
         <mj-text font-size="22px" color="#000000" font-family="Arial, sans-serif" align="center">
-          Issuance Flow Name Updated!
+          New SSI Microservice Deployed Successfully!
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          Hello [UserName],
+          Hello {{. username }},
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          The name of your issuance flow <strong>{{. FlowName }}</strong> in organization <strong>[OrganizationName]</strong> has been updated.
+          We’re excited to inform you that the SSI microservice <strong>{{. MicroserviceName }}</strong> has been successfully deployed in your organization, <strong>{{. OrganizationName }}</strong>.
         </mj-text>
 
         <!-- Conditional formatting: If <editor> and <user> match then display "You" -->
@@ -25,11 +25,16 @@
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          - <strong>New Flow Name</strong>: [UpdatedFlowName]
+          Below are the details:
         </mj-text>
 
-        <mj-button href="https://www.didroom.com/flows/manage" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
-          Review Updated Flow
+        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+          - <strong>Functionality</strong>: {{. Functionality }}<br />
+          - <strong>Configuration</strong>: {{. ConfigurationOptions }}<br />
+        </mj-text>
+
+        <mj-button href="https://www.didroom.com/microservices/manage" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+          Manage Microservice
         </mj-button>
 
         <mj-divider border-color="#7d2fb5"></mj-divider>

@@ -1,0 +1,38 @@
+<mjml>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+        <mj-image width="200px" src="https://forkbomb.solutions/wp-content/uploads/2023/05/DIDroom_logo.svg" alt="DIDroom Logo"></mj-image>
+
+        <mj-divider border-color="#ff0000"></mj-divider>
+
+        <mj-text font-size="22px" color="#ff0000" font-family="Arial, sans-serif" align="center">
+          Your DIDroom Account Has Been Deactivated
+        </mj-text>
+
+        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+          Hello {{. username }},
+        </mj-text>
+
+        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+          We wanted to inform you that your DIDroom account has been deactivated. If this was a mistake or you wish to reactivate your account, please follow the instructions below or contact our support team.
+        </mj-text>
+
+        <mj-button href="{{. reactivateLink }}" background-color="#ff0000" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+          Reactivate Account
+        </mj-button>
+
+        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+          If you need further assistance, feel free to reach out to us.
+        </mj-text>
+
+        <mj-divider border-color="#ff0000"></mj-divider>
+
+<mj-text font-size="14px" color="#888888" font-family="Arial, sans-serif" align="center">
+  If you can't visualize this email correctly, <a href="{{. viewInBrowserLink }}" style="color:#7d2fb5;">click here to view it in your browser</a>.
+</mj-text>
+
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

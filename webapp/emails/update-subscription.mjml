@@ -7,28 +7,26 @@
         <mj-divider border-color="#7d2fb5"></mj-divider>
 
         <mj-text font-size="22px" color="#000000" font-family="Arial, sans-serif" align="center">
-          Reminder: Your Invitation to Join DIDroom
+          Your DIDroom Subscription Update
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          Hello there,
+          Hello {{. username }},
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          We noticed that you haven’t completed your registration for DIDroom yet. Your invitation from <strong>{{. UserName }}</strong> still valid, and we don’t want you to miss out on the benefits of being part of our secure and decentralized platform.
+          This is a notification regarding your DIDroom subscription. Please find the details below:
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          To finish setting up your account, click the link below:
+          - <strong>Subscription Plan</strong>: {{. SubscriptionPlan }}<br />
+          - <strong>Renewal Date</strong>: {{. RenewalDate }}<br />
+          - <strong>Payment Status</strong>: {{. PaymentStatus }}<br />
         </mj-text>
 
-        <mj-button href="{{. InvitationLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
-          Complete Your Registration
+        <mj-button href="https://www.didroom.com/subscription/manage" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+          Manage Subscription
         </mj-button>
-
-        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          Don’t wait too long—this invitation will expire soon! Take action now and start using DIDroom.
-        </mj-text>
 
         <mj-divider border-color="#7d2fb5"></mj-divider>
 
