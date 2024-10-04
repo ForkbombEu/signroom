@@ -10,16 +10,18 @@ import path from 'node:path';
 /**
  * Helper function to recursively find all files in a directory
  * @param {string} dirPath
+ * @param {string[]} [exclude=[]]
  * @param {string[]} arrayOfFiles
  * @returns
  */
-function getAllFilesInFolder(dirPath, arrayOfFiles = []) {
+function getAllFilesInFolder(dirPath, exclude = [], arrayOfFiles = []) {
 	const files = fs.readdirSync(dirPath);
 
 	files.forEach(function (file) {
 		const fullPath = path.join(dirPath, file);
+		if (exclude.includes(fullPath)) return;
 		if (fs.statSync(fullPath).isDirectory()) {
-			arrayOfFiles = getAllFilesInFolder(fullPath, arrayOfFiles);
+			arrayOfFiles = getAllFilesInFolder(fullPath, exclude, arrayOfFiles);
 		} else {
 			arrayOfFiles.push(fullPath);
 		}
@@ -29,26 +31,20 @@ function getAllFilesInFolder(dirPath, arrayOfFiles = []) {
 }
 
 /**
- * Extract valid keys from the files based on the "m." pattern
+ * Extract used keys from the files based on the "m." pattern
  * @param {string[]} files
+ * @param {string[]} keys
  * @returns {string[]}
  */
-function extractKeysFromFiles(files) {
-	const keyRegex = /(^|[^a-zA-Z_])m\.([a-zA-Z_]+)/g;
-	// This regex finds all strings between "m." and the next char that is not a letter or an underscore
-	// Also, before "m." must be no letters or underscorses
-
-	const validKeys = new Set();
+function getKeysInFiles(files, keys) {
+	const usedKeys = new Set();
 
 	files.forEach((file) => {
 		const fileContent = fs.readFileSync(file, 'utf-8');
-		let match;
-		while ((match = keyRegex.exec(fileContent)) !== null) {
-			validKeys.add(match[2]); // Extract the key between "m." and "("
-		}
+		keys.filter((k) => fileContent.includes(k)).forEach((k) => usedKeys.add(k));
 	});
 
-	return Array.from(validKeys);
+	return Array.from(usedKeys);
 }
 
 /**
@@ -78,12 +74,14 @@ function filterJsonByKeys(json, validKeys) {
 /**
  * Main function to extract keys and filter the JSON
  * @param {string} searchFolder
+ * @param {string[]} exclude
  * @param {string} jsonFilePath
  */
-function main(searchFolder, jsonFilePath) {
-	const allFiles = getAllFilesInFolder(searchFolder);
-	const validKeys = extractKeysFromFiles(allFiles);
+function main(searchFolder, exclude, jsonFilePath) {
+	const allFiles = getAllFilesInFolder(searchFolder, exclude);
 	const json = JSON.parse(fs.readFileSync(jsonFilePath, 'utf-8'));
+	const keys = Object.keys(json);
+	const validKeys = getKeysInFiles(allFiles, keys);
 	const filteredJson = filterJsonByKeys(json, validKeys);
 	fs.writeFileSync(jsonFilePath, JSON.stringify(filteredJson, null, 2));
 	console.log(`Removed unused strings ✨`);
@@ -98,4 +96,4 @@ function main(searchFolder, jsonFilePath) {
 //   process.exit(1);
 // }
 
-main('./src/', './messages/en.json');
+main('./src/', ['src/paraglide'], './messages/en.json');

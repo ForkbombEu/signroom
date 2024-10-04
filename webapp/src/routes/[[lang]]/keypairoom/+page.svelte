@@ -19,14 +19,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import {
 		getPublicKeysFromKeypair,
 		saveUserPublicKeys,
-		getUserPublicKeys
+		getUserPublicKeys,
+		RegenerateKeyringSession
 	} from '$lib/keypairoom/utils.js';
 	import { currentUser, pb } from '$lib/pocketbase';
 	import { z } from 'zod';
 	import { featureFlags } from '$lib/features';
-	import { page } from '$app/stores';
-	import { welcomeSearchParamKey } from '$lib/utils/constants.js';
-	import { appTitle } from '$lib/strings.js';
 
 	// Components
 	import { Form, createForm, Input, FormError, SubmitButton } from '$lib/forms';
@@ -34,6 +32,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import CopyButton from '$lib/components/copyButton.svelte';
 	import Card from '$lib/components/card.svelte';
 	import { InformationCircle } from 'svelte-heros-v2';
+	import { WelcomeSession } from '$lib/utils/welcome';
+	import WelcomeBanner from '$lib/components/welcomeBanner.svelte';
+	import { m } from '$lib/i18n';
+	import RegenerateBanner from './_partials/RegenerateBanner.svelte';
+	import { log } from '$lib/utils/devLog';
 
 	//
 
@@ -69,7 +72,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				try {
 					await pb.send('/api/did', {});
 				} catch (e) {
-					console.log(e);
+					log(e);
 				}
 			}
 		}
@@ -84,53 +87,45 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	}
 
 	const { form } = superform;
-
 	if ($currentUser) $form.email = $currentUser.email;
-
-	//
-
-	$: isWelcome = $page.url.searchParams.has(welcomeSearchParamKey);
-	$: searchParams = $page.url.searchParams.toString();
 </script>
 
-{#if isWelcome}
-	<div class="mb-6 -rotate-1">
-		<Alert color="yellow" border>
-			<div class="space-y-3 overflow-hidden text-ellipsis">
-				<Heading color="yellow" tag="h2" class="text-ellipsis">Welcome to {appTitle} 🎉</Heading>
-				<P color="yellow" weight="bold">Thanks for joining us!</P>
-				<P color="yellow">
-					One last thing before to using the app:<br /> we need you to answer these questions, as they
-					will be used to secure your data.
-				</P>
-			</div>
-		</Alert>
-	</div>
-{/if}
+{#if !seed}
+	{#if WelcomeSession.isActive()}
+		<WelcomeBanner class="mb-6">
+			<P color="yellow" weight="bold">{m.Thanks_for_joining_us()}</P>
+			<P color="yellow">
+				{m.One_last_thing_before_to_using_the_app()}<br />
+				{m.we_need_you_to_answer_these_questions_as_they_will_be_used_to_secure_your_data_()}
+			</P>
+		</WelcomeBanner>
+	{/if}
 
-<Card class="space-y-6 p-6">
-	{#if !seed}
-		<Heading tag="h4">Generate your keys</Heading>
+	<Card class="space-y-6 p-6">
+		<Heading tag="h4">{m.Generate_your_keys()}</Heading>
 
-		<Alert color="blue">
-			<span class="sr-only">Info</span>
-			<span class="text mb-2 flex items-center font-bold">
-				<div class="mr-1">
-					<InformationCircle size="20" />
-				</div>
-				Important information
-			</span>
-			<ul class="list-disc space-y-1 pl-4 pt-1">
-				<li>
-					By answering these questions, you will generate keys that will be used to encrypt your
-					data
-				</li>
-				<li>
-					Please remember the answers, as they will be the only way to restore the encryption keys
-				</li>
-				<li>Please answer at least 3 of the following questions</li>
-			</ul>
-		</Alert>
+		{#if WelcomeSession.isActive()}
+			<Alert color="blue">
+				<span class="sr-only">{m.Info()}</span>
+				<span class="text mb-2 flex items-center font-bold">
+					<div class="mr-1">
+						<InformationCircle size="20" />
+					</div>
+					{m.Important_information()}
+				</span>
+				<ul class="list-disc space-y-1 pl-4 pt-1">
+					<li>
+						{m.By_answering_these_questions_you_will_generate_keys_that_will_be_used_to_encrypt_your_data()}
+					</li>
+					<li>
+						{m.Please_remember_the_answers_as_they_will_be_the_only_way_to_restore_the_encryption_keys()}
+					</li>
+					<li>{m.Please_answer_at_least_3_of_the_following_questions()}</li>
+				</ul>
+			</Alert>
+		{:else if RegenerateKeyringSession.isActive()}
+			<RegenerateBanner />
+		{/if}
 
 		<Hr />
 
@@ -140,7 +135,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 					<Input {superform} field="email" options={{ label: 'User email' }} />
 
 					<P size="sm" color="text-gray-400">
-						Your email won't be stored anywhere, it will be used only to generate the keys.
+						{m.Your_email_wont_be_stored_anywhere_it_will_be_used_only_to_generate_the_keys_()}
 					</P>
 				</div>
 
@@ -154,27 +149,28 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 			<FormError />
 
 			<div class="flex justify-end">
-				<SubmitButton>Generate keys</SubmitButton>
+				<SubmitButton>{m.Generate_keys()}</SubmitButton>
 			</div>
 		</Form>
 
 		<Hr />
 
-		<A class="text-sm" href="/keypairoom/regenerate">I have the seed passphrase</A>
-	{:else}
-		<Heading tag="h4">Keypair creation successful!</Heading>
+		<A class="text-sm" href="/keypairoom/regenerate">{m.I_have_the_seed_passphrase()}</A>
+	</Card>
+{:else}
+	<Card class="space-y-6">
+		<Heading tag="h4">{m.Keypair_creation_successful()}</Heading>
 		<P size="sm" color="text-gray-400 dark:text-gray-600">
-			Please store this in a safe place to recover your account in the future, this passphrase will
-			be shown only one time!
+			{m.Please_store_this_in_a_safe_place_to_recover_your_account_in_the_future_this_passphrase_will_be_shown_only_one_time()}
 		</P>
 		<Alert color="blue">
 			<span class="font-mono">
 				{seed}
 				<div class="flex flex-col items-end pt-4">
-					<CopyButton textToCopy={seed}>Copy seed</CopyButton>
+					<CopyButton textToCopy={seed}>{m.Copy_seed()}</CopyButton>
 				</div>
 			</span>
 		</Alert>
-		<Button href={`/my?${searchParams}`}>Go to Dashboard</Button>
-	{/if}
-</Card>
+		<Button href="/my">{m.Go_to_Dashboard()}</Button>
+	</Card>
+{/if}

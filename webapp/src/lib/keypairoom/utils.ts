@@ -10,6 +10,7 @@ import {
 } from '$lib/pocketbase/types';
 import _ from 'lodash';
 import type { Keypair } from './keypair';
+import { createSessionStorageHandlers } from '$lib/utils/sessionStorage';
 
 export type PublicKeys = Omit<UsersPublicKeysRecord, 'owner'>;
 
@@ -40,3 +41,7 @@ export async function saveUserPublicKeys(publicKeys: PublicKeys) {
 	};
 	await pb.collection('users_public_keys').create(data);
 }
+
+//
+
+export const RegenerateKeyringSession = createSessionStorageHandlers('keypairoom_regenerate');

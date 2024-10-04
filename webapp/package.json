@@ -5,7 +5,7 @@
 		"email": "puria@dyne.org"
 	},
 	"description": "Advanced electronic signature service based on Zenroom",
-	"version": "1.29.0",
+	"version": "1.30.0",
 	"private": true,
 	"engines": {
 		"node": ">=17",
@@ -32,6 +32,7 @@
 		"serve": "pnpm build && pnpm preview --host",
 		"remove-unused-strings": "node ./src/lib/i18n/removeUnusedStrings.mjs",
 		"i18n:lint": "pnpm inlang lint --project ./project.inlang",
+		"i18n:lint:en": "pnpm inlang lint --project ./project.inlang --languageTags en",
 		"emails": "mkdir -p static/emails && find ./ -name '*.mjml' -exec sh -c 'mjml \"$1\" -o static/emails/$(basename \"${1%.mjml}.html\")' sh {} \\;"
 	},
 	"devDependencies": {
