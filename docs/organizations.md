@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2024 The Forkbomb Company
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 # Organizations
 
 This docs page explain the information flows relative to:

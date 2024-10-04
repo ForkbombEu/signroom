@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 The Forkbomb Company
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { loadFeatureFlags } from '$lib/features/index.js';
 import { redirect } from '$lib/i18n/index.js';
 import { OrganizationInviteSession } from '$lib/organizations/invites';
