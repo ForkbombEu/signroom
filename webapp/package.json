@@ -32,7 +32,8 @@
 		"serve": "pnpm build && pnpm preview --host",
 		"remove-unused-strings": "node ./src/lib/i18n/removeUnusedStrings.mjs",
 		"i18n:lint": "pnpm inlang lint --project ./project.inlang",
-		"i18n:lint:en": "pnpm inlang lint --project ./project.inlang --languageTags en"
+		"i18n:lint:en": "pnpm inlang lint --project ./project.inlang --languageTags en",
+		"emails": "mkdir -p static/emails && find ./ -name '*.mjml' -exec sh -c 'mjml \"$1\" -o static/emails/$(basename \"${1%.mjml}.html\")' sh {} \\;"
 	},
 	"devDependencies": {
 		"@inlang/cli": "^2.18.1",
@@ -61,6 +62,7 @@
 		"eslint": "^9.4.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.39.0",
+		"mjml": "^4.15.3",
 		"postcss": "^8.4.40",
 		"postcss-load-config": "^4.0.1",
 		"prettier": "^3.3.3",
