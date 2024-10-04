@@ -6,6 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script lang="ts">
 	import { portal } from '$lib/components/utils/portal';
+	import { log } from '$lib/utils/devLog';
 	import { Input, Button } from 'flowbite-svelte';
 </script>
 
@@ -13,7 +14,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	class="space-y-2"
 	action="post"
 	on:submit|preventDefault={(e) => {
-		console.log(e);
+		log(e);
 	}}
 >
 	<Input name="name" placeholder="name" required />
@@ -23,7 +24,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		use:portal
 		class="space-y-2"
 		on:submit|preventDefault={(e) => {
-			console.log(e);
+			log(e);
 		}}
 	>
 		<Input name="name2" placeholder="name2" required />

@@ -13,6 +13,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	export let title: string | undefined = undefined;
 	export let size: ComponentProps<Modal>['size'] = 'sm';
+	export let modalProps: ComponentProps<Modal> = {};
 
 	const show = createToggleStore(false);
 </script>
@@ -20,7 +21,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <slot openModal={show.on} closeModal={show.off} />
 
 <PortalWrapper>
-	<Modal {size} {title} bind:open={$show}>
+	<Modal {size} {title} bind:open={$show} {...modalProps}>
 		<slot name="modal" openModal={show.on} closeModal={show.off} />
 	</Modal>
 </PortalWrapper>

@@ -11,11 +11,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </script>
 
 <div class="grid h-screen place-items-center">
-	<div class="w-2/5">
+	<div class="max-w-[500px]">
 		<Register href="/">
 			<svelte:fragment slot="top">
 				<img class="mr-2 h-10" src="/logo.svg" alt={`${appTitle} Logo`} />
 			</svelte:fragment>
+
 			<div class="space-y-4 p-6 sm:p-8 md:space-y-6">
 				<slot />
 			</div>

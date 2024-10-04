@@ -26,6 +26,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import EmptyState from '$lib/components/emptyState.svelte';
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
 	import ModalWrapper from '$lib/components/modalWrapper.svelte';
+	import PageCard from '$lib/components/pageCard.svelte';
 
 	//
 
@@ -55,55 +56,56 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	}}
 	{recordType}
 	let:records
+	hideEmptyState
 >
-	<SectionTitle
-		tag="h5"
-		title={m.Pending_membership_requests()}
-		description={m.pending_membership_requests_description()}
-	/>
+	{#if records.length}
+		<PageCard>
+			<SectionTitle
+				tag="h5"
+				title={m.Pending_membership_requests()}
+				description={m.pending_membership_requests_description()}
+			/>
 
-	<svelte:fragment slot="emptyState">
-		<EmptyState icon={UserGroup} title={m.No_new_membership_requests()}></EmptyState>
-	</svelte:fragment>
+			{#each records as request}
+				{@const user = request.expand?.user}
+				{#if user}
+					<PlainCard>
+						<UserAvatar slot="left" size="md" {user}></UserAvatar>
+						{getUserDisplayName(user)}
 
-	{#each records as request}
-		{@const user = request.expand?.user}
-		{#if user}
-			<PlainCard>
-				<UserAvatar slot="left" size="md" {user}></UserAvatar>
-				{getUserDisplayName(user)}
+						<svelte:fragment slot="right">
+							<div class="space-x-1">
+								<Button outline on:click={() => updateRequestStatus(request, accepted)}>
+									{m.Accept()}
+									<Icon src={UserPlus} ml></Icon>
+								</Button>
 
-				<svelte:fragment slot="right">
-					<div class="space-x-1">
-						<Button outline on:click={() => updateRequestStatus(request, accepted)}>
-							{m.Accept()}
-							<Icon src={UserPlus} ml></Icon>
-						</Button>
-
-						<ModalWrapper title={m.Warning()} size="xs" let:openModal>
-							<Button outline on:click={openModal}>
-								{m.Decline()}
-								<Icon src={NoSymbol} ml></Icon>
-							</Button>
-
-							<svelte:fragment slot="modal" let:closeModal>
-								<p>{m.decline_membership_request_warning()}</p>
-								<div class="flex items-center justify-center gap-2">
-									<Button color="alternative" on:click={closeModal}>
-										{m.Cancel()}
+								<ModalWrapper title={m.Warning()} size="xs" let:openModal>
+									<Button outline on:click={openModal}>
+										{m.Decline()}
+										<Icon src={NoSymbol} ml></Icon>
 									</Button>
-									<Button
-										color="red"
-										on:click={() => updateRequestStatus(request, rejected).then(closeModal)}
-									>
-										{m.decline_membership_request()}
-									</Button>
-								</div>
-							</svelte:fragment>
-						</ModalWrapper>
-					</div>
-				</svelte:fragment>
-			</PlainCard>
-		{/if}
-	{/each}
+
+									<svelte:fragment slot="modal" let:closeModal>
+										<p>{m.decline_membership_request_warning()}</p>
+										<div class="flex items-center justify-center gap-2">
+											<Button color="alternative" on:click={closeModal}>
+												{m.Cancel()}
+											</Button>
+											<Button
+												color="red"
+												on:click={() => updateRequestStatus(request, rejected).then(closeModal)}
+											>
+												{m.decline_membership_request()}
+											</Button>
+										</div>
+									</svelte:fragment>
+								</ModalWrapper>
+							</div>
+						</svelte:fragment>
+					</PlainCard>
+				{/if}
+			{/each}
+		</PageCard>
+	{/if}
 </CollectionManager>
