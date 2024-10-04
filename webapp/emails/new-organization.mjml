@@ -11,11 +11,11 @@
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          Hello [UserName],
+          Hello {{. UserName }},
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          We’re excited to inform you that your organization, <strong>[OrganizationName]</strong>, has been successfully created on DIDroom!
+          We’re excited to inform you that your organization, <strong>{{. OrganizationName }}</strong>, has been successfully created on DIDroom!
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">

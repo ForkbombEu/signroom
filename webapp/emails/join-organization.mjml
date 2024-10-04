@@ -7,15 +7,15 @@
         <mj-divider border-color="#7d2fb5"></mj-divider>
 
         <mj-text font-size="22px" color="#000000" font-family="Arial, sans-serif" align="center">
-          You're Invited to Join [OrganizationName] on DIDroom!
+          You're Invited to Join {{. OrganizationName }} on DIDroom!
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          Hello [UserName],
+          Hello {{. UserName }},
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          You have been invited to join the organization <strong>[OrganizationName]</strong> on DIDroom. 
+          You have been invited to join the organization <strong>{{. OrganizationName }}</strong> on DIDroom. 
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">

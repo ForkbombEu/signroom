@@ -11,7 +11,7 @@
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          Hello [UserName],
+          Hello {{. UserName }},
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
@@ -22,7 +22,7 @@
           To get started, click the link below to log in to your account and begin exploring the platform.
         </mj-text>
 
-        <mj-button href="[LoginLink]" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+        <mj-button href="{{. LoginLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
           Log in to Your Account
         </mj-button>
 
