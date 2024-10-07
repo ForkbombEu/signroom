@@ -32,7 +32,7 @@
 
         <!-- Condizione: Se FlowName è stato aggiornato -->
         <mj-text>
-          - <strong>Flow Name</strong>: {{. UpdatedFlowName }}<br />
+          - <strong>Flow Name</strong>: {{. FlowName }}<br />
         </mj-text>
 
         <mj-text>
@@ -40,7 +40,7 @@
         </mj-text>
         <!-- Condizione: Se VerificationTemplateName è stato aggiornato-->
         <mj-text>
-          - <strong>{{. UpdatedVerificationTemplateName }}</strong><br />
+          - <strong>{{. VerificationTemplateName }}</strong><br />
         </mj-text>
 
         <mj-text>
@@ -48,7 +48,7 @@
         </mj-text>
         <!-- Condizione: Se RelyingParty è stato aggiornato -->
         <mj-text align="left">
-          - <strong>Relying Party</strong>: {{. UpdatedRelyingParty }}<br />
+          - <strong>Relying Party</strong>: {{. RelyingParty }}<br />
         </mj-text>
 
         <mj-text>
@@ -56,7 +56,7 @@
         </mj-text>
         <!-- Condizione: Se IsPublic è stato aggiornato -->
         <mj-text>
-          - <strong>Visibility</strong>: {{. UpdatedIsPublic }}<br />
+          - <strong>Visibility</strong>: {{. IsPublic }}<br />
         </mj-text>
 
         <mj-button href="{{. DashboardLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">

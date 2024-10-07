@@ -13,7 +13,7 @@
         </mj-class>
 
         <mj-text>
-          Hello <strong>{{. username }}</strong>,
+          Hello <strong>{{. UserName }}</strong>,
         </mj-text>
 
         <mj-text>

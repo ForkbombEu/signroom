@@ -27,8 +27,8 @@
         </mj-text>
 
         <mj-text>
-          - <strong>New Authorization Template</strong>: {{. UpdatedAuthTemplateName }}<br />
-          - <strong>New Credential Template</strong>: {{. UpdatedCredentialTemplateName }}
+          - <strong>New Authorization Template</strong>: {{. AuthTemplateName }}<br />
+          - <strong>New Credential Template</strong>: {{. CredentialTemplateName }}
         </mj-text>
 
         <mj-button href="{{. DashboardLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">

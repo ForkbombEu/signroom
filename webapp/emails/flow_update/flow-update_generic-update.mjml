@@ -32,7 +32,7 @@
         </mj-text>
 
         <mj-text>
-          - <strong>Flow Name</strong>: {{. UpdatedFlowName }}<br />
+          - <strong>Flow Name</strong>: {{. FlowName }}<br />
         </mj-text>
 
         <mj-text>
@@ -40,18 +40,18 @@
         </mj-text>
 
         <mj-text>
-          - <strong>Cryptography</strong>: {{. UpdatedCryptography }}<br />
-          - <strong>Expiration</strong>: {{. UpdatedExpiration }}<br />
+          - <strong>Cryptography</strong>: {{. Cryptography }}<br />
+          - <strong>Expiration</strong>: {{. Expiration }}<br />
         </mj-text>
 
         <mj-text>
           - <strong>{{. UpdatedAuthTemplateName }}</strong><br />
-          {{. UpdatedCredentialTemplateDescription }}<br />
+          {{. CredentialTemplateDescription }}<br />
         </mj-text>
 
         <mj-text>
           - <strong>{{. UpdatedCredentialTemplateName }}</strong><br />
-          {{. UpdatedCredentialTemplateDescription }}<br />
+          {{. CredentialTemplateDescription }}<br />
         </mj-text>
 
         <mj-text>
@@ -59,8 +59,8 @@
         </mj-text>
 
         <mj-text>
-          - <strong>Authorization Server</strong>: {{. UpdatedAuthServer }}<br />
-          - <strong>Credential Issuer</strong>: {{. UpdatedCredentialIssuer }}<br />
+          - <strong>Authorization Server</strong>: {{. AuthServer }}<br />
+          - <strong>Credential Issuer</strong>: {{. CredentialIssuer }}<br />
         </mj-text>
 
         <mj-text>
@@ -68,8 +68,8 @@
         </mj-text>
 
         <mj-text>
-          - <strong>Visibility</strong>: {{. UpdatedIsPublic }}<br />
-          - <strong>Can be requested via API</strong>: {{. UpdatedAPI }}
+          - <strong>Visibility</strong>: {{. IsPublic }}<br />
+          - <strong>Can be requested via API</strong>: {{. API }}
         </mj-text>
 
         <mj-button href="{{. DashboardLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">

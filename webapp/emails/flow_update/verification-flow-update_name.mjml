@@ -28,7 +28,7 @@ Verification Flow Name Updated!</mj-class>
         </mj-text>
 
         <mj-text align="left">
-          - <strong>New Verification Flow Name</strong>: {{. UpdatedVerificationFlowName }}
+          - <strong>New Verification Flow Name</strong>: {{. VerificationFlowName }}
         </mj-text>
 
         <mj-button href="{{. DashboardLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
