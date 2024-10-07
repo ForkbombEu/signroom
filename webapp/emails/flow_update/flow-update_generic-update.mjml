@@ -25,7 +25,7 @@
           If you have any questions or need further details, reach out to your admin team.
         </mj-text>
 
-        <mj-image width="80px" align="left" border-radius="50%" src="https://admin.didroom.com/api/files/aako88kt3br4npt/rop0hn1jcso547j/screenshot_2023_10_12_alle_18_53_q9XokseNPI.32.png" alt="[IssuanceFlow]"></mj-image>   
+       <mj-image width="80px" align=left border-radius=50% src="{{. FlowImage }}" alt="{{. FlowName }}"></mj-image>  
 
         <mj-text>
           Here’s a summary of the updates made to your issuance flow and its associated credential:

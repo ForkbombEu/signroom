@@ -30,6 +30,8 @@
           Here’s a summary of the updates made to your verification flow and its associated credential:
         </mj-text>
 
+        <mj-image width="80px" align=left border-radius=50% src="{{. FlowImage }}" alt="{{. IssuanceFlow }}"></mj-image>
+
         <!-- Condizione: Se FlowName è stato aggiornato -->
         <mj-text>
           - <strong>Flow Name</strong>: {{. FlowName }}<br />
