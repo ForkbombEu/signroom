@@ -1,57 +1,38 @@
+ 
 <mjml>
+  <mj-head>
+    <mj-title>Your invitation to join {{. OrganizationName }}</mj-title>
+    <mj-iclude path="./components/attributes.mjml" />
+  </mj-head>
   <mj-body>
-    <mj-section>
+<mj-include path="./components/header.mjml" />
+<!--email content--->  
+<mj-section>
       <mj-column>
-        <mj-image width="200px" src="https://forkbomb.solutions/wp-content/uploads/2023/05/DIDroom_logo.svg" alt="DIDroom Logo"></mj-image>
+        <mj-class="big">
+          Join {{. OrganizationName }} on DIDroom!
+        </mj-class>
 
-        <mj-divider border-color="#7d2fb5"></mj-divider>
-
-        <mj-text font-size="22px" color="#000000" font-family="Arial, sans-serif" align="center">
-          You're Invited to Join {{. OrganizationName }} on DIDroom!
-        </mj-text>
-
-        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+        <mj-text>
           Hello {{. UserName }},
         </mj-text>
 
-        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+        <mj-text>
           You have been invited by <strong>{{. Editor }}</strong> to join the organization <strong>{{. OrganizationName }}</strong> on DIDroom. 
         </mj-text>
 
-        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          To get started, simply login to your Dashboard to accept the invitation:
+        <mj-textà>
+          To get started, simply login to your Dashboard and accept the invitation:
         </mj-text>
 
-        <mj-button href="https://www.didroom.com/invitations" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+        <mj-button href="{{. DashboardLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
           See your Invitation
         </mj-button>
 
-        <mj-divider border-color="#7d2fb5"></mj-divider>
-
-<mj-text font-size="14px" color="#888888" font-family="Arial, sans-serif" align="center">
-  If you can't visualize this email correctly, <a href="{{. viewInBrowserLink }}" style="color:#7d2fb5;">click here to view it in your browser</a>.
-</mj-text>
-
-      </mj-column>
+         </mj-column>
     </mj-section>
-    <!-- Social Icons Section -->
-    <mj-section>  
-        <mj-column>
-        <mj-text font-size="14px" color="#888888" font-family="Arial, sans-serif" align="center" line-height="1.4">
-          <strong>Need support?</strong><br/> <a href="https://didroom.com/get_started.html" style="color:#7d2fb5;">Read our Guide</a> or <a href="https://github.com/ForkbombEu/DIDroom/issues" style="color:#7d2fb5;">Create an issue</a>
-        </mj-text></mj-column>
-    <mj-column>
-        <mj-social font-size="14px" icon-size="20px" mode="horizontal" align="center" >
-          <!-- GitHub Icon and Link -->
-          <mj-social-element name="github" href="https://github.com/ForkbombEu/DIDroom" background-color="#333333">
-            GitHub
-          </mj-social-element>
-          <!-- LinkedIn Icon and Link -->
-          <mj-social-element name="linkedin" href="https://www.linkedin.com/company/forkbomb/" background-color="#0077B5">
-            LinkedIn
-          </mj-social-element>
-        </mj-social>
-      </mj-column>
-    </mj-section>
-  </mj-body>
+        <mj-include path="./components/footer.mjml" />
+</mj-body>
 </mjml>
+
+

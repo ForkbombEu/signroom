@@ -1,94 +1,83 @@
 <mjml>
+  <mj-head>
+    <mj-title>Issuance Flow Updated Successfully</mj-title>
+    <mj-include path="./components/attributes.mjml" />
+  </mj-head>
   <mj-body>
+    <mj-include path="./components/header.mjml" />
+    <!--email content--->
     <mj-section>
       <mj-column>
-        <mj-image width="200px" src="https://forkbomb.solutions/wp-content/uploads/2023/05/DIDroom_logo.svg" alt="DIDroom Logo"></mj-image>
-
-        <mj-divider border-color="#7d2fb5"></mj-divider>
-
-        <mj-text font-size="22px" color="#000000" font-family="Arial, sans-serif" align="center">
+        <mj-class="big">
           Issuance Flow Updated Successfully!
+        </mj-class>
+
+        <mj-text>
+          Hello {{. username }},
         </mj-text>
 
-        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          Hello [UserName], <br />
-        </mj-text>
-
-          <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+        <mj-text>
           The issuance flow, <strong>{{. user }}</strong>, in your organization <strong>{{. OrganizationName }}</strong> has been successfully updated.
         </mj-text>
         
-        <!-- Conditional formatting: If <editor> and <user> match then display "You" -->
-        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-        Changes were made by <strong>{{. Editor }}</strong>.         
-        If you have any questions or need further details, reach out to your admin team.
+        <mj-text>
+          Changes were made by <strong>{{. Editor }}</strong>.         
+          If you have any questions or need further details, reach out to your admin team.
         </mj-text>
 
-        <mj-image width="80px" align=left border-radius=50% src="https://admin.didroom.com/api/files/aako88kt3br4npt/rop0hn1jcso547j/screenshot_2023_10_12_alle_18_53_q9XokseNPI.32.png" alt="[IssuanceFlow]"></mj-image>   
+        <mj-image width="80px" align="left" border-radius="50%" src="https://admin.didroom.com/api/files/aako88kt3br4npt/rop0hn1jcso547j/screenshot_2023_10_12_alle_18_53_q9XokseNPI.32.png" alt="[IssuanceFlow]"></mj-image>   
 
-        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+        <mj-text>
           Here’s a summary of the updates made to your issuance flow and its associated credential:
         </mj-text>
 
-        <!-- Condizione: Se FlowName è stato aggiornato -->
-        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+        <mj-text>
           - <strong>Flow Name</strong>: {{. UpdatedFlowName }}<br />
         </mj-text>
 
-        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+        <mj-text>
           <strong>Credential Info</strong>:
         </mj-text>
-        <!-- Condizione: Se cryptography o expiration sono state aggiornate -->
-        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+
+        <mj-text>
           - <strong>Cryptography</strong>: {{. UpdatedCryptography }}<br />
           - <strong>Expiration</strong>: {{. UpdatedExpiration }}<br />
         </mj-text>
 
-        <!-- Condizione: Se AuthTemplateName è stato aggiornato -->
-        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+        <mj-text>
           - <strong>{{. UpdatedAuthTemplateName }}</strong><br />
           {{. UpdatedCredentialTemplateDescription }}<br />
         </mj-text>
 
-        <!-- Condizione: Se CredentialTemplateName o CredentialTemplateDescription sono stati aggiornati -->
-        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+        <mj-text>
           - <strong>{{. UpdatedCredentialTemplateName }}</strong><br />
           {{. UpdatedCredentialTemplateDescription }}<br />
         </mj-text>
 
-        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+        <mj-text>
           <strong>Microservices</strong>:
         </mj-text>
-        <!-- Condizione: Se AuthServer o CredentialIssuer sono stati aggiornati -->
-        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+
+        <mj-text>
           - <strong>Authorization Server</strong>: {{. UpdatedAuthServer }}<br />
           - <strong>Credential Issuer</strong>: {{. UpdatedCredentialIssuer }}<br />
         </mj-text>
 
-        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+        <mj-text>
           <strong>Advanced Settings</strong>:
         </mj-text>
-        <!-- Condizione: Se IsPublic o API sono state aggiornate -->
-        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+
+        <mj-text>
           - <strong>Visibility</strong>: {{. UpdatedIsPublic }}<br />
           - <strong>Can be requested via API</strong>: {{. UpdatedAPI }}
         </mj-text>
 
-        <mj-button href="https://www.didroom.com/flows/manage" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+        <mj-button href="{{. DashboardLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
           Review Updated Flow
         </mj-button>
-
-        <mj-divider border-color="#7d2fb5"></mj-divider>
-
-<mj-text font-size="14px" color="#888888" font-family="Arial, sans-serif" align="center">
-  If you can't visualize this email correctly, <a href="{{. viewInBrowserLink }}" style="color:#7d2fb5;">click here to view it in your browser</a>.
-</mj-text>
-
-<mj-text font-size="14px" color="#888888" font-family="Arial, sans-serif" align="center">
-  Don't want to receive these emails? <a href="{{. unsubscribeLink }}" style="color:#7d2fb5;">Manage your subscriptions</a>.
-</mj-text>
-
       </mj-column>
     </mj-section>
+
+    <mj-include path="./components/footer.mjml" />
   </mj-body>
 </mjml>

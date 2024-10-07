@@ -1,48 +1,41 @@
 <mjml>
+  <mj-head>
+    <mj-title>Issuance Flow Microservices Updated</mj-title>
+    <mj-include path="./components/attributes.mjml" />
+  </mj-head>
   <mj-body>
+    <mj-include path="./components/header.mjml" />
+    <!--email content--->
     <mj-section>
       <mj-column>
-        <mj-image width="200px" src="https://forkbomb.solutions/wp-content/uploads/2023/05/DIDroom_logo.svg" alt="DIDroom Logo"></mj-image>
-
-        <mj-divider border-color="#7d2fb5"></mj-divider>
-
-        <mj-text font-size="22px" color="#000000" font-family="Arial, sans-serif" align="center">
+        <mj-class="big"">
           Issuance Flow Microservices Updated!
-        </mj-text>
+        </mj-class>
 
-        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+        <mj-text>
           Hello {{. UserName }},
         </mj-text>
 
-        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          The microservices in your issuance flow <strong>{{. FlowName }}</strong> in organization <strong>{{.OrganizationName }}</strong> have been updated.
+        <mj-text>
+          The microservices in your issuance flow <strong>{{. FlowName }}</strong> in organization <strong>{{. OrganizationName }}</strong> have been updated.
         </mj-text>
 
-        <!-- Conditional formatting: If <editor> and <user> match then display "You" -->
-        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-        Changes were made by <strong>{{. Editor }}</strong>.         
-        If you have any questions or need further details, reach out to your admin team.
+        <mj-text>
+          Changes were made by <strong>{{. Editor }}</strong>.         
+          If you have any questions or need further details, reach out to your admin team.
         </mj-text>
 
-        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+        <mj-text>
           - <strong>Authorization Server</strong>: {{. UpdatedAuthServer }}<br />
           - <strong>Credential Issuer</strong>: {{. UpdatedCredentialIssuer }}
         </mj-text>
 
-        <mj-button href="https://www.didroom.com/flows/manage" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+        <mj-button href="{{. DashboardLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
           Review Updated Flow
         </mj-button>
-
-        <mj-divider border-color="#7d2fb5"></mj-divider>
-
-<mj-text font-size="14px" color="#888888" font-family="Arial, sans-serif" align="center">
-  If you can't visualize this email correctly, <a href="{{. viewInBrowserLink }}" style="color:#7d2fb5;">click here to view it in your browser</a>.
-</mj-text>
-
-<mj-text font-size="14px" color="#888888" font-family="Arial, sans-serif" align="center">
-  Don't want to receive these emails? <a href="{{. unsubscribeLink }}" style="color:#7d2fb5;">Manage your subscriptions</a>.
-</mj-text>
       </mj-column>
     </mj-section>
+
+    <mj-include path="./components/footer.mjml" />
   </mj-body>
 </mjml>
