@@ -31,24 +31,24 @@
         <mj-image width="80px" align=left border-radius=50% src="https://admin.didroom.com/api/files/aako88kt3br4npt/rop0hn1jcso547j/screenshot_2023_10_12_alle_18_53_q9XokseNPI.32.png" alt="{{. IssuanceFlow }}"></mj-image>   
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          - <strong>Flow Name</strong>: {{. FlowName }}<br />
-          - <strong>Flow Description</strong>: {{. FlowDescription }}<br />
+          - Flow Name: {{. FlowName }}<br />
+          - Flow Description: {{. FlowDescription }}<br />
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
           <strong>Credential Info</strong>:
         </mj-text>
                         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          - <strong>Criptography</strong>: {{. cryptography }}<br />
-          - <strong>Expiration</strong>: {{. expiration }}<br /> 
+          - Criptography: {{. cryptography }}<br />
+          - Expiration: {{. expiration }}<br /> 
                </mj-text> 
                 <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          - <strong>{{. AuthTemplateName }}</strong><br />
+          - Authorization template:  {{. AuthTemplateName }}<br />
           {{. CredentialTemplateDescription }}<br /> 
                </mj-text>   
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          - <strong>{{. CredentialTemplateName }}</strong><br />
+          - Credential template: {{. CredentialTemplateName }}<br />
          {{. CredentialTemplateDescription }}<br />
        </mj-text>
 
@@ -56,17 +56,29 @@
           <strong>Microservices</strong>:
         </mj-text>
                         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          - <strong>Authorization server</strong>: {{. AuthServer }}<br />
-          - <strong>Credential Issuer</strong>: {{. CredentialIssuer }}<br /> 
+          - Authorization server: {{. AuthServer }}<br />
+          - Credential Issuer: {{. CredentialIssuer }}<br /> 
                </mj-text> 
   
                  <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
           <strong>Advanced settings</strong>:
         </mj-text>
                         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          - <strong>Visibility</strong>: {{. IsPublic }}<br />
-          - <strong>Can be requested via API</strong>: {{. API }}
+          - Visibility: {{. IsPublic }}<br />
+          - Can be requested via API: {{. API }}
           </mj-text>
+        </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
+        
+           <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left"><strong>Next steps</strong>:<br /><br />
+                    <!-- Onboarding Steps Section -->
+                       ⬜ <strong>Download and deploy microservices</strong><br/>
+          Download necessary microservices and deploy them in your infrastructure.<br/><br/>
+                           ⬜ <strong>Create a verification flow</strong><br/>
+          Choose the Relying Party and customise the verification process.
+        </mj-text>
 
         <mj-button href="https://www.didroom.com/flows/manage" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
           Manage Issuance Flow
@@ -83,6 +95,25 @@
 </mj-text>
 
 
+      </mj-column>
+    </mj-section>
+     <!-- Social Icons Section -->
+    <mj-section>  
+        <mj-column>
+        <mj-text font-size="14px" color="#888888" font-family="Arial, sans-serif" align="center" line-height="1.4">
+          <strong>Need support?</strong><br/> <a href="https://didroom.com/get_started.html" style="color:#7d2fb5;">Read our Guide</a> or <a href="https://github.com/ForkbombEu/DIDroom/issues" style="color:#7d2fb5;">Create an issue</a>
+        </mj-text></mj-column>
+    <mj-column>
+        <mj-social font-size="14px" icon-size="20px" mode="horizontal" align="center" >
+          <!-- GitHub Icon and Link -->
+          <mj-social-element name="github" href="https://github.com/ForkbombEu/DIDroom" background-color="#333333">
+            GitHub
+          </mj-social-element>
+          <!-- LinkedIn Icon and Link -->
+          <mj-social-element name="linkedin" href="https://www.linkedin.com/company/forkbomb/" background-color="#0077B5">
+            LinkedIn
+          </mj-social-element>
+        </mj-social>
       </mj-column>
     </mj-section>
   </mj-body>

@@ -19,6 +19,12 @@
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+          1. <strong>Set up your profile:</strong> Personalize your account by adding your profile details.<br />
+          2. <strong>Explore our features:</strong> Manage credentials, create issuance flows, and more on the dashboard.<br />
+          3. <strong>Configure your settings:</strong> Adjust your notification preferences, manage privacy, and more.
+        </mj-text>
+
+        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
           To get started, click the link below to log in to your account and begin exploring the platform.
         </mj-text>
 

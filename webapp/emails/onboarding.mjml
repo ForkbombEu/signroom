@@ -7,7 +7,7 @@
         <mj-divider border-color="#7d2fb5"></mj-divider>
 
         <mj-text font-size="22px" color="#000000" font-family="Arial, sans-serif" align="center">
-          Welcome to DIDroom!
+          Let's Get Started with DIDroom!
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
@@ -15,19 +15,34 @@
         </mj-text>
 
         <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          We are excited to have you on board at DIDroom! You're now part of a community that’s building the future of decentralized identity management.
-        </mj-text>
+          Congratulations! Your DIDroom account has been successfully created and is now ready to use. <br /><br />
 
-        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
-          To help you get started, visit: <a href="https://didroom.com/get_started.html" style="color:#7d2fb5;">How to Get Started with DIDroom</a>
+Here are some next steps recommended for you:
         </mj-text>
-
-                    <!-- Onboarding Steps Section -->
-        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" line-height="1.1">Next step:
+        
+            <!-- Onboarding Steps Section -->
+        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" line-height="1.1">
           ⬜ <strong>Create an organization</strong><br/>
-          Set up your organization to begin managing issuance flows.<br/><br/></mj-text>
+          Set up your organization to begin managing issuance flows.<br/><br/>
 
-        <mj-button href="{{. DashboardLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+          ⬜ <strong>Invite people</strong><br/>
+          Add team members or relevant users who need to be involved in your issuance flow.<br/><br/>
+
+          ⬜ <strong>Define issuance flows</strong><br/>
+          Customize the flow for issuing certificates, tokens, or credentials, and incorporate your custom business logic.<br/><br/>
+
+          ⬜ <strong>Elect some verifiers</strong><br/>
+          Choose verifiers responsible for validating the issuance processes.<br/><br/>
+
+          ⬜ <strong>Download and deploy microservices</strong><br/>
+          Download necessary microservices and deploy them in your infrastructure.
+        </mj-text>
+        
+                <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+          To get started, click the link below to start creating your organization.
+        </mj-text>
+
+        <mj-button href="{{. LoginLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
           Create a new organization
         </mj-button>
 
@@ -37,10 +52,15 @@
   If you can't visualize this email correctly, <a href="{{. viewInBrowserLink }}" style="color:#7d2fb5;">click here to view it in your browser</a>.
 </mj-text>
 
+<mj-text font-size="14px" color="#888888" font-family="Arial, sans-serif" align="center">
+  Don't want to receive these emails? <a href="{{. unsubscribeLink }}" style="color:#7d2fb5;">Manage your subscriptions</a>.
+</mj-text>
+
+
+
       </mj-column>
     </mj-section>
-
-    <!-- Social Icons Section -->
+          <!-- Social Icons Section -->
     <mj-section>  
         <mj-column>
         <mj-text font-size="14px" color="#888888" font-family="Arial, sans-serif" align="center" line-height="1.4">

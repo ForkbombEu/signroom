@@ -1,0 +1,6 @@
+<mj-attributes>
+      <mj-text padding="1%" color="#000000" font-size="16px" line-height="1.4"/>
+      <mj-class name="brand-color" color="#7d2fb5" />
+      <mj-class name="big" font-size="20px" />
+      <mj-all font-family="Arial" />
+    </mj-attributes>
