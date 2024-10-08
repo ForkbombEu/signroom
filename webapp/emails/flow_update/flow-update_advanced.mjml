@@ -35,5 +35,6 @@
       </mj-column>
     </mj-section>
 
+    <mj-include path="../components/footer.mjml" />
   </mj-body>
 </mjml>
