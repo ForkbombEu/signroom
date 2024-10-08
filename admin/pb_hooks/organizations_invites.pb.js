@@ -171,20 +171,32 @@ routerAdd("POST", "/organizations/invite", (c) => {
             const paramsString = routeParams.join("-");
             const emailCtaUrl = `${utils.getAppUrl()}/organization-invite-${paramsString}`;
 
-            const { html, subject } = utils.renderEmail("join-organization", {
-                Editor: actorName ?? "Admin",
-                DashboardLink: emailCtaUrl,
-                UserName: user?.get("name") ?? "User",
-                viewInBrowserLink: "",
-                unsubscribeLink: "",
-                OrganizationName: organizationName,
-            });
+            /** @type {{html:string, subject:string}} */
+            let emailData;
+
+            if (!user) {
+                emailData = utils.renderEmail("user-invitation", {
+                    Editor: actorName ?? "Admin",
+                    InvitationLink: emailCtaUrl,
+                    viewInBrowserLink: "",
+                    unsubscribeLink: "",
+                    OrganizationName: organizationName,
+                });
+            } else {
+                emailData = utils.renderEmail("join-organization", {
+                    Editor: actorName ?? "Admin",
+                    DashboardLink: emailCtaUrl,
+                    UserName: user?.get("name") ?? "User",
+                    viewInBrowserLink: "",
+                    unsubscribeLink: "",
+                    OrganizationName: organizationName,
+                });
+            }
 
             const err = utils.sendEmail({
                 to: { address: email, name: "" },
                 // subject: `You have been invited to join ${organizationName}`,
-                html,
-                subject,
+                ...emailData,
             });
 
             if (!err) {

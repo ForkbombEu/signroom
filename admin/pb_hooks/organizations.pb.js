@@ -147,10 +147,17 @@ onRecordAfterCreateRequest((e) => {
     const userAddress = utils.getUserEmailAddressData(user);
     const organizationName = e.record.get("name");
 
+    const emailData = utils.renderEmail("new-organization", {
+        viewInBrowserLink: "",
+        unsubscribeLink: "",
+        OrganizationName: organizationName,
+        UserName: user.get("name") ?? "User",
+        DashboardLink: utils.getOrganizationPageUrl(e.record.getId()),
+    });
+
     const res = utils.sendEmail({
         to: userAddress,
-        subject: `Organization "${organizationName}" created successfully!`,
-        html: "Your organization has been created!",
+        ...emailData,
     });
     if (res instanceof Error) {
         console.error(res);

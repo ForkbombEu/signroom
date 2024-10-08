@@ -255,8 +255,16 @@ function getAppUrl() {
  * @param {string} organizationId
  * @returns {string}
  */
+function getOrganizationPageUrl(organizationId) {
+    return `${getAppUrl()}/my/organizations/${organizationId}`;
+}
+
+/**
+ * @param {string} organizationId
+ * @returns {string}
+ */
 function getOrganizationMembersPageUrl(organizationId) {
-    return `${getAppUrl()}/my/organizations/${organizationId}/members`;
+    return `${getOrganizationPageUrl(organizationId)}/members`;
 }
 
 /**
@@ -321,5 +329,6 @@ module.exports = {
     getAppUrl,
     runOrganizationInviteEndpointChecks,
     renderEmail,
+    getOrganizationPageUrl,
     errors,
 };
