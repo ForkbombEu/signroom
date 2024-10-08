@@ -286,7 +286,19 @@ function runOrganizationInviteEndpointChecks(c) {
 
 /** @type {EmailRenderer} */
 const renderEmail = (name, data) => {
-    return $template.loadFiles(`pb_public/emails/${name}.html`).render(data);
+    const emailPath = $filepath.join(
+        __hooks,
+        "..",
+        "pb_public",
+        "emails",
+        `${name}.html`
+    );
+    const html = $template.loadFiles(emailPath).render(data);
+    const subject = html.match(/<title>(.*?)<\/title>/)?.at(1) ?? "";
+    return {
+        html,
+        subject,
+    };
 };
 
 module.exports = {
