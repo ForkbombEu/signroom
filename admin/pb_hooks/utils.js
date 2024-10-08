@@ -129,11 +129,11 @@ function getUserFromContext(c) {
 /**
  * @param {string} collection
  * @param {string} filter
+ * @param {daos.Dao} [dao=$app.dao()]
  * @returns {Array<models.Record>}
  */
-function findRecordsByFilter(collection, filter) {
-    return $app
-        .dao()
+function findRecordsByFilter(collection, filter, dao = $app.dao()) {
+    return dao
         .findRecordsByFilter(collection, filter, "", 0, 0)
         .filter((v) => v != undefined);
 }
@@ -232,12 +232,14 @@ function removeTrailingSlash(string) {
 
 /**
  * @param {string} organizationId
+ * @param {daos.Dao} [dao=$app.dao()]
  * @returns {Address[]}
  */
-function getOrganizationAdminsAddresses(organizationId) {
+function getOrganizationAdminsAddresses(organizationId, dao = $app.dao()) {
     const recipients = findRecordsByFilter(
         "orgAuthorizations",
-        `organization.id = "${organizationId}" && ( role.name = "admin" || role.name = "owner" )`
+        `organization.id = "${organizationId}" && ( role.name = "admin" || role.name = "owner" )`,
+        dao
     );
 
     return recipients
@@ -309,6 +311,28 @@ const renderEmail = (name, data) => {
     };
 };
 
+/**
+ *
+ * @param {core.RecordUpdateEvent} event
+ * @param {string[]} fields
+ */
+function getRecordUpdateEventDiff(event, fields) {
+    const updatedRecord = event.record;
+    const originalRecord = event.record?.originalCopy();
+    if (!updatedRecord || !originalRecord)
+        throw createMissingDataError("updated record");
+
+    return fields
+        .map((f) => ({
+            field: f,
+            newValue: updatedRecord.get(f),
+            oldValue: originalRecord.get(f),
+        }))
+        .filter((d) => d.newValue != d.oldValue);
+}
+
+//
+
 module.exports = {
     getUserFromContext,
     getRoleByName,
@@ -330,5 +354,6 @@ module.exports = {
     runOrganizationInviteEndpointChecks,
     renderEmail,
     getOrganizationPageUrl,
+    getRecordUpdateEventDiff,
     errors,
 };

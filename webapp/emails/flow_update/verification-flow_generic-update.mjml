@@ -30,9 +30,15 @@
           Here’s a summary of the updates made to your verification flow and its associated credential:
         </mj-text>
 
-        <mj-image width="80px" align=left border-radius=50% src="{{.FlowImage}}" alt="{{.IssuanceFlow}}"></mj-image>
+        <mj-text>
+          <strong>Edited fields</strong>:
+        </mj-text>
+        <mj-text>
+          {{.EditedFields}}
+        </mj-text>
 
-        <!-- Condizione: Se FlowName è stato aggiornato -->
+        <!-- <mj-image width="80px" align=left border-radius=50% src="{{.FlowImage}}" alt="{{.IssuanceFlow}}"></mj-image> -->
+        <!-- 
         <mj-text>
           - <strong>Flow Name</strong>: {{.FlowName}}<br />
         </mj-text>
@@ -40,7 +46,6 @@
         <mj-text>
           <strong>Verification Info</strong>:
         </mj-text>
-        <!-- Condizione: Se VerificationTemplateName è stato aggiornato-->
         <mj-text>
           - <strong>{{.VerificationTemplateName}}</strong><br />
         </mj-text>
@@ -48,7 +53,6 @@
         <mj-text>
           <strong>Microservices</strong>:
         </mj-text>
-        <!-- Condizione: Se RelyingParty è stato aggiornato -->
         <mj-text align="left">
           - <strong>Relying Party</strong>: {{.RelyingParty}}<br />
         </mj-text>
@@ -56,10 +60,9 @@
         <mj-text>
           <strong>Advanced Settings</strong>:
         </mj-text>
-        <!-- Condizione: Se IsPublic è stato aggiornato -->
         <mj-text>
           - <strong>Visibility</strong>: {{.IsPublic}}<br />
-        </mj-text>
+        </mj-text> -->
 
         <mj-button href="{{.DashboardLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
           Manage Updated Verification Flow

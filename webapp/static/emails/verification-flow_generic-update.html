@@ -188,57 +188,39 @@
                               </td>
                             </tr>
                             <tr>
-                              <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
-                                  <tbody>
-                                    <tr>
-                                      <td style="width:80px;">
-                                        <img alt="{{.IssuanceFlow}}" src="{{.FlowImage}}" style="border:0;border-radius:50%;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="80" height="auto" />
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </td>
-                            </tr>
-                            <!-- Condizione: Se FlowName è stato aggiornato -->
-                            <tr>
                               <td align="left" style="font-size:0px;padding:0.8%;word-break:break-word;">
-                                <div style="font-family: Arial, sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#111827;">- <strong>Flow Name</strong>: {{.FlowName}}<br /></div>
+                                <div style="font-family: Arial, sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#111827;"><strong>Edited fields</strong>:</div>
                               </td>
                             </tr>
                             <tr>
                               <td align="left" style="font-size:0px;padding:0.8%;word-break:break-word;">
-                                <div style="font-family: Arial, sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#111827;"><strong>Verification Info</strong>:</div>
+                                <div style="font-family: Arial, sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#111827;">{{.EditedFields}}</div>
                               </td>
                             </tr>
-                            <!-- Condizione: Se VerificationTemplateName è stato aggiornato -->
-                            <tr>
-                              <td align="left" style="font-size:0px;padding:0.8%;word-break:break-word;">
-                                <div style="font-family: Arial, sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#111827;">- <strong>{{.VerificationTemplateName}}</strong><br /></div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td align="left" style="font-size:0px;padding:0.8%;word-break:break-word;">
-                                <div style="font-family: Arial, sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#111827;"><strong>Microservices</strong>:</div>
-                              </td>
-                            </tr>
-                            <!-- Condizione: Se RelyingParty è stato aggiornato -->
-                            <tr>
-                              <td align="left" style="font-size:0px;padding:0.8%;word-break:break-word;">
-                                <div style="font-family: Arial, sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#111827;">- <strong>Relying Party</strong>: {{.RelyingParty}}<br /></div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td align="left" style="font-size:0px;padding:0.8%;word-break:break-word;">
-                                <div style="font-family: Arial, sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#111827;"><strong>Advanced Settings</strong>:</div>
-                              </td>
-                            </tr>
-                            <!-- Condizione: Se IsPublic è stato aggiornato -->
-                            <tr>
-                              <td align="left" style="font-size:0px;padding:0.8%;word-break:break-word;">
-                                <div style="font-family: Arial, sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#111827;">- <strong>Visibility</strong>: {{.IsPublic}}<br /></div>
-                              </td>
-                            </tr>
+                            <!-- <mj-image width="80px" align=left border-radius=50% src="{{.FlowImage}}" alt="{{.IssuanceFlow}}"></mj-image> --><!-- <mj-text>
+          - <strong>Flow Name</strong>: {{.FlowName}}<br />
+        </mj-text>
+
+        <mj-text>
+          <strong>Verification Info</strong>:
+        </mj-text>
+        <mj-text>
+          - <strong>{{.VerificationTemplateName}}</strong><br />
+        </mj-text>
+
+        <mj-text>
+          <strong>Microservices</strong>:
+        </mj-text>
+        <mj-text align="left">
+          - <strong>Relying Party</strong>: {{.RelyingParty}}<br />
+        </mj-text>
+
+        <mj-text>
+          <strong>Advanced Settings</strong>:
+        </mj-text>
+        <mj-text>
+          - <strong>Visibility</strong>: {{.IsPublic}}<br />
+        </mj-text> -->
                             <tr>
                               <td align="center" style="font-size:0px;padding:20px;word-break:break-word;">
                                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">

@@ -264,12 +264,7 @@ type EmailData = {
         "VerificationFlowName",
         "OrganizationName",
         "Editor",
-        "IssuanceFlow",
-        "FlowImage",
-        "FlowName",
-        "VerificationTemplateName",
-        "RelyingParty",
-        "IsPublic",
+        "EditedFields",
         "DashboardLink",
         "viewInBrowserLink",
         "unsubscribeLink"
