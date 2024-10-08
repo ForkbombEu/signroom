@@ -1,6 +1,6 @@
 <mj-section>
   <mj-column>
-    <mj-image width="200px" src="https://forkbomb.solutions/wp-content/uploads/2023/05/DIDroom_logo.svg" alt="DIDroom Logo"></mj-image>
-    <mj-divider border-color="#7d2fb5"></mj-divider>
+    <mj-image width="260px" src="../images/DIDroom_logo.png" alt="DIDroom Logo" align="center"></mj-image>
+    <mj-divider></mj-divider>
   </mj-column>
 </mj-section>

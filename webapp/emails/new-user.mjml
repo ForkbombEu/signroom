@@ -29,12 +29,12 @@
         </mj-text>
 
         <!-- Onboarding Steps Section -->
-        <mj-text>Next step:
+        <mj-text mj-class="step"><strong>Next steps</strong>:<br /><br />
           ⬜ <strong>Create an organization</strong><br />
           Set up your organization to begin managing issuance flows.<br /><br /></mj-text>
 
         <mj-button href="{{.DashboardLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
-          Create a new organization
+          Log in to your dashboard
         </mj-button>
       </mj-column>
     </mj-section>

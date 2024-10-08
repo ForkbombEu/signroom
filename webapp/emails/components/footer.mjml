@@ -1,6 +1,6 @@
 <mj-section>
   <mj-column>
-    <mj-divider border-color="#7d2fb5"></mj-divider>
+    <mj-divider></mj-divider>
 
     <mj-text font-size="14px" color="#888888" font-family="Arial, sans-serif" align="center">
       If you can't visualize this email correctly, <a href="{{.viewInBrowserLink}}" style="color:#7d2fb5;">click here to view it in your browser</a>.
