@@ -17,4 +17,4 @@ type EmailRenderer = <E extends EmailName>(
     emailData: {
         [Key in EmailAttributes<E>]: string;
     }
-) => string;
+) => { html: string; subject: string };
