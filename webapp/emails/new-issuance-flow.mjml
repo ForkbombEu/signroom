@@ -74,7 +74,7 @@
     <mj-section>
       <mj-column>
 
-        <mj-text><strong>Next steps</strong>:<br /><br />
+        <mj-text mj-class="step"><strong>Next steps</strong>:<br /><br />
           <!-- Onboarding Steps Section -->
           ⬜ <strong>Download and deploy microservices</strong><br />
           Download necessary microservices and deploy them in your infrastructure.<br /><br />

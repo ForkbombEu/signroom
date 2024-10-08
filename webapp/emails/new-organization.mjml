@@ -21,8 +21,8 @@
           We’re excited to inform you that your organization, <strong>{{.OrganizationName}}</strong>, has been successfully created on DIDroom!
         </mj-text>
 
-        <mj-text>Next steps:<br /><br />
-          <!-- Onboarding Steps Section -->
+<!-- Onboarding Steps Section -->
+        <mj-text mj-class="step"><strong>Next steps:</strong><br /><br />
           ⬜ <strong>Define issuance flows</strong><br />
           Customize the flow for issuing certificates, tokens, or credentials, and incorporate your custom business logic.<br /><br />
 

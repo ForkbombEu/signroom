@@ -1,6 +1,10 @@
 <mj-attributes>
-  <mj-text padding="1%" color="#000000" font-size="16px" line-height="1.4" align="left" />
+  <mj-section background-color="#FFF" padding="8px 8px 0px 0px" />
+  <mj-column padding="0px 8px 16px 16px" />
+  <mj-text padding="0.8%" color="#111827" font-size="16px" line-height="1.4" align="left" />
   <mj-class name="brand-color" color="#7d2fb5" />
-  <mj-class name="big" font-size="22px" align="center" line-height="1.4" />
+  <mj-class name="big" font-size="22px" align="center" line-height="1.4" padding-bottom="24px" padding-top="4px" />
+  <mj-class name="step" padding-bottom="8px" padding-top="24px" />
+  <mj-divider border-color="#7d2fb5" />
   <mj-all font-family=" Arial, sans-serif" />
 </mj-attributes>
