@@ -1,45 +1,44 @@
- 
-<mjml>
-  <mj-head>
-    <mj-title>Your DIDroom account</mj-title>
-    <mj-iclude path="./components/attributes.mjml" />
-  </mj-head>
-  <mj-body>
-<mj-include path="./components/header.mjml" />
-<!--email content--->  
-<mj-section>
-      <mj-column>
-        <mj-class="big">
-          Welcome to DIDroom!
-        </mj-class>
+ <mjml>
+   <mj-head>
+     <mj-title>Your DIDroom account</mj-title>
+     <mj-include path="../components/attributes.mjml" />
+   </mj-head>
+   <mj-body>
+     <mj-include path="../components/header.mjml" />
 
-        <mj-text>
-          Hello {{. UserName }},
-        </mj-text>
+     <mj-section>
+       <mj-column>
+         <mj-class="big">
+           Welcome to DIDroom!
+           </mj-class>
 
-        <mj-text>
-          We are receiving this email because you registered via our desktop dashboard or our Wallet app.
-        </mj-text>
+           <mj-text>
+             Hello {{.UserName}},
+           </mj-text>
 
-        <mj-text>
-          We are excited to have you on board at DIDroom! You're now part of a community that’s building the future of decentralized identity management.
-        </mj-text>
+           <mj-text>
+             We are receiving this email because you registered via our desktop dashboard or our Wallet app.
+           </mj-text>
 
-        <mj-text>
-          To help you get started, visit: <a href="https://didroom.com/get_started.html" style="color:#7d2fb5;">How to Get Started with DIDroom</a>
-        </mj-text>
+           <mj-text>
+             We are excited to have you on board at DIDroom! You're now part of a community that’s building the future of decentralized identity management.
+           </mj-text>
 
-        <!-- Onboarding Steps Section -->
-        <mj-text>Next step:
-          ⬜ <strong>Create an organization</strong><br/>
-          Set up your organization to begin managing issuance flows.<br/><br/></mj-text>
+           <mj-text>
+             To help you get started, visit: <a href="https://didroom.com/get_started.html" style="color:#7d2fb5;">How to Get Started with DIDroom</a>
+           </mj-text>
 
-        <mj-button href="{{. DashboardLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
-          Create a new organization
-        </mj-button>
-            </mj-column>
-    </mj-section>
+           <!-- Onboarding Steps Section -->
+           <mj-text>Next step:
+             ⬜ <strong>Create an organization</strong><br />
+             Set up your organization to begin managing issuance flows.<br /><br /></mj-text>
 
-        <mj-include path="./components/footer.mjml" />
-</mj-body>
-</mjml>
+           <mj-button href="{{.DashboardLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+             Create a new organization
+           </mj-button>
+       </mj-column>
+     </mj-section>
+
+     <mj-include path="../components/footer.mjml" />
+   </mj-body>
+ </mjml>

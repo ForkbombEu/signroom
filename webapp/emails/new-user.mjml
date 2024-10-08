@@ -14,7 +14,7 @@
         </mj-class>
 
         <mj-text>
-          Hello {{. UserName }},
+          Hello {{.UserName}},
         </mj-text>
 
         <mj-text>
@@ -34,7 +34,7 @@
           ⬜ <strong>Create an organization</strong><br/>
           Set up your organization to begin managing issuance flows.<br/><br/></mj-text>
 
-        <mj-button href="{{. DashboardLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+        <mj-button href="{{.DashboardLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
           Create a new organization
         </mj-button>
             </mj-column>

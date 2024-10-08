@@ -1,0 +1,19 @@
+ <mjml>
+   <mj-head>
+     <mj-title>Titolo mail</mj-title>
+     <mj-include path="../components/attributes.mjml" />
+   </mj-head>
+   <mj-body>
+     <mj-include path="../components/header.mjml" />
+     <mj-section>
+       <mj-column>
+         <mj-class="big">
+           Email body title
+           </mj-class>
+           ***
+       </mj-column>
+     </mj-section>
+
+     <mj-include path="../components/footer.mjml" />
+   </mj-body>
+ </mjml>

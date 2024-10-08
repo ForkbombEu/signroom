@@ -14,24 +14,24 @@
         </mj-class>
 
         <mj-text>
-          Hello {{. UserName }},
+          Hello {{.UserName}},
         </mj-text>
 
         <mj-text>
-          The authorization or credential template in your issuance flow <strong>{{. FlowName }}</strong> in organization <strong>{{. OrganizationName }}</strong> has been updated.
+          The authorization or credential template in your issuance flow <strong>{{.FlowName}}</strong> in organization <strong>{{.OrganizationName}}</strong> has been updated.
         </mj-text>
 
         <mj-text>
-          Changes were made by <strong>{{. Editor }}</strong>.         
+          Changes were made by <strong>{{.Editor}}</strong>.         
           If you have any questions or need further details, reach out to your admin team.
         </mj-text>
 
         <mj-text>
-          - <strong>New Authorization Template</strong>: {{. AuthTemplateName }}<br />
-          - <strong>New Credential Template</strong>: {{. CredentialTemplateName }}
+          - <strong>New Authorization Template</strong>: {{.AuthTemplateName}}<br />
+          - <strong>New Credential Template</strong>: {{.CredentialTemplateName}}
         </mj-text>
 
-        <mj-button href="{{. DashboardLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+        <mj-button href="{{.DashboardLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
           Review Updated Flow
         </mj-button>
       </mj-column>

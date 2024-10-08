@@ -13,26 +13,26 @@
         </mj-class>
 
         <mj-text>
-          Hello {{. username }},
+          Hello {{.username}},
         </mj-text>
 
         <mj-text>
-          The issuance flow, <strong>{{. user }}</strong>, in your organization <strong>{{. OrganizationName }}</strong> has been successfully updated.
+          The issuance flow, <strong>{{.user}}</strong>, in your organization <strong>{{.OrganizationName}}</strong> has been successfully updated.
         </mj-text>
         
         <mj-text>
-          Changes were made by <strong>{{. Editor }}</strong>.         
+          Changes were made by <strong>{{.Editor}}</strong>.         
           If you have any questions or need further details, reach out to your admin team.
         </mj-text>
 
-       <mj-image width="80px" align=left border-radius=50% src="{{. FlowImage }}" alt="{{. FlowName }}"></mj-image>  
+       <mj-image width="80px" align=left border-radius=50% src="{{.FlowImage}}" alt="{{.FlowName}}"></mj-image>  
 
         <mj-text>
           Here’s a summary of the updates made to your issuance flow and its associated credential:
         </mj-text>
 
         <mj-text>
-          - <strong>Flow Name</strong>: {{. FlowName }}<br />
+          - <strong>Flow Name</strong>: {{.FlowName}}<br />
         </mj-text>
 
         <mj-text>
@@ -40,18 +40,18 @@
         </mj-text>
 
         <mj-text>
-          - <strong>Cryptography</strong>: {{. Cryptography }}<br />
-          - <strong>Expiration</strong>: {{. Expiration }}<br />
+          - <strong>Cryptography</strong>: {{.Cryptography}}<br />
+          - <strong>Expiration</strong>: {{.Expiration}}<br />
         </mj-text>
 
         <mj-text>
-          - <strong>{{. UpdatedAuthTemplateName }}</strong><br />
-          {{. CredentialTemplateDescription }}<br />
+          - <strong>{{.UpdatedAuthTemplateName}}</strong><br />
+          {{.CredentialTemplateDescription}}<br />
         </mj-text>
 
         <mj-text>
-          - <strong>{{. UpdatedCredentialTemplateName }}</strong><br />
-          {{. CredentialTemplateDescription }}<br />
+          - <strong>{{.UpdatedCredentialTemplateName}}</strong><br />
+          {{.CredentialTemplateDescription}}<br />
         </mj-text>
 
         <mj-text>
@@ -59,8 +59,8 @@
         </mj-text>
 
         <mj-text>
-          - <strong>Authorization Server</strong>: {{. AuthServer }}<br />
-          - <strong>Credential Issuer</strong>: {{. CredentialIssuer }}<br />
+          - <strong>Authorization Server</strong>: {{.AuthServer}}<br />
+          - <strong>Credential Issuer</strong>: {{.CredentialIssuer}}<br />
         </mj-text>
 
         <mj-text>
@@ -68,11 +68,11 @@
         </mj-text>
 
         <mj-text>
-          - <strong>Visibility</strong>: {{. IsPublic }}<br />
-          - <strong>Can be requested via API</strong>: {{. API }}
+          - <strong>Visibility</strong>: {{.IsPublic}}<br />
+          - <strong>Can be requested via API</strong>: {{.API}}
         </mj-text>
 
-        <mj-button href="{{. DashboardLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+        <mj-button href="{{.DashboardLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
           Review Updated Flow
         </mj-button>
       </mj-column>

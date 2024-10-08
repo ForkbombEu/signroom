@@ -1,7 +1,7 @@
  
 <mjml>
   <mj-head>
-    <mj-title>New issuance flow: {{. FlowName }}, is now available in your Dashboard</mj-title>
+    <mj-title>New issuance flow: {{.FlowName}}, is now available in your Dashboard</mj-title>
     <mj-iclude path="./components/attributes.mjml" />
   </mj-head>
   <mj-body>
@@ -14,16 +14,16 @@
         </mj-class>
 
         <mj-text>
-          Hello <strong>{{. UserName }}</strong>,
+          Hello <strong>{{.UserName}}</strong>,
         </mj-text>
 
         <mj-text>
-          We’re happy to inform you that a new issuance flow has been successfully created in your organization, <strong>{{. OrganizationName }}</strong>.
+          We’re happy to inform you that a new issuance flow has been successfully created in your organization, <strong>{{.OrganizationName}}</strong>.
         </mj-text>
 
                         <!-- Conditional formatting: If <editor> and <user> match then display "You" -->
         <mj-text>
-        The flow was created by <strong>{{. Editor }}</strong>.         
+        The flow was created by <strong>{{.Editor}}</strong>.         
         If you have any questions or need further details, reach out to your admin team.
         </mj-text>
 
@@ -31,44 +31,44 @@
           Here’s a summary of your issuance flow and its associated credential:
         </mj-text>
 
-        <mj-image width="80px" align=left border-radius=50% src="{{. FlowImage }}" alt="{{. FlowName }}"></mj-image>   
+        <mj-image width="80px" align=left border-radius=50% src="{{.FlowImage}}" alt="{{.FlowName}}"></mj-image>   
 
         <mj-text>
-          - Flow Name: {{. FlowName }}<br />
-          - Flow Description: {{. FlowDescription }}<br />
+          - Flow Name: {{.FlowName}}<br />
+          - Flow Description: {{.FlowDescription}}<br />
         </mj-text>
 
         <mj-text>
           <strong>Credential Info</strong>:
         </mj-text>
         <mj-text>
-          - Criptography: {{. cryptography }}<br />
-          - Expiration: {{. expiration }}<br /> 
+          - Criptography: {{.cryptography}}<br />
+          - Expiration: {{.expiration}}<br /> 
                </mj-text> 
                 <mj-text>
-          - Authorization template:  {{. AuthTemplateName }}<br />
-          {{. CredentialTemplateDescription }}<br /> 
+          - Authorization template:  {{.AuthTemplateName}}<br />
+          {{.CredentialTemplateDescription}}<br /> 
                </mj-text>   
 
         <mj-text>
-          - Credential template: {{. CredentialTemplateName }}<br />
-         {{. CredentialTemplateDescription }}<br />
+          - Credential template: {{.CredentialTemplateName}}<br />
+         {{.CredentialTemplateDescription}}<br />
        </mj-text>
 
                <mj-text>
           <strong>Microservices</strong>:
         </mj-text>
                         <mj-text>
-          - Authorization server: {{. AuthServer }}<br />
-          - Credential Issuer: {{. CredentialIssuer }}<br /> 
+          - Authorization server: {{.AuthServer}}<br />
+          - Credential Issuer: {{.CredentialIssuer}}<br /> 
                </mj-text> 
   
                  <mj-text>
           <strong>Advanced settings</strong>:
         </mj-text>
                         <mj-text>
-          - Visibility: {{. IsPublic }}<br />
-          - Can be requested via API: {{. API }}
+          - Visibility: {{.IsPublic}}<br />
+          - Can be requested via API: {{.API}}
           </mj-text>
         </mj-column>
     </mj-section>
@@ -83,7 +83,7 @@
           Choose the Relying Party and customise the verification process.
         </mj-text>
 
-        <mj-button href="{{. DashboardLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+        <mj-button href="{{.DashboardLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
           Manage Issuance Flow
         </mj-button>
         </mj-column>

@@ -13,14 +13,14 @@
         </mj-class>
 
         <mj-text>
-          Hello {{. username }},
+          Hello {{.username}},
         </mj-text>
 
         <mj-text>
           We wanted to inform you that your DIDroom account has been deactivated. If this was a mistake or you wish to reactivate your account, please follow the instructions below or contact our support team.
         </mj-text>
 
-        <mj-button href="{{. reactivateLink }}" background-color="#ff0000" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+        <mj-button href="{{.reactivateLink}}" background-color="#ff0000" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
           Reactivate Account
         </mj-button>
 

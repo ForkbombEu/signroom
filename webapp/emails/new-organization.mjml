@@ -1,7 +1,7 @@
  
 <mjml>
   <mj-head>
-    <mj-title>New organization: {{. OrganizationName }}, is now available in your Dashboard</mj-title>
+    <mj-title>New organization: {{.OrganizationName}}, is now available in your Dashboard</mj-title>
     <mj-iclude path="./components/attributes.mjml" />
   </mj-head>
   <mj-body>
@@ -14,11 +14,11 @@
         </mj-class>
 
         <mj-text>
-          Hello {{. UserName }},
+          Hello {{.UserName}},
         </mj-text>
 
         <mj-text>
-          We’re excited to inform you that your organization, <strong>{{. OrganizationName }}</strong>, has been successfully created on DIDroom!
+          We’re excited to inform you that your organization, <strong>{{.OrganizationName}}</strong>, has been successfully created on DIDroom!
         </mj-text>
 
         <mj-text>Next steps:<br /><br />
@@ -29,7 +29,7 @@
                  ⬜ <strong>Invite people</strong><br/>
           Add team members or relevant users who need to be involved in your issuance flow.<br/><br/></mj-text>
 
-        <mj-button href="{{. DashboardLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+        <mj-button href="{{.DashboardLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
           Go to your dashboard
         </mj-button>
             </mj-column>

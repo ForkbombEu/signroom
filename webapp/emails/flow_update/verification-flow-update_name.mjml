@@ -14,24 +14,24 @@ Verification Flow Name Updated!</mj-class>
         </mj-text>
 
         <mj-text align="left">
-          Hello {{. UserName }},
+          Hello {{.UserName}},
         </mj-text>
 
         <mj-text align="left">
-          The name of your verification flow <strong>{{. FlowName }}</strong> in organization <strong>{{. OrganizationName }}</strong> has been updated.
+          The name of your verification flow <strong>{{.FlowName}}</strong> in organization <strong>{{.OrganizationName}}</strong> has been updated.
         </mj-text>
 
         <!-- Conditional formatting: If <editor> and <user> match then display "You" -->
         <mj-text align="left">
-          Changes were made by <strong>{{. Editor }}</strong>.         
+          Changes were made by <strong>{{.Editor}}</strong>.         
           If you have any questions or need further details, reach out to your admin team.
         </mj-text>
 
         <mj-text align="left">
-          - <strong>New Verification Flow Name</strong>: {{. VerificationFlowName }}
+          - <strong>New Verification Flow Name</strong>: {{.VerificationFlowName}}
         </mj-text>
 
-        <mj-button href="{{. DashboardLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+        <mj-button href="{{.DashboardLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
           Review Updated Verification Flow
         </mj-button>
 

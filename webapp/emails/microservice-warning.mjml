@@ -13,11 +13,11 @@
         </mj-class>
 
         <mj-text>
-          Hello {{. UserName }},
+          Hello {{.UserName}},
         </mj-text>
 
         <mj-text>
-          We’ve detected an issue with the SSI microservice <strong>{{. MicroserviceName }}</strong> in your organization, <strong>{{. OrganizationName }}</strong>.
+          We’ve detected an issue with the SSI microservice <strong>{{.MicroserviceName}}</strong> in your organization, <strong>{{.OrganizationName}}</strong>.
         </mj-text>
 
         <mj-text>
@@ -25,7 +25,7 @@
         </mj-text>
 
         <mj-text>
-          - <strong>Error/Warning</strong>: {{. ErrorWarningDetails }}<br />
+          - <strong>Error/Warning</strong>: {{.ErrorWarningDetails}}<br />
         </mj-text>
 
         <mj-text>
@@ -33,10 +33,10 @@
         </mj-text>
 
         <mj-text>
-          - <strong>Recommended Actions</strong>: {{. ResolutionSteps }}<br />
+          - <strong>Recommended Actions</strong>: {{.ResolutionSteps}}<br />
         </mj-text>
 
-        <mj-button href="{{. DashboardLink }}" background-color="#ff0000" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+        <mj-button href="{{.DashboardLink}}" background-color="#ff0000" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
           View Issue
         </mj-button>
       </mj-column>

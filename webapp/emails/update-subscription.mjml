@@ -13,7 +13,7 @@
         </mj-class>
 
         <mj-text>
-          Hello {{. UserName }},
+          Hello {{.UserName}},
         </mj-text>
 
         <mj-text>
@@ -21,12 +21,12 @@
         </mj-text>
 
         <mj-text>
-          - <strong>Subscription Plan</strong>: {{. SubscriptionPlan }}<br />
-          - <strong>Renewal Date</strong>: {{. RenewalDate }}<br />
-          - <strong>Payment Status</strong>: {{. PaymentStatus }}<br />
+          - <strong>Subscription Plan</strong>: {{.SubscriptionPlan}}<br />
+          - <strong>Renewal Date</strong>: {{.RenewalDate}}<br />
+          - <strong>Payment Status</strong>: {{.PaymentStatus}}<br />
         </mj-text>
 
-        <mj-button href="{{. DashboardLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+        <mj-button href="{{.DashboardLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
           Manage Subscription
         </mj-button>
       </mj-column>

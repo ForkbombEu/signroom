@@ -1,6 +1,6 @@
 <mjml>
   <mj-head>
-    <mj-title>New SSI Microservice Deployed: {{. MicroserviceName }}</mj-title>
+    <mj-title>New SSI Microservice Deployed: {{.MicroserviceName}}</mj-title>
     <mj-iclude path="./components/attributes.mjml" />
   </mj-head>
   <mj-body>
@@ -13,16 +13,16 @@
         </mj-class>
 
         <mj-text>
-          Hello {{. UserName }},
+          Hello {{.UserName}},
         </mj-text>
 
         <mj-text>
-          We’re excited to inform you that the SSI microservice <strong>{{. MicroserviceName }}</strong> has been successfully deployed in your organization, <strong>{{. OrganizationName }}</strong>.
+          We’re excited to inform you that the SSI microservice <strong>{{.MicroserviceName}}</strong> has been successfully deployed in your organization, <strong>{{.OrganizationName}}</strong>.
         </mj-text>
 
         <!-- Conditional formatting: If <editor> and <user> match then display "You" -->
         <mj-text>
-          Changes were made by <strong>{{. Editor }}</strong>.         
+          Changes were made by <strong>{{.Editor}}</strong>.         
           If you have any questions or need further details, reach out to your admin team.
         </mj-text>
 
@@ -31,11 +31,11 @@
         </mj-text>
 
         <mj-text>
-          - <strong>Functionality</strong>: {{. Functionality }}<br />
-          - <strong>Configuration</strong>: {{. ConfigurationOptions }}<br />
+          - <strong>Functionality</strong>: {{.Functionality}}<br />
+          - <strong>Configuration</strong>: {{.ConfigurationOptions}}<br />
         </mj-text>
 
-        <mj-button href="{{. DashboardLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+        <mj-button href="{{.DashboardLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
           Manage Microservice
         </mj-button>
       </mj-column>

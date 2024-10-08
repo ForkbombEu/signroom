@@ -1,6 +1,6 @@
 <mjml>
   <mj-head>
-    <mj-title>Updates to Verification Flow {{. VerificationFlowName }}</mj-title>
+    <mj-title>Updates to Verification Flow {{.VerificationFlowName}}</mj-title>
     <mj-include path="./components/attributes.mjml" />
   </mj-head>
   <mj-body>
@@ -17,12 +17,12 @@
         </mj-text>
 
         <mj-text>
-          We’d like to inform you that your verification flow <strong>{{. VerificationFlowName }}</strong> has been updated successfully in your organization, <strong>{{. OrganizationName }}</strong>.
+          We’d like to inform you that your verification flow <strong>{{.VerificationFlowName}}</strong> has been updated successfully in your organization, <strong>{{.OrganizationName}}</strong>.
         </mj-text>
 
         <!-- Conditional formatting: If <editor> and <user> match then display "You" -->
         <mj-text align="left">
-          Changes were made by <strong>{{. Editor }}</strong>.         
+          Changes were made by <strong>{{.Editor}}</strong>.         
           If you have any questions or need further details, reach out to your admin team.
         </mj-text>
 
@@ -30,11 +30,11 @@
           Here’s a summary of the updates made to your verification flow and its associated credential:
         </mj-text>
 
-        <mj-image width="80px" align=left border-radius=50% src="{{. FlowImage }}" alt="{{. IssuanceFlow }}"></mj-image>
+        <mj-image width="80px" align=left border-radius=50% src="{{.FlowImage}}" alt="{{.IssuanceFlow}}"></mj-image>
 
         <!-- Condizione: Se FlowName è stato aggiornato -->
         <mj-text>
-          - <strong>Flow Name</strong>: {{. FlowName }}<br />
+          - <strong>Flow Name</strong>: {{.FlowName}}<br />
         </mj-text>
 
         <mj-text>
@@ -42,7 +42,7 @@
         </mj-text>
         <!-- Condizione: Se VerificationTemplateName è stato aggiornato-->
         <mj-text>
-          - <strong>{{. VerificationTemplateName }}</strong><br />
+          - <strong>{{.VerificationTemplateName}}</strong><br />
         </mj-text>
 
         <mj-text>
@@ -50,7 +50,7 @@
         </mj-text>
         <!-- Condizione: Se RelyingParty è stato aggiornato -->
         <mj-text align="left">
-          - <strong>Relying Party</strong>: {{. RelyingParty }}<br />
+          - <strong>Relying Party</strong>: {{.RelyingParty}}<br />
         </mj-text>
 
         <mj-text>
@@ -58,10 +58,10 @@
         </mj-text>
         <!-- Condizione: Se IsPublic è stato aggiornato -->
         <mj-text>
-          - <strong>Visibility</strong>: {{. IsPublic }}<br />
+          - <strong>Visibility</strong>: {{.IsPublic}}<br />
         </mj-text>
 
-        <mj-button href="{{. DashboardLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+        <mj-button href="{{.DashboardLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
           Manage Updated Verification Flow
         </mj-button>
 

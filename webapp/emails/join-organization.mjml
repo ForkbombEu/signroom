@@ -1,7 +1,7 @@
  
 <mjml>
   <mj-head>
-    <mj-title>Your invitation to join {{. OrganizationName }}</mj-title>
+    <mj-title>Your invitation to join {{.OrganizationName}}</mj-title>
     <mj-iclude path="./components/attributes.mjml" />
   </mj-head>
   <mj-body>
@@ -10,22 +10,22 @@
 <mj-section>
       <mj-column>
         <mj-class="big">
-          Join {{. OrganizationName }} on DIDroom!
+          Join {{.OrganizationName}} on DIDroom!
         </mj-class>
 
         <mj-text>
-          Hello {{. UserName }},
+          Hello {{.UserName}},
         </mj-text>
 
         <mj-text>
-          You have been invited by <strong>{{. Editor }}</strong> to join the organization <strong>{{. OrganizationName }}</strong> on DIDroom. 
+          You have been invited by <strong>{{.Editor}}</strong> to join the organization <strong>{{.OrganizationName}}</strong> on DIDroom. 
         </mj-text>
 
         <mj-textà>
           To get started, simply login to your Dashboard and accept the invitation:
         </mj-text>
 
-        <mj-button href="{{. DashboardLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+        <mj-button href="{{.DashboardLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
           See your Invitation
         </mj-button>
 
