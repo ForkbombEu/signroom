@@ -33,7 +33,8 @@
 		"remove-unused-strings": "node ./src/lib/i18n/removeUnusedStrings.mjs",
 		"i18n:lint": "pnpm inlang lint --project ./project.inlang",
 		"i18n:lint:en": "pnpm inlang lint --project ./project.inlang --languageTags en",
-		"emails": "mkdir -p static/emails && find ./ -name components -prune -o -name '*.mjml' -exec sh -c 'mjml \"$1\" -o static/emails/$(basename \"${1%.mjml}.html\")' sh {} \\;"
+		"emails": "mkdir -p static/emails && find ./ -name components -prune -o -name '*.mjml' -exec sh -c 'mjml \"$1\" -o static/emails/$(basename \"${1%.mjml}.html\")' sh {} \\;",
+		"postemails": "node ./emails/_generateEmailList.mjs"
 	},
 	"devDependencies": {
 		"@inlang/cli": "^2.18.1",
@@ -93,6 +94,7 @@
 		"@slangroom/qrcode": "^1.37.1",
 		"@tailwindcss/line-clamp": "^0.4.4",
 		"@types/adm-zip": "^0.5.5",
+		"@types/node": "^22.7.5",
 		"@types/prismjs": "^1.26.4",
 		"adm-zip": "^0.5.15",
 		"asn1js": "^3.0.5",

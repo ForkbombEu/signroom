@@ -6,6 +6,7 @@
 
 /// <reference path="../pb_data/types.d.ts" />
 /// <reference path="./ambient.d.ts" />
+
 /** @typedef {import("../../webapp/src/lib/pocketbase/types").OrgRolesRecord} OrgRole */
 /** @typedef {import("../../webapp/src/lib/pocketbase/types").OrgAuthorizationsRecord} OrgAuthorization */
 /** @typedef {import("../../webapp/src/lib/pocketbase/types").UsersRecord} User */
@@ -283,6 +284,11 @@ function runOrganizationInviteEndpointChecks(c) {
 
 //
 
+/** @type {EmailRenderer} */
+const renderEmail = (name, data) => {
+    return $template.loadFiles(`pb_public/emails/${name}.html`).render(data);
+};
+
 module.exports = {
     getUserFromContext,
     getRoleByName,
@@ -302,5 +308,6 @@ module.exports = {
     getOrganizationMembersPageUrl,
     getAppUrl,
     runOrganizationInviteEndpointChecks,
+    renderEmail,
     errors,
 };
