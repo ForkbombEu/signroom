@@ -3,14 +3,15 @@
     <mj-title>Your DIDroom Account Has Been Deactivated</mj-title>
     <mj-include path="./components/attributes.mjml" />
   </mj-head>
+
   <mj-body>
     <mj-include path="./components/header.mjml" />
-    <!--email content--->
+
     <mj-section>
       <mj-column>
-        <mj-class="big">
+        <mj-text mj-class="big">
           Your DIDroom Account Has Been Deactivated
-        </mj-class>
+        </mj-text>
 
         <mj-text>
           Hello {{.username}},

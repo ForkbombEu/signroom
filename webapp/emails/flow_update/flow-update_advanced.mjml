@@ -7,9 +7,9 @@
     <mj-include path="../components/header.mjml" />
     <mj-section>
       <mj-column>
-        <mj-class="big">
+        <mj-text mj-class="big">
           Issuance Flow Advanced Settings Updated!
-        </mj-class>
+        </mj-text>
 
         <mj-text>
           Hello {{.username}},
@@ -20,7 +20,7 @@
         </mj-text>
 
         <mj-text>
-          Changes were made by <strong>{{.Editor}}</strong>.         
+          Changes were made by <strong>{{.Editor}}</strong>.
           If you have any questions or need further details, reach out to your admin team.
         </mj-text>
 

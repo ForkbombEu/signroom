@@ -1,17 +1,16 @@
- 
 <mjml>
   <mj-head>
     <mj-title>New issuance flow: {{.FlowName}}, is now available in your Dashboard</mj-title>
-    <mj-iclude path="./components/attributes.mjml" />
+    <mj-include path="./components/attributes.mjml" />
   </mj-head>
   <mj-body>
-<mj-include path="./components/header.mjml" />
-<!--email content--->  
-<mj-section>
+    <mj-include path="./components/header.mjml" />
+
+    <mj-section>
       <mj-column>
-        <mj-class="big">
+        <mj-text mj-class="big">
           New Issuance Flow Created Successfully!
-        </mj-class>
+        </mj-text>
 
         <mj-text>
           Hello <strong>{{.UserName}}</strong>,
@@ -21,17 +20,17 @@
           We’re happy to inform you that a new issuance flow has been successfully created in your organization, <strong>{{.OrganizationName}}</strong>.
         </mj-text>
 
-                        <!-- Conditional formatting: If <editor> and <user> match then display "You" -->
+        <!-- Conditional formatting: If <editor> and <user> match then display "You" -->
         <mj-text>
-        The flow was created by <strong>{{.Editor}}</strong>.         
-        If you have any questions or need further details, reach out to your admin team.
+          The flow was created by <strong>{{.Editor}}</strong>.
+          If you have any questions or need further details, reach out to your admin team.
         </mj-text>
 
         <mj-text>
           Here’s a summary of your issuance flow and its associated credential:
         </mj-text>
 
-        <mj-image width="80px" align=left border-radius=50% src="{{.FlowImage}}" alt="{{.FlowName}}"></mj-image>   
+        <mj-image width="80px" align=left border-radius=50% src="{{.FlowImage}}" alt="{{.FlowName}}"></mj-image>
 
         <mj-text>
           - Flow Name: {{.FlowName}}<br />
@@ -43,52 +42,52 @@
         </mj-text>
         <mj-text>
           - Criptography: {{.cryptography}}<br />
-          - Expiration: {{.expiration}}<br /> 
-               </mj-text> 
-                <mj-text>
-          - Authorization template:  {{.AuthTemplateName}}<br />
-          {{.CredentialTemplateDescription}}<br /> 
-               </mj-text>   
+          - Expiration: {{.expiration}}<br />
+        </mj-text>
+        <mj-text>
+          - Authorization template: {{.AuthTemplateName}}<br />
+          {{.CredentialTemplateDescription}}<br />
+        </mj-text>
 
         <mj-text>
           - Credential template: {{.CredentialTemplateName}}<br />
-         {{.CredentialTemplateDescription}}<br />
-       </mj-text>
+          {{.CredentialTemplateDescription}}<br />
+        </mj-text>
 
-               <mj-text>
+        <mj-text>
           <strong>Microservices</strong>:
         </mj-text>
-                        <mj-text>
+        <mj-text>
           - Authorization server: {{.AuthServer}}<br />
-          - Credential Issuer: {{.CredentialIssuer}}<br /> 
-               </mj-text> 
-  
-                 <mj-text>
+          - Credential Issuer: {{.CredentialIssuer}}<br />
+        </mj-text>
+
+        <mj-text>
           <strong>Advanced settings</strong>:
         </mj-text>
-                        <mj-text>
+        <mj-text>
           - Visibility: {{.IsPublic}}<br />
           - Can be requested via API: {{.API}}
-          </mj-text>
-        </mj-column>
+        </mj-text>
+      </mj-column>
     </mj-section>
     <mj-section>
       <mj-column>
-        
-           <mj-text><strong>Next steps</strong>:<br /><br />
-                    <!-- Onboarding Steps Section -->
-                       ⬜ <strong>Download and deploy microservices</strong><br/>
-          Download necessary microservices and deploy them in your infrastructure.<br/><br/>
-                           ⬜ <strong>Create a verification flow</strong><br/>
+
+        <mj-text><strong>Next steps</strong>:<br /><br />
+          <!-- Onboarding Steps Section -->
+          ⬜ <strong>Download and deploy microservices</strong><br />
+          Download necessary microservices and deploy them in your infrastructure.<br /><br />
+          ⬜ <strong>Create a verification flow</strong><br />
           Choose the Relying Party and customise the verification process.
         </mj-text>
 
         <mj-button href="{{.DashboardLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
           Manage Issuance Flow
         </mj-button>
-        </mj-column>
+      </mj-column>
     </mj-section>
 
-        <mj-include path="./components/footer.mjml" />
-</mj-body>
+    <mj-include path="./components/footer.mjml" />
+  </mj-body>
 </mjml>

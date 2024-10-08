@@ -1,16 +1,16 @@
 <mjml>
   <mj-head>
     <mj-title>Issuance Flow Updated Successfully</mj-title>
-    <mj-include path="./components/attributes.mjml" />
+    <mj-include path="../components/attributes.mjml" />
   </mj-head>
   <mj-body>
-    <mj-include path="./components/header.mjml" />
-    <!--email content--->
+    <mj-include path="../components/header.mjml" />
+
     <mj-section>
       <mj-column>
-        <mj-class="big">
+        <mj-text mj-class="big">
           Issuance Flow Updated Successfully!
-        </mj-class>
+        </mj-text>
 
         <mj-text>
           Hello {{.username}},
@@ -19,13 +19,13 @@
         <mj-text>
           The issuance flow, <strong>{{.user}}</strong>, in your organization <strong>{{.OrganizationName}}</strong> has been successfully updated.
         </mj-text>
-        
+
         <mj-text>
-          Changes were made by <strong>{{.Editor}}</strong>.         
+          Changes were made by <strong>{{.Editor}}</strong>.
           If you have any questions or need further details, reach out to your admin team.
         </mj-text>
 
-       <mj-image width="80px" align=left border-radius=50% src="{{.FlowImage}}" alt="{{.FlowName}}"></mj-image>  
+        <mj-image width="80px" align=left border-radius=50% src="{{.FlowImage}}" alt="{{.FlowName}}"></mj-image>
 
         <mj-text>
           Here’s a summary of the updates made to your issuance flow and its associated credential:
@@ -78,6 +78,6 @@
       </mj-column>
     </mj-section>
 
-    <mj-include path="./components/footer.mjml" />
+    <mj-include path="../components/footer.mjml" />
   </mj-body>
 </mjml>

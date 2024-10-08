@@ -1,17 +1,16 @@
- 
 <mjml>
   <mj-head>
     <mj-title>Your DIDroom account</mj-title>
-    <mj-iclude path="./components/attributes.mjml" />
+    <mj-include path="./components/attributes.mjml" />
   </mj-head>
   <mj-body>
-<mj-include path="./components/header.mjml" />
-<!--email content--->  
-<mj-section>
+    <mj-include path="./components/header.mjml" />
+
+    <mj-section>
       <mj-column>
-        <mj-class="big">
+        <mj-text mj-class="big">
           Welcome to DIDroom!
-        </mj-class>
+        </mj-text>
 
         <mj-text>
           Hello {{.UserName}},
@@ -31,15 +30,15 @@
 
         <!-- Onboarding Steps Section -->
         <mj-text>Next step:
-          ⬜ <strong>Create an organization</strong><br/>
-          Set up your organization to begin managing issuance flows.<br/><br/></mj-text>
+          ⬜ <strong>Create an organization</strong><br />
+          Set up your organization to begin managing issuance flows.<br /><br /></mj-text>
 
         <mj-button href="{{.DashboardLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
           Create a new organization
         </mj-button>
-            </mj-column>
+      </mj-column>
     </mj-section>
 
-        <mj-include path="./components/footer.mjml" />
-</mj-body>
+    <mj-include path="./components/footer.mjml" />
+  </mj-body>
 </mjml>

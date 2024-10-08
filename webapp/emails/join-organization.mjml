@@ -1,27 +1,27 @@
- 
 <mjml>
   <mj-head>
     <mj-title>Your invitation to join {{.OrganizationName}}</mj-title>
-    <mj-iclude path="./components/attributes.mjml" />
+    <mj-include path="./components/attributes.mjml" />
   </mj-head>
+
   <mj-body>
-<mj-include path="./components/header.mjml" />
-<!--email content--->  
-<mj-section>
+    <mj-include path="./components/header.mjml" />
+
+    <mj-section>
       <mj-column>
-        <mj-class="big">
+        <mj-text mj-class="big">
           Join {{.OrganizationName}} on DIDroom!
-        </mj-class>
+        </mj-text>
 
         <mj-text>
           Hello {{.UserName}},
         </mj-text>
 
         <mj-text>
-          You have been invited by <strong>{{.Editor}}</strong> to join the organization <strong>{{.OrganizationName}}</strong> on DIDroom. 
+          You have been invited by <strong>{{.Editor}}</strong> to join the organization <strong>{{.OrganizationName}}</strong> on DIDroom.
         </mj-text>
 
-        <mj-textà>
+        <mj-text>
           To get started, simply login to your Dashboard and accept the invitation:
         </mj-text>
 
@@ -29,10 +29,9 @@
           See your Invitation
         </mj-button>
 
-         </mj-column>
+      </mj-column>
     </mj-section>
-        <mj-include path="./components/footer.mjml" />
-</mj-body>
+
+    <mj-include path="./components/footer.mjml" />
+  </mj-body>
 </mjml>
-
-

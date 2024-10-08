@@ -1,16 +1,16 @@
 <mjml>
   <mj-head>
     <mj-title>Your DIDroom Subscription Update</mj-title>
-    <mj-iclude path="./components/attributes.mjml" />
+    <mj-include path="./components/attributes.mjml" />
   </mj-head>
   <mj-body>
     <mj-include path="./components/header.mjml" />
-    <!--email content--->
+
     <mj-section>
       <mj-column>
-        <mj-class="big">
+        <mj-text mj-class="big">
           Your DIDroom Subscription Update
-        </mj-class>
+        </mj-text>
 
         <mj-text>
           Hello {{.UserName}},

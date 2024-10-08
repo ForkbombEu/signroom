@@ -1,16 +1,16 @@
 <mjml>
   <mj-head>
     <mj-title>Verification Flow Name Updated</mj-title>
-    <mj-include path="./components/attributes.mjml" />
+    <mj-include path="../components/attributes.mjml" />
   </mj-head>
   <mj-body>
-    <mj-include path="./components/header.mjml" />
-    <!--email content--->
+    <mj-include path="../components/header.mjml" />
+
     <mj-section>
       <mj-column>
-        <mj-class="big">
-Verification Flow Name Updated!</mj-class>
-          
+        <mj-text mj-class="big">
+          Verification Flow Name Updated!</mj-text>
+
         </mj-text>
 
         <mj-text align="left">
@@ -23,7 +23,7 @@ Verification Flow Name Updated!</mj-class>
 
         <!-- Conditional formatting: If <editor> and <user> match then display "You" -->
         <mj-text align="left">
-          Changes were made by <strong>{{.Editor}}</strong>.         
+          Changes were made by <strong>{{.Editor}}</strong>.
           If you have any questions or need further details, reach out to your admin team.
         </mj-text>
 
@@ -37,6 +37,6 @@ Verification Flow Name Updated!</mj-class>
 
       </mj-column>
     </mj-section>
-    <mj-include path="./components/footer.mjml" />
+    <mj-include path="../components/footer.mjml" />
   </mj-body>
 </mjml>

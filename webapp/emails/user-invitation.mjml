@@ -1,23 +1,23 @@
- 
 <mjml>
   <mj-head>
     <mj-title>{{.Editor}} invited you to Join {{.OrganizationName}}</mj-title>
-    <mj-iclude path="./components/attributes.mjml" />
+    <mj-include path="./components/attributes.mjml" />
   </mj-head>
+  
   <mj-body>
-<mj-include path="./components/header.mjml" />
-<!--email content--->  
-<mj-section>
+    <mj-include path="./components/header.mjml" />
+
+    <mj-section>
       <mj-column>
-        <mj-class="big">
-          Join {{.OrganizationName}} on DIDroom 
-        </mj-class>
+        <mj-text mj-class="big">
+          Join {{.OrganizationName}} on DIDroom
+        </mj-text>
         <mj-text>
           Hello there,
         </mj-text>
 
         <mj-text>
-          You have been invited by <strong>{{.Editor}}</strong> to join the organization <strong>{{.OrganizationName}}</strong> on DIDroom, the platform for secure and decentralized identity management. 
+          You have been invited by <strong>{{.Editor}}</strong> to join the organization <strong>{{.OrganizationName}}</strong> on DIDroom, the platform for secure and decentralized identity management.
         </mj-text>
 
         <mj-text>
@@ -28,12 +28,12 @@
           Accept Your Invitation
         </mj-button>
 
-                <mj-button href="{{.InvitationLink}}" background-color="#ffffff" color="#7d2fb5" font-family="Arial" font-size="16px">
+        <mj-button href="{{.InvitationLink}}" background-color="#ffffff" color="#7d2fb5" font-family="Arial" font-size="16px">
           More about DIDroom
         </mj-button>
-    </mj-column>
+      </mj-column>
     </mj-section>
 
-        <mj-include path="./components/footer.mjml" />
-</mj-body>
+    <mj-include path="./components/footer.mjml" />
+  </mj-body>
 </mjml>

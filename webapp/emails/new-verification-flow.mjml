@@ -1,16 +1,16 @@
 <mjml>
   <mj-head>
     <mj-title>New verification flow: {{.VerificationFlowName}}, is now available in your Dashboard</mj-title>
-    <mj-iclude path="./components/attributes.mjml" />
+    <mj-include path="./components/attributes.mjml" />
   </mj-head>
   <mj-body>
     <mj-include path="./components/header.mjml" />
-    <!--email content--->
+
     <mj-section>
       <mj-column>
-        <mj-class="big">
+        <mj-text mj-class="big">
           New Verification Flow Created Successfully!
-        </mj-class>
+        </mj-text>
 
         <mj-text>
           Hello {{.UserName}},
@@ -22,7 +22,7 @@
 
         <!-- Conditional formatting: If <editor> and <user> match then display "You" -->
         <mj-text>
-          The flow was created by <strong>{{.Editor}}</strong>.         
+          The flow was created by <strong>{{.Editor}}</strong>.
           If you have any questions or need further details, reach out to your admin team.
         </mj-text>
 

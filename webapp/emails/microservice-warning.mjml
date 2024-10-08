@@ -1,16 +1,16 @@
 <mjml>
   <mj-head>
     <mj-title>Action Required: Issue Detected with SSI Microservice</mj-title>
-    <mj-iclude path="./components/attributes.mjml" />
+    <mj-include path="./components/attributes.mjml" />
   </mj-head>
   <mj-body>
     <mj-include path="./components/header.mjml" />
-    <!--email content--->
+
     <mj-section>
       <mj-column>
-        <mj-class="big">
+        <mj-text mj-class="big">
           Action Required: Issue Detected with SSI Microservice
-        </mj-class>
+        </mj-text>
 
         <mj-text>
           Hello {{.UserName}},
