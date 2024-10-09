@@ -6,5 +6,6 @@
   <mj-class name="big" font-size="22px" align="center" line-height="1.4" padding-bottom="24px" padding-top="4px" />
   <mj-class name="step" padding-bottom="8px" padding-top="24px" />
   <mj-divider border-color="#7d2fb5" />
+  <mj-class name="footer" font-size="14px" color="#888888" font-family="Arial, sans-serif" align="center" line-height="1.4" />
   <mj-all font-family=" Arial, sans-serif" />
 </mj-attributes>
