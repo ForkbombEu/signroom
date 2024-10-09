@@ -1,11 +1,11 @@
  <mjml>
    <mj-head>
      <mj-title>Reminder: Your Invitation to Join DIDroom</mj-title>
-     <mj-include path="./components/attributes.mjml" />
+     <mj-include path="../components/attributes.mjml" />
    </mj-head>
    
    <mj-body>
-     <mj-include path="./components/header.mjml" />
+     <mj-include path="../components/header.mjml" />
 
      <mj-section>
        <mj-column>
@@ -35,6 +35,6 @@
        </mj-column>
      </mj-section>
 
-     <mj-include path="./components/footer.mjml" />
+     <mj-include path="../components/footer.mjml" />
    </mj-body>
  </mjml>
