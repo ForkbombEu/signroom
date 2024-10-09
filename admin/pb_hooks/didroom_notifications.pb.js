@@ -37,7 +37,7 @@ onRecordAfterCreateRequest((e) => {
         );
 
         for (const admin of admins) {
-            const email = utils.renderEmail("new-verification-flow", {
+            const email = utils.renderEmail("verification-flow-new", {
                 viewInBrowserLink: "",
                 unsubscribeLink: "",
                 OrganizationName: organization?.get("name") ?? "Organization",
@@ -168,7 +168,7 @@ onRecordAfterCreateRequest((e) => {
         );
 
         for (const admin of admins) {
-            const email = utils.renderEmail("new-issuance-flow", {
+            const email = utils.renderEmail("flow-new", {
                 viewInBrowserLink: "",
                 unsubscribeLink: "",
                 OrganizationName: organization?.getString("name"),
@@ -297,7 +297,7 @@ onRecordAfterCreateRequest(
             );
 
             for (const admin of admins) {
-                const email = utils.renderEmail("new-microservice", {
+                const email = utils.renderEmail("microservice-new", {
                     viewInBrowserLink: "",
                     unsubscribeLink: "",
                     OrganizationName: organization.getString("name"),
