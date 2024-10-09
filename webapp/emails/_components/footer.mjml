@@ -21,7 +21,7 @@
     </mj-text>
   </mj-column>
   <mj-column>
-    <mj-social font-size="14px" icon-size="20px" mode="horizontal" align="center">
+    <mj-social>
       <!-- GitHub Icon and Link -->
       <mj-social-element name="github" href="https://github.com/ForkbombEu/DIDroom" background-color="#333333">
         GitHub

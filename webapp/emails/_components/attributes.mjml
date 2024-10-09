@@ -8,4 +8,5 @@
   <mj-divider border-color="#7d2fb5" />
   <mj-class name="footer" font-size="14px" color="#888888" font-family="Arial, sans-serif" align="center" line-height="1.4" />
   <mj-all font-family=" Arial, sans-serif" />
+  <mj-social font-size="14px" icon-size="20px" mode="horizontal" align="center" />
 </mj-attributes>
