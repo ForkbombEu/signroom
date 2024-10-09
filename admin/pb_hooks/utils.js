@@ -316,11 +316,14 @@ const renderEmail = (name, data) => {
  * @param {core.RecordUpdateEvent} event
  * @param {string[]} fields
  */
-function getRecordUpdateEventDiff(event, fields) {
+function getRecordUpdateEventDiff(event, fields = []) {
     const updatedRecord = event.record;
     const originalRecord = event.record?.originalCopy();
     if (!updatedRecord || !originalRecord)
         throw createMissingDataError("updated record");
+
+    if (fields.length == 0)
+        fields = getCollectionFields(updatedRecord.collection());
 
     return fields
         .map((f) => ({
@@ -329,6 +332,16 @@ function getRecordUpdateEventDiff(event, fields) {
             oldValue: originalRecord.get(f),
         }))
         .filter((d) => d.newValue != d.oldValue);
+}
+
+/**
+ * @param {models.Collection} collection
+ */
+function getCollectionFields(collection) {
+    return collection.schema
+        .fields()
+        .map((f) => f?.name)
+        .filter((n) => n != undefined);
 }
 
 //

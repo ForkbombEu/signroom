@@ -17,7 +17,7 @@
         </mj-text>
 
         <mj-text>
-          The issuance flow, <strong>{{.user}}</strong>, in your organization <strong>{{.OrganizationName}}</strong> has been successfully updated.
+          The issuance flow in your organization <strong>{{.OrganizationName}}</strong> has been successfully updated.
         </mj-text>
 
         <mj-text>
@@ -32,6 +32,10 @@
         </mj-text>
 
         <mj-text>
+          {{.ChangesList}}
+        </mj-text>
+
+        <!-- <mj-text>
           - <strong>Flow Name</strong>: {{.FlowName}}<br />
         </mj-text>
 
@@ -70,7 +74,7 @@
         <mj-text>
           - <strong>Visibility</strong>: {{.IsPublic}}<br />
           - <strong>Can be requested via API</strong>: {{.API}}
-        </mj-text>
+        </mj-text> -->
 
         <mj-button href="{{.DashboardLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
           Review Updated Flow
