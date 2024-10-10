@@ -32,14 +32,16 @@
         </mj-text>
 
         <mj-text>
-          {{.ChangesList}}
-        </mj-text>
-
-        <!-- <mj-text>
-          - <strong>Flow Name</strong>: {{.FlowName}}<br />
+          <strong>Flow Name</strong>: {{.FlowName}}<br />
         </mj-text>
 
         <mj-text>
+          {{.ChangesList}}
+        </mj-text>
+
+        
+
+        <!-- <mj-text>
           <strong>Credential Info</strong>:
         </mj-text>
 
