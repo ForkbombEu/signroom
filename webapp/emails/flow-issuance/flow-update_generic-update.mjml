@@ -13,11 +13,11 @@
         </mj-text>
 
         <mj-text>
-          Hello {{.username}},
+          Hello {{.UserName}},
         </mj-text>
 
         <mj-text>
-          The issuance flow in your organization <strong>{{.OrganizationName}}</strong> has been successfully updated.
+          The issuance flow <strong>{{.FlowName}}</strong> in your organization <strong>{{.OrganizationName}}</strong> has been successfully updated.
         </mj-text>
 
         <mj-text>
@@ -25,14 +25,8 @@
           If you have any questions or need further details, reach out to your admin team.
         </mj-text>
 
-        <mj-image width="80px" align=left border-radius=50% src="{{.FlowImage}}" alt="{{.FlowName}}"></mj-image>
-
         <mj-text>
           Here’s a summary of the updates made to your issuance flow and its associated credential:
-        </mj-text>
-
-        <mj-text>
-          <strong>Flow Name</strong>: {{.FlowName}}<br />
         </mj-text>
 
         <mj-text>

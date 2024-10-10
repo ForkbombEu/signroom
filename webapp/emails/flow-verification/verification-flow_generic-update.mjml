@@ -17,7 +17,7 @@
         </mj-text>
 
         <mj-text>
-          We’d like to inform you that your verification flow <strong>{{.VerificationFlowName}}</strong> has been updated successfully in your organization, <strong>{{.OrganizationName}}</strong>.
+          We’d like to inform you that your verification flow <strong>{{.FlowName}}</strong> has been updated successfully in your organization, <strong>{{.OrganizationName}}</strong>.
         </mj-text>
 
         <!-- Conditional formatting: If <editor> and <user> match then display "You" -->
@@ -28,10 +28,6 @@
 
         <mj-text>
           Here’s a summary of the updates made to your verification flow:
-        </mj-text>
-
-        <mj-text>
-          <strong>Verification Flow Name</strong>: {{.FlowName}}<br />
         </mj-text>
 
         <mj-text>
