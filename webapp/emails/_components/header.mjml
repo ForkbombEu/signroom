@@ -1,0 +1,6 @@
+<mj-section>
+  <mj-column>
+    <mj-image width="260px" src="../images/DIDroom_logo.png" alt="DIDroom Logo" align="center"></mj-image>
+    <mj-divider></mj-divider>
+  </mj-column>
+</mj-section>

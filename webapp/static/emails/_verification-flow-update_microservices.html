@@ -2,7 +2,7 @@
 <html lang="und" dir="auto" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 
 <head>
-  <title>{{.Editor}} invited you to Join {{.OrganizationName}}</title>
+  <title>Verification Flow Microservices Updated</title>
   <!--[if !mso]><!-->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <!--<![endif]-->
@@ -163,22 +163,28 @@
                           <tbody>
                             <tr>
                               <td align="center" style="font-size:0px;padding:0.8%;padding-top:4px;padding-bottom:24px;word-break:break-word;">
-                                <div style="font-family: Arial, sans-serif;font-size:22px;line-height:1.4;text-align:center;color:#111827;">Join {{.OrganizationName}} on DIDroom</div>
+                                <div style="font-family: Arial, sans-serif;font-size:22px;line-height:1.4;text-align:center;color:#111827;">Verification Flow Microservices Updated!</div>
                               </td>
                             </tr>
                             <tr>
                               <td align="left" style="font-size:0px;padding:0.8%;word-break:break-word;">
-                                <div style="font-family: Arial, sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#111827;">Hello there,</div>
+                                <div style="font-family: Arial, sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#111827;">Hello {{.UserName}},</div>
                               </td>
                             </tr>
                             <tr>
                               <td align="left" style="font-size:0px;padding:0.8%;word-break:break-word;">
-                                <div style="font-family: Arial, sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#111827;">You have been invited by <strong>{{.Editor}}</strong> to join the organization <strong>{{.OrganizationName}}</strong> on DIDroom, the platform for secure and decentralized identity management.</div>
+                                <div style="font-family: Arial, sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#111827;">The microservices in your Verification flow <strong>{{.FlowName}}</strong> in organization <strong>{{.OrganizationName}}</strong> have been updated.</div>
+                              </td>
+                            </tr>
+                            <!-- Conditional formatting: If <editor> and <user> match then display "You" -->
+                            <tr>
+                              <td align="left" style="font-size:0px;padding:0.8%;word-break:break-word;">
+                                <div style="font-family: Arial, sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#111827;">Changes were made by <strong>{{.Editor}}</strong>. If you have any questions or need further details, reach out to your admin team.</div>
                               </td>
                             </tr>
                             <tr>
                               <td align="left" style="font-size:0px;padding:0.8%;word-break:break-word;">
-                                <div style="font-family: Arial, sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#111827;">To get started, please accept the invitation and complete your registration:</div>
+                                <div style="font-family: Arial, sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#111827;">- <strong>Relying Party</strong>: {{.RelyingParty}}<br /></div>
                               </td>
                             </tr>
                             <tr>
@@ -187,20 +193,7 @@
                                   <tbody>
                                     <tr>
                                       <td align="center" bgcolor="#7d2fb5" role="presentation" style="border:none;border-radius:3px;cursor:auto;mso-padding-alt:10px 25px;background:#7d2fb5;" valign="middle">
-                                        <a href="{{.InvitationLink}}" style="display:inline-block;background:#7d2fb5;color:#ffffff;font-family:Arial;font-size:16px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:3px;" target="_blank"> Accept Your Invitation </a>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">
-                                  <tbody>
-                                    <tr>
-                                      <td align="center" bgcolor="#ffffff" role="presentation" style="border:none;border-radius:3px;cursor:auto;mso-padding-alt:10px 25px;background:#ffffff;" valign="middle">
-                                        <a href="{{.InvitationLink}}" style="display:inline-block;background:#ffffff;color:#7d2fb5;font-family:Arial;font-size:16px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:3px;" target="_blank"> More about DIDroom </a>
+                                        <a href="{{.DashboardLink}}" style="display:inline-block;background:#7d2fb5;color:#ffffff;font-family:Arial;font-size:16px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:3px;" target="_blank"> Review Updated Verification Flow </a>
                                       </td>
                                     </tr>
                                   </tbody>
