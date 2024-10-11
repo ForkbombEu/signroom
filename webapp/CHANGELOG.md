@@ -1,3 +1,10 @@
+## [1.30.1](https://github.com/ForkbombEu/signroom/compare/v1.30.0...v1.30.1) (2024-10-11)
+
+
+### Bug Fixes
+
+* template update api rule error ([#845](https://github.com/ForkbombEu/signroom/issues/845)) ([1fb9710](https://github.com/ForkbombEu/signroom/commit/1fb971015cd015b4552c123d793512755b7ebbb4))
+
 # [1.30.0](https://github.com/ForkbombEu/signroom/compare/v1.29.0...v1.30.0) (2024-10-04)
 
 
