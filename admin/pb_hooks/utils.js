@@ -40,7 +40,7 @@ const errors = {
         "cannot_change_template_preset_status",
 
     cannot_update_template_protected_fields:
-        "cannot_update_ptemplate_protected_fields",
+        "cannot_update_template_protected_fields",
 };
 
 /* -- RBAC Utils -- */
