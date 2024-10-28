@@ -24,11 +24,11 @@ importers:
         specifier: ^8.22.0
         version: 8.22.0(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.25.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.52.1(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.25.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.25.1)(@sveltejs/kit@2.5.18(@sveltejs/vite-plugin-svelte@3.1.1(svelte@4.2.18)(vite@5.3.5(@types/node@22.0.3)))(svelte@4.2.18)(vite@5.3.5(@types/node@22.0.3)))(svelte@4.2.18)(vite@5.3.5(@types/node@22.0.3))
       '@slangroom/core':
-        specifier: ^1.37.1
-        version: 1.37.1(zenroom@4.35.0)
+        specifier: ^1.43.0
+        version: 1.43.0(zenroom@4.35.0)
       '@slangroom/qrcode':
-        specifier: ^1.37.1
-        version: 1.37.1(zenroom@4.35.0)
+        specifier: ^1.43.0
+        version: 1.43.0(zenroom@4.35.0)
       '@tailwindcss/line-clamp':
         specifier: ^0.4.4
         version: 0.4.4(tailwindcss@3.4.7)
@@ -1365,27 +1365,27 @@ packages:
     resolution: {integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==}
     engines: {node: '>=18'}
 
-  '@slangroom/core@1.37.1':
-    resolution: {integrity: sha512-v7HNOuClumpMfQRLbofyrW4ghJmSEu8apd5SNVxy38Bd02bq+7qrI3EKNDxRk89y+ZacesEdaecyLjDNF7s8gg==}
-    engines: {node: ^18.20.0 || ^20.10.0 || ^22}
+  '@slangroom/core@1.43.0':
+    resolution: {integrity: sha512-uGKdzdg0MzVRQw76rsbHABFkKs4n2Cof0j2sBX8Cgq3jHE9OA7nYDRnxnW9+Ih3h9qVRLgAkMYYK+awOPNagnA==}
+    engines: {node: ^18.20.0 || ^20.10.0 || ^22 || ^23}
 
-  '@slangroom/deps@1.37.1':
-    resolution: {integrity: sha512-QH1R65BVOwmjB31f+nyDaAB19GX/EMWDTKCVaV6knopKgFsvsklK0CadxWcY+PYt8Gf2Rs8qvcWIkrdBFObqhQ==}
-    engines: {node: ^18.20.0 || ^20.10.0 || ^22}
+  '@slangroom/deps@1.43.0':
+    resolution: {integrity: sha512-7QF5ynlLQsNK6r1wAPcTmB0IV0d9MDcDVrkYMsF+3Qc1jaRxjAvyhxsuH0KyhmJRlZlIIbWpfxnoFm0P859bqg==}
+    engines: {node: ^18.20.0 || ^20.10.0 || ^22 || ^23}
     peerDependencies:
-      zenroom: ^4.31.2
+      zenroom: ^4.45.1
 
-  '@slangroom/ignored@1.37.1':
-    resolution: {integrity: sha512-MQ5nGV0bAzFpZs3jkSNbbKGZa52Uv9d1NWXNpP0kYaz1+MFf5CqaDmbZ/YsCDLuSVSmCCVQJNY8GxUp7i0pGug==}
-    engines: {node: ^18.20.0 || ^20.10.0 || ^22}
+  '@slangroom/ignored@1.43.0':
+    resolution: {integrity: sha512-DGw771xq7MuMA3jUDExZJdhNx7B8t06MvqWd+Sf6jQ0UaOzDGo9eYj691hcaCpcam8yVMzrsDqmO87TwrBXK7A==}
+    engines: {node: ^18.20.0 || ^20.10.0 || ^22 || ^23}
 
-  '@slangroom/qrcode@1.37.1':
-    resolution: {integrity: sha512-SUxhQc+SQxKURBwQw1H3c3riOeSorhFtIODH2dUnz5u7xLbjALRb6J9AshsKdEnKVXvTs34NGIgHkKQlVK/rHQ==}
-    engines: {node: ^18.20.0 || ^20.10.0 || ^22}
+  '@slangroom/qrcode@1.43.0':
+    resolution: {integrity: sha512-jK/oVmEkTJhE6Qrkr4k3yBnLLhqhc+dbuud1S9JvhwqgP/kUIwxweRrkJDx42wwR5J/9np3vfnDegWbdSRqHlQ==}
+    engines: {node: ^18.20.0 || ^20.10.0 || ^22 || ^23}
 
-  '@slangroom/shared@1.37.1':
-    resolution: {integrity: sha512-KGQGDYFZ/1/9avwxgp6knllOODWY08oUVY/NJjlt9WSVEl823HUKMhepykOTRjdz18PZnx+eUYfs9PZUmsL4gg==}
-    engines: {node: ^18.20.0 || ^20.10.0 || ^22}
+  '@slangroom/shared@1.43.0':
+    resolution: {integrity: sha512-0s+EGs9BtQxjgsf/nPRb2IbFzi97toVu0933bZ0aIjRvNCHiE2rjbGGpJe0IymwDTSLm5ouWfWcOk+6ZqGiG4Q==}
+    engines: {node: ^18.20.0 || ^20.10.0 || ^22 || ^23}
 
   '@sveltejs/adapter-auto@3.2.2':
     resolution: {integrity: sha512-Mso5xPCA8zgcKrv+QioVlqMZkyUQ5MjDJiEPuG/Z7cV/5tmwV7LmcVWk5tZ+H0NCOV1x12AsoSpt/CwFwuVXMA==}
@@ -6268,37 +6268,37 @@ snapshots:
 
   '@sindresorhus/merge-streams@4.0.0': {}
 
-  '@slangroom/core@1.37.1(zenroom@4.35.0)':
+  '@slangroom/core@1.43.0(zenroom@4.35.0)':
     dependencies:
-      '@slangroom/deps': 1.37.1(zenroom@4.35.0)
-      '@slangroom/ignored': 1.37.1(zenroom@4.35.0)
-      '@slangroom/shared': 1.37.1(zenroom@4.35.0)
+      '@slangroom/deps': 1.43.0(zenroom@4.35.0)
+      '@slangroom/ignored': 1.43.0(zenroom@4.35.0)
+      '@slangroom/shared': 1.43.0(zenroom@4.35.0)
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/deps@1.37.1(zenroom@4.35.0)':
+  '@slangroom/deps@1.43.0(zenroom@4.35.0)':
     dependencies:
       chalk: 5.3.0
       chevrotain: 10.5.0
       zenroom: 4.35.0
 
-  '@slangroom/ignored@1.37.1(zenroom@4.35.0)':
+  '@slangroom/ignored@1.43.0(zenroom@4.35.0)':
     dependencies:
-      '@slangroom/deps': 1.37.1(zenroom@4.35.0)
-      '@slangroom/shared': 1.37.1(zenroom@4.35.0)
+      '@slangroom/deps': 1.43.0(zenroom@4.35.0)
+      '@slangroom/shared': 1.43.0(zenroom@4.35.0)
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/qrcode@1.37.1(zenroom@4.35.0)':
+  '@slangroom/qrcode@1.43.0(zenroom@4.35.0)':
     dependencies:
-      '@slangroom/core': 1.37.1(zenroom@4.35.0)
+      '@slangroom/core': 1.43.0(zenroom@4.35.0)
       qrcode: 1.5.3
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/shared@1.37.1(zenroom@4.35.0)':
+  '@slangroom/shared@1.43.0(zenroom@4.35.0)':
     dependencies:
-      '@slangroom/deps': 1.37.1(zenroom@4.35.0)
+      '@slangroom/deps': 1.43.0(zenroom@4.35.0)
     transitivePeerDependencies:
       - zenroom
 
