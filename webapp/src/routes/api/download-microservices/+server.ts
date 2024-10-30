@@ -11,11 +11,12 @@ import { create_relying_party_zip } from './relying-party';
 import { addZipAsSubfolder } from './utils/zip';
 import { createSlug } from './utils/strings';
 import { startDockerCompose, endDockerCompose, setupDockerCompose } from './utils/dockercompose';
+import { PUBLIC_DIDROOM_MICROSERVICES_BRANCH } from '$env/static/public';
 
 //
 
 const DIDROOM_MICROSERVICES_URL =
-	'https://github.com/ForkbombEu/DIDroom_microservices/archive/refs/heads/main.zip';
+	`https://github.com/ForkbombEu/DIDroom_microservices/archive/refs/heads/${PUBLIC_DIDROOM_MICROSERVICES_BRANCH}.zip`;
 
 export const POST: RequestHandler = async ({ fetch, request }) => {
 	try {
