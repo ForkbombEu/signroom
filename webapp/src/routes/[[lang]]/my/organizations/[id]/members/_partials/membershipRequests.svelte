@@ -1,38 +1,29 @@
-<!--
-SPDX-FileCopyrightText: 2024 The Forkbomb Company
-
-SPDX-License-Identifier: AGPL-3.0-or-later
--->
-
 <script lang="ts">
-	import CollectionManager from '$lib/collectionManager/collectionManager.svelte';
-	import { pb } from '$lib/pocketbase/index.js';
+	import { CollectionManager } from '@/collections-components';
+	import { pb } from '@/pocketbase/index.js';
 	import {
-		Collections,
 		OrgJoinRequestsStatusOptions,
 		type OrgJoinRequestsRecord,
-		type UsersResponse,
 		type OrgJoinRequestsResponse,
 		type OrganizationsResponse
-	} from '$lib/pocketbase/types';
-	import { createTypeProp } from '$lib/utils/typeProp.js';
-	import { m } from '$lib/i18n';
-	import { Button } from 'flowbite-svelte';
-	import { UserPlus, NoSymbol, UserGroup } from 'svelte-heros-v2';
-	import PlainCard from '$lib/components/plainCard.svelte';
-	import { getUserDisplayName } from '$lib/utils/pb';
-	import UserAvatar from '$lib/components/userAvatar.svelte';
-	import Icon from '$lib/components/icon.svelte';
-	import EmptyState from '$lib/components/emptyState.svelte';
-	import SectionTitle from '$lib/components/sectionTitle.svelte';
-	import ModalWrapper from '$lib/components/modalWrapper.svelte';
-	import PageCard from '$lib/components/pageCard.svelte';
+	} from '@/pocketbase/types';
+	import { m } from '@/i18n';
+	import { UserPlus, CircleOffIcon } from 'lucide-svelte';
+	import PlainCard from '@/components/custom/itemCard.svelte';
+	import { getUserDisplayName } from '@/pocketbase/utils';
+	import UserAvatar from '@/components/custom/userAvatar.svelte';
+	import Icon from '@/components/custom/icon.svelte';
+	import SectionTitle from '@/components/custom/sectionTitle.svelte';
+	import { PageCard } from '@/components/layout';
+	import { Button } from '@/components/ui/button';
+	import Dialog from '@/components/custom/dialog.svelte';
+	import { toast } from 'svelte-sonner';
+	import Trash from 'lucide-svelte/icons/trash';
+	import X from 'lucide-svelte/icons/x';
 
 	//
 
 	export let organization: OrganizationsResponse;
-
-	const recordType = createTypeProp<OrgJoinRequestsResponse<{ user: UsersResponse }>>();
 
 	//
 
@@ -49,63 +40,80 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </script>
 
 <CollectionManager
-	collection={Collections.OrgJoinRequests}
-	initialQueryParams={{
+	collection="orgJoinRequests"
+	fetchOptions={{
 		filter: `organization.id = "${organization.id}" && status = "${pending}"`,
-		expand: 'user'
+		expand: ['user']
 	}}
-	{recordType}
 	let:records
-	hideEmptyState
+	hide={['emptyState']}
 >
 	{#if records.length}
 		<PageCard>
 			<SectionTitle
-				tag="h5"
+				tag="h4"
 				title={m.Pending_membership_requests()}
 				description={m.pending_membership_requests_description()}
 			/>
 
-			{#each records as request}
-				{@const user = request.expand?.user}
-				{#if user}
-					<PlainCard>
-						<UserAvatar slot="left" size="md" {user}></UserAvatar>
-						{getUserDisplayName(user)}
+			<div class="space-y-2">
+				{#each records as request}
+					{@const user = request.expand?.user}
+					{#if user}
+						<PlainCard>
+							<UserAvatar slot="left" {user} />
 
-						<svelte:fragment slot="right">
-							<div class="space-x-1">
-								<Button outline on:click={() => updateRequestStatus(request, accepted)}>
-									{m.Accept()}
-									<Icon src={UserPlus} ml></Icon>
-								</Button>
+							{getUserDisplayName(user)}
 
-								<ModalWrapper title={m.Warning()} size="xs" let:openModal>
-									<Button outline on:click={openModal}>
-										{m.Decline()}
-										<Icon src={NoSymbol} ml></Icon>
+							<svelte:fragment slot="right">
+								<div class="space-x-1">
+									<Button
+										variant="outline"
+										on:click={() =>
+											updateRequestStatus(request, accepted)
+												.then(() => toast.success(m.Request_accepted_sucessfully()))
+												.catch(() =>
+													toast.error(m.An_error_occurred_while_handling_membership_request())
+												)}
+									>
+										{m.Accept()}
+										<Icon src={UserPlus} ml />
 									</Button>
 
-									<svelte:fragment slot="modal" let:closeModal>
-										<p>{m.decline_membership_request_warning()}</p>
-										<div class="flex items-center justify-center gap-2">
-											<Button color="alternative" on:click={closeModal}>
-												{m.Cancel()}
+									<Dialog title={m.Warning()}>
+										<svelte:fragment slot="trigger" let:builder>
+											<Button variant="outline" builders={[builder]}>
+												{m.Decline()}
+												<Icon src={CircleOffIcon} ml />
 											</Button>
-											<Button
-												color="red"
-												on:click={() => updateRequestStatus(request, rejected).then(closeModal)}
-											>
-												{m.decline_membership_request()}
-											</Button>
-										</div>
-									</svelte:fragment>
-								</ModalWrapper>
-							</div>
-						</svelte:fragment>
-					</PlainCard>
-				{/if}
-			{/each}
+										</svelte:fragment>
+
+										<svelte:fragment slot="content" let:closeDialog>
+											<p>{m.decline_membership_request_warning()}</p>
+											<div class="flex items-center justify-center gap-2">
+												<Button variant="outline" on:click={closeDialog}>
+													{m.Cancel()}
+													<Icon src={X} ml />
+												</Button>
+												<Button
+													variant="destructive"
+													on:click={() =>
+														updateRequestStatus(request, rejected)
+															.then(closeDialog)
+															.then(() => toast.info(m.Membership_request_declined_successfully()))}
+												>
+													{m.decline_membership_request()}
+													<Icon src={Trash} ml />
+												</Button>
+											</div>
+										</svelte:fragment>
+									</Dialog>
+								</div>
+							</svelte:fragment>
+						</PlainCard>
+					{/if}
+				{/each}
+			</div>
 		</PageCard>
 	{/if}
 </CollectionManager>

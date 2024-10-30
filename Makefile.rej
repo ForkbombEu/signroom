@@ -1,0 +1,23 @@
+diff a/Makefile b/Makefile	(rejected hunks)
+@@ -159,17 +154,15 @@ doc: ## 📚 Serve documentation on localhost
+ 	npx -p docsify-cli docsify serve ./docs
+ 
+ definitions: ## ⚙️ Generate type definitions and schema
+-	cd webapp && pnpm definitions
++	cd webapp && pnpm generate:definitions
+ 
+ # - Cleaning - #
+ 
+ clean: ## 🧹 Clean the project
+-	@rm -rf $(AZC) $(WZC) $(WCZ) $(BIN) $(PB)
++	@rm -rf $(AZC) $(WCZ) $(BIN) $(PB)
+ 	@rm -fr webapp/node_modules
+-	@rm -f webapp/src/lib/pocketbase/types.ts
+-	@rm -f webapp/src/lib/pocketbase/schema/db_schema.json
+-	@rm -f webapp/src/lib/rbac/roles.ts
+-	@rm -f webapp/src/lib/features/list.ts
++	@rm -fr webapp/.svelte-kit
++	@find . -type f -name "*.generated.*" -delete
+ 	@echo "The project is ✨ cleaned"
+ 
+ purge: ## ⛔ Purge the database
