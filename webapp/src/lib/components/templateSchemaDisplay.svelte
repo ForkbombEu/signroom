@@ -11,8 +11,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import {
 		flattenCredentialSubjectProperties,
 		objectSchemaToCredentialSubject
-	} from '@api/download-microservices/utils/credential-subject';
-	import { DEFAULT_LOCALE } from '@api/download-microservices/utils/locale';
+	} from '@api/download-microservices-[orgId]/utils/credential-subject';
+	import { DEFAULT_LOCALE } from '@api/download-microservices-[orgId]/utils/locale';
 	import { Effect, pipe, Either } from 'effect';
 	import EmptyState from './emptyState.svelte';
 	import { ExclamationTriangle } from 'svelte-heros-v2';
@@ -50,7 +50,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 			{@const displayName = property.display?.at(0)?.name}
 			<div class="p-4">
 				<p>
-					{m.Property_ID()}: <span class="font-mono text-primary-700">{propertyId}</span>
+					{m.Property_ID()}: <span class="text-primary-700 font-mono">{propertyId}</span>
 				</p>
 				{#if displayName}
 					<p>

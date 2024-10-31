@@ -9,6 +9,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </script>
 
 <script lang="ts" generics="T extends MicroserviceType">
+	import type { MicroserviceFolder } from '@api/download-microservices-[orgId]/shared-operations';
+
 	import {
 		CollectionManager,
 		CreateRecord,
@@ -25,7 +27,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { ProtectedOrgUI } from '$lib/organizations';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { Alert, Badge, Button } from 'flowbite-svelte';
-	import { Pencil, Plus, Trash } from 'svelte-heros-v2';
+	import { Clipboard, Pencil, Plus, Trash } from 'svelte-heros-v2';
+	import CopyButton from '$lib/components/copyButton.svelte';
+	import { pb } from '$lib/pocketbase';
 
 	export let microserviceType: T;
 	export let organizationId: string;
@@ -51,6 +55,19 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	};
 
 	$: strings = microservicesStrings[microserviceType];
+
+	//
+
+	function getMicroserviceUpdateString(microservice: Microservice) {
+		const map: Record<MicroserviceType, MicroserviceFolder> = {
+			authorization_servers: 'authz_server',
+			issuers: 'credential_issuer',
+			relying_parties: 'relying_party'
+		};
+		const urlWithoutProtocol = microservice.endpoint.replace(/(^\w+:|^)\/\//, '');
+		const msFolder = map[microservice.collectionName as MicroserviceType];
+		return `didroom_update ${urlWithoutProtocol}/${msFolder} ${pb.authStore.token}`;
+	}
 </script>
 
 <CollectionManager
@@ -89,7 +106,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	<div class="space-y-4">
 		{#each records as record}
-			<PlainCard let:Title let:Description>
+			<PlainCard let:Title let:Description class="py-4">
 				<div class="flex items-center gap-2">
 					<Title>{record.name}</Title>
 					<MicroserviceBadge type={microserviceType} />
@@ -105,34 +122,44 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 				<svelte:fragment slot="right">
 					<ProtectedOrgUI orgId={organizationId} roles={['admin', 'owner']}>
-						<div class="flex gap-2">
-							<EditRecord
-								{record}
-								let:openModal
-								modalTitle={`${m.Edit()} – ${strings.name.singular}`}
-							>
-								<svelte:fragment slot="beforeForm">
-									<Alert color="yellow" border class="mb-8">
-										<p class="font-bold">{m.Warning()}</p>
-										<p>{m.microservice_edit_warning()}</p>
-									</Alert>
-								</svelte:fragment>
+						<div class="flex flex-col items-end gap-2">
+							<div class="flex gap-2">
+								<EditRecord
+									{record}
+									let:openModal
+									modalTitle={`${m.Edit()} – ${strings.name.singular}`}
+								>
+									<svelte:fragment slot="beforeForm">
+										<Alert color="yellow" border class="mb-8">
+											<p class="font-bold">{m.Warning()}</p>
+											<p>{m.microservice_edit_warning()}</p>
+										</Alert>
+									</svelte:fragment>
 
-								<Button outline on:click={openModal}>
-									{m.Edit()}
-									<Icon src={Pencil} ml></Icon>
-								</Button>
-							</EditRecord>
+									<Button size="xs" outline on:click={openModal}>
+										{m.Edit()}
+										<Icon size={16} src={Pencil} ml></Icon>
+									</Button>
+								</EditRecord>
 
-							<DeleteRecord
-								{record}
-								let:openModal
-								modalTitle={`${m.Delete()} – ${strings.name.singular}`}
+								<DeleteRecord
+									{record}
+									let:openModal
+									modalTitle={`${m.Delete()} – ${strings.name.singular}`}
+								>
+									<Button size="xs" outline on:click={openModal}>
+										<Icon size={16} src={Trash} />
+									</Button>
+								</DeleteRecord>
+							</div>
+
+							<CopyButton
+								iconSize={16}
+								textToCopy={getMicroserviceUpdateString(record)}
+								buttonProps={{ color: 'primary', outline: true, size: 'xs' }}
 							>
-								<Button outline on:click={openModal}>
-									<Icon src={Trash} />
-								</Button>
-							</DeleteRecord>
+								{m.Copy_update_script()}
+							</CopyButton>
 						</div>
 					</ProtectedOrgUI>
 				</svelte:fragment>

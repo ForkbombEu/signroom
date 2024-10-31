@@ -13,7 +13,6 @@ import type {
 	TemplatesResponse
 } from '$lib/pocketbase/types';
 import type { ObjectSchema } from '$lib/jsonSchema/types';
-import type { DownloadMicroservicesRequestBody } from '.';
 
 import {
 	add_credential_custom_code,
@@ -31,6 +30,7 @@ import {
 import { update_zip_json_entry } from './utils/zip';
 import { DEFAULT_LOCALE } from './utils/locale';
 import { config } from './config';
+import type { DownloadMicroservicesData } from './+server';
 import type { Expiration, ExpirationDate } from '$lib/issuanceFlows/expiration';
 
 /* Main */
@@ -38,7 +38,7 @@ import type { Expiration, ExpirationDate } from '$lib/issuanceFlows/expiration';
 export function create_credential_issuer_zip(
 	didroom_microservices_zip_buffer: Buffer,
 	credential_issuer: IssuersResponse,
-	request_body: DownloadMicroservicesRequestBody
+	request_body: DownloadMicroservicesData
 ) {
 	const zip = new AdmZip(didroom_microservices_zip_buffer);
 
@@ -67,13 +67,13 @@ type IssuanceFlow = ServicesResponse<Expiration> & { template: TemplatesResponse
 
 function get_credential_issuer_related_data_from_request_body(
 	credential_issuer: IssuersResponse,
-	body: DownloadMicroservicesRequestBody
+	data: DownloadMicroservicesData
 ): CredentialIssuerRelatedData {
 	const {
 		authorization_servers: org_authorization_servers,
 		issuance_flows: org_issuance_flows,
 		templates: org_templates
-	} = body;
+	} = data;
 
 	const related_issuance_flows = org_issuance_flows.filter(
 		(flow) => flow.credential_issuer == credential_issuer.id
