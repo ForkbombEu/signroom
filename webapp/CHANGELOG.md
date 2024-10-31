@@ -1,3 +1,10 @@
+## [1.30.2](https://github.com/ForkbombEu/signroom/compare/v1.30.1...v1.30.2) (2024-10-31)
+
+
+### Bug Fixes
+
+* **microservices:** credential_configurations_supported is a dictionary ([#852](https://github.com/ForkbombEu/signroom/issues/852)) ([8a78255](https://github.com/ForkbombEu/signroom/commit/8a78255538779fdff2ef2dd83e6cc809eecc01e4))
+
 ## [1.30.1](https://github.com/ForkbombEu/signroom/compare/v1.30.0...v1.30.1) (2024-10-11)
 
 
