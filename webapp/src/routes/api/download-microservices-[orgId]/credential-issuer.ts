@@ -30,8 +30,8 @@ import {
 import { update_zip_json_entry } from './utils/zip';
 import { DEFAULT_LOCALE } from './utils/locale';
 import { config } from './config';
-import type { Expiration } from '$lib/issuanceFlows/expiration';
 import type { DownloadMicroservicesData } from './+server';
+import type { Expiration, ExpirationDate } from '$lib/issuanceFlows/expiration';
 
 /* Main */
 
@@ -113,6 +113,10 @@ function create_credential_issuer_well_known(
 	const authorization_servers_urls = authorization_servers.map((a) =>
 		formatMicroserviceUrl(a.endpoint, 'authz_server')
 	);
+	const credentialConfigurationsSupported = _.flow(
+		_.map(convert_issuance_flow_to_credential_configuration),
+		_.keyBy((item) => item.credential_definition.type[0])
+	);
 
 	return pipe(
 		default_well_known,
@@ -128,7 +132,7 @@ function create_credential_issuer_well_known(
 		}),
 		_.set(
 			'credential_configurations_supported',
-			issuance_flows.map(convert_issuance_flow_to_credential_configuration)
+			credentialConfigurationsSupported(issuance_flows)
 		)
 	) as WellKnown;
 }
@@ -144,7 +148,8 @@ function convert_issuance_flow_to_credential_configuration(
 			locale: DEFAULT_LOCALE,
 			logo: {
 				url: issuance_flow.logo,
-				alt_text: `${issuance_flow.display_name} logo`
+				alt_text: `${issuance_flow.display_name} logo`,
+				uri: issuance_flow.logo
 			},
 			background_color: '#12107c',
 			text_color: '#FFFFFF',
@@ -209,12 +214,37 @@ function add_credentials_custom_code(zip: AdmZip, issuance_flows: IssuanceFlow[]
 }
 
 function add_credential_time(zip: AdmZip, issuance_flow: ServicesResponse<Expiration>) {
+	if (!issuance_flow.expiration) return;
 	const base_path = get_credential_custom_code_path(
 		zip,
 		'credential_issuer',
 		issuance_flow.type_name
 	);
 	const path = `${base_path}.${config.file_extensions.time}`;
-	const content = JSON.stringify(issuance_flow.expiration, null, config.json.tab_size);
+	const content = pipe(issuance_flow.expiration, format_expiration, (exp) =>
+		JSON.stringify(exp, null, config.json.tab_size)
+	);
 	zip.addFile(path, Buffer.from(content));
 }
+
+function format_expiration(expiration: Expiration): LuaExpiration | ExpirationDate {
+	if (expiration.mode == 'duration') {
+		return {
+			mode: 'duration',
+			duration: {
+				day: expiration.duration.days,
+				year: expiration.duration.years,
+				month: expiration.duration.months
+			}
+		};
+	} else return expiration;
+}
+
+type LuaExpiration = {
+	mode: 'duration';
+	duration: {
+		month: number;
+		year: number;
+		day: number;
+	};
+};

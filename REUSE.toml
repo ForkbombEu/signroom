@@ -27,7 +27,7 @@ SPDX-FileCopyrightText = "2024 The Forkbomb Company"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
-path = ["webapp/messages/**", "webapp/static/**.png"]
+path = ["webapp/messages/**", "webapp/static/**.png", "webapp/emails/**/*.mjml", "webapp/static/emails/*.html"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2024 The Forkbomb Company"
 SPDX-License-Identifier = "AGPL-3.0-or-later"

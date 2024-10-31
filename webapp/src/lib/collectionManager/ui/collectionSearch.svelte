@@ -5,6 +5,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <script lang="ts">
+	import { log } from '$lib/utils/devLog';
+
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import type { PBResponse, StringKeys } from '$lib/utils/types';
 
@@ -77,10 +79,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 							checked={selected.includes(field.value)}
 							on:change={() => {
 								if (selected.includes(field.value)) {
-									console.log('deselected', selected, field);
+									log('deselected', selected, field);
 									selected = selected.filter((item) => item !== field.value);
 								} else {
-									console.log('selected', selected, field);
+									log('selected', selected, field);
 									selected = selected.concat(field.value);
 								}
 							}}

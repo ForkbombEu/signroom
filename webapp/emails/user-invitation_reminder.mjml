@@ -1,0 +1,42 @@
+<mjml>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+        <mj-image width="200px" src="https://forkbomb.solutions/wp-content/uploads/2023/05/DIDroom_logo.svg" alt="DIDroom Logo"></mj-image>
+
+        <mj-divider border-color="#7d2fb5"></mj-divider>
+
+        <mj-text font-size="22px" color="#000000" font-family="Arial, sans-serif" align="center">
+          Reminder: Your Invitation to Join DIDroom
+        </mj-text>
+
+        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+          Hello there,
+        </mj-text>
+
+        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+          We noticed that you haven’t completed your registration for DIDroom yet. Your invitation from <strong>{{. UserName }}</strong> still valid, and we don’t want you to miss out on the benefits of being part of our secure and decentralized platform.
+        </mj-text>
+
+        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+          To finish setting up your account, click the link below:
+        </mj-text>
+
+        <mj-button href="{{. InvitationLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+          Complete Your Registration
+        </mj-button>
+
+        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+          Don’t wait too long—this invitation will expire soon! Take action now and start using DIDroom.
+        </mj-text>
+
+        <mj-divider border-color="#7d2fb5"></mj-divider>
+
+<mj-text font-size="14px" color="#888888" font-family="Arial, sans-serif" align="center">
+  If you can't visualize this email correctly, <a href="{{. viewInBrowserLink }}" style="color:#7d2fb5;">click here to view it in your browser</a>.
+</mj-text>
+
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

@@ -16,6 +16,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import PageCard from '$lib/components/pageCard.svelte';
 	import PageContent from '$lib/components/pageContent.svelte';
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
+	import { WelcomeSession } from '$lib/utils/welcome';
+
+	if (WelcomeSession.isActive()) WelcomeSession.end();
+
 	let news = pb.collection('posts').getFullList({ filter: 'published=true' });
 	let links = pb.collection('quick_actions').getFullList({ filter: 'published=true' });
 </script>
@@ -30,13 +34,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 			{#each links as link}
 				<a
 					href={link.href}
-					class="group flex cursor-pointer items-center rounded-lg border-2 border-slate-400 p-3 hover:border-primary-500"
+					class="hover:border-primary-500 group flex cursor-pointer items-center rounded-lg border-2 border-slate-400 p-3"
 				>
-					<div class="hidden text-primary-500 group-hover:block">
+					<div class="text-primary-500 hidden group-hover:block">
 						<ArrowLongRight class="mr-2 inline-block w-6" />
 					</div>
 					<div>
-						<Heading tag="h6" class="font-semibold text-primary-500">{link.title}</Heading>
+						<Heading tag="h6" class="text-primary-500 font-semibold">{link.title}</Heading>
 						<p class="font-light text-gray-700 dark:text-gray-400">
 							{link.description}
 						</p>
@@ -62,7 +66,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 					</p>
 					<a
 						href={`/news#${n.id}`}
-						class="inline-flex items-center text-primary-600 hover:underline"
+						class="text-primary-600 inline-flex items-center hover:underline"
 					>
 						{m.Read_more()}
 						<ArrowTopRightOnSquare class="ml-2 w-4" />

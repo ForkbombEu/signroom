@@ -131,7 +131,8 @@ const credential_configuration_template = {
 			locale: '',
 			logo: {
 				url: '',
-				alt_text: ''
+				alt_text: '',
+				uri: ''
 			},
 			background_color: '',
 			text_color: '',

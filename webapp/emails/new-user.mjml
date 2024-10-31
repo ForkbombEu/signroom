@@ -1,0 +1,42 @@
+<mjml>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+        <mj-image width="200px" src="https://forkbomb.solutions/wp-content/uploads/2023/05/DIDroom_logo.svg" alt="DIDroom Logo"></mj-image>
+
+        <mj-divider border-color="#7d2fb5"></mj-divider>
+
+        <mj-text font-size="22px" color="#000000" font-family="Arial, sans-serif" align="center">
+          Welcome to DIDroom, [UserName]!
+        </mj-text>
+
+        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+          Hello {{. UserName }},
+        </mj-text>
+
+        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+          We are excited to have you on board at DIDroom! You're now part of a community that’s building the future of decentralized identity management.
+        </mj-text>
+
+        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+          To help you get started, visit: <a href="[TutorialLink]" style="color:#7d2fb5;">How to Get Started with DIDroom</a>
+        </mj-text>
+
+        <mj-text font-size="16px" color="#000000" font-family="Arial, sans-serif" align="left">
+          Your next step is to log in to the platform and explore the possibilities. We recommend to start creating <strong>Your Organization.</strong>
+        </mj-text>
+
+        <mj-button href="{{. DashboardLink }}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+          Go to Your Dashboard
+        </mj-button>
+
+        <mj-divider border-color="#7d2fb5"></mj-divider>
+
+<mj-text font-size="14px" color="#888888" font-family="Arial, sans-serif" align="center">
+  If you can't visualize this email correctly, <a href="{{. viewInBrowserLink }}" style="color:#7d2fb5;">click here to view it in your browser</a>.
+</mj-text>
+
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
