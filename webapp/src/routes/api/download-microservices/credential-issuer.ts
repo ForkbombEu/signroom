@@ -113,6 +113,10 @@ function create_credential_issuer_well_known(
 	const authorization_servers_urls = authorization_servers.map((a) =>
 		formatMicroserviceUrl(a.endpoint, 'authz_server')
 	);
+	const credentialConfigurationsSupported = _.flow(
+		_.map(convert_issuance_flow_to_credential_configuration),
+		_.keyBy((item) => item.credential_definition.type[0])
+	);
 
 	return pipe(
 		default_well_known,
@@ -128,7 +132,7 @@ function create_credential_issuer_well_known(
 		}),
 		_.set(
 			'credential_configurations_supported',
-			issuance_flows.map(convert_issuance_flow_to_credential_configuration)
+			credentialConfigurationsSupported(issuance_flows)
 		)
 	) as WellKnown;
 }
@@ -144,7 +148,8 @@ function convert_issuance_flow_to_credential_configuration(
 			locale: DEFAULT_LOCALE,
 			logo: {
 				url: issuance_flow.logo,
-				alt_text: `${issuance_flow.display_name} logo`
+				alt_text: `${issuance_flow.display_name} logo`,
+				uri: issuance_flow.logo
 			},
 			background_color: '#12107c',
 			text_color: '#FFFFFF',
