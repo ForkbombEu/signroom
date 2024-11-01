@@ -1,14 +1,10 @@
-// SPDX-FileCopyrightText: 2024 The Forkbomb Company
-//
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
 // @ts-check
 
 /// <reference path="../pb_data/types.d.ts" />
 /// <reference path="./ambient.d.ts" />
-/** @typedef {import("../../webapp/src/lib/pocketbase/types").OrgRolesRecord} OrgRole */
-/** @typedef {import("../../webapp/src/lib/pocketbase/types").OrgAuthorizationsRecord} OrgAuthorization */
-/** @typedef {import("../../webapp/src/lib/pocketbase/types").UsersRecord} User */
+/** @typedef {import("../../webapp/src/modules/pocketbase/types").OrgRolesRecord} OrgRole */
+/** @typedef {import("../../webapp/src/modules/pocketbase/types").OrgAuthorizationsRecord} OrgAuthorization */
+/** @typedef {import("../../webapp/src/modules/pocketbase/types").UsersRecord} User */
 
 /** @typedef {Omit<mail.Address, "string">} Address */
 
