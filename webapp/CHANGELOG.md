@@ -1,3 +1,10 @@
+## [1.30.3](https://github.com/ForkbombEu/signroom/compare/v1.30.2...v1.30.3) (2024-11-04)
+
+
+### Bug Fixes
+
+* **features:** remove env variables from query ([#861](https://github.com/ForkbombEu/signroom/issues/861)) ([b4d1752](https://github.com/ForkbombEu/signroom/commit/b4d175218e88e757213a845f7a83a25ae48deacc))
+
 ## [1.30.2](https://github.com/ForkbombEu/signroom/compare/v1.30.1...v1.30.2) (2024-10-31)
 
 
