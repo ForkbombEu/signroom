@@ -17,35 +17,35 @@ export function mergeObjectSchemas(schemas: ObjectSchema[]): ObjectSchema {
 	};
 }
 
-export function mergeObjectSchemasIntoCredentialSubject(
+export function mergeObjectSchemasIntoClaims(
 	schemas: ObjectSchema[],
 	locale = DEFAULT_LOCALE
-): CredentialSubject {
-	const subjects = schemas.map((s) => objectSchemaToCredentialSubject(s, locale));
-	return _.merge({}, ...subjects);
+): Claims {
+	const claims = schemas.map((s) => objectSchemaToClaims(s, locale));
+	return _.merge({}, ...claims);
 }
 
-/* JSON Schema to CredentialSubject conversion */
+/* JSON Schema to Claims conversion */
 
-export function objectSchemaToCredentialSubject(
+export function objectSchemaToClaims(
 	schema: ObjectSchema,
 	locale = DEFAULT_LOCALE
-): CredentialSubject {
-	const credentialSubject: CredentialSubject = {};
+): Claims {
+	const claims: Claims = {};
 
 	for (const [propertyName, property] of Object.entries(schema.properties)) {
 		//
 		if (property.type != 'object' && property.type != 'array') {
 			//
-			const prop: CredentialSubjectProperty = {
+			const prop: ClaimsProperty = {
 				mandatory: Boolean(schema.required?.includes(propertyName)),
 				display: [{ locale, name: property.title ?? propertyName }]
 			};
-			credentialSubject[propertyName] = prop;
+			claims[propertyName] = prop;
 		}
 		//
 		else if (property.type === 'object') {
-			credentialSubject[propertyName] = objectSchemaToCredentialSubject(property, locale);
+			claims[propertyName] = objectSchemaToClaims(property, locale);
 		}
 		//
 		else {
@@ -53,13 +53,13 @@ export function objectSchemaToCredentialSubject(
 			console.log(JSON.stringify(property, null, 2));
 		}
 	}
-	return credentialSubject;
+	return claims;
 }
 
 // https://openid.github.io/OpenID4VCI/openid-4-verifiable-credential-issuance-wg-draft.html#name-credential-issuer-metadata-2
 
-export type CredentialSubject = {
-	[key: string]: CredentialSubject | CredentialSubjectProperty;
+export type Claims = {
+	[key: string]: Claims | ClaimsProperty;
 };
 
 const DisplayPropertiesSchema = z.object({
@@ -72,12 +72,12 @@ type DisplayProperties = {
 	locale: string;
 };
 
-const CredentialSubjectPropertySchema = z.object({
+const ClaimsPropertySchema = z.object({
 	mandatory: z.boolean(),
 	display: z.array(DisplayPropertiesSchema).optional()
 });
 
-export type CredentialSubjectProperty = {
+export type ClaimsProperty = {
 	mandatory?: boolean;
 	display?: DisplayProperties[];
 	// TODO - Handle "type" property if necessary
@@ -85,26 +85,26 @@ export type CredentialSubjectProperty = {
 
 //
 
-function checkCredentialSubjectProperty(data: unknown): data is CredentialSubjectProperty {
-	return CredentialSubjectPropertySchema.safeParse(data).success;
+function checkClaimsProperty(data: unknown): data is ClaimsProperty {
+	return ClaimsPropertySchema.safeParse(data).success;
 }
 
-export function flattenCredentialSubjectProperties(
-	credentialSubject: CredentialSubject
-): [string, CredentialSubjectProperty][] {
-	let propertyList: [string, CredentialSubjectProperty][] = [];
+export function flattenClaimsProperties(
+	claims: Claims
+): [string, ClaimsProperty][] {
+	let propertyList: [string, ClaimsProperty][] = [];
 
-	Object.entries(credentialSubject).forEach(([propertyName, property]) => {
-		if (checkCredentialSubjectProperty(property)) {
+	Object.entries(claims).forEach(([propertyName, property]) => {
+		if (checkClaimsProperty(property)) {
 			propertyList.push([propertyName, property]);
 		}
 		//
 		else {
-			const nestedProperties = flattenCredentialSubjectProperties(property).map(
+			const nestedProperties = flattenClaimsProperties(property).map(
 				([nestedPropertyName, nestedProperty]) =>
 					[`${propertyName}.${nestedPropertyName}`, nestedProperty] as [
 						string,
-						CredentialSubjectProperty
+						ClaimsProperty
 					]
 			);
 			propertyList = [...propertyList, ...nestedProperties];
@@ -139,10 +139,8 @@ const credential_configuration_template = {
 			description: ''
 		}
 	],
-	credential_definition: {
-		type: [],
-		credentialSubject: {}
-	}
+	vct: '',
+	claims: {}
 };
 
 export function get_credential_configuration_template() {

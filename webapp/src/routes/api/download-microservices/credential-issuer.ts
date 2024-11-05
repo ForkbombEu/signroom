@@ -26,7 +26,7 @@ import {
 } from './shared-operations';
 import {
 	get_credential_configuration_template,
-	objectSchemaToCredentialSubject
+	objectSchemaToClaims
 } from './utils/credential-subject';
 import { update_zip_json_entry } from './utils/zip';
 import { DEFAULT_LOCALE } from './utils/locale';
@@ -115,7 +115,7 @@ function create_credential_issuer_well_known(
 	);
 	const credentialConfigurationsSupported = _.flow(
 		_.map(convert_issuance_flow_to_credential_configuration),
-		_.keyBy((item) => item.credential_definition.type[0])
+		_.keyBy((item) => item.vct)
 	);
 
 	return pipe(
@@ -156,11 +156,11 @@ function convert_issuance_flow_to_credential_configuration(
 			description: issuance_flow.description
 		}),
 
-		_.set('credential_definition.type[0]', issuance_flow.type_name),
+		_.set('vct', issuance_flow.type_name),
 
 		_.set(
-			'credential_definition.credentialSubject',
-			objectSchemaToCredentialSubject(issuance_flow.template.schema as ObjectSchema, DEFAULT_LOCALE)
+			'claims',
+			objectSchemaToClaims(issuance_flow.template.schema as ObjectSchema, DEFAULT_LOCALE)
 		)
 	) as CredentialConfiguration;
 }
