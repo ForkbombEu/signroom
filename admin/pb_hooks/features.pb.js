@@ -7,9 +7,15 @@
 /// <reference path="../pb_data/types.d.ts" />
 
 onRecordViewRequest((e) => {
-    e.record?.set("envVariables", null);
+    if (e.record.get("name") === "DID") {
+        e.record?.set("envVariables", null);
+    }
 }, "features");
 
 onRecordsListRequest((e) => {
-    e.records.forEach((r) => r?.set("envVariables", null));
+    e.records.forEach((r) => {
+        if (r?.get("name") === "DID") {
+            r?.set("envVariables", null)
+        }
+    })
 }, "features");
