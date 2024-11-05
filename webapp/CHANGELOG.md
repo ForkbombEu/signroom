@@ -1,3 +1,10 @@
+## [1.30.4](https://github.com/ForkbombEu/signroom/compare/v1.30.3...v1.30.4) (2024-11-05)
+
+
+### Bug Fixes
+
+* hide only DID envVaribales ([#865](https://github.com/ForkbombEu/signroom/issues/865)) ([cbe90b3](https://github.com/ForkbombEu/signroom/commit/cbe90b3bcbcbcc0fe716cd60b15f8f47e1362c7c))
+
 ## [1.30.3](https://github.com/ForkbombEu/signroom/compare/v1.30.2...v1.30.3) (2024-11-04)
 
 
