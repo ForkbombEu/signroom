@@ -1,0 +1,7 @@
+diff a/webapp/src/routes/[[lang]]/my/profile/+page.ts b/webapp/src/routes/[[lang]]/my/profile/+page.ts	(rejected hunks)
+@@ -1,4 +1,4 @@
+-import { getUserPublicKeys, type PublicKeys } from '$lib/keypairoom/utils';
++import { getUserPublicKeys, type PublicKeys } from '@/keypairoom/utils';
+ 
+ export const load = async () => {
+ 	const publicKeysResponse = await getUserPublicKeys();
