@@ -1,3 +1,10 @@
+## [1.30.6](https://github.com/ForkbombEu/signroom/compare/v1.30.5...v1.30.6) (2024-11-06)
+
+
+### Bug Fixes
+
+* **features:** show env variables for admin ([#869](https://github.com/ForkbombEu/signroom/issues/869)) ([d0e5be3](https://github.com/ForkbombEu/signroom/commit/d0e5be388fa849b85ed911b5820e2c923c7c89db))
+
 ## [1.30.5](https://github.com/ForkbombEu/signroom/compare/v1.30.4...v1.30.5) (2024-11-06)
 
 
