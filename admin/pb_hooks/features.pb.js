@@ -7,15 +7,15 @@
 /// <reference path="../pb_data/types.d.ts" />
 
 onRecordViewRequest((e) => {
-    if (e.record.get("name") === "DID") {
-        e.record?.set("envVariables", null);
-    }
+    const isAdminRequest = Boolean($apis.requestInfo(e.httpContext).admin);
+    if (isAdminRequest) return;
+    e.record?.set("envVariables", null);
 }, "features");
 
 onRecordsListRequest((e) => {
+    const isAdminRequest = Boolean($apis.requestInfo(e.httpContext).admin);
+    if (isAdminRequest) return;
     e.records.forEach((r) => {
-        if (r?.get("name") === "DID") {
-            r?.set("envVariables", null)
-        }
-    })
+        r?.set("envVariables", null);
+    });
 }, "features");
