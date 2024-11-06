@@ -1,3 +1,10 @@
+## [1.30.5](https://github.com/ForkbombEu/signroom/compare/v1.30.4...v1.30.5) (2024-11-06)
+
+
+### Bug Fixes
+
+* use credential_offer parameter in issuance qrcode ([#870](https://github.com/ForkbombEu/signroom/issues/870)) ([d6deee7](https://github.com/ForkbombEu/signroom/commit/d6deee7bb9649e23e17eda415b27d3092a3e8574))
+
 ## [1.30.4](https://github.com/ForkbombEu/signroom/compare/v1.30.3...v1.30.4) (2024-11-05)
 
 
