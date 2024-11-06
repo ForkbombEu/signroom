@@ -1,13 +1,13 @@
 {
   "template": "https://github.com/dyne/starters",
-  "checkout": "main",
-  "commit": "81ce066c443209cefebaea185d1a4ce0c36c9f75",
+  "checkout": null,
+  "commit": "bf20aa878e899017daf3bd50236f2e9c4c881c5e",
   "context": {
     "cookiecutter": {
       "project_name": "signroom",
       "project_description": "Advanced electronic signature service based on Zenroom",
-      "full_name": "Puria Nafisi Azizi",
-      "email": "puria@dyne.org",
+      "author_full_name": "Luther Hacker",
+      "author_email": "luther@dyne.org",
       "project_slug": "signroom",
       "repo": "https://github.com/forkbombeu/signroom",
       "_copy_without_render": [
