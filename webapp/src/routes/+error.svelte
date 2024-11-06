@@ -48,11 +48,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		<img src={data.image} alt={data.title} />
 	</div>
 	<div class="flex w-full flex-col items-center justify-center gap-4">
-		<Heading tag="h3" class="text-primary-600">{data.status} {data.title}</Heading>
-		<Heading tag="h2">{data.description}</Heading>
+		<T tag="h3" class="text-primary-600">{data.status} {data.title}</T>
+		<T tag="h2">{data.description}</T>
 		{#if status !== 503}
 			<div class="w-full space-y-1 pt-8">
-				<P class="text-gray-400">Here are some Helpful link:</P>
+				<T class="text-gray-400">Here are some Helpful link:</T>
 				<ul class="flex gap-6">
 					<li><A href="/">Home</A></li>
 					<li><A href="/login">Login</A></li>
