@@ -10,11 +10,8 @@ type CredentialConfig = {
 };
 
 export function createIntentUrl(data: CredentialConfig): string {
-	const credentialConfigurationIds = encodeURIComponent(
-		data.credential_configuration_ids.join(',')
-	);
-	const credentialIssuer = encodeURIComponent(data.credential_issuer);
-	return `openid-credential-offer://?credential_configuration_ids=${credentialConfigurationIds}&credential_issuer=${credentialIssuer}`;
+	const credentialOffer = encodeURIComponent(JSON.stringify(data));
+	return `openid-credential-offer://?credential_offer=${credentialOffer}`;
 }
 
 export function generateQr(text: string, cellSize = 20) {
