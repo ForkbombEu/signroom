@@ -1,0 +1,84 @@
+diff a/webapp/src/routes/[[lang]]/(nru)/login/+page.svelte b/webapp/src/routes/[[lang]]/(nru)/login/+page.svelte	(rejected hunks)
+@@ -1,59 +1,52 @@
+ <script lang="ts">
+-	import { goto } from '$lib/i18n';
+-	import { pb } from '$lib/pocketbase';
+-	import { Form, createForm, FormError, SubmitButton, Input } from '$lib/forms';
+-	import { z } from 'zod';
++	import { goto, m } from '@/i18n';
++	import { pb } from '@/pocketbase';
++	import { Form, createForm } from '@/forms';
++	import { Field } from '@/forms/fields';
++	import z from 'zod';
+ 	import { currentEmail } from './+layout.svelte';
++	import { zod } from 'sveltekit-superforms/adapters';
+ 
+ 	const schema = z.object({
+ 		email: z.string().email(),
+ 		password: z.string()
+ 	});
+ 
+-	const superform = createForm(
+-		schema,
+-		async ({ form }) => {
++	const form = createForm({
++		adapter: zod(schema),
++		onSubmit: async ({ form }) => {
+ 			const { data } = form;
+ 			const u = pb.collection('users');
+ 			await u.authWithPassword(data.email, data.password);
+ 			await goto('/my');
+ 		},
+-		{ email: $currentEmail },
+-		{ taintedMessage: null }
+-	);
++		initialData: { email: $currentEmail },
++		options: { taintedMessage: null }
++	});
+ 
+-	const { capture, restore, form } = superform;
+-	export const snapshot = { capture, restore };
++	const { form: formData } = form;
+ 
+-	$: $currentEmail = $form.email;
++	$: $currentEmail = $formData.email;
+ </script>
+ 
+-<Form {superform}>
+-	<Input
+-		{superform}
+-		field="email"
++<Form {form} submitButtonText={m.Log_in()}>
++	<Field
++		{form}
++		name="email"
+ 		options={{
+-			id: 'email',
+ 			type: 'email',
+-			label: 'Your email',
++			label: m.Your_email(),
+ 			placeholder: 'name@foundation.org'
+ 		}}
+ 	/>
+ 
+-	<Input
+-		{superform}
+-		field="password"
++	<Field
++		{form}
++		name="password"
+ 		options={{
+-			id: 'password',
+ 			type: 'password',
+-			label: 'Your password',
++			label: m.Your_password(),
+ 			placeholder: '•••••'
+ 		}}
+ 	/>
+-
+-	<FormError />
+-
+-	<div class="flex justify-end">
+-		<SubmitButton>Log in</SubmitButton>
+-	</div>
+ </Form>
