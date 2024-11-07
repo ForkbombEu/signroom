@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2024 The Forkbomb Company
-//
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
 import { test, expect, type Page } from '@playwright/test';
 import { userLogin, randomId } from '@utils/login';
 import { config } from 'dotenv';
@@ -34,7 +30,7 @@ test.describe('it should test organizations and members', () => {
 		await expect(organizationsLink).toBeVisible();
 		await organizationsLink.click();
 
-		await page.getByRole('button', { name: 'Create a new organization' }).click();
+		await page.getByRole('link', { name: 'Create a new organization' }).click();
 
 		orgName = `org-${nanoid(5)}`;
 		await page.locator('input[name="name"]').click();
@@ -77,14 +73,14 @@ test.describe('it should test organizations and members', () => {
 		const userB = 'userB@example.org';
 		const userC = 'userC@example.org';
 
-		await page.getByRole('button', { name: 'plus invite_members' }).click();
+		await page.getByRole('button', { name: 'invite_members' }).click();
 		await page.locator('textarea').fill(`${userB}\n${userC}`);
-		await page.getByRole('button', { name: 'arrow right Review and confirm' }).click();
+		await page.getByRole('button', { name: 'Review and confirm' }).click();
 
 		const requestPromise = page.waitForRequest(
 			(req) => req.url().includes('organizations/invite') && req.method() == 'POST'
 		);
-		await page.getByRole('button', { name: 'envelope Send invites' }).click();
+		await page.getByRole('button', { name: 'Send invites' }).click();
 		const request = await requestPromise;
 		await request.response();
 
@@ -120,8 +116,10 @@ test.describe('it should test organizations and members', () => {
 		await expect(editRoleButton).toBeVisible();
 		await editRoleButton.click();
 
-		await page.getByRole('combobox').selectOption({ label: 'admin' });
+		await page.getByRole('combobox').click();
+		await page.getByRole('option', { name: 'admin' }).click();
 		await page.getByRole('button', { name: 'Edit record' }).click();
+		await expect(page.getByRole('dialog')).toBeHidden();
 
 		await expect(page.getByText('Admin')).toBeVisible();
 	});
@@ -137,7 +135,7 @@ test.describe('it should test organizations and members', () => {
 		await expect(settingsButton).toBeHidden();
 
 		await page.getByRole('main').getByRole('link', { name: orgName }).click();
-		await expect(page.getByRole('tab', { name: 'cog Settings' })).toBeHidden();
+		await expect(page.getByRole('tab', { name: 'Settings' })).toBeHidden();
 
 		await page.goto(`/my/organizations/${orgId}/settings`);
 		await expect(page.getByText('404').first()).toBeVisible();
@@ -154,7 +152,7 @@ test.describe('it should test organizations and members', () => {
 		await expect(settingsButton).toBeHidden();
 
 		await page.getByRole('main').getByRole('link', { name: orgName }).click();
-		await expect(page.getByRole('tab', { name: 'cog Settings' })).toBeHidden();
+		await expect(page.getByRole('tab', { name: 'Settings' })).toBeHidden();
 	});
 });
 

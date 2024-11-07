@@ -1,0 +1,7 @@
+diff a/webapp/src/modules/organizations/invites/index.ts b/webapp/src/modules/organizations/invites/index.ts	(rejected hunks)
+@@ -1,4 +1,4 @@
+-import { createSessionStorageHandlers } from '$lib/utils/sessionStorage';
++import { createSessionStorageHandlers } from '@/utils/sessionStorage';
+ 
+ type OrganizationInviteSession = {
+ 	organizationId: string;
