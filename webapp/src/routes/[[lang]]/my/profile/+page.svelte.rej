@@ -1,0 +1,34 @@
+diff a/webapp/src/routes/[[lang]]/my/profile/+page.svelte b/webapp/src/routes/[[lang]]/my/profile/+page.svelte	(rejected hunks)
+@@ -3,26 +3,26 @@
+ 	import UserKeys from './_partials/userKeys.svelte';
+ 	import UserWebauthn from './_partials/userWebauthn.svelte';
+ 
+-	import { Card } from 'flowbite-svelte';
+-	import { featureFlags } from '$lib/features';
++	import { featureFlags } from '@/features';
++	import Card from '@/components/custom/card.svelte';
+ 
+ 	export let data;
+ 	let { publicKeys } = data;
+ </script>
+ 
+-<div class="max-w-xl mx-auto space-y-8 p-8">
+-	<Card class="!max-w-none">
++<div class="mx-auto max-w-xl space-y-8 p-8">
++	<Card>
+ 		<UserData />
+ 	</Card>
+ 
+ 	{#if $featureFlags.KEYPAIROOM}
+-		<Card class="!max-w-none">
++		<Card>
+ 			<UserKeys keys={publicKeys} />
+ 		</Card>
+ 	{/if}
+ 
+ 	{#if $featureFlags.WEBAUTHN}
+-		<Card class="!max-w-none">
++		<Card>
+ 			<UserWebauthn />
+ 		</Card>
+ 	{/if}

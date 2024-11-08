@@ -1,0 +1,20 @@
+diff a/webapp/src/routes/[[lang]]/keypairoom/regenerate/+page.ts b/webapp/src/routes/[[lang]]/keypairoom/regenerate/+page.ts	(rejected hunks)
+@@ -1,12 +1,12 @@
+-import { loadFeatureFlags } from '$lib/features';
+-import { getUserPublicKeys } from '$lib/keypairoom/utils';
+-import { redirect } from '$lib/i18n';
++import { loadFeatureFlags } from '@/features';
++import { getUserPublicKeys } from '@/keypairoom/utils';
++import { redirect } from '@/i18n';
+ 
+-export const load = async ({ url }) => {
+-	const { KEYPAIROOM, AUTH } = await loadFeatureFlags();
++export const load = async ({ url, fetch }) => {
++	const { KEYPAIROOM, AUTH } = await loadFeatureFlags(fetch);
+ 
+ 	if (KEYPAIROOM && AUTH) {
+-		const publicKeys = await getUserPublicKeys();
++		const publicKeys = await getUserPublicKeys(undefined, fetch);
+ 		if (!publicKeys) redirect('/my/keypairoom', url);
+ 	}
+ };
