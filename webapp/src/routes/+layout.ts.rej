@@ -1,0 +1,12 @@
+diff a/webapp/src/routes/+layout.ts b/webapp/src/routes/+layout.ts	(rejected hunks)
+@@ -1,7 +1,7 @@
+-import { loadFeatureFlags } from '$lib/features';
++import { loadFeatureFlags } from '@/features';
+ 
+ export const ssr = false;
+ 
+-export const load = async () => {
+-	await loadFeatureFlags();
++export const load = async ({ fetch }) => {
++	await loadFeatureFlags(fetch);
+ };

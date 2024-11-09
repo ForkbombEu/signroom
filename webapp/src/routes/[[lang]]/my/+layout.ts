@@ -1,21 +1,17 @@
-// SPDX-FileCopyrightText: 2024 The Forkbomb Company
-//
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
-import { verifyUser } from '$lib/auth/verifyUser';
-import { loadFeatureFlags } from '$lib/features';
+import { verifyUser } from '@/auth/verifyUser';
+import { loadFeatureFlags } from '@/features';
 import { error } from '@sveltejs/kit';
 
 import { browser } from '$app/environment';
-import { redirect } from '$lib/i18n';
-import { getKeyringFromLocalStorage, matchPublicAndPrivateKeys } from '$lib/keypairoom/keypair';
-import { getUserPublicKeys, RegenerateKeyringSession } from '$lib/keypairoom/utils';
+import { redirect } from '@/i18n';
+import { getKeyringFromLocalStorage, matchPublicAndPrivateKeys } from '@/keypairoom/keypair';
+import { getUserPublicKeys, RegenerateKeyringSession } from '@/keypairoom/utils';
 
-import { OrganizationInviteSession } from '$lib/organizations/invites/index.js';
+import { OrganizationInviteSession } from '@/organizations/invites/index.js';
 
 export const load = async ({ url, fetch }) => {
 	if (!browser) return;
-	const featureFlags = await loadFeatureFlags();
+	const featureFlags = await loadFeatureFlags(fetch);
 
 	// Auth
 
