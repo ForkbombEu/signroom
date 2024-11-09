@@ -1,0 +1,15 @@
+diff a/webapp/src/routes/+layout.server.ts b/webapp/src/routes/+layout.server.ts	(rejected hunks)
+@@ -1,10 +1,10 @@
+-import { loadFeatureFlags } from '$lib/features';
++import { loadFeatureFlags } from '@/features';
+ import { error } from '@sveltejs/kit';
+ 
+ export const ssr = false;
+ 
+-export const load = async () => {
+-	const flags = await loadFeatureFlags();
++export const load = async ({ fetch }) => {
++	const flags = await loadFeatureFlags(fetch);
+ 	if (flags.MAINTENANCE) {
+ 		error(503);
+ 	}

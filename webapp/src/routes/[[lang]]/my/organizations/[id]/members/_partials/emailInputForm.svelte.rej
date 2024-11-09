@@ -1,0 +1,27 @@
+diff a/webapp/src/routes/[[lang]]/my/organizations/[id]/members/_partials/emailInputForm.svelte b/webapp/src/routes/[[lang]]/my/organizations/[id]/members/_partials/emailInputForm.svelte	(rejected hunks)
+@@ -1,14 +1,16 @@
+ <script lang="ts">
+-	import Icon from '$lib/components/icon.svelte';
+-	import { createForm, Form } from '$lib/forms';
+-	import FieldHelpText from '$lib/forms/fields/fieldParts/fieldHelpText.svelte';
+-	import SubmitButton from '$lib/forms/submitButton.svelte';
+-	import { m } from '$lib/i18n';
+-	import { readFileAsString } from '$lib/utils/files';
++	import Icon from '@/components/custom/icon.svelte';
++	import { createForm, Form, SubmitButton } from '@/forms';
++	import { m } from '@/i18n';
++	import { readFileAsString, zodFileSchema } from '@/utils/files';
+ 	import { Array as A } from 'effect';
+-	import { Alert, Button, Label } from 'flowbite-svelte';
+-	import { ArrowRight } from 'svelte-heros-v2';
+-	import { z } from 'zod';
++	import { ArrowRight } from 'lucide-svelte';
++	import z from 'zod';
++	import { zod } from 'sveltekit-superforms/adapters';
++	import Alert from '@/components/custom/alert.svelte';
++	import { FileField, TextareaField } from '@/forms/fields';
++	import Separator from '@/components/ui/separator/separator.svelte';
++	import T from '@/components/custom/t.svelte';
+ 
+ 	//
+ 
