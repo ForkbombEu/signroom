@@ -1,0 +1,38 @@
+diff a/webapp/src/routes/[[lang]]/(nru)/+layout.svelte b/webapp/src/routes/[[lang]]/(nru)/+layout.svelte	(rejected hunks)
+@@ -1,23 +1,21 @@
+ <script lang="ts">
+-	import { Register } from 'flowbite-svelte-blocks';
+-	import { appTitle } from '$lib/strings';
+-	import BaseLanguageSwitcher from '$lib/i18n/baseLanguageSwitcher.svelte';
++	import LanguageSelect from '@/i18n/languageSelect.svelte';
++	import { appTitle } from '@/utils/strings';
++	import A from '@/components/custom/a.svelte';
++	import PageCard from '@/components/layout/pageCard.svelte';
+ </script>
+ 
+-<div class="grid h-screen place-items-center">
+-	<div class="max-w-[500px]">
+-		<Register href="/">
+-			<svelte:fragment slot="top">
+-				<img class="mr-2 h-10" src="/logo.svg" alt={`${appTitle} Logo`} />
+-			</svelte:fragment>
+-
+-			<div class="space-y-4 p-6 sm:p-8 md:space-y-6">
+-				<slot />
+-			</div>
+-		</Register>
++<div class="flex h-screen items-center justify-center">
++	<div class="max-w-[500px] space-y-4">
++		<A href="/">
++			<img class="mr-2 h-10" src="/logo.svg" alt={`${appTitle} Logo`} />
++		</A>
++		<PageCard>
++			<slot />
++		</PageCard>
+ 	</div>
+ </div>
+ 
+ <div class="fixed right-4 top-4 !m-0">
+-	<BaseLanguageSwitcher />
++	<LanguageSelect />
+ </div>
