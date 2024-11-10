@@ -8,35 +8,42 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import {
 		userChallengesSchema,
 		userChallenges,
-		type UserChallenges
-	} from '$lib/keypairoom/userQuestions.js';
+		type UserChallenges,
+		formatAnswersForZenroom
+	} from '@/keypairoom/userQuestions.js';
 	import {
 		generateKeypair,
 		getHMAC,
 		matchPublicAndPrivateKeys,
 		saveKeyringToLocalStorage
-	} from '$lib/keypairoom/keypair';
+	} from '@/keypairoom/keypair';
 	import {
 		getPublicKeysFromKeypair,
 		saveUserPublicKeys,
 		getUserPublicKeys,
 		RegenerateKeyringSession
-	} from '$lib/keypairoom/utils.js';
-	import { currentUser, pb } from '$lib/pocketbase';
-	import { z } from 'zod';
-	import { featureFlags } from '$lib/features';
+	} from '@/keypairoom/utils.js';
+	import { currentUser, pb } from '@/pocketbase';
+	import z from 'zod';
+	import { featureFlags } from '@/features';
 
 	// Components
-	import { Form, createForm, Input, FormError, SubmitButton } from '$lib/forms';
-	import { A, Alert, Button, Heading, Hr, P } from 'flowbite-svelte';
-	import CopyButton from '$lib/components/copyButton.svelte';
-	import Card from '$lib/components/card.svelte';
-	import { InformationCircle } from 'svelte-heros-v2';
-	import { WelcomeSession } from '$lib/utils/welcome';
-	import WelcomeBanner from '$lib/components/welcomeBanner.svelte';
-	import { m } from '$lib/i18n';
+	import { Form, createForm } from '@/forms';
+	import { Field } from '@/forms/fields';
+	import CopyButton from '@/components/custom/copyButton.svelte';
+	import { HelpCircle } from 'lucide-svelte';
+	import { zod } from 'sveltekit-superforms/adapters';
+	import { WelcomeSession, WelcomeBanner } from '@/auth/welcome';
+	import { m } from '@/i18n';
 	import RegenerateBanner from './_partials/RegenerateBanner.svelte';
-	import { log } from '$lib/utils/devLog';
+	import { log } from '@/utils/other';
+
+	import Button from '@/components/ui/button/button.svelte';
+	import T from '@/components/custom/t.svelte';
+	import Alert from '@/components/custom/alert.svelte';
+	import Separator from '@/components/ui/separator/separator.svelte';
+	import { PageCard } from '@/components/layout';
+	import A from '@/components/custom/a.svelte';
 
 	//
 
@@ -47,38 +54,41 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		questions: userChallengesSchema
 	});
 
-	const superform = createForm(schema, async ({ form }) => {
-		const { email, questions } = form.data;
-		const challenges = userChallengesSchema.parse(questions);
-		const keypair = await createKeypairFromFormData(email, challenges);
+	const form = createForm({
+		adapter: zod(schema),
+		onSubmit: async ({ form }) => {
+			const { email, questions } = form.data;
+			const challenges = formatAnswersForZenroom(questions);
+			const keypair = await createKeypairFromFormData(email, challenges);
 
-		const privateKeys = keypair.keyring;
-		const publicKeys = getPublicKeysFromKeypair(keypair);
+			const privateKeys = keypair.keyring;
+			const publicKeys = getPublicKeysFromKeypair(keypair);
 
-		if ($featureFlags.AUTH && $currentUser) {
-			const storedPublicKeys = await getUserPublicKeys();
+			if ($featureFlags.AUTH && $currentUser) {
+				const storedPublicKeys = await getUserPublicKeys();
 
-			if (!storedPublicKeys) {
-				await saveUserPublicKeys(publicKeys);
-			} else {
-				try {
-					await matchPublicAndPrivateKeys(storedPublicKeys, privateKeys);
-				} catch (e) {
-					throw new Error('Wrong answers');
+				if (!storedPublicKeys) {
+					await saveUserPublicKeys(publicKeys);
+				} else {
+					try {
+						await matchPublicAndPrivateKeys(storedPublicKeys, privateKeys);
+					} catch (e) {
+						throw new Error('Wrong answers');
+					}
+				}
+
+				if ($featureFlags.DID) {
+					try {
+						await pb.send('/api/did', {});
+					} catch (e) {
+						log(e);
+					}
 				}
 			}
 
-			if ($featureFlags.DID) {
-				try {
-					await pb.send('/api/did', {});
-				} catch (e) {
-					log(e);
-				}
-			}
+			saveKeyringToLocalStorage(privateKeys);
+			seed = keypair.seed;
 		}
-
-		saveKeyringToLocalStorage(privateKeys);
-		seed = keypair.seed;
 	});
 
 	async function createKeypairFromFormData(email: string, challenges: UserChallenges) {
@@ -86,31 +96,28 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		return await generateKeypair(email, HMAC, challenges);
 	}
 
-	const { form } = superform;
-	if ($currentUser) $form.email = $currentUser.email;
+	const { form: formData } = form;
+	if ($currentUser) $formData.email = $currentUser.email;
 </script>
 
 {#if !seed}
 	{#if WelcomeSession.isActive()}
 		<WelcomeBanner class="mb-6">
-			<P color="yellow" weight="bold">{m.Thanks_for_joining_us()}</P>
-			<P color="yellow">
+			<T class="font-bold">{m.Thanks_for_joining_us()}</T>
+			<T>
 				{m.One_last_thing_before_to_using_the_app()}<br />
 				{m.we_need_you_to_answer_these_questions_as_they_will_be_used_to_secure_your_data_()}
-			</P>
+			</T>
 		</WelcomeBanner>
 	{/if}
 
-	<Card class="space-y-6 p-6">
-		<Heading tag="h4">{m.Generate_your_keys()}</Heading>
+	<PageCard>
+		<T tag="h4">{m.Generate_your_keys()}</T>
 
 		{#if WelcomeSession.isActive()}
-			<Alert color="blue">
+			<Alert variant="blue" icon={HelpCircle}>
 				<span class="sr-only">{m.Info()}</span>
 				<span class="text mb-2 flex items-center font-bold">
-					<div class="mr-1">
-						<InformationCircle size="20" />
-					</div>
 					{m.Important_information()}
 				</span>
 				<ul class="list-disc space-y-1 pl-4 pt-1">
@@ -127,43 +134,37 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 			<RegenerateBanner />
 		{/if}
 
-		<Hr />
+		<Separator />
 
-		<Form {superform} className="space-y-6">
+		<Form {form} class="space-y-6" submitButtonText={m.Generate_keys()}>
 			{#if !$currentUser}
 				<div class="space-y-1">
-					<Input {superform} field="email" options={{ label: 'User email' }} />
+					<Field {form} name="email" options={{ label: 'User email' }} />
 
-					<P size="sm" color="text-gray-400">
+					<T tag="small" class="text-gray-400">
 						{m.Your_email_wont_be_stored_anywhere_it_will_be_used_only_to_generate_the_keys_()}
-					</P>
+					</T>
 				</div>
 
-				<Hr />
+				<Separator />
 			{/if}
 
 			{#each userChallenges as question}
-				<Input {superform} field={`questions.${question.id}`} options={{ label: question.text }} />
+				<Field {form} name={`questions.${question.id}`} options={{ label: question.text }} />
 			{/each}
-
-			<FormError />
-
-			<div class="flex justify-end">
-				<SubmitButton>{m.Generate_keys()}</SubmitButton>
-			</div>
 		</Form>
 
-		<Hr />
+		<Separator />
 
-		<A class="text-sm" href="/keypairoom/regenerate">{m.I_have_the_seed_passphrase()}</A>
-	</Card>
+		<A class="block text-sm" href="/keypairoom/regenerate">{m.I_have_the_seed_passphrase()}</A>
+	</PageCard>
 {:else}
-	<Card class="space-y-6">
-		<Heading tag="h4">{m.Keypair_creation_successful()}</Heading>
-		<P size="sm" color="text-gray-400 dark:text-gray-600">
+	<PageCard>
+		<T tag="h4">{m.Keypair_creation_successful()}</T>
+		<T class="text-sm">
 			{m.Please_store_this_in_a_safe_place_to_recover_your_account_in_the_future_this_passphrase_will_be_shown_only_one_time()}
-		</P>
-		<Alert color="blue">
+		</T>
+		<Alert variant="blue">
 			<span class="font-mono">
 				{seed}
 				<div class="flex flex-col items-end pt-4">
@@ -171,6 +172,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				</div>
 			</span>
 		</Alert>
-		<Button href="/my">{m.Go_to_Dashboard()}</Button>
-	</Card>
+		<div class="flex justify-end">
+			<Button href="/my">{m.Go_to_Dashboard()}</Button>
+		</div>
+	</PageCard>
 {/if}
