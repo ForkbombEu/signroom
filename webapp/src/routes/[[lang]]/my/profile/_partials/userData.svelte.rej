@@ -1,0 +1,127 @@
+diff a/webapp/src/routes/[[lang]]/my/profile/_partials/userData.svelte b/webapp/src/routes/[[lang]]/my/profile/_partials/userData.svelte	(rejected hunks)
+@@ -1,46 +1,95 @@
+ <script lang="ts">
+-	import { Heading, P, Button, Hr } from 'flowbite-svelte';
+-	import { currentUser } from '$lib/pocketbase';
+-	import UserDataForm from './userDataForm.svelte';
+-	import { Pencil, XMark } from 'svelte-heros-v2';
+-	import UserAvatar from '$lib/components/userAvatar.svelte';
+-
+-	let edit = false;
+-	const toggleEdit = () => {
+-		edit = !edit;
+-	};
++	import Button from '@/components/ui/button/button.svelte';
++	import UserAvatar from '@/components/custom/userAvatar.svelte';
++	import { Pencil, X } from 'lucide-svelte';
++	import Icon from '@/components/custom/icon.svelte';
++	import { m } from '@/i18n';
++	import Separator from '@/components/ui/separator/separator.svelte';
++	import T from '@/components/custom/t.svelte';
++
++	import { Form, createForm } from '@/forms';
++	import { Field, FileField, CheckboxField } from '@/forms/fields';
++
++	import { currentUser, pb } from '@/pocketbase';
++	import { createCollectionZodSchema } from '@/pocketbase/zod-schema';
++	import { zod } from 'sveltekit-superforms/adapters';
++	import z from 'zod';
++	import { createToggleStore } from '@/components/custom/utils';
++	import SubmitButton from '@/forms/components/submitButton.svelte';
++
++	//
++
++	const showForm = createToggleStore();
++
++	const schema = createCollectionZodSchema('users').extend({
++		email: z.string().email(),
++		emailVisibility: z.boolean()
++	});
++
++	$: form = createForm({
++		adapter: zod(schema),
++		onSubmit: async ({ form }) => {
++			$currentUser = await pb.collection('users').update($currentUser?.id!, form.data);
++			showForm.off();
++		},
++		initialData: {
++			name: $currentUser?.name,
++			email: $currentUser?.email,
++			emailVisibility: $currentUser?.emailVisibility
++		},
++		options: {
++			dataType: 'form'
++		}
++	});
+ </script>
+ 
+ <div class="space-y-6">
+-	<div class="flex flex-row gap-6 items-center">
+-		<UserAvatar size="lg" />
++	<div class="flex flex-row items-center gap-6">
++		{#if $currentUser}
++			<UserAvatar class="size-20" user={$currentUser} />
++		{/if}
+ 		<div class="flex flex-col">
+-			<Heading tag="h4">{$currentUser?.name}</Heading>
+-			<P>
++			<T tag="h4">{$currentUser?.name}</T>
++			<T tag="p">
+ 				{$currentUser?.email}
+-				<span class="text-gray-400 text-sm ml-1">
++				<span class="ml-1 text-sm text-gray-400">
+ 					({$currentUser?.emailVisibility ? 'public' : 'not public'})
+ 				</span>
+-			</P>
++			</T>
+ 		</div>
+ 	</div>
+ 
+-	<div class="flex items-center gap-4 justify-end">
+-		{#if edit}
+-			<Hr />
++	<div class="flex items-center justify-end gap-4">
++		{#if $showForm}
++			<Separator />
++		{:else}
++			<Button variant="outline" on:click={showForm.on}>
++				<Icon src={Pencil} mr />
++				{m.Edit_profile()}
++			</Button>
+ 		{/if}
+-		<Button color="alternative" on:click={toggleEdit}>
+-			{#if !edit}
+-				<Pencil size="20" />
+-				<span class="ml-2">Edit profile</span>
+-			{:else}
+-				<XMark size="20" />
+-				<span class="ml-2">Cancel</span>
+-			{/if}
+-		</Button>
+ 	</div>
+ 
+-	{#if edit}
+-		<UserDataForm on:success={toggleEdit} />
++	{#if $showForm}
++		<Form {form} hide={['submitButton']}>
++			<Field {form} name="name" options={{ label: m.Username() }} />
++
++			<div class="space-y-2">
++				<Field {form} name="email" options={{ type: m.email() }} />
++
++				<CheckboxField
++					{form}
++					name="emailVisibility"
++					options={{ label: m.Show_email_to_other_users() }}
++				/>
++			</div>
++
++			<FileField {form} name="avatar" />
++
++			<div class="flex items-center justify-end gap-2">
++				<Button variant="outline" on:click={showForm.off}><Icon src={X} mr />{m.Cancel()}</Button>
++				<SubmitButton><Icon src={Pencil} mr />{m.Update_profile()}</SubmitButton>
++			</div>
++		</Form>
+ 	{/if}
+ </div>
