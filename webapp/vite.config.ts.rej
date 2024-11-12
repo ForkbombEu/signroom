@@ -1,0 +1,13 @@
+diff a/webapp/vite.config.ts b/webapp/vite.config.ts	(rejected hunks)
+@@ -3,7 +3,10 @@ import { sveltekit } from '@sveltejs/kit/vite';
+ import { defineConfig } from 'vitest/config';
+ 
+ export default defineConfig({
+-	plugins: [paraglide({ project: './project.inlang', outdir: './src/paraglide' }), sveltekit()],
++	plugins: [
++		sveltekit(),
++		paraglide({ project: './project.inlang', outdir: './src/modules/i18n/paraglide' })
++	],
+ 	test: {
+ 		include: ['src/**/*.{test,spec}.{js,ts}']
+ 	}
