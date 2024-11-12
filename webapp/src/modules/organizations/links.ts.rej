@@ -1,0 +1,23 @@
+diff a/webapp/src/modules/organizations/links.ts b/webapp/src/modules/organizations/links.ts	(rejected hunks)
+@@ -1,14 +1,10 @@
+-// SPDX-FileCopyrightText: 2024 The Forkbomb Company
+-//
+-// SPDX-License-Identifier: AGPL-3.0-or-later
+-
+-import type { OrganizationsResponse } from '$lib/pocketbase/types';
+-import type { m as messages } from '$lib/i18n';
+-import type { NavigationTab } from '$lib/components/navigationTabs.svelte';
+-import { Cog, Home, Users } from 'svelte-heros-v2';
+-import type { SidebarItemProps } from '$lib/layout/SidebarLinks.svelte';
+-import { pb } from '$lib/pocketbase';
+-import type { OrgRole } from './roles';
++import type { OrganizationsResponse } from '@/pocketbase/types';
++import type { m as messages } from '@/i18n';
++import type { NavigationTab } from '@/components/custom/navigationTabs.svelte';
++import { Cog, Home, Users } from 'lucide-svelte';
++import type { SidebarItemProps } from '@/components/layout/sidebar/types';
++import { pb } from '@/pocketbase';
++import type { OrgRole } from '.';
+ 
+ export function createOrganizationLinks(
+ 	organizationId: string,
