@@ -1,21 +1,18 @@
-<!--
-SPDX-FileCopyrightText: 2024 The Forkbomb Company
-
-SPDX-License-Identifier: AGPL-3.0-or-later
--->
-
 <script lang="ts">
-	import { pb } from '$lib/pocketbase';
-	import { goto, m } from '$lib/i18n';
-	import { z } from 'zod';
+	import { pb } from '@/pocketbase';
+	import { goto, m } from '@/i18n';
+	import z from 'zod';
 
-	import { A, Alert, Heading, Hr, P } from 'flowbite-svelte';
-	import { Form, createForm, Input, Checkbox, FormError, SubmitButton } from '$lib/forms';
-	import { featureFlags } from '$lib/features';
-	import { OrganizationInviteSession } from '$lib/organizations/invites';
-	import { appTitle } from '$lib/strings';
-	import { WelcomeSession } from '$lib/utils/welcome';
-	import WelcomeBanner from '$lib/components/welcomeBanner.svelte';
+	import { Form, createForm } from '@/forms';
+	import { Field, CheckboxField } from '@/forms/fields';
+	import { zod } from 'sveltekit-superforms/adapters';
+
+	import { featureFlags } from '@/features';
+	import { OrganizationInviteSession } from '@/organizations/invites';
+	import { WelcomeSession, WelcomeBanner } from '@/auth/welcome';
+	import T from '@/components/custom/t.svelte';
+	import Separator from '@/components/ui/separator/separator.svelte';
+	import A from '@/components/custom/a.svelte';
 
 	//
 
@@ -29,21 +26,24 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		})
 		.refine((data) => data.password === data.passwordConfirm, m.PASSWORDS_DO_NOT_MATCH());
 
-	const superform = createForm(schema, async ({ form }) => {
-		const { data } = form;
-		const u = pb.collection('users');
-		await u.create(data);
-		await u.authWithPassword(data.email, data.password);
-		await u.requestVerification(data.email);
-		WelcomeSession.start();
-		await goto('/my');
+	const form = createForm({
+		adapter: zod(schema),
+		onSubmit: async ({ form }) => {
+			const { data } = form;
+			const u = pb.collection('users');
+			await u.create(data);
+			await u.authWithPassword(data.email, data.password);
+			await u.requestVerification(data.email);
+			WelcomeSession.start();
+			await goto('/my');
+		}
 	});
 
-	const { form } = superform;
+	const { form: formData } = form;
 
 	if ($featureFlags.ORGANIZATIONS) {
 		const inviteSession = OrganizationInviteSession.getData();
-		if (inviteSession) $form.email = inviteSession.email;
+		if (inviteSession) $formData.email = inviteSession.email;
 	}
 
 	function getOrganization(id: string) {
@@ -59,24 +59,24 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		{#await getOrganization(inviteSession.organizationId) then organization}
 			<WelcomeBanner class="mb-6">
 				<div>
-					<P color="yellow">
+					<T>
 						{@html m.you_have_been_invited_by_organization_to_join_the_platform({
 							organizationName: organization.name
 						})}
-					</P>
-					<P color="yellow">{m.Please_register_using_the_provided_email_account_()}</P>
+					</T>
+					<T>{m.Please_register_using_the_provided_email_account_()}</T>
 				</div>
 			</WelcomeBanner>
 		{/await}
 	{/if}
 {/if}
 
-<Heading tag="h4">Create an account</Heading>
+<T tag="h4">Create an account</T>
 
-<Form {superform}>
-	<Input
-		{superform}
-		field="email"
+<Form {form} submitButtonText={m.Create_an_account()} hideRequiredIndicator>
+	<Field
+		{form}
+		name="email"
 		options={{
 			type: 'email',
 			label: m.Your_email(),
@@ -85,20 +85,20 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		}}
 	/>
 
-	<Input
-		{superform}
-		field="name"
+	<Field
+		{form}
+		name="name"
 		options={{
 			type: 'text',
 			label: m.Full_name(),
 			placeholder: m.John_Doe(),
-			helpText: m.Organizations_and_other_users_will_identify_you_by_your_name_()
+			description: m.Organizations_and_other_users_will_identify_you_by_your_name_()
 		}}
 	/>
 
-	<Input
-		{superform}
-		field="password"
+	<Field
+		{form}
+		name="password"
 		options={{
 			type: 'password',
 			label: m.Your_password(),
@@ -106,9 +106,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		}}
 	/>
 
-	<Input
-		{superform}
-		field="passwordConfirm"
+	<Field
+		{form}
+		name="passwordConfirm"
 		options={{
 			type: 'password',
 			label: m.Confirm_password(),
@@ -116,7 +116,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		}}
 	/>
 
-	<Checkbox {superform} field="acceptTerms">
+	<CheckboxField {form} name="acceptTerms">
 		{m.I_accept_the()}
 		<A
 			href="https://didroom.com/guides/7_terms-and-conditions/privacy-policy.html#%F0%9F%92%BB-didroom-control-room-dashboard-%F0%9F%92%BB"
@@ -128,19 +128,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		<A href="https://didroom.com/guides/7_terms-and-conditions/privacy-policy.html" target="_blank">
 			{m.privacy_policy()}
 		</A>
-	</Checkbox>
-
-	<FormError />
-
-	<div class="flex justify-end">
-		<SubmitButton>{m.Create_an_account()}</SubmitButton>
-	</div>
+	</CheckboxField>
 </Form>
 
 <div class="flex flex-col gap-4">
-	<Hr hrClass="!m-0" />
-	<P class="text-center" color="text-gray-500 dark:text-gray-400" size="sm">
+	<Separator />
+	<T class="text-center text-gray-500 dark:text-gray-400" tag="small">
 		{m.Already_have_an_account()}
 		<A href="/login">{m.Login_here()}</A>
-	</P>
+	</T>
 </div>

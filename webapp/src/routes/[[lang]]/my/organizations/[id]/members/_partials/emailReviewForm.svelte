@@ -38,7 +38,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		{#each filterEmails(emails, filterText) as email}
 			<div class="flex items-center justify-between py-1 pl-4 pr-2">
 				<p class="text-sm">{email}</p>
-				<IconButton on:click={() => removeEmail(email)} />
+				<IconButton on:click={() => removeEmail(email)} size="sm" variant="ghost" />
 			</div>
 		{/each}
 	</div>

@@ -11,18 +11,23 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		regenerateKeypair,
 		saveKeyringToLocalStorage,
 		type Keyring
-	} from '$lib/keypairoom/keypair';
-	import { currentUser, pb } from '$lib/pocketbase';
+	} from '@/keypairoom/keypair';
+	import { currentUser, pb } from '@/pocketbase';
 
-	import { z } from 'zod';
-	import { Form, createForm, FormError, SubmitButton, Textarea, Input } from '$lib/forms';
-	import { A, Heading, Hr, P } from 'flowbite-svelte';
-	import Card from '$lib/components/card.svelte';
-	import { featureFlags } from '$lib/features';
-	import { getUserPublicKeys, RegenerateKeyringSession } from '$lib/keypairoom/utils';
-	import { m } from '$lib/i18n';
+	import z from 'zod';
+	import { Form, createForm } from '@/forms';
+	import { Field, TextareaField } from '@/forms/fields';
+	import Card from '@/components/custom/card.svelte';
+	import { featureFlags } from '@/features';
+	import { zod } from 'sveltekit-superforms/adapters';
+	import { getUserPublicKeys, RegenerateKeyringSession } from '@/keypairoom/utils';
+	import { m } from '@/i18n';
 	import RegenerateBanner from '../_partials/RegenerateBanner.svelte';
-	import { log } from '$lib/utils/devLog';
+	import { log } from '@/utils/other';
+	import T from '@/components/custom/t.svelte';
+	import Separator from '@/components/ui/separator/separator.svelte';
+	import { PageCard } from '@/components/layout';
+	import A from '@/components/custom/a.svelte';
 
 	//
 
@@ -33,96 +38,93 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		seed: z.string()
 	});
 
-	const superform = createForm(schema, async ({ form }) => {
-		const hmac = await getHMAC(form.data.email);
+	const form = createForm({
+		adapter: zod(schema),
+		onSubmit: async ({ form }) => {
+			const hmac = await getHMAC(form.data.email);
 
-		let keyring: Keyring;
-		try {
-			const keypair = await regenerateKeypair(form.data.seed, hmac);
-			keyring = keypair.keyring;
-		} catch (e) {
-			throw new Error(m.Invalid_seed());
-		}
+			let keyring: Keyring;
+			try {
+				const keypair = await regenerateKeypair(form.data.seed, hmac);
+				keyring = keypair.keyring;
+			} catch (e) {
+				throw new Error(m.Invalid_seed());
+			}
 
-		if ($featureFlags.AUTH && $currentUser) {
-			const publicKeys = await getUserPublicKeys();
-			if (!publicKeys) {
-				throw new Error(
-					m.User_public_keys_are_missing_Please_generate_them_using_the_security_questions_()
-				);
-			} else {
-				try {
-					await matchPublicAndPrivateKeys(publicKeys, keyring);
-				} catch (e) {
-					throw new Error(m.Invalid_seed());
+			if ($featureFlags.AUTH && $currentUser) {
+				const publicKeys = await getUserPublicKeys();
+				if (!publicKeys) {
+					throw new Error(
+						m.User_public_keys_are_missing_Please_generate_them_using_the_security_questions_()
+					);
+				} else {
+					try {
+						await matchPublicAndPrivateKeys(publicKeys, keyring);
+					} catch (e) {
+						throw new Error(m.Invalid_seed());
+					}
+				}
+
+				if ($featureFlags.DID) {
+					try {
+						await pb.send('/api/did', {});
+					} catch (e) {
+						log(e);
+					}
 				}
 			}
 
-			if ($featureFlags.DID) {
-				try {
-					await pb.send('/api/did', {});
-				} catch (e) {
-					log(e);
-				}
-			}
+			saveKeyringToLocalStorage(keyring);
+			success = true;
+
+			if (RegenerateKeyringSession.isActive()) RegenerateKeyringSession.end();
 		}
-
-		saveKeyringToLocalStorage(keyring);
-		success = true;
-
-		if (RegenerateKeyringSession.isActive()) RegenerateKeyringSession.end();
 	});
 
-	const { form } = superform;
-	if ($currentUser) $form.email = $currentUser.email;
+	const { form: formData } = form;
+	if ($currentUser) $formData.email = $currentUser.email;
 
 	const textAreaPlaceholder =
 		'skin buyer sunset person run push elevator under debris soft surge man';
 </script>
 
-<Card class="space-y-6 p-6">
+<PageCard>
 	{#if !success}
-		<Heading tag="h4">{m.Regenerate_keys()}</Heading>
+		<T tag="h4">{m.Regenerate_keys()}</T>
 
 		{#if RegenerateKeyringSession.isActive()}
 			<RegenerateBanner />
 		{/if}
 
 		{#if $currentUser}
-			<P>{m.Please_type_here_your_seed_to_restore_your_keyring_()}</P>
+			<T>{m.Please_type_here_your_seed_to_restore_your_keyring_()}</T>
 		{:else}
-			<P>{m.Please_type_here_your_email_and_your_seed_to_restore_your_keyring_()}</P>
+			<T>{m.Please_type_here_your_email_and_your_seed_to_restore_your_keyring_()}</T>
 		{/if}
 
-		<Form {superform}>
+		<Form {form} submitButtonText={m.Regenerate_keys()} hideRequiredIndicator>
 			{#if !$currentUser}
 				<div class="space-y-1">
-					<Input {superform} field="email" options={{ label: m.User_email() }} />
-					<P size="sm" color="text-gray-400">
+					<Field {form} name="email" options={{ label: m.User_email() }} />
+					<T tag="small" class="text-gray-400">
 						{m.Your_email_wont_be_stored_anywhere_it_will_be_used_only_to_generate_the_keys_()}
-					</P>
+					</T>
 				</div>
 			{/if}
 
-			<Textarea {superform} field="seed" options={{ placeholder: textAreaPlaceholder }} />
-
-			<FormError />
-
-			<div class="flex justify-end">
-				<SubmitButton>{m.Regenerate_keys()}</SubmitButton>
-			</div>
+			<TextareaField {form} name="seed" options={{ placeholder: textAreaPlaceholder }} />
 		</Form>
 
-		<Hr />
+		<Separator />
 
-		<A href="/keypairoom" class="text-sm">{m.Forgot_the_seed_Regenerate_it()}</A>
+		<A href="/keypairoom" class="block text-sm">{m.Forgot_the_seed_Regenerate_it()}</A>
 	{:else}
 		<div class="flex flex-col space-y-4 p-6">
-			<Heading tag="h4">{m.Keys_regenerated()}</Heading>
-			<P>
+			<T tag="h4">{m.Keys_regenerated()}</T>
+			<T>
 				{m.Your_keys_have_been_regenerated_You_can_now_go_back_to()}
-				<A href="/my">{m.your_profile()}</A>.
-			</P>
+				<A href="/my">{m.your_profile()}</A>
+			</T>
 		</div>
 	{/if}
-</Card>
+</PageCard>
