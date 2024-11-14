@@ -1,38 +1,28 @@
-<!--
-SPDX-FileCopyrightText: 2024 The Forkbomb Company
-
-SPDX-License-Identifier: AGPL-3.0-or-later
--->
-
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
-	import { Collections, type OrganizationsResponse } from '$lib/pocketbase/types';
-	import { RecordForm } from '$lib/recordForm';
-	import { createTypeProp } from '$lib/utils/typeProp';
-	import { Heading } from 'flowbite-svelte';
-	import { m } from '$lib/i18n';
-	import OrganizationLayout from '$lib/components/organizationLayout.svelte';
-	import PageCard from '$lib/components/pageCard.svelte';
+	import { CollectionForm } from '@/collections-components';
+	import { m } from '@/i18n';
+	import OrganizationLayout from '@/organizations/components/organizationLayout.svelte';
+	import PageCard from '@/components/layout/pageCard.svelte';
+	import T from '@/components/custom/t.svelte';
 
 	//
 
 	export let data;
 	$: organization = data.organization;
-
-	const recordType = createTypeProp<OrganizationsResponse>();
 </script>
 
 <OrganizationLayout org={organization}>
 	<PageCard>
-		<Heading tag="h6" class="mb-6">{m.Manage_your_organization_public_info()}</Heading>
-		<RecordForm
-			{recordType}
-			collection={Collections.Organizations}
+		<T tag="h4" class="mb-6">{m.Manage_your_organization_public_info()}</T>
+		<CollectionForm
+			collection="organizations"
 			recordId={organization.id}
 			initialData={organization}
-			submitButtonText={m.Save_changes()}
+			uiOptions={{
+				submitButtonText: m.Save_changes()
+			}}
 			on:success={invalidateAll}
-			formSettings={{ dataType: 'json' }}
 		/>
 	</PageCard>
 </OrganizationLayout>
