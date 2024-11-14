@@ -1,0 +1,22 @@
+diff a/webapp/src/routes/+error.svelte b/webapp/src/routes/+error.svelte	(rejected hunks)
+@@ -1,13 +1,19 @@
+ <script lang="ts">
+ 	import { page } from '$app/stores';
+-	import { A, Heading, P } from 'flowbite-svelte';
++	import T from '@/components/custom/t.svelte';
++	import A from '@/components/custom/a.svelte';
++
++	// TODO - Better <a> styling
++
+ 	type ErrorData = {
+ 		status: number;
+ 		image: string;
+ 		title: string;
+ 		description: string;
+ 	};
++
+ 	const status = $page.status;
++
+ 	const data: ErrorData = (() => {
+ 		switch (status) {
+ 			case 404:

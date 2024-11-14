@@ -1,0 +1,11 @@
+diff a/webapp/src/routes/[[lang]]/my/organizations/+layout.ts b/webapp/src/routes/[[lang]]/my/organizations/+layout.ts	(rejected hunks)
+@@ -1,6 +1,6 @@
+-import { loadFeatureFlags } from '$lib/features';
++import { loadFeatureFlags } from '@/features';
+ import { error } from '@sveltejs/kit';
+ 
+-export const load = async () => {
+-	if (!(await loadFeatureFlags()).ORGANIZATIONS) error(404);
++export const load = async ({ fetch }) => {
++	if (!(await loadFeatureFlags(fetch)).ORGANIZATIONS) error(404);
+ };
