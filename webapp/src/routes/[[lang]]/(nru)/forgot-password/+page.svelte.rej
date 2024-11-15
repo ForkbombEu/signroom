@@ -1,0 +1,36 @@
+diff a/webapp/src/routes/[[lang]]/(nru)/forgot-password/+page.svelte b/webapp/src/routes/[[lang]]/(nru)/forgot-password/+page.svelte	(rejected hunks)
+@@ -1,15 +1,21 @@
+ <script lang="ts">
+ 	import { enhance } from '$app/forms';
+-	import { Label, Input, Heading, P, Button } from 'flowbite-svelte';
++	import T from '@/components/custom/t.svelte';
++	import { Button } from '@/components/ui/button/index.js';
++	import { Input } from '@/components/ui/input/index.js';
++	import Label from '@/components/ui/label/label.svelte';
+ 
+ 	export let form;
++
++	// TODO - better form
++	// TODO - Translations
+ </script>
+ 
+ {#if !form}
+ 	<form method="post" use:enhance class="space-y-8">
+ 		<div class="space-y-1">
+-			<Heading tag="h4">Forgot password?</Heading>
+-			<P>Please enter here your email to recover your password.</P>
++			<T tag="h4">Forgot password?</T>
++			<T>Please enter here your email to recover your password.</T>
+ 		</div>
+ 		<Label class="space-y-2">
+ 			<span>Your email</span>
+@@ -19,7 +25,7 @@
+ 	</form>
+ {:else if form.success}
+ 	<div class="space-y-4">
+-		<Heading tag="h4">Reset email sent successfully!</Heading>
+-		<P>Please click the link in the email to reset your password.</P>
++		<T tag="h4">Reset email sent successfully!</T>
++		<T>Please click the link in the email to reset your password.</T>
+ 	</div>
+ {/if}
