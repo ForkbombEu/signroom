@@ -1,0 +1,9 @@
+diff a/webapp/src/routes/[[lang]]/my/organizations/[id]/+layout.ts b/webapp/src/routes/[[lang]]/my/organizations/[id]/+layout.ts	(rejected hunks)
+@@ -1,5 +1,5 @@
+-import { pb } from '$lib/pocketbase';
+-import { blockNonMembers } from '$lib/organizations';
++import { pb } from '@/pocketbase';
++import { blockNonMembers } from '@/organizations';
+ 
+ export const load = async ({ params, fetch }) => {
+ 	const organizationId = params.id;

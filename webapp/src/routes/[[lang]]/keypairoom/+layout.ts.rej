@@ -1,0 +1,11 @@
+diff a/webapp/src/routes/[[lang]]/keypairoom/+layout.ts b/webapp/src/routes/[[lang]]/keypairoom/+layout.ts	(rejected hunks)
+@@ -1,6 +1,6 @@
+-import { loadFeatureFlags } from '$lib/features';
++import { loadFeatureFlags } from '@/features';
+ import { error } from '@sveltejs/kit';
+ 
+-export const load = async () => {
+-	if (!(await loadFeatureFlags()).KEYPAIROOM) error(404);
++export const load = async ({ fetch }) => {
++	if (!(await loadFeatureFlags(fetch)).KEYPAIROOM) error(404);
+ };
