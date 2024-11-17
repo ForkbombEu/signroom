@@ -1,0 +1,137 @@
+diff a/webapp/src/routes/tests/forms/+page.svelte b/webapp/src/routes/tests/forms/+page.svelte	(rejected hunks)
+@@ -1,60 +1,91 @@
+ <script lang="ts">
+-	import { Form, Input, createForm } from '$lib/forms';
+-	import Checkbox from '$lib/forms/fields/checkbox.svelte';
+-	import FieldController from '$lib/forms/fields/fieldController.svelte';
+-	import FileInput from '$lib/forms/fields/file.svelte';
+-	import Hidden from '$lib/forms/fields/hidden.svelte';
+-	import Textarea from '$lib/forms/fields/textarea.svelte';
+-	import Toggle from '$lib/forms/fields/toggle.svelte';
+-	import { superForm, superValidateSync } from 'sveltekit-superforms/client';
+-	import { z } from 'zod';
+-
+-	const schema = z.object({
+-		name: z.string(),
+-		surname: z.string(),
+-		check: z.boolean(),
+-		file: z.any()
++	import { createForm, Form } from '@/forms';
++	import {
++		Field,
++		SwitchField,
++		FileField,
++		CheckboxField,
++		TextareaField,
++		SelectField
++	} from '@/forms/fields';
++	import { createCollectionZodSchema } from '@/pocketbase/zod-schema';
++	import { createDummyFile } from '@/utils/other';
++	import SuperDebug from 'sveltekit-superforms';
++	import { zod } from 'sveltekit-superforms/adapters';
++	import { ZTestCollectionSelectFieldOptions } from '@/pocketbase/types';
++	import { CollectionField } from '@/collections-components';
++
++	const schema = createCollectionZodSchema('z_test_collection');
++
++	const form = createForm({
++		adapter: zod(schema),
++		onSubmit: async () => {
++			await new Promise((res) => setTimeout(() => res('p1'), 2000));
++			throw new Error('no wayy');
++		},
++		initialData: {
++			file_field: createDummyFile(),
++			relation_field: '8pqa9tnjse6qt9m'
++		},
++		options: {
++			dataType: 'form'
++		}
+ 	});
+ 
+-	const superform = createForm(schema, ({ form }) => {});
++	const { form: formData } = form;
+ 
+-	const { form } = superform;
++	const selectItems = Object.values(ZTestCollectionSelectFieldOptions).map((v) => ({
++		label: v,
++		value: v as string
++	}));
+ </script>
+ 
+-<Form {superform}>
+-	<Input
+-		{superform}
+-		field="name"
++<Form {form}>
++	<SelectField {form} name="select_field" options={{ items: selectItems }} />
++	<SelectField {form} name="select_multi_field" options={{ items: selectItems, multiple: true }} />
++
++	<CollectionField
++		{form}
++		name="relation_field"
++		collection="z_test_collection"
+ 		options={{
+-			placeholder: 'mimmo',
+-			id: 'kk',
+-			'aria-label': 'Mike'
++			mode: 'search',
++			displayFields: ['text_field']
+ 		}}
+ 	/>
+ 
+-	<FieldController {superform} field="name" let:constraints let:value let:updateValue>
+-		<input
+-			type="text"
+-			{value}
+-			{...constraints}
+-			on:input={(e) => updateValue(e.currentTarget.value)}
+-		/>
+-	</FieldController>
+-
+-	<Hidden {superform} field="name" />
+-
+-	<Checkbox {superform} field="check" />
+-	<Toggle
+-		{superform}
+-		field="check"
++	<CollectionField
++		{form}
++		name="relation_multi_field"
++		collection="z_test_collection"
+ 		options={{
+-			label: 'maio'
++			mode: 'search',
++			multiple: true,
++			displayFields: ['number_field']
+ 		}}
+ 	/>
+ 
+-	<Textarea {superform} field="name" />
++	<CollectionField {form} name="relation_field" collection="z_test_collection" />
+ 
+-	<FileInput {superform} field="file" />
+-</Form>
++	<CollectionField
++		{form}
++		name="relation_multi_field"
++		collection="z_test_collection"
++		options={{
++			multiple: true,
++			displayFields: ['text_field']
++		}}
++	/>
+ 
+-<pre>{JSON.stringify($form)}</pre>
++	<SuperDebug data={formData}></SuperDebug>
++
++	<Field {form} name="text_field" />
++	<Field {form} name="url_field" options={{ type: 'url' }} />
++	<Field {form} name="number_field" options={{ type: 'number' }} />
++	<FileField {form} name="file_field" />
++	<FileField {form} name="file_multi_field" options={{ multiple: true }} />
++	<Field {form} name="date_field" options={{ type: 'date' }} />
++	<SwitchField {form} name="boolean_field" />
++	<CheckboxField {form} name="boolean_field" />
++	<TextareaField {form} name="json_field" />
++</Form>
