@@ -18,3 +18,5 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <ParaglideJS {i18n}>
 	<slot />
 </ParaglideJS>
+
+<Toaster richColors closeButton />
