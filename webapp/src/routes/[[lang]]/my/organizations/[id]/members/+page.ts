@@ -1,9 +1,5 @@
-// SPDX-FileCopyrightText: 2024 The Forkbomb Company
-//
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
 import { browser } from '$app/environment';
-import { pb } from '$lib/pocketbase';
+import { pb } from '@/pocketbase';
 
 export const load = async ({ params, fetch }) => {
 	if (!browser) return;

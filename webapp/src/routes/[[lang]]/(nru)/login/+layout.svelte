@@ -11,10 +11,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script lang="ts">
 	import { page } from '$app/stores';
-	import type { Link } from '$lib/utils/types';
-	import { A, Button, ButtonGroup, Heading, Hr, P } from 'flowbite-svelte';
-	import { featureFlags } from '$lib/features';
-	import { m } from '$lib/i18n';
+	import type { Link } from '@/components/types';
+	import { featureFlags } from '@/features';
+	import { m } from '@/i18n';
+	import T from '@/components/custom/t.svelte';
+	import { Button } from '@/components/ui/button';
+	import Separator from '@/components/ui/separator/separator.svelte';
+	import A from '@/components/custom/a.svelte';
 
 	const modes: Link[] = [
 		{
