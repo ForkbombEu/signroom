@@ -1,11 +1,15 @@
-// SPDX-FileCopyrightText: 2024 The Forkbomb Company
-//
-// SPDX-License-Identifier: AGPL-3.0-or-later
+import { defineConfig } from '@playwright/test';
 
-import type { PlaywrightTestConfig } from '@playwright/test';
-export const storageState = 'playwright/.auth/user.json';
+export const storageState = 'test-results/.auth/user.json';
 
-const config: PlaywrightTestConfig = {
+export default defineConfig({
+	webServer: {
+		command: 'pnpm build && pnpm preview',
+		port: 4173
+	},
+
+	testDir: 'e2e',
+
 	projects: [
 		{ name: 'setup', testMatch: /.*\.setup\.ts/ },
 		{
