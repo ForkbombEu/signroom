@@ -264,5 +264,7 @@
   "Please_add_at_least_one_day": "Veuillez ajouter au moins un jour",
   "Date_must_be_after_today": "La date doit être postérieure à aujourd'hui",
   "invite_members": "Inviter des membres",
-  "Upload_a_file_containing_emails": "Télécharger un fichier contenant des adresses e-mail"
+  "Upload_a_file_containing_emails": "Télécharger un fichier contenant des adresses e-mail",
+  "Paste_email_addresses_here": "Collez les adresses e-mail ici",
+  "or": "ou"
 }
