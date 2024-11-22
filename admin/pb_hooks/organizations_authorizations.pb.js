@@ -7,8 +7,8 @@
 /// <reference path="../pb_data/types.d.ts" />
 /** @typedef {import('./utils.js')} Utils */
 /** @typedef {import('./auditLogger.js')} AuditLogger */
-/** @typedef {import("../../webapp/src/lib/pocketbase/types.js").OrgAuthorizationsRecord} OrgAuthorization */
-/** @typedef {import("../../webapp/src/lib/pocketbase/types.js").OrgRolesResponse} OrgRole */
+/** @typedef {import("../../webapp/src/modules/pocketbase/types").OrgAuthorizationsRecord} OrgAuthorization */
+/** @typedef {import("../../webapp/src/modules/pocketbase/types").OrgRolesResponse} OrgRole */
 
 /**
  * INDEX
@@ -48,6 +48,20 @@ onRecordBeforeCreateRequest((e) => {
             utils.errors.cant_create_role_higher_than_or_equal_to_yours
         );
     }
+}, "orgAuthorizations");
+
+// [UPDATE] Removing fields not needed
+
+onRecordBeforeUpdateRequest((e) => {
+    /** @type {Utils} */
+    const utils = require(`${__hooks}/utils.js`);
+
+    const originalCopy = e.record?.originalCopy();
+    if (!e.record || !originalCopy)
+        throw utils.createMissingDataError("orgAuth");
+
+    e.record.set("user", originalCopy.get("user"));
+    e.record.set("organization", originalCopy.get("organization"));
 }, "orgAuthorizations");
 
 // [UPDATE] Cannot update to/from a role higher than the user
