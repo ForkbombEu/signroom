@@ -177,6 +177,7 @@
   "verification_flow_form_microservices_description": "Il Relying Party è un microservizio che riceve una verifiable presentation (o credenziale o una zero knowledge proof), la verifica e restituisce il risultato al verifier. Seleziona la componente che eseguirà la verifica.",
   "Relying_party": "Relying Party",
   "Authorization_templates": "Modelli di autorizzazione",
+  "New_template": "Nuovo modello",
   "templates_description_credential": "Vedi qui tutti i modelli di credenziali: questi modelli contengono la logica aziendale che regola il contenuto della credenziale creata dall'emittente. Puoi usare questo modello, ad esempio, per leggere i dati su un determinato utente (associato a un ID o a un'e-mail) interrogando un database esterno (o API REST), quindi manipolare l'output della query e memorizzare l'output manipolato nella credenziale. ",
   "templates_description_verification": "Ecco i tuoi modelli di verifica: contengono i parametri e la logica del processo di verifica delle credenziali. ",
   "templates_description_authorization": "Consultez ici tous les modèles d'autorisation : ces modèles contiennent la business-logique qui décide si l'identifiant sera émis ou non. Utilisez ce modèle par exemple pour demander à l'utilisateur de saisir un identifiant et un mot de passe (ou un bon), puis de vérifier si l'identifiant et le mot de passe (ou le bon) sont corrects en interrogeant une base de données externe (ou une API REST), puis en fonction des résultats, manipulez ces données et envoyez-les à l'émetteur de credentiale.   ",
