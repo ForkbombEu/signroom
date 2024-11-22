@@ -259,5 +259,6 @@
   "Date": "Data",
   "Please_add_at_least_one_day": "Si prega di aggiungere almeno un giorno",
   "Date_must_be_after_today": "La data deve essere successiva a oggi",
-  "invite_members": "Invita i membri"
+  "invite_members": "Invita i membri",
+  "Upload_a_file_containing_emails": "Carica un file contenente indirizzi email"
 }
