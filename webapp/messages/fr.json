@@ -266,5 +266,6 @@
   "invite_members": "Inviter des membres",
   "Upload_a_file_containing_emails": "Télécharger un fichier contenant des adresses e-mail",
   "Paste_email_addresses_here": "Collez les adresses e-mail ici",
-  "or": "ou"
+  "or": "ou",
+  "accepted_files": "Types de fichiers acceptés"
 }

@@ -262,5 +262,6 @@
   "invite_members": "Inviter medlemmer",
   "Upload_a_file_containing_emails": "Upload en fil, der indeholder e-mailadresser",
   "Paste_email_addresses_here": "Indsæt e-mailadresser her",
-  "or": "eller"
+  "or": "eller",
+  "accepted_files": "Accepterede filtyper"
 }
