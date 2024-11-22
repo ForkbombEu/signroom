@@ -243,7 +243,7 @@
   "Back_to_verification_flows": "Back to verification flows",
   "Authorization_templates": "Authorization templates",
   "New_template": "New template",
-  "templates_description_credential": "templates_description_credential",
+  "templates_description_credential": "See here all the Credential Templates: these templates contain the business logic governing the content of the credential that is being created by the issuer. You can use this template, for example to read data about a certain user (associated to an ID or an email) by querying an external database (or REST API), then manipulate the output of the query, and store the manipulated output in the credential. ",
   "templates_description_verification": "Here are your verification templates: they contain the parameters and the logic of the credential verification process. ",
   "templates_description_authorization": "templates_description_authorization",
   "verification_flows_description": "Verification flows define the logic of the verification, the microservice (Relying Party) that will perform the verification as well as how the verifcation flow will be presented in the Verifier app. ",
