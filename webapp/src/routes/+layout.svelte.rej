@@ -1,0 +1,30 @@
+diff a/webapp/src/routes/+layout.svelte b/webapp/src/routes/+layout.svelte	(rejected hunks)
+@@ -1,14 +1,21 @@
+ <script lang="ts">
++	import { i18n } from '@/i18n';
+ 	import { ParaglideJS } from '@inlang/paraglide-sveltekit';
+-	import { i18n } from '$lib/i18n';
++	import '../app.css';
++	import { appName } from '@/brand';
++	import { Toaster } from '@/components/ui/sonner';
+ 
+-	import '../app.postcss';
+-	import { version } from '$app/environment';
+-	import { appTitle } from '$lib/strings';
+-
+-	console.info(`${appTitle} version: 🔖 ${version}`);
++	let { children } = $props();
+ </script>
+ 
++<svelte:head>
++	<title>
++		{appName}
++	</title>
++</svelte:head>
++
+ <ParaglideJS {i18n}>
+-	<slot />
++	{@render children()}
+ </ParaglideJS>
++
++<Toaster richColors closeButton />
