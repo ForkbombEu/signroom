@@ -259,6 +259,7 @@
   "Date": "Dato",
   "Please_add_at_least_one_day": "Tilføj venligst mindst én dag",
   "Date_must_be_after_today": "Datoen skal være efter i dag",
+  "my_certificates_description": "Find alle dine X.509-certifikater her",
   "invite_members": "Inviter medlemmer",
   "Upload_a_file_containing_emails": "Upload en fil, der indeholder e-mailadresser",
   "Paste_email_addresses_here": "Indsæt e-mailadresser her",
