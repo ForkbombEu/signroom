@@ -7,6 +7,11 @@ import qrcode from 'qrcode-generator';
 type CredentialConfig = {
 	credential_configuration_ids: string[];
 	credential_issuer: string;
+	grants: {
+		authorization_code: {
+			authorization_server: string;
+		}
+	}
 };
 
 export function createIntentUrl(data: CredentialConfig): string {
