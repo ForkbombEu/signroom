@@ -23,7 +23,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		schema,
 		async ({ form }) => {
 			const { data } = form;
-			const certificateData = await createAutosignedCertificateData();
+			const certificateData = await createAutosignedCertificateData($currentUser!.name);
 			await saveCertificate(data.name, certificateData, $currentUser!.id);
 			onComplete();
 		},
