@@ -340,5 +340,7 @@
   "accept_invite": "Accepter invitationen",
   "decline_invite": "Afslå invitation",
   "invite_declined": "Invitation afvist",
-  "Please_register_using_the_provided_email_account_": "Tilmeld dig venligst ved hjælp af den angivne e-mail-konto."
+  "Please_register_using_the_provided_email_account_": "Tilmeld dig venligst ved hjælp af den angivne e-mail-konto.",
+  "User_public_keys_are_missing_Please_generate_them_using_the_security_questions_": "Offentlige brugernøgler mangler. Generer dem venligst ved hjælp af sikkerhedsspørgsmålene.",
+  "Invalid_seed": "Ugyldigt kryptografisk frø"
 }

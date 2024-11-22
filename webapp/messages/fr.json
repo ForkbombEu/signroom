@@ -344,5 +344,7 @@
   "accept_invite": "Accepter l'invitation",
   "decline_invite": "Refuser l'invitation",
   "invite_declined": "Invitation refusée",
-  "Please_register_using_the_provided_email_account_": "Veuillez vous inscrire en utilisant le compte email fourni."
+  "Please_register_using_the_provided_email_account_": "Veuillez vous inscrire en utilisant le compte email fourni.",
+  "User_public_keys_are_missing_Please_generate_them_using_the_security_questions_": "Les clés publiques des utilisateurs sont manquantes. Veuillez les générer à l'aide des questions de sécurité.",
+  "Invalid_seed": "Graine cryptographique invalide"
 }

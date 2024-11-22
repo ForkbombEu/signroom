@@ -360,5 +360,5 @@
   "you_have_been_invited_by_organization_to_join_the_platform": "You have been invited by <b>{organizationName}</b> to join the platform!",
   "Please_register_using_the_provided_email_account_": "Please register using the provided email account.",
   "User_public_keys_are_missing_Please_generate_them_using_the_security_questions_": "User public keys are missing. Please generate them using the security questions.",
-  "Invalid_seed": "Invalid seed"
+  "Invalid_seed": "Invalid cryptographic seed"
 }

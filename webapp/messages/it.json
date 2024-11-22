@@ -340,5 +340,7 @@
   "accept_invite": "Accetta l'invito",
   "decline_invite": "Rifiuta invito",
   "invite_declined": "Invito rifiutato",
-  "Please_register_using_the_provided_email_account_": "Si prega di registrarsi utilizzando l'account e-mail fornito."
+  "Please_register_using_the_provided_email_account_": "Si prega di registrarsi utilizzando l'account e-mail fornito.",
+  "User_public_keys_are_missing_Please_generate_them_using_the_security_questions_": "Mancano le chiavi pubbliche dell'utente. Generale utilizzando le domande di sicurezza.",
+  "Invalid_seed": "Seed crittografico non valido"
 }
