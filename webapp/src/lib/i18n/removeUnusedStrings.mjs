@@ -41,7 +41,12 @@ function getKeysInFiles(files, keys) {
 
 	files.forEach((file) => {
 		const fileContent = fs.readFileSync(file, 'utf-8');
-		keys.filter((k) => fileContent.includes(k)).forEach((k) => usedKeys.add(k));
+		keys.forEach((k) => {
+			const regex = new RegExp(`m\\.${k}\\b`);
+			if (regex.test(fileContent)) {
+				usedKeys.add(k);
+			}
+		});
 	});
 
 	return Array.from(usedKeys);
