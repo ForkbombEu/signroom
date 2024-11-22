@@ -329,5 +329,16 @@
   "We_havent_found_any_emails_in_the_provided_documents_please_upload_a_new_file_or_paste_new_content_": "Non abbiamo trovato alcun indirizzo email nei documenti forniti. Carica un nuovo file o incolla un nuovo contenuto.",
   "Emails_found": "Email trovate!",
   "Review_and_confirm": "Rivedere e confermare",
-  "Back": "Indietro"
+  "Back": "Indietro",
+  "Send_invites": "Invia inviti",
+  "Search_emails": "Cerca email",
+  "Review_the_email_list_before_sending": "Rivedi l'elenco e-mail prima di inviare",
+  "Pending_invites": "Inviti in sospeso",
+  "pending_invites_description": "Guarda qui tutti gli inviti in sospeso.",
+  "failed_email_send": "Errore: impossibile inviare l'e-mail!",
+  "organization_invites": "Inviti all'organizzazione",
+  "accept_invite": "Accetta l'invito",
+  "decline_invite": "Rifiuta invito",
+  "invite_declined": "Invito rifiutato",
+  "Please_register_using_the_provided_email_account_": "Si prega di registrarsi utilizzando l'account e-mail fornito."
 }

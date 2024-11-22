@@ -328,5 +328,16 @@
   "We_havent_found_any_emails_in_the_provided_documents_please_upload_a_new_file_or_paste_new_content_": "Não encontramos nenhum e-mail nos documentos fornecidos. Carregue um novo arquivo ou cole um novo conteúdo.",
   "Emails_found": "E-mails encontrados!",
   "Review_and_confirm": "Revisar e confirmar",
-  "Back": "Voltar"
+  "Back": "Voltar",
+  "Send_invites": "Enviar convites",
+  "Search_emails": "Pesquisar e-mails",
+  "Review_the_email_list_before_sending": "Revise a lista de e-mails antes de enviar",
+  "Pending_invites": "Convites pendentes",
+  "pending_invites_description": "Veja aqui todos os convites pendentes.",
+  "failed_email_send": "Erro: não foi possível enviar o e-mail!",
+  "organization_invites": "Convites para organizações",
+  "accept_invite": "Aceitar convite",
+  "decline_invite": "Recusar convite",
+  "invite_declined": "Convite recusado",
+  "Please_register_using_the_provided_email_account_": "Por favor, registre-se usando a conta de e-mail fornecida."
 }

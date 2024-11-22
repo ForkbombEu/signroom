@@ -329,5 +329,16 @@
   "We_havent_found_any_emails_in_the_provided_documents_please_upload_a_new_file_or_paste_new_content_": "Vi har ikke fundet nogen e-mails i de medfølgende dokumenter. Upload venligst en ny fil eller indsæt nyt indhold.",
   "Emails_found": "E-mails fundet!",
   "Review_and_confirm": "Gennemgå og bekræft",
-  "Back": "Tilbage"
+  "Back": "Tilbage",
+  "Send_invites": "Send invitationer",
+  "Search_emails": "Søg i e-mails",
+  "Review_the_email_list_before_sending": "Gennemgå e-mail-listen før afsendelse",
+  "Pending_invites": "Afventende invitationer",
+  "pending_invites_description": "Se alle de ventende invitationer her",
+  "failed_email_send": "Fejl: kunne ikke sende e-mail!",
+  "organization_invites": "Organisationsinvitationer",
+  "accept_invite": "Accepter invitationen",
+  "decline_invite": "Afslå invitation",
+  "invite_declined": "Invitation afvist",
+  "Please_register_using_the_provided_email_account_": "Tilmeld dig venligst ved hjælp af den angivne e-mail-konto."
 }

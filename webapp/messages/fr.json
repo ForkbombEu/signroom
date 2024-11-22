@@ -333,5 +333,16 @@
   "We_havent_found_any_emails_in_the_provided_documents_please_upload_a_new_file_or_paste_new_content_": "Nous n'avons trouvé aucun e-mail dans les documents fournis, veuillez télécharger un nouveau fichier ou coller un nouveau contenu.",
   "Emails_found": "Emails trouvés !",
   "Review_and_confirm": "Réviser et confirmer",
-  "Back": "Dos"
+  "Back": "Dos",
+  "Send_invites": "Envoyer des invitations",
+  "Search_emails": "Rechercher des e-mails",
+  "Review_the_email_list_before_sending": "Vérifiez la liste de diffusion avant d'envoyer",
+  "Pending_invites": "Invitations en attente",
+  "pending_invites_description": "Voir ici toutes les invitations en attente.",
+  "failed_email_send": "Erreur : impossible d'envoyer l'e-mail !",
+  "organization_invites": "Invitations d'organisation",
+  "accept_invite": "Accepter l'invitation",
+  "decline_invite": "Refuser l'invitation",
+  "invite_declined": "Invitation refusée",
+  "Please_register_using_the_provided_email_account_": "Veuillez vous inscrire en utilisant le compte email fourni."
 }

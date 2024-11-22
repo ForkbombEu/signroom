@@ -329,5 +329,16 @@
   "We_havent_found_any_emails_in_the_provided_documents_please_upload_a_new_file_or_paste_new_content_": "Wir haben in den bereitgestellten Dokumenten keine E-Mails gefunden. Bitte laden Sie eine neue Datei hoch oder fügen Sie neuen Inhalt ein.",
   "Emails_found": "E-Mails gefunden!",
   "Review_and_confirm": "Überprüfen und bestätigen",
-  "Back": "Zurück"
+  "Back": "Zurück",
+  "Send_invites": "Einladungen versenden",
+  "Search_emails": "E-Mails durchsuchen",
+  "Review_the_email_list_before_sending": "Überprüfen Sie die E-Mail-Liste vor dem Senden",
+  "Pending_invites": "Ausstehende Einladungen",
+  "pending_invites_description": "Sehen Sie hier alle ausstehenden Einladungen.",
+  "failed_email_send": "Fehler: E-Mail konnte nicht gesendet werden!",
+  "organization_invites": "Einladungen für Organisationen",
+  "accept_invite": "Einladung annehmen",
+  "decline_invite": "Einladung ablehnen",
+  "invite_declined": "Einladung abgelehnt",
+  "Please_register_using_the_provided_email_account_": "Bitte registrieren Sie sich mit der angegebenen E-Mail-Adresse."
 }
