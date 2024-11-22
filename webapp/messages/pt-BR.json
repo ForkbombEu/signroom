@@ -256,6 +256,8 @@
   "Date": "Data",
   "Please_add_at_least_one_day": "Por favor, adicione pelo menos um dia",
   "Date_must_be_after_today": "A data deve ser posterior a hoje",
+  "and": "e",
+  "Edit_template": "Editar modelo",
   "my_certificates_description": "Encontre aqui todos os seus certificados X.509",
   "invite_members": "Convidar membros",
   "Upload_a_file_containing_emails": "Carregar um arquivo contendo endereços de e-mail",

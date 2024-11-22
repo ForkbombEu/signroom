@@ -259,6 +259,8 @@
   "Date": "Datum",
   "Please_add_at_least_one_day": "Bitte fügen Sie mindestens einen Tag hinzu",
   "Date_must_be_after_today": "Das Datum muss nach dem heutigen Tag liegen",
+  "and": "Und",
+  "Edit_template": "Vorlage bearbeiten",
   "my_certificates_description": "Finden Sie hier alle Ihre X.509-Zertifikate",
   "invite_members": "Mitglieder einladen",
   "Upload_a_file_containing_emails": "Laden Sie eine Datei mit E-Mail-Adressen hoch",
