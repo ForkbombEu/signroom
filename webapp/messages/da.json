@@ -258,5 +258,6 @@
   "Days": "dage",
   "Date": "Dato",
   "Please_add_at_least_one_day": "Tilføj venligst mindst én dag",
-  "Date_must_be_after_today": "Datoen skal være efter i dag"
+  "Date_must_be_after_today": "Datoen skal være efter i dag",
+  "invite_members": "Inviter medlemmer"
 }

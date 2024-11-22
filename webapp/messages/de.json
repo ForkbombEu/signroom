@@ -258,5 +258,6 @@
   "Days": "Tage",
   "Date": "Datum",
   "Please_add_at_least_one_day": "Bitte fügen Sie mindestens einen Tag hinzu",
-  "Date_must_be_after_today": "Das Datum muss nach dem heutigen Tag liegen"
+  "Date_must_be_after_today": "Das Datum muss nach dem heutigen Tag liegen",
+  "invite_members": "Mitglieder einladen"
 }

@@ -255,5 +255,6 @@
   "Days": "Dias",
   "Date": "Data",
   "Please_add_at_least_one_day": "Por favor, adicione pelo menos um dia",
-  "Date_must_be_after_today": "A data deve ser posterior a hoje"
+  "Date_must_be_after_today": "A data deve ser posterior a hoje",
+  "invite_members": "Convidar membros"
 }
