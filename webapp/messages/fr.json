@@ -190,6 +190,7 @@
   "pending_membership_requests_description": "Ici vous pouvez voir la liste des utilisateurs qui ont demandé à être membres de cette organisation",
   "members_description": "Liste des membres existants de l'organisation : les membres peuvent avoir différents rôles leur permettant différents privilèges ",
   "template_is_public_description": "Ce modèle peut également être utilisé par d'autres organisations",
+  "one_microservice": "1 microservice",
   "microservice_name_description": "Il s'agit du nom du microservice, qui sera visible par les utilisateurs finaux",
   "microservice_endpoint_description": "URL du microservice, utilisé par les protocoles de communication et visible par les utilisateurs finaux et les autres microservices",
   "Select_language": "Sélectionner la langue",

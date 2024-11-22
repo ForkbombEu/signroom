@@ -187,6 +187,7 @@
   "pending_membership_requests_description": "Her kan du se listen over brugere, der har anmodet om at blive medlem af denne organisation",
   "members_description": "Liste over eksisterende medlemmer af organisationen: medlemmer kan have forskellige roller, hvilket giver dem forskellige privilegier ",
   "template_is_public_description": "Denne skabelon kan også bruges af andre organisationer",
+  "one_microservice": "1 microservice",
   "microservice_name_description": "Dette er navnet på mikrotjenesterne, som vil være synlige for slutbrugere",
   "microservice_endpoint_description": "Slutpunkt for mikrotjenesterne, brugt af kommunikationsprotokoller og synligt af slutbrugere og andre mikrotjenester",
   "Select_language": "Vælg sprog",

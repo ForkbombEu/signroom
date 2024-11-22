@@ -187,6 +187,7 @@
   "pending_membership_requests_description": "Hier können Sie die Liste der Benutzer sehen, die eine Mitgliedschaft in dieser Organisation beantragt haben",
   "members_description": "Liste der bestehenden Mitglieder der Organisation: Mitglieder können unterschiedliche Rollen haben, die ihnen unterschiedliche Berechtigungen verleihen ",
   "template_is_public_description": "Diese Vorlage kann auch von anderen Organisationen verwendet werden",
+  "one_microservice": "1 Microservice",
   "microservice_name_description": "Dies ist der Name der Microservices, der für Endbenutzer sichtbar sein wird",
   "microservice_endpoint_description": "Endpunkt der Microservices, der von Kommunikationsprotokollen verwendet wird und für Endbenutzer und andere Microservices sichtbar ist",
   "Select_language": "Sprache auswählen",
