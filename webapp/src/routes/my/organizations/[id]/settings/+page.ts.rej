@@ -1,0 +1,7 @@
+diff a/webapp/src/routes/my/organizations/[id]/settings/+page.ts b/webapp/src/routes/my/organizations/[id]/settings/+page.ts	(rejected hunks)
+@@ -1,4 +1,4 @@
+-import { blockMembersWithoutRoles } from '$lib/organizations';
++import { blockMembersWithoutRoles } from '@/organizations';
+ 
+ export const load = async ({ params, fetch }) => {
+ 	const organizationId = params.id;
