@@ -1,0 +1,10 @@
+diff a/webapp/Dockerfile b/webapp/Dockerfile	(rejected hunks)
+@@ -8,7 +8,7 @@ WORKDIR /build
+ 
+ COPY ./webapp/ .
+ RUN git init
+-RUN git submodule add https://github.com/interfacerproject/zenflows-crypto zenflows-crypto
++RUN git submodule add https://github.com/ForkbombEu/client_zencode client_zencode
+ 
+ 
+ EXPOSE $NODE_PORT
