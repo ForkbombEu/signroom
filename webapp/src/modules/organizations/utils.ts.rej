@@ -1,0 +1,11 @@
+diff a/webapp/src/modules/organizations/utils.ts b/webapp/src/modules/organizations/utils.ts	(rejected hunks)
+@@ -1,6 +1,6 @@
+-import { pb } from '$lib/pocketbase';
+-import type { OrgRole } from './roles';
+-import { type OrgAuthorizationsResponse, type OrgRolesResponse } from '$lib/pocketbase/types';
++import { pb } from '@/pocketbase';
++import type { OrgRole } from '.';
++import { type OrgAuthorizationsResponse, type OrgRolesResponse } from '@/pocketbase/types';
+ import { Option as O } from 'effect';
+ 
+ export async function getUserRole(organizationId: string, userId: string): Promise<OrgRole> {
