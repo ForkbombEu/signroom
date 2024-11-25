@@ -1,0 +1,11 @@
+diff a/webapp/src/routes/my/organizations/[id]/+page.svelte b/webapp/src/routes/my/organizations/[id]/+page.svelte	(rejected hunks)
+@@ -1,7 +1,7 @@
+ <script lang="ts">
+-	import OrganizationLayout from '$lib/components/organizationLayout.svelte';
++	import OrganizationLayout from '@/organizations/components/organizationLayout.svelte';
+ 
+-	export let data;
++	let { data } = $props();
+ 	const { organization } = data;
+ </script>
+ 
