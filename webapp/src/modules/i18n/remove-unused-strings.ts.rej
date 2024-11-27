@@ -1,0 +1,23 @@
+diff a/webapp/src/modules/i18n/remove-unused-strings.ts b/webapp/src/modules/i18n/remove-unused-strings.ts	(rejected hunks)
+@@ -44,18 +31,14 @@ function getKeysInFiles(files, keys) {
+ 		keys.filter((k) => fileContent.includes(k)).forEach((k) => usedKeys.add(k));
+ 	});
+ 
+-	return Array.from(usedKeys);
++	return Array.from(usedKeys) as string[];
+ }
+ 
+ /**
+  * Filter the JSON file by removing keys not present in the valid keys list
+- * @param {Record<string,string>} json
+- * @param {string[]} validKeys
+- * @returns {Record<string,string>}
+  */
+-function filterJsonByKeys(json, validKeys) {
+-	/** @type {Record<string,string>}  */
+-	const newJson = {};
++function filterJsonByKeys(json: Record<string, string>, validKeys: string[]) {
++	const newJson: Record<string, string> = {};
+ 
+ 	const SCHEMA_KEY = '$schema';
+ 	if (SCHEMA_KEY in json) {
