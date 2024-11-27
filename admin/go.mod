@@ -1,11 +1,12 @@
 module pb
 
-go 1.21
+go 1.22
 
-toolchain go1.22.0
+toolchain go1.23.2
 
 require (
 	github.com/dyne/Zenroom/bindings/golang/zenroom v0.0.0-20240527092907-44ad880421d5
+	github.com/dyne/slangroom-exec/bindings/go v0.0.0-20241017085658-fb538b02efa3
 	github.com/go-webauthn/webauthn v0.10.2
 	github.com/labstack/echo/v5 v5.0.0-20230722203903-ec5b858dab61
 	github.com/pocketbase/dbx v1.10.1

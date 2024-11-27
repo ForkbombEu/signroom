@@ -1,0 +1,13 @@
+diff a/webapp/src/routes/my/+page.svelte b/webapp/src/routes/my/+page.svelte	(rejected hunks)
+@@ -1,7 +1,7 @@
+-<script>
+-	import { A } from 'flowbite-svelte';
+-	import { featureFlags } from '$lib/features';
+-	import { WelcomeSession } from '$lib/utils/welcome';
++<script lang="ts">
++	import { featureFlags } from '@/features';
++	import { WelcomeSession } from '@/auth/welcome';
++	import A from '@/components/ui-custom/a.svelte';
+ 
+ 	if (WelcomeSession.isActive()) WelcomeSession.end();
+ </script>
