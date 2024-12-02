@@ -1,0 +1,24 @@
+diff a/webapp/src/app.d.ts b/webapp/src/app.d.ts	(rejected hunks)
+@@ -1,12 +1,13 @@
+-// See https://kit.svelte.dev/docs/types#app
++// See https://svelte.dev/docs/kit/types#app.d.ts
+ // for information about these interfaces
+-// and what to do when importing type
+-declare namespace App {
+-	// interface Error {}
+-	interface Locals {
+-		pb: import('pocketbase').default;
+-		user: import('pocketbase').default['authStore']['model'];
++declare global {
++	namespace App {
++		// interface Error {}
++		// interface Locals {}
++		// interface PageData {}
++		// interface PageState {}
++		// interface Platform {}
+ 	}
+-	// interface PageData {}
+-	// interface Platform {}
+ }
++
++export {};
