@@ -1,0 +1,25 @@
+diff a/webapp/src/routes/my/organizations/[id]/members/_partials/emailReviewForm.svelte b/webapp/src/routes/my/organizations/[id]/members/_partials/emailReviewForm.svelte	(rejected hunks)
+@@ -1,14 +1,17 @@
+ <script lang="ts">
+-	import IconButton from '$lib/components/iconButton.svelte';
+-	import { m } from '$lib/i18n';
++	import { m } from '@/i18n';
++	import { Input } from '@/components/ui/input';
++	import { Label } from '@/components/ui/label';
+ 	import { Array as A } from 'effect';
+-	import { Input, Label } from 'flowbite-svelte';
++	import IconButton from '@/components/ui-custom/iconButton.svelte';
+ 
+-	//
++	interface Props {
++		emails?: string[];
++	}
+ 
+-	export let emails: string[] = [];
++	let { emails = $bindable([]) }: Props = $props();
+ 
+-	let filterText: string | undefined = undefined;
++	let filterText: string | undefined = $state(undefined);
+ 
+ 	function filterEmails(emails: string[], text: string | undefined) {
+ 		if (!Boolean(text)) return emails;
