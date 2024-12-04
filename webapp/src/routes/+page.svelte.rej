@@ -1,0 +1,287 @@
+diff a/webapp/src/routes/+page.svelte b/webapp/src/routes/+page.svelte	(rejected hunks)
+@@ -1,57 +1,29 @@
+ <script lang="ts">
+-	import { currentUser } from '$lib/pocketbase';
+-	import {
+-		Footer,
+-		FooterBrand,
+-		FooterCopyright,
+-		FooterIcon,
+-		FooterLink,
+-		FooterLinkGroup,
+-		Input,
+-		Label,
+-		NavBrand,
+-		NavHamburger,
+-		NavLi,
+-		NavUl,
+-		Navbar,
+-		P,
+-		Textarea
+-	} from 'flowbite-svelte';
+-	import { Button } from 'flowbite-svelte';
+-	import {
+-		Contact,
+-		ContentWithImage,
+-		Facebook,
+-		FeatureDefault,
+-		FeatureItem,
+-		Github,
+-		HeroHeader,
+-		PricingBodyHead,
+-		PricingCard,
+-		PricingHead,
+-		PricingItem,
+-		PricingItemWrapper,
+-		Section,
+-		Twitter
+-	} from 'flowbite-svelte-blocks';
+-	import {
+-		PresentationChartLine,
+-		AcademicCap,
+-		Cog,
+-		Briefcase,
+-		CurrencyDollar,
+-		Bolt
+-	} from 'svelte-heros-v2';
+-	import { appTitle } from '$lib/strings';
+-	import { featureFlags } from '$lib/features';
++	import { AppLogo } from '@/brand';
++	import { featureFlags } from '@/features';
++	import { m } from '@/i18n';
++	import { Button } from '@/components/ui/button';
+ 
++	// TODO - rebuild home
+ </script>
+ 
++<div class="flex items-center justify-between border-b p-2">
++	<AppLogo />
++
++	{#if $featureFlags.AUTH}
++		<div>
++			<Button variant="outline" href="/login">{m.Login()}</Button>
++			<Button variant="outline" href="/register">{m.Register()}</Button>
++		</div>
++	{/if}
++</div>
++
++<!-- 
+ <div class="flex flex-col gap-20">
+ 	<header>
+ 		<Navbar let:hidden let:toggle fluid={false}>
+ 			<NavBrand href="/">
+-				<img src="/logo.svg" class="mr-3 h-6 sm:h-9" alt={`${appTitle} Logo`} />
++				<img src="/logo.svg" class="mr-3 h-6 sm:h-9" alt={`${appName} Logo`} />
+ 			</NavBrand>
+ 			<div class="flex items-center lg:order-2">
+ 				{#if $featureFlags.AUTH}
+@@ -60,7 +32,7 @@
+ 				{/if}
+ 
+ 				<NavHamburger
+-					on:click={toggle}
++					onclick={toggle}
+ 					btnClass="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+ 				/>
+ 			</div>
+@@ -100,7 +72,7 @@
+ 					alt="office content 1"
+ 				/>
+ 				<img
+-					class="mt-4 w-full lg:mt-10 rounded-lg"
++					class="mt-4 w-full rounded-lg lg:mt-10"
+ 					src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-1.png"
+ 					alt="office content 2"
+ 				/>
+@@ -112,11 +84,11 @@
+ 		<PricingHead>
+ 			<svelte:fragment slot="h2">Designed for business teams like yours</svelte:fragment>
+ 			<svelte:fragment slot="paragraph"
+-				>Here at {appTitle} we focus on markets where technology, innovation, and capital can unlock
++				>Here at {appName} we focus on markets where technology, innovation, and capital can unlock
+ 				long-term value and drive economic growth.</svelte:fragment
+ 			>
+ 		</PricingHead>
+-		<div class="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
++		<div class="space-y-8 sm:gap-6 lg:grid lg:grid-cols-3 lg:space-y-0 xl:gap-10">
+ 			<PricingCard>
+ 				<PricingBodyHead>
+ 					<svelte:fragment slot="h3">Starter</svelte:fragment>
+@@ -223,13 +195,13 @@
+ 
+ 	<Section name="feature">
+ 		<HeroHeader
+-			class="max-w-screen-md mb-8 lg:mb-16"
++			class="mb-8 max-w-screen-md lg:mb-16"
+ 			h2Class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white"
+ 			pClass="text-gray-500 sm:text-xl dark:text-gray-400"
+ 		>
+ 			<svelte:fragment slot="h2">Designed for business teams like yours</svelte:fragment>
+ 			<svelte:fragment slot="paragraph"
+-				>Here at {appTitle} we focus on markets where technology, innovation, and capital can unlock
++				>Here at {appName} we focus on markets where technology, innovation, and capital can unlock
+ 				long-term value and drive economic growth.</svelte:fragment
+ 			>
+ 		</HeroHeader>
+@@ -237,7 +209,7 @@
+ 			<FeatureItem>
+ 				<svelte:fragment slot="icon"
+ 					><PresentationChartLine
+-						class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300"
++						class="text-primary-600 dark:text-primary-300 h-5 w-5 lg:h-6 lg:w-6"
+ 					/></svelte:fragment
+ 				>
+ 				<svelte:fragment slot="h3">Marketing</svelte:fragment>
+@@ -249,7 +221,7 @@
+ 			<FeatureItem>
+ 				<svelte:fragment slot="icon"
+ 					><AcademicCap
+-						class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300"
++						class="text-primary-600 dark:text-primary-300 h-5 w-5 lg:h-6 lg:w-6"
+ 					/></svelte:fragment
+ 				>
+ 				<svelte:fragment slot="h3">Legal</svelte:fragment>
+@@ -261,7 +233,7 @@
+ 			<FeatureItem>
+ 				<svelte:fragment slot="icon"
+ 					><Briefcase
+-						class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300"
++						class="text-primary-600 dark:text-primary-300 h-5 w-5 lg:h-6 lg:w-6"
+ 					/></svelte:fragment
+ 				>
+ 				<svelte:fragment slot="h3">Business Automation</svelte:fragment>
+@@ -273,7 +245,7 @@
+ 			<FeatureItem>
+ 				<svelte:fragment slot="icon"
+ 					><CurrencyDollar
+-						class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300"
++						class="text-primary-600 dark:text-primary-300 h-5 w-5 lg:h-6 lg:w-6"
+ 					/></svelte:fragment
+ 				>
+ 				<svelte:fragment slot="h3">Finance</svelte:fragment>
+@@ -285,7 +257,7 @@
+ 			<FeatureItem>
+ 				<svelte:fragment slot="icon"
+ 					><Bolt
+-						class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300"
++						class="text-primary-600 dark:text-primary-300 h-5 w-5 lg:h-6 lg:w-6"
+ 					/></svelte:fragment
+ 				>
+ 				<svelte:fragment slot="h3">Enterprise Design</svelte:fragment>
+@@ -297,7 +269,7 @@
+ 			<FeatureItem>
+ 				<svelte:fragment slot="icon"
+ 					><Cog
+-						class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300"
++						class="text-primary-600 dark:text-primary-300 h-5 w-5 lg:h-6 lg:w-6"
+ 					/></svelte:fragment
+ 				>
+ 				<svelte:fragment slot="h3">Operations</svelte:fragment>
+@@ -318,11 +290,11 @@
+ 			</svelte:fragment>
+ 			<form class="space-y-8">
+ 				<div>
+-					<Label for="email" class="block mb-2">Your email</Label>
+-					<Input id="email" name="email" placeholder={`name@${appTitle}.com`} required />
++					<Label for="email" class="mb-2 block">Your email</Label>
++					<Input id="email" name="email" placeholder={`name@${appName}.com`} required />
+ 				</div>
+ 				<div>
+-					<Label for="subject" class="block mb-2">Subject</Label>
++					<Label for="subject" class="mb-2 block">Subject</Label>
+ 					<Input
+ 						id="subject"
+ 						name="subject"
+@@ -343,7 +315,6 @@
+ 		</Contact>
+ 	</Section>
+ 
+-	<!-- svelte-ignore missing-declaration -->
+ 	<Section>
+ 		<Footer footerType="socialmedia">
+ 			<div class="grid gap-12 lg:grid-cols-6 lg:gap-24">
+@@ -351,64 +322,54 @@
+ 					<FooterBrand
+ 						href="/"
+ 						src="/logo.svg"
+-						alt={`${appTitle} Logo`}
++						alt={`${appName} Logo`}
+ 						name=""
+ 						aClass="flex mb-6"
+ 					/>
+ 					<p class="text-gray-600 dark:text-gray-400">
+-						{appTitle} is an ecosystem built on top of Tailwind CSS including a component library, block
++						{appName} is an ecosystem built on top of Tailwind CSS including a component library, block
+ 						sections, a Figma design system and other resources.
+ 					</p>
+ 				</div>
+ 				<div>
+-					<h2 class="mb-6 text-sm font-semibold text-gray-400 uppercase dark:text-white">
++					<h2 class="mb-6 text-sm font-semibold uppercase text-gray-400 dark:text-white">
+ 						Resources
+ 					</h2>
+ 					<FooterLinkGroup>
+-						<FooterLink liClass="mb-4" href="/">{appTitle}</FooterLink>
++						<FooterLink liClass="mb-4" href="/">{appName}</FooterLink>
+ 						<FooterLink liClass="mb-4" href="https://tailwindcss.com/">Tailwind CSS</FooterLink>
+-						<FooterLink liClass="mb-4" href="https://flowbite-svelte.com/"
+-							>{appTitle}-Svelte</FooterLink
+-						>
++	
+ 					</FooterLinkGroup>
+ 				</div>
+ 				<div>
+-					<h2 class="mb-6 text-sm font-semibold text-gray-400 uppercase dark:text-white">
++					<h2 class="mb-6 text-sm font-semibold uppercase text-gray-400 dark:text-white">
+ 						HELP & SUPPORT
+ 					</h2>
+ 					<FooterLinkGroup>
+ 						<FooterLink liClass="mb-4" href="https://discord.gg/4eeurUVvTy">Discord</FooterLink>
+-						<FooterLink
+-							liClass="mb-4"
+-							href="https://github.com/shinokada/flowbite-svelte-blocks/issues">GitHub</FooterLink
+-						>
++			
+ 					</FooterLinkGroup>
+ 				</div>
+ 				<div>
+-					<h2 class="mb-6 text-sm font-semibold text-gray-400 uppercase dark:text-white">
++					<h2 class="mb-6 text-sm font-semibold uppercase text-gray-400 dark:text-white">
+ 						Follow us
+ 					</h2>
+ 					<FooterLinkGroup>
+-						<FooterLink liClass="mb-4" href="https://github.com/shinokada/flowbite-svelte-blocks"
+-							>Gihub</FooterLink
+-						>
++		
+ 						<FooterLink liClass="mb-4" href="https://discord.gg/4eeurUVvTy">Discord</FooterLink>
+ 					</FooterLinkGroup>
+ 				</div>
+ 				<div>
+-					<h2 class="mb-6 text-sm font-semibold text-gray-400 uppercase dark:text-white">Legal</h2>
++					<h2 class="mb-6 text-sm font-semibold uppercase text-gray-400 dark:text-white">Legal</h2>
+ 					<FooterLinkGroup>
+-						<FooterLink
+-							liClass="mb-4"
+-							href="https://github.com/shinokada/flowbite-svelte-blocks/LICENSE">LICENSE</FooterLink
+-						>
++				
+ 					</FooterLinkGroup>
+ 				</div>
+ 			</div>
+-			<hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
++			<hr class="my-6 border-gray-200 sm:mx-auto lg:my-8 dark:border-gray-700" />
+ 			<div class="sm:flex sm:items-center sm:justify-between">
+-				<FooterCopyright href="/" by={appTitle} />
+-				<div class="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
++				<FooterCopyright href="/" by={appName} />
++				<div class="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
+ 					<FooterIcon href="/" class="text-gray-400 hover:text-gray-900" icon={Facebook} />
+ 					<FooterIcon href="/" class="text-gray-400 hover:text-gray-900" icon={Twitter} />
+ 					<FooterIcon href="/" class="text-gray-400 hover:text-gray-900" icon={Github} />
+@@ -416,4 +377,4 @@
+ 			</div>
+ 		</Footer>
+ 	</Section>
+-</div>
++</div> -->

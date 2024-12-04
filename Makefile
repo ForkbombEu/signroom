@@ -18,12 +18,10 @@ PB			= $(ADMIN)/pb
 DATA		= $(ADMIN)/pb_data
 
 WEBAPP	= $(ROOT_DIR)/webapp
-WZC			= $(WEBAPP)/zenflows-crypto
 WCZ			= $(WEBAPP)/client_zencode
 
 BIN		= $(ROOT_DIR)/.bin
-ZENROOM		= $(BIN)/zenroom
-ZENCODE		= $(BIN)/zencode-exec
+SLANGROOM 	= $(BIN)/slangroom-exec
 
 export PATH := $(BIN):$(PATH)
 
@@ -33,53 +31,16 @@ DEPS = pnpm git wget go npx
 K := $(foreach exec,$(DEPS),\
         $(if $(shell which $(exec)),some string,$(error "🥶 `$(exec)` not found in PATH please install it")))
 
-# - Operating system detection - #
 
-ifneq ($(OS),Windows_NT)
-	UNAME_S := $(shell uname -s)
-	UNAME_M := $(shell uname -m)
-	ifeq ($(UNAME_S),Linux)
-		OSFLAG := LINUX
-		ZENROOM_URL = https://github.com/dyne/zenroom/releases/latest/download/zenroom
-		ZENCODE_URL = https://github.com/dyne/zenroom/releases/latest/download/zencode-exec
-	endif
-	ifeq ($(UNAME_S),Darwin)
-		ifeq ($(UNAME_M),arm64)
-			OSFLAG := arm64
-		else
-			OSFLAG := OSX
-			ZENROOM_URL = https://github.com/dyne/zenroom/releases/latest/download/zenroom.command
-			ZENCODE_URL = https://github.com/dyne/zenroom/releases/latest/download/zencode-exec.command
-		endif
-	endif
-endif
-
-# - Setup: Zenroom - #
+# - Setup: SLANGROOM - #
 
 $(BIN):
 	@mkdir $(BIN)
 
-ifneq ($(OSFLAG),arm64)
-
-$(ZENROOM): | $(BIN)
-	@wget -q -O $@ $(ZENROOM_URL)
-	@chmod +x $@
-	@echo "zenroom 😎 installed"
-
-$(ZENCODE): | $(BIN)
-	@wget -q -O $@ $(ZENCODE_URL) 
-	@chmod +x $@
-	@echo "zencode-exec 🤭 installed"
-
-else
-
-$(ZENROOM):
-	@echo "For usage on Apple ARM processors, please compile [zenroom] manually"
-
-$(ZENCODE):
-	@echo "For usage on Apple ARM processors, please compile [zencode-exec] manually"
-
-endif
+$(SLANGROOM): | $(BIN)
+	@wget https://github.com/dyne/slangroom-exec/releases/latest/download/slangroom-exec-$(shell uname)-$(shell uname -m) -O $(SLANGROOM)
+	@chmod +x $(SLANGROOM)
+	@@echo "slangroom-exec 😎 installed"
 
 # - Setup: GIT - #
 
@@ -106,10 +67,6 @@ $(AZC): .git
 	@rm -rf $@
 	@cd $(ADMIN) && git submodule --quiet add -f https://github.com/interfacerproject/zenflows-crypto zencode/zenflows-crypto && git submodule update --remote --init
 
-$(WZC): .git
-	@rm -rf $@
-	@cd $(WEBAPP) && git submodule --quiet add -f https://github.com/interfacerproject/zenflows-crypto zenflows-crypto && git submodule update --remote --init
-
 $(WCZ): .git
 	@rm -rf $@
 	@cd $(WEBAPP) && git submodule --quiet add -f https://github.com/ForkbombEu/client_zencode client_zencode && git submodule update --remote --init
@@ -130,7 +87,7 @@ setup_frontend: $(WEBAPP)/.env
 	@echo "📦 Setup the frontend"
 	cd $(WEBAPP) && pnpm i
 
-setup: $(AZC) $(WZC) $(WCZ) $(ZENROOM) $(ZENCODE) $(PB) setup_frontend ## 📦 Setup the project
+setup: $(AZC) $(WCZ) $(SLANGROOM) $(ZENCODE) $(PB) setup_frontend ## 📦 Setup the project
 
 # - Running - #
 

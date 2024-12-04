@@ -1,0 +1,20 @@
+diff a/webapp/src/app.html b/webapp/src/app.html	(rejected hunks)
+@@ -1,15 +1,12 @@
+-<!DOCTYPE html>
++<!doctype html>
+ <html lang="%paraglide.lang%" dir="%paraglide.textDirection%">
+ 	<head>
+ 		<meta charset="utf-8" />
+ 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+-		<meta name="viewport" content="width=device-width" />
+-		<title>Signroom</title>
++		<meta name="viewport" content="width=device-width, initial-scale=1" />
+ 		%sveltekit.head%
+ 	</head>
+-
+-	<!-- We love open source -->
+-	<body data-sveltekit-preload-data="hover" class="dark:bg-gray-900">
++	<body data-sveltekit-preload-data="hover">
+ 		<div style="display: contents">%sveltekit.body%</div>
+ 	</body>
+ </html>
