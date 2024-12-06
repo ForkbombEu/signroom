@@ -8,8 +8,9 @@ import (
 	_ "embed"
 	"encoding/json"
 	"errors"
-	zenroom "github.com/dyne/Zenroom/bindings/golang/zenroom"
 	"pb/config"
+
+	slangroom "github.com/dyne/slangroom-exec/bindings/go"
 )
 
 //go:embed zenflows-crypto/src/keypairoomServer-6-7.zen
@@ -27,8 +28,8 @@ func KeypairoomServer(conf *config.KeypairoomConfig, data map[string]interface{}
 		return "", err
 	}
 
-	result, success := zenroom.ZencodeExec(KEYPAIROOM_ZENCODE, "", string(jsonData), "")
-	if !success {
+	result, success := slangroom.Exec(slangroom.SlangroomInput{Contract: KEYPAIROOM_ZENCODE, Keys: string(jsonData)})
+	if success != nil {
 		return "", errors.New(result.Logs)
 	}
 	var zenroomResult struct {
@@ -52,8 +53,8 @@ func PubkeysRequestSigned(didRequest map[string]interface{}) (map[string]interfa
 		return zenroomResult, err
 	}
 
-	result, success := zenroom.ZencodeExec(PUBKEYS_REQUEST_SIGNED_ZENCODE, "", string(jsonData), "")
-	if !success {
+	result, success := slangroom.Exec(slangroom.SlangroomInput{Contract: PUBKEYS_REQUEST_SIGNED_ZENCODE, Keys: string(jsonData)})
+	if success != nil {
 		return zenroomResult, errors.New(result.Logs)
 	}
 
