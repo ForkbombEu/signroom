@@ -1,0 +1,9 @@
+diff a/webapp/src/modules/organizations/verify-authorizations.ts b/webapp/src/modules/organizations/verify-authorizations.ts	(rejected hunks)
+@@ -1,5 +1,5 @@
+-import { pb } from '$lib/pocketbase';
+-import type { OrgRole } from './roles';
++import { pb } from '@/pocketbase';
++import type { OrgRole } from '.';
+ 
+ /* Reference: admin/pb_hooks/organizations.routes.pb.js */
+ 
