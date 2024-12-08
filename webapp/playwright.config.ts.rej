@@ -1,0 +1,17 @@
+diff a/webapp/playwright.config.ts b/webapp/playwright.config.ts	(rejected hunks)
+@@ -24,13 +28,5 @@ const config: PlaywrightTestConfig = {
+ 			},
+ 			dependencies: ['setup']
+ 		}
+-	],
+-	webServer: {
+-		command: 'npm run preview',
+-		port: 4173,
+-		reuseExistingServer: true
+-	},
+-	testDir: 'tests'
+-};
+-
+-export default config;
++	]
++});
