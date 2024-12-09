@@ -323,7 +323,7 @@
   "decline_membership_request": "Afvis anmodning om medlemskab",
   "decline_membership_request_warning": "Advarsel: du er ved at falde medlemskabet, er du sikker? ",
   "invite_members": "Inviter medlemmer",
-  "Upload_a_file_containing_emails": "Upload en fil, der indeholder e-mailadresser",
+  "Upload_a_file_containing_emails": "Upload en fil, der indeholder e-mail-adresser: Dashboardet vil udtrække alle e-mailadresser fra den uploadede fil uden at tage hensyn til resten af indholdet.",
   "Paste_email_addresses_here": "Indsæt e-mailadresser her",
   "or": "eller",
   "accepted_files": "Accepterede filtyper",

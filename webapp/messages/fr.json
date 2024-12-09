@@ -327,7 +327,7 @@
   "decline_membership_request": "Refuser la demande d'adhésion",
   "decline_membership_request_warning": "Attention : vous êtes sur le point de décliner l'adhésion, êtes-vous sûr ? ",
   "invite_members": "Inviter des membres",
-  "Upload_a_file_containing_emails": "Télécharger un fichier contenant des adresses e-mail",
+  "Upload_a_file_containing_emails": "Télécharger un fichier contenant des adresses e-mail : le tableau de bord extraira toutes les adresses e-mail du fichier téléchargé, en ignorant le reste du contenu.",
   "Paste_email_addresses_here": "Collez les adresses e-mail ici",
   "or": "ou",
   "accepted_files": "Types de fichiers acceptés",
