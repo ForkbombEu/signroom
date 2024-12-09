@@ -322,7 +322,7 @@
   "decline_membership_request": "Recusar solicitação de associação",
   "decline_membership_request_warning": "Aviso: você está prestes a recusar a assinatura, tem certeza? ",
   "invite_members": "Convidar membros",
-  "Upload_a_file_containing_emails": "Carregar um arquivo contendo endereços de e-mail",
+  "Upload_a_file_containing_emails": "Carregar um arquivo contendo endereços de e-mail: o painel extrairá todos os endereços de e-mail do arquivo carregado, desconsiderando o restante do conteúdo.",
   "Paste_email_addresses_here": "Cole os endereços de e-mail aqui",
   "or": "ou",
   "accepted_files": "Tipos de arquivo aceitos",
