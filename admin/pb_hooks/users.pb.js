@@ -29,6 +29,28 @@ onMailerBeforeRecordResetPasswordSend((e) => {
     e.message.subject = emailData.subject;
 }, "users");
 
+onMailerBeforeRecordVerificationSend((e) => {
+    /** @type {Utils} */
+    const utils = require(`${__hooks}/utils.js`);
+
+    if (!e.message) throw utils.createMissingDataError("email message");
+
+    /** @type {string|undefined} */
+    const token = e.meta["token"];
+    if (!token) throw utils.createMissingDataError("token");
+
+    const VerificationLink =
+        $app.settings().meta.appUrl + `/verify-email-${token}`;
+
+    const emailData = utils.renderEmail("confirm-email", {
+        UserName: e.record?.get("name") ?? "User",
+        VerificationLink,
+    });
+
+    e.message.html = emailData.html;
+    e.message.subject = emailData.subject;
+}, "users");
+
 onRecordAfterCreateRequest((e) => {
     /** @type {Utils} */
     const utils = require(`${__hooks}/utils.js`);
