@@ -148,8 +148,6 @@ onRecordAfterCreateRequest((e) => {
     const organizationName = e.record.get("name");
 
     const emailData = utils.renderEmail("new-organization", {
-        viewInBrowserLink: "",
-        unsubscribeLink: "",
         OrganizationName: organizationName,
         UserName: user.get("name") ?? "User",
         DashboardLink: utils.getOrganizationPageUrl(e.record.getId()),

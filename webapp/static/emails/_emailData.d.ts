@@ -1,9 +1,7 @@
 type EmailData = {
     "_account-deactivation": [
         "username",
-        "reactivateLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "reactivateLink"
     ],
     "_flow-update_advanced": [
         "username",
@@ -12,9 +10,7 @@ type EmailData = {
         "Editor",
         "IsPublic",
         "API",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ],
     "_flow-update_cryptography": [
         "username",
@@ -23,9 +19,7 @@ type EmailData = {
         "Editor",
         "Cryptography",
         "Expiration",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ],
     "_flow-update_microservices": [
         "UserName",
@@ -34,9 +28,7 @@ type EmailData = {
         "Editor",
         "AuthServer",
         "CredentialIssuer",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ],
     "_flow-update_name": [
         "UserName",
@@ -44,9 +36,7 @@ type EmailData = {
         "OrganizationName",
         "Editor",
         "FlowName",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ],
     "_flow-update_templates": [
         "UserName",
@@ -55,9 +45,7 @@ type EmailData = {
         "Editor",
         "AuthTemplateName",
         "CredentialTemplateName",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ],
     "_microservice-warning": [
         "UserName",
@@ -65,25 +53,19 @@ type EmailData = {
         "OrganizationName",
         "ErrorWarningDetails",
         "ResolutionSteps",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ],
     "_update-subscription": [
         "UserName",
         "SubscriptionPlan",
         "RenewalDate",
         "PaymentStatus",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ],
     "_user-invitation-reminder": [
         "OrganizationName",
         "UserName",
-        "InvitationLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "InvitationLink"
     ],
     "_verification-flow-update_microservices": [
         "UserName",
@@ -91,9 +73,7 @@ type EmailData = {
         "OrganizationName",
         "Editor",
         "RelyingParty",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ],
     "_verification-flow-update_name": [
         "UserName",
@@ -101,9 +81,7 @@ type EmailData = {
         "OrganizationName",
         "Editor",
         "VerificationFlowName",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ],
     "_verification-flow-update_templates": [
         "username",
@@ -111,22 +89,15 @@ type EmailData = {
         "OrganizationName",
         "Editor",
         "VerificationTemplateName",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ],
     "confirm-email": [
         "UserName",
         "VerificationLink",
         "VerificationLink",
-        "VerificationLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "VerificationLink"
     ],
-    "example": [
-        "viewInBrowserLink",
-        "unsubscribeLink"
-    ],
+    "example": [],
     "flow-new": [
         "FlowName",
         "UserName",
@@ -146,9 +117,7 @@ type EmailData = {
         "CredentialIssuer",
         "IsPublic",
         "API",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ],
     "flow-update_generic-update": [
         "UserName",
@@ -156,9 +125,7 @@ type EmailData = {
         "OrganizationName",
         "Editor",
         "ChangesList",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ],
     "join-organization": [
         "OrganizationName",
@@ -166,17 +133,13 @@ type EmailData = {
         "UserName",
         "Editor",
         "OrganizationName",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ],
     "member-removal": [
         "OrganizationName",
         "UserName",
         "OrganizationName",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ],
     "microservice-new": [
         "MicroserviceName",
@@ -186,9 +149,7 @@ type EmailData = {
         "Editor",
         "Functionality",
         "ConfigurationOptions",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ],
     "microservice-update": [
         "UserName",
@@ -196,38 +157,28 @@ type EmailData = {
         "OrganizationName",
         "Editor",
         "UpdatedFields",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ],
     "new-member-user": [
         "OrganizationName",
         "UserName",
         "OrganizationName",
         "Membership",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ],
     "new-organization": [
         "OrganizationName",
         "UserName",
         "OrganizationName",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ],
     "new-user-onboarding": [
         "UserName",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ],
     "new-user": [
         "UserName",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ],
     "new-user_confirmation": [
         "UserName",
@@ -248,15 +199,11 @@ type EmailData = {
         "Admin",
         "UserName",
         "OrganizationName",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ],
     "reset-password": [
         "username",
-        "resetLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "resetLink"
     ],
     "role-change": [
         "OrganizationName",
@@ -266,9 +213,7 @@ type EmailData = {
         "Admin",
         "OrganizationName",
         "Membership",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ],
     "user-invitation": [
         "Editor",
@@ -277,9 +222,7 @@ type EmailData = {
         "Editor",
         "OrganizationName",
         "InvitationLink",
-        "InvitationLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "InvitationLink"
     ],
     "verification-flow-new": [
         "VerificationFlowName",
@@ -288,9 +231,7 @@ type EmailData = {
         "Editor",
         "VerificationFlowName",
         "VerificationFlowDescription",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ],
     "verification-flow_generic-update": [
         "VerificationFlowName",
@@ -299,8 +240,6 @@ type EmailData = {
         "OrganizationName",
         "Editor",
         "ChangesList",
-        "DashboardLink",
-        "viewInBrowserLink",
-        "unsubscribeLink"
+        "DashboardLink"
     ]
 }

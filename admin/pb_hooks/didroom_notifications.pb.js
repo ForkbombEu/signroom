@@ -38,8 +38,6 @@ onRecordAfterCreateRequest((e) => {
 
         for (const admin of admins) {
             const email = utils.renderEmail("verification-flow-new", {
-                viewInBrowserLink: "",
-                unsubscribeLink: "",
                 OrganizationName: organization?.get("name") ?? "Organization",
                 Editor: editor.get("name") ?? "Editor",
                 DashboardLink: flowLink,
@@ -96,8 +94,6 @@ onRecordAfterUpdateRequest((e) => {
             const email = utils.renderEmail(
                 "verification-flow_generic-update",
                 {
-                    viewInBrowserLink: "",
-                    unsubscribeLink: "",
                     DashboardLink: flowLink,
                     VerificationFlowName:
                         flow.get("name") ?? "Verification flow",
@@ -105,7 +101,8 @@ onRecordAfterUpdateRequest((e) => {
                         organization.get("name") ?? "organization",
                     Editor: editor.get("name") ?? "Editor",
                     UserName: admin.name,
-                    EditedFields: editedFields,
+                    FlowName: flow.get("name"),
+                    ChangesList: editedFields,
                 }
             );
 
@@ -169,8 +166,6 @@ onRecordAfterCreateRequest((e) => {
 
         for (const admin of admins) {
             const email = utils.renderEmail("flow-new", {
-                viewInBrowserLink: "",
-                unsubscribeLink: "",
                 OrganizationName: organization?.getString("name"),
                 Editor: editor.getString("name"),
                 DashboardLink: flowLink,
@@ -253,14 +248,11 @@ onRecordAfterUpdateRequest((e) => {
 
         for (const admin of admins) {
             const email = utils.renderEmail("flow-update_generic-update", {
-                viewInBrowserLink: "",
-                unsubscribeLink: "",
                 OrganizationName: organization?.getString("name"),
                 Editor: editor.getString("name"),
                 DashboardLink: flowLink,
                 FlowName: flow.getString("display_name"),
-                FlowImage: flow.getString("logo"),
-                username: admin.name,
+                UserName: admin.name,
                 ChangesList: diff,
             });
 
@@ -298,8 +290,6 @@ onRecordAfterCreateRequest(
 
             for (const admin of admins) {
                 const email = utils.renderEmail("microservice-new", {
-                    viewInBrowserLink: "",
-                    unsubscribeLink: "",
                     OrganizationName: organization.getString("name"),
                     Editor: editor.getString("name"),
                     DashboardLink: microservicesLink,
@@ -352,8 +342,6 @@ onRecordAfterUpdateRequest(
 
             for (const admin of admins) {
                 const email = utils.renderEmail("microservice-update", {
-                    viewInBrowserLink: "",
-                    unsubscribeLink: "",
                     OrganizationName: organization.getString("name"),
                     Editor: editor.getString("name"),
                     DashboardLink: microservicesLink,

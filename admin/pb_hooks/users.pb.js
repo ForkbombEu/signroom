@@ -22,8 +22,6 @@ onMailerBeforeRecordResetPasswordSend((e) => {
 
     const emailData = utils.renderEmail("reset-password", {
         username: e.record?.get("name") ?? "User",
-        viewInBrowserLink: "",
-        unsubscribeLink: "",
         resetLink: resetLink,
     });
 
@@ -38,8 +36,6 @@ onRecordAfterCreateRequest((e) => {
     if (!e.record) throw utils.createMissingDataError("user");
 
     const emailData = utils.renderEmail("new-user", {
-        viewInBrowserLink: "",
-        unsubscribeLink: "",
         DashboardLink: utils.getAppUrl() + "/my",
         UserName: e.record.get("name") ?? "User",
     });

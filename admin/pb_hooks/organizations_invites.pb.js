@@ -178,8 +178,6 @@ routerAdd("POST", "/organizations/invite", (c) => {
                 emailData = utils.renderEmail("user-invitation", {
                     Editor: actorName ?? "Admin",
                     InvitationLink: emailCtaUrl,
-                    viewInBrowserLink: "",
-                    unsubscribeLink: "",
                     OrganizationName: organizationName,
                 });
             } else {
@@ -187,8 +185,6 @@ routerAdd("POST", "/organizations/invite", (c) => {
                     Editor: actorName ?? "Admin",
                     DashboardLink: emailCtaUrl,
                     UserName: user?.get("name") ?? "User",
-                    viewInBrowserLink: "",
-                    unsubscribeLink: "",
                     OrganizationName: organizationName,
                 });
             }
