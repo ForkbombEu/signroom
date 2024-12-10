@@ -84,21 +84,28 @@ onRecordAfterCreateRequest((e) => {
     const organization = utils.getExpanded(e.record, "organization");
     if (!organization)
         throw utils.createMissingDataError("organization of orgJoinRequest");
+    const user = utils.getExpanded(e.record, "user");
+    if (!user) throw utils.createMissingDataError("user of orgJoinRequest");
 
     const organizationId = organization.getId();
-    const organizationName = organization.get("name");
-    const membersUrl = utils.getOrganizationMembersPageUrl(organizationId);
-    const a = `<a href="${membersUrl}">Manage organization join requests</a>`;
-
     const recipients = utils.getOrganizationAdminsAddresses(organizationId);
 
-    const res = utils.sendEmail({
-        to: recipients,
-        subject: `${organizationName} | New join request`,
-        html: `Your organization receved a new join request<br />${a}`,
-    });
-    if (res instanceof Error) {
-        console.error("Email send error");
+    for (const adminAddress of recipients) {
+        const email = utils.renderEmail("pending-request-admin", {
+            OrganizationName: organization.getString("name"),
+            Admin: adminAddress.name,
+            UserName: user.getString("name"),
+            DashboardLink: utils.getOrganizationMembersPageUrl(organizationId),
+        });
+
+        const res = utils.sendEmail({
+            to: adminAddress,
+            ...email,
+        });
+
+        if (res instanceof Error) {
+            console.error("Email send error");
+        }
     }
 }, "orgJoinRequests");
 

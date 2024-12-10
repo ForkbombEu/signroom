@@ -1,0 +1,37 @@
+<mjml>
+  <mj-head>
+    <mj-title>Your invitation to join {{.OrganizationName}}</mj-title>
+    <mj-include path="../_components/attributes.mjml" />
+  </mj-head>
+
+  <mj-body>
+    <mj-include path="../_components/header.mjml" />
+
+    <mj-section>
+      <mj-column>
+        <mj-text mj-class="big">
+          Join {{.OrganizationName}} on DIDroom!
+        </mj-text>
+
+        <mj-text>
+          Hello {{.UserName}},
+        </mj-text>
+
+        <mj-text>
+          You have been invited by <strong>{{.Editor}}</strong> to join the organization <strong>{{.OrganizationName}}</strong> on DIDroom.
+        </mj-text>
+
+        <mj-text>
+          To get started, simply login to your Dashboard and accept the invitation:
+        </mj-text>
+
+        <mj-button href="{{.DashboardLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+          See your Invitation
+        </mj-button>
+
+      </mj-column>
+    </mj-section>
+
+    <mj-include path="../_components/footer.mjml" />
+  </mj-body>
+</mjml>

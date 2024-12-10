@@ -1,0 +1,41 @@
+<mjml>
+  <mj-head>
+    <mj-title>Issuance Flow Cryptography or Expiration Updated</mj-title>
+    <mj-include path="../_components/attributes.mjml" />
+  </mj-head>
+  <mj-body>
+    <mj-include path="../_components/header.mjml" />
+
+    <mj-section>
+      <mj-column>
+        <mj-text mj-class="big">
+          Issuance Flow Cryptography or Expiration Updated!
+        </mj-text>
+
+        <mj-text>
+          Hello {{.username}},
+        </mj-text>
+
+        <mj-text>
+          Your issuance flow <strong>{{.FlowName}}</strong> in organization <strong>{{.OrganizationName}}</strong> has been updated with new cryptography or expiration settings.
+        </mj-text>
+
+        <mj-text>
+          Changes were made by <strong>{{.Editor}}</strong>.
+          If you have any questions or need further details, reach out to your admin team.
+        </mj-text>
+
+        <mj-text>
+          - <strong>Cryptography</strong>: {{.Cryptography}}<br />
+          - <strong>Expiration</strong>: {{.Expiration}}
+        </mj-text>
+
+        <mj-button href="{{.DashboardLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+          Review Updated Flow
+        </mj-button>
+      </mj-column>
+    </mj-section>
+
+    <mj-include path="../_components/footer.mjml" />
+  </mj-body>
+</mjml>

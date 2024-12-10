@@ -1,0 +1,46 @@
+<mjml>
+  <mj-head>
+    <mj-title>New verification flow: {{.VerificationFlowName}}, is now available in your Dashboard</mj-title>
+    <mj-include path="../_components/attributes.mjml" />
+  </mj-head>
+  <mj-body>
+    <mj-include path="../_components/header.mjml" />
+
+    <mj-section>
+      <mj-column>
+        <mj-text mj-class="big">
+          New Verification Flow Created Successfully!
+        </mj-text>
+
+        <mj-text>
+          Hello {{.UserName}},
+        </mj-text>
+
+        <mj-text>
+          We’re excited to inform you that a new verification flow has been successfully created in your organization, <strong>{{.OrganizationName}}</strong>.
+        </mj-text>
+
+        <!-- Conditional formatting: If <editor> and <user> match then display "You" -->
+        <mj-text>
+          The flow was created by <strong>{{.Editor}}</strong>.
+          If you have any questions or need further details, reach out to your admin team.
+        </mj-text>
+
+        <mj-text>
+          Here’s a summary of your verification flow:
+        </mj-text>
+
+        <mj-text>
+          - <strong>Flow Name</strong>: {{.VerificationFlowName}}<br />
+          - <strong>Flow Description</strong>: {{.VerificationFlowDescription}}<br />
+        </mj-text>
+
+        <mj-button href="{{.DashboardLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+          Manage Verification Flow
+        </mj-button>
+      </mj-column>
+    </mj-section>
+
+    <mj-include path="../_components/footer.mjml" />
+  </mj-body>
+</mjml>

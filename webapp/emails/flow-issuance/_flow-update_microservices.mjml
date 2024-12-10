@@ -1,0 +1,41 @@
+<mjml>
+  <mj-head>
+    <mj-title>Issuance Flow Microservices Updated</mj-title>
+    <mj-include path="../_components/attributes.mjml" />
+  </mj-head>
+  <mj-body>
+    <mj-include path="../_components/header.mjml" />
+
+    <mj-section>
+      <mj-column>
+        <mj-text mj-class="big">
+          Issuance Flow Microservices Updated!
+        </mj-text>
+
+        <mj-text>
+          Hello {{.UserName}},
+        </mj-text>
+
+        <mj-text>
+          The microservices in your issuance flow <strong>{{.FlowName}}</strong> in organization <strong>{{.OrganizationName}}</strong> have been updated.
+        </mj-text>
+
+        <mj-text>
+          Changes were made by <strong>{{.Editor}}</strong>.
+          If you have any questions or need further details, reach out to your admin team.
+        </mj-text>
+
+        <mj-text>
+          - <strong>Authorization Server</strong>: {{.AuthServer}}<br />
+          - <strong>Credential Issuer</strong>: {{.CredentialIssuer}}
+        </mj-text>
+
+        <mj-button href="{{.DashboardLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+          Review Updated Flow
+        </mj-button>
+      </mj-column>
+    </mj-section>
+
+    <mj-include path="../_components/footer.mjml" />
+  </mj-body>
+</mjml>

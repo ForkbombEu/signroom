@@ -1,0 +1,83 @@
+<mjml>
+  <mj-head>
+    <mj-title>Issuance Flow Updated Successfully</mj-title>
+    <mj-include path="../_components/attributes.mjml" />
+  </mj-head>
+  <mj-body>
+    <mj-include path="../_components/header.mjml" />
+
+    <mj-section>
+      <mj-column>
+        <mj-text mj-class="big">
+          Issuance Flow Updated Successfully!
+        </mj-text>
+
+        <mj-text>
+          Hello {{.UserName}},
+        </mj-text>
+
+        <mj-text>
+          The issuance flow <strong>{{.FlowName}}</strong> in your organization <strong>{{.OrganizationName}}</strong> has been successfully updated.
+        </mj-text>
+
+        <mj-text>
+          Changes were made by <strong>{{.Editor}}</strong>.
+          If you have any questions or need further details, reach out to your admin team.
+        </mj-text>
+
+        <mj-text>
+          Here’s a summary of the updates made to your issuance flow and its associated credential:
+        </mj-text>
+
+        <mj-text>
+          {{.ChangesList}}
+        </mj-text>
+
+        
+
+        <!-- <mj-text>
+          <strong>Credential Info</strong>:
+        </mj-text>
+
+        <mj-text>
+          - <strong>Cryptography</strong>: {{.Cryptography}}<br />
+          - <strong>Expiration</strong>: {{.Expiration}}<br />
+        </mj-text>
+
+        <mj-text>
+          - <strong>{{.UpdatedAuthTemplateName}}</strong><br />
+          {{.CredentialTemplateDescription}}<br />
+        </mj-text>
+
+        <mj-text>
+          - <strong>{{.UpdatedCredentialTemplateName}}</strong><br />
+          {{.CredentialTemplateDescription}}<br />
+        </mj-text>
+
+        <mj-text>
+          <strong>Microservices</strong>:
+        </mj-text>
+
+        <mj-text>
+          - <strong>Authorization Server</strong>: {{.AuthServer}}<br />
+          - <strong>Credential Issuer</strong>: {{.CredentialIssuer}}<br />
+        </mj-text>
+
+        <mj-text>
+          <strong>Advanced Settings</strong>:
+        </mj-text>
+
+        <mj-text>
+          - <strong>Visibility</strong>: {{.IsPublic}}<br />
+          - <strong>Can be requested via API</strong>: {{.API}}
+        </mj-text> -->
+
+        <mj-button href="{{.DashboardLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+          Review Updated Flow
+        </mj-button>
+      </mj-column>
+    </mj-section>
+
+    <mj-include path="../_components/footer.mjml" />
+  </mj-body>
+</mjml>
