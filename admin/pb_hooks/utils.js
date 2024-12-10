@@ -342,7 +342,11 @@ const renderEmail = (name, data) => {
         "emails",
         `${name}.html`
     );
-    const html = $template.loadFiles(emailPath).render(data);
+    const html = $template
+        .loadFiles(emailPath)
+        .render(data)
+        .replace("@WL", "{{Weblink}}")
+        .replace("@US", "{{{unsubscribe}}}");
     const subject = html.match(/<title>(.*?)<\/title>/)?.at(1) ?? "";
     return {
         html,
