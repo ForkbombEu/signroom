@@ -77,7 +77,7 @@ test.describe('it should test organizations and members', () => {
 		const userB = 'userB@example.org';
 		const userC = 'userC@example.org';
 
-		await page.getByRole('button', { name: 'plus invite_members' }).click();
+		await page.getByRole('button', { name: 'plus invite members' }).click();
 		await page.locator('textarea').fill(`${userB}\n${userC}`);
 		await page.getByRole('button', { name: 'arrow right Review and confirm' }).click();
 
@@ -162,7 +162,7 @@ async function acceptInvite(page: Page, orgName: string) {
 	await page.goto('/my/organizations');
 
 	await expect(page.getByText(orgName)).toBeVisible();
-	await page.getByRole('button', { name: 'Accept invite' }).click();
+	await page.getByRole('button', { name: 'Accept invitation' }).click();
 
 	const requestPromise = page.waitForRequest((req) =>
 		req.url().includes('collections/org_invites/records')

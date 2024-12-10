@@ -36,6 +36,12 @@ const errors = {
         "cant_delete_role_higher_than_or_equal_to_yours",
 
     user_is_already_member: "user_is_already_member",
+
+    cannot_change_template_preset_status:
+        "cannot_change_template_preset_status",
+
+    cannot_update_template_protected_fields:
+        "cannot_update_template_protected_fields",
 };
 
 /* -- RBAC Utils -- */
@@ -290,6 +296,39 @@ function runOrganizationInviteEndpointChecks(c) {
     if (!isOwner) throw new ForbiddenError();
 
     return { userId, invite, isOwner };
+}
+
+/**
+ *
+ * @param {core.RecordUpdateEvent} event
+ * @param {string[]} fields
+ */
+function getRecordUpdateEventDiff(event, fields = []) {
+    const updatedRecord = event.record;
+    const originalRecord = event.record?.originalCopy();
+    if (!updatedRecord || !originalRecord)
+        throw createMissingDataError("updated record");
+
+    if (fields.length == 0)
+        fields = getCollectionFields(updatedRecord.collection());
+
+    return fields
+        .map((f) => ({
+            field: f,
+            newValue: updatedRecord.get(f),
+            oldValue: originalRecord.get(f),
+        }))
+        .filter((d) => d.newValue != d.oldValue);
+}
+
+/**
+ * @param {models.Collection} collection
+ */
+function getCollectionFields(collection) {
+    return collection.schema
+        .fields()
+        .map((f) => f?.name)
+        .filter((n) => n != undefined);
 }
 
 //

@@ -17,8 +17,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import PageCard from '$lib/components/pageCard.svelte';
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
 	import Icon from '$lib/components/icon.svelte';
+	import { Eye } from 'svelte-heros-v2';
 
 	import CertificateForm from './_partials/certificateForm.svelte';
+	import CertificateView from './_partials/certificateView.svelte';
 	import ReuploadCertificateForm from './_partials/reuploadCertificateForm.svelte';
 	import AutosignedCertificateForm from './_partials/autosignedCertificateForm.svelte';
 	import { m } from '$lib/i18n';
@@ -34,12 +36,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	const recordType = createTypeProp<CertificatesResponse>();
 
 	const showCertificateModal = createToggleStore(false);
+	const showViewCertificateModal = createToggleStore(false);
 	const showAutosignedCertificateModal = createToggleStore(false);
 	const showReuploadCertificateModal = createToggleStore(false);
 
 	//
 
 	let certificateToReupload = '';
+	let certificateToShow = '';
 
 	//
 
@@ -105,6 +109,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 					</svelte:fragment>
 
 					<svelte:fragment slot="actions" let:record>
+						<Button
+							outline
+							size="sm"
+							on:click={() => {
+								certificateToShow = record.name;
+								showViewCertificateModal.on();
+							}}
+						>
+							{m.View()}
+							<Icon src={Eye} ml></Icon>
+						</Button>
 						<DeleteRecord
 							{record}
 							beforeDelete={() => deleteCertificateInLocalStorage(record.name)}
@@ -131,6 +146,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </PageContent>
 
 <PortalWrapper>
+	<Modal bind:open={$showViewCertificateModal} title="View certificate">
+		<CertificateView
+			certificateName={certificateToShow}
+			onComplete={showViewCertificateModal.off}
+		/>
+	</Modal>
+
 	<Modal bind:open={$showCertificateModal} title="Key and certificate">
 		<CertificateForm onComplete={showCertificateModal.off} />
 	</Modal>

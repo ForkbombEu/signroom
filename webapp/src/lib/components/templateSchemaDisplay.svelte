@@ -9,8 +9,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import type { ObjectSchema } from '$lib/jsonSchema/types';
 	import type { TemplatesResponse } from '$lib/pocketbase/types';
 	import {
-		flattenCredentialSubjectProperties,
-		objectSchemaToCredentialSubject
+		objectSchemaToClaims,
+		flattenClaimsProperties
 	} from '@api/download-microservices/utils/credential-subject';
 	import { DEFAULT_LOCALE } from '@api/download-microservices/utils/locale';
 	import { Effect, pipe, Either } from 'effect';
@@ -30,8 +30,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 			Effect.try(() =>
 				pipe(
 					template.schema as ObjectSchema,
-					objectSchemaToCredentialSubject,
-					flattenCredentialSubjectProperties
+					objectSchemaToClaims,
+					flattenClaimsProperties
 				)
 			),
 			Effect.either,

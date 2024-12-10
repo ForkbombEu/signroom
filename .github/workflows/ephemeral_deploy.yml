@@ -34,6 +34,7 @@ jobs:
           PB_TYPEGEN_PASSWORD: ${{ secrets.PB_PASS }}
           PB_TYPEGEN_URL: "https://staging.admin.didroom.com"
           PUBLIC_POCKETBASE_URL: "https://staging.admin.didroom.com/"
+          PUBLIC_DIDROOM_MICROSERVICES_BRANCH: "main"
 
       - name: Configure 🔒🐚
         run: |

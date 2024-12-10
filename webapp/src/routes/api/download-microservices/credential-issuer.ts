@@ -26,7 +26,7 @@ import {
 } from './shared-operations';
 import {
 	get_credential_configuration_template,
-	objectSchemaToCredentialSubject
+	objectSchemaToClaims
 } from './utils/credential-subject';
 import { update_zip_json_entry } from './utils/zip';
 import { DEFAULT_LOCALE } from './utils/locale';
@@ -113,6 +113,10 @@ function create_credential_issuer_well_known(
 	const authorization_servers_urls = authorization_servers.map((a) =>
 		formatMicroserviceUrl(a.endpoint, 'authz_server')
 	);
+	const credentialConfigurationsSupported = _.flow(
+		_.map(convert_issuance_flow_to_credential_configuration),
+		_.keyBy((item) => item.vct)
+	);
 
 	return pipe(
 		default_well_known,
@@ -128,7 +132,7 @@ function create_credential_issuer_well_known(
 		}),
 		_.set(
 			'credential_configurations_supported',
-			issuance_flows.map(convert_issuance_flow_to_credential_configuration)
+			credentialConfigurationsSupported(issuance_flows)
 		)
 	) as WellKnown;
 }
@@ -144,18 +148,19 @@ function convert_issuance_flow_to_credential_configuration(
 			locale: DEFAULT_LOCALE,
 			logo: {
 				url: issuance_flow.logo,
-				alt_text: `${issuance_flow.display_name} logo`
+				alt_text: `${issuance_flow.display_name} logo`,
+				uri: issuance_flow.logo
 			},
 			background_color: '#12107c',
 			text_color: '#FFFFFF',
 			description: issuance_flow.description
 		}),
 
-		_.set('credential_definition.type[0]', issuance_flow.type_name),
+		_.set('vct', issuance_flow.type_name),
 
 		_.set(
-			'credential_definition.credentialSubject',
-			objectSchemaToCredentialSubject(issuance_flow.template.schema as ObjectSchema, DEFAULT_LOCALE)
+			'claims',
+			objectSchemaToClaims(issuance_flow.template.schema as ObjectSchema, DEFAULT_LOCALE)
 		)
 	) as CredentialConfiguration;
 }

@@ -1,3 +1,45 @@
+## [1.30.6](https://github.com/ForkbombEu/signroom/compare/v1.30.5...v1.30.6) (2024-11-06)
+
+
+### Bug Fixes
+
+* **features:** show env variables for admin ([#869](https://github.com/ForkbombEu/signroom/issues/869)) ([d0e5be3](https://github.com/ForkbombEu/signroom/commit/d0e5be388fa849b85ed911b5820e2c923c7c89db))
+
+## [1.30.5](https://github.com/ForkbombEu/signroom/compare/v1.30.4...v1.30.5) (2024-11-06)
+
+
+### Bug Fixes
+
+* use credential_offer parameter in issuance qrcode ([#870](https://github.com/ForkbombEu/signroom/issues/870)) ([d6deee7](https://github.com/ForkbombEu/signroom/commit/d6deee7bb9649e23e17eda415b27d3092a3e8574))
+
+## [1.30.4](https://github.com/ForkbombEu/signroom/compare/v1.30.3...v1.30.4) (2024-11-05)
+
+
+### Bug Fixes
+
+* hide only DID envVaribales ([#865](https://github.com/ForkbombEu/signroom/issues/865)) ([cbe90b3](https://github.com/ForkbombEu/signroom/commit/cbe90b3bcbcbcc0fe716cd60b15f8f47e1362c7c))
+
+## [1.30.3](https://github.com/ForkbombEu/signroom/compare/v1.30.2...v1.30.3) (2024-11-04)
+
+
+### Bug Fixes
+
+* **features:** remove env variables from query ([#861](https://github.com/ForkbombEu/signroom/issues/861)) ([b4d1752](https://github.com/ForkbombEu/signroom/commit/b4d175218e88e757213a845f7a83a25ae48deacc))
+
+## [1.30.2](https://github.com/ForkbombEu/signroom/compare/v1.30.1...v1.30.2) (2024-10-31)
+
+
+### Bug Fixes
+
+* **microservices:** credential_configurations_supported is a dictionary ([#852](https://github.com/ForkbombEu/signroom/issues/852)) ([8a78255](https://github.com/ForkbombEu/signroom/commit/8a78255538779fdff2ef2dd83e6cc809eecc01e4))
+
+## [1.30.1](https://github.com/ForkbombEu/signroom/compare/v1.30.0...v1.30.1) (2024-10-11)
+
+
+### Bug Fixes
+
+* template update api rule error ([#845](https://github.com/ForkbombEu/signroom/issues/845)) ([1fb9710](https://github.com/ForkbombEu/signroom/commit/1fb971015cd015b4552c123d793512755b7ebbb4))
+
 # [1.30.0](https://github.com/ForkbombEu/signroom/compare/v1.29.0...v1.30.0) (2024-10-04)
 
 
