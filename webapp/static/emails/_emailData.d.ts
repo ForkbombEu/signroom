@@ -115,6 +115,14 @@ type EmailData = {
         "viewInBrowserLink",
         "unsubscribeLink"
     ],
+    "confirm-email": [
+        "UserName",
+        "VerificationLink",
+        "VerificationLink",
+        "VerificationLink",
+        "viewInBrowserLink",
+        "unsubscribeLink"
+    ],
     "example": [
         "viewInBrowserLink",
         "unsubscribeLink"
@@ -143,11 +151,10 @@ type EmailData = {
         "unsubscribeLink"
     ],
     "flow-update_generic-update": [
-        "username",
+        "UserName",
+        "FlowName",
         "OrganizationName",
         "Editor",
-        "FlowName",
-        "FlowImage",
         "ChangesList",
         "DashboardLink",
         "viewInBrowserLink",
@@ -158,6 +165,14 @@ type EmailData = {
         "OrganizationName",
         "UserName",
         "Editor",
+        "OrganizationName",
+        "DashboardLink",
+        "viewInBrowserLink",
+        "unsubscribeLink"
+    ],
+    "member-removal": [
+        "OrganizationName",
+        "UserName",
         "OrganizationName",
         "DashboardLink",
         "viewInBrowserLink",
@@ -181,6 +196,15 @@ type EmailData = {
         "OrganizationName",
         "Editor",
         "UpdatedFields",
+        "DashboardLink",
+        "viewInBrowserLink",
+        "unsubscribeLink"
+    ],
+    "new-member-user": [
+        "OrganizationName",
+        "UserName",
+        "OrganizationName",
+        "Membership",
         "DashboardLink",
         "viewInBrowserLink",
         "unsubscribeLink"
@@ -218,9 +242,31 @@ type EmailData = {
         "viewInBrowserLink",
         "unsubscribeLink"
     ],
+    "pending-request-admin": [
+        "UserName",
+        "OrganizationName",
+        "Admin",
+        "UserName",
+        "OrganizationName",
+        "DashboardLink",
+        "viewInBrowserLink",
+        "unsubscribeLink"
+    ],
     "reset-password": [
         "username",
         "resetLink",
+        "viewInBrowserLink",
+        "unsubscribeLink"
+    ],
+    "role-change": [
+        "OrganizationName",
+        "Admin",
+        "OrganizationName",
+        "UserName",
+        "Admin",
+        "OrganizationName",
+        "Membership",
+        "DashboardLink",
         "viewInBrowserLink",
         "unsubscribeLink"
     ],
@@ -249,10 +295,10 @@ type EmailData = {
     "verification-flow_generic-update": [
         "VerificationFlowName",
         "UserName",
-        "VerificationFlowName",
+        "FlowName",
         "OrganizationName",
         "Editor",
-        "EditedFields",
+        "ChangesList",
         "DashboardLink",
         "viewInBrowserLink",
         "unsubscribeLink"

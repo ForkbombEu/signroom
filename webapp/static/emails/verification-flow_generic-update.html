@@ -173,7 +173,7 @@
                             </tr>
                             <tr>
                               <td align="left" style="font-size:0px;padding:0.8%;word-break:break-word;">
-                                <div style="font-family: Arial, sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#111827;">We’d like to inform you that your verification flow <strong>{{.VerificationFlowName}}</strong> has been updated successfully in your organization, <strong>{{.OrganizationName}}</strong>.</div>
+                                <div style="font-family: Arial, sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#111827;">We’d like to inform you that your verification flow <strong>{{.FlowName}}</strong> has been updated successfully in your organization, <strong>{{.OrganizationName}}</strong>.</div>
                               </td>
                             </tr>
                             <!-- Conditional formatting: If <editor> and <user> match then display "You" -->
@@ -184,17 +184,12 @@
                             </tr>
                             <tr>
                               <td align="left" style="font-size:0px;padding:0.8%;word-break:break-word;">
-                                <div style="font-family: Arial, sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#111827;">Here’s a summary of the updates made to your verification flow and its associated credential:</div>
+                                <div style="font-family: Arial, sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#111827;">Here’s a summary of the updates made to your verification flow:</div>
                               </td>
                             </tr>
                             <tr>
                               <td align="left" style="font-size:0px;padding:0.8%;word-break:break-word;">
-                                <div style="font-family: Arial, sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#111827;"><strong>Edited fields</strong>:</div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td align="left" style="font-size:0px;padding:0.8%;word-break:break-word;">
-                                <div style="font-family: Arial, sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#111827;">{{.EditedFields}}</div>
+                                <div style="font-family: Arial, sans-serif;font-size:16px;line-height:1.4;text-align:left;color:#111827;">{{.ChangesList}}</div>
                               </td>
                             </tr>
                             <!-- <mj-image width="80px" align=left border-radius=50% src="{{.FlowImage}}" alt="{{.IssuanceFlow}}"></mj-image> --><!-- <mj-text>
