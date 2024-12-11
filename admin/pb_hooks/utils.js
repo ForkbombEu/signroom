@@ -175,14 +175,14 @@ function getExpanded(record, key, dao = $app.dao()) {
  * @param {echo.Context} c
  */
 function isAdminContext(c) {
-    return $apis.requestInfo(c).admin;
+    return Boolean($apis.requestInfo(c).admin);
 }
 
 /**
  * @param {string[]} args
  */
 function createMissingDataError(...args) {
-    return new BadRequestError(errors.missing_data, args.join(", "));
+    return new BadRequestError(errors.missing_data + ": " + args.join(", "));
 }
 
 /**
@@ -387,6 +387,43 @@ function getCollectionFields(collection) {
         .filter((n) => n != undefined);
 }
 
+/**
+ *
+ * @param { echo.Context } httpContext
+ * @returns { RecordModel<User> | models.Admin | undefined }
+ */
+function getRequestAgent(httpContext) {
+    /** @type {RecordModel<User> | models.Admin | undefined} */
+    let agent = undefined;
+
+    const adminContext = isAdminContext(httpContext);
+    const user = getUserFromContext(httpContext);
+
+    if (adminContext) {
+        agent = $apis.requestInfo(httpContext).admin;
+    } else if (user) {
+        agent = user;
+    }
+
+    return agent;
+}
+
+/**
+ *
+ * @param { echo.Context } httpContext
+ * @returns { string | undefined }
+ */
+function getRequestAgentName(httpContext) {
+    const agent = getRequestAgent(httpContext);
+    if (!agent) return undefined;
+
+    if ("getString" in agent) {
+        return agent.getString("name");
+    } else {
+        return `System Admin ${agent.getId()}`;
+    }
+}
+
 //
 
 module.exports = {
@@ -411,5 +448,7 @@ module.exports = {
     renderEmail,
     getOrganizationPageUrl,
     getRecordUpdateEventDiff,
+    getRequestAgent,
+    getRequestAgentName,
     errors,
 };

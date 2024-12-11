@@ -5,16 +5,23 @@
 // @ts-check
 
 /// <reference path="../pb_data/types.d.ts" />
+/** @typedef {import('./utils.js')} Utils */
 
 onRecordViewRequest((e) => {
-    const isAdminRequest = Boolean($apis.requestInfo(e.httpContext).admin);
-    if (isAdminRequest) return;
+    /** @type {Utils} */
+    const utils = require(`${__hooks}/utils.js`);
+
+    if (utils.isAdminContext(e.httpContext)) return;
+
     e.record?.set("envVariables", null);
 }, "features");
 
 onRecordsListRequest((e) => {
-    const isAdminRequest = Boolean($apis.requestInfo(e.httpContext).admin);
-    if (isAdminRequest) return;
+    /** @type {Utils} */
+    const utils = require(`${__hooks}/utils.js`);
+
+    if (utils.isAdminContext(e.httpContext)) return;
+
     e.records.forEach((r) => {
         r?.set("envVariables", null);
     });

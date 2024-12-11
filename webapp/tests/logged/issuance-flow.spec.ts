@@ -104,10 +104,6 @@ test.describe('it should create an issuance flow', () => {
 
 		await thirdRow.locator('button').click();
 
-		// it should select the other options
-
-		await page.getByText('Is public: This template can').click();
-
 		// it should create the issuance template
 
 		await page.getByRole('button', { name: 'Create template' }).click();
@@ -218,7 +214,6 @@ test.describe('it should create an issuance flow', () => {
 		await page.locator('select[name="credential_issuer"]').selectOption({ index: 1 });
 		await page.locator('select[name="authorization_server"]').selectOption({ index: 1 });
 
-		await page.getByText('Is public: this credential').click();
 		await page.getByRole('button', { name: 'Create issuance flow' }).click();
 
 		await expect(page).toHaveURL(/organizations\/[a-zA-Z0-9]{15}/);

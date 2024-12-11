@@ -15,12 +15,10 @@ onRecordAfterCreateRequest((e) => {
     const utils = require(`${__hooks}/utils.js`);
 
     const flow = e.record;
-    const editor = utils.getUserFromContext(e.httpContext);
-    if (!flow || !editor)
-        throw utils.createMissingDataError(
-            "verification flow",
-            "user (editor)"
-        );
+    if (!flow) throw utils.createMissingDataError("flow");
+
+    const agent = utils.getRequestAgentName(e.httpContext);
+    if (!agent) throw utils.createMissingDataError("agent");
 
     const organization = utils.getExpanded(flow, "organization");
     if (!organization) throw utils.createMissingDataError("organization");
@@ -39,7 +37,7 @@ onRecordAfterCreateRequest((e) => {
         for (const admin of admins) {
             const email = utils.renderEmail("verification-flow-new", {
                 OrganizationName: organization?.get("name") ?? "Organization",
-                Editor: editor.get("name") ?? "Editor",
+                Editor: agent,
                 DashboardLink: flowLink,
                 UserName: admin.name,
                 VerificationFlowName: flow.get("name") ?? "Verification Flow",
@@ -60,12 +58,10 @@ onRecordAfterUpdateRequest((e) => {
     const utils = require(`${__hooks}/utils.js`);
 
     const flow = e.record;
-    const editor = utils.getUserFromContext(e.httpContext);
-    if (!flow || !editor)
-        throw utils.createMissingDataError(
-            "verification flow",
-            "user (editor)"
-        );
+    if (!flow) throw utils.createMissingDataError("flow");
+
+    const agent = utils.getRequestAgentName(e.httpContext);
+    if (!agent) throw utils.createMissingDataError("agent");
 
     const organization = utils.getExpanded(flow, "organization");
     if (!organization) throw utils.createMissingDataError("organization");
@@ -99,7 +95,7 @@ onRecordAfterUpdateRequest((e) => {
                         flow.get("name") ?? "Verification flow",
                     OrganizationName:
                         organization.get("name") ?? "organization",
-                    Editor: editor.get("name") ?? "Editor",
+                    Editor: agent,
                     UserName: admin.name,
                     FlowName: flow.get("name"),
                     ChangesList: editedFields,
@@ -121,9 +117,10 @@ onRecordAfterCreateRequest((e) => {
     const utils = require(`${__hooks}/utils.js`);
 
     const flow = e.record;
-    const editor = utils.getUserFromContext(e.httpContext);
-    if (!flow || !editor)
-        throw utils.createMissingDataError("issuance flow", "user (editor)");
+    if (!flow) throw utils.createMissingDataError("flow");
+
+    const agent = utils.getRequestAgentName(e.httpContext);
+    if (!agent) throw utils.createMissingDataError("agent");
 
     const organization = utils.getExpanded(flow, "organization");
     const credential_template = utils.getExpanded(flow, "credential_template");
@@ -167,7 +164,7 @@ onRecordAfterCreateRequest((e) => {
         for (const admin of admins) {
             const email = utils.renderEmail("flow-new", {
                 OrganizationName: organization?.getString("name"),
-                Editor: editor.getString("name"),
+                Editor: agent,
                 DashboardLink: flowLink,
                 UserName: admin.name,
                 FlowName: flow.getString("display_name"),
@@ -198,9 +195,10 @@ onRecordAfterUpdateRequest((e) => {
     const utils = require(`${__hooks}/utils.js`);
 
     const flow = e.record;
-    const editor = utils.getUserFromContext(e.httpContext);
-    if (!flow || !editor)
-        throw utils.createMissingDataError("issuance flow", "user (editor)");
+    if (!flow) throw utils.createMissingDataError("flow");
+
+    const agent = utils.getRequestAgentName(e.httpContext);
+    if (!agent) throw utils.createMissingDataError("agent");
 
     const organization = utils.getExpanded(flow, "organization");
     const credential_template = utils.getExpanded(flow, "credential_template");
@@ -249,7 +247,7 @@ onRecordAfterUpdateRequest((e) => {
         for (const admin of admins) {
             const email = utils.renderEmail("flow-update_generic-update", {
                 OrganizationName: organization?.getString("name"),
-                Editor: editor.getString("name"),
+                Editor: agent,
                 DashboardLink: flowLink,
                 FlowName: flow.getString("display_name"),
                 UserName: admin.name,
@@ -272,9 +270,10 @@ onRecordAfterCreateRequest(
         const utils = require(`${__hooks}/utils.js`);
 
         const microservice = e.record;
-        const editor = utils.getUserFromContext(e.httpContext);
-        if (!microservice || !editor)
-            throw utils.createMissingDataError("microservice", "user (editor)");
+        if (!microservice) throw utils.createMissingDataError("microservice");
+
+        const editor = utils.getRequestAgentName(e.httpContext);
+        if (!editor) throw utils.createMissingDataError("agent");
 
         const organization = utils.getExpanded(microservice, "organization");
         if (!organization) throw utils.createMissingDataError("organization");
@@ -291,7 +290,7 @@ onRecordAfterCreateRequest(
             for (const admin of admins) {
                 const email = utils.renderEmail("microservice-new", {
                     OrganizationName: organization.getString("name"),
-                    Editor: editor.getString("name"),
+                    Editor: editor,
                     DashboardLink: microservicesLink,
                     UserName: admin.name,
                     MicroserviceName: microservice.getString("name"),
@@ -319,9 +318,10 @@ onRecordAfterUpdateRequest(
         const utils = require(`${__hooks}/utils.js`);
 
         const microservice = e.record;
-        const editor = utils.getUserFromContext(e.httpContext);
-        if (!microservice || !editor)
-            throw utils.createMissingDataError("microservice", "user (editor)");
+        if (!microservice) throw utils.createMissingDataError("microservice");
+
+        const editor = utils.getRequestAgentName(e.httpContext);
+        if (!editor) throw utils.createMissingDataError("agent");
 
         const organization = utils.getExpanded(microservice, "organization");
         if (!organization) throw utils.createMissingDataError("organization");
@@ -343,7 +343,7 @@ onRecordAfterUpdateRequest(
             for (const admin of admins) {
                 const email = utils.renderEmail("microservice-update", {
                     OrganizationName: organization.getString("name"),
-                    Editor: editor.getString("name"),
+                    Editor: editor,
                     DashboardLink: microservicesLink,
                     UserName: admin.name,
                     MicroserviceName: microservice.getString("name"),
