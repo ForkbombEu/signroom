@@ -200,39 +200,55 @@ onRecordAfterUpdateRequest((e) => {
     if (!e.record) return;
 
     const organization = utils.getExpanded(e.record, "organization");
-    const organizationName = organization?.get("name");
+    if (!organization) throw utils.createMissingDataError("organization");
+    const OrganizationName = organization.get("name");
 
     const user = utils.getExpanded(e.record, "user");
     if (!user) throw utils.createMissingDataError("user of orgAuthorization");
+    const UserName = user.getString("name");
 
     const previousRole = utils.getExpanded(e.record.originalCopy(), "role");
     const role = utils.getExpanded(e.record, "role");
+    if (!role) throw utils.createMissingDataError("role");
+
+    const adminName = $apis
+        .requestInfo(e.httpContext)
+        .authRecord?.getString("name");
+    if (!adminName) throw utils.createMissingDataError("adminName");
 
     auditLogger(e.httpContext).info(
         "Updated organization authorization",
         "organizationId",
-        organization?.getId(),
+        organization.getId(),
         "organizationName",
-        organizationName,
+        OrganizationName,
         "userId",
-        user?.getId(),
+        user.getId(),
         "userName",
-        user?.get("name"),
+        UserName,
         "previousRoleId",
         previousRole?.getId(),
         "previousRoleName",
         previousRole?.get("name"),
         "newRoleId",
-        role?.getId(),
+        role.getId(),
         "newRoleName",
-        role?.get("name")
+        role.getString("name")
     );
+
+    const email = utils.renderEmail("role-change", {
+        OrganizationName,
+        DashboardLink: utils.getOrganizationPageUrl(organization.getId()),
+        UserName,
+        Admin: adminName,
+        Membership: role.getString("name"),
+    });
 
     const res = utils.sendEmail({
         to: utils.getUserEmailAddressData(user),
-        subject: `${organizationName} | Your organization role has changed"`,
-        html: "",
+        ...email,
     });
+
     if (res instanceof Error) {
         console.error(res);
     }
@@ -250,35 +266,39 @@ onRecordAfterDeleteRequest((e) => {
     const record = e.record.originalCopy();
 
     const organization = utils.getExpanded(record, "organization");
-    const organizationName = organization?.get("name");
+    const OrganizationName = organization?.get("name");
 
     const user = utils.getExpanded(record, "user");
     const role = utils.getExpanded(record, "role");
 
     if (!user) throw utils.createMissingDataError("user of orgAuthorization");
+    if (!role) throw utils.createMissingDataError("role of orgAuthorization");
 
     auditLogger(e.httpContext).info(
         "Deleted organization authorization",
         "organizationId",
         organization?.getId(),
         "organizationName",
-        organizationName,
+        OrganizationName,
         "userId",
-        user?.getId(),
+        user.getId(),
         "userName",
-        user?.get("name"),
+        user.get("name"),
         "roleId",
-        role?.getId(),
+        role.getId(),
         "roleName",
-        role?.get("name")
+        role.get("name")
     );
+
+    const email = utils.renderEmail("member-removal", {
+        OrganizationName,
+        DashboardLink: utils.getAppUrl(),
+        UserName: user.getString("name"),
+    });
 
     const res = utils.sendEmail({
         to: utils.getUserEmailAddressData(user),
-        subject: `${organizationName} | Your organization role has been deleted"`,
-        html: "",
+        ...email,
     });
-    if (res instanceof Error) {
-        console.error(res);
-    }
+    if (res instanceof Error) console.error(res);
 }, "orgAuthorizations");

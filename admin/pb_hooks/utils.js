@@ -6,6 +6,7 @@
 
 /// <reference path="../pb_data/types.d.ts" />
 /// <reference path="./ambient.d.ts" />
+
 /** @typedef {import("../../webapp/src/lib/pocketbase/types").OrgRolesRecord} OrgRole */
 /** @typedef {import("../../webapp/src/lib/pocketbase/types").OrgAuthorizationsRecord} OrgAuthorization */
 /** @typedef {import("../../webapp/src/lib/pocketbase/types").UsersRecord} User */
@@ -134,11 +135,11 @@ function getUserFromContext(c) {
 /**
  * @param {string} collection
  * @param {string} filter
+ * @param {daos.Dao} [dao=$app.dao()]
  * @returns {Array<models.Record>}
  */
-function findRecordsByFilter(collection, filter) {
-    return $app
-        .dao()
+function findRecordsByFilter(collection, filter, dao = $app.dao()) {
+    return dao
         .findRecordsByFilter(collection, filter, "", 0, 0)
         .filter((v) => v != undefined);
 }
@@ -237,12 +238,14 @@ function removeTrailingSlash(string) {
 
 /**
  * @param {string} organizationId
+ * @param {daos.Dao} [dao=$app.dao()]
  * @returns {Address[]}
  */
-function getOrganizationAdminsAddresses(organizationId) {
+function getOrganizationAdminsAddresses(organizationId, dao = $app.dao()) {
     const recipients = findRecordsByFilter(
         "orgAuthorizations",
-        `organization.id = "${organizationId}" && ( role.name = "admin" || role.name = "owner" )`
+        `organization.id = "${organizationId}" && ( role.name = "admin" || role.name = "owner" )`,
+        dao
     );
 
     return recipients
@@ -260,8 +263,16 @@ function getAppUrl() {
  * @param {string} organizationId
  * @returns {string}
  */
+function getOrganizationPageUrl(organizationId) {
+    return `${getAppUrl()}/my/organizations/${organizationId}`;
+}
+
+/**
+ * @param {string} organizationId
+ * @returns {string}
+ */
 function getOrganizationMembersPageUrl(organizationId) {
-    return `${getAppUrl()}/my/organizations/${organizationId}/members`;
+    return `${getOrganizationPageUrl(organizationId)}/members`;
 }
 
 /**
@@ -322,6 +333,62 @@ function getCollectionFields(collection) {
 
 //
 
+/** @type {EmailRenderer} */
+const renderEmail = (name, data) => {
+    const emailPath = $filepath.join(
+        __hooks,
+        "..",
+        "pb_public",
+        "emails",
+        `${name}.html`
+    );
+    const html = $template
+        .loadFiles(emailPath)
+        .render(data)
+        .replace("@WL", "{{Weblink}}")
+        .replace("@US", "{{{unsubscribe}}}");
+    const subject = html.match(/<title>(.*?)<\/title>/)?.at(1) ?? "";
+    return {
+        html,
+        subject,
+    };
+};
+
+/**
+ *
+ * @param {core.RecordUpdateEvent} event
+ * @param {string[]} fields
+ */
+function getRecordUpdateEventDiff(event, fields = []) {
+    const updatedRecord = event.record;
+    const originalRecord = event.record?.originalCopy();
+    if (!updatedRecord || !originalRecord)
+        throw createMissingDataError("updated record");
+
+    if (fields.length == 0)
+        fields = getCollectionFields(updatedRecord.collection());
+
+    return fields
+        .map((f) => ({
+            field: f,
+            newValue: updatedRecord.get(f),
+            oldValue: originalRecord.get(f),
+        }))
+        .filter((d) => d.newValue != d.oldValue);
+}
+
+/**
+ * @param {models.Collection} collection
+ */
+function getCollectionFields(collection) {
+    return collection.schema
+        .fields()
+        .map((f) => f?.name)
+        .filter((n) => n != undefined);
+}
+
+//
+
 module.exports = {
     getUserFromContext,
     getRoleByName,
@@ -341,6 +408,8 @@ module.exports = {
     getOrganizationMembersPageUrl,
     getAppUrl,
     runOrganizationInviteEndpointChecks,
+    renderEmail,
+    getOrganizationPageUrl,
     getRecordUpdateEventDiff,
     errors,
 };

@@ -1,0 +1,72 @@
+<mjml>
+  <mj-head>
+    <mj-title>Updates to Verification Flow {{.VerificationFlowName}}</mj-title>
+    <mj-include path="../_components/attributes.mjml" />
+  </mj-head>
+  <mj-body>
+    <mj-include path="../_components/header.mjml" />
+
+    <mj-section>
+      <mj-column>
+        <mj-text mj-class="big">
+          Verification Flow Updated Successfully
+        </mj-text>
+
+        <mj-text>
+          Hello {{.UserName}},
+        </mj-text>
+
+        <mj-text>
+          We’d like to inform you that your verification flow <strong>{{.FlowName}}</strong> has been updated successfully in your organization, <strong>{{.OrganizationName}}</strong>.
+        </mj-text>
+
+        <!-- Conditional formatting: If <editor> and <user> match then display "You" -->
+        <mj-text align="left">
+          Changes were made by <strong>{{.Editor}}</strong>.
+          If you have any questions or need further details, reach out to your admin team.
+        </mj-text>
+
+        <mj-text>
+          Here’s a summary of the updates made to your verification flow:
+        </mj-text>
+
+        <mj-text>
+          {{.ChangesList}}
+        </mj-text>
+
+        <!-- <mj-image width="80px" align=left border-radius=50% src="{{.FlowImage}}" alt="{{.IssuanceFlow}}"></mj-image> -->
+        <!-- 
+        <mj-text>
+          - <strong>Flow Name</strong>: {{.FlowName}}<br />
+        </mj-text>
+
+        <mj-text>
+          <strong>Verification Info</strong>:
+        </mj-text>
+        <mj-text>
+          - <strong>{{.VerificationTemplateName}}</strong><br />
+        </mj-text>
+
+        <mj-text>
+          <strong>Microservices</strong>:
+        </mj-text>
+        <mj-text align="left">
+          - <strong>Relying Party</strong>: {{.RelyingParty}}<br />
+        </mj-text>
+
+        <mj-text>
+          <strong>Advanced Settings</strong>:
+        </mj-text>
+        <mj-text>
+          - <strong>Visibility</strong>: {{.IsPublic}}<br />
+        </mj-text> -->
+
+        <mj-button href="{{.DashboardLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+          Manage Updated Verification Flow
+        </mj-button>
+
+      </mj-column>
+    </mj-section>
+    <mj-include path="../_components/footer.mjml" />
+  </mj-body>
+</mjml>
