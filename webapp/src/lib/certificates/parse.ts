@@ -34,7 +34,8 @@ export async function parseCertificateData(
 	const certificate = await parseCertificate(ceritifcateString);
 	const ceritifcateKey = await parseCertificateKey(
 		keyString,
-		certificate.algorithm as AlgorithmName
+		certificate.algorithm as AlgorithmName,
+		certificate.hexPk
 	);
 	return {
 		certificate,
@@ -50,8 +51,17 @@ async function parseCertificate(certificate: string): Promise<Certificate> {
 	}
 
 	const parsedCertificate = certificate.split('\n').slice(1, -1).join('');
-	const certAlg = new x509.X509Certificate(parsedCertificate).publicKey.algorithm as EcKeyAlgorithm; // TODO - Check if interface is okay
+	const certPk = new x509.X509Certificate(parsedCertificate).publicKey;
+	const certAlg = certPk.algorithm as EcKeyAlgorithm; // TODO - Check if interface is okay
 	const signatureAlgorithmName = certAlg.name;
+	// retrieve hex public key
+	const res = decodeAsn1(certPk.rawData)
+	const octetString = res.valueBlock.value[1];
+	let hexPk = octetString.valueBlock.toJSON().valueHex;
+	// pk can be in SEC format for ECDSA: 04 indicates uncompressed key
+	if (signatureAlgorithmName == 'ECDSA') {
+		hexPk = hexPk.replace(/^04/, '');
+	}
 
 	// TODO – Review this check
 	if (signatureAlgorithmName == 'ECDSA' && certAlg.namedCurve != 'P-256') {
@@ -63,53 +73,78 @@ async function parseCertificate(certificate: string): Promise<Certificate> {
 	// signatureAlgorithmName = RSASSA-PKCS1-v1_5
 	// signatureAlgorithmName = 1.2.840.113549.1.1.10 (RSA-PSS)
 
-	return { value: parsedCertificate, algorithm: signatureAlgorithmName as AlgorithmName };
+	return { value: parsedCertificate, algorithm: signatureAlgorithmName as AlgorithmName, hexPk };
 }
 
 // Key
 
 async function parseCertificateKey(
 	key: string,
-	algorithmName: AlgorithmName
+	algorithmName: AlgorithmName,
+	hexPk: string
 ): Promise<CertificateKey> {
 	return {
 		value: key,
-		zenroomValue: await decodeKey(algorithmName, key)
+		zenroomValue: await decodeKey(algorithmName, key, hexPk)
 	};
 }
-
-const ZENCODE_KEY_CONVERTERS: Partial<Record<AlgorithmName, string>> = {
-	ECDSA: `Given I have a 'hex' named 'key'
-		Then print the 'key' as 'base64'`,
-	Ed25519: `Given I have a 'hex' named 'key'
-		Then print the 'key' as 'base58'`
-};
-
-async function decodeKey(algorithmName: AlgorithmName, secretKey: string) {
+/*
+ASN.1 structure for PKCS#8 private key:
+	SEQUENCE {
+		INTEGER (version, 0),
+		SEQUENCE {
+			OBJECT IDENTIFIER (algorithm, e.g., rsaEncryption, id-ecPublicKey),
+			OPTIONAL (algorithm parameters, e.g., curve OID for EC)
+		},
+		OCTET STRING (private key data)
+	}
+private key data is:
+* raw data in DER format for ED25519
+* ASN.1 structure for EC PRIVATE KEY for ECDSA:
+	SEQUENCE {
+		INTEGER (version, typically 1),
+		OCTET STRING (private key value),
+		[0] {
+			OBJECT IDENTIFIER (optional curve parameters, like secp256r1),
+		},
+		[1] {
+			BIT STRING (optional public key)
+		}
+	}
+* RSA ?
+*/
+async function decodeKey(algorithmName: AlgorithmName, secretKey: string, hexPk: string) {
 	if (algorithmName == 'RSASSA-PKCS1-v1_5' || algorithmName == '1.2.840.113549.1.1.10')
+		// TODO: verify also RSA
 		return undefined;
-
 	const sk = parseKey(secretKey);
 	const buf = Uint8Array.from(atob(sk), (c) => c.charCodeAt(0));
-	const obj = fromBER(buf).valueOf();
-	// @ts-expect-error The shape of the object is unkown
-	const arr = obj.result.valueBlock.value;
+	// decode PKCS#8
+	const res = decodeAsn1(buf);
+	const sequence = res.valueBlock.value
+	// algorithm id is in second postion
+	if (!checkKeyAlgorithm(algorithmName, sequence[1].valueBlock.value)) {
+		throw new Error('Secret key algorithm does not match the certificate algorithm');
+	}
+	// private key information is in third position
+	let innerOctetString;
+	const innerRes = decodeAsn1(sequence[2].valueBlock.valueHex);
+	if (algorithmName == 'ECDSA') {
+		// ECDSA structure is more complex and need a to extract info
+		// from the inner structure
+		innerOctetString = innerRes.valueBlock.value[1];
+	} else {
+		innerOctetString = innerRes;
+	}
+	// Extract the actual private key value
+	const hexKey = innerOctetString.valueBlock.toJSON().valueHex;
+	// match secret key and public key
+	const zenroomKey = await matchSkPk(hexKey, hexPk, algorithmName);
+	if (!zenroomKey) {
+		throw new Error('Invalid secret key: it does not match the certificate public key');
+	}
 
-	matchKeyCertAlgo(algorithmName, arr);
-
-	const hexKey = arr
-		// @ts-expect-error NAME property actually exists
-		.find((value: unknown[]) => value.constructor.NAME == 'OCTET STRING')
-		.toString()
-		.replace(/OCTET STRING :/g, '')
-		.trim();
-
-	// @ts-expect-error Type 'undefined' is not assignable to type 'string'
-	const { result } = await zencode_exec(ZENCODE_KEY_CONVERTERS[algorithmName], {
-		data: `{"key": "${hexKey}"}`
-	});
-
-	return JSON.parse(result).key as string;
+	return zenroomKey as string;
 }
 
 function parseKey(secretKey: string): string {
@@ -127,20 +162,61 @@ function parseKey(secretKey: string): string {
 	return secretKey.slice(begin, end).split('\n').join('');
 }
 
-function matchKeyCertAlgo(algorithmName: string, arr: string[]) {
-	let id: AlgorithmId | undefined = undefined;
-	for (const v of arr) {
-		const index = v.toString().indexOf(OBJECT_IDENTIFIER);
-		if (index != -1) {
-			id = v
-				.toString()
-				.slice(index + OBJECT_IDENTIFIER.length)
-				.split('\n')[0] as AlgorithmId;
-			break;
-		}
+function checkKeyAlgorithm(algorithmName: string, value: string[]) {
+	const ids = value.map((v) => v.getValue());
+	if (algorithmName == 'ECDSA') {
+		return ids[0] == '1.2.840.10045.2.1' && ids[1] == '1.2.840.10045.3.1.7';
+	} else if (algorithmName == 'Ed25519') {
+		return ids[0] == '1.3.101.112';
 	}
-	if (!id) throw new Error('Key has no object identifier');
-	if (!algorithmIdentifiers[id]) throw new Error('Algorithm not supported');
-	if (algorithmIdentifiers[id] != algorithmName)
-		throw new Error('Key algorithm does not correspond to certificate algorithm');
+	return false;
+}
+
+// asn1 decode
+function decodeAsn1(buf: unit8Array) {
+	const asn1 = fromBER(buf);
+	if (asn1.offset === -1) {
+		throw new Error("Error parsing ASN.1 structure");
+	}
+	return asn1.result;
+}
+
+const ZENCODE_PK_GENERATORS: Partial<Record<AlgorithmName, string>> = {
+	ECDSA: `
+		Scenario 'es256': generate pk
+		Given I have a 'hex' named 'sk'
+		Given I have a 'hex' named 'pk'
+		When I create the es256 key with secret 'sk'
+		When I create the es256 public key
+		When I verify 'es256 public key' is equal to 'pk'
+		When I pickup from path 'keyring.es256'
+		When I rename 'es256' to 'key'
+		Then print the 'key' as 'base64'
+		`,
+	Ed25519: `
+		Scenario 'eddsa': generate pk
+		Given I have a 'hex' named 'sk'
+		Given I have a 'hex' named 'pk'
+		When I create the eddsa key with secret 'sk'
+		When I create the eddsa public key
+		When I verify 'eddsa public key' is equal to 'pk'
+		When I pickup from path 'keyring.eddsa'
+		When I rename 'eddsa' to 'key'
+		Then print the 'key' as 'base58'
+		`
+};
+
+// match a sk with a pk
+export async function matchSkPk(sk: string, hexPk: string, algorithmName: AlgorithmName) {
+	try {
+		const { result } = await zencode_exec(
+			ZENCODE_PK_GENERATORS[algorithmName],
+			{
+				data: `{"sk": "${sk}", "pk": "${hexPk}"}`
+			});
+		return JSON.parse(result).key;
+	} catch (e) {
+		console.error(e);
+		return null;
+	}
 }
