@@ -57,7 +57,7 @@ onRecordAfterCreateRequest((e) => {
 
     if (!e.record) throw utils.createMissingDataError("user");
 
-    const emailData = utils.renderEmail("new-user", {
+    const emailData = utils.renderEmail("user-welcome", {
         DashboardLink: utils.getAppUrl() + "/my",
         UserName: e.record.get("name") ?? "User",
     });

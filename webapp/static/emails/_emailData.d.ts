@@ -141,6 +141,32 @@ type EmailData = {
         "OrganizationName",
         "DashboardLink"
     ],
+    "membership-request-accepted": [
+        "OrganizationName",
+        "UserName",
+        "OrganizationName",
+        "OrganizationName",
+        "DashboardLink"
+    ],
+    "membership-request-declined": [
+        "UserName",
+        "OrganizationName",
+        "DashboardLink"
+    ],
+    "membership-request-new": [
+        "UserName",
+        "OrganizationName",
+        "Admin",
+        "UserName",
+        "OrganizationName",
+        "DashboardLink"
+    ],
+    "membership-request-pending": [
+        "OrganizationName",
+        "Admin",
+        "PendingNumber",
+        "DashboardLink"
+    ],
     "microservice-new": [
         "MicroserviceName",
         "UserName",
@@ -159,13 +185,6 @@ type EmailData = {
         "UpdatedFields",
         "DashboardLink"
     ],
-    "new-member-user": [
-        "OrganizationName",
-        "UserName",
-        "OrganizationName",
-        "Membership",
-        "DashboardLink"
-    ],
     "new-organization": [
         "OrganizationName",
         "UserName",
@@ -173,10 +192,6 @@ type EmailData = {
         "DashboardLink"
     ],
     "new-user-onboarding": [
-        "UserName",
-        "DashboardLink"
-    ],
-    "new-user": [
         "UserName",
         "DashboardLink"
     ],
@@ -192,14 +207,6 @@ type EmailData = {
         "LoginLink",
         "viewInBrowserLink",
         "unsubscribeLink"
-    ],
-    "pending-request-admin": [
-        "UserName",
-        "OrganizationName",
-        "Admin",
-        "UserName",
-        "OrganizationName",
-        "DashboardLink"
     ],
     "reset-password": [
         "username",
@@ -223,6 +230,10 @@ type EmailData = {
         "OrganizationName",
         "InvitationLink",
         "InvitationLink"
+    ],
+    "user-welcome": [
+        "UserName",
+        "DashboardLink"
     ],
     "verification-flow-new": [
         "VerificationFlowName",

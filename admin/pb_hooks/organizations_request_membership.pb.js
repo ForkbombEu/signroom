@@ -91,7 +91,7 @@ onRecordAfterCreateRequest((e) => {
     const recipients = utils.getOrganizationAdminsAddresses(organizationId);
 
     for (const adminAddress of recipients) {
-        const email = utils.renderEmail("pending-request-admin", {
+        const email = utils.renderEmail("membership-request-new", {
             OrganizationName: organization.getString("name"),
             Admin: adminAddress.name,
             UserName: user.getString("name"),
@@ -131,20 +131,27 @@ cronAdd("remind admins about join requests", "0 9 * * 1", () => {
         .filter(({ requests }) => requests.length > 0)
         .forEach(({ organization, requests }) => {
             const organizationId = organization.getId();
-            const organizationName = organization.get("name");
+            const OrganizationName = organization.get("name");
+
             const recipients =
                 utils.getOrganizationAdminsAddresses(organizationId);
-            const membersUrl =
-                utils.getOrganizationMembersPageUrl(organizationId);
-            const a = `<a href="${membersUrl}">Manage membership requests</a>`;
 
-            const res = utils.sendEmail({
-                to: recipients,
-                subject: `${organizationName} | Pending membership requests`,
-                html: `Your organization has ${requests.length} pending membership requests<br />${a}`,
-            });
-            if (res instanceof Error) {
-                console.error("Email send error");
+            for (const recipient of recipients) {
+                const email = utils.renderEmail("membership-request-pending", {
+                    OrganizationName,
+                    DashboardLink:
+                        utils.getOrganizationMembersPageUrl(organizationId),
+                    Admin: recipient.name,
+                    PendingNumber: requests.length.toString(),
+                });
+
+                const res = utils.sendEmail({
+                    to: recipient,
+                    ...email,
+                });
+                if (res instanceof Error) {
+                    console.error("Email send error");
+                }
             }
         });
 });
@@ -170,7 +177,7 @@ onRecordAfterUpdateRequest((e) => {
     if (!user) throw utils.createMissingDataError("user of orgJoinRequest");
 
     /** @type {string} */
-    const organizationName = organization.get("name");
+    const OrganizationName = organization.get("name");
     const userAddress = utils.getUserEmailAddressData(user);
 
     /**
@@ -180,15 +187,18 @@ onRecordAfterUpdateRequest((e) => {
      */
 
     /** @type {EmailContent} */
-    const successEmail = {
-        subject: `${organizationName} | Membership request accepted`,
-        html: `Welcome to ${organizationName}! Your request has been accepted!`,
-    };
+    const successEmail = utils.renderEmail("membership-request-accepted", {
+        OrganizationName,
+        UserName: userAddress.name,
+        DashboardLink: utils.getOrganizationPageUrl(organization.getId()),
+    });
+
     /** @type {EmailContent} */
-    const rejectEmail = {
-        subject: `${organizationName} | Membership request declined`,
-        html: "Your join request has been declined.",
-    };
+    const rejectEmail = utils.renderEmail("membership-request-declined", {
+        OrganizationName,
+        UserName: userAddress.name,
+        DashboardLink: utils.getAppUrl() + "/my/organizations",
+    });
 
     const emailContent = status == "accepted" ? successEmail : rejectEmail;
     utils.sendEmail({ to: [userAddress], ...emailContent });

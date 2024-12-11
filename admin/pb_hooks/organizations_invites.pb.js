@@ -229,8 +229,6 @@ routerAdd("POST", "/organizations/invite", (c) => {
 /* */
 
 onRecordAfterDeleteRequest((e) => {
-    /** @type {Utils} */
-    const utils = require(`${__hooks}/utils.js`);
     /** @type {AuditLogger} */
     const auditLogger = require(`${__hooks}/auditLogger.js`);
 
