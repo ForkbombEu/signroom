@@ -93,7 +93,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		},
 		{
 			organization: organizationId,
-			...cleanInitialData(initialData)
+			...cleanInitialData({
+				cryptography: ServicesCryptographyOptions['sd-jwt'],
+				api_available: true,
+				public: false,
+				...initialData
+			})
 		},
 		{
 			validationMethod: 'oninput'
@@ -111,7 +116,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		$form['type_name'] = slugify(text, {
 			replacement: '_',
 			strict: true,
-			trim: false
+			trim: false,
+			lower: false
 		}).trim();
 	}
 
@@ -374,10 +380,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 			description={m.advanced_settings_description()}
 		/>
 		<div class="space-y-4">
-			<Checkbox field="public" {superform}>
+			<Checkbox field="public" {superform} options={{ disabled: true }}>
 				{m.Is_public()}: {m.is_public_description()}
 			</Checkbox>
-			<Checkbox field="api_available" {superform}>{m.Can_be_requested_via_API()}</Checkbox>
+			<Checkbox field="api_available" {superform} options={{ disabled: true }}>
+				{m.Can_be_requested_via_API()}
+			</Checkbox>
 		</div>
 	</PageCard>
 
