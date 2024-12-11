@@ -65,7 +65,12 @@ function getAllFilesInFolder(dirPath, exclude = [], arrayOfFiles = []) {
  */
 function getEmailAttributes(path) {
 	const fileContent = fs.readFileSync(path, 'utf-8');
-	const noComments = fileContent.replace(/<!--[\s\S]*?-->/g, '');
+	let noComments = fileContent;
+	let previous;
+	do {
+		previous = noComments;
+		noComments = noComments.replace(/<!--[\s\S]*?-->/g, '');
+	} while (noComments !== previous);
 	const pattern = /{{\.(\w+)}}/g;
 	const matches = [...noComments.matchAll(pattern)].map((match) => match[1]);
 	return matches;
