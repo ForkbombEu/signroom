@@ -1,37 +1,40 @@
 <mjml>
-  <mj-head>
-    <mj-title>Your DIDroom Subscription Update</mj-title>
-    <mj-include path="../_components/attributes.mjml" />
-  </mj-head>
-  <mj-body>
-    <mj-include path="../_components/header.mjml" />
+	<mj-head>
+		<mj-title>Your DIDroom Subscription Update</mj-title>
+		<mj-include path="../_components/attributes.mjml" />
+	</mj-head>
+	<mj-body>
+		<mj-include path="../_components/header.mjml" />
 
-    <mj-section>
-      <mj-column>
-        <mj-text mj-class="big">
-          Your DIDroom Subscription Update
-        </mj-text>
+		<mj-section>
+			<mj-column>
+				<mj-text mj-class="big"> Your DIDroom Subscription Update </mj-text>
 
-        <mj-text>
-          Hello {{.UserName}},
-        </mj-text>
+				<mj-text> Hello {{.UserName}}, </mj-text>
 
-        <mj-text>
-          This is a notification regarding your DIDroom subscription. Please find the details below:
-        </mj-text>
+				<mj-text>
+					This is a notification regarding your DIDroom subscription. Please find the details below:
+				</mj-text>
 
-        <mj-text>
-          - <strong>Subscription Plan</strong>: {{.SubscriptionPlan}}<br />
-          - <strong>Renewal Date</strong>: {{.RenewalDate}}<br />
-          - <strong>Payment Status</strong>: {{.PaymentStatus}}<br />
-        </mj-text>
+				<mj-text>
+					- <strong>Subscription Plan</strong>: {{.SubscriptionPlan}}<br />
+					- <strong>Renewal Date</strong>: {{.RenewalDate}}<br />
+					- <strong>Payment Status</strong>: {{.PaymentStatus}}<br />
+				</mj-text>
 
-        <mj-button href="{{.DashboardLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
-          Manage Subscription
-        </mj-button>
-      </mj-column>
-    </mj-section>
+				<mj-button
+					href="{{.DashboardLink}}"
+					background-color="#7d2fb5"
+					color="#ffffff"
+					font-family="Arial"
+					font-size="16px"
+					padding="20px"
+				>
+					Manage Subscription
+				</mj-button>
+			</mj-column>
+		</mj-section>
 
-    <mj-include path="../_components/footer.mjml" />
-  </mj-body>
+		<mj-include path="../_components/footer.mjml" />
+	</mj-body>
 </mjml>
