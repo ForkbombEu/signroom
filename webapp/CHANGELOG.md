@@ -1,3 +1,18 @@
+# [1.31.0](https://github.com/ForkbombEu/signroom/compare/v1.30.6...v1.31.0) (2024-12-11)
+
+
+### Bug Fixes
+
+* pocketbase correct client for version ([4060348](https://github.com/ForkbombEu/signroom/commit/4060348296cae6dc72a0b1def9719f86e7589c40))
+* rollback pocketbase-typegen to support 0.22.x pocketbase ([a59daa2](https://github.com/ForkbombEu/signroom/commit/a59daa240a221629ab1f72aeedf19cb19ad28f7e))
+* update zenflows-crypto to latest commit ([#924](https://github.com/ForkbombEu/signroom/issues/924)) ([fac50fd](https://github.com/ForkbombEu/signroom/commit/fac50fd87d1743a9fda13e329dad697d34dca4ab))
+
+
+### Features
+
+* add grants in credential-offer qrcode ([#874](https://github.com/ForkbombEu/signroom/issues/874)) ([9df9699](https://github.com/ForkbombEu/signroom/commit/9df9699ecff5aa1628d06a8bd6f3ad5c6db0f763))
+* improve x509 certs usability ([#886](https://github.com/ForkbombEu/signroom/issues/886)) ([b13ef42](https://github.com/ForkbombEu/signroom/commit/b13ef4258f65f49da24bea22996f156eebcae875)), closes [#883](https://github.com/ForkbombEu/signroom/issues/883)
+
 ## [1.30.6](https://github.com/ForkbombEu/signroom/compare/v1.30.5...v1.30.6) (2024-11-06)
 
 
