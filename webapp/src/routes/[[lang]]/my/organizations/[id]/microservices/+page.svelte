@@ -10,7 +10,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { m } from '$lib/i18n';
 	import OrganizationLayout from '$lib/components/organizationLayout.svelte';
 	import PageCard from '$lib/components/pageCard.svelte';
-	import { ArrowDownTray } from 'svelte-heros-v2';
+	import { ArrowDownTray, QuestionMarkCircle } from 'svelte-heros-v2';
 	import Icon from '$lib/components/icon.svelte';
 	import { ProtectedOrgUI } from '$lib/organizations';
 	import PortalWrapper from '$lib/components/portalWrapper.svelte';
@@ -18,6 +18,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { requestDownloadMicroservices } from '@api/download-microservices/index.js';
 	import { dowloadResponseAsZip } from '$lib/utils/clientFileDownload.js';
 	import MicroserviceCollectionManager from './_partials/microserviceCollectionManager.svelte';
+	import IconButton from '$lib/components/iconButton.svelte';
 
 	//
 
@@ -58,9 +59,16 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 					{#if error}
 						<Alert title="Error" color="red" class="py-2" dismissable>{error}</Alert>
 					{/if}
-					<Button on:click={handleDownloadMicroservices}>
-						{m.Download_microservices()}<Icon src={ArrowDownTray} ml />
-					</Button>
+					<div class="flex items-center gap-1">
+						<Button on:click={handleDownloadMicroservices}>
+							{m.Download_microservices()}<Icon src={ArrowDownTray} ml />
+						</Button>
+						<IconButton
+							icon={QuestionMarkCircle}
+							href="https://didroom.com/guides/Sysadmin/deploy_microservices.html"
+							target="_blank"
+						/>
+					</div>
 				</div>
 			</PageCard>
 		</ProtectedOrgUI>
