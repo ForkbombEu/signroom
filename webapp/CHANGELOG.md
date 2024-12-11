@@ -1,3 +1,10 @@
+# [1.32.0](https://github.com/ForkbombEu/signroom/compare/v1.31.0...v1.32.0) (2024-12-11)
+
+
+### Features
+
+* transactional emails ([2d51dc5](https://github.com/ForkbombEu/signroom/commit/2d51dc50b7c1e06a89d30fff91844307c5a80324))
+
 # [1.31.0](https://github.com/ForkbombEu/signroom/compare/v1.30.6...v1.31.0) (2024-12-11)
 
 
