@@ -1,3 +1,10 @@
+## [1.33.1](https://github.com/ForkbombEu/signroom/compare/v1.33.0...v1.33.1) (2024-12-12)
+
+
+### Bug Fixes
+
+* square images for orgs and flows ([#957](https://github.com/ForkbombEu/signroom/issues/957)) ([50e1107](https://github.com/ForkbombEu/signroom/commit/50e110721f4c0190ee2ae642b51577a78935e0e7))
+
 # [1.33.0](https://github.com/ForkbombEu/signroom/compare/v1.32.0...v1.33.0) (2024-12-12)
 
 
