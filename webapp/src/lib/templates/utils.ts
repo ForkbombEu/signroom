@@ -6,8 +6,8 @@ import { pipe, Array as A, Effect } from 'effect';
 
 import { objectSchemaValidator } from '$lib/jsonSchema/types';
 import {
-	objectSchemaToCredentialSubject,
-	flattenCredentialSubjectProperties
+	objectSchemaToClaims,
+	flattenClaimsProperties
 } from '@api/download-microservices/utils/credential-subject';
 
 //
@@ -20,8 +20,8 @@ export function getTemplatePropertyList(schemas: Array<unknown | undefined>) {
 				Effect.try(() =>
 					pipe(
 						objectSchemaValidator.parse(schema),
-						objectSchemaToCredentialSubject,
-						flattenCredentialSubjectProperties,
+						objectSchemaToClaims,
+						flattenClaimsProperties,
 						A.map(([credentialName, _]) => credentialName)
 					)
 				),

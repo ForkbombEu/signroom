@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: 2024 Puria Nafisi Azizi 
+# SPDX-FileCopyrightText: 2024 The Forkbomb Company
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+version = 1
+SPDX-PackageName = "signroom"
+SPDX-PackageSupplier = "Matteo Cristino <matteo@dyne.org>"
+SPDX-PackageDownloadLocation = "https://github.com/ForkbombEu/signroom"
+
+[[annotations]]
+path = ["admin/pb_migrations/**.js", "admin/examples/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024 The Forkbomb Company"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["screenshots/videos/**.webm", "screenshots/assets/**.png", "screenshots/assets/**.png", "screenshots/screens/**.png"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024 The Forkbomb Company"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = "images/**.png"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024 The Forkbomb Company"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["webapp/messages/**", "webapp/static/**.png", "webapp/emails/**/*.mjml", "webapp/static/emails/*.html"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024 The Forkbomb Company"
+SPDX-License-Identifier = "AGPL-3.0-or-later"

@@ -4,7 +4,6 @@
 
 import { loadFeatureFlags } from '$lib/features';
 import { getUserPublicKeys } from '$lib/keypairoom/utils';
-import { welcomeSearchParam } from '$lib/utils/constants';
 import { redirect } from '$lib/i18n';
 
 export const load = async ({ url }) => {
@@ -12,6 +11,6 @@ export const load = async ({ url }) => {
 
 	if (KEYPAIROOM && AUTH) {
 		const publicKeys = await getUserPublicKeys();
-		if (!publicKeys) redirect(`/my/keypairoom?${welcomeSearchParam}`, url);
+		if (!publicKeys) redirect('/my/keypairoom', url);
 	}
 };

@@ -5,13 +5,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <script lang="ts">
-	import { invalidateAll } from '$app/navigation';
-	import PortalWrapper from '$lib/components/portalWrapper.svelte';
 	import { currentUser, pb } from '$lib/pocketbase/index.js';
 	import {
-		Collections,
 		OrgJoinRequestsStatusOptions,
+		type OrgAuthorizationsResponse,
 		type OrgJoinRequestsRecord,
+		type OrgJoinRequestsResponse,
 		type OrganizationsResponse
 	} from '$lib/pocketbase/types.js';
 	import { m } from '$lib/i18n';
@@ -24,34 +23,27 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import PageCard from '$lib/components/pageCard.svelte';
 	import EmptyState from '$lib/components/emptyState.svelte';
 	import PlainCard from '$lib/components/plainCard.svelte';
+	import ModalWrapper from '$lib/components/modalWrapper.svelte';
+	import CollectionManager from '$lib/collectionManager/collectionManager.svelte';
+	import { createTypeProp } from '$lib/utils/typeProp';
 
 	//
 
-	export let data;
-	$: organizations = data.organizations;
-	$: orgJoinRequests = data.orgJoinRequests;
-
-	//
-
-	let selectedOrganization: OrganizationsResponse | undefined = undefined;
-	function selectOrganization(org: OrganizationsResponse) {
-		selectedOrganization = org;
-	}
-
-	async function sendJoinRequest() {
-		await pb.collection('orgJoinRequests').create({
+	async function sendJoinRequest(org: OrganizationsResponse) {
+		pb.collection('orgJoinRequests').create({
 			user: $currentUser?.id!,
-			organization: selectedOrganization?.id!,
+			organization: org.id!,
 			status: OrgJoinRequestsStatusOptions.pending,
 			reminders: 0
 		} satisfies OrgJoinRequestsRecord);
-		selectedOrganization = undefined;
-		invalidateAll();
 	}
 
-	function isRequestAlreadySent(organization: OrganizationsResponse): boolean {
-		return Boolean(orgJoinRequests.find((request) => request.organization == organization.id));
-	}
+	const expandOrgJoinReq = 'orgJoinRequests_via_organization';
+	const recordType = createTypeProp<
+		OrganizationsResponse<{
+			[expandOrgJoinReq]: OrgJoinRequestsResponse[];
+		}>
+	>();
 </script>
 
 <PageTop>
@@ -65,59 +57,72 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <PageContent>
 	<PageCard>
-		{#if data.organizations.length == 0}
-			<EmptyState title={m.No_available_organizations_found()} icon={UserGroup} />
-		{:else}
-			<div class="space-y-4">
-				{#each organizations as org}
-					{@const avatarUrl = pb.files.getUrl(org, org.avatar)}
-					{@const hasDescription = Boolean(org.description)}
+		<CollectionManager
+			{recordType}
+			collection="organizations"
+			initialQueryParams={{
+				expand: expandOrgJoinReq,
+				filter: `orgAuthorizations_via_organization.user.id != "${$currentUser?.id}"`
+			}}
+			subscribe={['orgJoinRequests']}
+			let:records
+		>
+			<!-- filter: `(id != orgAuthorizations_via_organization.organization.id) && (` -->
 
-					<PlainCard let:Title let:Description>
-						<div class="flex items-center gap-4">
-							<Avatar src={avatarUrl} size="md" class="shrink-0" />
-							<div>
-								<Title>{org.name}</Title>
-								{#if hasDescription}
-									<Description>
-										<span class="line-clamp-2">
-											{@html org.description}
-										</span>
-									</Description>
+			<svelte:fragment slot="emptyState">
+				<EmptyState title={m.No_available_organizations_found()} icon={UserGroup} />
+			</svelte:fragment>
+
+			{#if records.length > 0}
+				<div class="space-y-2">
+					{#each records as org}
+						{@const avatarUrl = pb.files.getUrl(org, org.avatar)}
+						{@const hasDescription = Boolean(org.description)}
+						{@const sentMembershipRequest = org.expand?.[expandOrgJoinReq]?.at(0)}
+
+						<PlainCard let:Title let:Description>
+							<div class="flex items-center gap-4">
+								<Avatar src={avatarUrl} size="md" class="shrink-0" />
+								<div>
+									<Title>{org.name}</Title>
+									{#if hasDescription}
+										<Description>
+											<span class="line-clamp-2">
+												{@html org.description}
+											</span>
+										</Description>
+									{/if}
+								</div>
+							</div>
+
+							<div slot="right" class="shrink-0 self-start pl-8">
+								{#if !sentMembershipRequest}
+									<ModalWrapper title={`${m.Send_a_request_to()} ${org.name}`} let:openModal>
+										<Button outline on:click={openModal}>
+											{m.Join()}
+											<Icon src={UserPlus} ml></Icon>
+										</Button>
+
+										<svelte:fragment slot="modal" let:closeModal>
+											<P>{m.Please_confirm_that_you_want_to_join_this_organization_()}</P>
+											<div class="flex items-center justify-center gap-2">
+												<Button color="alternative" on:click={closeModal}>
+													{m.Cancel()}
+												</Button>
+												<Button on:click={() => sendJoinRequest(org).then(closeModal)}>
+													{m.Send_join_request()}
+												</Button>
+											</div>
+										</svelte:fragment>
+									</ModalWrapper>
+								{:else}
+									<Button color="alternative" disabled>{m.Request_sent()}</Button>
 								{/if}
 							</div>
-						</div>
-
-						<div slot="right" class="shrink-0 self-start pl-8">
-							{#if !isRequestAlreadySent(org)}
-								<Button
-									outline
-									on:click={() => {
-										selectOrganization(org);
-									}}
-								>
-									{m.Join()}
-									<Icon src={UserPlus} ml></Icon>
-								</Button>
-							{:else}
-								<Button color="alternative" disabled>{m.Request_sent()}</Button>
-							{/if}
-						</div>
-					</PlainCard>
-				{/each}
-			</div>
-		{/if}
+						</PlainCard>
+					{/each}
+				</div>
+			{/if}
+		</CollectionManager>
 	</PageCard>
 </PageContent>
-
-<PortalWrapper>
-	<Modal
-		title={`${m.Send_a_request_to()} ${selectedOrganization?.name}`}
-		open={Boolean(selectedOrganization)}
-	>
-		<P>{m.Please_confirm_that_you_want_to_join_this_organization_()}</P>
-		<div class="flex justify-end">
-			<Button on:click={sendJoinRequest}>{m.Send_join_request()}</Button>
-		</div>
-	</Modal>
-</PortalWrapper>

@@ -2,13 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { verifyRole } from '$lib/rbac/index.js';
-import { error } from '@sveltejs/kit';
+import { blockMembersWithoutRoles } from '$lib/organizations';
 
 export const load = async ({ params, fetch }) => {
-	try {
-		await verifyRole(params.id, ['admin', 'owner'], fetch);
-	} catch (e) {
-		error(404);
-	}
+	await blockMembersWithoutRoles(params.id, ['admin', 'owner'], fetch);
 };

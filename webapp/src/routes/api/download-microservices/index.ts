@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import type { Expiration } from '$lib/issuanceFlows/expiration';
 import { pb } from '$lib/pocketbase';
 import type {
 	AuthorizationServersResponse,
@@ -28,7 +29,7 @@ export type DownloadMicroservicesRequestBody = {
 	credential_issuers: IssuersResponse[];
 	relying_parties: RelyingPartiesResponse[];
 	templates: TemplatesResponse[];
-	issuance_flows: ServicesResponse[];
+	issuance_flows: ServicesResponse<Expiration>[];
 	verification_flows: VerificationFlowsResponse[];
 	organization: OrganizationsResponse;
 };
@@ -37,30 +38,36 @@ async function createDownloadMicroservicesRequestBody(
 	organizationId: string,
 	fetchFn = fetch
 ): Promise<DownloadMicroservicesRequestBody> {
-	const organization = await pb.collection('organizations').getOne(organizationId);
-
 	const pbOptions: RecordFullListOptions = {
 		filter: `organization.id = '${organizationId}'`,
 		fetch: fetchFn
 	};
 
-	const issuance_flows = await pb.collection('services').getFullList(pbOptions);
+	const organization = await pb.collection('organizations').getOne(organizationId);
+	const issuance_flows = await pb
+		.collection('services')
+		.getFullList<ServicesResponse<Expiration>>(pbOptions);
 	const verification_flows = await pb.collection('verification_flows').getFullList(pbOptions);
-
 	const templates = await pb.collection('templates').getFullList(pbOptions);
 
-	const relying_parties = await pb.collection('relying_parties').getFullList(pbOptions);
-	const credential_issuers = await pb.collection('issuers').getFullList(pbOptions);
-	const authorization_servers = await pb.collection('authorization_servers').getFullList(pbOptions);
+	const relying_parties = (await pb.collection('relying_parties').getFullList(pbOptions)).filter(
+		(rp) => verification_flows.map((vf) => vf.relying_party).includes(rp.id)
+	);
+	const credential_issuers = (await pb.collection('issuers').getFullList(pbOptions)).filter((ci) =>
+		issuance_flows.map((flow) => flow.credential_issuer).includes(ci.id)
+	);
+	const authorization_servers = (
+		await pb.collection('authorization_servers').getFullList(pbOptions)
+	).filter((as) => issuance_flows.map((flow) => flow.authorization_server).includes(as.id));
 
 	return {
 		organization,
-		credential_issuers,
-		authorization_servers,
-		relying_parties,
 		issuance_flows,
 		verification_flows,
-		templates
+		templates,
+		relying_parties,
+		credential_issuers,
+		authorization_servers
 	};
 }
 

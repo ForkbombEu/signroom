@@ -42,6 +42,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { Plus } from 'svelte-heros-v2';
 	import TemplateForm from '../../templates/_partials/templateForm.svelte';
 	import { createEventDispatcher } from 'svelte';
+	import { getRandomMicroservicePort } from '$lib/microservices';
 
 	//
 
@@ -77,6 +78,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		},
 		{
 			organization: organizationId,
+			public: false,
 			...initialData
 		}
 	);
@@ -104,7 +106,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		return `type = '${type}' && ( organization.id = '${organizationId}' || public = true )`;
 	}
 
-	type Template = TemplatesResponse<unknown, unknown, { organization: OrganizationsResponse }>;
+	type Template = TemplatesResponse<unknown, { organization: OrganizationsResponse }>;
 
 	const templateTypeProp = createTypeProp<Template>();
 
@@ -204,7 +206,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				field="relying_party"
 				options={{
 					inputMode: 'select',
-					displayFields: ['name', 'endpoint'],
+					displayFields: ['name', 'endpoint', 'port'],
 					label: m.Relying_party(),
 					filter: `organization.id = '${organizationId}'`
 				}}
@@ -226,7 +228,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 			title={m.Advanced_settings()}
 			description={m.advanced_settings_description()}
 		/>
-		<Checkbox field="public" {superform}>
+		<Checkbox field="public" {superform} options={{ disabled: true }}>
 			{m.Is_public()}: {m.is_public_description()}
 		</Checkbox>
 	</PageCard>
@@ -257,6 +259,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 					$form['template'] = e.detail.id;
 					hideVerificationTemplateDrawer.on();
 				}}
+				on:cancel={hideVerificationTemplateDrawer.on}
 			/>
 		</div>
 	</Drawer>
@@ -276,12 +279,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				fieldsSettings={{
 					hide: {
 						organization: organizationId
+					},
+					defaults: {
+						port: getRandomMicroservicePort()
 					}
 				}}
 				on:success={(e) => {
 					$form['relying_party'] = e.detail.record.id;
 					hideRelyingPartyDrawer.on();
 				}}
+				showCancelButton
+				on:cancel={hideRelyingPartyDrawer.on}
 			/>
 		</div>
 	</Drawer>

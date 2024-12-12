@@ -10,12 +10,18 @@ const config: PlaywrightTestConfig = {
 		{ name: 'setup', testMatch: /.*\.setup\.ts/ },
 		{
 			name: 'nruTests',
-			testMatch: /nru\/.*\.spec\.ts/
+			testMatch: /nru\/.*\.spec\.ts/,
+			use: {
+				video: 'retain-on-failure'
+			}
 		},
 		{
 			name: 'loggedTests',
 			testMatch: /logged\/.*\.spec\.ts/,
-			use: { storageState },
+			use: {
+				video: 'retain-on-failure',
+				storageState
+			},
 			dependencies: ['setup']
 		}
 	],
@@ -24,7 +30,7 @@ const config: PlaywrightTestConfig = {
 		port: 4173,
 		reuseExistingServer: true
 	},
-	testDir: 'tests'
+	testDir: 'tests',
 };
 
 export default config;

@@ -8,11 +8,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { Button } from 'flowbite-svelte';
 	import { XMark } from 'svelte-heros-v2';
 	import type { IconComponent } from '$lib/utils/types';
+	import type { HTMLAnchorAttributes } from 'svelte/elements';
 
 	export let icon: IconComponent = XMark;
 	export let border = false;
 	export let size: keyof typeof sizes = 'xs';
+
 	export let href: string | undefined = undefined;
+	export let target: HTMLAnchorAttributes['target'] | undefined = undefined;
 
 	const sizes = {
 		xs: {
@@ -33,6 +36,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	color="alternative"
 	on:click
 	{href}
+	{target}
 >
 	<svelte:component this={icon} size={props.iconSize.toString()} />
 </Button>

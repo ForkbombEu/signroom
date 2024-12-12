@@ -19,12 +19,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		type TemplatesRecord
 	} from '$lib/pocketbase/types';
 	import { fieldsSchemaToZod } from '$lib/pocketbaseToZod';
-	import { Hr, Select } from 'flowbite-svelte';
+	import { A, Alert, Button, Hr, Select, type SelectOptionType } from 'flowbite-svelte';
 	import JSONSchemaInput from './JSONSchemaInput.svelte';
 	import SubmitButton from '$lib/forms/submitButton.svelte';
 	import FormError from '$lib/forms/formError.svelte';
 	import { createEventDispatcher } from 'svelte';
-	import { templatePresetOptions, type TemplatePreset } from './templatePresets';
 	import CodeEditorField from './codeEditorField.svelte';
 
 	//
@@ -33,16 +32,18 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	export let initialData: Partial<TemplatesRecord> = {
 		type: TemplatesTypeOptions.issuance
 	};
+	export let hideCancelButton = false;
 
 	//
 
 	let schema = fieldsSchemaToZod(getCollectionSchema(Collections.Templates)!.schema);
 
-	let dispatch = createEventDispatcher<{ success: TemplatesResponse }>();
+	let dispatch = createEventDispatcher<{ success: TemplatesResponse; cancel: {} }>();
 
 	let superform = createForm(
 		schema,
 		async (e) => {
+			console.log(e.form.data);
 			let record: TemplatesResponse;
 			if (templateId) {
 				record = await pb.collection('templates').update(templateId, e.form.data);
@@ -61,23 +62,27 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	/* Preset application */
 
-	let preset: TemplatePreset | undefined = undefined;
+	const presetsPromise: Promise<SelectOptionType<TemplatesRecord>[]> = pb
+		.collection('templates')
+		.getFullList({ filter: 'is_preset = true' })
+		.then((templates) => templates.map((t) => ({ name: t.name, value: t })));
+
+	let preset: TemplatesRecord | undefined = undefined;
 	$: handlePresetSelection(preset);
 
-	function handlePresetSelection(selectedPreset: TemplatePreset | undefined) {
+	function handlePresetSelection(selectedPreset: TemplatesRecord | undefined) {
 		if (!selectedPreset) return;
 		applyPreset(selectedPreset);
 		preset = undefined;
 	}
 
-	function applyPreset(preset: TemplatePreset) {
-		$form['zencode_script'] = preset.zencode_script;
-		$form['zencode_data'] = preset.zencode_data;
-		$form['schema'] = JSON.stringify(preset.schema);
-		$form['schema_secondary'] = JSON.stringify(preset.schema_secondary);
+	function applyPreset({ zencode_data, zencode_script, schema }: TemplatesRecord) {
+		if (zencode_script) $form['zencode_script'] = zencode_script;
+		if (zencode_data) $form['zencode_data'] = zencode_data;
+		$form['schema'] = JSON.stringify(schema, null, 4);
 	}
 
-	//
+	// Utils
 
 	$: type = getType($form);
 
@@ -122,40 +127,40 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	</div>
 
 	<div class="space-y-4">
-		<SectionTitle tag="h5" title="Load preset" description="load_preset_description" />
-		<Select items={templatePresetOptions} bind:value={preset} placeholder="Select option" />
+		<SectionTitle tag="h5" title="Load preset" description={m.load_preset_description()} />
+		{#await presetsPromise then presets}
+			<Select items={presets} bind:value={preset} placeholder={m.Select_option()} />
+		{:catch _}
+			<Alert color="yellow">
+				<p>{m.error_loading_presets()}</p>
+			</Alert>
+		{/await}
 	</div>
 
 	<div class="space-y-8">
 		<SectionTitle
 			tag="h5"
-			title="{m.Attributes_needed()} *"
-			description={type == TemplatesTypeOptions.issuance
-				? m.attributes_needed_description_credential()
-				: type == TemplatesTypeOptions.authorization
-					? m.attributes_needed_description_authorization()
-					: type == TemplatesTypeOptions.verification
-						? m.attributes_needed_description_verification()
-						: ''}
+			title="{m.Form_structure()} *"
+			description={m.form_structure_description()}
 		/>
 
 		<JSONSchemaInput {superform} field="schema" />
 	</div>
 
-	{#if type == TemplatesTypeOptions.authorization}
-		<div class="space-y-8">
-			<SectionTitle
-				tag="h5"
-				title="{m.Form_structure()} *"
-				description={m.form_structure_description()}
-			/>
-
-			<JSONSchemaInput {superform} field="schema_secondary" />
-		</div>
-	{/if}
-
 	<div class="space-y-8">
 		<SectionTitle tag="h5" title="{m.Custom_code()}*" description={m.custom_code_description()} />
+		<Alert>
+			<div class="flex justify-between">
+				<p>Test your code with the slangroom editor!</p>
+				<a
+					href="https://dyne.org/slangroom/playground/"
+					class=" underline hover:no-underline"
+					target="_blank"
+				>
+					Slangroom Playground [↗]
+				</a>
+			</div>
+		</Alert>
 		<CodeEditorField {superform} field="zencode_script" label={m.zencode_script()} lang="gherkin" />
 		<CodeEditorField {superform} field="zencode_data" label={m.zencode_data()} lang="json" />
 	</div>
@@ -172,7 +177,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	<FormError />
 
-	<div class="flex justify-end">
+	<div class="flex justify-end gap-2">
+		{#if !hideCancelButton}
+			<Button color="alternative" on:click={() => dispatch('cancel', {})}>
+				{m.Cancel()}
+			</Button>
+		{/if}
 		<SubmitButton>{templateId ? m.Update_template() : m.Create_template()}</SubmitButton>
 	</div>
 </Form>

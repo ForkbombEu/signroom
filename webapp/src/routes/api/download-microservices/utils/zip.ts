@@ -19,7 +19,7 @@ function readZipEntryAsString(entry: AdmZip.IZipEntry) {
 	return entry.getData().toString();
 }
 
-export function updateZipEntry(
+export function update_zip_entry(
 	zip: AdmZip,
 	pathFragment: string,
 	updater: (content: string) => string
@@ -30,25 +30,19 @@ export function updateZipEntry(
 	editZipEntry(zip, zipEntry, newContent);
 }
 
-export function updateZipEntryJson(
+export function update_zip_json_entry(
 	zip: AdmZip,
 	pathFragment: string,
 	updater: (content: Record<string, unknown>) => Record<string, unknown>,
 	tabSize = 4
 ) {
-	updateZipEntry(zip, pathFragment, (content) =>
+	update_zip_entry(zip, pathFragment, (content) =>
 		pipe(content, JSON.parse, updater, (content) => JSON.stringify(content, null, tabSize))
 	);
 }
 
-export function deleteZipFolder(zip: AdmZip, folderPath: string) {
-	const entries = zip.getEntries();
-	const entriesToDelete = entries
-		.map((entry) => entry.entryName)
-		.filter((entryName) => entryName.startsWith(folderPath));
-	entriesToDelete.forEach((entryName) => {
-		zip.deleteFile(entryName);
-	});
+export function delete_zip_folder(zip: AdmZip, folder_path: string) {
+	zip.deleteFile(folder_path);
 }
 
 export function addZipAsSubfolder(
@@ -75,6 +69,11 @@ function renamePathSegmentAtIndex(path: string, new_name: string, index: number)
 		.join(PATH_SEPARATOR);
 }
 
-export function getZipRootFolder(zip: AdmZip): string {
-	return zip.getEntries()[0].entryName;
+export function get_zip_root_folder(zip: AdmZip): string {
+	return zip.getEntries().at(0)?.entryName.replace('/', '') ?? '';
+}
+
+export function prepend_zip_root_folder(zip: AdmZip, path: string) {
+	const root = get_zip_root_folder(zip);
+	return `${root}/${path}`;
 }

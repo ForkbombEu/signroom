@@ -4,8 +4,8 @@
 
 import { test, expect, type Page } from '@playwright/test';
 import { userLogin, randomId } from '@utils/login';
-import { createOrganization } from '@utils/organization';
 import { config } from 'dotenv';
+import { nanoid } from 'nanoid';
 
 config();
 
@@ -24,9 +24,26 @@ test.describe('it should test organizations and members', () => {
 		browser.close;
 	});
 
-	test('it should create an organization', async ({ browser }) => {
+	test('userA should create an organization', async ({ browser }) => {
 		page = await userLogin(browser, 'A');
-		await createOrganization(page);
+
+		await page.goto('/my');
+		await expect(page).toHaveURL(/my/);
+
+		const organizationsLink = page.getByRole('link', { name: 'My organizations' }).first();
+		await expect(organizationsLink).toBeVisible();
+		await organizationsLink.click();
+
+		await page.getByRole('button', { name: 'Create a new organization' }).click();
+
+		orgName = `org-${nanoid(5)}`;
+		await page.locator('input[name="name"]').click();
+		await page.locator('input[name="name"]').fill(orgName);
+		await page.getByRole('button', { name: 'Create organization' }).click();
+
+		const organizationTitle = page.getByRole('button', { name: orgName });
+		await expect(organizationTitle).toBeVisible();
+
 		orgId = page.url().split('/').at(-1);
 	});
 
@@ -39,33 +56,77 @@ test.describe('it should test organizations and members', () => {
 		orgName = `org-${randomId()}`;
 		await page.locator('input[name="name"]').fill(orgName);
 		await page.getByRole('button', { name: 'Save changes' }).click();
-		// await expect(page.getByRole('heading', { name: orgName })).toBeVisible();
+		await expect(page.getByRole('heading', { name: orgName })).toBeVisible();
 	});
 
-	test('it should add user B to the organization as admin', async () => {
+	test('userB should not see the organization page', async ({ browser }) => {
+		page.close();
+		page = await userLogin(browser, 'B');
+		await page.goto(`/my/organizations/${orgId}`);
+		await expect(page.getByText('404').first()).toBeVisible();
+		page.close();
+	});
+
+	test('user A should invite user B and C to the organization', async ({ browser }) => {
+		page = await userLogin(browser, 'A');
+		await page.goto(`/my/organizations/${orgId}`);
+
 		await page.getByRole('tab', { name: 'Members' }).click();
 		await expect(page).toHaveURL(/my\/organizations\/[^/]+\/members/);
 
-		let username = 'userB';
-		let role = 'admin';
-		await addMemberWithRole(page, username, role);
+		const userB = 'userB@example.org';
+		const userC = 'userC@example.org';
+
+		await page.getByRole('button', { name: 'plus invite members' }).click();
+		await page.locator('textarea').fill(`${userB}\n${userC}`);
+		await page.getByRole('button', { name: 'arrow right Review and confirm' }).click();
+
+		const requestPromise = page.waitForRequest(
+			(req) => req.url().includes('organizations/invite') && req.method() == 'POST'
+		);
+		await page.getByRole('button', { name: 'envelope Send invites' }).click();
+		const request = await requestPromise;
+		await request.response();
+
 		await expect(page.getByRole('dialog')).toBeHidden();
-		await expect(page.getByText(`${username} ${role}`)).toBeVisible();
 	});
 
-	test('it should add user C to the organization as member', async () => {
-		let username = 'userC';
-		await addMemberWithRole(page, username, 'member');
-		await expect(page.getByRole('dialog')).toBeHidden();
-		await expect(page.getByText(username)).toBeVisible();
+	test('user B should accept user A invite', async ({ browser }) => {
+		page.close();
+		page = await userLogin(browser, 'B');
+		await acceptInvite(page, orgName);
 	});
 
-	test('it should fail to add A as member', async () => {
-		await addMemberWithRole(page, 'userA', 'member');
-		await expect(page.getByText('Failed to create record.')).toBeVisible();
+	test('user C should accept user A invite', async ({ browser }) => {
+		page.close();
+		page = await userLogin(browser, 'C');
+		await acceptInvite(page, orgName);
 	});
 
-	test.skip("it should hide the 'settings' section to admin", async ({ browser, page }) => {
+	test('user A should see user B and C memberships', async ({ browser }) => {
+		page.close();
+		page = await userLogin(browser, 'A');
+		await page.goto(`/my/organizations/${orgId}/members`);
+		await expect(page.getByText('userB')).toBeVisible();
+		await expect(page.getByText('userC')).toBeVisible();
+	});
+
+	test('user A should appoint user B to admin position', async () => {
+		await page.goto(`/my/organizations/${orgId}/members`);
+
+		const editRoleButton = page
+			.getByText('userB Edit role')
+			.getByRole('button', { name: 'Edit role' });
+		await expect(editRoleButton).toBeVisible();
+		await editRoleButton.click();
+
+		await page.getByRole('combobox').selectOption({ label: 'admin' });
+		await page.getByRole('button', { name: 'Edit record' }).click();
+
+		await expect(page.getByText('Admin')).toBeVisible();
+	});
+
+	test("routing should hide the 'settings' page to admin", async ({ browser, page }) => {
 		page.close();
 		page = await userLogin(browser, 'B');
 		await page.goto('/my/organizations');
@@ -75,14 +136,14 @@ test.describe('it should test organizations and members', () => {
 		const settingsButton = page.getByTestId(`${orgName} link`);
 		await expect(settingsButton).toBeHidden();
 
-		await page.getByRole('main').getByRole('button', { name: orgName }).click();
+		await page.getByRole('main').getByRole('link', { name: orgName }).click();
 		await expect(page.getByRole('tab', { name: 'cog Settings' })).toBeHidden();
 
 		await page.goto(`/my/organizations/${orgId}/settings`);
-		await expect(page.getByText('unauthorized')).toBeVisible();
+		await expect(page.getByText('404').first()).toBeVisible();
 	});
 
-	test.skip("it should hide the 'settings' section to user", async ({ browser, page }) => {
+	test("routing should hide the 'settings' section to user", async ({ browser, page }) => {
 		page.close();
 		page = await userLogin(browser, 'C');
 		await page.goto('/my/organizations');
@@ -94,19 +155,20 @@ test.describe('it should test organizations and members', () => {
 
 		await page.getByRole('main').getByRole('link', { name: orgName }).click();
 		await expect(page.getByRole('tab', { name: 'cog Settings' })).toBeHidden();
-		await expect(page.getByRole('tab', { name: 'users Members' })).toBeHidden();
 	});
 });
 
-async function addMemberWithRole(page: Page, username: string, role: string) {
-	await page.getByRole('button', { name: 'Add new member' }).click();
+async function acceptInvite(page: Page, orgName: string) {
+	await page.goto('/my/organizations');
 
-	await page.locator('.sv-content').click();
-	await page.getByPlaceholder('Select').fill(username);
-	await expect(page.locator('.sv-item').filter({ hasText: username })).toBeVisible();
-	await page.getByPlaceholder('Select').press('Enter');
+	await expect(page.getByText(orgName)).toBeVisible();
+	await page.getByRole('button', { name: 'Accept invitation' }).click();
 
-	await page.locator('select[name="role"]').selectOption({ label: role });
+	const requestPromise = page.waitForRequest((req) =>
+		req.url().includes('collections/org_invites/records')
+	);
+	const request = await requestPromise;
+	await request.response();
 
-	await page.getByRole('button', { name: 'Create record' }).click();
+	await expect(page.getByRole('link', { name: orgName })).toBeVisible();
 }

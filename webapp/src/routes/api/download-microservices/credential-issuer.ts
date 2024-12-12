@@ -3,35 +3,71 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import AdmZip from 'adm-zip';
-import { deleteZipFolder, updateZipEntryJson } from './utils/zip';
 import { pipe, Option as O, Array as A, String as S } from 'effect';
+import _ from 'lodash/fp';
+
 import type {
 	AuthorizationServersResponse,
 	IssuersResponse,
 	ServicesResponse,
 	TemplatesResponse
 } from '$lib/pocketbase/types';
-import type { DownloadMicroservicesRequestBody } from '.';
-import { cleanUrl } from './utils/data';
-import { addCustomCode, getFoldersToDelete, type WellKnown } from './shared';
-import { DEFAULT_LOCALE } from './utils/locale';
-import { objectSchemaToCredentialSubject } from './utils/credential-subject';
 import type { ObjectSchema } from '$lib/jsonSchema/types';
-import _ from 'lodash/fp';
+import type { DownloadMicroservicesRequestBody } from '.';
 
-/* Data setup */
+import {
+	add_credential_custom_code,
+	add_microservice_env,
+	delete_tests,
+	delete_unused_folders,
+	formatMicroserviceUrl,
+	get_credential_custom_code_path,
+	type WellKnown
+} from './shared-operations';
+import {
+	get_credential_configuration_template,
+	objectSchemaToClaims
+} from './utils/credential-subject';
+import { update_zip_json_entry } from './utils/zip';
+import { DEFAULT_LOCALE } from './utils/locale';
+import { config } from './config';
+import type { Expiration, ExpirationDate } from '$lib/issuanceFlows/expiration';
+
+/* Main */
+
+export function create_credential_issuer_zip(
+	didroom_microservices_zip_buffer: Buffer,
+	credential_issuer: IssuersResponse,
+	request_body: DownloadMicroservicesRequestBody
+) {
+	const zip = new AdmZip(didroom_microservices_zip_buffer);
+
+	const credential_issuer_related_data = get_credential_issuer_related_data_from_request_body(
+		credential_issuer,
+		request_body
+	);
+
+	edit_credential_issuer_well_known(zip, credential_issuer, credential_issuer_related_data);
+	add_credentials_custom_code(zip, credential_issuer_related_data.issuance_flows);
+	add_microservice_env(zip, credential_issuer);
+	delete_unused_folders(zip, 'credential_issuer');
+	delete_tests(zip);
+
+	return zip;
+}
+
+/* Get related data */
 
 type CredentialIssuerRelatedData = {
 	authorization_servers: Array<AuthorizationServersResponse>;
-	credentials: Array<{
-		issuance_flow: ServicesResponse;
-		issuance_template: TemplatesResponse;
-	}>;
+	issuance_flows: Array<IssuanceFlow>;
 };
 
-function getCredentialIssuerRelatedDataFromRequestBody(
-	body: DownloadMicroservicesRequestBody,
-	credential_issuer: IssuersResponse
+type IssuanceFlow = ServicesResponse<Expiration> & { template: TemplatesResponse };
+
+function get_credential_issuer_related_data_from_request_body(
+	credential_issuer: IssuersResponse,
+	body: DownloadMicroservicesRequestBody
 ): CredentialIssuerRelatedData {
 	const {
 		authorization_servers: org_authorization_servers,
@@ -39,50 +75,54 @@ function getCredentialIssuerRelatedDataFromRequestBody(
 		templates: org_templates
 	} = body;
 
+	const related_issuance_flows = org_issuance_flows.filter(
+		(flow) => flow.credential_issuer == credential_issuer.id
+	);
+
 	return {
 		authorization_servers: pipe(
-			org_issuance_flows,
-			A.filter((issuance_flow) => issuance_flow.credential_issuer == credential_issuer.id),
+			related_issuance_flows,
 			A.map((issuance_flow) => issuance_flow.authorization_server),
 			(authorization_server_ids) =>
 				org_authorization_servers.filter((a) => authorization_server_ids.includes(a.id))
 		),
 
-		credentials: pipe(
-			org_issuance_flows,
-			A.filter((issuance_flow) => issuance_flow.credential_issuer == credential_issuer.id),
-			A.map((issuance_flow) => ({
-				issuance_flow,
-				issuance_template: pipe(
-					org_templates,
-					A.findFirst((t) => t.id == issuance_flow.credential_template),
-					O.getOrThrow
-				)
-			}))
-		)
+		issuance_flows: related_issuance_flows.map((issuance_flow) => ({
+			...issuance_flow,
+			template: pipe(
+				org_templates,
+				A.findFirst((t) => t.id == issuance_flow.credential_template),
+				O.getOrThrow
+			)
+		}))
 	};
 }
 
 /* Well known editing */
 
-type CredentialConfiguration = Record<string, unknown> & { readonly brand: unique symbol };
-
-function createCredentialIssuerWellKnown(
+function create_credential_issuer_well_known(
 	credential_issuer: IssuersResponse,
 	credential_issuer_related_data: CredentialIssuerRelatedData,
 	default_well_known: WellKnown
 ): WellKnown {
-	const { authorization_servers } = credential_issuer_related_data;
-
-	const credential_issuer_url = cleanUrl(credential_issuer.endpoint);
-	const authorization_servers_urls = authorization_servers.map((a) => a.endpoint).map(cleanUrl);
-	const credential_configuration_sample = getCredentialConfigurationSample(default_well_known);
+	const { authorization_servers, issuance_flows } = credential_issuer_related_data;
+	const credential_issuer_url = formatMicroserviceUrl(
+		credential_issuer.endpoint,
+		'credential_issuer'
+	);
+	const authorization_servers_urls = authorization_servers.map((a) =>
+		formatMicroserviceUrl(a.endpoint, 'authz_server')
+	);
+	const credentialConfigurationsSupported = _.flow(
+		_.map(convert_issuance_flow_to_credential_configuration),
+		_.keyBy((item) => item.vct)
+	);
 
 	return pipe(
 		default_well_known,
 
 		JSON.stringify,
-		S.replaceAll('https://issuer1.zenswarm.forkbomb.eu/credential_issuer', credential_issuer_url),
+		S.replaceAll('{{ ci_url }}', credential_issuer_url),
 		JSON.parse,
 
 		_.set('authorization_servers', authorization_servers_urls),
@@ -90,163 +130,121 @@ function createCredentialIssuerWellKnown(
 			name: credential_issuer.name,
 			locale: DEFAULT_LOCALE
 		}),
-		_.set('jwks.keys[0].kid', ''),
 		_.set(
 			'credential_configurations_supported',
-			convertIssuerRelatedDataToCredentialConfigurationsSupported(
-				credential_issuer_related_data,
-				credential_configuration_sample
-			)
+			credentialConfigurationsSupported(issuance_flows)
 		)
 	) as WellKnown;
 }
 
-function getCredentialConfigurationSample(default_well_known: WellKnown): CredentialConfiguration {
-	return pipe(
-		default_well_known,
-		_.get('credential_configurations_supported[0]')
-	) as CredentialConfiguration;
-}
-
-function convertIssuerRelatedDataToCredentialConfigurationsSupported(
-	data: CredentialIssuerRelatedData,
-	credential_configuration_sample: CredentialConfiguration
-): CredentialConfiguration[] {
-	return data.credentials.map(({ issuance_flow, issuance_template }) =>
-		convertIssuanceFlowToCredentialConfiguration(
-			issuance_flow,
-			issuance_template,
-			credential_configuration_sample
-		)
-	);
-}
-
-function convertIssuanceFlowToCredentialConfiguration(
-	issuance_flow: ServicesResponse,
-	issuance_template: TemplatesResponse,
-	credential_configuration_sample: CredentialConfiguration
+function convert_issuance_flow_to_credential_configuration(
+	issuance_flow: IssuanceFlow
 ): CredentialConfiguration {
 	return pipe(
-		credential_configuration_sample,
+		get_credential_configuration_template(),
 
 		_.set('display[0]', {
 			name: issuance_flow.display_name,
 			locale: DEFAULT_LOCALE,
 			logo: {
 				url: issuance_flow.logo,
-				alt_text: `${issuance_flow.display_name} logo`
+				alt_text: `${issuance_flow.display_name} logo`,
+				uri: issuance_flow.logo
 			},
 			background_color: '#12107c',
 			text_color: '#FFFFFF',
 			description: issuance_flow.description
 		}),
 
-		_.set('credential_definition.type[0]', issuance_flow.type_name),
+		_.set('vct', issuance_flow.type_name),
 
 		_.set(
-			'credential_definition.credentialSubject',
-			objectSchemaToCredentialSubject(issuance_template.schema as ObjectSchema, DEFAULT_LOCALE)
+			'claims',
+			objectSchemaToClaims(issuance_flow.template.schema as ObjectSchema, DEFAULT_LOCALE)
 		)
 	) as CredentialConfiguration;
 }
 
-/* Custom code editing */
-
-function addCredentialsCustomCode(
-	zip: AdmZip,
-	credential_issuer_related_data: CredentialIssuerRelatedData
-) {
-	credential_issuer_related_data.credentials.forEach(({ issuance_flow, issuance_template }) =>
-		addCustomCode(zip, 'credential_issuer', issuance_flow.type_name, issuance_template)
-	);
-}
+type CredentialConfiguration = Record<string, unknown> & { readonly brand: unique symbol };
 
 /* Zip editing */
 
-const CREDENTIAL_ISSUER_WELL_KNOWN_PATH =
-	'public/credential_issuer/.well-known/openid-credential-issuer';
-
-function editCredentialIssuerWellKnown(
+function edit_credential_issuer_well_known(
 	zip: AdmZip,
 	credential_issuer: IssuersResponse,
 	credential_issuer_related_data: CredentialIssuerRelatedData
 ) {
-	updateZipEntryJson(zip, CREDENTIAL_ISSUER_WELL_KNOWN_PATH, (default_well_known) =>
-		createCredentialIssuerWellKnown(
-			credential_issuer,
-			credential_issuer_related_data,
-			default_well_known as WellKnown
-		)
+	update_zip_json_entry(
+		zip,
+		get_credential_issuer_well_known_path(),
+		(default_well_known) =>
+			create_credential_issuer_well_known(
+				credential_issuer,
+				credential_issuer_related_data,
+				default_well_known as WellKnown
+			),
+		config.json.tab_size
 	);
 }
 
-export function createCredentialIssuerZip(
-	zip_buffer: Buffer,
-	credential_issuer: IssuersResponse,
-	request_body: DownloadMicroservicesRequestBody
-) {
-	const zip = new AdmZip(zip_buffer);
-
-	const credential_issuer_related_data = getCredentialIssuerRelatedDataFromRequestBody(
-		request_body,
-		credential_issuer
-	);
-
-	editCredentialIssuerWellKnown(zip, credential_issuer, credential_issuer_related_data);
-	getFoldersToDelete('credential_issuer').forEach((path) => deleteZipFolder(zip, path));
-	addCredentialsCustomCode(zip, credential_issuer_related_data);
-
-	return zip;
+function get_credential_issuer_well_known_path() {
+	return [
+		config.folder_names.public,
+		config.folder_names.microservices.credential_issuer,
+		config.folder_names.well_known,
+		config.file_names.well_known.credential_issuer
+	].join('/');
 }
 
-/* Old code */
+/* Custom code editing */
 
-// //
+function add_credentials_custom_code(zip: AdmZip, issuance_flows: IssuanceFlow[]) {
+	pipe(
+		issuance_flows,
+		A.forEach((issuance_flow) => {
+			add_credential_custom_code(
+				zip,
+				'credential_issuer',
+				issuance_flow.type_name,
+				issuance_flow.template
+			);
+			add_credential_time(zip, issuance_flow);
+		})
+	);
+}
 
-// function updateCredentialKeysJson(
-// 	zip: AdmZip,
-// 	data: RequestBody,
-// 	id: string,
-// 	locale = DEFAULT_LOCALE
-// ) {
-// 	const credentialSubject = mergeObjectSchemasIntoCredentialSubject(
-// 		[data.credential_template],
-// 		locale
-// 	);
+function add_credential_time(zip: AdmZip, issuance_flow: ServicesResponse<Expiration>) {
+	if (!issuance_flow.expiration) return;
+	const base_path = get_credential_custom_code_path(
+		zip,
+		'credential_issuer',
+		issuance_flow.type_name
+	);
+	const path = `${base_path}.${config.file_extensions.time}`;
+	const content = pipe(issuance_flow.expiration, format_expiration, (exp) =>
+		JSON.stringify(exp, null, config.json.tab_size)
+	);
+	zip.addFile(path, Buffer.from(content));
+}
 
-// 	updateZipFileContent(
-// 		zip,
-// 		'credential_issuer/credential.keys.json',
+function format_expiration(expiration: Expiration): LuaExpiration | ExpirationDate {
+	if (expiration.mode == 'duration') {
+		return {
+			mode: 'duration',
+			duration: {
+				day: expiration.duration.days,
+				year: expiration.duration.years,
+				month: expiration.duration.months
+			}
+		};
+	} else return expiration;
+}
 
-// 		(content) =>
-// 			pipe(
-// 				content,
-// 				S.replaceAll('http://issuer.example.org', cleanUrl(data.credential_issuer_url)),
-
-// 				JSON.parse,
-// 				_.set(
-// 					'supported_selective_disclosure.credentials_supported[0].credentialSubject',
-// 					credentialSubject
-// 				),
-// 				_.set(
-// 					'supported_selective_disclosure.credentials_supported[0].display[0].name',
-// 					data.credential_display_name
-// 				),
-// 				_.set('supported_selective_disclosure.credentials_supported[0].display[0].locale', locale),
-// 				_.set('supported_selective_disclosure.credentials_supported[0].id', id),
-// 				_.set(
-// 					'supported_selective_disclosure.credentials_supported[0].order',
-// 					Object.keys(credentialSubject)
-// 				),
-// 				_.set(
-// 					'supported_selective_disclosure.credentials_supported[0].types[1]',
-// 					data.credential_type_name
-// 				),
-// 				_.set('supported_selective_disclosure.scopes_supported[1]', data.credential_type_name),
-// 				_.set('object', {}),
-// 				_.set('id', id),
-
-// 				(json) => JSON.stringify(json, null, 4)
-// 			)
-// 	);
-// }
+type LuaExpiration = {
+	mode: 'duration';
+	duration: {
+		month: number;
+		year: number;
+		day: number;
+	};
+};

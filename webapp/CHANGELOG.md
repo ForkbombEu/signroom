@@ -1,3 +1,335 @@
+# [1.32.0](https://github.com/ForkbombEu/signroom/compare/v1.31.0...v1.32.0) (2024-12-11)
+
+
+### Features
+
+* transactional emails ([2d51dc5](https://github.com/ForkbombEu/signroom/commit/2d51dc50b7c1e06a89d30fff91844307c5a80324))
+
+# [1.31.0](https://github.com/ForkbombEu/signroom/compare/v1.30.6...v1.31.0) (2024-12-11)
+
+
+### Bug Fixes
+
+* pocketbase correct client for version ([4060348](https://github.com/ForkbombEu/signroom/commit/4060348296cae6dc72a0b1def9719f86e7589c40))
+* rollback pocketbase-typegen to support 0.22.x pocketbase ([a59daa2](https://github.com/ForkbombEu/signroom/commit/a59daa240a221629ab1f72aeedf19cb19ad28f7e))
+* update zenflows-crypto to latest commit ([#924](https://github.com/ForkbombEu/signroom/issues/924)) ([fac50fd](https://github.com/ForkbombEu/signroom/commit/fac50fd87d1743a9fda13e329dad697d34dca4ab))
+
+
+### Features
+
+* add grants in credential-offer qrcode ([#874](https://github.com/ForkbombEu/signroom/issues/874)) ([9df9699](https://github.com/ForkbombEu/signroom/commit/9df9699ecff5aa1628d06a8bd6f3ad5c6db0f763))
+* improve x509 certs usability ([#886](https://github.com/ForkbombEu/signroom/issues/886)) ([b13ef42](https://github.com/ForkbombEu/signroom/commit/b13ef4258f65f49da24bea22996f156eebcae875)), closes [#883](https://github.com/ForkbombEu/signroom/issues/883)
+
+## [1.30.6](https://github.com/ForkbombEu/signroom/compare/v1.30.5...v1.30.6) (2024-11-06)
+
+
+### Bug Fixes
+
+* **features:** show env variables for admin ([#869](https://github.com/ForkbombEu/signroom/issues/869)) ([d0e5be3](https://github.com/ForkbombEu/signroom/commit/d0e5be388fa849b85ed911b5820e2c923c7c89db))
+
+## [1.30.5](https://github.com/ForkbombEu/signroom/compare/v1.30.4...v1.30.5) (2024-11-06)
+
+
+### Bug Fixes
+
+* use credential_offer parameter in issuance qrcode ([#870](https://github.com/ForkbombEu/signroom/issues/870)) ([d6deee7](https://github.com/ForkbombEu/signroom/commit/d6deee7bb9649e23e17eda415b27d3092a3e8574))
+
+## [1.30.4](https://github.com/ForkbombEu/signroom/compare/v1.30.3...v1.30.4) (2024-11-05)
+
+
+### Bug Fixes
+
+* hide only DID envVaribales ([#865](https://github.com/ForkbombEu/signroom/issues/865)) ([cbe90b3](https://github.com/ForkbombEu/signroom/commit/cbe90b3bcbcbcc0fe716cd60b15f8f47e1362c7c))
+
+## [1.30.3](https://github.com/ForkbombEu/signroom/compare/v1.30.2...v1.30.3) (2024-11-04)
+
+
+### Bug Fixes
+
+* **features:** remove env variables from query ([#861](https://github.com/ForkbombEu/signroom/issues/861)) ([b4d1752](https://github.com/ForkbombEu/signroom/commit/b4d175218e88e757213a845f7a83a25ae48deacc))
+
+## [1.30.2](https://github.com/ForkbombEu/signroom/compare/v1.30.1...v1.30.2) (2024-10-31)
+
+
+### Bug Fixes
+
+* **microservices:** credential_configurations_supported is a dictionary ([#852](https://github.com/ForkbombEu/signroom/issues/852)) ([8a78255](https://github.com/ForkbombEu/signroom/commit/8a78255538779fdff2ef2dd83e6cc809eecc01e4))
+
+## [1.30.1](https://github.com/ForkbombEu/signroom/compare/v1.30.0...v1.30.1) (2024-10-11)
+
+
+### Bug Fixes
+
+* template update api rule error ([#845](https://github.com/ForkbombEu/signroom/issues/845)) ([1fb9710](https://github.com/ForkbombEu/signroom/commit/1fb971015cd015b4552c123d793512755b7ebbb4))
+
+# [1.30.0](https://github.com/ForkbombEu/signroom/compare/v1.29.0...v1.30.0) (2024-10-04)
+
+
+### Features
+
+* invite external users by email ([#834](https://github.com/ForkbombEu/signroom/issues/834)) ([80b5b03](https://github.com/ForkbombEu/signroom/commit/80b5b0353a54bce1586755482837db010a40eea7))
+* transactional emails render and templates ([#833](https://github.com/ForkbombEu/signroom/issues/833)) ([f0f09b2](https://github.com/ForkbombEu/signroom/commit/f0f09b292fc2f688092504dbf7b516d59d4f8727)), closes [#773](https://github.com/ForkbombEu/signroom/issues/773)
+
+# [1.29.0](https://github.com/ForkbombEu/signroom/compare/v1.28.1...v1.29.0) (2024-09-26)
+
+
+### Features
+
+* add script to remove unused strings ([#805](https://github.com/ForkbombEu/signroom/issues/805)) ([7284209](https://github.com/ForkbombEu/signroom/commit/7284209bb79fac435ca856bdeb81e471b9423a32))
+
+## [1.28.1](https://github.com/ForkbombEu/signroom/compare/v1.28.0...v1.28.1) (2024-09-23)
+
+
+### Bug Fixes
+
+* Update 1727104241_template_merge_schemas.js ([#812](https://github.com/ForkbombEu/signroom/issues/812)) ([2403667](https://github.com/ForkbombEu/signroom/commit/24036678804064d9f9eb2b39c9a714ee2d1764d1))
+
+# [1.28.0](https://github.com/ForkbombEu/signroom/compare/v1.27.1...v1.28.0) (2024-09-23)
+
+
+### Features
+
+* remove schema_secondary field and merge old ones ([#810](https://github.com/ForkbombEu/signroom/issues/810)) ([f97b019](https://github.com/ForkbombEu/signroom/commit/f97b019a2080bbc069d9d7423884cc023cb3f75f))
+
+## [1.27.1](https://github.com/ForkbombEu/signroom/compare/v1.27.0...v1.27.1) (2024-09-23)
+
+
+### Bug Fixes
+
+* typo in dialog ([#809](https://github.com/ForkbombEu/signroom/issues/809)) ([36458f2](https://github.com/ForkbombEu/signroom/commit/36458f2d83126536609b9245221937e635c3b0cf)), closes [#808](https://github.com/ForkbombEu/signroom/issues/808)
+
+# [1.27.0](https://github.com/ForkbombEu/signroom/compare/v1.26.0...v1.27.0) (2024-09-23)
+
+
+### Features
+
+* run i18n linting and translations check ([#807](https://github.com/ForkbombEu/signroom/issues/807)) ([0f3a8f5](https://github.com/ForkbombEu/signroom/commit/0f3a8f5b5b18a6aa3828a6fdde85e60262a77d6a))
+
+# [1.26.0](https://github.com/ForkbombEu/signroom/compare/v1.25.0...v1.26.0) (2024-09-21)
+
+
+### Features
+
+* add Ninja GitHub action 🥷 ([d0f9e20](https://github.com/ForkbombEu/signroom/commit/d0f9e20c4bb50438aa52b4903cbf4820f832c8d0))
+
+# [1.25.0](https://github.com/ForkbombEu/signroom/compare/v1.24.0...v1.25.0) (2024-09-21)
+
+
+### Features
+
+* add checks on microservices ([#798](https://github.com/ForkbombEu/signroom/issues/798)) ([60c731e](https://github.com/ForkbombEu/signroom/commit/60c731e96efdc1202275fb79ef24c90b7c6b9082)), closes [#791](https://github.com/ForkbombEu/signroom/issues/791)
+
+# [1.24.0](https://github.com/ForkbombEu/signroom/compare/v1.23.1...v1.24.0) (2024-09-20)
+
+
+### Bug Fixes
+
+* remove trailing whitespace in microservices .env ([#806](https://github.com/ForkbombEu/signroom/issues/806)) ([92bb116](https://github.com/ForkbombEu/signroom/commit/92bb1169a66353b447120e9326188c86fc4586e2))
+
+
+### Features
+
+* load presets from backend ([#800](https://github.com/ForkbombEu/signroom/issues/800)) ([7b2b847](https://github.com/ForkbombEu/signroom/commit/7b2b847b1b49a1603089525046f64fd19bb76faa))
+
+## [1.23.1](https://github.com/ForkbombEu/signroom/compare/v1.23.0...v1.23.1) (2024-09-18)
+
+
+### Bug Fixes
+
+* tests video retantion ([#802](https://github.com/ForkbombEu/signroom/issues/802)) ([6c2ca1b](https://github.com/ForkbombEu/signroom/commit/6c2ca1b39e19e6315ae5b9f4075bfe91d2270e13))
+
+# [1.23.0](https://github.com/ForkbombEu/signroom/compare/v1.22.0...v1.23.0) (2024-09-17)
+
+
+### Bug Fixes
+
+* roles management ([#796](https://github.com/ForkbombEu/signroom/issues/796)) ([d1805e5](https://github.com/ForkbombEu/signroom/commit/d1805e5b7469e072b9fbdb3c73a5926eae3e5476))
+
+
+### Features
+
+* credential-issuance qr code contains intent-url ([#795](https://github.com/ForkbombEu/signroom/issues/795)) ([20b3dfc](https://github.com/ForkbombEu/signroom/commit/20b3dfc9591cfb3b6131a1c9d9223259da2221e4))
+
+# [1.22.0](https://github.com/ForkbombEu/signroom/compare/v1.21.0...v1.22.0) (2024-09-17)
+
+
+### Bug Fixes
+
+* remove verification flow image ([#797](https://github.com/ForkbombEu/signroom/issues/797)) ([d835844](https://github.com/ForkbombEu/signroom/commit/d83584414b05b7dd8d23f5144fcef0959515d773))
+
+
+### Features
+
+* add microservice pills tags ([#799](https://github.com/ForkbombEu/signroom/issues/799)) ([42de60d](https://github.com/ForkbombEu/signroom/commit/42de60d5f8c2ae096a421644ef2cb889b6ef04d3))
+
+# [1.21.0](https://github.com/ForkbombEu/signroom/compare/v1.20.0...v1.21.0) (2024-09-12)
+
+
+### Features
+
+* add docker compose setup in the microservices zip ([#759](https://github.com/ForkbombEu/signroom/issues/759)) ([109d11e](https://github.com/ForkbombEu/signroom/commit/109d11e265e0dc8ee0978ba99e7ee069e0924cca))
+* validate unique names for microservices within organization ([#794](https://github.com/ForkbombEu/signroom/issues/794)) ([dccba4e](https://github.com/ForkbombEu/signroom/commit/dccba4ec5c8833d0a11d7c65ad195521a6a5e1ea))
+
+# [1.20.0](https://github.com/ForkbombEu/signroom/compare/v1.19.0...v1.20.0) (2024-09-11)
+
+
+### Features
+
+* delete tests folder in microservices .zip ([#788](https://github.com/ForkbombEu/signroom/issues/788)) ([38ce9b9](https://github.com/ForkbombEu/signroom/commit/38ce9b9d48db7933e86a785e1c079908ff427550))
+
+# [1.19.0](https://github.com/ForkbombEu/signroom/compare/v1.18.0...v1.19.0) (2024-09-11)
+
+
+### Features
+
+* add string placeholders in microservices form inputs ([#793](https://github.com/ForkbombEu/signroom/issues/793)) ([3467397](https://github.com/ForkbombEu/signroom/commit/34673976adb5953fc511a0f3d1e51fe0ecf49de0))
+
+# [1.18.0](https://github.com/ForkbombEu/signroom/compare/v1.17.0...v1.18.0) (2024-09-11)
+
+
+### Features
+
+* add missing strings ([#784](https://github.com/ForkbombEu/signroom/issues/784)) ([02dcaf3](https://github.com/ForkbombEu/signroom/commit/02dcaf3e8d0988e7fc87ac06edf29f3d5417eb39))
+
+# [1.17.0](https://github.com/ForkbombEu/signroom/compare/v1.16.2...v1.17.0) (2024-09-10)
+
+
+### Features
+
+* add my certificates description ([#787](https://github.com/ForkbombEu/signroom/issues/787)) ([9d8a65a](https://github.com/ForkbombEu/signroom/commit/9d8a65a229ed6209165c013aedaecd2c0dcd0644))
+* **forms:** add cancel buttons ([#786](https://github.com/ForkbombEu/signroom/issues/786)) ([8ea342c](https://github.com/ForkbombEu/signroom/commit/8ea342c108ad4eafb8fc167157a071437d30ebd6))
+* gray-out attributes needed ([#783](https://github.com/ForkbombEu/signroom/issues/783)) ([88bcd42](https://github.com/ForkbombEu/signroom/commit/88bcd42ed0fe10ba931bd325085dfcb2e015040f))
+
+## [1.16.2](https://github.com/ForkbombEu/signroom/compare/v1.16.1...v1.16.2) (2024-09-10)
+
+
+### Bug Fixes
+
+* add js hooks to staging env ([a3fca8d](https://github.com/ForkbombEu/signroom/commit/a3fca8dcbbab8cbd364a7b59884a8848ed50e748))
+
+## [1.16.1](https://github.com/ForkbombEu/signroom/compare/v1.16.0...v1.16.1) (2024-09-10)
+
+
+### Bug Fixes
+
+* **templates:** fix reactivity issues ([#785](https://github.com/ForkbombEu/signroom/issues/785)) ([b8717a7](https://github.com/ForkbombEu/signroom/commit/b8717a7c637cd80b4f8fd532d52d716d2c232479))
+
+# [1.16.0](https://github.com/ForkbombEu/signroom/compare/v1.15.0...v1.16.0) (2024-09-09)
+
+
+### Features
+
+* add policy and terms links ([#782](https://github.com/ForkbombEu/signroom/issues/782)) ([abf52cc](https://github.com/ForkbombEu/signroom/commit/abf52cca26c0b357222087d6d8203e17f6d37085))
+
+# [1.15.0](https://github.com/ForkbombEu/signroom/compare/v1.14.5...v1.15.0) (2024-09-09)
+
+
+### Features
+
+* changed user avatar max size ([#781](https://github.com/ForkbombEu/signroom/issues/781)) ([7252ef9](https://github.com/ForkbombEu/signroom/commit/7252ef98cee9edcc65a11f464fc19fb38256f6a1))
+
+## [1.14.5](https://github.com/ForkbombEu/signroom/compare/v1.14.4...v1.14.5) (2024-08-31)
+
+
+### Bug Fixes
+
+* change delete of unused microservices ([#755](https://github.com/ForkbombEu/signroom/issues/755)) ([68f8555](https://github.com/ForkbombEu/signroom/commit/68f85554920cb447faf0b930f35183e406ef7bff))
+
+## [1.14.4](https://github.com/ForkbombEu/signroom/compare/v1.14.3...v1.14.4) (2024-08-21)
+
+
+### Bug Fixes
+
+* add cascade delete for organization relations ([#743](https://github.com/ForkbombEu/signroom/issues/743)) ([27abcb5](https://github.com/ForkbombEu/signroom/commit/27abcb5e940bc23c5f9698fe327a73874f080d26))
+
+## [1.14.3](https://github.com/ForkbombEu/signroom/compare/v1.14.2...v1.14.3) (2024-08-21)
+
+
+### Bug Fixes
+
+* Didroom to DIDroom in Welcome page ([#763](https://github.com/ForkbombEu/signroom/issues/763)) ([1c66ef8](https://github.com/ForkbombEu/signroom/commit/1c66ef8717e874457a5175006bfb30ad663cf49a))
+
+## [1.14.2](https://github.com/ForkbombEu/signroom/compare/v1.14.1...v1.14.2) (2024-08-11)
+
+
+### Bug Fixes
+
+* bad habits do not die! remove ED on main ([5b27492](https://github.com/ForkbombEu/signroom/commit/5b274925fb2df817799535166ca44a9d500b90bf))
+
+## [1.14.1](https://github.com/ForkbombEu/signroom/compare/v1.14.0...v1.14.1) (2024-08-07)
+
+
+### Bug Fixes
+
+* download microservices url handling ([#752](https://github.com/ForkbombEu/signroom/issues/752)) ([5b741a6](https://github.com/ForkbombEu/signroom/commit/5b741a631060d50f14e4a79b899c187b37ccc20a))
+
+# [1.14.0](https://github.com/ForkbombEu/signroom/compare/v1.13.5...v1.14.0) (2024-08-07)
+
+
+### Bug Fixes
+
+* record form defaults loading ([#748](https://github.com/ForkbombEu/signroom/issues/748)) ([73c649f](https://github.com/ForkbombEu/signroom/commit/73c649f4b9fa1c6cb50c5f68f1fcf144c0f7e6df))
+
+
+### Features
+
+* add link for slangroom editor ([#751](https://github.com/ForkbombEu/signroom/issues/751)) ([4d438ac](https://github.com/ForkbombEu/signroom/commit/4d438ac9494b7d330d450f4295ce6584799adfac))
+* save expiration data in microservice ([#746](https://github.com/ForkbombEu/signroom/issues/746)) ([f32c12f](https://github.com/ForkbombEu/signroom/commit/f32c12fd1013c340b5f7f64dcb67d185d80bf6c8))
+
+## [1.13.5](https://github.com/ForkbombEu/signroom/compare/v1.13.4...v1.13.5) (2024-08-07)
+
+
+### Bug Fixes
+
+* port range ([#744](https://github.com/ForkbombEu/signroom/issues/744)) ([e04a02f](https://github.com/ForkbombEu/signroom/commit/e04a02f3309ad62784d9dc91f9faa0e4949911f7))
+
+## [1.13.4](https://github.com/ForkbombEu/signroom/compare/v1.13.3...v1.13.4) (2024-08-07)
+
+
+### Bug Fixes
+
+* add default values to expiration in case of null value ([#733](https://github.com/ForkbombEu/signroom/issues/733)) ([48d7d6a](https://github.com/ForkbombEu/signroom/commit/48d7d6acb4fdd6c51a21e480e2b9eb80b0e112f6))
+
+## [1.13.3](https://github.com/ForkbombEu/signroom/compare/v1.13.2...v1.13.3) (2024-08-05)
+
+
+### Bug Fixes
+
+* remove close drawer on click outside ([#745](https://github.com/ForkbombEu/signroom/issues/745)) ([597ad8c](https://github.com/ForkbombEu/signroom/commit/597ad8c0befb4d3dfcb84b8b97bd353a4d64dbc1))
+
+## [1.13.2](https://github.com/ForkbombEu/signroom/compare/v1.13.1...v1.13.2) (2024-08-01)
+
+
+### Bug Fixes
+
+* firstly delete the files and then the folders in delete_zip_folder ([#731](https://github.com/ForkbombEu/signroom/issues/731)) ([0171bef](https://github.com/ForkbombEu/signroom/commit/0171bef2c82c6a06f9347a6e9430acc0429b7358))
+
+## [1.13.1](https://github.com/ForkbombEu/signroom/compare/v1.13.0...v1.13.1) (2024-08-01)
+
+
+### Bug Fixes
+
+* update microservices zip source to ForkbombEu/didroom_microservices@main ([#729](https://github.com/ForkbombEu/signroom/issues/729)) ([d0af0cf](https://github.com/ForkbombEu/signroom/commit/d0af0cffc5f8258577cad7f78ae1bd93d007fa38))
+
+# [1.13.0](https://github.com/ForkbombEu/signroom/compare/v1.12.0...v1.13.0) (2024-08-01)
+
+
+### Bug Fixes
+
+* make verification_flow visible to admin/owner members ([#723](https://github.com/ForkbombEu/signroom/issues/723)) ([ef9478a](https://github.com/ForkbombEu/signroom/commit/ef9478a1f999ae698f8701066377f7ea4d45dbf3))
+
+
+### Features
+
+* unfilter empty microservices in download. Fill ports and other info ([#726](https://github.com/ForkbombEu/signroom/issues/726)) ([a7d042c](https://github.com/ForkbombEu/signroom/commit/a7d042c65f69e4e77ed13409d9fe1cd00c3e07a7))
+
+# [1.12.0](https://github.com/ForkbombEu/signroom/compare/v1.11.1...v1.12.0) (2024-07-30)
+
+
+### Features
+
+* add credential expiry ([#718](https://github.com/ForkbombEu/signroom/issues/718)) ([efc39e5](https://github.com/ForkbombEu/signroom/commit/efc39e59a4aa11cf21694d7a771fcc787fdf707b))
+
 ## [1.11.1](https://github.com/ForkbombEu/signroom/compare/v1.11.0...v1.11.1) (2024-07-29)
 
 

@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { ProtectedOrgUI } from '$lib/rbac/index.js';
+	import { ProtectedOrgUI } from '$lib/organizations/index.js';
 	import { m } from '$lib/i18n';
 
 	import OrganizationLayout from '$lib/components/organizationLayout.svelte';
@@ -14,6 +14,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import HomeSection from './_partials/homeSection.svelte';
 	import { Badge } from 'flowbite-svelte';
 	import { templatesColors } from '$lib/templates';
+	import MicroserviceBadge from '$lib/microservices/microserviceBadge.svelte';
+	import type { MicroserviceType } from '$lib/microservices';
 
 	export let data;
 	let {
@@ -68,7 +70,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				buttonHref={base('/microservices')}
 				let:item
 			>
-				{item.name}
+				<div class="flex items-center gap-2">
+					{item.name}
+					<MicroserviceBadge type={item.collectionName} />
+				</div>
 			</HomeSection>
 		</PageCard>
 

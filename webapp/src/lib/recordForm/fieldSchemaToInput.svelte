@@ -50,6 +50,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	export let relationInputOptions: Partial<RecordsManagerOptions<R>> = {};
 	export let label = fieldSchema.name;
 	export let description: string | undefined = undefined;
+	export let placeholder: string | undefined = undefined;
 
 	const field = fieldSchema.name;
 	const multiple = isArrayField(fieldSchema);
@@ -93,17 +94,27 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		{label}
 	/>
 {:else if fieldSchema.type == FieldType.TEXT || fieldSchema.type == FieldType.URL}
-	<Input {superform} {field} options={{ label, helpText: description }} />
+	<Input {superform} {field} options={{ label, helpText: description, placeholder }} />
+{:else if fieldSchema.type == FieldType.NUMBER}
+	<Input
+		{superform}
+		{field}
+		options={{ label, helpText: description, type: 'number', placeholder }}
+	/>
 {:else if fieldSchema.type == FieldType.JSON}
-	<Textarea {superform} {field} options={{ label, helpText: description }} />
+	<Textarea {superform} {field} options={{ label, helpText: description, placeholder }} />
 {:else if fieldSchema.type == FieldType.BOOL}
 	<Checkbox {superform} {field}>{label}</Checkbox>
 {:else if fieldSchema.type == FieldType.FILE}
-	<File {superform} {field} options={{ label, multiple, accept }} />
+	<File {superform} {field} options={{ label, multiple, accept, placeholder }} />
 {:else if fieldSchema.type == FieldType.SELECT}
-	<Select {superform} {field} options={{ label, options, multiple, helpText: description }} />
+	<Select
+		{superform}
+		{field}
+		options={{ label, options, multiple, helpText: description, placeholder }}
+	/>
 {:else if fieldSchema.type == FieldType.EDITOR}
-	<Textarea {superform} {field} options={{ label, helpText: description }} />
+	<Textarea {superform} {field} options={{ label, helpText: description, placeholder }} />
 {:else if fieldSchema.type == FieldType.RELATION}
 	<Relations
 		{superform}
@@ -114,7 +125,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 			label,
 			multiple,
 			max,
-			helpText: description
+			helpText: description,
+			placeholder
 		}}
 	/>
 {/if}

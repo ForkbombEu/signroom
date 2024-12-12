@@ -6,7 +6,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script lang="ts">
 	import { CollectionManager } from '$lib/collectionManager';
-	import CreateRecord from '$lib/collectionManager/ui/recordActions/createRecord.svelte';
 	import {
 		Collections,
 		type OrgAuthorizationsResponse,
@@ -15,7 +14,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	} from '$lib/pocketbase/types';
 	import { createTypeProp } from '$lib/utils/typeProp';
 	import { m } from '$lib/i18n';
-	import { OrgRoles, ProtectedOrgUI } from '$lib/rbac';
+	import { OrgRoles, ProtectedOrgUI } from '$lib/organizations';
 
 	import { Button, Badge } from 'flowbite-svelte';
 	import { Pencil, Plus, XMark } from 'svelte-heros-v2';
@@ -31,11 +30,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import MembershipRequests from './_partials/membershipRequests.svelte';
 	import { getUserDisplayName } from '$lib/utils/pb';
 	import OrganizationLayout from '$lib/components/organizationLayout.svelte';
+	import ModalWrapper from '$lib/components/modalWrapper.svelte';
+	import InviteMembersForm from './_partials/inviteMembersForm.svelte';
+	import PendingInvites from './_partials/pendingInvites.svelte';
 
 	//
 
 	export let data;
 	$: organization = data.organization;
+	$: userRole = data.userRole;
 
 	type AuthorizationWithUser = OrgAuthorizationsResponse<{
 		user: UsersResponse;
@@ -47,9 +50,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <OrganizationLayout org={organization}>
 	<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
-		<PageCard>
-			<MembershipRequests {organization} />
-		</PageCard>
+		<MembershipRequests {organization} />
+		<PendingInvites {organization} />
 	</ProtectedOrgUI>
 
 	<PageCard>
@@ -70,21 +72,35 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 			let:records
 		>
 			<SectionTitle tag="h5" title={m.Members()} description={m.members_description()}>
-				<CreateRecord {recordType} slot="right">
-					<svelte:fragment slot="button" let:openModal>
-						<Button on:click={openModal} class="shrink-0">
-							<Plus size="20" class="mr-2" />
-							{m.Add_new_member()}
-						</Button>
-					</svelte:fragment>
-				</CreateRecord>
+				<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']} slot="right">
+					<div class="flex items-center gap-2">
+						<ModalWrapper
+							title={m.invite_members()}
+							let:openModal
+							modalProps={{ class: 'overflow-hidden' }}
+						>
+							<Button on:click={openModal}>
+								<Plus size="20" class="mr-2" />
+								{m.invite_members()}
+							</Button>
+
+							<svelte:fragment slot="modal" let:closeModal>
+								<InviteMembersForm
+									organizationId={organization.id}
+									onSuccess={closeModal}
+									onCancel={closeModal}
+								/>
+							</svelte:fragment>
+						</ModalWrapper>
+					</div>
+				</ProtectedOrgUI>
 			</SectionTitle>
 
-			<div class="space-y-4">
+			<div class="space-y-2">
 				{#each records as record}
 					{@const user = record.expand?.user}
 					{@const role = record.expand?.role}
-					{#if user && role}
+					{#if user && role && userRole}
 						<PlainCard>
 							<div class="flex items-center gap-4">
 								<UserAvatar size="md" {user}></UserAvatar>
@@ -104,19 +120,21 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 							<svelte:fragment slot="right">
 								<ProtectedOrgUI orgId={organization.id} roles={['admin', 'owner']}>
 									<div class="space-x-1">
-										<EditRecord {record} let:openModal>
-											<Button outline color="primary" size="sm" on:click={openModal}>
-												Edit role
-												<Pencil size="20" class="ml-2"></Pencil>
-											</Button>
-										</EditRecord>
+										{#if userRole.level < role.level}
+											<EditRecord {record} let:openModal>
+												<Button outline color="primary" size="sm" on:click={openModal}>
+													Edit role
+													<Pencil size="20" class="ml-2"></Pencil>
+												</Button>
+											</EditRecord>
 
-										<DeleteRecord {record} let:openModal>
-											<Button outline color="primary" size="sm" on:click={openModal}>
-												Remove
-												<XMark size="20" class="ml-2"></XMark>
-											</Button>
-										</DeleteRecord>
+											<DeleteRecord {record} let:openModal>
+												<Button outline color="primary" size="sm" on:click={openModal}>
+													Remove
+													<XMark size="20" class="ml-2"></XMark>
+												</Button>
+											</DeleteRecord>
+										{/if}
 									</div>
 								</ProtectedOrgUI>
 							</svelte:fragment>

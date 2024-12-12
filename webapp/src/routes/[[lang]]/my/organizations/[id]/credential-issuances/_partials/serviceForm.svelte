@@ -14,17 +14,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { createToggleStore } from '$lib/components/utils/toggleStore';
 	import {
 		Checkbox,
+		FieldWrapper,
 		Form,
 		Input,
 		Relations,
 		Select,
 		SubmitButton,
 		Textarea,
-		createForm,
-		createFormData
+		createForm
 	} from '$lib/forms';
 	import FormError from '$lib/forms/formError.svelte';
-	import { goto, m } from '$lib/i18n';
+	import { m } from '$lib/i18n';
 	import { pb } from '$lib/pocketbase/index.js';
 	import { getCollectionSchema } from '$lib/pocketbase/schema/index.js';
 	import {
@@ -47,13 +47,19 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { createEventDispatcher } from 'svelte';
 	import slugify from 'slugify';
 	import FieldHelpText from '$lib/forms/fields/fieldParts/fieldHelpText.svelte';
+	import ExpirationField from './expiration/expirationField.svelte';
+	import { expirationSchema } from '$lib/issuanceFlows/expiration';
 	import { TemplatePropertiesDisplay } from '$lib/templates';
+	import { getRandomMicroservicePort } from '$lib/microservices';
+	import { pipe, Array as A, Record as R } from 'effect';
+	import { z } from 'zod';
 
 	//
 
 	export let organizationId: string;
 	export let serviceId: string | undefined = undefined;
 	export let initialData: Partial<ServicesRecord> = {};
+	export let usedTypeNames: string[] = [];
 
 	//
 
@@ -61,12 +67,22 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	//
 
-	const serviceSchema = fieldsSchemaToZod(getCollectionSchema(Collections.Services)!.schema);
+	const serviceSchema = fieldsSchemaToZod(getCollectionSchema(Collections.Services)!.schema).extend(
+		{
+			expiration: expirationSchema,
+			type_name: z
+				.string()
+				.refine(
+					(s) => !usedTypeNames.filter((s) => s != initialData.type_name).includes(s),
+					m.Type_name_is_already_in_use()
+				)
+		}
+	);
 
 	const superform = createForm(
 		serviceSchema,
 		async (e) => {
-			const formData = createFormData(e.form.data);
+			const formData = e.form.data;
 			let record: ServicesResponse;
 			if (serviceId) {
 				record = await pb.collection('services').update(serviceId, formData);
@@ -77,7 +93,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		},
 		{
 			organization: organizationId,
-			...initialData
+			...cleanInitialData({
+				cryptography: ServicesCryptographyOptions['sd-jwt'],
+				api_available: true,
+				public: false,
+				...initialData
+			})
+		},
+		{
+			validationMethod: 'oninput'
 		}
 	);
 
@@ -85,13 +109,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	//
 
+	// @ts-expect-error type_name is not a string
 	$: slugifyText($form['type_name']);
 
 	function slugifyText(text: string) {
 		$form['type_name'] = slugify(text, {
 			replacement: '_',
 			strict: true,
-			trim: false
+			trim: false,
+			lower: false
 		}).trim();
 	}
 
@@ -124,7 +150,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		return `type = '${type}' && ( organization.id = '${organizationId}' || public = true )`;
 	}
 
-	type Template = TemplatesResponse<unknown, unknown, { organization: OrganizationsResponse }>;
+	type Template = TemplatesResponse<unknown, { organization: OrganizationsResponse }>;
 
 	const templateTypeProp = createTypeProp<Template>();
 
@@ -134,6 +160,16 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		if (isExternal) label.push(`(@${t.expand?.organization.name})`);
 		if (Boolean(t.description)) label.push(` | ${t.description}`);
 		return label.join(' ');
+	}
+
+	// -- utils
+
+	function cleanInitialData(record: Record<string, unknown>) {
+		return pipe(
+			Object.entries(record),
+			R.fromEntries,
+			R.map((value) => (Boolean(value) ? value : undefined))
+		);
 	}
 </script>
 
@@ -155,7 +191,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 			field="type_name"
 			options={{
 				label: m.Type_name(),
-				helpText: m.Use_only_lowercase_and_uppercase_letters_no_spaces()
+				helpText: m.Use_only_lowercase_and_uppercase_letters_no_spaces(),
+				placeholder: m.service_type_name_placeholder()
 			}}
 			{superform}
 		/>
@@ -265,6 +302,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				</svelte:fragment>
 			</Relations>
 		</div>
+
+		<FieldWrapper field="expiration">
+			<ExpirationField bind:expiration={$form['expiration']}></ExpirationField>
+		</FieldWrapper>
 	</PageCard>
 
 	<PageCard>
@@ -284,9 +325,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				field="authorization_server"
 				options={{
 					inputMode: 'select',
-					displayFields: ['name', 'endpoint'],
+					displayFields: ['name', 'endpoint', 'port'],
 					label: m.Authorization_server(),
-					filter: `organization.id = "${organizationId}"`
+					filter: `organization.id = "${organizationId}"`,
+					formSettings: {
+						defaults: {
+							port: getRandomMicroservicePort()
+						}
+					}
 				}}
 				{superform}
 			>
@@ -306,9 +352,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				field="credential_issuer"
 				options={{
 					inputMode: 'select',
-					displayFields: ['name', 'endpoint'],
+					displayFields: ['name', 'endpoint', 'port'],
 					label: m.Credential_issuer(),
-					filter: `organization.id = "${organizationId}"`
+					filter: `organization.id = "${organizationId}"`,
+					formSettings: {
+						defaults: {
+							port: getRandomMicroservicePort()
+						}
+					}
 				}}
 				{superform}
 			>
@@ -329,10 +380,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 			description={m.advanced_settings_description()}
 		/>
 		<div class="space-y-4">
-			<Checkbox field="public" {superform}>
+			<Checkbox field="public" {superform} options={{ disabled: true }}>
 				{m.Is_public()}: {m.is_public_description()}
 			</Checkbox>
-			<Checkbox field="api_available" {superform}>{m.Can_be_requested_via_API()}</Checkbox>
+			<Checkbox field="api_available" {superform} options={{ disabled: true }}>
+				{m.Can_be_requested_via_API()}
+			</Checkbox>
 		</div>
 	</PageCard>
 
@@ -347,6 +400,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <PortalWrapper>
 	<Drawer
+		closeOnClickOutside={false}
 		width="w-[800px]"
 		placement="right"
 		bind:hidden={$hideCredentialTemplateDrawer}
@@ -362,6 +416,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 					$form['credential_template'] = e.detail.id;
 					hideCredentialTemplateDrawer.on();
 				}}
+				on:cancel={hideCredentialTemplateDrawer.on}
 			/>
 		</div>
 	</Drawer>
@@ -369,6 +424,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <PortalWrapper>
 	<Drawer
+		closeOnClickOutside={false}
 		width="w-[800px]"
 		placement="right"
 		bind:hidden={$hideAuthorizationTemplateDrawer}
@@ -384,6 +440,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 					$form['authorization_template'] = e.detail.id;
 					hideAuthorizationTemplateDrawer.on();
 				}}
+				on:cancel={hideAuthorizationTemplateDrawer.on}
 			/>
 		</div>
 	</Drawer>
@@ -391,6 +448,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <PortalWrapper>
 	<Drawer
+		closeOnClickOutside={false}
 		width="w-[700px]"
 		placement="right"
 		bind:hidden={$hideCredentialIssuerDrawer}
@@ -403,12 +461,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				fieldsSettings={{
 					hide: {
 						organization: organizationId
+					},
+					defaults: {
+						port: getRandomMicroservicePort()
 					}
 				}}
 				on:success={(e) => {
 					$form['credential_issuer'] = e.detail.record.id;
 					hideCredentialIssuerDrawer.on();
 				}}
+				showCancelButton
+				on:cancel={hideCredentialIssuerDrawer.on}
 			/>
 		</div>
 	</Drawer>
@@ -416,6 +479,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <PortalWrapper>
 	<Drawer
+		closeOnClickOutside={false}
 		width="w-[700px]"
 		placement="right"
 		bind:hidden={$hideAuthorizationServerDrawer}
@@ -428,12 +492,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				fieldsSettings={{
 					hide: {
 						organization: organizationId
+					},
+					defaults: {
+						port: getRandomMicroservicePort()
 					}
 				}}
 				on:success={(e) => {
 					$form['authorization_server'] = e.detail.record.id;
 					hideAuthorizationServerDrawer.on();
 				}}
+				showCancelButton
+				on:cancel={hideAuthorizationServerDrawer.on}
 			/>
 		</div>
 	</Drawer>

@@ -9,18 +9,31 @@ on:
       - main
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
 permissions:
   contents: read # for checkout@v4
 
 jobs:
+  reuse:
+    name: 🚨 reuse
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: fsfe/reuse-action@v4
+      
   test:
-    name: 🧪
+    name: 🧪 tests
     runs-on: ubuntu-latest
     steps:
       - uses: dyne/pnpm@main
         with:
           working-directory: webapp
       - run: make build
+      - run: pnpm i18n:lint
+        working-directory: webapp
       - run: npx playwright install --with-deps
         working-directory: webapp
       - run: pnpm t
@@ -28,12 +41,12 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: playwright-report
-          path: playwright-report/
+          name: tests-results
+          path: webapp/tests-results/
           retention-days: 10
 
   release:
-    name: 🔖
+    name: 🔖 semantic release
     needs: test
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest

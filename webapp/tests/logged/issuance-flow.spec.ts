@@ -41,7 +41,11 @@ test.describe('it should create an issuance flow', () => {
 		await page.locator('input[name="name"]').fill('auth-serve-1');
 		await page.locator('input[name="name"]').press('Tab');
 		await page.locator('input[name="name"]').press('Tab');
-		await page.getByText('Endpoint * microservice_endpoint_description').click();
+		await page
+			.getByText(
+				'Endpoint * Endpoint of the microservices, used by communication protocols and visible by end-users and other microservices'
+			)
+			.click();
 		await page.locator('input[name="endpoint"]').fill('http://www.auth-serv.com');
 		await page.getByRole('button', { name: 'Create record' }).click();
 	});
@@ -100,10 +104,6 @@ test.describe('it should create an issuance flow', () => {
 
 		await thirdRow.locator('button').click();
 
-		// it should select the other options
-
-		await page.getByText('Is public: This template can').click();
-
 		// it should create the issuance template
 
 		await page.getByRole('button', { name: 'Create template' }).click();
@@ -127,19 +127,19 @@ test.describe('it should create an issuance flow', () => {
 
 		// it should select a preset
 
-		await page
-			.locator('form div')
-			.filter({ hasText: 'Load preset load_preset_description Select optionGeneric HTTP Preset' })
-			.getByRole('combobox')
-			.selectOption({ index: 1 });
+		// await page
+		// 	.locator('form div')
+		// 	.filter({ hasText: 'Load preset load_preset_description Select optionGeneric HTTP Preset' })
+		// 	.getByRole('combobox')
+		// 	.selectOption({ index: 1 });
 
 		// // it should add properties to the auth template (1)
 
-		// await page.getByPlaceholder('property_id').first().click();
-		// await page.getByPlaceholder('property_id').first().fill('full_name');
+		await page.getByPlaceholder('property_id').first().click();
+		await page.getByPlaceholder('property_id').first().fill('full_name');
 
-		// await page.getByPlaceholder('Display name').first().click();
-		// await page.getByPlaceholder('Display name').first().fill('Full Name');
+		await page.getByPlaceholder('Display name').first().click();
+		await page.getByPlaceholder('Display name').first().fill('Full Name');
 
 		// // it should add properties to the auth template (2)
 
@@ -195,16 +195,25 @@ test.describe('it should create an issuance flow', () => {
 		await page.locator('input[name="type_name"]').click();
 		await page.locator('input[name="type_name"]').fill('issuance_test_1');
 
-		await page.getByPlaceholder('Issuance flow for Age').click();
-		await page.getByPlaceholder('Issuance flow for Age').fill('Issuance test creation');
+		await page
+			.getByPlaceholder(
+				'Write here a description of the content of the credential and what the user needs to receive it. It is readable by users and microservices.'
+			)
+			.click();
+		await page
+			.getByPlaceholder(
+				'Write here a description of the content of the credential and what the user needs to receive it. It is readable by users and microservices.'
+			)
+			.fill('Issuance test creation');
 
 		await page.locator('select[name="credential_template"]').selectOption({ index: 1 });
 		await page.locator('select[name="authorization_template"]').selectOption({ index: 1 });
 
+		await page.getByRole('spinbutton').nth(1).fill('1');
+
 		await page.locator('select[name="credential_issuer"]').selectOption({ index: 1 });
 		await page.locator('select[name="authorization_server"]').selectOption({ index: 1 });
 
-		await page.getByText('Is public: this credential').click();
 		await page.getByRole('button', { name: 'Create issuance flow' }).click();
 
 		await expect(page).toHaveURL(/organizations\/[a-zA-Z0-9]{15}/);
@@ -212,7 +221,7 @@ test.describe('it should create an issuance flow', () => {
 	});
 
 	test('it should update the issuance flow', async () => {
-		await page.getByRole('button', { name: 'Make changes' }).click();
+		await page.getByRole('button', { name: 'Edit' }).click();
 		await expect(page).toHaveURL(/edit/);
 		await page.getByPlaceholder('Age verification', { exact: true }).click();
 		await page.getByPlaceholder('Age verification', { exact: true }).fill('Issuance Test Updated');

@@ -16,10 +16,10 @@ const ALGORITHM: EcKeyGenParams = {
 
 //
 
-export async function createAutosignedCertificateData(): Promise<CertificateData> {
+export async function createAutosignedCertificateData(username: string): Promise<CertificateData> {
 	const keyPair = await generateKeyPair();
 	return {
-		certificate: await createAutosignedCertificate(keyPair),
+		certificate: await createAutosignedCertificate(keyPair, username),
 		key: await createAutosignedCertificateKey(keyPair)
 	};
 }
@@ -40,7 +40,7 @@ async function createAutosignedCertificateKey(keyPair: CryptoKeyPair): Promise<C
 	};
 }
 
-async function createAutosignedCertificate(keyPair: CryptoKeyPair): Promise<Certificate> {
+async function createAutosignedCertificate(keyPair: CryptoKeyPair, username: string): Promise<Certificate> {
 	// compute date for certificate, valid from yesterday for an year
 	var yesterday = new Date();
 	yesterday.setDate(yesterday.getDate() - 1);
@@ -50,7 +50,7 @@ async function createAutosignedCertificate(keyPair: CryptoKeyPair): Promise<Cert
 	// certificate
 	const cert = await x509.X509CertificateGenerator.createSelfSigned({
 		serialNumber: '01',
-		name: 'CN=Test',
+		name: 'CN=Didroom - ' + username,
 		notBefore: yesterday,
 		notAfter: year,
 		signingAlgorithm: ALGORITHM,

@@ -1,0 +1,40 @@
+ <mjml>
+   <mj-head>
+     <mj-title>Reminder: Your Invitation to Join DIDroom</mj-title>
+     <mj-include path="../_components/attributes.mjml" />
+   </mj-head>
+   
+   <mj-body>
+     <mj-include path="../_components/header.mjml" />
+
+     <mj-section>
+       <mj-column>
+         <mj-text mj-class="big">
+           Join {{.OrganizationName}} on DIDroom
+         </mj-text>
+         <mj-text>
+           Hello there,
+         </mj-text>
+
+         <mj-text>
+           We noticed that you haven’t completed your registration for DIDroom yet. Your invitation from <strong>{{.UserName}}</strong> is still valid, and we don’t want you to miss out on the benefits of being part of our secure and decentralized platform.
+         </mj-text>
+
+         <mj-text>
+           To finish setting up your account, click the link below:
+         </mj-text>
+
+         <mj-button href="{{.InvitationLink}}" background-color="#7d2fb5" color="#ffffff" font-family="Arial" font-size="16px" padding="20px">
+           Complete Your Registration
+         </mj-button>
+
+         <mj-text>
+           Don’t wait too long—this invitation will expire soon! Take action now and start using DIDroom.
+         </mj-text>
+
+       </mj-column>
+     </mj-section>
+
+     <mj-include path="../_components/footer.mjml" />
+   </mj-body>
+ </mjml>

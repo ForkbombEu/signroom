@@ -4,6 +4,21 @@
 
 import qrcode from 'qrcode-generator';
 
+type CredentialConfig = {
+	credential_configuration_ids: string[];
+	credential_issuer: string;
+	grants: {
+		authorization_code: {
+			authorization_server: string;
+		}
+	}
+};
+
+export function createIntentUrl(data: CredentialConfig): string {
+	const credentialOffer = encodeURIComponent(JSON.stringify(data));
+	return `openid-credential-offer://?credential_offer=${credentialOffer}`;
+}
+
 export function generateQr(text: string, cellSize = 20) {
 	const qr = qrcode(0, 'L');
 	qr.addData(text);

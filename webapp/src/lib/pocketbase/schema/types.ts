@@ -6,6 +6,7 @@ import type { ValueOf } from '$lib/utils/types';
 
 export const FieldType = {
 	TEXT: 'text',
+	NUMBER: 'number',
 	EDITOR: 'editor',
 	BOOL: 'bool',
 	FILE: 'file',

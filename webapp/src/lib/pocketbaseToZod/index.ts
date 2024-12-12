@@ -13,6 +13,7 @@ import { isArrayField } from '$lib/pocketbase/schema';
 
 const FieldTypeToZod = {
 	[FieldType.TEXT]: z.string(),
+	[FieldType.NUMBER]: z.coerce.number(),
 	[FieldType.EDITOR]: z.string(),
 	[FieldType.BOOL]: z.boolean(),
 	[FieldType.FILE]: z.instanceof(File),
@@ -57,6 +58,14 @@ const FieldTypeRefiners: FieldTypeRefiners = {
 				(file) => mimeTypes.includes(file.type),
 				`File type not: ${mimeTypes.join(', ')}`
 			);
+		}
+	},
+	[FieldType.NUMBER]: {
+		min: (s, o) => s.min(o.min as number),
+		max: (s, o) => s.max(o.max as number),
+		noDecimal: (s, o) => {
+			if (o.noDecimal == true) return s.int();
+			else return s;
 		}
 	},
 	[FieldType.SELECT]: {
