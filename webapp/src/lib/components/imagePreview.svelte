@@ -11,12 +11,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	export let alt = 'Image preview';
 	export let size = 'h-[70px] w-[70px]';
 	export let hideHelpText = false;
-	export let rounded = false;
 
 	$: divClass = clsx(
 		size,
-		{ 'rounded-full': rounded },
-		{ 'rounded-sm': !rounded },
+		'rounded-md',
 		'bg-gray-50 border border-gray-300 flex items-center justify-center text-gray-40',
 		'overflow-hidden',
 		'shrink-0',

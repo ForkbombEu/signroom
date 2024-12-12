@@ -86,7 +86,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 			<div class="space-y-8 font-medium">
 				<div class="flex items-center gap-3 pb-1">
 					<p>Logo:</p>
-					<Avatar class="border object-cover" size="lg" src={service.logo}></Avatar>
+					<d-avatar name={service.display_name} src={service.logo} size="xl" shape="square" />
 				</div>
 
 				<p>
