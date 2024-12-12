@@ -55,7 +55,7 @@ jobs:
             admin/pb \
             admin/pb_migrations \
             admin/pb_hooks \
-            admin/pb_public \
+            admin/pb_public/emails \
             admin/hooks \
             webapp/build \
             webapp/package.json \
