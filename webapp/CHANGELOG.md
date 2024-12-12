@@ -1,3 +1,10 @@
+## [1.33.2](https://github.com/ForkbombEu/signroom/compare/v1.33.1...v1.33.2) (2024-12-12)
+
+
+### Bug Fixes
+
+* add static to staging deployment ([57d460f](https://github.com/ForkbombEu/signroom/commit/57d460f3d088bd6c3941590348a8cd7d16df172f))
+
 ## [1.33.1](https://github.com/ForkbombEu/signroom/compare/v1.33.0...v1.33.1) (2024-12-12)
 
 
