@@ -55,6 +55,7 @@ jobs:
             admin/pb \
             admin/pb_migrations \
             admin/pb_hooks \
+            admin/pb_public \
             admin/hooks \
             webapp/build \
             webapp/package.json \
@@ -62,5 +63,3 @@ jobs:
           scp staging.tar.gz remote:staging/
       - run: |
           ssh remote 'staging/DEPLOY.sh'
-
-

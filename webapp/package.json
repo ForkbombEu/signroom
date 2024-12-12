@@ -14,7 +14,7 @@
 	"scripts": {
 		"predev": "pnpm run definitions",
 		"dev": "vite dev",
-		"prebuild": "pnpm run definitions",
+		"prebuild": "pnpm run definitions && pnpm emails",
 		"build": "svelte-kit sync && vite build",
 		"preview": "vite preview",
 		"test": "playwright test",
