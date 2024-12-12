@@ -1,3 +1,10 @@
+## [1.33.3](https://github.com/ForkbombEu/signroom/compare/v1.33.2...v1.33.3) (2024-12-12)
+
+
+### Bug Fixes
+
+* improve emails path for deployment ([4f7de0f](https://github.com/ForkbombEu/signroom/commit/4f7de0f4c2ade01bbbb56d3d860531204738304d))
+
 ## [1.33.2](https://github.com/ForkbombEu/signroom/compare/v1.33.1...v1.33.2) (2024-12-12)
 
 
