@@ -1,5 +1,6 @@
 {
   "tailwindCSS.experimental.classRegex": [
     ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
-  ]
+  ],
+  "html.customData": ["./vscode-data.json"]
 }
