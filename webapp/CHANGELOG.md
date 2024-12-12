@@ -1,3 +1,11 @@
+# [1.33.0](https://github.com/ForkbombEu/signroom/compare/v1.32.0...v1.33.0) (2024-12-12)
+
+
+### Features
+
+* **download-microservices:** add question mark ([#955](https://github.com/ForkbombEu/signroom/issues/955)) ([464b73b](https://github.com/ForkbombEu/signroom/commit/464b73bca9de0ff1a6a2edf82986756a3efab205))
+* **flows:** improved forms and hooks handling ([#956](https://github.com/ForkbombEu/signroom/issues/956)) ([d2d87fe](https://github.com/ForkbombEu/signroom/commit/d2d87fe39cc422ed2ad1a633a163a3f1466f14e4))
+
 # [1.32.0](https://github.com/ForkbombEu/signroom/compare/v1.31.0...v1.32.0) (2024-12-11)
 
 
