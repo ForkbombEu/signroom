@@ -42,6 +42,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		})
 	);
 
+	const appsQr = generateQr('https://didroom.com/apps/');
+
 	//
 
 	// async function downloadCredentialIssuanceQr(src: string) {
@@ -111,42 +113,60 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 			</div>
 		</PageCard>
 
-		<PageCard class="w-[300px] shrink-0 !space-y-4 !p-4">
-			<div class="flex flex-col items-center gap-2 self-stretch rounded-lg border bg-gray-50 p-4">
-				<img src={issuanceFlowQr} alt={m.Service_Qr_Code()} class="w-40 rounded-lg" />
-				<Button outline class="mt-4" size="sm" disabled>
-					<span class="whitespace-nowrap">
-						{m.Open_qr_code_in_new_page()}
-					</span>
-					<Icon src={ArrowTopRightOnSquare} ml></Icon>
-				</Button>
-			</div>
-
-			<div class="mt-6 space-y-2">
-				<Heading tag="h5">{m.issuance_flow_qr_code_title()}</Heading>
-				<p class="text-gray-500">{m.issuance_flow_qr_code_description()}</p>
-			</div>
-
-			<div class="flex gap-4">
-				<img
-					alt="Didroom Wallet app logo"
-					class="h-[100px] w-[100px] rounded-lg"
-					src={`${assets}/app-didroom.svg`}
-				/>
-				<div class="space-y-2">
-					<Button outline target="_blank" href="https://github.com/ForkbombEu/wallet/">
-						{m.Github()}
+		<PageCard class="w-[300px] shrink-0 !space-y-6 !p-4">
+			<div class="space-y-3">
+				<Heading tag="h6" class="text-balance leading-tight">
+					{m.Test_the_credential_with_this_QR_code()}
+				</Heading>
+				<p class="text-sm text-gray-500">
+					{m.Use_the_mobile_app_to_scan_this_QR_code_and_test_the_credential()}
+				</p>
+				<div class="flex flex-col items-center gap-2 self-stretch rounded-lg border bg-gray-50 p-4">
+					<img src={issuanceFlowQr} alt={m.Service_Qr_Code()} class="w-40 rounded-lg" />
+					<Button outline class="mt-4" size="sm" disabled>
+						<span class="whitespace-nowrap">
+							{m.Open_qr_code_in_new_page()}
+						</span>
 						<Icon src={ArrowTopRightOnSquare} ml></Icon>
 					</Button>
-					<Button
-						outline
-						target="_blank"
-						href="https://forkbombeu.github.io/DIDroom/solution.html#wallet-holder-app"
-					>
-						{m.Help()}
-						<Icon src={QuestionMarkCircle} ml></Icon>
-					</Button>
 				</div>
+			</div>
+
+			<hr />
+
+			<div class="mt-6 space-y-3">
+				<div class="flex gap-4">
+					<div class="space-y-2">
+						<Heading tag="h6" class="text-balance leading-tight">
+							{m.Get_the_mobile_app()}
+						</Heading>
+						<p class="text-sm text-gray-500">{m.Get_the_mobile_app_description()}</p>
+					</div>
+					<img
+						alt="Didroom Wallet app logo"
+						class="size-16 rounded-lg"
+						src={`${assets}/app-didroom.svg`}
+					/>
+				</div>
+				<div class="flex flex-col items-center gap-2 self-stretch rounded-lg border bg-gray-50 p-4">
+					<img src={appsQr} alt={m.Mobile_app_QR_code()} class="w-40 rounded-lg" />
+				</div>
+			</div>
+
+			<div class="flex gap-2">
+				<Button class="grow" outline target="_blank" href="https://github.com/ForkbombEu/wallet/">
+					{m.Github()}
+					<Icon src={ArrowTopRightOnSquare} ml></Icon>
+				</Button>
+				<Button
+					class="grow"
+					outline
+					target="_blank"
+					href="https://forkbombeu.github.io/DIDroom/solution.html#wallet-holder-app"
+				>
+					{m.Help()}
+					<Icon src={QuestionMarkCircle} ml></Icon>
+				</Button>
 			</div>
 		</PageCard>
 	</div>
