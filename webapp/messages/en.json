@@ -380,5 +380,6 @@
 	"Open_DIDroom_wallet_App": "Open <b>DIDroom wallet App:</b>",
 	"Scan_with_Wallet_App_for_Credential_Retrieval": "Scan with Wallet App for Credential Retrieval",
 	"Use_the_Wallet_app_to_easily_retrieve_your_credential_by_scanning_this_QR_code_": "Use the Wallet app to easily retrieve your credential by scanning this QR code.",
-	"Help_me": "Help me"
+	"Help_me": "Help me",
+	"Second_step": "Second step"
 }

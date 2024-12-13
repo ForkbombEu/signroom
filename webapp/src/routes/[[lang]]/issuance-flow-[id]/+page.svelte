@@ -28,19 +28,19 @@
 	<div
 		class="flex grow items-center justify-center gap-8 bg-slate-200 p-8 portrait:flex-col print:gap-4 print:p-4"
 	>
-		<PageCard class="max-w-[450px] !space-y-4 !p-4 landscape:grow landscape:basis-1 print:border">
-			<Heading tag="h6" class="font-medium">{m.First_step()}</Heading>
+		<PageCard class="max-w-[450px] !space-y-4 !p-4 landscape:grow landscape:basis-1">
+			<Heading tag="h6" class="border-b font-medium">{m.First_step()}</Heading>
 
-			<div class="flex items-center gap-2 text-sm">
+			<!-- <div class="flex items-center gap-2 text-sm">
 				<img
 					src="{assets}/app-didroom.svg"
 					alt={m.DIDroom_Wallet_App_logo()}
 					class="size-12 rounded-lg print:size-[2cm]"
 				/>
 				<p>{@html m.Download_DIDroom_Wallet_App()}</p>
-			</div>
+			</div> -->
 
-			<div class="flex items-center gap-4 rounded-md bg-slate-50 p-4 pt-3 print:border">
+			<div class="flex flex-col items-center gap-4 rounded-md pt-4">
 				<div>
 					<p class="text-lg font-semibold leading-tight">{m.Download_DIDroom_Wallet()}</p>
 					<p class="mb-3 mt-1 text-sm text-gray-700">
@@ -62,6 +62,7 @@
 		<PageCard
 			class="hidden grow basis-1 flex-row items-center justify-center gap-4 !space-y-4 !p-4 portrait:self-stretch print:flex print:border-4 print:border-black"
 		>
+			<Heading tag="h6" class="font-medium">{m.Second_step()}</Heading>
 			<div
 				class="flex items-center justify-center gap-2 self-stretch rounded-lg border bg-slate-100 p-4"
 			>
@@ -74,7 +75,6 @@
 						<d-avatar name={flow.display_name} src={flow.logo} size="lg" shape="square" />
 						<p class="text-lg font-semibold">{flow.display_name}</p>
 					</div>
-					<p class="text-sm text-gray-500">{flow.organization}</p>
 				</div>
 
 				<div class="max-w-[450px] space-y-3 rounded-md border bg-slate-50 p-3">
@@ -91,9 +91,6 @@
 						/>
 						<div>
 							<p class="font-semibold">{flow.organization}</p>
-							{#if String.isNonEmpty(flow.organization_description)}
-								<p class="text-xs">{@html flow.organization_description}</p>
-							{/if}
 						</div>
 					</div>
 				</div>
@@ -103,12 +100,12 @@
 		<PageCard
 			class="flex grow basis-1 flex-col items-center !space-y-4 !p-4 portrait:self-stretch print:hidden"
 		>
+			<Heading tag="h6" class="border-b font-medium">{m.Second_step()}</Heading>
 			<div class="flex flex-col items-center gap-2 py-4">
 				<div class="flex items-center gap-3">
 					<d-avatar name={flow.display_name} src={flow.logo} size="lg" shape="square" />
 					<p class="text-lg font-semibold">{flow.display_name}</p>
 				</div>
-				<p class="text-sm text-gray-500">{flow.organization}</p>
 			</div>
 
 			<div class="flex flex-col items-center gap-2 self-stretch rounded-lg border bg-slate-100 p-4">
@@ -129,15 +126,12 @@
 					/>
 					<div>
 						<p class="font-semibold">{flow.organization}</p>
-						{#if String.isNonEmpty(flow.organization_description)}
-							<p class="text-xs">{@html flow.organization_description}</p>
-						{/if}
 					</div>
 				</div>
 			</div>
 		</PageCard>
 
-		<PageCard class="max-w-[450px] !space-y-4 !p-4 landscape:grow landscape:basis-1 print:border">
+		<!-- <PageCard class="max-w-[450px] !space-y-4 !p-4 landscape:grow landscape:basis-1 print:border">
 			<Heading tag="h6" class="font-medium">{m.What_to_do_next_()}</Heading>
 
 			<div class="flex items-center gap-2 text-sm">
@@ -163,6 +157,6 @@
 					</Button>
 				</div>
 			</div>
-		</PageCard>
+		</PageCard> -->
 	</div>
 </div>
