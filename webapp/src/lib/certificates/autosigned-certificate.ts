@@ -16,10 +16,10 @@ const ALGORITHM: EcKeyGenParams = {
 
 //
 
-export async function createAutosignedCertificateData(username: string): Promise<CertificateData> {
+export async function createAutosignedCertificateData(username: string, did: string): Promise<CertificateData> {
 	const keyPair = await generateKeyPair();
 	return {
-		certificate: await createAutosignedCertificate(keyPair, username),
+		certificate: await createAutosignedCertificate(keyPair, username, did),
 		key: await createAutosignedCertificateKey(keyPair)
 	};
 }
@@ -40,11 +40,11 @@ async function createAutosignedCertificateKey(keyPair: CryptoKeyPair): Promise<C
 	};
 }
 
-async function createAutosignedCertificate(keyPair: CryptoKeyPair, username: string): Promise<Certificate> {
+async function createAutosignedCertificate(keyPair: CryptoKeyPair, username: string, did: string): Promise<Certificate> {
 	// compute date for certificate, valid from yesterday for an year
-	var yesterday = new Date();
+	const yesterday = new Date();
 	yesterday.setDate(yesterday.getDate() - 1);
-	var year = new Date();
+	const year = new Date();
 	year.setFullYear(yesterday.getFullYear() + 1);
 
 	// certificate
@@ -62,7 +62,8 @@ async function createAutosignedCertificate(keyPair: CryptoKeyPair, username: str
 				x509.KeyUsageFlags.keyCertSign | x509.KeyUsageFlags.cRLSign,
 				true
 			),
-			await x509.SubjectKeyIdentifierExtension.create(keyPair.publicKey)
+			await x509.SubjectKeyIdentifierExtension.create(keyPair.publicKey),
+			new x509.SubjectAlternativeNameExtension([{ type: 'url', value: did }])
 		]
 	});
 	const parsedCert = cert.toString('pem').split('\n').slice(1, -1).join('');
@@ -84,7 +85,7 @@ function url64ToBase64(input: string): string {
 	input = input.replace(/-/g, '+').replace(/_/g, '/');
 
 	// Pad out with standard base64 required padding characters
-	var pad = input.length % 4;
+	const pad = input.length % 4;
 	if (pad) {
 		if (pad === 1) {
 			throw new Error(

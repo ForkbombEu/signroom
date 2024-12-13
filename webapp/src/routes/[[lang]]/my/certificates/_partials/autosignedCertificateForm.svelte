@@ -11,6 +11,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import { nanoid } from 'nanoid';
 	import { z } from 'zod';
 	import { currentUser } from '$lib/pocketbase';
+	import { getUserPublicKeys } from '$lib/keypairoom/utils';
 	import { m } from '$lib/i18n';
 
 	export let onComplete = () => {};
@@ -23,7 +24,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 		schema,
 		async ({ form }) => {
 			const { data } = form;
-			const certificateData = await createAutosignedCertificateData($currentUser!.name);
+			const userPublicKeys = await getUserPublicKeys();
+			const eddsaPublicKey = userPublicKeys?.eddsa_public_key;
+			const certificateData = await createAutosignedCertificateData($currentUser!.name, `did:dyne:sandbox.signroom:${eddsaPublicKey}`);
 			await saveCertificate(data.name, certificateData, $currentUser!.id);
 			onComplete();
 		},
