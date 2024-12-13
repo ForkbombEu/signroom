@@ -8,4 +8,3 @@ export const BEGIN_KEY = '-----BEGIN PRIVATE KEY-----';
 export const END_KEY = '-----END PRIVATE KEY-----';
 export const BEGIN_EC = '-----BEGIN EC PRIVATE KEY-----';
 export const END_EC = '-----END EC PRIVATE KEY-----';
-export const OBJECT_IDENTIFIER = 'OBJECT IDENTIFIER : ';
