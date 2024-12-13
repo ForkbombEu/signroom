@@ -85,10 +85,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 				<div class="space-y-4">
 					{#each records as record}
 						<PlainCard>
-							<ImagePreview slot="left" src={record.logo} size="w-[50px] h-[50px]" hideHelpText />
+							<svelte:fragment slot="left">
+								<d-avatar name={record.display_name} src={record.logo} size="sm" shape="square" />
+							</svelte:fragment>
 
 							<div class="flex items-center gap-2">
-								<p class="font-semibold text-primary-700">{c(record.display_name)}</p>
+								<p class="text-primary-700 font-semibold">{c(record.display_name)}</p>
 								{#if record.public}
 									<Badge color="dark">{m.Public()}</Badge>
 								{/if}

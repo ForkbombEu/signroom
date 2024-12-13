@@ -1,3 +1,24 @@
+## [1.33.3](https://github.com/ForkbombEu/signroom/compare/v1.33.2...v1.33.3) (2024-12-12)
+
+
+### Bug Fixes
+
+* improve emails path for deployment ([4f7de0f](https://github.com/ForkbombEu/signroom/commit/4f7de0f4c2ade01bbbb56d3d860531204738304d))
+
+## [1.33.2](https://github.com/ForkbombEu/signroom/compare/v1.33.1...v1.33.2) (2024-12-12)
+
+
+### Bug Fixes
+
+* add static to staging deployment ([57d460f](https://github.com/ForkbombEu/signroom/commit/57d460f3d088bd6c3941590348a8cd7d16df172f))
+
+## [1.33.1](https://github.com/ForkbombEu/signroom/compare/v1.33.0...v1.33.1) (2024-12-12)
+
+
+### Bug Fixes
+
+* square images for orgs and flows ([#957](https://github.com/ForkbombEu/signroom/issues/957)) ([50e1107](https://github.com/ForkbombEu/signroom/commit/50e110721f4c0190ee2ae642b51577a78935e0e7))
+
 # [1.33.0](https://github.com/ForkbombEu/signroom/compare/v1.32.0...v1.33.0) (2024-12-12)
 
 

@@ -14,7 +14,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <div class="flex items-center gap-4 rounded-lg border p-5 {className}">
 	{#if $$slots.left}
-		<div class="shrink-0">
+		<div class="flex shrink-0 items-center">
 			<slot name="left" />
 		</div>
 	{/if}
