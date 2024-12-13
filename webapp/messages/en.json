@@ -121,7 +121,7 @@
 	"Relying_parties": "Relying parties",
 	"Credential_issuers": "Credential issuers",
 	"Accept": "Accept",
-	"Service_Qr_Code": "Service Qr Code",
+	"Service_Qr_Code": "Issuance Flow QR Code",
 	"Members": "Members",
 	"Manage_your_organization_public_info": "Manage your organization public info",
 	"Save_changes": "Save changes",
@@ -368,5 +368,17 @@
 	"Use_the_mobile_app_to_scan_this_QR_code_and_test_the_credential": "Use the mobile app to scan this QR code and test the credential",
 	"Get_the_mobile_app": "Get the mobile app",
 	"Get_the_mobile_app_description": "Scan this QR code to get the mobile app",
-	"Mobile_app_QR_code": "Mobile app QR code"
+	"Mobile_app_QR_code": "Mobile app QR code",
+	"DIDroom_logo": "DIDroom logo",
+	"First_step": "First step:",
+	"DIDroom_Wallet_App_logo": "DIDroom Wallet App logo",
+	"Download_DIDroom_Wallet_App": "Download <b>DIDroom Wallet App</b>",
+	"Download_DIDroom_Wallet": "Download DIDroom Wallet",
+	"Scan_this_QR_and_download_DIDroom_Wallet": "Scan this QR and download DIDroom Wallet",
+	"Download_link": "Download link",
+	"What_to_do_next_": "What to do next...",
+	"Open_DIDroom_wallet_App": "Open <b>DIDroom wallet App:</b>",
+	"Scan_with_Wallet_App_for_Credential_Retrieval": "Scan with Wallet App for Credential Retrieval",
+	"Use_the_Wallet_app_to_easily_retrieve_your_credential_by_scanning_this_QR_code_": "Use the Wallet app to easily retrieve your credential by scanning this QR code.",
+	"Help_me": "Help me"
 }

@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script lang="ts">
 	import { Button, Heading } from 'flowbite-svelte';
 	import { ArrowTopRightOnSquare, Pencil, QuestionMarkCircle } from 'svelte-heros-v2';
-	import { createIntentUrl, generateQr } from '$lib/qrcode';
+	import { generateQr } from '$lib/qrcode';
 	import { m } from '$lib/i18n';
 	import PageTop from '$lib/components/pageTop.svelte';
 	import PageContent from '$lib/components/pageContent.svelte';
@@ -16,10 +16,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	import SectionTitle from '$lib/components/sectionTitle.svelte';
 	import Icon from '$lib/components/icon.svelte';
 	import { page } from '$app/stores';
-	import { Avatar } from 'flowbite-svelte';
 	import { ProtectedOrgUI } from '$lib/organizations';
 	import TemplateSchemaDisplay from '$lib/components/templateSchemaDisplay.svelte';
 	import { assets } from '$app/paths';
+	import { links } from '$lib/links.js';
+	import { generateIssuanceFlowQr } from '$lib/issuanceFlows/utils.js';
 
 	//
 
@@ -30,19 +31,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 	//
 
-	const issuanceFlowQr = generateQr(
-		createIntentUrl({
-			credential_configuration_ids: [service.type_name],
-			credential_issuer: credential_issuer.endpoint,
-			grants: {
-				authorization_code: {
-					authorization_server: authorization_server.endpoint
-				}
-			}
-		})
-	);
+	const issuanceFlowQr = generateIssuanceFlowQr({
+		type_name: service.type_name,
+		credential_issuer_url: credential_issuer.endpoint,
+		authorization_server_url: authorization_server.endpoint
+	});
 
-	const appsQr = generateQr('https://didroom.com/apps/');
+	const appsQr = generateQr(links.didroom_apps);
 
 	//
 
