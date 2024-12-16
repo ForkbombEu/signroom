@@ -147,10 +147,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <PortalWrapper>
 	<Modal bind:open={$showViewCertificateModal} title="View certificate">
-		<CertificateView
-			certificateName={certificateToShow}
-			onComplete={showViewCertificateModal.off}
-		/>
+		<CertificateView certificateName={certificateToShow} />
 	</Modal>
 
 	<Modal bind:open={$showCertificateModal} title="Key and certificate">

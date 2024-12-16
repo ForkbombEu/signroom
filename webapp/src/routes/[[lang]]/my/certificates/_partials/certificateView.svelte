@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script lang="ts">
 	import { getCertificate } from '$lib/certificates/storage';
 	import { Button } from 'flowbite-svelte';
-	import { CheckBadge, Key, ArrowDownTray, Clipboard } from 'svelte-heros-v2';
+	import { CheckBadge } from 'svelte-heros-v2';
 	import * as x509 from '@peculiar/x509';
 	import Icon from '$lib/components/icon.svelte';
 	import { downloadBlob } from '$lib/utils/clientFileDownload';
