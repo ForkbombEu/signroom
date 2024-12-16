@@ -86,6 +86,9 @@ importers:
       highlight.js:
         specifier: ^11.10.0
         version: 11.10.0
+      js-yaml:
+        specifier: ^4.1.0
+        version: 4.1.0
       json-schema-builder-svelte:
         specifier: github:dyne/json-schema-builder-svelte
         version: https://codeload.github.com/dyne/json-schema-builder-svelte/tar.gz/c914b30096f165177128712b3ececa02ca75635a(svelte@4.2.18)
