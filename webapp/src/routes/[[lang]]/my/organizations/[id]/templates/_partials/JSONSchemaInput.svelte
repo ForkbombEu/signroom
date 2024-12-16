@@ -5,6 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <script lang="ts">
+	import { type ComponentProps } from 'svelte';
 	import { formFieldProxy, type SuperForm } from 'sveltekit-superforms/client';
 	import { JSONSchemaEditor } from 'json-schema-builder-svelte';
 	import type { UnwrapEffects } from 'sveltekit-superforms';
@@ -14,6 +15,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	export let field: string;
 	export let label = '';
 	export let superform: SuperForm<UnwrapEffects<T>, any>;
+	export let ajvOptions: ComponentProps<JSONSchemaEditor>['ajvOptions'] = {
+		allowedFormats: ['radio'],
+		allowedKeywords: ['options']
+	};
 
 	const { value } = formFieldProxy(superform, field);
 </script>
@@ -25,6 +30,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	returnType="string"
 	requiredDefault
 	hideRequired
+	{ajvOptions}
 />
 
 <style>
