@@ -1,3 +1,18 @@
+# [1.34.0](https://github.com/ForkbombEu/signroom/compare/v1.33.3...v1.34.0) (2024-12-17)
+
+
+### Bug Fixes
+
+* remove signatures page undefined toast  ([#969](https://github.com/ForkbombEu/signroom/issues/969)) ([532a137](https://github.com/ForkbombEu/signroom/commit/532a1370929281b7562fbefb93e5f007653bc90f))
+* update json schema input ([#965](https://github.com/ForkbombEu/signroom/issues/965)) ([81a5daf](https://github.com/ForkbombEu/signroom/commit/81a5daface8bea54e4c7288b7e72b7be76376b71))
+
+
+### Features
+
+* add debug page ([#967](https://github.com/ForkbombEu/signroom/issues/967)) ([6b5d7a7](https://github.com/ForkbombEu/signroom/commit/6b5d7a7491f5936fc5d200b9cdb33fe490defd78))
+* improve cheks during certificate upload and add did in autosigned certificate ([#963](https://github.com/ForkbombEu/signroom/issues/963)) ([5dd9ed2](https://github.com/ForkbombEu/signroom/commit/5dd9ed2cda276f435007ad58ad8729dc02b32728))
+* unique index `organization` + `type_name`  ([#966](https://github.com/ForkbombEu/signroom/issues/966)) ([b126274](https://github.com/ForkbombEu/signroom/commit/b1262742ed4ad9788843eb1152d7fe2be06b76d5))
+
 ## [1.33.3](https://github.com/ForkbombEu/signroom/compare/v1.33.2...v1.33.3) (2024-12-12)
 
 
