@@ -4,7 +4,7 @@
 			width="260px"
 			alt="DIDroom Logo"
 			align="center"
-			src="https://staging.dashboard.didroom.com/emails/_didroom-logo.png"
+			src="https://staging.dashboard.didroom.com/emails/didroom-logo.png"
 		></mj-image>
 		<mj-divider></mj-divider>
 	</mj-column>
