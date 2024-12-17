@@ -1,3 +1,10 @@
+## [1.34.2](https://github.com/ForkbombEu/signroom/compare/v1.34.1...v1.34.2) (2024-12-17)
+
+
+### Bug Fixes
+
+* **emails:** use logo from url ([f3d5415](https://github.com/ForkbombEu/signroom/commit/f3d541593ca8deeb03a20066d6a3a2c6cf7939ef))
+
 ## [1.34.1](https://github.com/ForkbombEu/signroom/compare/v1.34.0...v1.34.1) (2024-12-17)
 
 
