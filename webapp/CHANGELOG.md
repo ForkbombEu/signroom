@@ -1,3 +1,10 @@
+## [1.34.1](https://github.com/ForkbombEu/signroom/compare/v1.34.0...v1.34.1) (2024-12-17)
+
+
+### Bug Fixes
+
+* resized email logo ([8329b6b](https://github.com/ForkbombEu/signroom/commit/8329b6b3e6ebbb59500883fb920ca022cc8e3640))
+
 # [1.34.0](https://github.com/ForkbombEu/signroom/compare/v1.33.3...v1.34.0) (2024-12-17)
 
 
