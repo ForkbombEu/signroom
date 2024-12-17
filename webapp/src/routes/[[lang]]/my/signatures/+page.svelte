@@ -278,7 +278,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 	{/key}
 </PageContent>
 
-<Toast position="bottom-right" color="primary" transition={slide} bind:open={show}>
+<Toast position="bottom-right" color="primary" transition={slide} bind:toastStatus={show}>
 	{content}
 </Toast>
 
