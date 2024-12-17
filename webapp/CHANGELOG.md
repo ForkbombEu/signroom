@@ -1,3 +1,10 @@
+## [1.34.3](https://github.com/ForkbombEu/signroom/compare/v1.34.2...v1.34.3) (2024-12-17)
+
+
+### Bug Fixes
+
+* **emails:** update logo ([#973](https://github.com/ForkbombEu/signroom/issues/973)) ([9574f37](https://github.com/ForkbombEu/signroom/commit/9574f373a213f6bd2fcafae8d4d1a994f4ad70b9))
+
 ## [1.34.2](https://github.com/ForkbombEu/signroom/compare/v1.34.1...v1.34.2) (2024-12-17)
 
 
