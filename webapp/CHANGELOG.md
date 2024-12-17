@@ -1,3 +1,10 @@
+## [1.34.4](https://github.com/ForkbombEu/signroom/compare/v1.34.3...v1.34.4) (2024-12-17)
+
+
+### Bug Fixes
+
+* change stagin url for transactional emails ([e8af9d6](https://github.com/ForkbombEu/signroom/commit/e8af9d6802a9d2eadcaecdff5c252da3b5c08a3b))
+
 ## [1.34.3](https://github.com/ForkbombEu/signroom/compare/v1.34.2...v1.34.3) (2024-12-17)
 
 
