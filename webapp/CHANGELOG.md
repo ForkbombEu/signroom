@@ -1,3 +1,10 @@
+## [1.34.5](https://github.com/ForkbombEu/signroom/compare/v1.34.4...v1.34.5) (2024-12-20)
+
+
+### Bug Fixes
+
+* bump zenflows-crypto to latest commit ([#975](https://github.com/ForkbombEu/signroom/issues/975)) ([bb7eba8](https://github.com/ForkbombEu/signroom/commit/bb7eba8e161340c953a8bde3dd4856ffb224e985))
+
 ## [1.34.4](https://github.com/ForkbombEu/signroom/compare/v1.34.3...v1.34.4) (2024-12-17)
 
 
