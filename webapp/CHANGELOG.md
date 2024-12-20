@@ -1,3 +1,10 @@
+## [1.34.6](https://github.com/ForkbombEu/signroom/compare/v1.34.5...v1.34.6) (2024-12-20)
+
+
+### Bug Fixes
+
+* bump client_zenocde to latest commit ([#976](https://github.com/ForkbombEu/signroom/issues/976)) ([d1ecad9](https://github.com/ForkbombEu/signroom/commit/d1ecad905ab636285b00bcb3c3960365003a07a9))
+
 ## [1.34.5](https://github.com/ForkbombEu/signroom/compare/v1.34.4...v1.34.5) (2024-12-20)
 
 
