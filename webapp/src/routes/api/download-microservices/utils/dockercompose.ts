@@ -88,7 +88,7 @@ function dockerComposeTemplate(
 	return `
   ${serviceFullName}:
     container_name: ${serviceFullName}
-    image: ghcr.io/forkbombeu/didroom_microservices:latest${entrypoint}
+    image: ghcr.io/forkbombeu/didroom_microservices:stable${entrypoint}
     environment:
       MS_URL: ${msUrl}
       MS_NAME: ${serviceFullName}
