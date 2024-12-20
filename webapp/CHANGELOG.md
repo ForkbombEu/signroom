@@ -1,3 +1,10 @@
+## [1.34.7](https://github.com/ForkbombEu/signroom/compare/v1.34.6...v1.34.7) (2024-12-20)
+
+
+### Bug Fixes
+
+* use stable tag for DIDRoom_microservices microservices docker image ([#977](https://github.com/ForkbombEu/signroom/issues/977)) ([f49bb80](https://github.com/ForkbombEu/signroom/commit/f49bb805f8cb05b24230fcdf315ca3f4c31338b9))
+
 ## [1.34.6](https://github.com/ForkbombEu/signroom/compare/v1.34.5...v1.34.6) (2024-12-20)
 
 
